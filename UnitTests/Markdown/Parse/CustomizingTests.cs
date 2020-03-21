@@ -158,8 +158,7 @@ namespace UnitTests.Markdown.Parse
 
         private class BlockTestParser : MarkdownBlock.Parser<ParagraphBlock>
         {
-
-            protected override BlockParseResult<ParagraphBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<ParagraphBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var paragraphBlock = new ParagraphBlock
                 {
@@ -190,7 +189,7 @@ namespace UnitTests.Markdown.Parse
 
         private class InlineTestParser : MarkdownInline.Parser<TextRunInline>
         {
-            protected override InlineParseResult<TextRunInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<TextRunInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 return new InlineParseResult<TextRunInline>(new TextRunInline() { Text = this.GetType().Name }, tripPos, markdown.SliceText(tripPos).TextLength);
             }

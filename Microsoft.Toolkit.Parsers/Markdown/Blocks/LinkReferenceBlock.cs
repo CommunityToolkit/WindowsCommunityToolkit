@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<LinkReferenceBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<LinkReferenceBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var line = markdown[startLine];
 
@@ -97,7 +97,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // Extract the URL.
-                var urlLength = line.Slice(urlStart).IndexOfAny("\t ".AsSpan());
+                var urlLength = line.Slice(urlStart).IndexOfNexWhiteSpace();
+                if (urlLength == -1)
+                {
+                    urlLength = line.Slice(urlStart).Length;
+                }
 
                 var url = document.ResolveEscapeSequences(line.Slice(urlStart, urlLength), true, true);
 
@@ -148,7 +152,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // We found something!
                 var result = new LinkReferenceBlock();
                 result.Id = id.ToString();
-                result.Url = url;
+                result.Url = url.ToString();
                 result.Tooltip = tooltip;
                 return BlockParseResult.Create(result, startLine, 1);
             }

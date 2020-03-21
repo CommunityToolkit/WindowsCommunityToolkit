@@ -12,7 +12,6 @@
 
     </Description>
     <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown RSS</PackageTags>
-
     <LangVersion>8.0</LangVersion>
     
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->

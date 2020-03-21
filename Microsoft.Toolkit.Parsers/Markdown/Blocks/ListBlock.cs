@@ -260,12 +260,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<ListBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<ListBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var startBlock = markdown.SliceLines(startLine);
                 var subBlock = startBlock;
 
-                var itemList = new List<ListItemBlock>();
+                List<ListItemBlock> itemList = null;
 
                 ListStyle? listStyle = null;
 
@@ -287,6 +287,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         startNumber = itemBlock.Value.startNumber;
                     }
 
+                    itemList ??= new List<ListItemBlock>();
                     itemList.Add(itemBlock.Value.item);
                     subBlock = subBlock.SliceLines(itemBlock.Value.consumedLines);
 
@@ -302,7 +303,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     }
                 }
 
-                if (itemList.Count == 0)
+                if ((itemList?.Count ?? 0) == 0)
                 {
                     return null;
                 }

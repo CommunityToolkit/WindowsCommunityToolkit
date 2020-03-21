@@ -5,6 +5,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
@@ -17,9 +18,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         internal const int MAX_STACK_BUFFER_SIZE = 1024;
 
         /// <summary>
+        /// Checks if <paramref name="text"/> contains character <paramref name="c"/>.
+        /// </summary>
+        /// <returns><c>true</c> when <paramref name="c"/> is in <paramref name="text"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains(this ReadOnlySpan<char> text, char c)
+        {
+            return text.IndexOf(c) != -1;
+        }
+
+        /// <summary>
         /// Gets the index of the nex non white space char.
         /// </summary>
         /// <returns>The index or -1 if not found.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOfNonWhiteSpace(this ReadOnlySpan<char> text)
         {
             for (int i = 0; i < text.Length; i++)
@@ -37,6 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Gets the index of the nex white space char.
         /// </summary>
         /// <returns>The index or -1 if not found.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOfNexWhiteSpace(this ReadOnlySpan<char> text)
         {
             for (int i = 0; i < text.Length; i++)
@@ -55,6 +68,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// handles multiple opening and closing braces. if not a breace will match the same characeter as closing.
         /// </summary>
         /// <returns>The index of the matching closing. Or -1.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int FindClosingBrace(this ReadOnlySpan<char> line)
         {
             var opening = line[0];
@@ -116,6 +130,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
 #if NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static StringBuilder Append(this StringBuilder stringBuilder, ReadOnlySpan<char> txt)
         {
             var buffer = ArrayPool<char>.Shared.Rent(txt.Length);

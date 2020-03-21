@@ -55,10 +55,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public bool HandleEmails { get; set; }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "[";
+            public override ReadOnlySpan<char> TripChar => "[".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Extract the URL (resolving any escape sequences).
-                url = document.ResolveEscapeSequences(urlSpan, true, true);
+                url = document.ResolveEscapeSequences(urlSpan, true, true).ToString();
 
                 // we will at least found the last quote if `lastUrlCharIsDoubeQuote` is true
                 if (lastUrlCharIsDoubleQuote && tooltipStart != innerPart.Length - 1)
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // We found a regular stand-alone link.
                 var result = new MarkdownLinkInline
                 {
-                    Inlines = document.ParseInlineChildren(text, false, false, ignoredParsers.Concat(IgnoredSubParsers)),
+                    Inlines = document.ParseInlineChildren(text, false, false, new HashSet<Type>(ignoredParsers.Concat(IgnoredSubParsers))),
                     Url = url,
                     Tooltip = tooltip,
                 };
@@ -188,10 +188,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class ReferenceParser : Parser<MarkdownLinkInline>
         {
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "[";
+            public override ReadOnlySpan<char> TripChar => "[".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -245,7 +245,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // We found a reference-style link.
                 var result = new MarkdownLinkInline
                 {
-                    Inlines = document.ParseInlineChildren(text, false, false, ignoredParsers.Concat(IgnoredSubParsers)),
+                    Inlines = document.ParseInlineChildren(text, false, false, new HashSet<Type>(ignoredParsers.Concat(IgnoredSubParsers))),
                     ReferenceId = reference,
                 };
 

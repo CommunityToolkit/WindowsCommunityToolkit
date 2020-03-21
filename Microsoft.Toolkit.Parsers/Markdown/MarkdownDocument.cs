@@ -36,6 +36,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             "sip",
         };
 
+        // cache to optimize for ignored characters
+        private static readonly HashSet<Type> EmptyTypes = new HashSet<Type>();
+        private readonly Dictionary<HashSet<Type>, char[]> tripLookupForExcludedParsers = new Dictionary<HashSet<Type>, char[]>(HashSet<Type>.CreateSetComparer());
+        private readonly Dictionary<HashSet<Type>, MarkdownInline.Parser[]> paresrsForExcludedParsers = new Dictionary<HashSet<Type>, MarkdownInline.Parser[]>(HashSet<Type>.CreateSetComparer());
+        private readonly Dictionary<HashSet<Type>, bool> useTripCharForExcludedParsers = new Dictionary<HashSet<Type>, bool>(HashSet<Type>.CreateSetComparer());
+
         private readonly MarkdownBlock.Parser[] parsersBlock;
         private readonly Dictionary<Type, HashSet<Type>> parserDependencysBlock;
 
@@ -305,6 +311,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         private readonly char[] _escapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
 
         private Dictionary<string, LinkReferenceBlock> _references;
+        private char[] tripLookupForAll;
+        private bool? canTripUseForAll;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownDocument"/> class.
@@ -519,7 +527,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="trimEnd">Trims the end.</param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns> A list of parsed inlines. </returns>
-        public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd, IEnumerable<Type> ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), trimStart, trimEnd, ignoredParsers);
+        public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd, HashSet<Type> ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), trimStart, trimEnd, ignoredParsers);
 
         /// <summary>
         /// This function can be called by any element parsing. Given a start and stopping point this will
@@ -530,9 +538,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="trimEnd">Trims the end.</param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns> A list of parsed inlines. </returns>
-        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, bool trimStart, bool trimEnd, IEnumerable<Type> ignoredParsers = null)
+        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, bool trimStart, bool trimEnd, HashSet<Type> ignoredParsers = null)
         {
-            ignoredParsers ??= Array.Empty<Type>();
+            ignoredParsers ??= EmptyTypes;
             LineBlockPosition currentParsePosition = default;
 
             if (trimStart)
@@ -602,15 +610,71 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdown"> The markdown text to parse. </param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns>Returns the next element.</returns>
-        private InlineParseResult FindNextInlineElement(LineBlock markdown, IEnumerable<Type> ignoredParsers)
+        private InlineParseResult FindNextInlineElement(LineBlock markdown, HashSet<Type> ignoredParsers)
         {
-            var parsers = this.parsersInline;
-            if (ignoredParsers.Any())
+            ReadOnlySpan<MarkdownInline.Parser> parsers = this.parsersInline;
+            bool canUseTripChar;
+            if (ignoredParsers.Count > 0)
             {
-                parsers = parsers.Where(x => !ignoredParsers.Contains(x.GetType())).ToArray();
-            }
+                if (!paresrsForExcludedParsers.TryGetValue(ignoredParsers, out var actuallParers))
+                {
+                    actuallParers = new MarkdownInline.Parser[parsers.Length];
+                    var index = 0;
+                    for (int i = 0; i < parsers.Length; i++)
+                    {
+                        var parser = parsers[i];
 
-            var canUseTripChar = parsers.All(x => x.TripChar.Any());
+                        if (ignoredParsers.Contains(parser.GetType()))
+                        {
+                            continue;
+                        }
+
+                        actuallParers[index] = parser;
+                        index++;
+                    }
+
+                    Array.Resize(ref actuallParers, index);
+                    paresrsForExcludedParsers.Add(ignoredParsers, actuallParers);
+                }
+
+                parsers = actuallParers;
+
+                if (!useTripCharForExcludedParsers.TryGetValue(ignoredParsers, out canUseTripChar))
+                {
+                    canUseTripChar = true;
+
+                    for (int i = 0; i < parsers.Length; i++)
+                    {
+                        var parser = parsers[i];
+                        if (parser.TripChar.Length == 0)
+                        {
+                            canUseTripChar = false;
+                            break;
+                        }
+                    }
+
+                    useTripCharForExcludedParsers.Add(ignoredParsers, canUseTripChar);
+                }
+            }
+            else
+            {
+                if (!canTripUseForAll.HasValue)
+                {
+                    canTripUseForAll = true;
+
+                    for (int i = 0; i < parsers.Length; i++)
+                    {
+                        var parser = parsers[i];
+                        if (parser.TripChar.Length == 0)
+                        {
+                            canTripUseForAll = false;
+                            break;
+                        }
+                    }
+                }
+
+                canUseTripChar = canTripUseForAll.Value;
+            }
 
             var foundInline = canUseTripChar
                 ? this.FindNextInlineWithTripChar(markdown, ignoredParsers, parsers)
@@ -619,7 +683,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return foundInline;
         }
 
-        private InlineParseResult FindNextInlineSlow(in LineBlock markdown, IEnumerable<Type> ignoredParsers, MarkdownInline.Parser[] parsers)
+        private InlineParseResult FindNextInlineSlow(in LineBlock markdown, HashSet<Type> ignoredParsers, in ReadOnlySpan<MarkdownInline.Parser> parsers)
         {
             // Search for the next inline sequence.
             for (int lineIndex = 0; lineIndex < markdown.LineCount; lineIndex++)
@@ -634,8 +698,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                     // Find the trigger(s) that matched.
                     char currentChar = markdown[lineIndex, coulemIndex];
-                    foreach (var parser in parsers.Where(x => !x.TripChar.Any() || x.TripChar.Contains(currentChar)))
+                    for (int i = 0; i < parsers.Length; i++)
                     {
+                        var parser = parsers[i];
+                        if (parser.TripChar.Length > 0 && !parser.TripChar.Contains(currentChar))
+                        {
+                            continue;
+                        }
+
                         // If we are here we have a possible match. Call into the inline class to verify.
                         var parseResult = parser.Parse(markdown, new LineBlockPosition(lineIndex, coulemIndex, markdown), this, ignoredParsers);
                         if (parseResult != null)
@@ -649,9 +719,43 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return null;
         }
 
-        private InlineParseResult FindNextInlineWithTripChar(in LineBlock markdown, IEnumerable<Type> ignoredParsers, MarkdownInline.Parser[] parsers)
+        private InlineParseResult FindNextInlineWithTripChar(in LineBlock markdown, HashSet<Type> ignoredParsers, ReadOnlySpan<MarkdownInline.Parser> parsers)
         {
-            var tripCharacters = parsers.SelectMany(x => x.TripChar).Distinct().ToArray();
+            char[] tripCharacters;
+            if (ignoredParsers.Count > 0)
+            {
+                if (!tripLookupForExcludedParsers.TryGetValue(ignoredParsers, out tripCharacters))
+                {
+                    var c = new StringBuilder();
+
+                    for (int i = 0; i < parsers.Length; i++)
+                    {
+                        c.Append(parsers[i].TripChar);
+                    }
+
+                    tripCharacters = new char[c.Length];
+                    c.CopyTo(0, tripCharacters, 0, c.Length);
+                    tripLookupForExcludedParsers.Add(ignoredParsers, tripCharacters.Distinct().ToArray());
+                }
+            }
+            else
+            {
+                if (tripLookupForAll is null)
+                {
+                    var c = new StringBuilder();
+
+                    for (int i = 0; i < parsers.Length; i++)
+                    {
+                        c.Append(parsers[i].TripChar);
+                    }
+
+                    tripCharacters = new char[c.Length];
+                    c.CopyTo(0, tripCharacters, 0, c.Length);
+                    tripLookupForAll = tripCharacters.Distinct().ToArray();
+                }
+
+                tripCharacters = this.tripLookupForAll;
+            }
 
             LineBlockPosition index = default;
 
@@ -674,10 +778,29 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                 // Find the trigger(s) that matched.
                 char currentChar = markdown[pos];
-                foreach (var parser in parsers.Where(x => x.TripChar.Contains(currentChar)))
+                for (int i = 0; i < parsers.Length; i++)
                 {
+                    var parser = parsers[i];
+
+                    // This is faster then using contains or Index on TripChar. Whish I would know why.
+                    bool found = false;
+                    var tripChar = parser.TripChar;
+                    for (int j = 0; j < tripChar.Length; j++)
+                    {
+                        if (tripChar[j] == currentChar)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        continue;
+                    }
+
                     // If we are here we have a possible match. Call into the inline class to verify.
-                    var parseResult = parser.Parse(markdown, pos, this, ignoredParsers);
+                    InlineParseResult parseResult = parser.Parse(markdown, pos, this, ignoredParsers);
                     if (parseResult != null)
                     {
                         return parseResult;
@@ -724,7 +847,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="trimStart">Trims the start.</param>
         /// <param name="trimEnd">Trims the end.</param>
         /// <returns> A parsed text span. </returns>
-        public string ResolveEscapeSequences(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd)
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public ReadOnlySpan<char> ResolveEscapeSequences(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd)
         {
             return this.ResolveEscapeSequences(new LineBlock(markdown), trimStart, trimEnd);
         }
@@ -736,7 +860,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="trimStart">Trims the start.</param>
         /// <param name="trimEnd">Trims the end.</param>
         /// <returns> A parsed text span. </returns>
-        public string ResolveEscapeSequences(LineBlock markdown, bool trimStart, bool trimEnd)
+        public ReadOnlySpan<char> ResolveEscapeSequences(LineBlock markdown, bool trimStart, bool trimEnd)
         {
             var bufferSize = markdown.TextLength + ((markdown.LineCount - 1) * System.Environment.NewLine.Length);
             char[] arrayBuffer;
@@ -775,10 +899,31 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                     if (indexToHeandle < c)
                     {
+                        if (markdown.LineCount == 1 && c == 0)
+                        {
+                            return markdown[0];
+                        }
+
                         var toCopy = from.Slice(c);
                         toCopy.CopyTo(buffer.Slice(index));
                         index += toCopy.Length;
                         break;
+                    }
+
+                    if (buffer.IsEmpty)
+                    {
+                        if (bufferSize <= SpanExtensions.MAX_STACK_BUFFER_SIZE)
+                        {
+                            arrayBuffer = null;
+                        }
+                        else
+                        {
+                            arrayBuffer = ArrayPool<char>.Shared.Rent(bufferSize);
+                        }
+
+                        buffer = arrayBuffer != null
+                            ? arrayBuffer.AsSpan(0, bufferSize)
+                            : stackalloc char[bufferSize];
                     }
 
                     if (indexToHeandle > c)
@@ -858,6 +1003,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                 if (line < markdown.LineCount - 1)
                 {
+                    if (buffer.IsEmpty)
+                    {
+                        if (bufferSize <= SpanExtensions.MAX_STACK_BUFFER_SIZE)
+                        {
+                            arrayBuffer = null;
+                        }
+                        else
+                        {
+                            arrayBuffer = ArrayPool<char>.Shared.Rent(bufferSize);
+                        }
+
+                        buffer = arrayBuffer != null
+                            ? arrayBuffer.AsSpan(0, bufferSize)
+                            : stackalloc char[bufferSize];
+                    }
+
                     if (currentLine.Length >= 2
                         && currentLine[currentLine.Length - 1] == ' '
                         && currentLine[currentLine.Length - 2] == ' ')
@@ -873,7 +1034,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            var result = buffer.Slice(0, index).ToString();
+            var result = buffer.Slice(0, index).ToString().AsSpan();
 
             if (arrayBuffer != null)
             {
@@ -974,7 +1135,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             var orderedSource = nodes.OrderBy(x => x.GetType().FullName).ToArray();
 
             // We will manipulate edges. So we make a copy
-            edges = edges.ToDictionary(x => x.Key, x => new HashSet<Type>(x.Value));
+            edges = edges.Select(x => (key: x.Key, value: new HashSet<Type>(x.Value.Intersect(nodes.Select(y => y.GetType()))))).Where(x => x.value.Count > 0).ToDictionary(x => x.key, x => x.value);
 
             // Kahn's algorithm [from Wikipedia](https://en.wikipedia.org/w/index.php?title=Topological_sorting&oldid=917759838)
             // L ← Empty list that will contain the sorted elements

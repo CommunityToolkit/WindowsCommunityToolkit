@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <returns> A parsed text span. Or <c>null</c> if no text could be parsed.</returns>
         internal static TextRunInline Parse(LineBlock markdown, bool trimStart, bool trimEnd, MarkdownDocument document)
         {
-            var output = document.ResolveEscapeSequences(markdown, trimStart, trimEnd);
+            var output = document.ResolveEscapeSequences(markdown, trimStart, trimEnd).ToString();
 
             if (string.IsNullOrEmpty(output))
             {

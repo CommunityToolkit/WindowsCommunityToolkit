@@ -179,6 +179,5 @@ namespace UnitTests.Markdown
                 .Replace("\x0005", "\x2022")
                 ;
         }
-
     }
 }

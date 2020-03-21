@@ -41,16 +41,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <inheritdoc/>
-        public sealed override IEnumerable<char> TripChar => _markerStart.Take(1);
+        public sealed override ReadOnlySpan<char> TripChar => _markerStart.AsSpan(0, 1);
 
         /// <inheritdoc/>
-        protected sealed override InlineParseResult<T> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+        protected sealed override InlineParseResult<T> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
         {
-            if (!tripPos.IsIn(markdown))
-            {
-                throw new ArgumentOutOfRangeException(nameof(tripPos));
-            }
-
             // Ignore escaped sequences
             if (tripPos.Column > 0 && markdown[tripPos.Line][tripPos.Column - 1] == '\\')
             {
@@ -58,17 +53,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             // discard not nedded parts.
-            markdown = markdown.SliceText(tripPos);
+            var subMarkdown = markdown.SliceText(tripPos);
 
             // Check the start sequence.
-            if (!markdown[0].StartsWith(_markerStart.AsSpan()))
+            if (!subMarkdown[0].StartsWith(_markerStart.AsSpan()))
             {
                 return null;
             }
 
             // Find the end of the span.  The end sequence (either '**' or '__') must be the same
             // as the start sequence.
-            var subBlock = markdown.SliceText(_markerStart.Length);
+            var subBlock = subMarkdown.SliceText(_markerStart.Length);
             var endPosition = GetEndPosition(subBlock);
             if (endPosition == LineBlockPosition.NotFound)
             {

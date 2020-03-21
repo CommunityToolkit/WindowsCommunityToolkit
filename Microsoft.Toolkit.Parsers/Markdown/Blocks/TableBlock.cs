@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<TableBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<TableBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<TableBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A table is a line of text, with at least one vertical bar (|), followed by a line of
                 // of text that consists of alternating dashes (-) and vertical bars (|) and optionally

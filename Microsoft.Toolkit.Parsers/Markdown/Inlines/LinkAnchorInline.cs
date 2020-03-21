@@ -38,10 +38,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<LinkAnchorInline>
         {
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "<";
+            public override ReadOnlySpan<char> TripChar => "<".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<LinkAnchorInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<LinkAnchorInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown.SliceText(tripPos)[0];
 

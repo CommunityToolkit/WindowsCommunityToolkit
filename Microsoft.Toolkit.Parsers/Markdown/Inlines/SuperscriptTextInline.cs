@@ -57,10 +57,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class ParserTop : Parser<SuperscriptTextInline>
         {
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "^";
+            public override ReadOnlySpan<char> TripChar => "^".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<SuperscriptTextInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<SuperscriptTextInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {

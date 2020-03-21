@@ -65,10 +65,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<ImageInline>
         {
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "!";
+            public override ReadOnlySpan<char> TripChar => "!".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<ImageInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<ImageInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -134,8 +134,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     var imageDimensionsPos = urlSpan.IndexOf(" =".AsSpan(), StringComparison.Ordinal);
 
                     url = imageDimensionsPos > 0
-                        ? document.ResolveEscapeSequences(urlSpan.Slice(0, imageDimensionsPos), true, true)
-                        : document.ResolveEscapeSequences(urlSpan, true, true);
+                        ? document.ResolveEscapeSequences(urlSpan.Slice(0, imageDimensionsPos), true, true).ToString()
+                        : document.ResolveEscapeSequences(urlSpan, true, true).ToString();
 
                     if (imageDimensionsPos > 0)
                     {

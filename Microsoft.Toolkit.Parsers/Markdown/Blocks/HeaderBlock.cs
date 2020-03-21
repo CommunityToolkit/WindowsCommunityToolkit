@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public class HashParser : Parser<HeaderBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<HeaderBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var line = markdown[startLine];
                 var firstNonSpace = line.IndexOfNonWhiteSpace();
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<HeaderBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // Check the second line is valid.
                 if (startLine <= 0)

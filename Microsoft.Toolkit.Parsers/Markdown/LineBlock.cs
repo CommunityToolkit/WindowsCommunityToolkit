@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         public ReadOnlySpan<char> this[int line]
         {
+            [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
             get
             {
                 var result = this.text.Slice(this.lines[line].start, this.lines[line].length);
@@ -175,16 +176,27 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             this.text = data;
             var current = data;
             int lineStart = 0;
-            var lines = new List<(int start, int length)>();
             this.start = 0;
             this.fromEnd = 0;
+            Span<(int start, int length)> tempSpan = stackalloc (int start, int length)[4];
+            var tempSize = 0;
             while (true)
             {
                 var indexCurent = current.IndexOfAny('\r', '\n');
 
                 if (indexCurent == -1)
                 {
-                    lines.Add((lineStart, data.Length - lineStart));
+                    if (tempSize >= tempSpan.Length)
+                    {
+                        var tt = tempSpan;
+                        var newSize = tempSpan.Length * 2;
+                        tempSpan = stackalloc (int, int)[newSize];
+                        tt.CopyTo(tempSpan);
+                    }
+
+                    tempSpan[tempSize] = (lineStart, data.Length - lineStart);
+                    tempSize++;
+
                     break;
                 }
 
@@ -197,7 +209,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     nextLine += 1;
                 }
 
-                lines.Add((lineStart, length));
+                if (tempSize >= tempSpan.Length)
+                {
+                    var tt = tempSpan;
+                    var newSize = tempSpan.Length * 2;
+                    tempSpan = stackalloc (int, int)[newSize];
+                    tt.CopyTo(tempSpan);
+                }
+
+                tempSpan[tempSize] = (lineStart, length);
+                tempSize++;
 
                 if (nextLine >= data.Length)
                 {
@@ -208,7 +229,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 lineStart = nextLine;
             }
 
-            this.lines = new ReadOnlySpan<(int start, int length)>(lines.ToArray());
+            this.lines = new ReadOnlySpan<(int start, int length)>(tempSpan.Slice(0, tempSize).ToArray());
             System.Diagnostics.Debug.Assert(this.TextLength >= 0, "TextLength is negative");
         }
 
@@ -364,7 +385,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>A new Instance of LineBlock with the lines modified.</returns>
         public LineBlock RemoveFromLine(RemoveLineCallback callback)
         {
-            var temp = new (int start, int length)[this.lines.Length];
+            Span<(int start, int length)> temp = stackalloc (int start, int length)[this.lines.Length];
             var skipedLines = 0;
             var linesTaken = 0;
             for (int i = 0; i < temp.Length; i++)
@@ -402,7 +423,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            var lineBlock = new LineBlock(temp.AsSpan(0, linesTaken), this.text, 0, 0);
+            var lineBlock = new LineBlock(temp.Slice(0, linesTaken).ToArray(), this.text, 0, 0);
             System.Diagnostics.Debug.Assert(lineBlock.TextLength <= this.TextLength, "TextLength must be less then or equals this");
 
             return lineBlock;
@@ -658,37 +679,160 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>The line and index in the line.</returns>
         public LineBlockPosition IndexOfAny(ReadOnlySpan<char> value, LineBlockPosition fromPosition)
         {
-            int lengthOfPreviouseLies = 0;
-            for (int i = 0; i < fromPosition.Line; i++)
+            if (this.lines.Length == 0)
             {
-                lengthOfPreviouseLies += this[i].Length + 1;
+                return LineBlockPosition.NotFound;
             }
 
-            for (int i = fromPosition.Line; i < this.LineCount; i++)
+            if (value.Length == 1)
             {
-                int index;
-                if (i == fromPosition.Line)
+                var toSearch = value[0];
+                var to = this.lines[this.lines.Length - 1].start + this.lines[this.lines.Length - 1].length - fromEnd;
+                var line = fromPosition.Line;
+                var currentLineStart = this.lines[line].start;
+                if (line == 0)
                 {
-                    index = this[i].Slice(fromPosition.Column).IndexOfAny(value) + fromPosition.Column;
-                    if (index < fromPosition.Column)
+                    currentLineStart += this.start;
+                }
+
+                var nextLineStart = int.MaxValue;
+                var numberOfLineBrackeCharacters = 0;
+                if (line + 1 < this.lines.Length)
+                {
+                    nextLineStart = this.lines[line + 1].start;
+                }
+
+                for (int i = this.lines[0].start + fromPosition.FromStart + this.start; i < to; i++)
+                {
+                    if (text[i] == '\n' || text[i] == '\r')
                     {
-                        index = -1;
+                        numberOfLineBrackeCharacters++;
+                    }
+
+                    if (i >= nextLineStart)
+                    {
+                        currentLineStart = nextLineStart;
+                        line++;
+                        if (line + 1 < this.lines.Length)
+                        {
+                            nextLineStart = this.lines[line + 1].start;
+                        }
+                        else
+                        {
+                            nextLineStart = int.MaxValue;
+                        }
+                    }
+
+                    if (this.text[i] == toSearch)
+                    {
+                        var positionFromStart = i;
+
+                        // remove the line breakCharacter
+                        positionFromStart -= numberOfLineBrackeCharacters;
+
+                        // But add one for each actuall linebreak
+                        positionFromStart += fromPosition.Line - line;
+
+                        // remove the start offset
+                        positionFromStart -= this.start + this.lines[0].start;
+
+                        return new LineBlockPosition(line, i - currentLineStart, positionFromStart);
                     }
                 }
-                else
-                {
-                    index = this[i].IndexOfAny(value);
-                }
 
-                if (index >= 0)
-                {
-                    return new LineBlockPosition(i, index, index + lengthOfPreviouseLies);
-                }
-
-                lengthOfPreviouseLies += this[i].Length + 1;
+                return LineBlockPosition.NotFound;
             }
+            else
+            {
+                // we want to prevent iterating over every char if it is
+                // not needed. This method is primaryly called to find
+                // trip chars. almost non trip char is a letter or digit.
+                // But almost every character in a text is a letter.
+                // So checking for letter will prevent iterating.
+                var zeroFilter = 0;
+                var oneFilter = ~0;
+                var nonIsLetter = true;
+                var nonIsDigit = true;
+                for (int i = 0; i < value.Length; i++)
+                {
+                    zeroFilter |= value[i];
+                    oneFilter &= value[i];
+                    nonIsLetter &= !char.IsLetter(value[i]);
+                    nonIsDigit &= !char.IsDigit(value[i]);
+                }
 
-            return LineBlockPosition.NotFound;
+                var to = this.lines[this.lines.Length - 1].start + this.lines[this.lines.Length - 1].length - fromEnd;
+                var line = fromPosition.Line;
+                var currentLineStart = this.lines[line].start;
+                if (line == 0)
+                {
+                    currentLineStart += this.start;
+                }
+
+                var nextLineStart = int.MaxValue;
+                var numberOfLineBrackeCharacters = 0;
+                if (line + 1 < this.lines.Length)
+                {
+                    nextLineStart = this.lines[line + 1].start;
+                }
+
+                for (int i = this.lines[0].start + fromPosition.FromStart + this.start; i < to; i++)
+                {
+                    if (text[i] == '\n' || text[i] == '\r')
+                    {
+                        numberOfLineBrackeCharacters++;
+                    }
+
+                    if (i >= nextLineStart)
+                    {
+                        currentLineStart = nextLineStart;
+                        line++;
+                        if (line + 1 < this.lines.Length)
+                        {
+                            nextLineStart = this.lines[line + 1].start;
+                        }
+                        else
+                        {
+                            nextLineStart = int.MaxValue;
+                        }
+                    }
+
+                    var currentChar = this.text[i];
+                    if (((currentChar & oneFilter) == oneFilter)
+                        && ((currentChar | zeroFilter) == zeroFilter)
+                        && (!nonIsDigit || char.IsDigit(currentChar))
+                        && (!nonIsLetter || char.IsLetter(currentChar)))
+                    {
+                        bool found = false;
+                        for (int j = 0; j < value.Length; j++)
+                        {
+                            if (currentChar == value[j])
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            var positionFromStart = i;
+
+                            // remove the line breakCharacter
+                            positionFromStart -= numberOfLineBrackeCharacters;
+
+                            // But add one for each actuall linebreak
+                            positionFromStart += fromPosition.Line - line;
+
+                            // remove the start offset
+                            positionFromStart -= this.start + this.lines[0].start;
+
+                            return new LineBlockPosition(line, i - currentLineStart, positionFromStart);
+                        }
+                    }
+                }
+
+                return LineBlockPosition.NotFound;
+            }
         }
 
         /// <summary>

@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<CodeInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CodeInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<CodeInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "`";
+            public override ReadOnlySpan<char> TripChar => "`".AsSpan();
         }
 
         /// <summary>

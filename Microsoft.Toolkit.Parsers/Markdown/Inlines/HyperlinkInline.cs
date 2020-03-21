@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class AngleBracketLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "<";
+            public override ReadOnlySpan<char> TripChar => "<".AsSpan();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class UrlParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => ":";
+            public override ReadOnlySpan<char> TripChar => ":".AsSpan();
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class ReditLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
                 var result = ParseDoubleSlashLink(line, tripPos);
@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "/";
+            public override ReadOnlySpan<char> TripChar => "/".AsSpan();
 
             /// <summary>
             /// Parse a link of the form "/r/news" or "/u/quinbd".
@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class PartialLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
                 int start = tripPos.Column - 3;
@@ -331,7 +331,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // The URL must have at least one character after the www.
-                if (start >= line.Length - 4)
+                if (start + 4 >= line.Length)
                 {
                     return null;
                 }
@@ -344,7 +344,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => ".";
+            public override ReadOnlySpan<char> TripChar => ".".AsSpan();
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class EmailAddressParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 // Search backwards until we find a character which is not a letter, digit, or one of
                 // these characters: '+', '-', '_', '.'.
@@ -444,7 +444,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "@";
+            public override ReadOnlySpan<char> TripChar => "@".AsSpan();
         }
 
         /// <summary>

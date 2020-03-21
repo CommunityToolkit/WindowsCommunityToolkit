@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
             /// <param name="document">The Document which is parsing.</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            public abstract BlockParseResult Parse(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
+            public abstract BlockParseResult Parse(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
         }
 
         /// <summary>
@@ -164,10 +164,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
             /// <param name="document">The Document which is parsing.</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            protected abstract BlockParseResult<TBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
+            protected abstract BlockParseResult<TBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
 
             /// <inheritdoc/>
-            public sealed override BlockParseResult Parse(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startLine, lineStartsNewParagraph, document);
+            public sealed override BlockParseResult Parse(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startLine, lineStartsNewParagraph, document);
         }
     }
 }

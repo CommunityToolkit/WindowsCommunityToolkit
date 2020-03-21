@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public class ParserIndented : Parser<CodeBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<CodeBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<CodeBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (!lineStartsNewParagraph)
                 {
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public class ParserTicked : Parser<CodeBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<CodeBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<CodeBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (!lineStartsNewParagraph)
                 {
