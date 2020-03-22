@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 #nullable enable
 
@@ -136,6 +138,30 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             return bytesCopied;
         }
 
+        /// <inheritdoc/>
+        public override Task<int> ReadAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled<int>(cancellationToken);
+            }
+
+            try
+            {
+                int result = Read(buffer, offset, count);
+
+                return Task.FromResult(result);
+            }
+            catch (OperationCanceledException e)
+            {
+                return Task.FromCanceled<int>(e.CancellationToken);
+            }
+            catch (Exception e)
+            {
+                return Task.FromException<int>(e);
+            }
+        }
+
 #if NETSTANDARD2_1
         /// <inheritdoc/>
         public override int Read(Span<byte> buffer)
@@ -153,6 +179,30 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             this.position += bytesCopied;
 
             return bytesCopied;
+        }
+
+        /// <inheritdoc/>
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return new ValueTask<int>(Task.FromCanceled<int>(cancellationToken));
+            }
+
+            try
+            {
+                int result = Read(buffer.Span);
+
+                return new ValueTask<int>(result);
+            }
+            catch (OperationCanceledException e)
+            {
+                return new ValueTask<int>(Task.FromCanceled<int>(e.CancellationToken));
+            }
+            catch (Exception e)
+            {
+                return new ValueTask<int>(Task.FromException<int>(e));
+            }
         }
 #endif
 
