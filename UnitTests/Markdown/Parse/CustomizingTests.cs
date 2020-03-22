@@ -189,7 +189,7 @@ namespace UnitTests.Markdown.Parse
 
         private class InlineTestParser : MarkdownInline.Parser<TextRunInline>
         {
-            protected override InlineParseResult<TextRunInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<TextRunInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 return new InlineParseResult<TextRunInline>(new TextRunInline() { Text = this.GetType().Name }, tripPos, markdown.SliceText(tripPos).TextLength);
             }

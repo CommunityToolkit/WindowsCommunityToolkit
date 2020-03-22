@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "[".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "[".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {

@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
         // cache to optimize for ignored characters
         private static readonly HashSet<Type> EmptyTypes = new HashSet<Type>();
-        private readonly Dictionary<HashSet<Type>, char[]> tripLookupForExcludedParsers = new Dictionary<HashSet<Type>, char[]>(HashSet<Type>.CreateSetComparer());
+        private readonly Dictionary<HashSet<Type>, LineBlock.IndexOfAnyInput> tripLookupForExcludedParsers = new Dictionary<HashSet<Type>, LineBlock.IndexOfAnyInput>(HashSet<Type>.CreateSetComparer());
         private readonly Dictionary<HashSet<Type>, MarkdownInline.Parser[]> paresrsForExcludedParsers = new Dictionary<HashSet<Type>, MarkdownInline.Parser[]>(HashSet<Type>.CreateSetComparer());
         private readonly Dictionary<HashSet<Type>, bool> useTripCharForExcludedParsers = new Dictionary<HashSet<Type>, bool>(HashSet<Type>.CreateSetComparer());
 
@@ -311,7 +311,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         private readonly char[] _escapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
 
         private Dictionary<string, LinkReferenceBlock> _references;
-        private char[] tripLookupForAll;
+        private LineBlock.IndexOfAnyInput? tripLookupForAll;
         private bool? canTripUseForAll;
 
         /// <summary>
@@ -721,40 +721,49 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
         private InlineParseResult FindNextInlineWithTripChar(in LineBlock markdown, HashSet<Type> ignoredParsers, ReadOnlySpan<MarkdownInline.Parser> parsers)
         {
-            char[] tripCharacters;
+            LineBlock.IndexOfAnyInput tripCharacters;
             if (ignoredParsers.Count > 0)
             {
                 if (!tripLookupForExcludedParsers.TryGetValue(ignoredParsers, out tripCharacters))
                 {
-                    var c = new StringBuilder();
+                    var c = new HashSet<char>();
 
                     for (int i = 0; i < parsers.Length; i++)
                     {
-                        c.Append(parsers[i].TripChar);
+                        var currentCharacters = parsers[i].TripChar;
+                        for (int j = 0; j < currentCharacters.Length; j++)
+                        {
+                            c.Add(currentCharacters[j]);
+                        }
                     }
 
-                    tripCharacters = new char[c.Length];
-                    c.CopyTo(0, tripCharacters, 0, c.Length);
-                    tripLookupForExcludedParsers.Add(ignoredParsers, tripCharacters.Distinct().ToArray());
+                    var array = new char[c.Count];
+                    c.CopyTo(array);
+                    tripCharacters = new LineBlock.IndexOfAnyInput(array.AsMemory());
+                    tripLookupForExcludedParsers.Add(ignoredParsers, tripCharacters);
                 }
             }
             else
             {
-                if (tripLookupForAll is null)
+                if (!this.tripLookupForAll.HasValue)
                 {
-                    var c = new StringBuilder();
+                    var c = new HashSet<char>();
 
                     for (int i = 0; i < parsers.Length; i++)
                     {
-                        c.Append(parsers[i].TripChar);
+                        var currentCharacters = parsers[i].TripChar;
+                        for (int j = 0; j < currentCharacters.Length; j++)
+                        {
+                            c.Add(currentCharacters[j]);
+                        }
                     }
 
-                    tripCharacters = new char[c.Length];
-                    c.CopyTo(0, tripCharacters, 0, c.Length);
-                    tripLookupForAll = tripCharacters.Distinct().ToArray();
+                    var array = new char[c.Count];
+                    c.CopyTo(array);
+                    this.tripLookupForAll = new LineBlock.IndexOfAnyInput(array.AsMemory());
                 }
 
-                tripCharacters = this.tripLookupForAll;
+                tripCharacters = this.tripLookupForAll.Value;
             }
 
             LineBlockPosition index = default;

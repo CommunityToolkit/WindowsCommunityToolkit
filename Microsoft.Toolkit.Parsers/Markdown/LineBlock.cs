@@ -672,21 +672,112 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
+        /// Helps caching some information for mor performant search.
+        /// </summary>
+        public readonly struct IndexOfAnyInput : IEquatable<IndexOfAnyInput>
+        {
+            /// <summary>
+            /// The Values that will be searched.
+            /// </summary>
+            public readonly ReadOnlyMemory<char> Values;
+
+            /// <summary>
+            /// Caches if any of the character is a letter or digit.
+            /// </summary>
+            public readonly bool HasLettersOrDigits;
+
+            /// <summary>
+            /// Caches if any of the Characters is a white space.
+            /// </summary>
+            public readonly bool HasWhiteSpace;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="IndexOfAnyInput"/> struct.
+            /// </summary>
+            public IndexOfAnyInput(ReadOnlyMemory<char> values)
+            {
+                this.Values = values;
+                HasLettersOrDigits = false;
+                HasWhiteSpace = false;
+
+                var span = values.Span;
+
+                // we want to prevent iterating over every char if it is
+                // not needed. This method is primaryly called to find
+                // trip chars. almost non trip char is a letter or digit.
+                // But almost every character in a text is a letter.
+                // So checking for letter will prevent iterating.
+                for (int i = 0; i < span.Length; i++)
+                {
+                    if (char.IsLetterOrDigit(span[i]))
+                    {
+                        this.HasLettersOrDigits = true;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < span.Length; i++)
+                {
+                    if (char.IsWhiteSpace(span[i]))
+                    {
+                        this.HasWhiteSpace = true;
+                        break;
+                    }
+                }
+            }
+
+            /// <inheritdoc/>
+            public override bool Equals(object obj)
+            {
+                return obj is IndexOfAnyInput input && this.Equals(input);
+            }
+
+            /// <inheritdoc/>
+            public bool Equals(IndexOfAnyInput other)
+            {
+                return EqualityComparer<ReadOnlyMemory<char>>.Default.Equals(this.Values, other.Values);
+            }
+
+            /// <inheritdoc/>
+            public override int GetHashCode()
+            {
+                return 1291433875 + this.Values.GetHashCode();
+            }
+
+            /// <summary>
+            /// Compares the Values.
+            /// </summary>
+            public static bool operator ==(IndexOfAnyInput left, IndexOfAnyInput right)
+            {
+                return left.Equals(right);
+            }
+
+            /// <summary>
+            /// Compares the values for inequality.
+            /// </summary>
+            public static bool operator !=(IndexOfAnyInput left, IndexOfAnyInput right)
+            {
+                return !(left == right);
+            }
+        }
+
+        /// <summary>
         /// Returns the position of any supled chars.
         /// </summary>
-        /// <param name="value">The text to search.</param>
+        /// <param name="input">The characters to search.</param>
         /// <param name="fromPosition">The position from where to start the search.</param>
         /// <returns>The line and index in the line.</returns>
-        public LineBlockPosition IndexOfAny(ReadOnlySpan<char> value, LineBlockPosition fromPosition)
+        public LineBlockPosition IndexOfAny(IndexOfAnyInput input, LineBlockPosition fromPosition)
         {
             if (this.lines.Length == 0)
             {
                 return LineBlockPosition.NotFound;
             }
 
-            if (value.Length == 1)
+            var values = input.Values.Span;
+            if (values.Length == 1)
             {
-                var toSearch = value[0];
+                var toSearch = values[0];
                 var to = this.lines[this.lines.Length - 1].start + this.lines[this.lines.Length - 1].length - fromEnd;
                 var line = fromPosition.Line;
                 var currentLineStart = this.lines[line].start;
@@ -744,23 +835,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             }
             else
             {
-                // we want to prevent iterating over every char if it is
-                // not needed. This method is primaryly called to find
-                // trip chars. almost non trip char is a letter or digit.
-                // But almost every character in a text is a letter.
-                // So checking for letter will prevent iterating.
-                var zeroFilter = 0;
-                var oneFilter = ~0;
-                var nonIsLetter = true;
-                var nonIsDigit = true;
-                for (int i = 0; i < value.Length; i++)
-                {
-                    zeroFilter |= value[i];
-                    oneFilter &= value[i];
-                    nonIsLetter &= !char.IsLetter(value[i]);
-                    nonIsDigit &= !char.IsDigit(value[i]);
-                }
-
                 var to = this.lines[this.lines.Length - 1].start + this.lines[this.lines.Length - 1].length - fromEnd;
                 var line = fromPosition.Line;
                 var currentLineStart = this.lines[line].start;
@@ -778,7 +852,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                 for (int i = this.lines[0].start + fromPosition.FromStart + this.start; i < to; i++)
                 {
-                    if (text[i] == '\n' || text[i] == '\r')
+                    var currentChar = this.text[i];
+                    if (currentChar == '\n' || currentChar == '\r')
                     {
                         numberOfLineBrackeCharacters++;
                     }
@@ -797,16 +872,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         }
                     }
 
-                    var currentChar = this.text[i];
-                    if (((currentChar & oneFilter) == oneFilter)
-                        && ((currentChar | zeroFilter) == zeroFilter)
-                        && (!nonIsDigit || !char.IsDigit(currentChar))
-                        && (!nonIsLetter || !char.IsLetter(currentChar)))
+                    // && (!nonIsDigit | !char.IsDigit(currentChar))
+                    // && (!nonIsLetter | !char.IsLetter(currentChar)))
+                    // if (((currentChar & oneFilter) == oneFilter)
+                    //    && ((currentChar | zeroFilter) == zeroFilter))
+                    if ((input.HasLettersOrDigits || !char.IsLetterOrDigit(currentChar))
+                        && (input.HasWhiteSpace || !char.IsWhiteSpace(currentChar)))
                     {
                         bool found = false;
-                        for (int j = 0; j < value.Length; j++)
+                        for (int j = 0; j < values.Length; j++)
                         {
-                            if (currentChar == value[j])
+                            if (currentChar == values[j])
                             {
                                 found = true;
                                 break;

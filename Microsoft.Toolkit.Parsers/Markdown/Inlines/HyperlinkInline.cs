@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class AngleBracketLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class UrlParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class ReditLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
                 var result = ParseDoubleSlashLink(line, tripPos);
@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class PartialLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
                 int start = tripPos.Column - 3;
@@ -353,7 +353,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public class EmailAddressParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 // Search backwards until we find a character which is not a letter, digit, or one of
                 // these characters: '+', '-', '_', '.'.

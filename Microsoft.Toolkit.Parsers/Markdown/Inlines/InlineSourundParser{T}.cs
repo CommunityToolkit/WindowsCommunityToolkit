@@ -41,10 +41,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <inheritdoc/>
-        public sealed override ReadOnlySpan<char> TripChar => _markerStart.AsSpan(0, 1);
+        public sealed override ReadOnlySpan<char> TripChar
+        {
+            [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return _markerStart.AsSpan(0, 1);
+            }
+        }
 
         /// <inheritdoc/>
-        protected sealed override InlineParseResult<T> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+        protected sealed override InlineParseResult<T> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
         {
             // Ignore escaped sequences
             if (tripPos.Column > 0 && markdown[tripPos.Line][tripPos.Column - 1] == '\\')

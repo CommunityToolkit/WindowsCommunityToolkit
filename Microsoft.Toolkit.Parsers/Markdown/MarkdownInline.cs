@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
             /// <remarks>May only be called if TripChar is empty or markdown[tripPos] is contained in TripChar.</remarks>
-            public abstract InlineParseResult Parse(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
+            public abstract InlineParseResult Parse(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
 
             /// <summary>
             /// Gets the chars that if found means we might have a match. Empty if Tripchars are not supported.
@@ -155,10 +155,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// <param name="document">The current parsing document.</param>
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
-            protected abstract InlineParseResult<TInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
+            protected abstract InlineParseResult<TInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
 
             /// <inheritdoc/>
-            public sealed override InlineParseResult Parse(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers) => this.ParseInternal(markdown, tripPos, document, ignoredParsers);
+            public sealed override InlineParseResult Parse(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers) => this.ParseInternal(markdown, tripPos, document, ignoredParsers);
         }
     }
 }
