@@ -144,22 +144,14 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override int Read(byte[]? buffer, int offset, int count)
+        public override Task FlushAsync(CancellationToken cancellationToken)
         {
-            ValidateDisposed();
-            ValidateBuffer(buffer, offset, count);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled(cancellationToken);
+            }
 
-            Span<byte> source = this.memory.Span.Slice(this.position);
-
-            int bytesCopied = Math.Min(source.Length, count);
-
-            Span<byte> destination = buffer.AsSpan(offset, bytesCopied);
-
-            source.CopyTo(destination);
-
-            this.position += bytesCopied;
-
-            return bytesCopied;
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
@@ -187,16 +179,27 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override int ReadByte()
+        public override Task WriteAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            ValidateDisposed();
-
-            if (this.position == this.memory.Length)
+            if (cancellationToken.IsCancellationRequested)
             {
-                return -1;
+                return Task.FromCanceled(cancellationToken);
             }
 
-            return this.memory.Span[this.position++];
+            try
+            {
+                Write(buffer, offset, count);
+
+                return Task.CompletedTask;
+            }
+            catch (OperationCanceledException e)
+            {
+                return Task.FromCanceled(e.CancellationToken);
+            }
+            catch (Exception e)
+            {
+                return Task.FromException(e);
+            }
         }
 
         /// <inheritdoc/>
@@ -226,6 +229,38 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
+        public override int Read(byte[]? buffer, int offset, int count)
+        {
+            ValidateDisposed();
+            ValidateBuffer(buffer, offset, count);
+
+            Span<byte> source = this.memory.Span.Slice(this.position);
+
+            int bytesCopied = Math.Min(source.Length, count);
+
+            Span<byte> destination = buffer.AsSpan(offset, bytesCopied);
+
+            source.CopyTo(destination);
+
+            this.position += bytesCopied;
+
+            return bytesCopied;
+        }
+
+        /// <inheritdoc/>
+        public override int ReadByte()
+        {
+            ValidateDisposed();
+
+            if (this.position == this.memory.Length)
+            {
+                return -1;
+            }
+
+            return this.memory.Span[this.position++];
+        }
+
+        /// <inheritdoc/>
         public override void Write(byte[]? buffer, int offset, int count)
         {
             ValidateDisposed();
@@ -242,30 +277,6 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             }
 
             this.position += source.Length;
-        }
-
-        /// <inheritdoc/>
-        public override Task WriteAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return Task.FromCanceled(cancellationToken);
-            }
-
-            try
-            {
-                Write(buffer, offset, count);
-
-                return Task.CompletedTask;
-            }
-            catch (OperationCanceledException e)
-            {
-                return Task.FromCanceled(e.CancellationToken);
-            }
-            catch (Exception e)
-            {
-                return Task.FromException(e);
-            }
         }
 
         /// <inheritdoc/>
