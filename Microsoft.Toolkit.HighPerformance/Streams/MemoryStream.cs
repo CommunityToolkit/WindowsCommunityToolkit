@@ -246,7 +246,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void Write(byte[] buffer, int offset, int count)
+        public override void Write(byte[]? buffer, int offset, int count)
         {
             ValidateDisposed();
             ValidateCanWrite();
@@ -264,6 +264,30 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             this.position += source.Length;
         }
 
+        /// <inheritdoc/>
+        public override Task WriteAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled(cancellationToken);
+            }
+
+            try
+            {
+                Write(buffer, offset, count);
+
+                return Task.CompletedTask;
+            }
+            catch (OperationCanceledException e)
+            {
+                return Task.FromCanceled(e.CancellationToken);
+            }
+            catch (Exception e)
+            {
+                return Task.FromException(e);
+            }
+        }
+
 #if NETSTANDARD2_1
         /// <inheritdoc/>
         public override void Write(ReadOnlySpan<byte> buffer)
@@ -279,6 +303,29 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             }
 
             this.position += buffer.Length;
+        }
+
+        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return new ValueTask(Task.FromCanceled(cancellationToken));
+            }
+
+            try
+            {
+                this.Write(buffer.Span);
+
+                return default;
+            }
+            catch (OperationCanceledException e)
+            {
+                return new ValueTask(Task.FromCanceled(e.CancellationToken));
+            }
+            catch (Exception e)
+            {
+                return new ValueTask(Task.FromException(e));
+            }
         }
 #endif
 
