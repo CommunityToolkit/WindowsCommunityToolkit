@@ -19,30 +19,6 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     internal sealed partial class MemoryStream : Stream
     {
         /// <inheritdoc/>
-        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return Task.FromCanceled(cancellationToken);
-            }
-
-            try
-            {
-                CopyTo(destination, bufferSize);
-
-                return Task.CompletedTask;
-            }
-            catch (OperationCanceledException e)
-            {
-                return Task.FromCanceled(e.CancellationToken);
-            }
-            catch (Exception e)
-            {
-                return Task.FromException(e);
-            }
-        }
-
-        /// <inheritdoc/>
         public override void CopyTo(Stream destination, int bufferSize)
         {
             ValidateDisposed();
