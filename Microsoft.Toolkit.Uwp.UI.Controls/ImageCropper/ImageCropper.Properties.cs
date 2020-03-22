@@ -25,11 +25,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public double MinSelectedLength { get; set; } = 40;
 
-        /// <summary>
-        /// Gets the current cropped region.
-        /// </summary>
-        public Rect CroppedRegion => _currentCroppedRect;
-
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
@@ -62,6 +57,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             target.UpdateThumbsVisibility();
             target.UpdateAspectRatio();
             target.UpdateMaskArea();
+        }
+
+        private static void OnCroppedRegionChanged(
+            DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var target = (ImageCropper)d;
+            target.CroppedRegionChanged?.Invoke(target, new ImageCropperCroppedRegionChangedEventArgs { OldRegion = (Rect)e.OldValue, NewRegion = (Rect)e.NewValue });
         }
 
         private static void OnThumbPlacementChanged(
@@ -97,6 +99,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (CropShape)GetValue(CropShapeProperty); }
             set { SetValue(CropShapeProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the current cropped region.
+        /// </summary>
+        public Rect CroppedRegion
+        {
+            get { return (Rect)GetValue(CroppedRegionProperty); }
+            private set { SetValue(CroppedRegionProperty, value); }
         }
 
         /// <summary>
@@ -152,6 +163,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty CropShapeProperty =
             DependencyProperty.Register(nameof(CropShape), typeof(CropShape), typeof(ImageCropper), new PropertyMetadata(default(CropShape), OnCropShapeChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="CroppedRegion"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CroppedRegionProperty =
+            DependencyProperty.Register(nameof(CroppedRegion), typeof(Rect), typeof(ImageCropper), new PropertyMetadata(Rect.Empty, OnCroppedRegionChanged));
 
         /// <summary>
         /// Identifies the <see cref="Mask"/> dependency property.

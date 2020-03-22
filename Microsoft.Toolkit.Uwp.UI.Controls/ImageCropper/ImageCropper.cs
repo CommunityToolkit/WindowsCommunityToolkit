@@ -5,7 +5,6 @@
 using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -54,7 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _startY;
         private double _endX;
         private double _endY;
-        private Rect _currentCroppedRect = Rect.Empty;
         private Rect _restrictedCropRect = Rect.Empty;
         private Rect _restrictedSelectRect = Rect.Empty;
         private RectangleGeometry _outerGeometry;
@@ -68,6 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(ImageCropper);
         }
+
+        /// <summary>
+        /// Occurs when the CroppedRegion property has changed.
+        /// </summary>
+        public event TypedEventHandler<ImageCropper, ImageCropperCroppedRegionChangedEventArgs> CroppedRegionChanged;
 
         private Rect CanvasRect => new Rect(0, 0, _imageCanvas?.ActualWidth ?? 0, _imageCanvas?.ActualHeight ?? 0);
 
@@ -398,11 +401,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (keepRectangularOutput || CropShape == CropShape.Rectangular)
             {
-                await CropImageAsync(Source, stream, _currentCroppedRect, bitmapFileFormat);
+                await CropImageAsync(Source, stream, CroppedRegion, bitmapFileFormat);
                 return;
             }
 
-            await CropImageWithShapeAsync(Source, stream, _currentCroppedRect, bitmapFileFormat, CropShape);
+            await CropImageWithShapeAsync(Source, stream, CroppedRegion, bitmapFileFormat, CropShape);
         }
 
         /// <summary>
@@ -439,7 +442,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            _currentCroppedRect = rect;
+            CroppedRegion = rect;
             UpdateImageLayout(true);
             return true;
         }

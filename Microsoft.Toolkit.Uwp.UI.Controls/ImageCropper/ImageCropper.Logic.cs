@@ -6,7 +6,6 @@ using System;
 using System.Numerics;
 using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -29,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
                 if (IsValidRect(_restrictedCropRect))
                 {
-                    _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
+                    CroppedRegion = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
                     UpdateImageLayout(animate);
                 }
             }
@@ -45,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (Source != null && IsValidRect(CanvasRect))
             {
-                var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
-                UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
+                var uniformSelectedRect = GetUniformRect(CanvasRect, CroppedRegion.Width / CroppedRegion.Height);
+                UpdateImageLayoutWithViewport(uniformSelectedRect, CroppedRegion, animate);
             }
         }
 
@@ -70,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inverseImageTransform.ScaleX = _inverseImageTransform.ScaleY = 1 / imageScale;
             _inverseImageTransform.TranslateX = -_imageTransform.TranslateX / imageScale;
             _inverseImageTransform.TranslateY = -_imageTransform.TranslateY / imageScale;
-            var selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
+            var selectedRect = _imageTransform.TransformBounds(CroppedRegion);
             _restrictedSelectRect = _imageTransform.TransformBounds(_restrictedCropRect);
             var startPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X, selectedRect.Y));
             var endPoint = GetSafePoint(_restrictedSelectRect, new Point(
@@ -272,7 +271,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var croppedRect = _inverseImageTransform.TransformBounds(
                     new Rect(startPoint, endPoint));
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRegion = croppedRect;
                 var viewportRect = GetUniformRect(CanvasRect, selectedRect.Width / selectedRect.Height);
                 var viewportImgRect = _inverseImageTransform.TransformBounds(selectedRect);
                 UpdateImageLayoutWithViewport(viewportRect, viewportImgRect);
@@ -558,7 +557,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 var croppedRect = _inverseImageTransform.TransformBounds(uniformSelectedRect);
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRegion = croppedRect;
                 UpdateImageLayout(animate);
             }
         }

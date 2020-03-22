@@ -7,7 +7,6 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -104,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRegion = croppedRect;
             }
 
             UpdateImageLayout(true);
@@ -117,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRegion = croppedRect;
             }
 
             UpdateImageLayout(true);
@@ -161,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             selectedRect.Y += offsetY;
             var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
             croppedRect.Intersect(_restrictedCropRect);
-            _currentCroppedRect = croppedRect;
+            CroppedRegion = croppedRect;
             UpdateImageLayout();
         }
 
