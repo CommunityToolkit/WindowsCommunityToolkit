@@ -19,6 +19,30 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     internal sealed partial class MemoryStream : Stream
     {
         /// <inheritdoc/>
+        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled(cancellationToken);
+            }
+
+            try
+            {
+                CopyTo(destination, bufferSize);
+
+                return Task.CompletedTask;
+            }
+            catch (OperationCanceledException e)
+            {
+                return Task.FromCanceled(e.CancellationToken);
+            }
+            catch (Exception e)
+            {
+                return Task.FromException(e);
+            }
+        }
+
+        /// <inheritdoc/>
         public override void CopyTo(Stream destination, int bufferSize)
         {
             ValidateDisposed();
@@ -31,21 +55,14 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override int Read(Span<byte> buffer)
+        public override Task FlushAsync(CancellationToken cancellationToken)
         {
-            ValidateDisposed();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled(cancellationToken);
+            }
 
-            Span<byte> source = this.memory.Span.Slice(this.position);
-
-            int bytesCopied = Math.Min(source.Length, buffer.Length);
-
-            Span<byte> destination = buffer.Slice(0, bytesCopied);
-
-            source.CopyTo(destination);
-
-            this.position += bytesCopied;
-
-            return bytesCopied;
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
@@ -73,21 +90,6 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void Write(ReadOnlySpan<byte> buffer)
-        {
-            ValidateDisposed();
-            ValidateCanWrite();
-
-            Span<byte> destination = this.memory.Span.Slice(this.position);
-
-            if (!buffer.TryCopyTo(destination))
-            {
-                ThrowArgumentExceptionForEndOfStreamOnWrite();
-            }
-
-            this.position += buffer.Length;
-        }
-
         public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -109,6 +111,40 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             {
                 return new ValueTask(Task.FromException(e));
             }
+        }
+
+        /// <inheritdoc/>
+        public override int Read(Span<byte> buffer)
+        {
+            ValidateDisposed();
+
+            Span<byte> source = this.memory.Span.Slice(this.position);
+
+            int bytesCopied = Math.Min(source.Length, buffer.Length);
+
+            Span<byte> destination = buffer.Slice(0, bytesCopied);
+
+            source.CopyTo(destination);
+
+            this.position += bytesCopied;
+
+            return bytesCopied;
+        }
+
+        /// <inheritdoc/>
+        public override void Write(ReadOnlySpan<byte> buffer)
+        {
+            ValidateDisposed();
+            ValidateCanWrite();
+
+            Span<byte> destination = this.memory.Span.Slice(this.position);
+
+            if (!buffer.TryCopyTo(destination))
+            {
+                ThrowArgumentExceptionForEndOfStreamOnWrite();
+            }
+
+            this.position += buffer.Length;
         }
     }
 }
