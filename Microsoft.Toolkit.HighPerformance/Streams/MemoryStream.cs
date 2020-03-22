@@ -162,50 +162,6 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             }
         }
 
-#if NETSTANDARD2_1
-        /// <inheritdoc/>
-        public override int Read(Span<byte> buffer)
-        {
-            ValidateDisposed();
-
-            Span<byte> source = this.memory.Span.Slice(this.position);
-
-            int bytesCopied = Math.Min(source.Length, buffer.Length);
-
-            Span<byte> destination = buffer.Slice(0, bytesCopied);
-
-            source.CopyTo(destination);
-
-            this.position += bytesCopied;
-
-            return bytesCopied;
-        }
-
-        /// <inheritdoc/>
-        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return new ValueTask<int>(Task.FromCanceled<int>(cancellationToken));
-            }
-
-            try
-            {
-                int result = Read(buffer.Span);
-
-                return new ValueTask<int>(result);
-            }
-            catch (OperationCanceledException e)
-            {
-                return new ValueTask<int>(Task.FromCanceled<int>(e.CancellationToken));
-            }
-            catch (Exception e)
-            {
-                return new ValueTask<int>(Task.FromException<int>(e));
-            }
-        }
-#endif
-
         /// <inheritdoc/>
         public override int ReadByte()
         {
@@ -287,47 +243,6 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
                 return Task.FromException(e);
             }
         }
-
-#if NETSTANDARD2_1
-        /// <inheritdoc/>
-        public override void Write(ReadOnlySpan<byte> buffer)
-        {
-            ValidateDisposed();
-            ValidateCanWrite();
-
-            Span<byte> destination = this.memory.Span.Slice(this.position);
-
-            if (!buffer.TryCopyTo(destination))
-            {
-                ThrowArgumentExceptionForEndOfStreamOnWrite();
-            }
-
-            this.position += buffer.Length;
-        }
-
-        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return new ValueTask(Task.FromCanceled(cancellationToken));
-            }
-
-            try
-            {
-                this.Write(buffer.Span);
-
-                return default;
-            }
-            catch (OperationCanceledException e)
-            {
-                return new ValueTask(Task.FromCanceled(e.CancellationToken));
-            }
-            catch (Exception e)
-            {
-                return new ValueTask(Task.FromException(e));
-            }
-        }
-#endif
 
         /// <inheritdoc/>
         public override void WriteByte(byte value)
