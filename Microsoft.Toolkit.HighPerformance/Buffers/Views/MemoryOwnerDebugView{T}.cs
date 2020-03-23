@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Views
         /// <param name="memoryOwner">The input <see cref="MemoryOwner{T}"/> instance with the items to display.</param>
         public MemoryOwnerDebugView(MemoryOwner<T>? memoryOwner)
         {
-            this.Items = memoryOwner?.TryGetItems();
+            this.Items = memoryOwner?.Span.ToArray();
         }
 
         /// <summary>

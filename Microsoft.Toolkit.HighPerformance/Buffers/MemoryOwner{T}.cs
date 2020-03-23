@@ -252,16 +252,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
-        /// Tries to get a <typeparamref name="T"/> array to display in the debug proxy type.
-        /// </summary>
-        /// <returns>A <typeparamref name="T"/> array, if the current instance was not disposed.</returns>
-        [Pure]
-        internal T[]? TryGetItems()
-        {
-            return this.array?.AsSpan(this.start, this.length).ToArray();
-        }
-
-        /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> when <see cref="array"/> is <see langword="null"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
