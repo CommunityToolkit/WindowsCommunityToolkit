@@ -3,8 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.IO;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Buffers
@@ -83,6 +85,35 @@ namespace UnitTests.HighPerformance.Buffers
             writer.Dispose();
             writer.Dispose();
             writer.Dispose();
+        }
+
+        [TestCategory("ArrayPoolBufferWriterOfT")]
+        [TestMethod]
+        public void Test_ArrayPoolBufferWriterOfT_AsStream()
+        {
+            var writer = new ArrayPoolBufferWriter<byte>();
+
+            Span<byte> data = Guid.NewGuid().ToByteArray();
+
+            data.CopyTo(writer.GetSpan(data.Length));
+
+            writer.Advance(data.Length);
+
+            Assert.AreEqual(writer.WrittenCount, data.Length);
+
+            Stream stream = writer.AsStream();
+
+            Assert.AreEqual(stream.Length, data.Length);
+
+            byte[] result = new byte[16];
+
+            stream.Read(result, 0, result.Length);
+
+            Assert.IsTrue(data.SequenceEqual(result));
+
+            stream.Dispose();
+
+            Assert.ThrowsException<ObjectDisposedException>(() => writer.Capacity);
         }
     }
 }

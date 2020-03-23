@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -28,7 +29,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// </remarks>
     [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
-    public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>, IDisposable
+    public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>, IMemoryOwner<T>
     {
         /// <summary>
         /// The default buffer size to use to expand empty arrays.
@@ -81,6 +82,22 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Finalizes an instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
         ~ArrayPoolBufferWriter() => this.Dispose();
+
+        /// <inheritdoc/>
+        Memory<T> IMemoryOwner<T>.Memory
+        {
+            /* This property is explicitly implemented so that it's hidden
+             * under normal usage, as the name could be confusing when
+             * displayed besides WrittenMemory and GetMemory().
+             * The IMemoryOwner<T> interface is implemented primarily
+             * so that the AsStream() extension can be used on this type,
+             * allowing users to first create a ArrayPoolBufferWriter<byte>
+             * instance to write data to, then get a stream through the
+             * extension and let it take care of returning the underlying
+             * buffer to the shared pool when it's no longer necessary.
+             * Inlining is not needed here since this will always be a callvirt. */
+            get => MemoryMarshal.AsMemory(WrittenMemory);
+        }
 
         /// <summary>
         /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlyMemory{T}"/>.
