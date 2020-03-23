@@ -16,8 +16,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public abstract class BaseObjectStorageHelper : IObjectStorageHelper
     {
-        private JsonSerializer serializer = new JsonSerializer();
-
         /// <summary>
         /// Gets or sets the settings container.
         /// </summary>
@@ -67,14 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The T object</returns>
         public T Read<T>(string key, T @default = default(T))
         {
-            object value = null;
-
-            if (!Settings.Values.TryGetValue(key, out value))
-            {
-                return @default;
-            }
-
-            if (value == null)
+            if (!Settings.Values.TryGetValue(key, out var value) || value == null)
             {
                 return @default;
             }

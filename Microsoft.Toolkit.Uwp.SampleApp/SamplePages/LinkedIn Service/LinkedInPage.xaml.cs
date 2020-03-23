@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 CallbackUri = CallbackUri.Text
             };
 
-            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
+            LinkedInService.Instance.Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
 
             var loggedIn = await LinkedInService.Instance.LoginAsync();
 
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            var response = await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
+            await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
 
             var message = new MessageDialog("Share sent to LinkedIn");
             await message.ShowAsync();

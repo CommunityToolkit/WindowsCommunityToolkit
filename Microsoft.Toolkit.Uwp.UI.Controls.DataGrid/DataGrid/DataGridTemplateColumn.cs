@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="uneditedValue">The previous, unedited value in the cell being edited.</param>
         protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
         {
-            editingElement = GenerateEditingElement(null, null);
+            _ = GenerateEditingElement(null, null);
         }
 
         /// <summary>
