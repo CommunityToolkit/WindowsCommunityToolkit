@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// </remarks>
     [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
-    public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>
+    public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>, IDisposable
     {
         /// <summary>
         /// The default buffer size to use to expand empty arrays.
@@ -76,6 +76,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             this.array = ArrayPool<T>.Shared.Rent(initialCapacity);
             this.index = 0;
         }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
+        /// </summary>
+        ~ArrayPoolBufferWriter() => this.Dispose();
 
         /// <summary>
         /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlyMemory{T}"/>.
@@ -248,6 +253,23 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                 ArrayPool<T>.Shared.Resize(ref this.array, minimumSize);
             }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            T[]? array = this.array;
+
+            if (array is null)
+            {
+                return;
+            }
+
+            GC.SuppressFinalize(this);
+
+            this.array = null;
+
+            ArrayPool<T>.Shared.Return(array);
         }
 
         /// <inheritdoc/>
