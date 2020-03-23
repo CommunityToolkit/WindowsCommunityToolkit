@@ -14,7 +14,7 @@ namespace UnitTests.HighPerformance.Extensions
     {
         [TestCategory("IMemoryOwnerExtensions")]
         [TestMethod]
-        public void Test_IMemoryOwnerExtensions_EmptyMemoryStream()
+        public void Test_IMemoryOwnerExtensions_EmptyIMemoryOwnerStream()
         {
             MemoryOwner<byte> buffer = MemoryOwner<byte>.Empty;
 
@@ -27,7 +27,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("IMemoryOwnerExtensions")]
         [TestMethod]
-        public void Test_MemoryExtensions_MemoryStream()
+        public void Test_MemoryExtensions_IMemoryOwnerStream()
         {
             MemoryOwner<byte> buffer = MemoryOwner<byte>.Allocate(1024);
 
