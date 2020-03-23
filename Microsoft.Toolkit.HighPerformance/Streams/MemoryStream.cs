@@ -16,7 +16,14 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping a <see cref="Memory{T}"/> or <see cref="ReadOnlyMemory{T}"/> instance.
     /// </summary>
-    internal sealed partial class MemoryStream : Stream
+    /// <remarks>
+    /// This type is not marked as <see langword="sealed"/> so that it can be inherited by
+    /// <see cref="IMemoryOwnerStream"/>, which adds the <see cref="IDisposable"/> support for
+    /// the wrapped buffer. We're not worried about the performance penalty here caused by the JIT
+    /// not being able to resolve the <see langword="callvirt"/> instruction, as this type is
+    /// only exposed as a <see cref="Stream"/> anyway, so the generated code would be the same.
+    /// </remarks>
+    internal partial class MemoryStream : Stream
     {
         /// <summary>
         /// Indicates whether <see cref="memory"/> was actually a <see cref="ReadOnlyMemory{T}"/> instance.

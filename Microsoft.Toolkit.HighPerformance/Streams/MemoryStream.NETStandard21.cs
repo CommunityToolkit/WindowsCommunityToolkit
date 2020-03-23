@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping a <see cref="Memory{T}"/> or <see cref="ReadOnlyMemory{T}"/> instance.
     /// </summary>
-    internal sealed partial class MemoryStream : Stream
+    internal partial class MemoryStream : Stream
     {
         /// <inheritdoc/>
         public override void CopyTo(Stream destination, int bufferSize)

@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping a <see cref="System.Memory{T}"/> or <see cref="System.ReadOnlyMemory{T}"/> instance.
     /// </summary>
-    internal sealed partial class MemoryStream : Stream
+    internal partial class MemoryStream : Stream
     {
         /// <summary>
         /// Validates the <see cref="Stream.Position"/> argument.
