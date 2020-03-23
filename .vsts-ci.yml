@@ -19,7 +19,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: 'runtime'
-      version: '3.0.x'
+      version: '2.2.0'
 
   - task: nventiveCanaryUpdater@5
     condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
@@ -34,11 +34,6 @@ jobs:
       packageAuthor: 'nventive'
       summaryFile: '$(Build.ArtifactStagingDirectory)/Canary.md'
       resultFile: '$(Build.ArtifactStagingDirectory)/update_result.json'
-  
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'runtime'
-      version: '2.2.0'
 
   - task: BatchScript@1
     inputs:
