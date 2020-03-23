@@ -275,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             if (this.OwningGrid.UsesStarSizing && !this.OwningGrid.AutoSizingColumns)
             {
                 double adjustment = this.OwningGrid.CellsWidth - totalDisplayWidth;
-                totalDisplayWidth += adjustment - this.OwningGrid.AdjustColumnWidths(0, adjustment, false);
+                this.OwningGrid.AdjustColumnWidths(0, adjustment, false);
 
                 // Since we didn't know the final widths of the columns until we resized,
                 // we waited until now to measure each cell

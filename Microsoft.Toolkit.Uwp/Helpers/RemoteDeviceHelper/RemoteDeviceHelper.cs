@@ -51,33 +51,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Initiate Enumeration with specific RemoteSystemStatusType
-        /// </summary>
-        private void GenerateSystemsByFilters(RemoteSystemStatusType remoteSystemStatusType, RemoteSystemAuthorizationKind remoteSystemAuthorizationKind, RemoteSystemDiscoveryType remoteSystemDiscoveryType)
-        {
-            var remoteSystemStatusTypeFilter = new RemoteSystemStatusTypeFilter(remoteSystemStatusType);
-            var remoteSystemDiscoveryTypeFilter = new RemoteSystemDiscoveryTypeFilter(remoteSystemDiscoveryType);
-            var remoteSystemAuthorizationKindFilter = new RemoteSystemAuthorizationKindFilter(remoteSystemAuthorizationKind);
-            var filters = new List<IRemoteSystemFilter>();
-            if (remoteSystemStatusTypeFilter != null)
-            {
-                filters.Add(remoteSystemStatusTypeFilter);
-            }
-
-            if (remoteSystemDiscoveryTypeFilter != null)
-            {
-                filters.Add(remoteSystemDiscoveryTypeFilter);
-            }
-
-            if (remoteSystemAuthorizationKindFilter != null)
-            {
-                filters.Add(remoteSystemAuthorizationKindFilter);
-            }
-
-            GenerateSystemsWithFilterAsync(filters);
-        }
-
-        /// <summary>
         /// Initiate Enumeration with specific RemoteSysemKind with Filters
         /// </summary>
         private async void GenerateSystemsWithFilterAsync(List<IRemoteSystemFilter> filter)

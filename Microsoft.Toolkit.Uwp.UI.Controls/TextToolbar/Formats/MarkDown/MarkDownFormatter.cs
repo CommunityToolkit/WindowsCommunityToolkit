@@ -440,8 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             get
             {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out currentvalue);
+                Model.Editor.Document.GetText(TextGetOptions.UseCrlf, out var currentvalue);
                 return currentvalue.Replace('\n', '\r'); // Converts CRLF into double Return for Markdown new line.
             }
         }

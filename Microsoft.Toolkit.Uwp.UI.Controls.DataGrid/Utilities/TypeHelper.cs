@@ -176,8 +176,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             List<string> propertyNames = SplitPropertyPath(propertyPath);
             for (int i = 0; i < propertyNames.Count; i++)
             {
-                object[] index = null;
-                propertyInfo = propertyType.GetPropertyOrIndexer(propertyNames[i], out index);
+                propertyInfo = propertyType.GetPropertyOrIndexer(propertyNames[i], out var index);
                 if (propertyInfo == null)
                 {
                     item = null;
@@ -272,9 +271,8 @@ namespace Microsoft.Toolkit.Uwp.Utilities
                 return null;
             }
 
-            PropertyInfo indexer = null;
-            string stringIndex = propertyPath.Substring(1, propertyPath.Length - 2);
-            indexer = FindIndexerInMembers(type.GetDefaultMembers(), stringIndex, out index);
+            var stringIndex = propertyPath.Substring(1, propertyPath.Length - 2);
+            var indexer = FindIndexerInMembers(type.GetDefaultMembers(), stringIndex, out index);
             if (indexer != null)
             {
                 // We found the indexer, so return it.

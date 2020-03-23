@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            string finalvalue = string.Empty;
+            string finalvalue;
             switch ((string)value)
             {
                 case "Desktop":

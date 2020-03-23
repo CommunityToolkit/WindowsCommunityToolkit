@@ -428,10 +428,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         /// </summary>
         /// <param name="index">index to search for</param>
         /// <returns>the value at the given index or the default value if index is not in the table</returns>
-        public T GetValueAt(int index)
-        {
-            return GetValueAt(index, out bool found);
-        }
+        public T GetValueAt(int index) => GetValueAt(index, out _);
 
         /// <summary>
         /// Returns the value at a given index or the default value if the index is not in the table
@@ -697,7 +694,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             }
             else
             {
-                int lowerRangeIndex = startRangeIndex.HasValue ? startRangeIndex.Value : this.FindRangeIndex(startIndex);
+                int lowerRangeIndex = startRangeIndex ?? this.FindRangeIndex(startIndex);
                 Range<T> lowerRange = (lowerRangeIndex < 0) ? null : _list[lowerRangeIndex];
                 if (lowerRange == null)
                 {
@@ -770,7 +767,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             // Do a binary search for the index
             int front = 0;
             int end = _list.Count - 1;
-            Range<T> range = null;
+            Range<T> range;
             while (end > front)
             {
                 int median = (front + end) / 2;

@@ -473,7 +473,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
         private string ToExpressionStringInternal()
         {
-            string ret = string.Empty;
+            string ret;
 
             // Do a recursive depth-first traversal of the node tree to print out the full expression string
             switch (GetOperationKind())

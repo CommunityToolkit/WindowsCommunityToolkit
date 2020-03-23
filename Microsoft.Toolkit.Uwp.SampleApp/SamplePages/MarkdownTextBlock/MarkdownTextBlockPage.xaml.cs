@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
         {
-            if (!Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            if (!Uri.IsWellFormedUriString(e.Link, UriKind.Absolute))
             {
                 await new MessageDialog("Masked relative Images needs to be manually handled.").ShowAsync();
             }
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            if (!Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            if (!Uri.IsWellFormedUriString(e.Link, UriKind.Absolute))
             {
                 await new MessageDialog("Masked relative links needs to be manually handled.").ShowAsync();
             }

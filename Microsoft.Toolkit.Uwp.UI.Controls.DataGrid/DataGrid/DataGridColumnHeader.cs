@@ -711,7 +711,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     {
                         // Completed a click or tap without dragging, so raise the DataGrid.Sorting event.
                         InvokeProcessSort();
-                        handled = true;
                         break;
                     }
 
@@ -896,8 +895,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         {
             Debug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
 
-            double scrollAmount = 0;
-            DataGridColumn targetColumn = GetReorderingTargetColumn(pointerPositionHeaders, false /*scroll*/, out scrollAmount);
+            DataGridColumn targetColumn = GetReorderingTargetColumn(pointerPositionHeaders, false /*scroll*/, out _);
             if (targetColumn != null)
             {
                 return targetColumn.DisplayIndex > this.OwningColumn.DisplayIndex ? targetColumn.DisplayIndex - 1 : targetColumn.DisplayIndex;
@@ -1008,8 +1006,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 this.OwningGrid.OnColumnHeaderDragDelta(dragDeltaEventArgs);
 
                 // Find header we're hovering over
-                double scrollAmount = 0;
-                DataGridColumn targetColumn = GetReorderingTargetColumn(pointerPositionHeaders, !this.OwningColumn.IsFrozen /*scroll*/, out scrollAmount);
+                DataGridColumn targetColumn = GetReorderingTargetColumn(pointerPositionHeaders, !this.OwningColumn.IsFrozen /*scroll*/, out var scrollAmount);
 
                 this.OwningGrid.ColumnHeaders.DragIndicatorOffset = pointerPosition.X - interactionInfo.DragStart.Value.X + scrollAmount;
                 this.OwningGrid.ColumnHeaders.InvalidateArrange();

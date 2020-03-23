@@ -360,12 +360,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             if (this.OwningGrid.UsesStarSizing && !this.OwningGrid.AutoSizingColumns)
             {
                 double adjustment = double.IsPositiveInfinity(availableSize.Width) ? this.OwningGrid.CellsWidth : availableSize.Width - totalDisplayWidth;
-                totalDisplayWidth += adjustment - this.OwningGrid.AdjustColumnWidths(0, adjustment, false);
+                this.OwningGrid.AdjustColumnWidths(0, adjustment, false);
 
                 // Since we didn't know the final widths of the columns until we resized,
                 // we waited until now to measure each header
                 double leftEdge = 0;
-                foreach (DataGridColumn column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
+                foreach (var column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
                 {
                     column.ComputeLayoutRoundedWidth(leftEdge);
                     column.HeaderCell.Measure(new Size(column.LayoutRoundedWidth, double.PositiveInfinity));

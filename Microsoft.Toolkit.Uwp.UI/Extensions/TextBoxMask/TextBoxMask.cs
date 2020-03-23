@@ -261,7 +261,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)
         {
-            var mask = textbox.GetValue(MaskProperty) as string;
             var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
             var escapedChars = textbox.GetValue(EscapedCharacterIndicesProperty) as List<int>;
 

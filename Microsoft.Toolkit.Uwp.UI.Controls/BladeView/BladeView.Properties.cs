@@ -69,7 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var bladeView = (BladeView)dependencyObject;
-            var bladeScrollViewer = bladeView.GetScrollViewer();
 
             if (bladeView.BladeMode == BladeMode.Fullscreen)
             {

@@ -72,9 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 hyperlink.Click -= OnHyperlinkClicked;
 
-                ICommand command = args.NewValue as ICommand;
-
-                if (command != null)
+                if (args.NewValue is ICommand)
                 {
                     hyperlink.Click += OnHyperlinkClicked;
                 }
@@ -83,10 +81,13 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static void OnHyperlinkClicked(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
         {
-            ICommand command = GetCommand(sender);
-            object parameter = GetCommandParameter(sender);
+            var command = GetCommand(sender);
+            var parameter = GetCommandParameter(sender);
 
-            command?.Execute(parameter);
+            if (command?.CanExecute(parameter) == true)
+            {
+                command.Execute(parameter);
+            }
         }
     }
 }

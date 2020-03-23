@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async Task LoadDataAsync()
         {
             var source = new PhotosDataSource();
-            _photoItems = await new PhotosDataSource().GetItemsAsync(true);
+            _photoItems = await source.GetItemsAsync(true);
         }
 
         private async void PreCache_Tapped(object sender, RoutedEventArgs e)

@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var validationType = (ValidationType)textbox.GetValue(ValidationTypeProperty);
             string regex;
-            bool regexMatch = false;
+            bool regexMatch;
             switch (validationType)
             {
                 default:

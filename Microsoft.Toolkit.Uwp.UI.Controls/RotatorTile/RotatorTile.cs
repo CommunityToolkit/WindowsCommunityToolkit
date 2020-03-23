@@ -169,7 +169,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void Timer_Tick(object sender, object e)
         {
-            var item = GetItemAt(_currentIndex + 1);
             _timer.Interval = GetTileDuration();
             UpdateNextItem();
         }
@@ -323,7 +322,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (ItemsSource is IEnumerable)
                 {
-                    var items = ItemsSource as IEnumerable;
                     var ienum = ((IEnumerable)ItemsSource).GetEnumerator();
                     int count = 0;
                     while (ienum.MoveNext())
@@ -485,7 +483,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                int endIndex = e.NewStartingIndex + (int)e.NewItems.Size;
                 if (e.NewItems?.Size > 0)
                 {
                     if (_currentIndex < 0)
