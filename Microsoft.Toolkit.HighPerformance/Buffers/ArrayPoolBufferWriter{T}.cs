@@ -4,8 +4,11 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
 #nullable enable
@@ -23,6 +26,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// the arrays in use are rented from the shared <see cref="ArrayPool{T}"/> instance,
     /// and that <see cref="ArrayPoolBufferWriter{T}"/> is also available on .NET Standard 2.0.
     /// </remarks>
+    [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
+    [DebuggerDisplay("{ToString(),raw}")]
     public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>
     {
         /// <summary>
@@ -243,6 +248,21 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                 ArrayPool<T>.Shared.Resize(ref this.array, minimumSize);
             }
+        }
+
+        /// <inheritdoc/>
+        [Pure]
+        public override string ToString()
+        {
+            // See comments in MemoryOwner<T> about this
+            if (typeof(T) == typeof(char) &&
+                this.array is char[] chars)
+            {
+                return new string(chars, 0, this.index);
+            }
+
+            // Same representation used in Span<T>
+            return $"Microsoft.Toolkit.HighPerformance.Buffers.ArrayPoolBufferWriter<{typeof(T)}>[{this.index}]";
         }
 
         /// <summary>
