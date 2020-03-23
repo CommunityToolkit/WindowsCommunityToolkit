@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Extensions
+namespace UnitTests.HighPerformance.Streams
 {
     [TestClass]
     public class Test_MemoryStream
