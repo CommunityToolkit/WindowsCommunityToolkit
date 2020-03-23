@@ -143,6 +143,42 @@ namespace UnitTests.HighPerformance.Extensions
             await Assert.ThrowsExceptionAsync<ObjectDisposedException>(() => stream.WriteAsync(data, 0, data.Length));
         }
 
+        [TestCategory("MemoryStream")]
+        [TestMethod]
+        public void Test_MemoryStream_ReadWriteByte()
+        {
+            Stream stream = new byte[4].AsMemory().AsStream();
+
+            ReadOnlySpan<byte> data = stackalloc byte[] { 1, 128, 255, 32};
+
+            foreach (var item in data.Enumerate())
+            {
+                Assert.AreEqual(stream.Position, item.Index);
+
+                stream.WriteByte(item.Value);
+            }
+
+            Assert.AreEqual(stream.Position, data.Length);
+
+            stream.Position = 0;
+
+            Span<byte> result = stackalloc byte[4];
+
+            foreach (ref byte value in result)
+            {
+                value = checked((byte)stream.ReadByte());
+            }
+
+            Assert.AreEqual(stream.Position, data.Length);
+            Assert.IsTrue(data.SequenceEqual(result));
+
+            Assert.ThrowsException<InvalidOperationException>(() => stream.WriteByte(128));
+
+            int exitCode = stream.ReadByte();
+
+            Assert.AreEqual(exitCode, -1);
+        }
+
 #if NETCOREAPP2_1
         [TestCategory("MemoryStream")]
         [TestMethod]
