@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>Microsoft.Toolkit.Uwp.Input.GazeInteraction</id>
+    <id>Uno.Microsoft.Toolkit.Uwp.Input.GazeInteraction</id>
     <version>$version$</version>
     <title>Windows Community Toolkit Eye Gaze Library</title>
     <authors>Microsoft.Toolkit</authors>
