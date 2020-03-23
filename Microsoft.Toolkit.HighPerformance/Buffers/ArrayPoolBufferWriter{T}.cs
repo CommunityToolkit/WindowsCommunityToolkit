@@ -189,16 +189,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public void Advance(int count)
         {
-            if (count < 0)
-            {
-                ThrowArgumentOutOfRangeExceptionForNegativeCount();
-            }
-
             T[]? array = this.array;
 
             if (array is null)
             {
                 ThrowObjectDisposedException();
+            }
+
+            if (count < 0)
+            {
+                ThrowArgumentOutOfRangeExceptionForNegativeCount();
             }
 
             if (this.index > array!.Length - count)
