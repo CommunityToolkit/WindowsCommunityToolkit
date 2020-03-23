@@ -18,10 +18,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class MemoryExtensions
     {
         /// <summary>
-        /// Returns a <see cref="Stream"/> wrapping the contents of the given <see cref="Memory{T}"/> instance.
+        /// Returns a <see cref="Stream"/> wrapping the contents of the given <see cref="Memory{T}"/> of <see cref="byte"/> instance.
         /// </summary>
-        /// <param name="memory">The input <see cref="Memory{T}"/> instance.</param>
+        /// <param name="memory">The input <see cref="Memory{T}"/> of <see cref="byte"/> instance.</param>
         /// <returns>A <see cref="Stream"/> wrapping the data within <paramref name="memory"/>.</returns>
+        /// <remarks>
+        /// Since this method only receives a <see cref="Memory{T}"/> instance, which does not track
+        /// the lifetime of its underlying buffer, it is responsability of the caller to manage that.
+        /// In particular, the caller must ensure that the target buffer is not disposed as soon
+        /// as the returned <see cref="Stream"/> is in use, to avoid unexpected issues.
+        /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this Memory<byte> memory)

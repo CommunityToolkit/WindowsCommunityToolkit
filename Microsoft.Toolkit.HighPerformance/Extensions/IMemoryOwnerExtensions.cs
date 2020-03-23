@@ -22,6 +22,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="memory">The input <see cref="IMemoryOwner{T}"/> of <see cref="byte"/> instance.</param>
         /// <returns>A <see cref="Stream"/> wrapping the data within <paramref name="memory"/>.</returns>
+        /// <remarks>
+        /// The caller does not need to track the lifetime of the input <see cref="IMemoryOwner{T}"/> of <see cref="byte"/>
+        /// instance, as the returned <see cref="Stream"/> will take care of disposing that buffer when it is closed.
+        /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this IMemoryOwner<byte> memory)
