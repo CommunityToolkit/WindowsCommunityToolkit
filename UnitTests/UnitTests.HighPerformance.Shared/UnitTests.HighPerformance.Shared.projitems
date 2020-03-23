@@ -13,6 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayPoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlyMemoryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_MemoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
@@ -27,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.In.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.Ref.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_BitHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Box{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_ByReference{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_ReadOnlyByReference{T}.cs" />
