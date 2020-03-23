@@ -18,8 +18,6 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_Basic()
         {
-            var grid = new UniformGrid();
-
             var testref = new TakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { false,  true, false,  true, false },
@@ -50,8 +48,6 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumn()
         {
-            var grid = new UniformGrid();
-
             var testref = new TakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { true,  false, false,  true, false },
@@ -82,8 +78,6 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBoundMinusOne()
         {
-            var grid = new UniformGrid();
-
             var testref = new TakenSpotsReferenceHolder(new bool[3, 3]
                 {
                     { false, false, false },
@@ -112,8 +106,6 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBound()
         {
-            var grid = new UniformGrid();
-
             var testref = new TakenSpotsReferenceHolder(new bool[3, 3]
                 {
                     { false, false, false },
@@ -142,8 +134,6 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBound_TopDown()
         {
-            var grid = new UniformGrid();
-
             var testref = new TakenSpotsReferenceHolder(new bool[3, 3]
                 {
                     { false, false, false },
@@ -172,8 +162,6 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_VerticalOrientation()
         {
-            var grid = new UniformGrid();
-
             var testref = new TakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { false, false, false,  true, false },
