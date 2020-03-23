@@ -234,11 +234,13 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             ValidateDisposed();
             ValidateBuffer(buffer, offset, count);
 
-            Span<byte> source = this.memory.Span.Slice(this.position);
+            int
+                bytesAvailable = this.memory.Length - this.position,
+                bytesCopied = Math.Min(bytesAvailable, count);
 
-            int bytesCopied = Math.Min(source.Length, count);
-
-            Span<byte> destination = buffer.AsSpan(offset, bytesCopied);
+            Span<byte>
+                source = this.memory.Span.Slice(this.position, bytesCopied),
+                destination = buffer.AsSpan(offset, bytesCopied);
 
             source.CopyTo(destination);
 
