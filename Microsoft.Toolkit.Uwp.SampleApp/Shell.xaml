@@ -33,7 +33,7 @@
         </DataTemplate>
     </Page.Resources>
   <banner:BannerControl
-      LinkToUnoPlatformApp="https://github.com/nventive/Uno.WindowsCommunityToolkit/pull/31"
+      LinkToUnoPlatformApp="https://github.com/unoplatform/Uno.WindowsCommunityToolkit"
       LinkToOriginalApp="https://github.com/windows-toolkit/WindowsCommunityToolkit"
       AppName="Windows Community Toolkit"
       AppAuthor="Microsoft">
