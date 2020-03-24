@@ -82,11 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     continue;
                 }
 
-                InMemoryStorageItem<T> tempItem = null;
-
-                _inMemoryStorage.TryRemove(key, out tempItem);
-
-                tempItem = null;
+                _inMemoryStorage.TryRemove(key, out _);
             }
         }
 
@@ -119,9 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>Valid item if not out of date or return null if out of date or item does not exist</returns>
         public InMemoryStorageItem<T> GetItem(string id, TimeSpan duration)
         {
-            InMemoryStorageItem<T> tempItem = null;
-
-            if (!_inMemoryStorage.TryGetValue(id, out tempItem))
+            if (!_inMemoryStorage.TryGetValue(id, out var tempItem))
             {
                 return null;
             }
@@ -133,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return tempItem;
             }
 
-            _inMemoryStorage.TryRemove(id, out tempItem);
+            _inMemoryStorage.TryRemove(id, out _);
 
             return null;
         }

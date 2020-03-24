@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         internal void PopulateToastElement(Element_Toast toast)
         {
-            string hintPeople = null;
+            string hintPeople;
 
             if (RemoteId != null)
             {

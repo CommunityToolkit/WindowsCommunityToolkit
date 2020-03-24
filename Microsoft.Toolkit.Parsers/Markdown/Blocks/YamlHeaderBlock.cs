@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
@@ -108,8 +107,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             var result = new YamlHeaderBlock();
-            var keys = new List<string>();
-            var values = new List<string>();
             result.Children = new Dictionary<string, string>();
             foreach (var item in elements)
             {

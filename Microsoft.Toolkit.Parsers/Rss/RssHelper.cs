@@ -311,9 +311,9 @@ namespace Microsoft.Toolkit.Parsers.Rss
 
             tz = tz.ToUpper().Trim();
 
-            if (timeZones.ContainsKey(tz))
+            if (TimeZones.ContainsKey(tz))
             {
-                return timeZones[tz].First();
+                return TimeZones[tz].First();
             }
 
             return null;
@@ -337,8 +337,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
                 if (matchHeight.Success)
                 {
                     var heightValue = matchHeight.Groups["height"].Value;
-                    int size = 0;
-                    if (int.TryParse(heightValue, out size) && size < 10)
+                    if (int.TryParse(heightValue, out var heightIntValue) && heightIntValue < 10)
                     {
                         include = false;
                     }
@@ -348,8 +347,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
                 if (matchWidth.Success)
                 {
                     var widthValue = matchWidth.Groups["width"].Value;
-                    int size = 0;
-                    if (int.TryParse(widthValue, out size) && size < 10)
+                    if (int.TryParse(widthValue, out var widthIntValue) && widthIntValue < 10)
                     {
                         include = false;
                     }
@@ -376,7 +374,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// <summary>
         /// Dictionary of timezones.
         /// </summary>
-        private static Dictionary<string, string[]> timeZones = new Dictionary<string, string[]>
+        private static readonly Dictionary<string, string[]> TimeZones = new Dictionary<string, string[]>
         {
             { "ACDT", new[] { "-1030", "Australian Central Daylight" } },
             { "ACST", new[] { "-0930", "Australian Central Standard" } },
