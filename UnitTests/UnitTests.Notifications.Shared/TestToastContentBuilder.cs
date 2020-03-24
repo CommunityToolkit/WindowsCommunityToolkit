@@ -5,10 +5,7 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnitTests.Notifications
 {
@@ -418,7 +415,7 @@ namespace UnitTests.Notifications
             ToastContentBuilder builder = new ToastContentBuilder();
 
             // Act
-            ToastContentBuilder anotherReference = builder.AddText(testText1)
+            _ = builder.AddText(testText1)
                 .AddText(testText2)
                 .AddText(testText3)
                 .AddText(testText4);
@@ -433,7 +430,7 @@ namespace UnitTests.Notifications
             ToastContentBuilder builder = new ToastContentBuilder();
 
             // Act
-            ToastContentBuilder anotherReference = builder.AddText(testText1, hintMaxLines: 3);
+            _ = builder.AddText(testText1, hintMaxLines: 3);
         }
 
         [TestMethod]

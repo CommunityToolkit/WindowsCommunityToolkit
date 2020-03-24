@@ -95,8 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         {
             get
             {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out var currentvalue);
                 return currentvalue;
             }
         }

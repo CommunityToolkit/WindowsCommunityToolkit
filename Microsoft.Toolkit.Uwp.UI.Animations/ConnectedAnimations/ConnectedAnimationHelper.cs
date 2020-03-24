@@ -50,8 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void Frame_Navigating(object sender, Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
         {
-            object parameter = null;
-
+            object parameter;
             if (_nextParameter != null)
             {
                 parameter = _nextParameter;
