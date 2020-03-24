@@ -15,9 +15,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public class FrameEventArgs : EventArgs
     {
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
         private VideoFrame _videoFrame;
         private VideoFrame _videoFrameCopy;
-        private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         /// <summary>
         /// Gets the video frame.
