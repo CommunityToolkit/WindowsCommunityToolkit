@@ -184,10 +184,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (link is Hyperlink hyperlink)
                 {
+                    hyperlink.Click -= Hyperlink_Click;
                     hyperlink.Click += Hyperlink_Click;
                 }
                 else if (link is Image image)
                 {
+                    image.Tapped -= NewImagelink_Tapped;
                     image.Tapped += NewImagelink_Tapped;
                 }
             }
