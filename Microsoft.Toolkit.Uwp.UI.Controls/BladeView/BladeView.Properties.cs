@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -69,7 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var bladeView = (BladeView)dependencyObject;
-            var bladeScrollViewer = bladeView.GetScrollViewer();
 
             if (bladeView.BladeMode == BladeMode.Fullscreen)
             {
