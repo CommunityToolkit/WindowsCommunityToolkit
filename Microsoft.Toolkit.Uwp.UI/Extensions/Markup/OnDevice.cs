@@ -19,7 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
     ///                xmlns:helpers="using:Microsoft.Toolkit.Uwp.UI.Extensions.Markup" />
     /// </code>
     /// </example>
-    [Bindable]
     public class OnDevice : MarkupExtension
     {
         /// <summary>
