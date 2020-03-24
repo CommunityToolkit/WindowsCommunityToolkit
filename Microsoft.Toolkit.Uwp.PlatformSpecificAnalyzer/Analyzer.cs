@@ -314,9 +314,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
         private static TypePresenceIndicator CheckCollectionForType(Dictionary<string, List<NewMember>> collection, string typeName, ISymbol symbol)
         {
-            List<NewMember> newMembers = null;
-
-            if (!collection.TryGetValue(typeName, out newMembers))
+            if (!collection.TryGetValue(typeName, out var newMembers))
             {
                 return TypePresenceIndicator.NotFound;
             }

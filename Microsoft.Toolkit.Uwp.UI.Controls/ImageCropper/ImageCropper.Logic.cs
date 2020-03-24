@@ -6,7 +6,6 @@ using System;
 using System.Numerics;
 using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -103,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            double radian = 0d, diffPointRadian = 0d, effectiveLength = 0d;
+            double radian = 0d, diffPointRadian = 0d;
             if (KeepAspectRatio)
             {
                 radian = Math.Atan(UsedAspectRatio);
@@ -178,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.UpperLeft:
                     if (KeepAspectRatio)
                     {
-                        effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
+                        var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = -safeChange.X;
@@ -192,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (KeepAspectRatio)
                     {
                         diffPointRadian = -diffPointRadian;
-                        effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
+                        var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = safeChange.X;
@@ -206,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (KeepAspectRatio)
                     {
                         diffPointRadian = -diffPointRadian;
-                        effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
+                        var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = -safeChange.X;
@@ -219,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.LowerRight:
                     if (KeepAspectRatio)
                     {
-                        effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
+                        var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = safeChange.X;
