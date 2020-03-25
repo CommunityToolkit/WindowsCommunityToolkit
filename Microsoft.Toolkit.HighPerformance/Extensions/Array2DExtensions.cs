@@ -109,6 +109,36 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
+
+        /// <summary>
+        /// Counts the number of occurrences of a given value into a target 2D <typeparamref name="T"/> array instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Count<T>(this T[,] array, T value)
+            where T : IEquatable<T>
+        {
+            return ReadOnlySpanExtensions.Count(array.AsSpan(), value);
+        }
+
+        /// <summary>
+        /// Gets a content hash from the input 2D <typeparamref name="T"/> array instance using the Djb2 algorithm.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
+        /// <returns>The Djb2 value for the input 2D <typeparamref name="T"/> array instance.</returns>
+        /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetDjb2HashCode<T>(this T[,] array)
+            where T : notnull
+        {
+            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(array.AsSpan());
+        }
 #endif
     }
 }
