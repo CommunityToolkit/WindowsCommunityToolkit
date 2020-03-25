@@ -179,7 +179,7 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(exitCode, -1);
         }
 
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP3_0
         [TestCategory("MemoryStream")]
         [TestMethod]
         public void Test_MemoryStream_ReadWrite_Span()
