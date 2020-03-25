@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
                 double currentV = 0;
-                void arrange(UIElement child, bool isLast = false)
+                void Arrange(UIElement child, bool isLast = false)
                 {
                     var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
                     if (desiredMeasure.U == 0)
@@ -248,10 +248,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var lastIndex = Children.Count - 1;
                 for (var i = 0; i < lastIndex; i++)
                 {
-                    arrange(Children[i]);
+                    Arrange(Children[i]);
                 }
 
-                arrange(Children[lastIndex], StretchChild == StretchChild.Last);
+                Arrange(Children[lastIndex], StretchChild == StretchChild.Last);
             }
 
             return finalSize;
