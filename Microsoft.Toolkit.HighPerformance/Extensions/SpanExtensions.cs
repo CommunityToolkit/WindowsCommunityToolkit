@@ -110,9 +110,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// Enumerates the items in the input <see cref="Span{T}"/> instance, as pairs of reference/index values.
         /// This extension should be used directly within a <see langword="foreach"/> loop:
         /// <code>
-        /// Span&lt;int&gt; words = new[] { 1, 2, 3, 4, 5, 6, 7 };
+        /// Span&lt;int&gt; numbers = new[] { 1, 2, 3, 4, 5, 6, 7 };
         ///
-        /// foreach (var item in words.Enumerate())
+        /// foreach (var item in numbers.Enumerate())
         /// {
         ///     // Access the index and value of each item here...
         ///     int index = item.Index;
