@@ -7,7 +7,7 @@ using Windows.Foundation;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Provides event data for the CropChanged event.
+    ///为< 请参阅cref = “ ImageCropper.CroppedRegionChanged ” />事件提供事件数据。 
     /// </summary>
     public sealed class ImageCropperCroppedRegionChangedEventArgs
     {
