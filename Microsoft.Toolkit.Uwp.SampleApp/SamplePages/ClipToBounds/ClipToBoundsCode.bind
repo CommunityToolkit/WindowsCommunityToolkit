@@ -12,7 +12,8 @@
         BorderThickness="1"
         Width="148"
         Height="148"
-        extensions:FrameworkElementExtensions.ClipToBounds="@[Clip to Bounds:Bool:True]">
+        extensions:UIElementExtensions.ClipToBounds="@[Clip to Bounds:Bool:True]">
+      <!-- We translate the inner rectangles outside of the bounds of the container. -->
       <Rectangle Fill="Blue" Width="100" Height="100">
         <Rectangle.RenderTransform>
           <TranslateTransform X="-50" Y="-50" />

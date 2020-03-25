@@ -525,8 +525,8 @@
     <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
       <DependentUpon>EyedropperPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\FrameworkElementExtensions.ClipToBounds\FrameworkElementExtensionsClipToBoundsPage.xaml.cs">
-      <DependentUpon>FrameworkElementExtensionsClipToBoundsPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ClipToBounds\ClipToBoundsPage.xaml.cs">
+      <DependentUpon>ClipToBoundsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
@@ -941,10 +941,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="SamplePages\FrameworkElementExtensions.ClipToBounds\FrameworkElementExtensionsClipToBoundsCode.bind">
+    <Content Include="SamplePages\ClipToBounds\ClipToBoundsCode.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Page Include="SamplePages\FrameworkElementExtensions.ClipToBounds\FrameworkElementExtensionsClipToBoundsPage.xaml">
+    <Page Include="SamplePages\ClipToBounds\ClipToBoundsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

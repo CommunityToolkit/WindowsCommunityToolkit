@@ -9,8 +9,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the ClipToBounds extension.
     /// </summary>
-    public sealed partial class FrameworkElementExtensionsClipToBoundsPage : Page
+    public sealed partial class ClipToBoundsPage : Page
     {
-        public FrameworkElementExtensionsClipToBoundsPage() => InitializeComponent();
+        public ClipToBoundsPage() => InitializeComponent();
     }
 }

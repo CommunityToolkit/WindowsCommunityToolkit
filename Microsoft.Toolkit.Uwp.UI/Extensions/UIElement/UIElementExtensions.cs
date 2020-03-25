@@ -15,42 +15,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> that indicates whether or not the contents of the target <see cref="UIElement"/> should always be clipped to their parent's bounds.
         /// </summary>
-        public static readonly DependencyProperty ClipToBoundsProperty = DependencyProperty.RegisterAttached("ClipToBounds", typeof(bool), typeof(UIElementExtensions), new PropertyMetadata(DependencyProperty.UnsetValue, OnClipToBoundsPropertyChanged));
+        public static readonly DependencyProperty ClipToBoundsProperty = DependencyProperty.RegisterAttached(
+            "ClipToBounds",
+            typeof(bool),
+            typeof(UIElementExtensions),
+            new PropertyMetadata(DependencyProperty.UnsetValue, OnClipToBoundsPropertyChanged));
 
         /// <summary>
         /// Gets the value of <see cref="ClipToBoundsProperty"/>
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/> to read the property value from</param>
         /// <returns>The <see cref="bool"/> associated with the <see cref="FrameworkElement"/></returns>.
-        public static bool GetClipToBounds(UIElement element)
-        {
-            return (bool)element.GetValue(ClipToBoundsProperty);
-        }
+        public static bool GetClipToBounds(UIElement element) => (bool)element.GetValue(ClipToBoundsProperty);
 
         /// <summary>
         /// Sets the value of <see cref="ClipToBoundsProperty"/>
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/> to set the property to</param>
         /// <param name="value">The new value of the attached property</param>
-        public static void SetClipToBounds(UIElement element, bool value)
-        {
-            element.SetValue(ClipToBoundsProperty, value);
-        }
+        public static void SetClipToBounds(UIElement element, bool value) => element.SetValue(ClipToBoundsProperty, value);
 
         private static void OnClipToBoundsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var element = d as UIElement;
-
             if (element is null)
             {
                 return;
             }
 
-            bool value = (bool)e.NewValue;
-
+            var clipToBounds = (bool)e.NewValue;
             var visual = ElementCompositionPreview.GetElementVisual(element);
-
-            visual.Clip = value ? visual.Compositor.CreateInsetClip() : null;
+            visual.Clip = clipToBounds ? visual.Compositor.CreateInsetClip() : null;
         }
     }
 }
