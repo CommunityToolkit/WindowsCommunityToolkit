@@ -53,9 +53,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         public ArrayPoolBufferWriter()
         {
-            /* Since we're using pooled arrays, we allocate the buffer with the
+            /* Since we're using pooled arrays, we can rent the buffer with the
              * default size immediately, we don't need to use lazy initialization
-             * here to save unnecessary memory allocations. */
+             * to save unnecessary memory allocations in this case. */
             this.array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize);
             this.index = 0;
         }
