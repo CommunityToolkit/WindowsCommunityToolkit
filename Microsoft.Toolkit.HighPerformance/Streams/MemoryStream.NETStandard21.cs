@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping a <see cref="Memory{T}"/> or <see cref="ReadOnlyMemory{T}"/> instance.
     /// </summary>
-    internal partial class MemoryStream : Stream
+    internal partial class MemoryStream
     {
         /// <inheritdoc/>
         public override void CopyTo(Stream destination, int bufferSize)
@@ -83,13 +83,13 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         {
             ValidateDisposed();
 
-            Span<byte> source = this.memory.Span.Slice(this.position);
+            int
+                bytesAvailable = this.memory.Length - this.position,
+                bytesCopied = Math.Min(bytesAvailable, buffer.Length);
 
-            int bytesCopied = Math.Min(source.Length, buffer.Length);
+            Span<byte> source = this.memory.Span.Slice(this.position, bytesCopied);
 
-            Span<byte> destination = buffer.Slice(0, bytesCopied);
-
-            source.CopyTo(destination);
+            source.CopyTo(buffer);
 
             this.position += bytesCopied;
 

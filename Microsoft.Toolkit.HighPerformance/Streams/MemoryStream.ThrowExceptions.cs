@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping a <see cref="Memory{T}"/> or <see cref="ReadOnlyMemory{T}"/> instance.
     /// </summary>
-    internal partial class MemoryStream : Stream
+    internal partial class MemoryStream
     {
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when setting the <see cref="Stream.Position"/> property.
