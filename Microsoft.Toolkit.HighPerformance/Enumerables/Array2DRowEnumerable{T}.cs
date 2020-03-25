@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NETSTANDARD2_0
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +15,12 @@ using Microsoft.Toolkit.HighPerformance.Extensions;
 namespace Microsoft.Toolkit.HighPerformance.Enumerables
 {
     /// <summary>
-    /// A <see langword="ref"/> <see langword="struct"/> that iterates a column in a given 2D <typeparamref name="T"/> array instance.
+    /// A <see langword="ref"/> <see langword="struct"/> that iterates a row in a given 2D <typeparamref name="T"/> array instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public ref struct Array2DColumnEnumerable<T>
+    public ref struct Array2DRowEnumerable<T>
     {
         /// <summary>
         /// The source 2D <typeparamref name="T"/> array instance.
@@ -26,20 +28,20 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         private readonly T[,] array;
 
         /// <summary>
-        /// The target column to iterate within <see cref="array"/>.
+        /// The target row to iterate within <see cref="array"/>.
         /// </summary>
-        private readonly int column;
+        private readonly int row;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Array2DColumnEnumerable{T}"/> struct.
+        /// Initializes a new instance of the <see cref="Array2DRowEnumerable{T}"/> struct.
         /// </summary>
         /// <param name="array">The source 2D <typeparamref name="T"/> array instance.</param>
-        /// <param name="column">The target column to iterate within <paramref name="array"/>.</param>
+        /// <param name="row">The target row to iterate within <paramref name="array"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Array2DColumnEnumerable(T[,] array, int column)
+        public Array2DRowEnumerable(T[,] array, int row)
         {
             this.array = array;
-            this.column = column;
+            this.row = row;
         }
 
         /// <summary>
@@ -47,12 +49,12 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <returns>An <see cref="Enumerator"/> instance targeting the current 2D <typeparamref name="T"/> array instance.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Enumerator GetEnumerator() => new Enumerator(this.array, this.column);
+        public Enumerator GetEnumerator() => new Enumerator(this.array, this.row);
 
         /// <summary>
-        /// Returns a <typeparamref name="T"/> array with the values in the target column.
+        /// Returns a <typeparamref name="T"/> array with the values in the target row.
         /// </summary>
-        /// <returns>A <typeparamref name="T"/> array with the values in the target column.</returns>
+        /// <returns>A <typeparamref name="T"/> array with the values in the target row.</returns>
         /// <remarks>
         /// This method will allocate a new <typeparamref name="T"/> array, so only
         /// use it if you really need to copy the target items in a new memory location.
@@ -60,18 +62,18 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [Pure]
         public T[] ToArray()
         {
-            if ((uint)column >= (uint)this.array.GetLength(1))
+            if ((uint)row >= (uint)this.array.GetLength(0))
             {
-                ThrowArgumentOutOfRangeExceptionForInvalidColumn();
+                ThrowArgumentOutOfRangeExceptionForInvalidRow();
             }
 
-            int height = this.array.GetLength(0);
+            int width = this.array.GetLength(1);
 
-            T[] array = new T[height];
+            T[] array = new T[width];
 
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < width; i++)
             {
-                array.DangerousGetReferenceAt(i) = this.array.DangerousGetReferenceAt(i, this.column);
+                array.DangerousGetReferenceAt(i) = this.array.DangerousGetReferenceAt(this.row, i);
             }
 
             return array;
@@ -89,37 +91,37 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             private readonly T[,] array;
 
             /// <summary>
-            /// The target column to iterate within <see cref="array"/>.
+            /// The target row to iterate within <see cref="array"/>.
             /// </summary>
-            private readonly int column;
+            private readonly int row;
 
             /// <summary>
-            /// The width of a row in <see cref="array"/>.
+            /// The height of a column in <see cref="array"/>.
             /// </summary>
-            private readonly int width;
+            private readonly int height;
 
             /// <summary>
-            /// The current row.
+            /// The current column.
             /// </summary>
-            private int row;
+            private int column;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="Enumerator"/> struct.
             /// </summary>
             /// <param name="array">The source 2D array instance.</param>
-            /// <param name="column">The target column to iterate within <paramref name="array"/>.</param>
+            /// <param name="row">The target row to iterate within <paramref name="array"/>.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Enumerator(T[,] array, int column)
+            public Enumerator(T[,] array, int row)
             {
-                if ((uint)column >= (uint)array.GetLength(1))
+                if ((uint)row >= (uint)array.GetLength(0))
                 {
-                    ThrowArgumentOutOfRangeExceptionForInvalidColumn();
+                    ThrowArgumentOutOfRangeExceptionForInvalidRow();
                 }
 
                 this.array = array;
-                this.column = column;
-                this.width = array.GetLength(1);
-                this.row = -1;
+                this.row = row;
+                this.height = array.GetLength(0);
+                this.column = -1;
             }
 
             /// <summary>
@@ -129,11 +131,11 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext()
             {
-                int row = this.row + 1;
+                int column = this.column + 1;
 
-                if (row < this.width)
+                if (column < this.height)
                 {
-                    this.row = row;
+                    this.column = column;
 
                     return true;
                 }
@@ -152,12 +154,14 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="column"/> is invalid.
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="row"/> is invalid.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowArgumentOutOfRangeExceptionForInvalidColumn()
+        private static void ThrowArgumentOutOfRangeExceptionForInvalidRow()
         {
-            throw new ArgumentOutOfRangeException(nameof(column), "The target column parameter was not valid");
+            throw new ArgumentOutOfRangeException(nameof(row), "The target row parameter was not valid");
         }
     }
 }
+
+#endif

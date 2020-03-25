@@ -92,16 +92,38 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span<T> GetRow<T>(this T[,] array, int row)
+        public static
+#if NETSTANDARD2_1
+            Span<T>
+#else
+            /* .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
+             * which is necessary to create arbitrary Span<T>-s over a 2D array.
+             * To work around this, we use a custom ref struct enumerator,
+             * which makes the lack of that API completely transparent to the user.
+             * If a user then moves from .NET Standard 2.0 to 2.1, all the previous
+             * features will be perfectly supported, and in addition to that it will
+             * also gain the ability to use the Span<T> value elsewhere.
+             * The only case where this would be a breaking change for a user upgrading
+             * the target framework is when the returned enumerator type is used directly,
+             * but since that's specifically discouraged from the docs, we don't
+             * need to worry about that scenario in particular, as users doing that
+             * would be willingly go against the recommended usage of this API. */
+            Array2DRowEnumerable<T>
+#endif
+            GetRow<T>(this T[,] array, int row)
         {
             if ((uint)row >= (uint)array.GetLength(0))
             {
                 throw new ArgumentOutOfRangeException(nameof(row));
             }
 
+#if NETSTANDARD2_1
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
 
             return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
+#else
+            return new Array2DRowEnumerable<T>(array, row);
+#endif
         }
 
         /// <summary>
