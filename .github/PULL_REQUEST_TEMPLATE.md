@@ -1,4 +1,4 @@
-Fixes #
+## Fixes #
 <!-- Link to relevant issue (for ex: #1234) which will automatically close the issue once the PR is merged -->
 
 ## PR Type
