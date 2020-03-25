@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
 
             try
             {
-                this.Write(buffer.Span);
+                Write(buffer.Span);
 
                 return default;
             }
