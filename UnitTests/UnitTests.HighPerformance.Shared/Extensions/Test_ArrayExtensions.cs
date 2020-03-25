@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Extensions
 {
     [TestClass]
-    public class Test_ArrayExtensions
+    public partial class Test_ArrayExtensions
     {
         [TestCategory("ArrayExtensions")]
         [TestMethod]

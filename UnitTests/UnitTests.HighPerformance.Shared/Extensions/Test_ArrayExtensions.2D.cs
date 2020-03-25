@@ -11,12 +11,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions
 {
-    [TestClass]
-    public class Test_Array2DExtensions
+    public partial class Test_ArrayExtensions
     {
-        [TestCategory("Array2DExtensions")]
+        [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_Array2DExtensions_DangerousGetReference_Int()
+        public void Test_ArrayExtensions_2D_DangerousGetReference_Int()
         {
             int[,] array =
             {
@@ -31,9 +30,9 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
 
-        [TestCategory("Array2DExtensions")]
+        [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_Array2DExtensions_DangerousGetReference_String()
+        public void Test_ArrayExtensions_2D_DangerousGetReference_String()
         {
             string[,] array =
             {
@@ -47,9 +46,9 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
 
-        [TestCategory("Array2DExtensions")]
+        [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_Array2DExtensions_DangerousGetReferenceAt_Zero()
+        public void Test_ArrayExtensions_2D_DangerousGetReferenceAt_Zero()
         {
             int[,] array =
             {
@@ -64,9 +63,9 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
 
-        [TestCategory("Array2DExtensions")]
+        [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_Array2DExtensions_DangerousGetReferenceAt_Index()
+        public void Test_ArrayExtensions_2D_DangerousGetReferenceAt_Index()
         {
             int[,] array =
             {
@@ -82,9 +81,9 @@ namespace UnitTests.HighPerformance.Extensions
         }
 
 #if NETCOREAPP3_0
-        [TestCategory("Array2DExtensions")]
+        [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_Array2DExtensions_AsSpan_Empty()
+        public void Test_ArrayExtensions_2D_AsSpan_Empty()
         {
             int[,] array = new int[0, 0];
 
@@ -94,9 +93,9 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsTrue(span.IsEmpty);
         }
 
-        [TestCategory("Array2DExtensions")]
+        [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_Array2DExtensions_AsSpan_Populated()
+        public void Test_ArrayExtensions_2D_AsSpan_Populated()
         {
             int[,] array =
             {

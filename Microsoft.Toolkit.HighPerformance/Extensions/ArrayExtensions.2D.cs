@@ -12,9 +12,9 @@ using System.Runtime.InteropServices;
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
-    /// Helpers for working with 2D <see cref="Array"/> instances.
+    /// Helpers for working with the <see cref="Array"/> type.
     /// </summary>
-    public static class Array2DExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         /// Returns a reference to the first element within a given 2D <typeparamref name="T"/> array, with no bounds checks.

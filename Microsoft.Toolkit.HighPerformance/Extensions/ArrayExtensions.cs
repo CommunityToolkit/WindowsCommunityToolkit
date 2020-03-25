@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.
     /// </summary>
-    public static class ArrayExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         /// Returns a reference to the first element within a given <typeparamref name="T"/> array, with no bounds checks.
