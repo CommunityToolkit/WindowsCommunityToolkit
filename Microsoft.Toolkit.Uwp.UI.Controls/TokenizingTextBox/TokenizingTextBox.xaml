@@ -434,7 +434,7 @@
                                                 QueryIcon="{TemplateBinding QueryIcon}"
                                                 Style="{TemplateBinding AutoSuggestBoxStyle}"
                                                 Template="{StaticResource AutoSuggestBoxTemplate}"
-                                                Text="{TemplateBinding QueryText}"
+                                                Text="{TemplateBinding Text}"
                                                 TextBoxStyle="{TemplateBinding AutoSuggestBoxTextBoxStyle}"
                                                 TextMemberPath="{TemplateBinding TextMemberPath}" />
 

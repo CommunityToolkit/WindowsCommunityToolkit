@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
@@ -31,6 +32,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event raised when a new token item has been added.
         /// </summary>
         public event TypedEventHandler<TokenizingTextBox, TokenizingTextBoxItem> TokenItemAdded;
+
+        /// <summary>
+        /// Event raised before a new token item is created from a string, can be used to transform data type from text user entered.
+        /// </summary>
+        public event TypedEventHandler<TokenizingTextBox, TokenItemCreatingEventArgs> TokenItemCreating;
 
         /// <summary>
         /// Event raised when a token item has been clicked.

@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event arguments for <see cref="TabView.TabClosing"/> event.
+    /// Event arguments for <see cref="TokenizingTextBox.TokenItemRemoved"/> event.
     /// </summary>
     public class TokenItemRemovedEventArgs : CancelEventArgs
     {
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public object Item { get; private set; }
 
         /// <summary>
-        /// Gets the Tab being closed.
+        /// Gets the <see cref="TokenizingTextBoxItem"/> being removed.
         /// </summary>
         public TokenizingTextBoxItem Token { get; private set; }
     }
