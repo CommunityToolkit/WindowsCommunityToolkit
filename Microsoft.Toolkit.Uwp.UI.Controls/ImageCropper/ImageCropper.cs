@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Occurs when the CroppedRegion property has changed.
+        /// Occurs when the <see cref="CroppedRegion"/> property has changed.
         /// </summary>
         public event TypedEventHandler<ImageCropper, ImageCropperCroppedRegionChangedEventArgs> CroppedRegionChanged;
 
