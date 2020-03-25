@@ -23,9 +23,9 @@ namespace Microsoft.Toolkit.HighPerformance
     {
 #if NETSTANDARD2_1
         /// <summary>
-        /// The 1-length <see cref="Span{T}"/> instance used to track the target <typeparamref name="T"/> value.
+        /// The 1-length <see cref="ReadOnlySpan{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
-        private readonly Span<T> span;
+        private readonly ReadOnlySpan<T> span;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyByReference{T}"/> struct.
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             ref T r0 = ref Unsafe.AsRef(value);
 
-            span = MemoryMarshal.CreateSpan(ref r0, 1);
+            span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
         }
 
         /// <summary>
