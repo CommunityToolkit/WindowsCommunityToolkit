@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -47,6 +48,34 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <returns>An <see cref="Enumerator"/> instance targeting the current 2D <typeparamref name="T"/> array instance.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Enumerator GetEnumerator() => new Enumerator(this.array, this.column);
+
+        /// <summary>
+        /// Returns a <typeparamref name="T"/> array with the values in the target column.
+        /// </summary>
+        /// <returns>A <typeparamref name="T"/> array with the values in the target column.</returns>
+        /// <remarks>
+        /// This method will allocate a new <typeparamref name="T"/> array, so only
+        /// use it if you really need to copy the target items in a new memory location.
+        /// </remarks>
+        [Pure]
+        public T[] ToArray()
+        {
+            if ((uint)column >= (uint)this.array.GetLength(1))
+            {
+                ThrowArgumentOutOfRangeExceptionForInvalidColumn();
+            }
+
+            int height = this.array.GetLength(0);
+
+            T[] array = new T[height];
+
+            for (int i = 0; i < height; i++)
+            {
+                array.DangerousGetReferenceAt(i) = this.array.DangerousGetReferenceAt(i, this.column);
+            }
+
+            return array;
+        }
 
         /// <summary>
         /// An enumerator for a source <see cref="Span{T}"/> instance.
@@ -120,15 +149,15 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get => ref this.array.DangerousGetReferenceAt(this.row, this.column);
             }
+        }
 
-            /// <summary>
-            /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="column"/> is invalid.
-            /// </summary>
-            [MethodImpl(MethodImplOptions.NoInlining)]
-            private static void ThrowArgumentOutOfRangeExceptionForInvalidColumn()
-            {
-                throw new ArgumentOutOfRangeException(nameof(column), "The target column parameter was not valid");
-            }
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="column"/> is invalid.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowArgumentOutOfRangeExceptionForInvalidColumn()
+        {
+            throw new ArgumentOutOfRangeException(nameof(column), "The target column parameter was not valid");
         }
     }
 }
