@@ -80,6 +80,122 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
 
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        public void Test_ArrayExtensions_2D_FillArrayMid()
+        {
+            bool[,] test = new bool[4, 5];
+
+            test.Fill(true, 1, 1, 3, 2);
+
+            var expected = new[,]
+            {
+                { false, false, false, false, false },
+                { false,  true,  true,  true, false },
+                { false,  true,  true,  true, false },
+                { false, false, false, false, false },
+            };
+
+            CollectionAssert.AreEqual(expected, test);
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        public void Test_ArrayExtensions_2D_FillArrayTwice()
+        {
+            bool[,] test = new bool[4, 5];
+
+            test.Fill(true, 0, 0, 1, 2);
+            test.Fill(true, 1, 3, 2, 2);
+
+            var expected = new[,]
+            {
+                { true,  false, false, false, false },
+                { true,  false, false,  true,  true },
+                { false, false, false,  true,  true },
+                { false, false, false, false, false },
+            };
+
+            CollectionAssert.AreEqual(expected, test);
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        public void Test_ArrayExtensions_2D_FillArrayNegativeSize()
+        {
+            bool[,] test = new bool[4, 5];
+
+            test.Fill(true, 3, 4, -3, -2);
+
+            var expected = new[,]
+            {
+                { false, false, false, false, false },
+                { false, false, false, false, false },
+                { false, false, false, false, false },
+                { false, false, false, false, false },
+            };
+
+            CollectionAssert.AreEqual(expected, test);
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        public void Test_ArrayExtensions_2D_FillArrayBottomEdgeBoundary()
+        {
+            bool[,] test = new bool[4, 5];
+
+            test.Fill(true, 1, 2, 2, 4);
+
+            var expected = new[,]
+            {
+                { false, false, false, false, false },
+                { false, false,  true,  true, false },
+                { false, false,  true,  true, false },
+                { false, false,  true,  true, false },
+            };
+
+            CollectionAssert.AreEqual(expected, test);
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        public void Test_ArrayExtensions_2D_FillArrayTopLeftCornerNegativeBoundary()
+        {
+            bool[,] test = new bool[4, 5];
+
+            test.Fill(true, -1, -1, 3, 3);
+
+            var expected = new[,]
+            {
+                { true,   true, false, false, false },
+                { true,   true, false, false, false },
+                { false, false, false, false, false },
+                { false, false, false, false, false },
+            };
+
+            CollectionAssert.AreEqual(expected, test);
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        public void Test_ArrayExtensions_2D_FillArrayBottomRightCornerBoundary()
+        {
+            bool[,] test = new bool[5, 4];
+
+            test.Fill(true, 3, 2, 3, 3);
+
+            var expected = new[,]
+            {
+                { false, false, false, false },
+                { false, false, false, false },
+                { false, false, false, false },
+                { false, false,  true,  true },
+                { false, false,  true,  true },
+            };
+
+            CollectionAssert.AreEqual(expected, test);
+        }
+
 #if NETCOREAPP3_0
         [TestCategory("ArrayExtensions")]
         [TestMethod]
