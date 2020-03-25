@@ -1072,7 +1072,7 @@
       {
         "Name": "ClipToBounds",
         "Type": "ClipToBoundsPage",
-        "About": "Extension to clip the FrameworkElement inner controls inside its bounds.",
+        "About": "Extension to clip the UIElement inner controls inside its bounds.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement",
         "XamlCodeFile": "ClipToBoundsCode.bind",
         "Icon": "/Assets/Helpers.png",
