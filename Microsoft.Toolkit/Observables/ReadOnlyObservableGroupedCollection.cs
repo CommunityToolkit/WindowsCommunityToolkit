@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -20,7 +21,9 @@ namespace Microsoft.Toolkit.Observables.Collections
         IReadOnlyCollection<ReadOnlyObservableGroup<TKey, TValue>>,
         IReadOnlyList<ReadOnlyObservableGroup<TKey, TValue>>,
         INotifyPropertyChanged,
-        INotifyCollectionChanged
+        INotifyCollectionChanged,
+        ICollection,    // Implementing IColletion and IList is needed to allow ListView to monitor the INotifyCollectionChanged events...
+        IList
     {
         private readonly ObservableGroupedCollection<TKey, TValue> _collection;
         private readonly IDictionary<ObservableGroup<TKey, TValue>, ReadOnlyObservableGroup<TKey, TValue>> _mapping;
@@ -59,14 +62,14 @@ namespace Microsoft.Toolkit.Observables.Collections
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // We force the evaluation to have all our instances ready before deleting the mapping.
-            var sourceOldItems = e.OldItems?.Cast<ObservableGroup<TKey, TValue>>() ?? Enumerable.Empty<ObservableGroup<TKey, TValue>>();
+            var sourceOldItems = (e.OldItems?.Cast<ObservableGroup<TKey, TValue>>() ?? Enumerable.Empty<ObservableGroup<TKey, TValue>>()).ToList();
             var oldItems = (IList)sourceOldItems.Select(CreateOrGetReadOnlyObservableGroup).ToList();
             var newItems = (IList)(e.NewItems?.Cast<ObservableGroup<TKey, TValue>>().Select(CreateOrGetReadOnlyObservableGroup) ?? Enumerable.Empty<ReadOnlyObservableGroup<TKey, TValue>>()).ToList();
 
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItems));
+                    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItems, e.NewStartingIndex));
                     break;
                 case NotifyCollectionChangedAction.Move:
                     CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, newItems, e.NewStartingIndex, e.OldStartingIndex));
@@ -77,7 +80,8 @@ namespace Microsoft.Toolkit.Observables.Collections
                     {
                         _mapping.Remove(sourceOldItem);
                     }
-                    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItems));
+
+                    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItems, e.OldStartingIndex));
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     // We unmap the removed or replaced items.
@@ -85,6 +89,7 @@ namespace Microsoft.Toolkit.Observables.Collections
                     {
                         _mapping.Remove(sourceOldItem);
                     }
+
                     CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems));
                     break;
                 case NotifyCollectionChangedAction.Reset:
@@ -111,5 +116,49 @@ namespace Microsoft.Toolkit.Observables.Collections
 
             return readOnlyGroup;
         }
+
+        int ICollection.Count => _collection.Count;
+
+        bool ICollection.IsSynchronized => ((ICollection)_collection).IsSynchronized;
+
+        object ICollection.SyncRoot
+        {
+            get
+            {
+                var sourceSyncRoot = ((ICollection)_collection).SyncRoot;
+                if (sourceSyncRoot is null)
+                {
+                    return null;
+                }
+
+                return CreateOrGetReadOnlyObservableGroup((ObservableGroup<TKey, TValue>)sourceSyncRoot);
+            }
+        }
+
+        bool IList.IsFixedSize => ((IList)_collection).IsFixedSize;
+
+        bool IList.IsReadOnly => true;
+
+        object IList.this[int index]
+        {
+            get => CreateOrGetReadOnlyObservableGroup(_collection[index]);
+            set => throw new NotImplementedException();
+        }
+
+        void ICollection.CopyTo(Array array, int index) => throw new NotImplementedException();
+
+        int IList.Add(object value) => throw new NotImplementedException();
+
+        void IList.Clear() => throw new NotImplementedException();
+
+        bool IList.Contains(object value) => this.Any(group => group == value);
+
+        int IList.IndexOf(object value) => this.Select((group, i) => (group == value) ? i : -1).Max();
+
+        void IList.Insert(int index, object value) => throw new NotImplementedException();
+
+        void IList.Remove(object value) => throw new NotImplementedException();
+
+        void IList.RemoveAt(int index) => throw new NotImplementedException();
     }
 }

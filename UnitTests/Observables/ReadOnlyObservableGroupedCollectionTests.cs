@@ -88,16 +88,16 @@ namespace UnitTests.Observables
             ((INotifyCollectionChanged)readOnlyGroup).CollectionChanged += (s, e) => collectionChangedEventArgs = e;
             ((INotifyPropertyChanged)readOnlyGroup).PropertyChanged += (s, e) => isCountPropertyChangedEventRaised = isCountPropertyChangedEventRaised || e.PropertyName == nameof(readOnlyGroup.Count);
 
-            source.RemoveAt(0);
+            source.RemoveAt(1);
 
             readOnlyGroup.Should().ContainSingle();
             readOnlyGroup.Count.Should().Be(1);
-            readOnlyGroup.ElementAt(0).Key.Should().Be("B");
-            readOnlyGroup.ElementAt(0).Should().BeEquivalentTo(bItemsList, o => o.WithoutStrictOrdering());
+            readOnlyGroup.ElementAt(0).Key.Should().Be("A");
+            readOnlyGroup.ElementAt(0).Should().BeEquivalentTo(aItemsList, o => o.WithoutStrictOrdering());
 
             isCountPropertyChangedEventRaised.Should().BeTrue();
             collectionChangedEventArgs.Should().NotBeNull();
-            IsRemoveEventValid(collectionChangedEventArgs, aItemsList).Should().BeTrue();
+            IsRemoveEventValid(collectionChangedEventArgs, bItemsList, 1).Should().BeTrue();
         }
 
         [TestCategory("Observables")]
@@ -202,11 +202,12 @@ namespace UnitTests.Observables
                     Enumerable.SequenceEqual(newItems.ElementAt(0), expectedGroupItems);
         }
 
-        private static bool IsRemoveEventValid(NotifyCollectionChangedEventArgs args, IEnumerable<int> expectedGroupItems)
+        private static bool IsRemoveEventValid(NotifyCollectionChangedEventArgs args, IEnumerable<int> expectedGroupItems, int oldIndex)
         {
             var oldItems = args.OldItems?.Cast<IEnumerable<int>>();
             return args.Action == NotifyCollectionChangedAction.Remove &&
-                args.NewItems == null &&
+                    args.NewItems == null &&
+                    args.OldStartingIndex == oldIndex &&
                     oldItems?.Count() == 1 &&
                     Enumerable.SequenceEqual(oldItems.ElementAt(0), expectedGroupItems);
         }

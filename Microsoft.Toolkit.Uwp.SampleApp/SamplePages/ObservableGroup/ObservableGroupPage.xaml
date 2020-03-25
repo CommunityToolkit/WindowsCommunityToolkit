@@ -7,9 +7,57 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="8,0" />
+        </Style>
+
+        <DataTemplate x:Key="PersonDataTemplate">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="GroupDataTemplate">
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                       Text="{Binding Key}" />
+        </DataTemplate>
+
+        <CollectionViewSource x:Key="cvs"
+                              x:Name="cvs"
+                              IsSourceGrouped="True"
+                              Source="{x:Bind Contacts}" />
+    </Page.Resources>
+
     <Grid>
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="My page" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,4"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <TextBox x:Name="NewContact"
+                     PlaceholderText="New contact"
+                     TextChanged="OnNewContactTextChanged" />
+            <Button x:Name="AddContact"
+                    Click="OnAddContactClick"
+                    Content="Add"
+                    IsEnabled="False" />
+            <Button x:Name="RemoveContact"
+                    Click="OnRemoveButtonClick"
+                    Content="Remove selected"
+                    IsEnabled="False" />
+        </StackPanel>
+
+        <ListView x:Name="ContactsListView"
+                  Grid.Row="1"
+                  ItemTemplate="{StaticResource PersonDataTemplate}"
+                  ItemsSource="{x:Bind cvs.View}"
+                  SelectionChanged="OnContactsListViewSelectionChanged"
+                  SelectionMode="Single">
+            <ListView.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource GroupDataTemplate}" />
+            </ListView.GroupStyle>
+        </ListView>
     </Grid>
 </Page>
