@@ -239,6 +239,7 @@ dotnet_naming_style.prefix_private_field_with_underscore.required_prefix        
 # Code files
 [*.{cs,vb}]
 
+# Migrate back from old Toolkit.ruleset
 dotnet_diagnostic.CA1001.severity = warning
 dotnet_diagnostic.CA1009.severity = warning
 dotnet_diagnostic.CA1016.severity = warning
@@ -316,6 +317,6 @@ dotnet_diagnostic.SA1633.severity = none
 dotnet_diagnostic.SA1634.severity = none
 dotnet_diagnostic.SA1652.severity = none
 
-dotnet_diagnostic.SA1629.severity = none
-dotnet_diagnostic.SA1413.severity = none
-dotnet_diagnostic.SA1314.severity = none
+dotnet_diagnostic.SA1629.severity = none # DocumentationTextMustEndWithAPeriod: Let's enable this rule back when we shift to WinUI3 (v8.x). If we do it now, it would mean more than 400 file changes.
+dotnet_diagnostic.SA1413.severity = none # UseTrailingCommasInMultiLineInitializers: This would also mean a lot of changes at the end of all multiline intializers. It's also debatable if we want this or not.
+dotnet_diagnostic.SA1314.severity = none # TypeParameterNamesMustBeginWithT: We do have a few templates that don't start with T. We need to double check that changing this is not a breaking change. If not, we can re-enable this.
