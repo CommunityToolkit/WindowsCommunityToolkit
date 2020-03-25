@@ -96,9 +96,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             private readonly int row;
 
             /// <summary>
-            /// The height of a column in <see cref="array"/>.
+            /// The width of a row in <see cref="array"/>.
             /// </summary>
-            private readonly int height;
+            private readonly int width;
 
             /// <summary>
             /// The current column.
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
                 this.array = array;
                 this.row = row;
-                this.height = array.GetLength(0);
+                this.width = array.GetLength(1);
                 this.column = -1;
             }
 
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             {
                 int column = this.column + 1;
 
-                if (column < this.height)
+                if (column < this.width)
                 {
                     this.column = column;
 
