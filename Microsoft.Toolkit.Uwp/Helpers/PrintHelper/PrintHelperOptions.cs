@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Graphics.Printing;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -143,21 +141,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _possibleDisplayOptions = typeof(StandardPrintTaskOptions).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                                                                       .Where(p => p.PropertyType == typeof(string))
                                                                       .Select(p => (string)p.GetValue(null));
-        }
-
-        private void InitializeDefaultOptions()
-        {
-            Bordering = PrintBordering.Default;
-            MediaSize = PrintMediaSize.Default;
-            MediaType = PrintMediaType.Default;
-            HolePunch = PrintHolePunch.Default;
-            Binding = PrintBinding.Default;
-            Duplex = PrintDuplex.Default;
-            ColorMode = PrintColorMode.Default;
-            Collation = PrintCollation.Default;
-            PrintQuality = PrintQuality.Default;
-            Staple = PrintStaple.Default;
-            Orientation = PrintOrientation.Default;
         }
     }
 }

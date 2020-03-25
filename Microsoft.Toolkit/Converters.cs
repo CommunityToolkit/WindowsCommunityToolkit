@@ -22,27 +22,27 @@ namespace Microsoft.Toolkit
             }
             else if ((size >> 10) < 1024)
             {
-                return (size / (float)1024).ToString("F1") + " KB";
+                return (size / 1024F).ToString("F1") + " KB";
             }
             else if ((size >> 20) < 1024)
             {
-                return ((size >> 10) / (float)1024).ToString("F1") + " MB";
+                return ((size >> 10) / 1024F).ToString("F1") + " MB";
             }
             else if ((size >> 30) < 1024)
             {
-                return ((size >> 20) / (float)1024).ToString("F1") + " GB";
+                return ((size >> 20) / 1024F).ToString("F1") + " GB";
             }
             else if ((size >> 40) < 1024)
             {
-                return ((size >> 30) / (float)1024).ToString("F1") + " TB";
+                return ((size >> 30) / 1024F).ToString("F1") + " TB";
             }
             else if ((size >> 50) < 1024)
             {
-                return ((size >> 40) / (float)1024).ToString("F1") + " PB";
+                return ((size >> 40) / 1024F).ToString("F1") + " PB";
             }
             else
             {
-                return ((size >> 50) / (float)1024).ToString("F0") + " EB";
+                return ((size >> 50) / 1024F).ToString("F0") + " EB";
             }
         }
     }
