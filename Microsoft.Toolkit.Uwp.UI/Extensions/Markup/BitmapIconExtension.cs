@@ -4,7 +4,6 @@
 
 using System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -12,7 +11,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Custom <see cref="MarkupExtension"/> which can provide <see cref="BitmapIcon"/> values.
     /// </summary>
-    [Bindable]
     [MarkupExtensionReturnType(ReturnType = typeof(BitmapIcon))]
     public sealed class BitmapIconExtension : MarkupExtension
     {
