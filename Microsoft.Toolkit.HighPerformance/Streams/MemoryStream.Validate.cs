@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <param name="position">The new <see cref="Stream.Position"/> value being set.</param>
         /// <param name="length">The maximum length of the target <see cref="Stream"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ValidatePosition(long position, int length)
+        private static void ValidatePosition(long position, int length)
         {
             if ((ulong)position >= (ulong)length)
             {
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <param name="offset">The offset within <paramref name="buffer"/>.</param>
         /// <param name="count">The number of elements to process within <paramref name="buffer"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ValidateBuffer(byte[]? buffer, int offset, int count)
+        private static void ValidateBuffer(byte[]? buffer, int offset, int count)
         {
             if (buffer is null)
             {
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Validates the <see cref="CanWrite"/> property.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ValidateCanWrite()
+        private void ValidateCanWrite()
         {
             if (!CanWrite)
             {
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Validates that the current instance hasn't been disposed.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ValidateDisposed()
+        private void ValidateDisposed()
         {
             if (this.disposed)
             {
