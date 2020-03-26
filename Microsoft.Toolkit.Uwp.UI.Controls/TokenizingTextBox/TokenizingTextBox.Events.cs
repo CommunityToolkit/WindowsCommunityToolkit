@@ -38,13 +38,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event TypedEventHandler<TokenizingTextBox, object> TokenItemAdded;
 
-        //// TODO: Re-test
-
-        /// <summary>
-        /// Event raised when a token item has been clicked.
-        /// </summary>
-        public event TypedEventHandler<TokenizingTextBox, TokenizingTextBoxItem> TokenItemClicked;
-
         /// <summary>
         /// Event raised when a token item is about to be removed. Can be canceled to prevent removal of a token.
         /// </summary>

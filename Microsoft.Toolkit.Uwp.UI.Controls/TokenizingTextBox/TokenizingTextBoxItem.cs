@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 int code = (int)e.Key;
 
-                // TODO: this list isnt complete - need to call something like ToAscii() to confirm if the key is a printable character.
+                // TODO: verify this list is complete - need to call something like ToAscii() to confirm if the key is a printable character.
                 if (e.Key == VirtualKey.Space ||
                     (e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Z) ||
                     (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.Divide) ||
