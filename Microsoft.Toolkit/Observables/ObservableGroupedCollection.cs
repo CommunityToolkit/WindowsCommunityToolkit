@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Observables.Collections
         /// </summary>
         /// <param name="collection">The initial data to add in the grouped collection.</param>
         public ObservableGroupedCollection(IEnumerable<IGrouping<TKey, TValue>> collection)
-            : base(collection.Select(c => new ObservableGroup<TKey, TValue>(c.Key, c)))
+            : base(collection.Select(c => new ObservableGroup<TKey, TValue>(c)))
         {
         }
     }
