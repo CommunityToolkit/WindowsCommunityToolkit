@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <code>
         /// string text = "Hello, world!";
         ///
-        /// foreach (var item in words.Enumerate())
+        /// foreach (var item in text.Enumerate())
         /// {
         ///     // Access the index and value of each item here...
         ///     int index = item.Index;
