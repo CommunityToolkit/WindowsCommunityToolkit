@@ -5,7 +5,10 @@
 using FluentAssertions;
 using Microsoft.Toolkit.Observables.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -44,6 +47,118 @@ namespace UnitTests.Observables
             readOnlyGroup.ElementAt(0).Should().BeEquivalentTo(new[] { 1, 3, 5 }, o => o.WithoutStrictOrdering());
             readOnlyGroup.ElementAt(1).Key.Should().Be("B");
             readOnlyGroup.ElementAt(1).Should().BeEquivalentTo(new[] { 2, 4, 6 }, o => o.WithoutStrictOrdering());
+        }
+
+        [TestCategory("Observables")]
+        [TestMethod]
+        public void IListImplementation_Properties_ShoudReturnExpectedValues()
+        {
+            var groups = new List<IGrouping<string, int>>
+            {
+                new IntGroup("A", new[] { 1, 3, 5 }),
+                new IntGroup("B", new[] { 2, 4, 6 }),
+            };
+            var source = new ObservableGroupedCollection<string, int>(groups);
+            var readOnlyGroup = new ReadOnlyObservableGroupedCollection<string, int>(source);
+            var list = (IList)readOnlyGroup;
+
+            list.Count.Should().Be(2);
+            var group0 = (ReadOnlyObservableGroup<string, int>)list[0];
+            group0.Key.Should().Be("A");
+            group0.Should().BeEquivalentTo(new[] { 1, 3, 5 }, o => o.WithoutStrictOrdering());
+            var group1 = (ReadOnlyObservableGroup<string, int>)list[1];
+            group1.Key.Should().Be("B");
+            group1.Should().BeEquivalentTo(new[] { 2, 4, 6 }, o => o.WithoutStrictOrdering());
+
+            list.SyncRoot.Should().BeSameAs(readOnlyGroup);
+            list.IsFixedSize.Should().BeFalse();
+            list.IsReadOnly.Should().BeTrue();
+            list.IsSynchronized.Should().BeFalse();
+        }
+
+        [TestCategory("Observables")]
+        [TestMethod]
+        public void IListImplementation_MutableMethods_ShoudThrow()
+        {
+            var groups = new List<IGrouping<string, int>>
+            {
+                new IntGroup("A", new[] { 1, 3, 5 }),
+                new IntGroup("B", new[] { 2, 4, 6 }),
+            };
+            var source = new ObservableGroupedCollection<string, int>(groups);
+            var readOnlyGroup = new ReadOnlyObservableGroupedCollection<string, int>(source);
+            var list = (IList)readOnlyGroup;
+
+            var testGroup = new ReadOnlyObservableGroup<string, int>("test", new ObservableCollection<int>());
+            Action add = () => list.Add(testGroup);
+            add.Should().Throw<NotImplementedException>();
+
+            Action clear = () => list.Clear();
+            clear.Should().Throw<NotImplementedException>();
+
+            Action insert = () => list.Insert(2, testGroup);
+            insert.Should().Throw<NotImplementedException>();
+
+            Action remove = () => list.Remove(testGroup);
+            remove.Should().Throw<NotImplementedException>();
+
+            Action removeAt = () => list.RemoveAt(2);
+            removeAt.Should().Throw<NotImplementedException>();
+
+            Action set = () => list[2] = testGroup;
+            set.Should().Throw<NotImplementedException>();
+
+            var array = new object[5];
+            Action copyTo = () => list.CopyTo(array, 0);
+            copyTo.Should().Throw<NotImplementedException>();
+        }
+
+        [TestCategory("Observables")]
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void IListImplementation_IndexOf_ShoudReturnExpectedValue(int groupIndex)
+        {
+            var groups = new List<IGrouping<string, int>>
+            {
+                new IntGroup("A", new[] { 1, 3, 5 }),
+                new IntGroup("B", new[] { 2, 4, 6 }),
+                new IntGroup("C", new[] { 7, 8, 9 }),
+            };
+            var source = new ObservableGroupedCollection<string, int>(groups);
+            var readOnlyGroup = new ReadOnlyObservableGroupedCollection<string, int>(source);
+            var list = (IList)readOnlyGroup;
+
+            var groupToSearch = groupIndex >= 0 ? list[groupIndex] : null;
+
+            var index = list.IndexOf(groupToSearch);
+
+            index.Should().Be(groupIndex);
+        }
+
+        [TestCategory("Observables")]
+        [DataTestMethod]
+        [DataRow(-1, false)]
+        [DataRow(0, true)]
+        [DataRow(1, true)]
+        public void IListImplementation_Contains_ShoudReturnExpectedValue(int groupIndex, bool expectedResult)
+        {
+            var groups = new List<IGrouping<string, int>>
+            {
+                new IntGroup("A", new[] { 1, 3, 5 }),
+                new IntGroup("B", new[] { 2, 4, 6 }),
+            };
+            var source = new ObservableGroupedCollection<string, int>(groups);
+            var readOnlyGroup = new ReadOnlyObservableGroupedCollection<string, int>(source);
+            var list = (IList)readOnlyGroup;
+
+            var groupToSearch = groupIndex >= 0 ? list[groupIndex] : null;
+
+            var result = list.Contains(groupToSearch);
+
+            result.Should().Be(expectedResult);
         }
 
         [TestCategory("Observables")]

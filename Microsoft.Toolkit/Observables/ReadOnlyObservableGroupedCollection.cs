@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Observables.Collections
         }
 
         /// <inheritdoc/>
-        public ReadOnlyObservableGroup<TKey, TValue> this[int index] => CreateOrGetReadOnlyObservableGroup(_collection[index]);
+        public ReadOnlyObservableGroup<TKey, TValue> this[int index] => GetGroupAt(index);
 
         /// <inheritdoc/>
         public int Count => _collection.Count;
@@ -117,23 +117,13 @@ namespace Microsoft.Toolkit.Observables.Collections
             return readOnlyGroup;
         }
 
+        private ReadOnlyObservableGroup<TKey, TValue> GetGroupAt(int index) => CreateOrGetReadOnlyObservableGroup(_collection[index]);
+
         int ICollection.Count => _collection.Count;
 
-        bool ICollection.IsSynchronized => ((ICollection)_collection).IsSynchronized;
+        bool ICollection.IsSynchronized => false;
 
-        object ICollection.SyncRoot
-        {
-            get
-            {
-                var sourceSyncRoot = ((ICollection)_collection).SyncRoot;
-                if (sourceSyncRoot is null)
-                {
-                    return null;
-                }
-
-                return CreateOrGetReadOnlyObservableGroup((ObservableGroup<TKey, TValue>)sourceSyncRoot);
-            }
-        }
+        object ICollection.SyncRoot => this;
 
         bool IList.IsFixedSize => ((IList)_collection).IsFixedSize;
 
@@ -141,7 +131,7 @@ namespace Microsoft.Toolkit.Observables.Collections
 
         object IList.this[int index]
         {
-            get => CreateOrGetReadOnlyObservableGroup(_collection[index]);
+            get => GetGroupAt(index);
             set => throw new NotImplementedException();
         }
 
