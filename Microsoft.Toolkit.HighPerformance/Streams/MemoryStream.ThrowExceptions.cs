@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowObjectDisposedException()
         {
-            throw new ObjectDisposedException("stream", "The current stream has already been disposed");
+            throw new ObjectDisposedException(nameof(memory), "The current stream has already been disposed");
         }
     }
 }
