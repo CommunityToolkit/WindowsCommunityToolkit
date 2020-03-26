@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions
 {
@@ -86,7 +86,7 @@ namespace UnitTests.HighPerformance.Extensions
         // Dummy type to test the managed code path of the API
         private sealed class Int : IEquatable<Int>
         {
-            public int Value { get; }
+            private int Value { get; }
 
             public Int(int value) => Value = value;
 
@@ -107,7 +107,7 @@ namespace UnitTests.HighPerformance.Extensions
 
             public override bool Equals(object obj)
             {
-                return ReferenceEquals(this, obj) || obj is Int other && Equals(other);
+                return ReferenceEquals(this, obj) || (obj is Int other && Equals(other));
             }
 
             public override int GetHashCode()
@@ -173,6 +173,7 @@ namespace UnitTests.HighPerformance.Extensions
         /// <summary>
         /// Counts the number of occurrences of a given value into a target <see cref="ReadOnlySpan{T}"/> instance.
         /// </summary>
+        /// <typeparam name="T">The type of items to count.</typeparam>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read.</param>
         /// <param name="value">The value to look for.</param>
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>

@@ -3,12 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance
 {
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_BoxOfT
     {
         [TestCategory("BoxOfT")]
@@ -52,7 +54,6 @@ namespace UnitTests.HighPerformance
         [TestMethod]
         public void TestBoxOfT_CustomStruct()
         {
-
             var a = new TestStruct { Number = 42, Character = 'a', Text = "Hello" };
             var b = new TestStruct { Number = 38293, Character = 'z', Text = "World" };
 

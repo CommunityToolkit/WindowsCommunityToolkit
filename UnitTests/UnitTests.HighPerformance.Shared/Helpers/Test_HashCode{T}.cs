@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Helpers;
@@ -11,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Helpers
 {
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_HashCodeOfT
     {
         /// <summary>

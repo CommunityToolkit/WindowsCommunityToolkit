@@ -53,7 +53,6 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void TestBoxOfT_CustomStruct()
         {
-
             var a = new TestStruct { Number = 42, Character = 'a', Text = "Hello" };
             var b = new TestStruct { Number = 38293, Character = 'z', Text = "World" };
 

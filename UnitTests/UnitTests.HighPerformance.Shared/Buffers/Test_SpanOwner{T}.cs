@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Buffers
 {
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_SpanOwnerOfT
     {
         [TestCategory("SpanOwnerOfT")]

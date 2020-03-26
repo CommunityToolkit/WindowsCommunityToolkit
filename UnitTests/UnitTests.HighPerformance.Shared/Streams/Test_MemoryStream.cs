@@ -149,7 +149,7 @@ namespace UnitTests.HighPerformance.Streams
         {
             Stream stream = new byte[4].AsMemory().AsStream();
 
-            ReadOnlySpan<byte> data = stackalloc byte[] { 1, 128, 255, 32};
+            ReadOnlySpan<byte> data = stackalloc byte[] { 1, 128, 255, 32 };
 
             foreach (var item in data.Enumerate())
             {
@@ -231,6 +231,7 @@ namespace UnitTests.HighPerformance.Streams
         /// Creates a random <see cref="byte"/> array filled with random data.
         /// </summary>
         /// <param name="count">The number of array items to create.</param>
+        /// <returns>The returned random array.</returns>
         [Pure]
         private static byte[] CreateRandomData(int count)
         {

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -51,6 +52,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "List<T> of value tuple")]
         public void Test_ReadOnlySpanExtensions_Enumerate()
         {
             ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
@@ -75,7 +77,7 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_Tokenize_Empty()
         {
-            string text = "";
+            string text = string.Empty;
 
             var result = new List<string>();
 

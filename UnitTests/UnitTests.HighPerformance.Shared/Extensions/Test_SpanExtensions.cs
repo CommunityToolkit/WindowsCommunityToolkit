@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -51,6 +52,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("SpanExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "List<T> of value tuple")]
         public void Test_SpanExtensions_Enumerate()
         {
             Span<int> data = new[] { 1, 2, 3, 4, 5, 6, 7 };
