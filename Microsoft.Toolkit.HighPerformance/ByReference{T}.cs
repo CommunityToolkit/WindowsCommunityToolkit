@@ -99,7 +99,6 @@ namespace Microsoft.Toolkit.HighPerformance
         }
     }
 
-#if NETSTANDARD2_0
     // Description adapted from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
     // CLR objects are laid out in memory as follows:
     // [ sync block || pMethodTable || raw data .. ]
@@ -119,5 +118,4 @@ namespace Microsoft.Toolkit.HighPerformance
 #pragma warning restore CS0649
 #pragma warning restore SA1401
     }
-#endif
 }

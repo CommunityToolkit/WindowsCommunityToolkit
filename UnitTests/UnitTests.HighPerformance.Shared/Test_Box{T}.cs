@@ -71,7 +71,7 @@ namespace UnitTests.HighPerformance
         {
             Box<T> box = value;
 
-            Assert.AreEqual(box.Value, value);
+            Assert.AreEqual(box.GetReference(), value);
             Assert.AreEqual(box.ToString(), value.ToString());
             Assert.AreEqual(box.GetHashCode(), value.GetHashCode());
 
@@ -82,20 +82,20 @@ namespace UnitTests.HighPerformance
             Assert.IsTrue(success);
             Assert.IsTrue(ReferenceEquals(obj, box));
             Assert.IsNotNull(box);
-            Assert.AreEqual(box.Value, value);
+            Assert.AreEqual(box.GetReference(), value);
             Assert.AreEqual(box.ToString(), value.ToString());
             Assert.AreEqual(box.GetHashCode(), value.GetHashCode());
 
             box = Box<T>.DangerousGetFrom(obj);
 
             Assert.IsTrue(ReferenceEquals(obj, box));
-            Assert.AreEqual(box.Value, value);
+            Assert.AreEqual(box.GetReference(), value);
             Assert.AreEqual(box.ToString(), value.ToString());
             Assert.AreEqual(box.GetHashCode(), value.GetHashCode());
 
-            box.Value = test;
+            box.GetReference() = test;
 
-            Assert.AreEqual(box.Value, test);
+            Assert.AreEqual(box.GetReference(), test);
             Assert.AreEqual(box.ToString(), test.ToString());
             Assert.AreEqual(box.GetHashCode(), test.GetHashCode());
             Assert.AreEqual(obj, test);

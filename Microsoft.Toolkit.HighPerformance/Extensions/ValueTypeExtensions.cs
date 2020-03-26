@@ -69,10 +69,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T DangerousUnbox<T>(this object obj)
+        public static ref T DangerousUnbox<T>(this object obj)
             where T : struct
         {
-            return Box<T>.DangerousGetFrom(obj).Value;
+            return ref Box<T>.DangerousGetFrom(obj).GetReference();
         }
     }
 }
