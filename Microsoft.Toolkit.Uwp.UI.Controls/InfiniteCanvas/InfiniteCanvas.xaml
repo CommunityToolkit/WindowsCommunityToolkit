@@ -88,7 +88,7 @@
                                         </ToggleButton.Content>
                                     </ToggleButton>
 
-                                    <ToggleButton x:Name="CanvasTextBoxItlaicButton"
+                                    <ToggleButton x:Name="CanvasTextBoxItalicButton"
                                                   Style="{StaticResource CanvasTextBoxToggleButtonStyle}"
                                                   ToolTipService.ToolTip="Italic Text">
                                         <ToggleButton.Content>
