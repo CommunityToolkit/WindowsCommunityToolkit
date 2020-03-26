@@ -31,7 +31,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -44,7 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -56,7 +55,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -69,7 +67,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -81,7 +79,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -94,7 +91,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -108,7 +105,6 @@
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
@@ -120,8 +116,8 @@
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>UnitTests.Notifications.UWP.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
@@ -159,7 +155,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="UnitTests.Notifications.UWP.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\UnitTestApp.rd.xml" />

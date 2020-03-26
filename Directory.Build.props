@@ -58,11 +58,16 @@
   </Choose>
 
   <Choose>
+    <When Condition="'$(IsDesignProject)' != 'true'">
+      <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+      </ItemGroup>
+    </When>
+  </Choose>
+
+  <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <ItemGroup>
-        <!--<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="all" />-->
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
-
         <EmbeddedResource Include="**\*.rd.xml" />
         <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
         <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
