@@ -9,7 +9,7 @@
 
     <Page.Resources>
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="8,0" />
+            <Setter Property="Margin" Value="8,0,0,0" />
         </Style>
 
         <DataTemplate x:Key="PersonDataTemplate">
@@ -37,6 +37,7 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <TextBox x:Name="NewContact"
+                     MinWidth="200"
                      PlaceholderText="New contact"
                      TextChanged="OnNewContactTextChanged" />
             <Button x:Name="AddContact"
