@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <code>
         /// int[] numbers = new[] { 1, 2, 3, 4, 5, 6, 7 };
         ///
-        /// foreach (var item in words.Enumerate())
+        /// foreach (var item in numbers.Enumerate())
         /// {
         ///     // Access the index and value of each item here...
         ///     int index = item.Index;
