@@ -90,7 +90,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             if (!UsesLocalArray)
             {
 #endif
-                _internalList = list;
+#pragma warning disable SA1137 // Elements should have the same indentation
+            _internalList = list;
+#pragma warning restore SA1137 // Elements should have the same indentation
 #if FEATURE_ICOLLECTIONVIEW_SORT_OR_FILTER
             }
             else
@@ -1979,6 +1981,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         private void MoveCurrencyOffDeletedElement(int oldCurrentPosition)
         {
             int lastPosition = InternalCount - 1;   // OK if last is -1
+
             // if position falls beyond last position, move back to last position
             int newPosition = (oldCurrentPosition < lastPosition) ? oldCurrentPosition : lastPosition;
 

@@ -13,7 +13,6 @@ using Windows.UI.Xaml.Markup;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
-    #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
     public class Test_UniformGrid_Dimensions
     {
         [TestCategory("UniformGrid")]
@@ -230,5 +229,4 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(7, columns, "Expected seven columns.");
         }
     }
-    #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 }
