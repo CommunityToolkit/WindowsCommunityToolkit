@@ -4,12 +4,9 @@
 
 #if NETSTANDARD2_1
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-#else
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 #endif
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Microsoft.Toolkit.HighPerformance
