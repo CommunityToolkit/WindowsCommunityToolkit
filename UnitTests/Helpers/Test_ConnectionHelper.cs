@@ -10,9 +10,8 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_ConnectionHelper
     {
-        public NetworkHelper NetworkHelper { get; private set; }
-
-        [TestCategory("Helpers")]
+        //// TODO: Need Mock to WinRT Issue #3196 - https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3196
+        /*[TestCategory("Helpers")]
         [TestMethod]
         public void Test_ConnectionHelper_IsInternetOnMeteredConnection()
         {
@@ -24,6 +23,6 @@ namespace UnitTests.Helpers
         public void Test_ConnectionHelper_IsInternetAvailable()
         {
             Assert.IsTrue(NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable);
-        }
+        }*/
     }
 }
