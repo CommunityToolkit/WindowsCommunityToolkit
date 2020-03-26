@@ -39,7 +39,6 @@ namespace UnitTests.HighPerformance
             var reference = new ReadOnlyByReference<int>(value);
 
             Assert.IsTrue(Unsafe.AreSame(ref value, ref Unsafe.AsRef(reference.Value)));
-
         }
 #endif
     }

@@ -47,7 +47,6 @@ namespace UnitTests.HighPerformance
             reference.Value++;
 
             Assert.AreEqual(value, 2);
-
         }
 #endif
     }
