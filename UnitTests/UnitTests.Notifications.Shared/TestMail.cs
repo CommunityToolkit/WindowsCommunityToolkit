@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Notifications
 {
@@ -30,7 +30,6 @@ namespace UnitTests.Notifications
                 }
             };
 
-
             TileBinding medium = new TileBinding()
             {
                 Branding = TileBranding.Logo,
@@ -45,7 +44,6 @@ namespace UnitTests.Notifications
                     }
                 }
             };
-
 
             TileBinding wideAndLarge = new TileBinding()
             {
@@ -62,8 +60,6 @@ namespace UnitTests.Notifications
                 }
             };
 
-
-
             TileContent content = new TileContent()
             {
                 Visual = new TileVisual()
@@ -77,18 +73,15 @@ namespace UnitTests.Notifications
 
             string expectedXml = $@"<?xml version=""1.0"" encoding=""utf-8""?><tile><visual><binding template=""TileSquare71x71IconWithBadge""><image id=""1"" src=""Assets\Mail.png"" /></binding>";
 
-
             // Medium
             expectedXml += @"<binding template=""TileMedium"" branding=""logo"">";
             expectedXml += GenerateXmlGroups(false);
             expectedXml += "</binding>";
 
-
             // Wide
             expectedXml += @"<binding template=""TileWide"" branding=""nameAndLogo"">";
             expectedXml += GenerateXmlGroups(true);
             expectedXml += "</binding>";
-
 
             // Large
             expectedXml += @"<binding template=""TileLarge"" branding=""nameAndLogo"">";
@@ -97,12 +90,8 @@ namespace UnitTests.Notifications
 
             expectedXml += "</visual></tile>";
 
-
-            
-
             AssertHelper.AssertTile(expectedXml, content);
         }
-
 
         private static string GenerateXmlGroups(bool makeLarge)
         {
@@ -114,9 +103,13 @@ namespace UnitTests.Notifications
             string xml = "<group><subgroup><text";
 
             if (makeLarge)
+            {
                 xml += @" hint-style=""subtitle""";
+            }
             else
+            {
                 xml += " hint-style='caption'";
+            }
 
             xml += $@">{from}</text><text hint-style=""captionSubtle"">{subject}</text><text hint-style=""captionSubtle"">{body}</text></subgroup></group>";
 
