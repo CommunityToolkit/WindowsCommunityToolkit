@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance
     /// <summary>
     /// A <see langword="class"/> that represents a boxed <typeparamref name="T"/> value on the managed heap.
     /// </summary>
-    /// <typeparam name="T">The type of value being bxoed.</typeparam>
+    /// <typeparam name="T">The type of value being boxed.</typeparam>
     [DebuggerDisplay("{ToString(),raw}")]
     [StructLayout(LayoutKind.Sequential)]
     public sealed class Box<T>
