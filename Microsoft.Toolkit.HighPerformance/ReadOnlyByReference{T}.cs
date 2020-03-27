@@ -2,14 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_1
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+#if NETSTANDARD2_1
 using System.Runtime.InteropServices;
-#else
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance
@@ -66,7 +63,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The target offset within <see cref="owner"/> the current instance is pointing to
         /// </summary>
-        private readonly int offset;
+        private readonly IntPtr offset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyByReference{T}"/> struct.
@@ -75,7 +72,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="offset">The target offset within <paramref name="owner"/> for the target reference.</param>
         /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ReadOnlyByReference(object owner, int offset)
+        private ReadOnlyByReference(object owner, IntPtr offset)
         {
             this.owner = owner;
             this.offset = offset;
@@ -97,7 +94,7 @@ namespace Microsoft.Toolkit.HighPerformance
             ref byte r0 = ref data.Data;
             ref byte r1 = ref Unsafe.As<T, byte>(ref valueRef);
 
-            offset = Unsafe.ByteOffset(ref r0, ref r1).ToInt32();
+            offset = Unsafe.ByteOffset(ref r0, ref r1);
         }
 
         /// <summary>

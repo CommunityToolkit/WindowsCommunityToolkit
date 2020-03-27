@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_1
 using System;
-#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -51,7 +49,11 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The target offset within <see cref="Owner"/> the current instance is pointing to
         /// </summary>
-        internal readonly int Offset;
+        /// <remarks>
+        /// Using an <see cref="IntPtr"/> instead of <see cref="int"/> to avoid the int to
+        /// native int conversion in the generated asm (an extra movsxd on x64).
+        /// </remarks>
+        internal readonly IntPtr Offset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByReference{T}"/> struct.
@@ -62,13 +64,13 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ByReference(object owner, ref T value)
         {
-            Owner = owner;
+            this.Owner = owner;
 
             var data = Unsafe.As<RawObjectData>(owner);
             ref byte r0 = ref data.Data;
             ref byte r1 = ref Unsafe.As<T, byte>(ref value);
 
-            Offset = Unsafe.ByteOffset(ref r0, ref r1).ToInt32();
+            Offset = Unsafe.ByteOffset(ref r0, ref r1);
         }
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace Microsoft.Toolkit.HighPerformance
             {
                 var data = Unsafe.As<RawObjectData>(Owner);
                 ref byte r0 = ref data.Data;
-                ref byte r1 = ref Unsafe.Add(ref r0, Offset);
+                ref byte r1 = ref Unsafe.AddByteOffset(ref r0, Offset);
 
                 return ref Unsafe.As<byte, T>(ref r1);
             }
