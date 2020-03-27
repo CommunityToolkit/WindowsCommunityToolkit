@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 
 namespace UnitTests.HighPerformance.Helpers
 {
@@ -19,7 +19,7 @@ namespace UnitTests.HighPerformance.Helpers
             {
                 ParallelHelper.For<DummyAction>(0, 1, -1);
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException e) when (e.GetType() == typeof(ArgumentOutOfRangeException))
             {
                 var name = (
                     from method in typeof(ParallelHelper).GetMethods()
@@ -50,7 +50,7 @@ namespace UnitTests.HighPerformance.Helpers
             {
                 ParallelHelper.For<DummyAction>(1, 0);
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException e) when (e.GetType() == typeof(ArgumentOutOfRangeException))
             {
                 var name = (
                     from method in typeof(ParallelHelper).GetMethods()
@@ -81,7 +81,7 @@ namespace UnitTests.HighPerformance.Helpers
             {
                 ParallelHelper.For2D<DummyAction2D>(1, 0, 0, 1);
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException e) when (e.GetType() == typeof(ArgumentOutOfRangeException))
             {
                 var name = (
                     from method in typeof(ParallelHelper).GetMethods()
@@ -112,7 +112,7 @@ namespace UnitTests.HighPerformance.Helpers
             {
                 ParallelHelper.For2D<DummyAction2D>(0, 1, 1, 0);
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException e) when (e.GetType() == typeof(ArgumentOutOfRangeException))
             {
                 var name = (
                     from method in typeof(ParallelHelper).GetMethods()
