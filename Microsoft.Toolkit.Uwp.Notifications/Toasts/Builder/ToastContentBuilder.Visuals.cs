@@ -82,50 +82,50 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
 #if WINDOWS_UWP
 
-     /// <summary>
-     /// Create an instance of NotificationData that can be used to update toast that has a progress bar.
-     /// </summary>
-     /// <param name="toast">Instance of ToastContent that contain progress bars that need to be updated</param>
-     /// <param name="index">Index of the progress bar (0-based) that this notification data is updating in the case that toast has multiple progress bars. Default to 0.</param>
-     /// <param name="title">Title of the progress bar.</param>
-     /// <param name="value">Value of the progress bar.</param>
-     /// <param name="valueStringOverride">An optional string to be displayed instead of the default percentage string. If this isn't provided, something like "70%" will be displayed.</param>
-     /// <param name="status"> A status string, which is displayed underneath the progress bar on the left. Default to empty.</param>
-     /// <param name="sequence">A sequence number to prevent out-of-order updates, or assign 0 to indicate "always update".</param>
-     /// <returns>An instance of NotificationData that can be used to update the toast.</returns>
-     public static NotificationData CreateProgressBarData(ToastContent toast, int index = 0, string title = default(string), double? value = null, string valueStringOverride = default(string), string status = default(string), uint sequence = 0)
-     {
-         var progressBar = toast.Visual.BindingGeneric.Children.Where(c => c is AdaptiveProgressBar).ElementAt(index) as AdaptiveProgressBar;
-         if (progressBar == null)
-         {
-             throw new ArgumentException(nameof(toast), "Given toast does not have any progress bar");
-         }
+        /// <summary>
+        /// Create an instance of NotificationData that can be used to update toast that has a progress bar.
+        /// </summary>
+        /// <param name="toast">Instance of ToastContent that contain progress bars that need to be updated</param>
+        /// <param name="index">Index of the progress bar (0-based) that this notification data is updating in the case that toast has multiple progress bars. Default to 0.</param>
+        /// <param name="title">Title of the progress bar.</param>
+        /// <param name="value">Value of the progress bar.</param>
+        /// <param name="valueStringOverride">An optional string to be displayed instead of the default percentage string. If this isn't provided, something like "70%" will be displayed.</param>
+        /// <param name="status"> A status string, which is displayed underneath the progress bar on the left. Default to empty.</param>
+        /// <param name="sequence">A sequence number to prevent out-of-order updates, or assign 0 to indicate "always update".</param>
+        /// <returns>An instance of NotificationData that can be used to update the toast.</returns>
+        public static NotificationData CreateProgressBarData(ToastContent toast, int index = 0, string title = default(string), double? value = null, string valueStringOverride = default(string), string status = default(string), uint sequence = 0)
+        {
+            var progressBar = toast.Visual.BindingGeneric.Children.Where(c => c is AdaptiveProgressBar).ElementAt(index) as AdaptiveProgressBar;
+            if (progressBar == null)
+            {
+                throw new ArgumentException(nameof(toast), "Given toast does not have any progress bar");
+            }
 
-         NotificationData data = new NotificationData();
-         data.SequenceNumber = sequence;
+            NotificationData data = new NotificationData();
+            data.SequenceNumber = sequence;
 
-         if (progressBar.Title is BindableString bindableTitle && title != default(string))
-         {
-             data.Values[bindableTitle.BindingName] = title;
-         }
+            if (progressBar.Title is BindableString bindableTitle && title != default(string))
+            {
+                data.Values[bindableTitle.BindingName] = title;
+            }
 
-         if (progressBar.Value is BindableProgressBarValue bindableProgressValue && value != null)
-         {
-             data.Values[bindableProgressValue.BindingName] = value.ToString();
-         }
+            if (progressBar.Value is BindableProgressBarValue bindableProgressValue && value != null)
+            {
+                data.Values[bindableProgressValue.BindingName] = value.ToString();
+            }
 
-         if (progressBar.ValueStringOverride is BindableString bindableValueStringOverride && valueStringOverride != default(string))
-         {
-             data.Values[bindableValueStringOverride.BindingName] = valueStringOverride;
-         }
+            if (progressBar.ValueStringOverride is BindableString bindableValueStringOverride && valueStringOverride != default(string))
+            {
+                data.Values[bindableValueStringOverride.BindingName] = valueStringOverride;
+            }
 
-         if (progressBar.Status is BindableString bindableStatus && status != default(string))
-         {
-             data.Values[bindableStatus.BindingName] = status;
-         }
+            if (progressBar.Status is BindableString bindableStatus && status != default(string))
+            {
+                data.Values[bindableStatus.BindingName] = status;
+            }
 
-         return data;
-     }
+            return data;
+        }
 
 #endif
 

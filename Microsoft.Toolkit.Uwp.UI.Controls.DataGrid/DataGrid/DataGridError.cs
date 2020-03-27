@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
             public static ArgumentOutOfRangeException ValueMustBeBetween(string paramName, string valueName, object lowValue, bool lowInclusive, object highValue, bool highInclusive)
             {
-                string message = null;
+                string message;
 
                 if (lowInclusive && highInclusive)
                 {

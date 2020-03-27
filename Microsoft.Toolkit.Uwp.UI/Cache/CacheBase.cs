@@ -11,7 +11,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -144,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         public async Task RemoveExpiredAsync(TimeSpan? duration = null)
         {
-            TimeSpan expiryDuration = duration.HasValue ? duration.Value : CacheDuration;
+            TimeSpan expiryDuration = duration ?? CacheDuration;
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
             var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
@@ -197,10 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             foreach (var uri in uriForCachedItems)
             {
                 string fileName = GetCacheFileName(uri);
-
-                StorageFile file = null;
-
-                if (hashDictionary.TryGetValue(fileName, out file))
+                if (hashDictionary.TryGetValue(fileName, out var file))
                 {
                     filesToDelete.Add(file);
                     keys.Add(fileName);
@@ -335,10 +331,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             T instance = default(T);
 
             string fileName = GetCacheFileName(uri);
-
-            ConcurrentRequest request = null;
-
-            _concurrentTasks.TryGetValue(fileName, out request);
+            _concurrentTasks.TryGetValue(fileName, out var request);
 
             // if similar request exists check if it was preCacheOnly and validate that current request isn't preCacheOnly
             if (request != null && request.EnsureCachedCopy && !preCacheOnly)
@@ -372,8 +365,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             finally
             {
-                _concurrentTasks.TryRemove(fileName, out request);
-                request = null;
+                _concurrentTasks.TryRemove(fileName, out _);
             }
 
             return instance;
@@ -381,7 +373,6 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private async Task<T> GetFromCacheOrDownloadAsync(Uri uri, string fileName, bool preCacheOnly, CancellationToken cancellationToken, List<KeyValuePair<string, object>> initializerKeyValues)
         {
-            StorageFile baseFile = null;
             T instance = default(T);
 
             if (_inMemoryFileStorage.MaxItemCount > 0)
@@ -399,7 +390,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
-            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
+            var baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
 
             bool downloadDataFile = baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(false);
 
