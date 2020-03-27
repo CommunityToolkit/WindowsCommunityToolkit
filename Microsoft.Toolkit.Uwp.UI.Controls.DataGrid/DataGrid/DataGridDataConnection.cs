@@ -538,8 +538,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                             return true;
                         }
 
-                        object[] index = null;
-                        propertyInfo = propertyType.GetPropertyOrIndexer(propertyNames[i], out index);
+                        propertyInfo = propertyType.GetPropertyOrIndexer(propertyNames[i], out _);
                         if (propertyInfo == null || propertyInfo.GetIsReadOnly())
                         {
                             // Either the property doesn't exist or it does exist but is read-only.
@@ -547,8 +546,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                         }
 
                         // Check if EditableAttribute is defined on the property and if it indicates uneditable
-                        EditableAttribute editableAttribute = null;
-                        editableAttribute = propertyInfo.GetCustomAttributes().OfType<EditableAttribute>().FirstOrDefault();
+                        var editableAttribute = propertyInfo.GetCustomAttributes().OfType<EditableAttribute>().FirstOrDefault();
                         if (editableAttribute != null && !editableAttribute.AllowEdit)
                         {
                             return true;
@@ -705,9 +703,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                 _scrollForCurrentChanged = scrollIntoView;
                 _backupSlotForCurrentChanged = backupSlot;
 
-                bool itemIsCollectionViewGroup = false;
-
-                itemIsCollectionViewGroup = item is ICollectionViewGroup;
+                var itemIsCollectionViewGroup = item is ICollectionViewGroup;
                 this.CollectionView.MoveCurrentTo((itemIsCollectionViewGroup || this.IndexOf(item) == this.NewItemPlaceholderIndex) ? null : item);
 
                 _expectingCurrentChanged = false;

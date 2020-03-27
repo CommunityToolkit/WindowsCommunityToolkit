@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
                 tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
                 tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
-                var dontWait = tile.UpdateAsync(); // Commit changes (no need to await)
+                _ = tile.UpdateAsync(); // Commit changes (no need to await)
 
                 tile.CreateTileUpdater().Update(new TileNotification(_tileContent.GetXml()));
             }

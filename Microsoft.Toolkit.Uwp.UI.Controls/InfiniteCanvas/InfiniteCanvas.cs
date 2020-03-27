@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ColorPicker _canvasTextBoxColorPicker;
 
         private TextBox _canvasTextBoxFontSizeTextBox;
-        private ToggleButton _canvasTextBoxItlaicButton;
+        private ToggleButton _canvasTextBoxItalicButton;
         private ToggleButton _canvasTextBoxBoldButton;
         private Button _undoButton;
         private Button _redoButton;
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBoxTools = (StackPanel)GetTemplateChild("CanvasTextBoxTools");
             _canvasTextBoxColorPicker = (ColorPicker)GetTemplateChild("CanvasTextBoxColorPicker");
             _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild("CanvasTextBoxFontSizeTextBox");
-            _canvasTextBoxItlaicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItlaicButton");
+            _canvasTextBoxItalicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItalicButton");
             _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild("CanvasTextBoxBoldButton");
             _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild("DrawingSurfaceRenderer");
             _mainContainer = (Canvas)GetTemplateChild("MainContainer");
@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnRegisterEvents()
         {
             _canvasTextBoxFontSizeTextBox.TextChanged -= CanvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Click -= CanvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxItalicButton.Click -= CanvasTextBoxItalicButton_Clicked;
             _canvasTextBoxBoldButton.Click -= CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged -= CanvasTextBoxColorPicker_ColorChanged;
             _enableTouchInkingButton.Checked -= EnableTouchInkingButton_Checked;
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RegisterEvents()
         {
             _canvasTextBoxFontSizeTextBox.TextChanged += CanvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Click += CanvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxItalicButton.Click += CanvasTextBoxItalicButton_Clicked;
             _canvasTextBoxBoldButton.Click += CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged += CanvasTextBoxColorPicker_ColorChanged;
             _enableTouchInkingButton.Checked += EnableTouchInkingButton_Checked;

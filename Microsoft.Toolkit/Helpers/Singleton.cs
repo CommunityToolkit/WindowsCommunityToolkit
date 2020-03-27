@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Helpers
         where T : new()
     {
         // Use ConcurrentDictionary for thread safety.
-        private static ConcurrentDictionary<Type, T> _instances = new ConcurrentDictionary<Type, T>();
+        private static readonly ConcurrentDictionary<Type, T> _instances = new ConcurrentDictionary<Type, T>();
 
         /// <summary>
         /// Gets the instance of the Singleton class.
