@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Notifications
 {
@@ -260,7 +260,7 @@ namespace UnitTests.Notifications
             // Assert
             Assert.AreSame(builder, anotherReference);
 
-            var image = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveImage);
+            var image = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveImage;
 
             Assert.AreEqual(testInlineImageUriSrc.OriginalString, image.Source);
             Assert.AreEqual(testInlineImageAltText, image.AlternateText);
@@ -278,7 +278,7 @@ namespace UnitTests.Notifications
 
             // Assert
             Assert.AreSame(builder, anotherReference);
-            var progressBar = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar);
+            var progressBar = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar;
 
             Assert.IsNotNull(progressBar.Title.BindingName);
             Assert.IsNotNull(progressBar.Value.BindingName);
@@ -302,7 +302,7 @@ namespace UnitTests.Notifications
 
             // Assert
             Assert.AreSame(builder, anotherReference);
-            var progressBar = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar);
+            var progressBar = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar;
 
             Assert.IsNull(progressBar.Title.BindingName);
             Assert.AreEqual(testProgressBarTitle, (string)progressBar.Title);
@@ -328,7 +328,7 @@ namespace UnitTests.Notifications
 
             // Assert
             Assert.AreSame(builder, anotherReference);
-            var progressBar = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar);
+            var progressBar = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar;
 
             Assert.IsTrue(((AdaptiveProgressBarValue)progressBar.Value).IsIndeterminate);
         }
@@ -345,7 +345,7 @@ namespace UnitTests.Notifications
 
             // Assert
             Assert.AreSame(builder, anotherReference);
-            var text = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText);
+            var text = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText;
 
             Assert.AreEqual(testText, (string)text.Text);
         }
@@ -368,9 +368,9 @@ namespace UnitTests.Notifications
             Assert.AreSame(builder, anotherReference);
             var texts = builder.Content.Visual.BindingGeneric.Children.Take(3).Cast<AdaptiveText>().ToList();
 
-            Assert.AreEqual(testText1, (string)(texts[0].Text));
-            Assert.AreEqual(testText2, (string)(texts[1].Text));
-            Assert.AreEqual(testText3, (string)(texts[2].Text));
+            Assert.AreEqual(testText1, (string)texts[0].Text);
+            Assert.AreEqual(testText2, (string)texts[1].Text);
+            Assert.AreEqual(testText3, (string)texts[2].Text);
         }
 
         [TestMethod]
@@ -392,7 +392,7 @@ namespace UnitTests.Notifications
 
             // Assert
             Assert.AreSame(builder, anotherReference);
-            var text = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText);
+            var text = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText;
 
             Assert.AreEqual(testText, (string)text.Text);
             Assert.AreEqual(testStyle, text.HintStyle);
