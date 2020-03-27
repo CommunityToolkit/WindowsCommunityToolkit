@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeExceptionForPosition()
         {
-            throw new ArgumentOutOfRangeException("position", "The position parameter was not in the valid range.");
+            throw new ArgumentOutOfRangeException(nameof(Position), "The value for the property was not in the valid range.");
         }
 
         /// <summary>

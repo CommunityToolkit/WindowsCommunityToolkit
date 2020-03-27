@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Streams
 {
     [TestClass]
-    public class Test_MemoryStream
+    public partial class Test_MemoryStream
     {
         [TestCategory("MemoryStream")]
         [TestMethod]
