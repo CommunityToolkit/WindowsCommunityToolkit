@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -145,6 +146,7 @@ namespace UnitTests.HighPerformance.Streams
 
         [TestCategory("MemoryStream")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1500", Justification = "Array initialization")]
         public void Test_MemoryStream_ReadWriteByte()
         {
             Stream stream = new byte[4].AsMemory().AsStream();

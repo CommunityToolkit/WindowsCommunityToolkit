@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -21,34 +22,36 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_RandomCount8()
         {
-            TestForType((byte)123, CreateRandomData<byte>);
-            TestForType((sbyte)123, CreateRandomData<sbyte>);
-            TestForType(true, CreateRandomData<bool>);
+            TestForType((byte)123, CreateRandomData);
+            TestForType((sbyte)123, CreateRandomData);
+            TestForType(true, CreateRandomData);
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_RandomCount16()
         {
-            TestForType((ushort)4712, CreateRandomData<ushort>);
-            TestForType((short)4712, CreateRandomData<short>);
-            TestForType((char)4712, CreateRandomData<char>);
+            TestForType((ushort)4712, CreateRandomData);
+            TestForType((short)4712, CreateRandomData);
+            TestForType((char)4712, CreateRandomData);
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1139", Justification = "Easier to tell types apart at a glance")]
         public void Test_ReadOnlySpanExtensions_RandomCount32()
         {
-            TestForType((int)37438941, CreateRandomData<int>);
-            TestForType((uint)37438941, CreateRandomData<uint>);
+            TestForType((int)37438941, CreateRandomData);
+            TestForType((uint)37438941, CreateRandomData);
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1139", Justification = "Easier to tell types apart at a glance")]
         public void Test_ReadOnlySpanExtensions_RandomCount64()
         {
-            TestForType((long)47128480128401, CreateRandomData<long>);
-            TestForType((ulong)47128480128401, CreateRandomData<ulong>);
+            TestForType((long)47128480128401, CreateRandomData);
+            TestForType((ulong)47128480128401, CreateRandomData);
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
@@ -136,6 +139,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1139", Justification = "Easier to tell types apart at a glance")]
         public void Test_ReadOnlySpanExtensions_FilledCount32()
         {
             TestForType((int)37438941, (count, _) => CreateFilledData(count, (int)37438941));
@@ -144,6 +148,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1139", Justification = "Easier to tell types apart at a glance")]
         public void Test_ReadOnlySpanExtensions_FilledCount64()
         {
             TestForType((long)47128480128401, (count, _) => CreateFilledData(count, (long)47128480128401));
