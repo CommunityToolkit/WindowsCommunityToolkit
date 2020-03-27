@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance
             {
                 var data = Unsafe.As<RawObjectData>(owner);
                 ref byte r0 = ref data.Data;
-                ref byte r1 = ref Unsafe.Add(ref r0, offset);
+                ref byte r1 = ref Unsafe.AddByteOffset(ref r0, offset);
 
                 return ref Unsafe.As<byte, T>(ref r1);
             }
