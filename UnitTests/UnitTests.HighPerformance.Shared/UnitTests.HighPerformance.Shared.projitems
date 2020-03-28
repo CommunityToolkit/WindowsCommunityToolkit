@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IMemoryOwnerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlyMemoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_MemoryExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpanExtensions.cs" />

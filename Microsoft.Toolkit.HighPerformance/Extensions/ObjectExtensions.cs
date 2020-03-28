@@ -10,9 +10,9 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
-    /// Helpers for working with value types.
+    /// Helpers for working with <see cref="object"/> instances.
     /// </summary>
-    public static class ValueTypeExtensions
+    public static class ObjectExtensions
     {
         /// <summary>
         /// Tries to get a boxed <typeparamref name="T"/> value from an input <see cref="object"/> instance.

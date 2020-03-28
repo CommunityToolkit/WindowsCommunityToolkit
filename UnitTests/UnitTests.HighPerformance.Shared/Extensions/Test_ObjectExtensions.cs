@@ -9,9 +9,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Extensions
 {
     [TestClass]
-    public class Test_ValueTypeExtensions
+    public class Test_ObjectExtensions
     {
-        [TestCategory("ValueTypeExtensions")]
+        [TestCategory("ObjectExtensions")]
         [TestMethod]
         public void Test_BoxOfT_PrimitiveTypes()
         {
@@ -25,7 +25,7 @@ namespace UnitTests.HighPerformance.Extensions
             Test(184013.234324);
         }
 
-        [TestCategory("ValueTypeExtensions")]
+        [TestCategory("ObjectExtensions")]
         [TestMethod]
         public void Test_BoxOfT_OtherTypes()
         {
@@ -49,7 +49,7 @@ namespace UnitTests.HighPerformance.Extensions
             }
         }
 
-        [TestCategory("ValueTypeExtensions")]
+        [TestCategory("ObjectExtensions")]
         [TestMethod]
         public void TestBoxOfT_CustomStruct()
         {
