@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Notifications
 {
@@ -442,12 +442,12 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_ToastV2_ShoulderTapImage_SourceRequired()
         {
-            Assert.ThrowsException<NullReferenceException>(delegate
+            Assert.ThrowsException<NullReferenceException>(() =>
             {
                 AssertShoulderTapImagePayload("exception should be thrown", new ToastShoulderTapImage());
             });
 
-            Assert.ThrowsException<ArgumentNullException>(delegate
+            Assert.ThrowsException<ArgumentNullException>(() =>
             {
                 new ToastShoulderTapImage()
                 {
@@ -494,12 +494,12 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_ToastV2_SpriteSheet_SourceRequired()
         {
-            Assert.ThrowsException<NullReferenceException>(delegate
+            Assert.ThrowsException<NullReferenceException>(() =>
             {
                 AssertSpriteSheetProperties("exception should be thrown", new ToastSpriteSheet());
             });
 
-            Assert.ThrowsException<ArgumentNullException>(delegate
+            Assert.ThrowsException<ArgumentNullException>(() =>
             {
                 new ToastSpriteSheet()
                 {
@@ -606,7 +606,6 @@ namespace UnitTests.Notifications
             {
                 AssertHeroImagePayload("<image placement='hero'/>", hero);
             }
-
             catch (NullReferenceException)
             {
                 return;
@@ -674,8 +673,6 @@ namespace UnitTests.Notifications
         /// <summary>
         /// Used for testing properties of visual without needing to specify the Generic binding
         /// </summary>
-        /// <param name="expectedVisualProperties"></param>
-        /// <param name="visual"></param>
         private static void AssertVisualPayloadProperties(string expectedVisualProperties, ToastVisual visual)
         {
             visual.BindingGeneric = new ToastBindingGeneric();
@@ -863,7 +860,10 @@ namespace UnitTests.Notifications
                     }
                 };
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -939,7 +939,10 @@ namespace UnitTests.Notifications
                     }
                 };
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -966,7 +969,6 @@ namespace UnitTests.Notifications
                     }
                 });
             }
-
             catch (InvalidOperationException)
             {
                 return;
@@ -978,7 +980,6 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_Actions_TwoContextMenuItems()
         {
-
             AssertActionsPayload("<actions><action placement='contextMenu' content='Menu item 1' arguments='1'/><action placement='contextMenu' content='Menu item 2' arguments='2'/></actions>", new ToastActionsCustom()
             {
                 ContextMenuItems =
@@ -992,7 +993,6 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_Actions_FiveContextMenuItems()
         {
-
             AssertActionsPayload("<actions><action placement='contextMenu' content='Menu item 1' arguments='1'/><action placement='contextMenu' content='Menu item 2' arguments='2'/><action placement='contextMenu' content='Menu item 3' arguments='3'/><action placement='contextMenu' content='Menu item 4' arguments='4'/><action placement='contextMenu' content='Menu item 5' arguments='5'/></actions>", new ToastActionsCustom()
             {
                 ContextMenuItems =
@@ -1024,13 +1024,13 @@ namespace UnitTests.Notifications
                     }
                 });
             }
-
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
-
-
 
         [TestMethod]
         public void Test_Toast_Xml_ActionsSnoozeDismiss_TwoContextMenuItems()
@@ -1079,8 +1079,10 @@ namespace UnitTests.Notifications
                     }
                 });
             }
-
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1100,7 +1102,10 @@ namespace UnitTests.Notifications
             {
                 new ToastButton(null, "args");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1112,7 +1117,10 @@ namespace UnitTests.Notifications
             {
                 new ToastButton("content", null);
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1285,8 +1293,10 @@ namespace UnitTests.Notifications
             {
                 new ToastContextMenuItem(null, "args");
             }
-
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1298,8 +1308,10 @@ namespace UnitTests.Notifications
             {
                 new ToastContextMenuItem("content", null);
             }
-
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1396,7 +1408,10 @@ namespace UnitTests.Notifications
             {
                 new ToastTextBox(null);
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1404,7 +1419,7 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_TextBox_EmptyId()
         {
-            var textBox = new ToastTextBox("");
+            var textBox = new ToastTextBox(string.Empty);
 
             AssertInputPayload("<input id='' type='text' />", textBox);
         }
@@ -1420,7 +1435,7 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_SelectionBox_EmptyId()
         {
-            var selectionBox = new ToastSelectionBox("");
+            var selectionBox = new ToastSelectionBox(string.Empty);
 
             AssertInputPayload("<input id='' type='selection' />", selectionBox);
         }
@@ -1432,7 +1447,10 @@ namespace UnitTests.Notifications
             {
                 new ToastSelectionBox(null);
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1474,7 +1492,10 @@ namespace UnitTests.Notifications
             {
                 new ToastSelectionBoxItem(null, "My content");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1486,7 +1507,10 @@ namespace UnitTests.Notifications
             {
                 new ToastSelectionBoxItem("myId", null);
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Exception should have been thrown.");
         }
@@ -1494,7 +1518,7 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_SelectionBoxItem_EmptyId()
         {
-            var selectionBoxItem = new ToastSelectionBoxItem("", "My content");
+            var selectionBoxItem = new ToastSelectionBoxItem(string.Empty, "My content");
 
             AssertSelectionPayload("<selection id='' content='My content' />", selectionBoxItem);
         }
@@ -1502,7 +1526,7 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_SelectionBoxItem_EmptyContent()
         {
-            var selectionBoxItem = new ToastSelectionBoxItem("myId", "");
+            var selectionBoxItem = new ToastSelectionBoxItem("myId", string.Empty);
 
             AssertSelectionPayload("<selection id='myId' content='' />", selectionBoxItem);
         }
@@ -1594,7 +1618,7 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Header_EmptyStrings()
         {
-            AssertHeaderPayload("<header id='' title='' arguments='' />", new ToastHeader("", "", ""));
+            AssertHeaderPayload("<header id='' title='' arguments='' />", new ToastHeader(string.Empty, string.Empty, string.Empty));
         }
 
         [TestMethod]
@@ -1607,7 +1631,9 @@ namespace UnitTests.Notifications
                 AssertHeaderActivationType("background", ToastActivationType.Background);
                 throw new Exception("ArgumentException should have been thrown, since activation type of background isn't allowed.");
             }
-            catch (ArgumentException) { }
+            catch (ArgumentException)
+            {
+            }
 
             AssertHeaderActivationType("protocol", ToastActivationType.Protocol);
         }
@@ -1679,7 +1705,6 @@ namespace UnitTests.Notifications
             }
             catch (InvalidOperationException)
             {
-
             }
         }
 
@@ -1722,7 +1747,6 @@ namespace UnitTests.Notifications
             }
             catch (InvalidOperationException)
             {
-
             }
         }
 
@@ -1773,7 +1797,6 @@ namespace UnitTests.Notifications
             }
             catch (InvalidOperationException)
             {
-
             }
 
             // Specifying protocol PFN without using protocol activation should throw exception
@@ -1790,7 +1813,6 @@ namespace UnitTests.Notifications
             }
             catch (InvalidOperationException)
             {
-
             }
         }
 
@@ -1825,7 +1847,6 @@ namespace UnitTests.Notifications
             }
             catch (InvalidOperationException)
             {
-
             }
 
             // Specifying protocol PFN without using protocol activation should throw exception
@@ -1841,7 +1862,6 @@ namespace UnitTests.Notifications
             }
             catch (InvalidOperationException)
             {
-
             }
         }
 
@@ -1891,7 +1911,9 @@ namespace UnitTests.Notifications
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
-            catch (ArgumentOutOfRangeException) { }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
 
             try
             {
@@ -1902,7 +1924,9 @@ namespace UnitTests.Notifications
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
-            catch (ArgumentOutOfRangeException) { }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
         }
 
         [TestMethod]
@@ -1925,7 +1949,9 @@ namespace UnitTests.Notifications
                 AssertProgressBar("Exception should be thrown", new AdaptiveProgressBar());
                 Assert.Fail("Exception should have been thrown, Status property is required");
             }
-            catch (NullReferenceException) { }
+            catch (NullReferenceException)
+            {
+            }
 
             AssertProgressBar("<progress value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Adding music...'/>", new AdaptiveProgressBar()
             {
@@ -2018,21 +2044,22 @@ namespace UnitTests.Notifications
                 }
             };
 
-            AssertPayload(@"<toast hint-people='mailto:johndoe@mydomain.com'>
-    <visual>
-        <binding template='ToastGeneric'>
-            <text>Toast fallback</text>
-            <text>Add your fallback toast content here</text>
-        </binding>
-        <binding template='ToastGeneric' experienceType='shoulderTap'>
-            <image src='img.png'
-                spritesheet-src='sprite.png'
-                spritesheet-height='80'
-                spritesheet-fps='25'
-                spritesheet-startingFrame='15'/>
-        </binding>
-    </visual>
-</toast>", content);
+            AssertPayload(
+                @"<toast hint-people='mailto:johndoe@mydomain.com'>
+                    <visual>
+                        <binding template='ToastGeneric'>
+                            <text>Toast fallback</text>
+                            <text>Add your fallback toast content here</text>
+                        </binding>
+                        <binding template='ToastGeneric' experienceType='shoulderTap'>
+                            <image src='img.png'
+                                spritesheet-src='sprite.png'
+                                spritesheet-height='80'
+                                spritesheet-fps='25'
+                                spritesheet-startingFrame='15'/>
+                        </binding>
+                    </visual>
+                </toast>", content);
         }
 
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
@@ -2046,7 +2073,7 @@ namespace UnitTests.Notifications
         private static void AssertInputPayload(string expectedInputXml, IToastInput textBox)
         {
             AssertActionsPayload("<actions>" + expectedInputXml + "</actions>", new ToastActionsCustom()
-            { 
+            {
                 Inputs = { textBox }
             });
         }
@@ -2058,7 +2085,7 @@ namespace UnitTests.Notifications
                 Buttons = { button }
             });
         }
-        
+
         private static void AssertContextMenuItemPayload(string expectedContextMenuItemXml, ToastContextMenuItem item)
         {
             AssertActionsPayload("<actions>" + expectedContextMenuItemXml + "</actions>", new ToastActionsCustom()

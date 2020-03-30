@@ -3199,7 +3199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                int slot = -1;
+                int slot;
                 DataGridRowGroupInfo rowGroupInfo = null;
                 ICollectionViewGroup collectionViewGroup = item as ICollectionViewGroup;
                 if (collectionViewGroup != null)
@@ -3207,7 +3207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     rowGroupInfo = RowGroupInfoFromCollectionViewGroup(collectionViewGroup);
                     if (rowGroupInfo == null)
                     {
-                        Debug.Assert(false, "Expected non-null rowGroupInfo.");
+                        Debug.Fail("Expected non-null rowGroupInfo.");
                         return;
                     }
 
@@ -3712,7 +3712,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!e.Handled)
             {
                 PointerPoint pointerPoint = e.GetCurrentPoint(this);
-                bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel;
+
+                // A horizontal scroll happens if the mouse has a horizontal wheel OR if the horizontal scrollbar is not disabled AND the vertical scrollbar IS disabled
+                bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel ||
+                    (this.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled && this.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled);
 
                 if ((isForHorizontalScroll && this.HorizontalScrollBarVisibility == ScrollBarVisibility.Disabled) ||
                     (!isForHorizontalScroll && this.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled))
@@ -3721,7 +3724,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 double offsetDelta = -pointerPoint.Properties.MouseWheelDelta / DATAGRID_mouseWheelDeltaDivider;
-                if (isForHorizontalScroll)
+                if (isForHorizontalScroll && pointerPoint.Properties.IsHorizontalMouseWheel)
                 {
                     offsetDelta *= -1.0;
                 }
@@ -5631,13 +5634,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // Keep track of which row contains the newly focused element
-            DataGridRow focusedRow = null;
             DependencyObject focusedElement = e.OriginalSource as DependencyObject;
             _focusedObject = focusedElement;
             while (focusedElement != null)
             {
-                focusedRow = focusedElement as DataGridRow;
+                // Keep track of which row contains the newly focused element
+                var focusedRow = focusedElement as DataGridRow;
                 if (focusedRow != null && focusedRow.OwningGrid == this && _focusedRow != focusedRow)
                 {
                     ResetFocusedRow();
@@ -5697,8 +5699,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (this.ColumnHeaders != null && this.AreColumnHeadersVisible)
                     {
-                        bool ctrl, shift;
-                        KeyboardHelper.GetMetaKeyState(out ctrl, out shift);
+                        KeyboardHelper.GetMetaKeyState(out _, out var shift);
 
                         if (shift && this.LastHandledKeyDown != VirtualKey.Tab)
                         {
@@ -6598,7 +6599,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // No current cell, therefore no selection either - try to set the current cell to the
             // ItemsSource's ICollectionView.CurrentItem if it exists, otherwise use the first displayed cell.
-            int slot = 0;
+            int slot;
             if (this.DataConnection.CollectionView != null)
             {
                 if (this.DataConnection.CollectionView.IsCurrentBeforeFirst ||
