@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Observables.Collections
     /// </summary>
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
-    public sealed class ReadOnlyObservableGroup<TKey, TValue> : ReadOnlyObservableCollection<TValue>, IGrouping<TKey, TValue>
+    public sealed class ReadOnlyObservableGroup<TKey, TValue> : ReadOnlyObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyObservableGroup{TKey, TValue}"/> class.
@@ -37,5 +37,9 @@ namespace Microsoft.Toolkit.Observables.Collections
 
         /// <inheritdoc/>
         public TKey Key { get; }
+
+        object IReadOnlyObservableGroup.Key => Key;
+
+        int IReadOnlyObservableGroup.Count => Count;
     }
 }

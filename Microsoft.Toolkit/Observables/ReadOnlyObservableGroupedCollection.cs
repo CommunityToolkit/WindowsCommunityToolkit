@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Observables.Collections
         IReadOnlyList<ReadOnlyObservableGroup<TKey, TValue>>,
         INotifyPropertyChanged,
         INotifyCollectionChanged,
-        ICollection,    // Implementing IColletion and IList is needed to allow ListView to monitor the INotifyCollectionChanged events...
+        ICollection,    // Implementing ICollection and IList is needed to allow ListView to monitor the INotifyCollectionChanged events...
         IList
     {
         private readonly ObservableGroupedCollection<TKey, TValue> _collection;

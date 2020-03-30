@@ -2,11 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.Toolkit.Observables.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace UnitTests.Observables
 {
@@ -102,6 +103,20 @@ namespace UnitTests.Observables
             group.Key.Should().Be("key");
             group.Should().BeEmpty();
             collectionChangedEventRaised.Should().BeTrue();
+        }
+
+        [TestCategory("Observables")]
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(3)]
+        public void IReadOnlyObservableGroup_ShouldReturnExpectedValues(int count)
+        {
+            var sourceGroup = new ObservableGroup<string, int>("key", Enumerable.Range(0, count));
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
+            var iReadOnlyObservableGroup = (IReadOnlyObservableGroup)group;
+
+            iReadOnlyObservableGroup.Key.Should().Be("key");
+            iReadOnlyObservableGroup.Count.Should().Be(count);
         }
     }
 }

@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:observables="using:Microsoft.Toolkit.Observables.Collections"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
@@ -12,13 +13,15 @@
             <Setter Property="Margin" Value="8,0,0,0" />
         </Style>
 
-        <DataTemplate x:Key="PersonDataTemplate">
-            <TextBlock Text="{Binding Name}" />
+        <DataTemplate x:Key="PersonDataTemplate"
+                      x:DataType="local:Person">
+            <TextBlock Text="{x:Bind Name}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="GroupDataTemplate">
+        <DataTemplate x:Key="GroupDataTemplate"
+                      x:DataType="observables:IReadOnlyObservableGroup">
             <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                       Text="{Binding Key}" />
+                       Text="{x:Bind (x:String)Key}" />
         </DataTemplate>
 
         <CollectionViewSource x:Key="cvs"

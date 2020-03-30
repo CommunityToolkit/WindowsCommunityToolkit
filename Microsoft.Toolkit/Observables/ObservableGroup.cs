@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Observables.Collections
     /// </summary>
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
-    public sealed class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>
+    public sealed class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGroup{TKey, TValue}"/> class.
@@ -50,5 +50,9 @@ namespace Microsoft.Toolkit.Observables.Collections
         /// Gets the key of the group.
         /// </summary>
         public TKey Key { get; }
+
+        object IReadOnlyObservableGroup.Key => Key;
+
+        int IReadOnlyObservableGroup.Count => Count;
     }
 }

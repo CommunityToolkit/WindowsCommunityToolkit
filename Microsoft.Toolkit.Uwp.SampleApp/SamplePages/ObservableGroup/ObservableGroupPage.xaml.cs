@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Observables.Collections;
 using System.Linq;
+using Microsoft.Toolkit.Observables.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
