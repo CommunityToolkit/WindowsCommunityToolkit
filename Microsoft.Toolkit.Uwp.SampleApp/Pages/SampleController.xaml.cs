@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -165,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (CurrentSample != null)
             {
-                var code = string.Empty;
+                string code;
                 if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
                 {
                     code = CurrentSample.BindedXamlCode;

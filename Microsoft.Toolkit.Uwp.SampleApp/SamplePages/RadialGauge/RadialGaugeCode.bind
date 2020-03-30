@@ -26,6 +26,7 @@
                   MinAngle="@[MinAngle:Slider:210:0-360]"
                   MaxAngle="@[MaxAngle:Slider:150:0-360]"
                   Unit="units"
+                  ValueStringFormat="@[ValueStringFormat:String:N0]"
                   NeedleWidth="@[NeedleWidth:Slider:4:1-10]"
                   NeedleLength="@[NeedleLength:Slider:100:20-100]" 
                   TickLength="@[TickLength:Slider:10:0-30]"
