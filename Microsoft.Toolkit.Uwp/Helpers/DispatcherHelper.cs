@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public static class DispatcherHelper
     {
         /// <summary>
-        /// Executes the given function on a given view's UI thread. The default view is the main view.
+        /// Executes the given function on the main view's UI thread.
         /// </summary>
         /// <param name="function">Synchronous function to be executed on UI thread.</param>
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Executes the given function on a given view's UI thread. The default view is the main view.
+        /// Executes the given function on the main view's UI thread and returns its result.
         /// </summary>
         /// <typeparam name="T">Returned data type of the function.</typeparam>
         /// <param name="function">Synchronous function to be executed on UI thread.</param>
@@ -40,7 +40,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Executes the given function asynchronously on UI thread of the main view.
+        /// Executes the given <see cref="Task"/>-returning function on the main view's UI thread and returns either that <see cref="Task"/>
+        /// or a proxy <see cref="Task"/> that completes when the one produced by the given function completes.
         /// </summary>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread.</param>
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
@@ -51,7 +52,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Executes the given function asynchronously on UI thread of the main view.
+        /// Executes the given <see cref="Task{TResult}"/>-returning function on the main view's UI thread and returns either that <see cref="Task{TResult}"/>
+        /// or a proxy <see cref="Task{TResult}"/> that completes when the one produced by the given function completes.
         /// </summary>
         /// <typeparam name="T">Returned data type of the function.</typeparam>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread.</param>
