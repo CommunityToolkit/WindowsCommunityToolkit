@@ -12,9 +12,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public class RoamingObjectStorageHelper : BaseObjectStorageHelper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RoamingObjectStorageHelper"/> class.
+        /// Initializes a new instance of the <see cref="RoamingObjectStorageHelper"/> class,
+        /// which can read and write data using the provided <see cref="IObjectSerializer"/>;
+        /// if none is provided, a default Json serializer will be used.
         /// </summary>
-        public RoamingObjectStorageHelper()
+        /// <param name="objectSerializer">The serializer to use.</param>
+        public RoamingObjectStorageHelper(IObjectSerializer objectSerializer = null)
+            : base(objectSerializer)
         {
             Settings = ApplicationData.Current.RoamingSettings;
             Folder = ApplicationData.Current.RoamingFolder;
