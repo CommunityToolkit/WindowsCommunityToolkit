@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            _ = dispatcher.TryEnqueue(priority, () =>
+            bool ok = dispatcher.TryEnqueue(priority, () =>
             {
                 try
                 {
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var taskCompletionSource = new TaskCompletionSource<object>();
 
-            _ = dispatcher.TryEnqueue(priority, async () =>
+            bool ok = dispatcher.TryEnqueue(priority, async () =>
             {
                 try
                 {
@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            _ = dispatcher.TryEnqueue(priority, async () =>
+            bool ok = dispatcher.TryEnqueue(priority, async () =>
             {
                 try
                 {

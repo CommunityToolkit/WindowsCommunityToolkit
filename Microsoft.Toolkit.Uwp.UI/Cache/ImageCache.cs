@@ -35,14 +35,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public static ImageCache Instance => _instance ?? (_instance = new ImageCache());
 
-        private DispatcherQueue _dispatcherQueue;
+        /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCache"/> class.
         /// </summary>
-        public ImageCache()
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        public ImageCache(DispatcherQueue dispatcherQueue = null)
         {
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
             _extendedPropertyNames.Add(DateAccessedProperty);
         }
 
@@ -59,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new FileNotFoundException();
             }
 
-            return await _dispatcherQueue.ExecuteOnUIThreadAsync(async () =>
+            return await DispatcherQueue.ExecuteOnUIThreadAsync(async () =>
             {
                 BitmapImage image = new BitmapImage();
 

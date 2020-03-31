@@ -8,7 +8,7 @@
     <UseWpf>true</UseWpf>
     <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
     <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
-    <ApplicationManifest>UnitTests.XamlIslands.dll.manifest</ApplicationManifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>UnitTests.XamlIslands.Program</StartupObject>
   </PropertyGroup>
 
@@ -26,12 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <None Update="UnitTests.XamlIslands.dll.manifest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

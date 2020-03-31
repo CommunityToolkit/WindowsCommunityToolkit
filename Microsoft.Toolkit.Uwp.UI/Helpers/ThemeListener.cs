@@ -47,7 +47,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// </summary>
         public bool IsHighContrast { get; set; }
 
-        private DispatcherQueue _dispatcherQueue;
+        /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
 
         /// <summary>
         /// An event that fires if the Theme changes.
@@ -60,12 +63,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="ThemeListener"/> class.
         /// </summary>
-        public ThemeListener()
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        public ThemeListener(DispatcherQueue dispatcherQueue = null)
         {
             CurrentTheme = Application.Current.RequestedTheme;
             IsHighContrast = _accessible.HighContrast;
 
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             _accessible.HighContrastChanged += Accessible_HighContrastChanged;
             _settings.ColorValuesChanged += Settings_ColorValuesChanged;
@@ -90,9 +94,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
             await OnColorValuesChanged();
         }
 
-        internal async Task OnColorValuesChanged()
+        internal Task OnColorValuesChanged()
         {
-            await _dispatcherQueue.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {
                     // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.

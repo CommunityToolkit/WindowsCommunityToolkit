@@ -96,16 +96,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         private PrintHelperOptions _defaultPrintHelperOptions;
 
-        private DispatcherQueue _dispatcherQueue;
+        /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
         /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
-        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null, DispatcherQueue dispatcherQueue = null)
         {
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             if (canvasContainer == null)
             {
@@ -201,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             _printCanvas = null;
-            _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -225,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (!_directPrint)
             {
-                await _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+                await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -258,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    await _dispatcherQueue.ExecuteOnUIThreadAsync(
+                    await DispatcherQueue.ExecuteOnUIThreadAsync(
                         async () =>
                         {
                             foreach (var element in _stateBags.Keys)
@@ -476,7 +480,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             // Save state
             if (!_stateBags.ContainsKey(element))
             {
-                var stateBag = new PrintHelperStateBag(_dispatcherQueue);
+                var stateBag = new PrintHelperStateBag(DispatcherQueue);
                 stateBag.Capture(element);
                 _stateBags.Add(element, stateBag);
             }
@@ -511,7 +515,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
-            return _dispatcherQueue.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
@@ -527,7 +531,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private Task ClearPageCache()
         {
-            return _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            return DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 if (!_directPrint)
                 {

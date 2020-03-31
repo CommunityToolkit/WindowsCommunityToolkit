@@ -25,7 +25,7 @@ namespace UnitTests.XamlIslands
             _themeListener = new ThemeListener();
             _themeListener.ThemeChanged += (s) =>
             {
-                _taskCompletionSource.SetResult(null);
+                _taskCompletionSource.TrySetResult(null);
             };
 
             Application.Current.RequestedTheme = ApplicationTheme.Dark;

@@ -25,15 +25,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private RemoteSystemWatcher _remoteSystemWatcher;
 
-        private DispatcherQueue _dispatcherQueue;
+        /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteDeviceHelper"/> class.
         /// </summary>
-        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates for this BluetoothLE Device, or null if this is being called from the UI thread.</param>
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
         public RemoteDeviceHelper(DispatcherQueue dispatcherQueue = null)
         {
-            _dispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
             RemoteSystems = new ObservableCollection<RemoteSystem>();
             GenerateSystems();
         }
@@ -42,10 +45,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="RemoteDeviceHelper"/> class.
         /// </summary>
         /// <param name="filter">Initiate Enumeration with specific RemoteSysemKind with Filters</param>
-        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates for this BluetoothLE Device, or null if this is being called from the UI thread.</param>
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
         public RemoteDeviceHelper(List<IRemoteSystemFilter> filter, DispatcherQueue dispatcherQueue = null)
         {
-            _dispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
             RemoteSystems = new ObservableCollection<RemoteSystem>();
             GenerateSystemsWithFilterAsync(filter);
         }
@@ -94,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
         {
-            await _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystem.Id));
                 RemoteSystems.Add(args.RemoteSystem);
@@ -103,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async void RemoteSystemWatcher_RemoteSystemRemoved(RemoteSystemWatcher sender, RemoteSystemRemovedEventArgs args)
         {
-            await _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystemId));
             });
@@ -111,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async void RemoteSystemWatcher_RemoteSystemAdded(RemoteSystemWatcher sender, RemoteSystemAddedEventArgs args)
         {
-            await _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 RemoteSystems.Add(args.RemoteSystem);
             });

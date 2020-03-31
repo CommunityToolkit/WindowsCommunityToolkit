@@ -7,17 +7,17 @@ using Windows.UI.Xaml.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Toolkit.Win32.UI.XamlHost;
 using System.Threading.Tasks;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using System.Reflection;
+using Windows.System;
+using System.Diagnostics;
 
 namespace UnitTests.XamlIslands
 {
     class Program
     {
         private static IXamlMetadataContainer _metadataContainer;
-        internal static CoreDispatcher _dispatcher;
-        private static Task _task;
+        internal static DispatcherQueue _dispatcher;
 
         [STAThread]
         public static void Main()
@@ -29,36 +29,54 @@ namespace UnitTests.XamlIslands
                 var frame = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.Frame");
                 xamlSource.Content = frame;
 
-                _dispatcher = xamlSource.Content.XamlRoot.Content.Dispatcher;
+                _dispatcher = DispatcherQueue.GetForCurrentThread();
 
-                _task = Task.Run(async () =>
+                _dispatcher.TryEnqueue(DispatcherQueuePriority.Normal, async () =>
                 {
-                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        foreach (var testClass in typeof(XamlIslandsTest_ThemeListener_Threading).Assembly.GetTypes())
-                        {
-                            Attribute[] attributes = Attribute.GetCustomAttributes(testClass);
+                    TestResult testResult = default;
 
-                            foreach (Attribute attribute in attributes)
+                    Stopwatch sw = new Stopwatch();
+
+                    ConsoleWriteLineColor("--- Starting Tests Execution ---");
+
+                    sw.Start();
+
+                    foreach (var testClass in typeof(XamlIslandsTest_ThemeListener_Threading).Assembly.GetTypes())
+                    {
+                        Attribute[] attributes = Attribute.GetCustomAttributes(testClass);
+
+                        foreach (Attribute attribute in attributes)
+                        {
+                            if (attribute is STATestClassAttribute || attribute is TestClassAttribute)
                             {
-                                if (attribute is STATestClassAttribute || attribute is TestClassAttribute)
-                                {
-                                    await RunTestsAsync(testClass);
-                                    break;
-                                }
+                                var partialTestResult = await RunTestsAsync(testClass);
+                                testResult += partialTestResult;
+                                break;
                             }
                         }
-                        _dispatcher.StopProcessEvents();
-                        Window.Current.CoreWindow.Close();
-                    });
+                    }
+
+                    sw.Stop();
+
+                    var color = testResult.Failed == 0 ? ConsoleColor.Green : ConsoleColor.Red;
+
+                    ConsoleWriteLineColor($"--- Finished Tests Execution ({testResult.Passed}/{testResult.Count}) ---", color);
+                    ConsoleWriteLineColor($"--- Duration - {sw.Elapsed} ---");
+
+                    Window.Current.CoreWindow.Close();
+                    System.Windows.Application.Current.Shutdown();
                 });
 
-                _dispatcher.ProcessEvents(CoreProcessEventsOption.ProcessUntilQuit);
+                // This is just to have a Win32 message loop so the dispatcher processes it's events. This is not WPF or WinForms specific.
+                var app = new System.Windows.Application();
+                app.Run();
             }
         }
 
-        private static async Task RunTestsAsync(Type type)
+        private static async Task<TestResult> RunTestsAsync(Type type)
         {
+            int count = 0;
+            int passed = 0;
             var initMethod = GetFirstMethod(type, typeof(TestInitializeAttribute));
             var cleanupMethod = GetFirstMethod(type, typeof(TestCleanupAttribute));
 
@@ -70,6 +88,7 @@ namespace UnitTests.XamlIslands
                 {
                     if (attribute is STATestMethodAttribute || attribute is TestMethodAttribute)
                     {
+                        count++;
                         try
                         {
                             var instance = Activator.CreateInstance(type);
@@ -99,6 +118,7 @@ namespace UnitTests.XamlIslands
                             }
 
                             TestPass(type, method);
+                            passed++;
                         }
                         catch (Exception ex)
                         {
@@ -108,19 +128,38 @@ namespace UnitTests.XamlIslands
                     }
                 }
             }
+
+            return new TestResult(count, passed);
+        }
+
+        struct TestResult
+        {
+            public int Count { get; }
+            public int Passed { get; }
+            public int Failed => Count - Passed;
+            public TestResult(int count, int passed)
+            {
+                Count = count;
+                Passed = passed;
+            }
+
+            public static TestResult operator +(TestResult a, TestResult b) => new TestResult(a.Count + b.Count, a.Passed + b.Passed);
         }
 
         private static void TestPass(Type type, MethodInfo method)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{type.FullName}.{method.Name}\t - \tPASS");
-            Console.ResetColor();
+            ConsoleWriteLineColor($"{type.FullName}.{method.Name}\t - \tPASS", ConsoleColor.Green);
         }
 
         private static void TestFail(Type type, MethodInfo method, Exception ex)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{type.FullName}.{method.Name}\t - \tFAIL:{Environment.NewLine}{ex}");
+            ConsoleWriteLineColor($"{type.FullName}.{method.Name}\t - \tFAIL:{Environment.NewLine}{ex}", ConsoleColor.Red);
+        }
+
+        private static void ConsoleWriteLineColor(string message, ConsoleColor color = ConsoleColor.White)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
             Console.ResetColor();
         }
 

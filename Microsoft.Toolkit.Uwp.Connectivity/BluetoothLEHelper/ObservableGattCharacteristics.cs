@@ -112,16 +112,20 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// </summary>
         private string _value;
 
-        private DispatcherQueue _dispatcherQueue;
+        /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGattCharacteristics"/> class.
         /// </summary>
         /// <param name="characteristic">The characteristic.</param>
         /// <param name="parent">The parent.</param>
-        public ObservableGattCharacteristics(GattCharacteristic characteristic, ObservableGattDeviceService parent)
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        public ObservableGattCharacteristics(GattCharacteristic characteristic, ObservableGattDeviceService parent, DispatcherQueue dispatcherQueue = null)
         {
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             Characteristic = characteristic;
             Parent = parent;
@@ -465,7 +469,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The <see cref="GattValueChangedEventArgs"/> instance containing the event data.</param>
         private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            await _dispatcherQueue.ExecuteOnUIThreadAsync(() => { SetValue(args.CharacteristicValue); }, DispatcherQueuePriority.Normal);
+            await DispatcherQueue.ExecuteOnUIThreadAsync(() => { SetValue(args.CharacteristicValue); }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
