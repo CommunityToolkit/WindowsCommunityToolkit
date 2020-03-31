@@ -214,8 +214,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     SelectedIndex = Items.Count - 1;
                     (item as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
 
-                    // Clear the selection content
-                    _autoSuggestTextBox.SelectedText = string.Empty;
+                    // Clear any text box selection
+                    _autoSuggestTextBox.SelectionLength = 0;
                 }
                 else
                 {
@@ -420,7 +420,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void Tokenitem_ClearAllAction(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            // find the first item selected 
+            // find the first item selected
             int newSelectedIndex = -1;
 
             if (SelectedRanges.Count > 0)
@@ -519,7 +519,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task RemoveToken(TokenizingTextBoxItem item)
         {
-            var data = ItemFromContainer(item); 
+            var data = ItemFromContainer(item);
 
             if (TokenItemRemoving != null)
             {
