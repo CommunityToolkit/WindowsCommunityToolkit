@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public ref struct Array2DRowEnumerable<T>
+    public readonly ref struct Array2DRowEnumerable<T>
     {
         /// <summary>
         /// The source 2D <typeparamref name="T"/> array instance.

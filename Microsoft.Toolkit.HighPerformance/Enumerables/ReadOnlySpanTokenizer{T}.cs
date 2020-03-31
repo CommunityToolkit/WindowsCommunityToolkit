@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public ref struct ReadOnlySpanTokenizer<T>
+    public readonly ref struct ReadOnlySpanTokenizer<T>
         where T : IEquatable<T>
     {
         /// <summary>
