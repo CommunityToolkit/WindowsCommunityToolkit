@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Notifications
 {
@@ -28,7 +28,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<Tile><visual version=\"2\" > <text>Hello world</text></visual> </tile>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("tile element name was different, should have thrown exception");
         }
@@ -40,7 +43,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<tile><visuals version=\"2\" > <text>Hello world</text></visual> </tile>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("visual element name was incorrect, should have thrown exception");
         }
@@ -52,7 +58,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<tile><visual version=\"3\" > <text>Hello world</text></visual> </tile>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("visual version number was incorrect, should have thrown exception");
         }
@@ -64,7 +73,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile>  <visual version='2'><text>Hello world</text></visual></tile>", "<Tile><visual version=\"2\" > <text>Hello world!</text></visual> </tile>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("text content was different, should have thrown exception");
         }
@@ -82,7 +94,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile id='2' version='3'/>", "<tile version='45' id='2'/>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Version number was incorrect, should have thrown exception.");
         }
@@ -94,7 +109,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile id='2' version='3'/>", "<tile version='3' id='myId'/>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("ID number was incorrect, should have thrown exception.");
         }
@@ -114,7 +132,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile><visual/></tile>", "<tile/>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Visual element was missing, should have thrown exception");
         }
@@ -128,7 +149,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile><image/><text/></tile>", "<tile><text/><image/></tile>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("Child elements were different order, should have thrown exception");
         }
@@ -140,7 +164,10 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile version='3' id='2'/>", "<tile version='3' id='5'/>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("id attribute value wasn't the same, should have thrown exception");
         }
@@ -152,89 +179,93 @@ namespace UnitTests.Notifications
             {
                 AssertHelper.AssertXml("<tile id='2' version='3'/>", "<tile version='3'/>");
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             Assert.Fail("id attribute was missing, should have thrown exception");
         }
     }
 
+#pragma warning disable SA1204 // Static elements should appear before instance elements
+#pragma warning disable SA1402 // File may only contain a single type
     public static class AssertHelper
+#pragma warning restore SA1402 // File may only contain a single type
+#pragma warning restore SA1204 // Static elements should appear before instance elements
     {
         private class XmlElementHelper
         {
         }
 
-        //public static void AssertXml(string expected, string actual)
-        //{
-        //    XmlDocument expectedDoc = new XmlDocument();
-        //    expectedDoc.LoadXml(expected);
+        /*
+        public static void AssertXml(string expected, string actual)
+        {
+            XmlDocument expectedDoc = new XmlDocument();
+            expectedDoc.LoadXml(expected);
 
-        //    XmlDocument actualDoc = new XmlDocument();
-        //    actualDoc.LoadXml(actual);
+            XmlDocument actualDoc = new XmlDocument();
+            actualDoc.LoadXml(actual);
 
-        //    AssertXmlElement(expectedDoc.DocumentElement, actualDoc.DocumentElement);
-        //}
+            AssertXmlElement(expectedDoc.DocumentElement, actualDoc.DocumentElement);
+        }
 
-        //private static void AssertXmlElement(XmlElement expected, XmlElement actual)
-        //{
-        //    // If both null, good, done
-        //    if (expected == null && actual == null)
-        //        return;
+        private static void AssertXmlElement(XmlElement expected, XmlElement actual)
+        {
+            // If both null, good, done
+            if (expected == null && actual == null)
+                return;
 
-        //    // If one is null and other isn't, bad
-        //    if (expected == null)
-        //        Assert.Fail("Expected XML element was null, while actual was initialized");
+            // If one is null and other isn't, bad
+            if (expected == null)
+                Assert.Fail("Expected XML element was null, while actual was initialized");
 
-        //    if (actual == null)
-        //        Assert.Fail("Actual XML element was null, while expected was initialized");
+            if (actual == null)
+                Assert.Fail("Actual XML element was null, while expected was initialized");
 
+            // If name doesn't match
+            Assert.AreEqual(expected.Name, actual.Name, "Element names did not match.");
 
-        //    // If name doesn't match
-        //    Assert.AreEqual(expected.Name, actual.Name, "Element names did not match.");
+            // If attribute count doesn't match
+            Assert.AreEqual(expected.Attributes.Count, actual.Attributes.Count, "Element attributes counts didn't match");
 
+            // Make sure attributes match (order does NOT matter)
+            foreach (XmlAttribute expectedAttr in expected.Attributes)
+            {
+                var actualAttr = actual.Attributes.GetNamedItem(expectedAttr.Name);
 
-        //    // If attribute count doesn't match
-        //    Assert.AreEqual(expected.Attributes.Count, actual.Attributes.Count, "Element attributes counts didn't match");
+                // If didn't find the attribute
+                if (actualAttr == null)
+                    Assert.Fail("Expected element to have attribute " + expectedAttr.Name + " but it didn't.");
 
+                // Make sure value matches
+                Assert.AreEqual(expectedAttr.Value, actualAttr.Value, $@"Attribute values for ""{expectedAttr.Name}"" didn't match.");
+            }
 
-        //    // Make sure attributes match (order does NOT matter)
-        //    foreach (XmlAttribute expectedAttr in expected.Attributes)
-        //    {
-        //        var actualAttr = actual.Attributes.GetNamedItem(expectedAttr.Name);
+            // Make sure children elements match (order DOES matter)
 
-        //        // If didn't find the attribute
-        //        if (actualAttr == null)
-        //            Assert.Fail("Expected element to have attribute " + expectedAttr.Name + " but it didn't.");
+            // Obtain the child elements (ignore any comments, w
+            XmlElement[] expectedChildren = expected.ChildNodes.OfType<XmlElement>().ToArray();
+            XmlElement[] actualChildren = actual.ChildNodes.OfType<XmlElement>().ToArray();
 
-        //        // Make sure value matches
-        //        Assert.AreEqual(expectedAttr.Value, actualAttr.Value, $@"Attribute values for ""{expectedAttr.Name}"" didn't match.");
-        //    }
+            Assert.AreEqual(expectedChildren.Length, actualChildren.Length, "Number of child elements did not match.");
 
+            // If no elements, compare inner text
+            if (expectedChildren.Length == 0)
+            {
+                Assert.AreEqual(expected.InnerText, actual.InnerText, "Inner text did not match.");
+            }
 
-        //    // Make sure children elements match (order DOES matter)
-
-        //    // Obtain the child elements (ignore any comments, w
-        //    XmlElement[] expectedChildren = expected.ChildNodes.OfType<XmlElement>().ToArray();
-        //    XmlElement[] actualChildren = actual.ChildNodes.OfType<XmlElement>().ToArray();
-
-        //    Assert.AreEqual(expectedChildren.Length, actualChildren.Length, "Number of child elements did not match.");
-
-
-        //    // If no elements, compare inner text
-        //    if (expectedChildren.Length == 0)
-        //    {
-        //        Assert.AreEqual(expected.InnerText, actual.InnerText, "Inner text did not match.");
-        //    }
-
-        //    // Otherwise compare elements
-        //    else
-        //    {
-        //        for (int i = 0; i < expectedChildren.Length; i++)
-        //        {
-        //            AssertXmlElement(expectedChildren[i], actualChildren[i]);
-        //        }
-        //    }
-        //}
+            // Otherwise compare elements
+            else
+            {
+                for (int i = 0; i < expectedChildren.Length; i++)
+                {
+                    AssertXmlElement(expectedChildren[i], actualChildren[i]);
+                }
+            }
+        }
+        */
 
         public static void AssertToast(string expected, ToastContent toast)
         {
@@ -273,23 +304,26 @@ namespace UnitTests.Notifications
         {
             // If both null, good, done
             if (expected == null && actual == null)
+            {
                 return;
+            }
 
             // If one is null and other isn't, bad
             if (expected == null)
+            {
                 Assert.Fail("Expected XML element was null, while actual was initialized");
+            }
 
             if (actual == null)
+            {
                 Assert.Fail("Actual XML element was null, while expected was initialized");
-
+            }
 
             // If name doesn't match
             Assert.AreEqual(expected.Name.ToLower(), actual.Name.ToLower(), "Element names did not match.");
 
-
             // If attribute count doesn't match
             Assert.AreEqual(expected.Attributes.Count, actual.Attributes.Count, $"Different number of attributes on <{expected.Name}>\n\nExpected: " + AttributesToString(expected.Attributes) + "\nActual: " + AttributesToString(actual.Attributes));
-
 
             // Make sure attributes match (order does NOT matter)
             foreach (MyXmlAttribute expectedAttr in expected.Attributes)
@@ -298,12 +332,13 @@ namespace UnitTests.Notifications
 
                 // If didn't find the attribute
                 if (actualAttr == null)
+                {
                     Assert.Fail("Expected element to have attribute " + expectedAttr.Name + " but it didn't.");
+                }
 
                 // Make sure value matches
                 Assert.AreEqual(expectedAttr.Value.ToLower(), actualAttr.Value.ToLower(), $@"Attribute values for ""{expectedAttr.Name}"" didn't match.");
             }
-
 
             // Make sure children elements match (order DOES matter)
 
@@ -313,7 +348,6 @@ namespace UnitTests.Notifications
 
             Assert.AreEqual(expectedChildren.Length, actualChildren.Length, "Number of child elements did not match.");
 
-            
             // Compare elements
             for (int i = 0; i < expectedChildren.Length; i++)
             {
@@ -333,6 +367,7 @@ namespace UnitTests.Notifications
         private class MyXmlAttribute
         {
             public string Name { get; set; }
+
             public string Value { get; set; }
         }
 
@@ -347,10 +382,14 @@ namespace UnitTests.Notifications
             while (true)
             {
                 if (reader.ReadState == ReadState.EndOfFile)
+                {
                     break;
+                }
 
                 if (reader.ReadState == ReadState.Error)
+                {
                     throw new Exception("ReadState was Error");
+                }
 
                 if (reader.NodeType == XmlNodeType.Element)
                 {
@@ -385,7 +424,9 @@ namespace UnitTests.Notifications
         private static void ParseXml(XmlReader reader, MyXmlElement intoElement)
         {
             if (!reader.Read())
+            {
                 return;
+            }
 
             while (true)
             {
@@ -400,14 +441,15 @@ namespace UnitTests.Notifications
                         intoElement.ChildNodes.Add(child);
                         break;
 
-
                     // All done
                     case XmlNodeType.EndElement:
                         return;
                 }
 
                 if (!reader.Read())
+                {
                     return;
+                }
             }
         }
     }

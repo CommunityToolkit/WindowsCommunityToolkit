@@ -260,6 +260,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         {
                             _stateBags[element].Restore(element);
                         }
+
                         _stateBags.Clear();
                         _canvasContainer.RequestedTheme = ElementTheme.Default;
                         await DetachCanvas();
@@ -267,20 +268,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         switch (args.Completion)
                         {
                             case PrintTaskCompletion.Failed:
-                            {
                                 OnPrintFailed?.Invoke();
                                 break;
-                            }
+
                             case PrintTaskCompletion.Canceled:
-                            {
                                 OnPrintCanceled?.Invoke();
                                 break;
-                            }
+
                             case PrintTaskCompletion.Submitted:
-                            {
                                 OnPrintSucceeded?.Invoke();
                                 break;
-                            }
                         }
                     });
                 };

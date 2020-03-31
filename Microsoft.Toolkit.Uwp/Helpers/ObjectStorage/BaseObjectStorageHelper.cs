@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -16,6 +15,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public abstract class BaseObjectStorageHelper : IObjectStorageHelper
     {
+        private readonly IObjectSerializer serializer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseObjectStorageHelper"/> class,
+        /// which can read and write data using the provided <see cref="IObjectSerializer"/>;
+        /// if none is provided, a default Json serializer will be used.
+        /// </summary>
+        /// <param name="objectSerializer">The serializer to use.</param>
+        public BaseObjectStorageHelper(IObjectSerializer objectSerializer = null)
+        {
+            serializer = objectSerializer ?? new JsonObjectSerializer();
+        }
+
         /// <summary>
         /// Gets or sets the settings container.
         /// </summary>
@@ -78,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return (T)Convert.ChangeType(value, type);
             }
 
-            return JsonConvert.DeserializeObject<T>((string)value);
+            return serializer.Deserialize<T>((string)value);
         }
 
         /// <summary>
@@ -97,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 string value = (string)composite[key];
                 if (value != null)
                 {
-                    return JsonConvert.DeserializeObject<T>(value);
+                    return serializer.Deserialize<T>(value);
                 }
             }
 
@@ -123,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             else
             {
-                Settings.Values[key] = JsonConvert.SerializeObject(value);
+                Settings.Values[key] = serializer.Serialize(value);
             }
         }
 
@@ -146,11 +158,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     if (composite.ContainsKey(setting.Key))
                     {
-                        composite[setting.Key] = JsonConvert.SerializeObject(setting.Value);
+                        composite[setting.Key] = serializer.Serialize(setting.Value);
                     }
                     else
                     {
-                        composite.Add(setting.Key, JsonConvert.SerializeObject(setting.Value));
+                        composite.Add(setting.Key, serializer.Serialize(setting.Value));
                     }
                 }
             }
@@ -159,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
                 foreach (KeyValuePair<string, T> setting in values)
                 {
-                    composite.Add(setting.Key, JsonConvert.SerializeObject(setting.Value));
+                    composite.Add(setting.Key, serializer.Serialize(setting.Value));
                 }
 
                 Settings.Values[compositeKey] = composite;
@@ -186,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public async Task<T> ReadFileAsync<T>(string filePath, T @default = default(T))
         {
             string value = await StorageFileHelper.ReadTextFromFileAsync(Folder, filePath);
-            return (value != null) ? JsonConvert.DeserializeObject<T>(value) : @default;
+            return (value != null) ? serializer.Deserialize<T>(value) : @default;
         }
 
         /// <summary>
@@ -199,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The <see cref="StorageFile"/> where the object was saved</returns>
         public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
-            return StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);
+            return StorageFileHelper.WriteTextToFileAsync(Folder, serializer.Serialize(value), filePath, CreationCollisionOption.ReplaceExisting);
         }
     }
 }
