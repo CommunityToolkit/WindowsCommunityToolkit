@@ -20,6 +20,21 @@
         <AppBarButton Icon="{ex:FontIcon Glyph=&#xE103;}"/>
         <AppBarButton Icon="{ex:FontIcon Glyph=&#xE10F;}"/>
       </CommandBar>
+
+      <TextBlock Text="Use the BitmapIcon extension to create BitmapIcon items from images."
+                 TextWrapping="Wrap"
+                 Style="{StaticResource BodyTextBlockStyle}"/>
+
+      <Button Content="Click me!">
+        <Button.Flyout>
+          <MenuFlyout>
+            <MenuFlyoutItem Text="Toolkit app"
+                            Icon="{ex:BitmapIcon Source=/Assets/ToolkitLogo.png}" />
+            <MenuFlyoutItem Text="Microsoft"
+                            Icon="{ex:BitmapIcon Source=/Assets/mslogo.png}" />
+          </MenuFlyout>
+        </Button.Flyout>
+      </Button>
     </StackPanel>
   </Grid>
 </Page>
