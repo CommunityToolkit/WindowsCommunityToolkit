@@ -7,10 +7,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
+using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {
@@ -110,6 +112,8 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// </summary>
         private string _value;
 
+        private DispatcherQueue _dispatcherQueue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGattCharacteristics"/> class.
         /// </summary>
@@ -117,6 +121,8 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="parent">The parent.</param>
         public ObservableGattCharacteristics(GattCharacteristic characteristic, ObservableGattDeviceService parent)
         {
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
             Characteristic = characteristic;
             Parent = parent;
             Name = GattUuidsService.ConvertUuidToName(Characteristic.Uuid);
@@ -459,9 +465,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The <see cref="GattValueChangedEventArgs"/> instance containing the event data.</param>
         private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                Windows.UI.Core.CoreDispatcherPriority.Normal,
-                () => { SetValue(args.CharacteristicValue); });
+            await _dispatcherQueue.ExecuteOnUIThreadAsync(() => { SetValue(args.CharacteristicValue); }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>

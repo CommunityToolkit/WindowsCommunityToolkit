@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -34,11 +35,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public static ImageCache Instance => _instance ?? (_instance = new ImageCache());
 
+        private DispatcherQueue _dispatcherQueue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCache"/> class.
         /// </summary>
         public ImageCache()
         {
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             _extendedPropertyNames.Add(DateAccessedProperty);
         }
 
@@ -55,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new FileNotFoundException();
             }
 
-            return await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            return await _dispatcherQueue.ExecuteOnUIThreadAsync(async () =>
             {
                 BitmapImage image = new BitmapImage();
 

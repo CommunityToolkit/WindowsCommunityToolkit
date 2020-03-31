@@ -4,10 +4,15 @@
 
 using System;
 using System.Diagnostics;
-using Windows.ApplicationModel.Core;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Foundation.Metadata;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+
+[assembly: InternalsVisibleTo("UnitTests.XamlIslands")]
 
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
@@ -42,6 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// </summary>
         public bool IsHighContrast { get; set; }
 
+        private DispatcherQueue _dispatcherQueue;
+
         /// <summary>
         /// An event that fires if the Theme changes.
         /// </summary>
@@ -57,6 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         {
             CurrentTheme = Application.Current.RequestedTheme;
             IsHighContrast = _accessible.HighContrast;
+
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             _accessible.HighContrastChanged += Accessible_HighContrastChanged;
             _settings.ColorValuesChanged += Settings_ColorValuesChanged;
@@ -78,19 +87,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         private async void Settings_ColorValuesChanged(UISettings sender, object args)
         {
             // Getting called off thread, so we need to dispatch to request value.
-            await CoreApplication.MainView?.CoreWindow?.Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
-                if (CurrentTheme != Application.Current.RequestedTheme ||
-                    IsHighContrast != _accessible.HighContrast)
+            await OnColorValuesChanged();
+        }
+
+        internal async Task OnColorValuesChanged()
+        {
+            await _dispatcherQueue.ExecuteOnUIThreadAsync(
+                () =>
                 {
+                    // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
+                    if (CurrentTheme != Application.Current.RequestedTheme ||
+                        IsHighContrast != _accessible.HighContrast)
+                    {
 #if DEBUG
-                    Debug.WriteLine("Color Values Changed");
+                        Debug.WriteLine("Color Values Changed");
 #endif
 
-                    UpdateProperties();
-                }
-            });
+                        UpdateProperties();
+                    }
+                }, DispatcherQueuePriority.Normal);
         }
 
         private void CoreWindow_Activated(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.WindowActivatedEventArgs args)
