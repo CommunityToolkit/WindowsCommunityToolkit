@@ -4,13 +4,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -128,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // For the Email Selection control
             if (_ttbEmail != null)
             {
-                _ttbEmail.ItemClick -= EmailList_ItemClick;
+                _ttbEmail.ItemClick -= EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding -= EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded -= EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved -= EmailTokenItemRemoved;
@@ -139,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _ttbEmail = ttbEmail;
 
-                _ttbEmail.ItemClick += EmailList_ItemClick;
+                _ttbEmail.ItemClick += EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
@@ -173,6 +172,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 _ttbEmailClear.Click += ClearButtonClick;
             }
+        }
+
+        private async void EmailTokenItemClick(object sender, ItemClickEventArgs e)
+        {
+            MessageDialog md = new MessageDialog($"email address {(e.ClickedItem as SampleEmailDataType)?.EmailAddress} clicked", "Clicked Item");
+            await md.ShowAsync();
         }
 
         private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
