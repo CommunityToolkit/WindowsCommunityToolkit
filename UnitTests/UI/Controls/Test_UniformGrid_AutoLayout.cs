@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
-using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +15,6 @@ using Windows.UI.Xaml.Markup;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
-    #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
     public class Test_UniformGrid_AutoLayout
     {
         [TestCategory("UniformGrid")]
@@ -39,7 +37,7 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            var expected = new(int row, int col)[]
+            var expected = new (int row, int col)[]
             {
                 (0, 0),
                 (1, 1),
@@ -104,7 +102,7 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            var expected = new(int row, int col)[]
+            var expected = new (int row, int col)[]
             {
                 (0, 1),
                 (0, 2),
@@ -163,7 +161,7 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            var expected = new(int row, int col)[]
+            var expected = new (int row, int col)[]
             {
                 (0, 0),
                 (1, 1),
@@ -361,7 +359,7 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            var expected = new(int row, int col)[]
+            var expected = new (int row, int col)[]
             {
                 (0, 0),
                 (0, 2),
@@ -438,5 +436,4 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(0, Grid.GetColumn(border2));
         }
     }
-    #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 }

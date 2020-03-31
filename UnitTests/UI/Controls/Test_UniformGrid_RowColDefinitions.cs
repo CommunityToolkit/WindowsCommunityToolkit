@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Markup;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
-    #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
     public class Test_UniformGrid_RowColDefinitions
     {
         [TestCategory("UniformGrid")]
@@ -810,5 +809,4 @@ namespace UnitTests.UI.Controls
             }
         }
     }
-    #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 }

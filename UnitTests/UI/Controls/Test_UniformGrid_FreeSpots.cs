@@ -11,7 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
-    #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
     public class Test_UniformGrid_FreeSpots
     {
         [TestCategory("UniformGrid")]
@@ -28,19 +27,19 @@ namespace UnitTests.UI.Controls
 
             var results = UniformGrid.GetFreeSpot(testref, 0, false).ToArray();
 
-            var expected = new(int row, int column)[]
+            var expected = new (int row, int column)[]
                 {
-                    (0, 0),       (0, 2),       (0, 4),
-                    (1, 0),                     (1, 4),
-                    (2, 0),       (2, 2),       (2, 4),
-                    (3, 0),(3, 1),       (3, 3),(3, 4)
+                    (0, 0),        (0, 2),        (0, 4),
+                    (1, 0),                       (1, 4),
+                    (2, 0),        (2, 2),        (2, 4),
+                    (3, 0), (3, 1),       (3, 3), (3, 4)
                 };
 
             CollectionAssert.AreEqual(
                 expected,
-                results, 
-                "GetFreeSpot failed.  Expected:\n{0}.\nActual:\n{1}", 
-                expected.ToArrayString(), 
+                results,
+                "GetFreeSpot failed.  Expected:\n{0}.\nActual:\n{1}",
+                expected.ToArrayString(),
                 results.ToArrayString());
         }
 
@@ -58,13 +57,13 @@ namespace UnitTests.UI.Controls
 
             var results = UniformGrid.GetFreeSpot(testref, 2, false).ToArray();
 
-            var expected = new(int row, int column)[]
-                {
-                                  (0, 2),       (0, 4),
-                    (1, 0),                     (1, 4),
-                    (2, 0),                     (2, 4),
-                    (3, 0),(3, 1),       (3, 3),(3, 4)
-                };
+            var expected = new (int row, int column)[]
+            {
+                                (0, 2),        (0, 4),
+                                (1, 0),                       (1, 4),
+                                (2, 0),                       (2, 4),
+                                (3, 0), (3, 1),       (3, 3), (3, 4)
+            };
 
             CollectionAssert.AreEqual(
                 expected,
@@ -87,11 +86,11 @@ namespace UnitTests.UI.Controls
 
             var results = UniformGrid.GetFreeSpot(testref, 2, false).ToArray();
 
-            var expected = new(int row, int column)[]
+            var expected = new (int row, int column)[]
                 {
                                   (0, 2),
-                    (1, 0),(1, 1),(1, 2),
-                    (2, 0),(2, 1),(2, 2),
+                                  (1, 0), (1, 1), (1, 2),
+                                  (2, 0), (2, 1), (2, 2),
                 };
 
             CollectionAssert.AreEqual(
@@ -115,11 +114,11 @@ namespace UnitTests.UI.Controls
 
             var results = UniformGrid.GetFreeSpot(testref, 3, false).ToArray();
 
-            var expected = new(int row, int column)[]
+            var expected = new (int row, int column)[]
                 {
-                    (0, 0),(0, 1),(0, 2),
-                    (1, 0),(1, 1),(1, 2),
-                    (2, 0),(2, 1),(2, 2),
+                    (0, 0), (0, 1), (0, 2),
+                    (1, 0), (1, 1), (1, 2),
+                    (2, 0), (2, 1), (2, 2),
                 };
 
             CollectionAssert.AreEqual(
@@ -143,11 +142,11 @@ namespace UnitTests.UI.Controls
 
             var results = UniformGrid.GetFreeSpot(testref, 3, true).ToArray();
 
-            var expected = new(int row, int column)[]
+            var expected = new (int row, int column)[]
                 {
-                    (0, 0),(1, 0),(2, 0),
-                    (0, 1),(1, 1),(2, 1),
-                    (0, 2),(1, 2),(2, 2),
+                    (0, 0), (1, 0), (2, 0),
+                    (0, 1), (1, 1), (2, 1),
+                    (0, 2), (1, 2), (2, 2),
                 };
 
             CollectionAssert.AreEqual(
@@ -173,13 +172,13 @@ namespace UnitTests.UI.Controls
             var results = UniformGrid.GetFreeSpot(testref, 0, true).ToArray();
 
             // top-bottom, transpose of matrix above.
-            var expected = new(int row, int column)[]
+            var expected = new (int row, int column)[]
                 {
-                    (0, 0),(1, 0),       (3, 0),
-                    (0, 1),       (2, 1),(3, 1),
-                    (0, 2),       (2, 2),
-                           (1, 3),       (3, 3),
-                    (0, 4),(1, 4),(2, 4),(3, 4)
+                    (0, 0), (1, 0),         (3, 0),
+                    (0, 1),         (2, 1), (3, 1),
+                    (0, 2),         (2, 2),
+                    (1, 3),         (3, 3),
+                    (0, 4), (1, 4), (2, 4), (3, 4)
                 };
 
             CollectionAssert.AreEqual(
@@ -190,5 +189,4 @@ namespace UnitTests.UI.Controls
                 results.ToArrayString());
         }
     }
-    #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 }
