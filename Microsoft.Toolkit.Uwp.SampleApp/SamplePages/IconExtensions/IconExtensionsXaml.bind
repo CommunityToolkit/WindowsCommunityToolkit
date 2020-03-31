@@ -21,6 +21,24 @@
         <AppBarButton Icon="{ex:FontIcon Glyph=&#xE10F;}"/>
       </CommandBar>
 
+      <TextBlock Text="Use the FontIconSource extension to create FontIconSource items from custom glyphs."
+                 TextWrapping="Wrap"
+                 Style="{StaticResource BodyTextBlockStyle}"/>
+
+      <SwipeControl BorderThickness="1"
+                          BorderBrush="{ThemeResource ButtonBackground}"
+                          Width="300" Margin="12" Height="68">
+        <SwipeControl.LeftItems>
+          <SwipeItems Mode="Reveal">
+            <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=&#xE10B;}"/>
+            <SwipeItem Text="Flag" IconSource="{ex:FontIconSource Glyph=&#xE129;}"/>
+          </SwipeItems>
+        </SwipeControl.LeftItems>
+        <TextBlock Text="Swipe Right"
+                   Margin="12"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </SwipeControl>
+
       <TextBlock Text="Use the BitmapIcon extension to create BitmapIcon items from images."
                  TextWrapping="Wrap"
                  Style="{StaticResource BodyTextBlockStyle}"/>
