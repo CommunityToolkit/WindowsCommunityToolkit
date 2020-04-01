@@ -3,6 +3,9 @@
 #addin nuget:?package=Cake.FileHelpers&version=3.2.1
 #addin nuget:?package=Cake.Powershell&version=0.4.8
 
+#tool nuget:?package=MSTest.TestAdapter&version=2.1.0
+#tool nuget:?package=vswhere&version=2.8.4
+
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -246,6 +249,39 @@ Task("Package")
     }
 });
 
+public string getMSTestAdapterPath(){
+    var nugetPaths = GetDirectories("./tools/MSTest.TestAdapter*/build/_common");
+
+    if(nugetPaths.Count == 0){
+        throw new Exception(
+            "Cannot locate the MSTest test adapter. " +
+            "You might need to add '#tool nuget:?package=MSTest.TestAdapter&version=2.1.0' " + 
+            "to the top of your build.cake file.");
+    }
+
+    return nugetPaths.Last().ToString();
+}
+
+Task("Test")
+	.Description("Runs all Tests")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	var vswhere = VSWhereLatest(new VSWhereLatestSettings
+	{
+		IncludePrerelease = false
+	});
+	
+	var testSettings = new VSTestSettings
+	{
+	    ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
+		TestAdapterPath = getMSTestAdapterPath(),
+        ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResults.xml /framework:FrameworkUap10"),
+	};
+
+	VSTest(baseDir + "/**/UnitTests.*.appxrecipe", testSettings);
+});
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -253,6 +289,7 @@ Task("Package")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
+	.IsDependentOn("Test")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")
