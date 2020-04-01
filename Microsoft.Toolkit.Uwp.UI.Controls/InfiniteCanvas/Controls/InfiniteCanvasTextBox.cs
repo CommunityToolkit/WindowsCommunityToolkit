@@ -35,22 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone.TextChanged -= EditZone_TextChanged;
             _editZone.TextChanged += EditZone_TextChanged;
             _editZone.FontSize = FontSize;
-            _editZone.SelectionHighlightColorWhenNotFocused.Color = Color.FromArgb(
-                    1,
-                    _editZone.SelectionHighlightColor.Color.R,
-                    _editZone.SelectionHighlightColor.Color.G,
-                    _editZone.SelectionHighlightColor.Color.B);
-            _editZone.SelectionHighlightColorWhenNotFocused.Opacity = .1;
-
-            _editZone.SelectionHighlightColor.Color =
-                Color.FromArgb(
-                    1,
-                    _editZone.SelectionHighlightColor.Color.R,
-                    _editZone.SelectionHighlightColor.Color.G,
-                    _editZone.SelectionHighlightColor.Color.B);
-
-            _editZone.SelectionHighlightColor.Opacity = .1;
-
             base.OnApplyTemplate();
         }
 
