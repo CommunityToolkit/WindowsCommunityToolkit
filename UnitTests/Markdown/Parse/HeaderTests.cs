@@ -84,9 +84,10 @@ namespace UnitTests.Markdown.Parse
              ***/
 
             // Note: trailing spaces on the second line are okay.
-            AssertEqual(CollapseWhitespace(@"
-                Header 2
-                ---  "),
+            AssertEqual(
+                CollapseWhitespace(@"
+                    Header 2
+                    ---  "),
                 new HeaderBlock { HeaderLevel = 2 }.AddChildren(
                     new TextRunInline { Text = "Header 2" }));
         }
