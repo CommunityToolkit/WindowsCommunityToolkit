@@ -1071,6 +1071,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _detailsElement.ClearValue(DataGridDetailsPresenter.ContentHeightProperty);
                 }
             }
+            else
+            {
+                Cells.Clear();
+            }
 
             this.Slot = -1;
         }
