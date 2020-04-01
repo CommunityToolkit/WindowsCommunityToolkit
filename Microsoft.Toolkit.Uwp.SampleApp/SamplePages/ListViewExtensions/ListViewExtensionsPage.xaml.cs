@@ -18,7 +18,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ListViewExtensionsPage()
         {
             this.InitializeComponent();
-
         }
 
         public ICommand SampleCommand => new DelegateCommand<PhotoDataItem>(OnExecuteSampleCommand);
