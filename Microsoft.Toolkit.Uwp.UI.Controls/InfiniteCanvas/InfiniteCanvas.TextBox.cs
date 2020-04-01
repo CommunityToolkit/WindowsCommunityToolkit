@@ -116,7 +116,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ReDrawCanvas();
             }
 
-            _fontColorIcon.Foreground = new SolidColorBrush(_canvasTextBoxColorPicker.Color);
+            if (_fontColorIcon != null)
+            {
+                _fontColorIcon.Foreground = new SolidColorBrush(_canvasTextBoxColorPicker.Color);
+            }
         }
 
         private void CanvasTextBox_TextChanged(object sender, string text)
