@@ -37,15 +37,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnClipToBoundsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = d as UIElement;
-            if (element is null)
+            if (d is UIElement element)
             {
-                return;
+                var clipToBounds = (bool)e.NewValue;
+                var visual = ElementCompositionPreview.GetElementVisual(element);
+                visual.Clip = clipToBounds ? visual.Compositor.CreateInsetClip() : null;
             }
-
-            var clipToBounds = (bool)e.NewValue;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Clip = clipToBounds ? visual.Compositor.CreateInsetClip() : null;
         }
     }
 }
