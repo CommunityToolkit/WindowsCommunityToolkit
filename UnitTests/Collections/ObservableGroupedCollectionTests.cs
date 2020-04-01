@@ -13,7 +13,7 @@ namespace UnitTests.Collections
     [TestClass]
     public class ObservableGroupedCollectionTests
     {
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Ctor_ShouldHaveExpectedValues()
         {
@@ -22,7 +22,7 @@ namespace UnitTests.Collections
             groupCollection.Should().BeEmpty();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Ctor_WithGroups_ShouldHaveExpectedValues()
         {

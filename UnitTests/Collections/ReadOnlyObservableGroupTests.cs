@@ -14,7 +14,7 @@ namespace UnitTests.Collections
     [TestClass]
     public class ReadOnlyObservableGroupTests
     {
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Ctor_WithKeyAndCollection_ShouldHaveExpectedInitialState()
         {
@@ -25,7 +25,7 @@ namespace UnitTests.Collections
             group.Should().BeEquivalentTo(new[] { 1, 2, 3 }, option => option.WithStrictOrdering());
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Ctor_ObservableGroup_ShouldHaveExpectedInitialState()
         {
@@ -37,7 +37,7 @@ namespace UnitTests.Collections
             group.Should().BeEquivalentTo(new[] { 1, 2, 3 }, option => option.WithStrictOrdering());
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Add_ShouldRaiseEvent()
         {
@@ -54,7 +54,7 @@ namespace UnitTests.Collections
             collectionChangedEventRaised.Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Update_ShouldRaiseEvent()
         {
@@ -71,7 +71,7 @@ namespace UnitTests.Collections
             collectionChangedEventRaised.Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Remove_ShouldRaiseEvent()
         {
@@ -88,7 +88,7 @@ namespace UnitTests.Collections
             collectionChangedEventRaised.Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Clear_ShouldRaiseEvent()
         {
@@ -105,7 +105,7 @@ namespace UnitTests.Collections
             collectionChangedEventRaised.Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [DataTestMethod]
         [DataRow(0)]
         [DataRow(3)]

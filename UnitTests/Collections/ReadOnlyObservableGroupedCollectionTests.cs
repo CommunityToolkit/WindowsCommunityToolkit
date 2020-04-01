@@ -18,7 +18,7 @@ namespace UnitTests.Collections
     [TestClass]
     public class ReadOnlyObservableGroupedCollectionTests
     {
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Ctor_WithEmptySource_ShoudInitializeObject()
         {
@@ -29,7 +29,7 @@ namespace UnitTests.Collections
             readOnlyGroup.Count.Should().Be(0);
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void Ctor_WithSource_ShoudInitializeObject()
         {
@@ -49,7 +49,7 @@ namespace UnitTests.Collections
             readOnlyGroup.ElementAt(1).Should().BeEquivalentTo(new[] { 2, 4, 6 }, o => o.WithoutStrictOrdering());
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void IListImplementation_Properties_ShoudReturnExpectedValues()
         {
@@ -76,7 +76,7 @@ namespace UnitTests.Collections
             list.IsSynchronized.Should().BeFalse();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void IListImplementation_MutableMethods_ShoudThrow()
         {
@@ -113,7 +113,7 @@ namespace UnitTests.Collections
             copyTo.Should().Throw<NotImplementedException>();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [DataTestMethod]
         [DataRow(-1)]
         [DataRow(0)]
@@ -138,7 +138,7 @@ namespace UnitTests.Collections
             index.Should().Be(groupIndex);
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [DataTestMethod]
         [DataRow(-1, false)]
         [DataRow(0, true)]
@@ -161,7 +161,7 @@ namespace UnitTests.Collections
             result.Should().Be(expectedResult);
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void AddGroupInSource_ShouldAddGroup()
         {
@@ -185,7 +185,7 @@ namespace UnitTests.Collections
             IsAddEventValid(collectionChangedEventArgs, itemsList).Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void RemoveGroupInSource_ShoudRemoveGroup()
         {
@@ -215,7 +215,7 @@ namespace UnitTests.Collections
             IsRemoveEventValid(collectionChangedEventArgs, bItemsList, 1).Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void MoveGroupInSource_ShoudMoveGroup()
         {
@@ -247,7 +247,7 @@ namespace UnitTests.Collections
             IsMoveEventValid(collectionChangedEventArgs, bItemsList, 1, 0).Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void ClearSource_ShoudClear()
         {
@@ -275,7 +275,7 @@ namespace UnitTests.Collections
             IsResetEventValid(collectionChangedEventArgs).Should().BeTrue();
         }
 
-        [TestCategory("Observables")]
+        [TestCategory("Collections")]
         [TestMethod]
         public void ReplaceGroupInSource_ShoudReplaceGroup()
         {
