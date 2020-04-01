@@ -7,15 +7,15 @@ using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests
 {
-    internal class TestDeepLinkParser : DeepLinkParser
+    internal class TestCollectionCapableDeepLinkParser : CollectionFormingDeepLinkParser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Call stack reviewed.")]
-        public TestDeepLinkParser(string uri)
+        public TestCollectionCapableDeepLinkParser(string uri)
             : base(uri)
         {
         }
 
-        public TestDeepLinkParser(Uri uri)
+        public TestCollectionCapableDeepLinkParser(Uri uri)
             : base(uri)
         {
         }

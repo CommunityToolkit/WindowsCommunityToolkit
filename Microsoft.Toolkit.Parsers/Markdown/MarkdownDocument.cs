@@ -233,9 +233,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                             realStartOfLine = startOfLine;
                             endOfLine = startOfLine + 3;
                             startOfNextLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out startOfNextLine);
-                        }
 
-                        paragraphText.Clear();
+                            paragraphText.Clear();
+                        }
                     }
 
                     if (newBlockElement == null && nonSpaceChar == '#' && nonSpacePos == startOfLine)
