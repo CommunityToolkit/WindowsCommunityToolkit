@@ -22,6 +22,7 @@
         <ListView 
             x:Name="SampleListView"
             Margin="12"
+            IsItemClickEnabled="True"
             ItemTemplate="{StaticResource NormalTemplate}"
             extensions:ListViewExtensions.AlternateColor="#33AAAAAA"
             extensions:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
