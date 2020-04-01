@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using System;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -50,18 +50,18 @@ namespace GazeInputTest
             }
         }
 
-        int clickCount;
+        private int _clickCount;
 
         private void OnLegacyInvoked(object sender, RoutedEventArgs e)
         {
-            clickCount++;
-            HowButton.Content = string.Format("{0}: Legacy click", clickCount);
+            _clickCount++;
+            HowButton.Content = string.Format("{0}: Legacy click", _clickCount);
         }
 
         private void OnGazeInvoked(object sender, DwellInvokedRoutedEventArgs e)
         {
-            clickCount++;
-            HowButton.Content = string.Format("{0}: Accessible click", clickCount);
+            _clickCount++;
+            HowButton.Content = string.Format("{0}: Accessible click", _clickCount);
             e.Handled = true;
         }
 
@@ -71,13 +71,13 @@ namespace GazeInputTest
             {
                 ProgressShow.Value = 100.0 * e.Progress;
             }
+
             ProgressShow.IsIndeterminate = e.State == DwellProgressState.Complete;
             e.Handled = true;
         }
 
         private async void SpawnClicked(object sender, RoutedEventArgs e)
         {
-
             var newView = CoreApplication.CreateNewView();
             var newViewId = 0;
 

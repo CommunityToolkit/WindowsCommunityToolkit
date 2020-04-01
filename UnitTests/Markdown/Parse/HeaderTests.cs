@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using Microsoft.Toolkit.Parsers.Markdown;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -56,10 +57,37 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - block")]
         public void Header_2_Alt()
         {
+            /***
+             * Note: This is a tricky scenario because Header 2's 
+             * can be easily confused with thematic breaks, see specs:
+             * https://spec.commonmark.org/0.29/#setext-headings
+             * https://spec.commonmark.org/0.29/#thematic-breaks
+             ***/
+
             // Note: trailing spaces on the second line are okay.
             AssertEqual(CollapseWhitespace(@"
                 Header 2
                 --  "),
+                new HeaderBlock { HeaderLevel = 2 }.AddChildren(
+                    new TextRunInline { Text = "Header 2" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Header_2_Alt_NotHorizontalRule()
+        {
+            /***
+             * Note: This is a tricky scenario because Header 2's 
+             * can be easily confused with thematic breaks, see specs:
+             * https://spec.commonmark.org/0.29/#setext-headings
+             * https://spec.commonmark.org/0.29/#thematic-breaks
+             ***/
+
+            // Note: trailing spaces on the second line are okay.
+            AssertEqual(
+                CollapseWhitespace(@"
+                    Header 2
+                    ---  "),
                 new HeaderBlock { HeaderLevel = 2 }.AddChildren(
                     new TextRunInline { Text = "Header 2" }));
         }
