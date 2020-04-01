@@ -41,10 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.SelectedValue.ToString()) &&
-                    Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$"))
+                if (!string.IsNullOrWhiteSpace(_canvasComboBoxFontSizeTextBox.SelectedValue.ToString()) &&
+                    Regex.IsMatch(_canvasComboBoxFontSizeTextBox.Text, "^[0-9]*$"))
                 {
-                    var fontSize = int.Parse((_canvasTextBoxFontSizeTextBox.SelectedItem as ComboBoxItem).Content.ToString());
+                    var fontSize = int.Parse((_canvasComboBoxFontSizeTextBox.SelectedItem as ComboBoxItem).Content.ToString());
                     _lastValidTextFontSizeValue = fontSize;
                 }
 
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CanvasTextBoxFontSizeTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CanvasComboBoxFontSizeTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _canvasTextBox.UpdateFontSize(TextFontSize);
             if (SelectedTextDrawable != null)
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     // Updating toolbar
                     _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
-                    _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
+                    _canvasComboBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBoxBoldButton.IsChecked = SelectedTextDrawable.IsBold;
                     _canvasTextBoxItalicButton.IsChecked = SelectedTextDrawable.IsItalic;
 
@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBox.Clear();
         }
 
-        private void CanvasTextBoxFontSizeTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private void CanvasComboBoxFontSizeTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (_allowedCommands.Contains(e.Key.ToString()))
             {
