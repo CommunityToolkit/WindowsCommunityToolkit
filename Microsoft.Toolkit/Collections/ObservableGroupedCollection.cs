@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Observables.Collections
+namespace Microsoft.Toolkit.Collections
 {
     /// <summary>
     /// An observable list of observable groups.

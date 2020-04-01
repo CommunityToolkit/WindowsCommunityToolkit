@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Observables.Collections
+namespace Microsoft.Toolkit.Collections
 {
     /// <summary>
     /// An observable group.
@@ -51,8 +51,7 @@ namespace Microsoft.Toolkit.Observables.Collections
         /// </summary>
         public TKey Key { get; }
 
+        /// <inheritdoc/>
         object IReadOnlyObservableGroup.Key => Key;
-
-        int IReadOnlyObservableGroup.Count => Count;
     }
 }

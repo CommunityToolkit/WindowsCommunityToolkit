@@ -5,7 +5,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Observables.Collections
+namespace Microsoft.Toolkit.Collections
 {
     /// <summary>
     /// A read-only observable group. It associates a <see cref="Key"/> to a <see cref="ReadOnlyObservableCollection{T}"/>.
@@ -38,8 +38,7 @@ namespace Microsoft.Toolkit.Observables.Collections
         /// <inheritdoc/>
         public TKey Key { get; }
 
+        /// <inheritdoc/>
         object IReadOnlyObservableGroup.Key => Key;
-
-        int IReadOnlyObservableGroup.Count => Count;
     }
 }

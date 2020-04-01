@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Observables.Collections
+namespace Microsoft.Toolkit.Collections
 {
     /// <summary>
     /// A read-only list of groups.
