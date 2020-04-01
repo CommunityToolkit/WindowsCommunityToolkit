@@ -7,11 +7,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Helpers
 {
+    //// TODO: Need Mock to WinRT Issue #3196 - https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3196
     [TestClass]
     public class Test_ConnectionHelper
-    {
-        public NetworkHelper NetworkHelper { get; private set; }
-
+    {        
+        [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ConnectionHelper_IsInternetOnMeteredConnection()
@@ -19,6 +19,7 @@ namespace UnitTests.Helpers
             Assert.IsFalse(NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection);
         }
 
+        [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ConnectionHelper_IsInternetAvailable()
