@@ -41,10 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) &&
+                if (!string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.SelectedValue.ToString()) &&
                     Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$"))
                 {
-                    var fontSize = int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+                    var fontSize = int.Parse((_canvasTextBoxFontSizeTextBox.SelectedItem as ComboBoxItem).Content.ToString());
                     _lastValidTextFontSizeValue = fontSize;
                 }
 
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CanvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void CanvasTextBoxFontSizeTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _canvasTextBox.UpdateFontSize(TextFontSize);
             if (SelectedTextDrawable != null)
