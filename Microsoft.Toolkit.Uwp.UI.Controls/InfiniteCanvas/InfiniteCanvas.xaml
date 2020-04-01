@@ -97,7 +97,7 @@
                                     </ToggleButton>
 
 
-                                    <ComboBox x:Name="CanvasTextBoxFontSizeTextBox"
+                                    <ComboBox x:Name="CanvasComboBoxFontSizeTextBox"
                                               Width="64"
                                               Height="32" SelectedIndex="9" Margin="0,0,12,0" VerticalAlignment="Center">
                                         <ComboBoxItem Content="8" />
