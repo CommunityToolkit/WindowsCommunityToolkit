@@ -10,11 +10,10 @@ products:
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
 ## Build Status
-| Target | Branch | Status | Recommended NuGet packages version |
+| Target | Branch | Status | Recommended package version |
 | ------ | ------ | ------ | ------ |
+| Production | rel/6.0.0 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/6.0.0)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/6.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) | 
 | Pre-release beta testing | master | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=master)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
-
-<!-- | Production | rel/3.0.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/3.0.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/3.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) | -->
 
 ## Getting Started
 Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
@@ -49,122 +48,118 @@ Once you do a search, you should see a list similar to the one below (versions m
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking |
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app |
 
-## <a name="supported"></a> Supported SDKs
-* Fall Creators Update (16299)
-* April 2018 Update (17134)
-* October 2018 Update (17763)
-
-## Features
+## <a name="supported"></a> Features
+The following features can be found in the Windows Community Toolkit. Most features should work with the Falls Creator Update SDK 16299 and above; however, refer to specific documentation on each feature for more information.
 
 ### Animations
-* [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/AnimationSet/)
-* [Blur](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Blur/)
-* [Composition Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/CompositionAnimations/)
-* [Connected Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ConnectedAnimations/)
-* [ExpressionBuilder](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Expressions/)
-* [Fade](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Fade/)
-* [FadeHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/FadeHeader/)
-* [Implicit Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ImplicitAnimations/)
-* [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Light/)
+* [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/AnimationSet)
+* [Blur](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Blur)
+* [Composition Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/CompositionAnimations)
+* [Connected Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ConnectedAnimations)
+* [ExpressionBuilder](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Expressions)
+* [Fade](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Fade)
+* [FadeHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/FadeHeader)
+* [Implicit Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ImplicitAnimations)
+* [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Light)
 * [Lottie](https://aka.ms/lottiedocs)
-* [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Offset/)
-* [ReorderGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ReorderGrid/)
-* [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Rotate/)
-* [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Saturation/)
-* [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
+* [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Offset)
+* [ReorderGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ReorderGrid)
+* [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Rotate)
+* [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Saturation)
+* [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale)
 
 ### Brushes
-* [BackdropBlurBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropBlurBrush/)
-* [BackdropGammaTransferBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropGammaTransferBrush/)
-* [BackdropInvertBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropInvertBrush/)
-* [BackdropSaturationBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSaturationBrush/)
-* [BackdropSepiaBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSepiaBrush/)
-* [ImageBlendBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/ImageBlendBrush/)
-* [RadialGradientBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/RadialGradientBrush/)
+* [BackdropBlurBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropBlurBrush)
+* [BackdropGammaTransferBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropGammaTransferBrush)
+* [BackdropInvertBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropInvertBrush)
+* [BackdropSaturationBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSaturationBrush)
+* [BackdropSepiaBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSepiaBrush)
+* [ImageBlendBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/ImageBlendBrush)
+* [RadialGradientBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/RadialGradientBrush)
 
 ### Controls
-* [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
-* [BladeView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/BladeView/)
-* [Carousel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Carousel/)
-* [DataGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DataGrid/)
-* [DockPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DockPanel/)
-* [DropShadowPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DropShadowPanel/)
-* [Expander](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Expander/)
-* [GridSplitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/GridSplitter/)
-* [HeaderedContentControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedContentControl/)
-* [HeaderedItemsControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedItemsControl/)
-* [HeaderedTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedTextBlock/)
-* [ImageCropper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageCropper/)
-* [ImageEx](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageEx/)
-* [InAppNotification](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InAppNotification/)
-* [InfiniteCanvas](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InfiniteCanvas/)
-* [Loading](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Loading/)
-* [MarkdownTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MarkdownTextBlock/)
-* [MasterDetailsView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MasterDetailsView/)
-* [Menu](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Menu/)
-* [OrbitView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/OrbitView/)
-* [RadialGauge](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialGauge/)
-* [RadialProgressBar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialProgressBar/)
-* [RangeSelector](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RangeSelector/)
-* [RotatorTile](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RotatorTile/)
-* [ScrollHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ScrollHeader/)
-* [StaggeredPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/StaggeredPanel/)
-* [TabView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TabView/)
-* [TextToolbar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TextToolbar/)
-* [TileControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TileControl/)
-* [WrapPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/WrapPanel/)
+* [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView)
+* [BladeView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/BladeView)
+* [Carousel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Carousel)
+* [DataGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DataGrid)
+* [DockPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DockPanel)
+* [DropShadowPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DropShadowPanel)
+* [Expander](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Expander)
+* [GridSplitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/GridSplitter)
+* [HeaderedContentControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedContentControl)
+* [HeaderedItemsControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedItemsControl)
+* [HeaderedTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedTextBlock)
+* [ImageCropper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageCropper)
+* [ImageEx](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageEx)
+* [InAppNotification](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InAppNotification)
+* [InfiniteCanvas](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InfiniteCanvas)
+* [Loading](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Loading)
+* [MarkdownTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MarkdownTextBlock)
+* [MasterDetailsView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MasterDetailsView)
+* [Menu](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Menu)
+* [OrbitView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/OrbitView)
+* [RadialGauge](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialGauge)
+* [RadialProgressBar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialProgressBar)
+* [RangeSelector](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RangeSelector)
+* [RotatorTile](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RotatorTile)
+* [ScrollHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ScrollHeader)
+* [StaggeredPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/StaggeredPanel)
+* [TabView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TabView)
+* [TextToolbar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TextToolbar)
+* [TileControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TileControl)
+* [WrapPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/WrapPanel)
 
 ### Developer Tools
-* [AlignmentGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/developer-tools/AlignmentGrid/)
-* [FocusTracker](https://docs.microsoft.com/windows/uwpcommunitytoolkit/developer-tools/FocusTracker/)
+* [AlignmentGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/developer-tools/AlignmentGrid)
+* [FocusTracker](https://docs.microsoft.com/windows/uwpcommunitytoolkit/developer-tools/FocusTracker)
 
 ### Extensions
-* [FrameworkElementExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/FrameworkElementExtensions/)
-* [HyperlinkExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/Hyperlink/)
-* [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
-* [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
-* [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
-* [ScrollViewerExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ScrollViewerExtensions/)
-* [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper/)
-* [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)
-* [TextBoxRegex](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxRegex/)
-* [ViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ViewExtensions/)
-* [VisualExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualEx/)
-* [VisualTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualTree/)
-* [WebViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/WebView/)
+* [FrameworkElementExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/FrameworkElementExtensions)
+* [HyperlinkExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/Hyperlink)
+* [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase)
+* [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree)
+* [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor)
+* [ScrollViewerExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ScrollViewerExtensions)
+* [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper)
+* [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask)
+* [TextBoxRegex](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxRegex)
+* [ViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ViewExtensions)
+* [VisualExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualEx)
+* [VisualTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualTree)
+* [WebViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/WebView)
 
 ### Helpers
-* [AdvancedCollectionView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AdvancedCollectionView/)
-* [BackgroundTaskHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BackgroundTaskHelper/)
-* [BindableValueHolder](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BindableValueHolder/)
-* [BluetoothLEHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BluetoothLEHelper/)
-* [Colors](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/Colors/)
-* [Converters](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/Converters/)
-* [DeepLinkParsers](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/DeepLinkParsers/)
-* [DispatcherHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/DispatcherHelper/)
-* [HttpHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/HttpHelper/)
-* [ImageCache](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/ImageCache/)
-* [Incremental Loading Collection](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/IncrementalLoadingCollection/)
-* [NetworkHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/NetworkHelper/)
-* [Object Storage](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/ObjectStorage/)
-* [PrintHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/PrintHelper/)
-* [StorageFiles](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/StorageFiles/)
-* [Streams](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/Streams/)
-* [SystemInformation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/SystemInformation/)
-* [ThemeListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/ThemeListener/)
-* [WeakEventListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/WeakEventListener/)
+* [AdvancedCollectionView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AdvancedCollectionView)
+* [BackgroundTaskHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BackgroundTaskHelper)
+* [BindableValueHolder](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BindableValueHolder)
+* [BluetoothLEHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BluetoothLEHelper)
+* [Colors](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/Colors)
+* [Converters](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/Converters)
+* [DeepLinkParsers](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/DeepLinkParsers)
+* [DispatcherHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/DispatcherHelper)
+* [HttpHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/HttpHelper)
+* [ImageCache](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/ImageCache)
+* [Incremental Loading Collection](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/IncrementalLoadingCollection)
+* [NetworkHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/NetworkHelper)
+* [Object Storage](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/ObjectStorage)
+* [PrintHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/PrintHelper)
+* [StorageFiles](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/StorageFiles)
+* [Streams](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/Streams)
+* [SystemInformation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/SystemInformation)
+* [ThemeListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/ThemeListener)
+* [WeakEventListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/WeakEventListener)
 
 ### Services
-* [Facebook](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Facebook/)
-* [LinkedIn](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin/)
-* [Microsoft Graph](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/)
-* [Microsoft Translator Service](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftTranslator/)
-* [OneDrive](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/OneDrive/)
-* [Twitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Twitter/)
+* [Facebook](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Facebook)
+* [LinkedIn](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin)
+* [Microsoft Graph](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph)
+* [Microsoft Translator Service](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftTranslator)
+* [OneDrive](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/OneDrive)
+* [Twitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Twitter)
 
 ### Parsers
-* [Markdown Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/MarkdownParser/)
-* [RSS Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/RSSParser/)
+* [Markdown Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/MarkdownParser)
+* [RSS Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/RSSParser)
 
 ### Notifications
 * [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
@@ -172,8 +167,16 @@ Once you do a search, you should see a list similar to the one below (versions m
 
 ## Feedback and Requests
 Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
-For feature requests, please also create an entry in our [UserVoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
+
+## <a name="dependencies"></a> Required Dependencies
+The following dependencies are required for building the Windows Community Toolkit repo and sample app:
+
+* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
+* [Windows SDK October 2018 Update 17763](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
+* [Sample App - Windows SDK May 2019 Update 18362](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
+* [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/visual-studio-sdks)
+* [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).

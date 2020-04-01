@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Services.OAuth
         /// <returns>Formatted string of key / value.</returns>
         public string ToString(bool withQuotes)
         {
-            string format = null;
+            string format;
             if (withQuotes)
             {
                 format = "{0}=\"{1}\"";

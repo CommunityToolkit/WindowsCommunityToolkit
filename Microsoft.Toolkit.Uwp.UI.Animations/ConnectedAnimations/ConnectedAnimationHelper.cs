@@ -50,8 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void Frame_Navigating(object sender, Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
         {
-            object parameter = null;
-
+            object parameter;
             if (_nextParameter != null)
             {
                 parameter = _nextParameter;
@@ -117,10 +116,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            void loadedHandler(object s, RoutedEventArgs args)
+            void LoadedHandler(object s, RoutedEventArgs args)
             {
                 var page = s as Page;
-                page.Loaded -= loadedHandler;
+                page.Loaded -= LoadedHandler;
 
                 object parameter;
                 if (_nextParameter != null)
@@ -205,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 _nextParameter = null;
             }
 
-            navigatedPage.Loaded += loadedHandler;
+            navigatedPage.Loaded += LoadedHandler;
         }
 
         private void UseDirectConnectedAnimationConfiguration(ConnectedAnimation animation)

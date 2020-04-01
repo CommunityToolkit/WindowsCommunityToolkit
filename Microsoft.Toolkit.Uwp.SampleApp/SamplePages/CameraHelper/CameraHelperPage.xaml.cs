@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
-            if (Frame.CurrentSourcePageType == typeof(CameraHelperPage))
+            if (Frame?.CurrentSourcePageType == typeof(CameraHelperPage))
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
                 await CleanUpAsync();
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
                 await _cameraHelper.CleanUpAsync();
-               _cameraHelper = null;
+                _cameraHelper = null;
             }
         }
     }
