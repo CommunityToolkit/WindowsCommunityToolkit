@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using FluentAssertions;
-using Microsoft.Toolkit.Observables.Collections;
+using Microsoft.Toolkit.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections;
@@ -13,7 +13,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace UnitTests.Observables
+namespace UnitTests.Collections
 {
     [TestClass]
     public class ReadOnlyObservableGroupedCollectionTests

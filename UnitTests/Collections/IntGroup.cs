@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnitTests.Observables
+namespace UnitTests.Collections
 {
     public class IntGroup : List<int>, IGrouping<string, int>
     {

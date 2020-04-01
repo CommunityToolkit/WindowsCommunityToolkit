@@ -2,44 +2,36 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.Toolkit.Observables.Collections;
+using Microsoft.Toolkit.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Specialized;
 
-namespace UnitTests.Observables
+namespace UnitTests.Collections
 {
     [TestClass]
-    public class ObservableGroupTests
+    public class ReadOnlyObservableGroupTests
     {
         [TestCategory("Observables")]
         [TestMethod]
-        public void Ctor_ShouldHaveExpectedState()
+        public void Ctor_WithKeyAndCollection_ShouldHaveExpectedInitialState()
         {
-            var group = new ObservableGroup<string, int>("key");
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var group = new ReadOnlyObservableGroup<string, int>("key", source);
 
             group.Key.Should().Be("key");
-            group.Should().BeEmpty();
-        }
-
-        [TestCategory("Observables")]
-        [TestMethod]
-        public void Ctor_WithGrouping_ShouldHaveExpectedState()
-        {
-            var source = new IntGroup("Key", new[] { 1, 2, 3 });
-            var group = new ObservableGroup<string, int>(source);
-
-            group.Key.Should().Be("Key");
             group.Should().BeEquivalentTo(new[] { 1, 2, 3 }, option => option.WithStrictOrdering());
         }
 
         [TestCategory("Observables")]
         [TestMethod]
-        public void Ctor_WithCollection_ShouldHaveExpectedState()
+        public void Ctor_ObservableGroup_ShouldHaveExpectedInitialState()
         {
             var source = new[] { 1, 2, 3 };
-            var group = new ObservableGroup<string, int>("key", source);
+            var sourceGroup = new ObservableGroup<string, int>("key", source);
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
 
             group.Key.Should().Be("key");
             group.Should().BeEquivalentTo(new[] { 1, 2, 3 }, option => option.WithStrictOrdering());
@@ -51,10 +43,11 @@ namespace UnitTests.Observables
         {
             var collectionChangedEventRaised = false;
             var source = new[] { 1, 2, 3 };
-            var group = new ObservableGroup<string, int>("key", source);
+            var sourceGroup = new ObservableGroup<string, int>("key", source);
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
             ((INotifyCollectionChanged)group).CollectionChanged += (s, e) => collectionChangedEventRaised = true;
 
-            group.Add(4);
+            sourceGroup.Add(4);
 
             group.Key.Should().Be("key");
             group.Should().BeEquivalentTo(new[] { 1, 2, 3, 4 }, option => option.WithStrictOrdering());
@@ -67,10 +60,11 @@ namespace UnitTests.Observables
         {
             var collectionChangedEventRaised = false;
             var source = new[] { 1, 2, 3 };
-            var group = new ObservableGroup<string, int>("key", source);
+            var sourceGroup = new ObservableGroup<string, int>("key", source);
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
             ((INotifyCollectionChanged)group).CollectionChanged += (s, e) => collectionChangedEventRaised = true;
 
-            group[1] = 4;
+            sourceGroup[1] = 4;
 
             group.Key.Should().Be("key");
             group.Should().BeEquivalentTo(new[] { 1, 4, 3 }, option => option.WithStrictOrdering());
@@ -83,10 +77,11 @@ namespace UnitTests.Observables
         {
             var collectionChangedEventRaised = false;
             var source = new[] { 1, 2, 3 };
-            var group = new ObservableGroup<string, int>("key", source);
+            var sourceGroup = new ObservableGroup<string, int>("key", source);
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
             ((INotifyCollectionChanged)group).CollectionChanged += (s, e) => collectionChangedEventRaised = true;
 
-            group.Remove(1);
+            sourceGroup.Remove(1);
 
             group.Key.Should().Be("key");
             group.Should().BeEquivalentTo(new[] { 2, 3 }, option => option.WithStrictOrdering());
@@ -99,10 +94,11 @@ namespace UnitTests.Observables
         {
             var collectionChangedEventRaised = false;
             var source = new[] { 1, 2, 3 };
-            var group = new ObservableGroup<string, int>("key", source);
+            var sourceGroup = new ObservableGroup<string, int>("key", source);
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
             ((INotifyCollectionChanged)group).CollectionChanged += (s, e) => collectionChangedEventRaised = true;
 
-            group.Clear();
+            sourceGroup.Clear();
 
             group.Key.Should().Be("key");
             group.Should().BeEmpty();
@@ -115,7 +111,8 @@ namespace UnitTests.Observables
         [DataRow(3)]
         public void IReadOnlyObservableGroup_ShouldReturnExpectedValues(int count)
         {
-            var group = new ObservableGroup<string, int>("key", Enumerable.Range(0, count));
+            var sourceGroup = new ObservableGroup<string, int>("key", Enumerable.Range(0, count));
+            var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
             var iReadOnlyObservableGroup = (IReadOnlyObservableGroup)group;
 
             iReadOnlyObservableGroup.Key.Should().Be("key");
