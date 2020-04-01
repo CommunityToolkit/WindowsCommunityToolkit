@@ -501,6 +501,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void UpdateXamlRender(string text)
         {
+            if (XamlCodeEditor == null)
+            {
+                return;
+            }
+
             // Hide any Previous Errors
             XamlCodeEditor.ClearErrors();
 
