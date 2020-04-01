@@ -226,7 +226,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
                                                                        Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="Transparent" />
+                                                                    Value="{Binding ElementName=CanvasTextBoxColorPicker, Path=Color}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
                                                                        Storyboard.TargetProperty="RequestedTheme">
