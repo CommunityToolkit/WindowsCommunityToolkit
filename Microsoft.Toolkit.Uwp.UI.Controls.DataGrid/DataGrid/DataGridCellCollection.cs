@@ -75,5 +75,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return _cells[index];
             }
         }
+
+        internal void Clear()
+        {
+            while (Count != 0)
+            {
+                RemoveAt(0);
+            }
+        }
     }
 }
