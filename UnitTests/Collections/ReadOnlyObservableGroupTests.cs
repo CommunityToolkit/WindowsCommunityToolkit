@@ -16,7 +16,7 @@ namespace UnitTests.Collections
     {
         [TestCategory("Collections")]
         [TestMethod]
-        public void Ctor_WithKeyAndCollection_ShouldHaveExpectedInitialState()
+        public void Ctor_WithKeyAndOBservableCollection_ShouldHaveExpectedInitialState()
         {
             var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
             var group = new ReadOnlyObservableGroup<string, int>("key", source);
@@ -32,6 +32,17 @@ namespace UnitTests.Collections
             var source = new[] { 1, 2, 3 };
             var sourceGroup = new ObservableGroup<string, int>("key", source);
             var group = new ReadOnlyObservableGroup<string, int>(sourceGroup);
+
+            group.Key.Should().Be("key");
+            group.Should().BeEquivalentTo(new[] { 1, 2, 3 }, option => option.WithStrictOrdering());
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void Ctor_WithKeyAndCollection_ShouldHaveExpectedInitialState()
+        {
+            var source = new[] { 1, 2, 3 };
+            var group = new ReadOnlyObservableGroup<string, int>("key", source);
 
             group.Key.Should().Be("key");
             group.Should().BeEquivalentTo(new[] { 1, 2, 3 }, option => option.WithStrictOrdering());

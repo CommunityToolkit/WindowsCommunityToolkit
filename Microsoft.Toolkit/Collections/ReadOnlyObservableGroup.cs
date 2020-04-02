@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -33,6 +34,17 @@ namespace Microsoft.Toolkit.Collections
             : base(group)
         {
             Key = group.Key;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyObservableGroup{TKey, TValue}"/> class.
+        /// </summary>
+        /// <param name="key">The key of the group.</param>
+        /// <param name="collection">The collection of items to add in the group.</param>
+        public ReadOnlyObservableGroup(TKey key, IEnumerable<TValue> collection)
+            : base(new ObservableCollection<TValue>(collection))
+        {
+            Key = key;
         }
 
         /// <inheritdoc/>
