@@ -47,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             RegisterThemeChangedHandler();
+            HookListeners();
 
             // Register for property callbacks that are owned by our parent class.
             _fontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);

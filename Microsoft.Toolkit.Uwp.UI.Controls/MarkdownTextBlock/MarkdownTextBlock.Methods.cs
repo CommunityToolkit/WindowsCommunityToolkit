@@ -48,6 +48,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Disconnect from OnClick handlers.
             UnhookListeners();
 
+            // Clear everything that exists.
+            _listeningHyperlinks.Clear();
+
             var markdownRenderedArgs = new MarkdownRenderedEventArgs(null);
 
             // Make sure we have something to parse.
@@ -174,9 +177,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             MarkdownRendered?.Invoke(this, markdownRenderedArgs);
         }
 
+        private void HookListeners()
+        {
+            // Re-hook all hyper link events we currently have
+            foreach (object link in _listeningHyperlinks)
+            {
+                if (link is Hyperlink hyperlink)
+                {
+                    hyperlink.Click -= Hyperlink_Click;
+                    hyperlink.Click += Hyperlink_Click;
+                }
+                else if (link is Image image)
+                {
+                    image.Tapped -= NewImagelink_Tapped;
+                    image.Tapped += NewImagelink_Tapped;
+                }
+            }
+        }
+
         private void UnhookListeners()
         {
-            // Clear any hyper link events if we have any
+            // Unhook any hyper link events if we have any
             foreach (object link in _listeningHyperlinks)
             {
                 if (link is Hyperlink hyperlink)
@@ -188,9 +209,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     image.Tapped -= NewImagelink_Tapped;
                 }
             }
-
-            // Clear everything that exists.
-            _listeningHyperlinks.Clear();
         }
 
         /// <summary>
