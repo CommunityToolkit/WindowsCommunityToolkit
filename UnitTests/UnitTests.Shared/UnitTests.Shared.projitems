@@ -15,22 +15,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\BoldTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\CodeTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\HeaderTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\HorizontalRuleTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\HyperlinkTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ImageInlineTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ItalicTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ListTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\MarkdownLinkTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ParagraphTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ParseTestBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ParseTestExtensionMethods.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\QuoteTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\StrikethroughTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\SubscriptTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\SuperscriptTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\TableTests.cs" />
   </ItemGroup>
 </Project>
