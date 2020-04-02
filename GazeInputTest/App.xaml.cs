@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using System;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -15,9 +15,10 @@ namespace GazeInputTest
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="App"/> class.
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
@@ -47,7 +48,7 @@ namespace GazeInputTest
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: Load state from previously suspended application
+                    // TODO: Load state from previously suspended application
                 }
 
                 // Place the frame in the current Window
@@ -63,6 +64,7 @@ namespace GazeInputTest
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -75,7 +77,7 @@ namespace GazeInputTest
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -90,7 +92,8 @@ namespace GazeInputTest
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+
+            // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
     }
