@@ -27,7 +27,6 @@
 
       <SwipeControl BorderThickness="1"
                     Background="#40000000"
-                    BorderBrush="{ThemeResource ButtonBackgroundBackground}"
                     Width="300" Margin="12" Height="68">
         <SwipeControl.LeftItems>
           <SwipeItems Mode="Reveal">
