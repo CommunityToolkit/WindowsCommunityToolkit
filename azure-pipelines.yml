@@ -41,11 +41,18 @@ steps:
 - script: nbgv cloud
   displayName: Set Version
 
-#- powershell: .\build\Install-WindowsSdkISO.ps1 17763
+#- powershell: .\build\Install-WindowsSdkISO.ps1 18362
 #  displayName: Insider SDK
 
-- powershell: .\build\build.ps1 -target=Package
+- powershell: .\build\build.ps1 -target=Default
   displayName: Build 
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/VsTestResults.xml'
+  displayName: Publish Test Results
+  condition: succeededOrFailed()
 
 - task: PowerShell@2
   displayName: Authenticode Sign Packages
