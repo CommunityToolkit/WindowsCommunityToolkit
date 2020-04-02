@@ -96,6 +96,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{4e9466d1-d5aa-46ac-801b-c8fdab79f0d4}*SharedItemsImports = 13
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{efa96b3c-857e-4659-b942-6bef7719f4ca}*SharedItemsImports = 4
 	EndGlobalSection
