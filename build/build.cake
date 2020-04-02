@@ -265,22 +265,33 @@ public string getMSTestAdapterPath(){
 Task("Test")
 	.Description("Runs all Tests")
 	.IsDependentOn("Build")
-	.Does(() =>
+    .Does(() =>
 {
 	var vswhere = VSWhereLatest(new VSWhereLatestSettings
 	{
 		IncludePrerelease = false
 	});
-	
+
 	var testSettings = new VSTestSettings
 	{
 	    ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
 		TestAdapterPath = getMSTestAdapterPath(),
-        ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResults.xml /framework:FrameworkUap10"),
+        ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10"),
 	};
 
-	VSTest(baseDir + "/**/UnitTests.*.appxrecipe", testSettings);
-});
+	VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
+}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*.NetCore.csproj"), (file) => 
+{
+    var testSettings = new DotNetCoreTestSettings
+	{
+		Configuration = "Release",
+		NoBuild = true,
+		Logger = "trx;LogFilePrefix=VsTestResults",
+		Verbosity = DotNetCoreVerbosity.Normal,
+		ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
+	};
+    DotNetCoreTest(file.FullPath, testSettings);
+}).DeferOnError();
 
 
 
