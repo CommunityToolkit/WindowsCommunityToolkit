@@ -132,7 +132,6 @@
         "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/RadialGauge.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RadialGauge.md",
-        "IsUno": true
       },
       {
         "Name": "RadialProgressBar",
@@ -143,7 +142,6 @@
         "XamlCodeFile": "RadialProgressBarCode.bind",
         "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RadialProgressBar.md",
-        "IsUno": true
       },
       {
         "Name": "RotatorTile",
@@ -164,7 +162,6 @@
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeView/BladeView.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/BladeView.md",
-        "IsUno": true
       },
       {
         "Name": "ScrollHeader",
@@ -185,7 +182,6 @@
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md",
-        "IsUno": true
       },
       {
         "Name": "DropShadowPanel",
@@ -217,7 +213,6 @@
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Expander.md",
-        "IsUno": true
       },
       {
         "Name": "TileControl",
@@ -272,7 +267,6 @@
         "CodeFile": "InAppNotificationCode.bind",
         "Icon": "/SamplePages/InAppNotification/InAppNotification.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InAppNotification.md",
-        "IsUno": true
       },
       {
         "Name": "DockPanel",
@@ -294,7 +288,6 @@
         "XamlCodeFile": "HeaderedContentControlXaml.bind",
         "Icon": "/SamplePages/HeaderedContentControl/HeaderedContentControl.png",
         "DocumentationUrl": "https:raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedContentControl.md",
-        "IsUno": true,
         "IsUno": true
       },
       {

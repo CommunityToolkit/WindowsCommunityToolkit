@@ -223,10 +223,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     // { "Windows.UI.Xaml.DependencyObjectStore", LogLevel.Debug },
                      // { "Uno.UI.DataBinding.BindingPropertyHelper", LogLevel.Debug },
 
-                    // Binder memory references tracking
-                    // { "ReferenceHolder", LogLevel.Debug },
-                    })
-                .AddConsole(LogLevel.Debug);
+					// Binder memory references tracking
+					// { "ReferenceHolder", LogLevel.Debug },
+				}
+                )
+#if !NETFX_CORE
+                .AddConsole(LogLevel.Debug)
+#endif
+                ;
         }
     }
 }
