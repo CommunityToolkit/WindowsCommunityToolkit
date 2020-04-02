@@ -50,7 +50,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/VsTestResults.xml'
+    testResultsFiles: '**/VsTestResults*.trx'
   displayName: Publish Test Results
   condition: succeededOrFailed()
 
