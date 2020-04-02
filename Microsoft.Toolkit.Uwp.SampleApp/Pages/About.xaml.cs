@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
            base.OnNavigatingFrom(e);
-            Windows.UI.Xaml.Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+           Windows.UI.Xaml.Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
         }
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)

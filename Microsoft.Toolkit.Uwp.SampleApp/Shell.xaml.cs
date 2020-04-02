@@ -133,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Needs a gentle push to update layout
             NavView.Loaded += (s, args) => NavView.InvalidateMeasure();
             System.Console.WriteLine($"Done navigating");
-
         }
 
         private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)

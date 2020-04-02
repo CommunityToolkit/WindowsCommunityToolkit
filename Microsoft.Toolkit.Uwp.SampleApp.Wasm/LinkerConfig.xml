@@ -12,7 +12,6 @@
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Animations"/>
   <assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls" />
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid"/>
-	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls.Graph"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp"/>

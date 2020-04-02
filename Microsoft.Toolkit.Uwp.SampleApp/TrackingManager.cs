@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     public static class TrackingManager
     {
 #if NETFX_CORE
-       private static StoreServicesCustomEventLogger logger;
+        private static StoreServicesCustomEventLogger logger;
 
         static TrackingManager()
         {
@@ -43,15 +43,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Ignore error
             }
 #elif HAS_UNO
-			typeof(TrackingManager).Log().Error("Unhandled exception", ex);
+            typeof(TrackingManager).Log().Error("Unhandled exception", ex);
 #endif
         }
 
-
-		public static void TrackEvent(string category, string action, string label = "", long value = 0)
+        public static void TrackEvent(string category, string action, string label = "", long value = 0)
         {
 #if NETFX_CORE
-           try
+            try
             {
                 logger.Log($"{category} - {action} - {label} - {value.ToString()}");
             }
@@ -65,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public static void TrackPage(string pageName)
         {
 #if NETFX_CORE
-           try
+            try
             {
                 logger.Log($"pageView - {pageName}");
             }

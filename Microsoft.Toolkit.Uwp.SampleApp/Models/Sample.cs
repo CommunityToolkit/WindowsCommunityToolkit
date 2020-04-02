@@ -460,17 +460,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_propertyDescriptor == null)
             {
-				var manifestName = typeof(Samples).GetTypeInfo().Assembly
-					.GetManifestResourceNames()
-					.FirstOrDefault(n => n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
+                var manifestName = typeof(Samples).GetTypeInfo().Assembly
+                    .GetManifestResourceNames()
+                    .FirstOrDefault(n => n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
 
-				if(manifestName == null)
-				{
-					throw new InvalidOperationException($"Failed to find resource [{Name}.{XamlCodeFile}]");
-				}
+                if (manifestName == null)
+                {
+                    throw new InvalidOperationException($"Failed to find resource [{Name}.{XamlCodeFile}]");
+                }
 
-				// Get Xaml code
-				using (var codeStream = typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName))
+                // Get Xaml code
+                using (var codeStream = typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName))
                 {
                     XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
@@ -572,7 +572,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if NETFX_CORE // UNO TODO
                                        TrackingManager.TrackException(ex);
 #endif
-										continue;
+                                        continue;
                                     }
 
                                     break;
@@ -595,7 +595,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if NETFX_CORE // UNO TODO
                                         TrackingManager.TrackException(ex);
 #endif
-										continue;
+                                        continue;
                                     }
 
                                     break;
@@ -624,7 +624,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if NETFX_CORE // UNO TODO
                                         TrackingManager.TrackException(ex);
 #endif
-										continue;
+                                        continue;
                                     }
 
                                     break;

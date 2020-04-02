@@ -24,27 +24,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         private void MarkdownParserPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-		{
+        {
             UpdateMDResult();
         }
 
         private void RawMarkdown_TextChanged(object sender, TextChangedEventArgs e)
         {
-			UpdateMDResult();
+            UpdateMDResult();
         }
 
         private void UpdateMDResult()
         {
 
-			// UNO TODO: The materialization of the scrollviewer template is performed lazily.
-			if (MarkdownResult != null)
-			{
-				var document = new MarkdownDocument();
-				document.Parse(RawMarkdown.Text);
+            // UNO TODO: The materialization of the scrollviewer template is performed lazily.
+            if (MarkdownResult != null)
+            {
+                var document = new MarkdownDocument();
+                document.Parse(RawMarkdown.Text);
 
-				var json = JsonConvert.SerializeObject(document, Formatting.Indented, new StringEnumConverter());
-				MarkdownResult.Text = json;
-			}
+                var json = JsonConvert.SerializeObject(document, Formatting.Indented, new StringEnumConverter());
+                MarkdownResult.Text = json;
+            }
         }
     }
 }

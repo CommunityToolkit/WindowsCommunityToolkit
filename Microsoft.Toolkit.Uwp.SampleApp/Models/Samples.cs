@@ -54,50 +54,50 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
         {
             await _semaphore.WaitAsync();
-			if (_samplesCategories == null)
-			{
-				List<SampleCategory> allCategories;
+            if (_samplesCategories == null)
+            {
+                List<SampleCategory> allCategories;
 
-				var manifestName = typeof(Samples).GetTypeInfo().Assembly
-					.GetManifestResourceNames()
-					.FirstOrDefault(n => n.EndsWith("samples.json", StringComparison.OrdinalIgnoreCase));
+                var manifestName = typeof(Samples).GetTypeInfo().Assembly
+                    .GetManifestResourceNames()
+                    .FirstOrDefault(n => n.EndsWith("samples.json", StringComparison.OrdinalIgnoreCase));
 
-				if (manifestName != null)
-				{
-					var jsonString = await typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName).ReadTextAsync();
-					allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+                if (manifestName != null)
+                {
+                    var jsonString = await typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName).ReadTextAsync();
+                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
 
-					// Check API
-					var supportedCategories = new List<SampleCategory>();
-					foreach (var category in allCategories)
-					{
-						var finalSamples = new List<Sample>();
-
-                    foreach (var sample in category.Samples)
+                    // Check API
+                    var supportedCategories = new List<SampleCategory>();
+                    foreach (var category in allCategories)
                     {
-                        sample.CategoryName = category.Name;
+                        var finalSamples = new List<Sample>();
 
-                        if (sample.IsSupported && (sample.IsUno ?? ShowUnoUnsupported))
+                        foreach (var sample in category.Samples)
                         {
-                            finalSamples.Add(sample);
-                            await sample.PreparePropertyDescriptorAsync();
+                            sample.CategoryName = category.Name;
+
+                            if (sample.IsSupported && (sample.IsUno ?? ShowUnoUnsupported))
+                            {
+                                finalSamples.Add(sample);
+                                await sample.PreparePropertyDescriptorAsync();
+                            }
+                        }
+
+                        if (finalSamples.Count > 0)
+                        {
+                            supportedCategories.Add(category);
+                            category.Samples = finalSamples.OrderBy(s => s.Name).ToArray();
                         }
                     }
 
-						if (finalSamples.Count > 0)
-						{
-							supportedCategories.Add(category);
-							category.Samples = finalSamples.OrderBy(s => s.Name).ToArray();
-						}
-					}
-
-					_samplesCategories = supportedCategories.ToList();
-				}
-				else
-				{
-					throw new Exception("samples.json cannot be found in resources");
-				}
-			}
+                    _samplesCategories = supportedCategories.ToList();
+                }
+                else
+                {
+                    throw new Exception("samples.json cannot be found in resources");
+                }
+            }
 
             _semaphore.Release();
             return _samplesCategories;

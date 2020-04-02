@@ -61,6 +61,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     AutomateTextNotification(Content.ToString());
                 }
+#else
+                peer = null;
 #endif
             }
         }

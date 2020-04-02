@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -165,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (CurrentSample != null)
             {
-                var code = string.Empty;
+                string code;
                 if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
                 {
                     code = CurrentSample.BindedXamlCode;
@@ -195,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // UNO TODO
                 // The controls may be loaded when set directly to their parent
                 // so the datacontext of the renderer needs to be set early.
-                setSampleDataContext();
+                SetSampleDataContext();
 
                 if (!string.IsNullOrWhiteSpace(CurrentSample.Type))
                 {
@@ -226,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         SamplePage.Loaded += SamplePage_Loaded;
 
-                        // UNO TODO 
+                        // UNO TODO
                         if (SamplePage.IsLoaded)
                         {
                             SamplePage_Loaded(SamplePage, new RoutedEventArgs());
@@ -238,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                void setSampleDataContext()
+                void SetSampleDataContext()
                 {
                     DataContext = CurrentSample;
 
@@ -557,8 +556,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
                 if (element is FrameworkElement fe)
                 {
-                    fe.Loaded += XamlFrameworkElement_Loaded; 
-                    
+                    fe.Loaded += XamlFrameworkElement_Loaded;
+
                     // UNO TODO
                     Console.WriteLine($"UpdateXamlRenderAsync attach loaded fe.IsLoaded:{fe.IsLoaded}");
 

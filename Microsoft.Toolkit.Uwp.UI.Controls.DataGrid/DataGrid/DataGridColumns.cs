@@ -1136,7 +1136,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool ComputeDisplayedColumns()
         {
             bool invalidate = false;
-            int numVisibleScrollingCols = 0;
             int visibleScrollingColumnsTmp = 0;
             double displayWidth = this.CellsWidth;
             double cx = 0;
@@ -1194,7 +1193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     dataGridColumn = this.ColumnsInternal.GetNextVisibleColumn(dataGridColumn);
                 }
 
-                numVisibleScrollingCols = visibleScrollingColumnsTmp;
+                var numVisibleScrollingCols = visibleScrollingColumnsTmp;
 
                 // if we inflate the data area then we paint columns to the left of firstDisplayedScrollingCol
                 if (cx < displayWidth)

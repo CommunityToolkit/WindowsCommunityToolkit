@@ -265,14 +265,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
-      <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\OneDriveDataTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
-      <DependentUpon>OneDrivePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SamplePages\OrbitView\OrbitViewPage.xaml.cs">
       <DependentUpon>OrbitViewPage.xaml</DependentUpon>
     </Compile>
@@ -667,7 +659,6 @@
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\Offset\OffsetBehavior.png" />
     <None Include="$(MSBuildThisFileDirectory)SamplePages\Offset\OffsetBehaviorCode.bind" />
     <None Include="$(MSBuildThisFileDirectory)SamplePages\Offset\OffsetBehaviorXaml.bind" />
-    <None Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\OrbitView\OrbitView.png" />
     <None Include="$(MSBuildThisFileDirectory)SamplePages\OrbitView\OrbitViewXaml.bind" />
@@ -1003,14 +994,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)SamplePages\OnDevice\OnDevicePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\FoldersPickerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)SamplePages\OneDrive Service\OneDrivePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

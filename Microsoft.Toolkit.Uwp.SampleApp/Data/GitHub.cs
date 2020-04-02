@@ -30,20 +30,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             {
                 try
                 {
-					using (var client = new HttpClient())
-					{
-						const string userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
+                    using (var client = new HttpClient())
+                    {
+                        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
 #if HAS_UNO
-						client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+                        client.DefaultRequestHeaders.Add("User-Agent", userAgent);
 #else
-						client.DefaultRequestHeaders.TryAppendWithoutValidation("User-Agent", userAgent);
+                        client.DefaultRequestHeaders.TryAppendWithoutValidation("User-Agent", userAgent);
 #endif
 
-						var uri = $"{_root}/repos/{_repoOwner}/{_repoName}/releases";
-						var result = await client.GetStringAsync(new Uri(uri));
-						_releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
-					}
+                        var uri = $"{_root}/repos/{_repoOwner}/{_repoName}/releases";
+                        var result = await client.GetStringAsync(new Uri(uri));
+                        _releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
+                    }
                 }
                 catch (Exception)
                 {

@@ -191,15 +191,11 @@ namespace DifferencesGen
 
         private static Dictionary<string, List<string>> ProcessAssembly(Assembly assembly)
         {
-            int pos = assembly.FullName.IndexOf(", Culture");
-
-            string fileName = $"{assembly.FullName.Substring(0, pos)}.json";
-
-            Dictionary<string, List<string>> types = new Dictionary<string, List<string>>();
+            var types = new Dictionary<string, List<string>>();
 
             foreach (var exportedType in assembly.ExportedTypes)
             {
-                List<string> members = new List<string>();
+                var members = new List<string>();
 
                 if (exportedType.IsEnum)
                 {

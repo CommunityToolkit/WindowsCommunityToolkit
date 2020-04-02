@@ -75,8 +75,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 
         private static async Task<IEnumerable<PhotoDataItem>> GetPhotosAsync(bool online)
         {
-			var prefix = online ? "Online" : string.Empty;
-			var uri = $"Photos.{prefix}Photos.json";
+            var prefix = online ? "Online" : string.Empty;
+            var uri = $"Photos.{prefix}Photos.json";
 
             using (StreamReader r = new StreamReader(await Helpers.StreamHelper.GetEmbeddedFileStreamAsync(typeof(PhotosDataSource), uri)))
             {
