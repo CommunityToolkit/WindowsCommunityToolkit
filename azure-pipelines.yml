@@ -28,8 +28,14 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.1.101'
-  displayName: Use .NET Core sdk
+    version: '2.1.202' # This SDK contains .Net Core 2.0.9, which we still need to run some of our .Net Core Tests
+  displayName: Use .NET Core sdk 2
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.200'
+  displayName: Use .NET Core sdk 3
 
 - task: DotNetCoreCLI@2  
   inputs:
@@ -50,7 +56,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/VsTestResults.xml'
+    testResultsFiles: '**/VsTestResults*.trx'
   displayName: Publish Test Results
   condition: succeededOrFailed()
 
