@@ -251,7 +251,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
 
                 var state = (WrapLayoutState)context.LayoutState;
-                bool arrange(WrapItem item, bool isLast = false)
+                bool Arrange(WrapItem item, bool isLast = false)
                 {
                     if (item.Measure.HasValue == false)
                     {
@@ -300,7 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 for (var i = 0; i < context.ItemCount; i++)
                 {
-                    bool continueArranging = arrange(state.GetItemAt(i));
+                    bool continueArranging = Arrange(state.GetItemAt(i));
                     if (continueArranging == false)
                     {
                         break;
