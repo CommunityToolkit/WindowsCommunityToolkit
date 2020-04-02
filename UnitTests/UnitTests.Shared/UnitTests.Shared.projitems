@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4e9466d1-d5aa-46ac-801b-c8fdab79f0d4</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UnitTests.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Array.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Comparable.Numeric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\BoldTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\CodeTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\HeaderTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\HorizontalRuleTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\HyperlinkTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ImageInlineTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ItalicTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ListTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\MarkdownLinkTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ParagraphTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ParseTestBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\ParseTestExtensionMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\QuoteTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\StrikethroughTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\SubscriptTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\SuperscriptTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Markdown.Parse\TableTests.cs" />
+  </ItemGroup>
+</Project>

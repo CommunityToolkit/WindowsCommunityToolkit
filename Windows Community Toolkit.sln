@@ -90,8 +90,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Media", "Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Shared", "UnitTests\UnitTests.Shared\UnitTests.Shared.shproj", "{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{4e9466d1-d5aa-46ac-801b-c8fdab79f0d4}*SharedItemsImports = 13
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{efa96b3c-857e-4659-b942-6bef7719f4ca}*SharedItemsImports = 4
@@ -827,6 +830,7 @@ Global
 		{262BB7CE-EF42-4BF7-B90C-107E6CBB57FF} = {096ECFD7-7035-4487-9C87-81DCE9389620}
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4} = {B30036C4-D514-4E5B-A323-587A061772CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
