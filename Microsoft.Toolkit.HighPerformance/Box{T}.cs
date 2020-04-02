@@ -24,50 +24,13 @@ namespace Microsoft.Toolkit.HighPerformance
         // the corresponding T value type being boxed, and then the data of the value being boxed:
         // [ sync block || pMethodTable || boxed T value ]
         //                 ^               ^
-        //                 |               \-- Box<T>.Value
+        //                 |               \-- Unsafe.Unbox<T>(Box<T>)
         //                 \-- Box<T> reference
         // For more info, see: https://mattwarren.org/2017/08/02/A-look-at-the-internals-of-boxing-in-the-CLR/.
         // Note that there might be some padding before the actual data representing the boxed value,
         // which might depend on both the runtime and the exact CPU architecture.
-        // Because of this, we can't just use a fixed mapping to access the boxed value.
-
-        /// <summary>
-        /// The <see cref="IntPtr"/> representing the byte offset to the start of the boxed data
-        /// </summary>
-        internal static readonly IntPtr DataOffset;
-
-        /// <summary>
-        /// Initializes static members of the <see cref="Box{T}"/> class.
-        /// </summary>
-        static Box()
-        {
-            /* As mentioned in the comment above, each boxed value might have
-             * some arbitrary padding in the object acting as a host.
-             * In order to ensure type safety regardless of the actual runtime
-             * and CPU architecture in use, we need to calculate the exact byte
-             * offset for the boxed value. Doing so will allow the Box<T> type
-             * to still expose APIs to access the internal data or reference
-             * without the conditional branch that is added by the JIT compiler
-             * when simply using Unsafe.Unbox<T>. Accessing a static field is a
-             * simple mov operation to a static memory address, so it doesn't
-             * actually add much overhead to the final code, and hiding all the
-             * logic away behind this type makes things easier to use for
-             * developers, as well as offering a strongly typed object to use,
-             * as opposed to just passing a simple object reference around.
-             * Here we first box a default T value, and use a mapping type to
-             * get a reference to the first byte in the target object.
-             * Then we use the Unsafe.Unbox<T> API to get the actual reference
-             * to the boxed value (this API is always guaranteed to be correct).
-             * Once we have the two references, we can just use Unsafe.ByteOffset
-             * to calculate the final byte offset to reuse later on. */
-            object obj = default(T);
-            var rawObj = Unsafe.As<RawObjectData>(obj);
-            ref byte r0 = ref rawObj.Data;
-            ref T r1 = ref Unsafe.Unbox<T>(obj);
-            ref byte r2 = ref Unsafe.As<T, byte>(ref r1);
-
-            DataOffset = Unsafe.ByteOffset(ref r0, ref r2);
-        }
+        // This is automatically handled by the unbox !!T instruction in IL, which
+        // unboxes a given value type T and returns a reference to its boxed data.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Box{T}"/> class.
@@ -152,7 +115,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator T(Box<T> box)
         {
-            return box.GetReference();
+            return Unsafe.Unbox<T>(box);
         }
 
         /// <summary>

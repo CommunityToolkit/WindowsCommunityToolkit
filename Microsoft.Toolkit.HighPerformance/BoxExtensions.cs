@@ -31,16 +31,15 @@ namespace Microsoft.Toolkit.HighPerformance
              * the Box<T> type, so we wouldn't be able to call instance Box<T>
              * methods anyway. To work around this, we use an extension method,
              * which is just syntactic sugar for a static method belonging to
-             * another class. Here we just reuse our mapping type to get a
-             * reference to the first byte of the object data, and then add
-             * the precomputed byte offset to get to the start of the actual
-             * boxed type. Then we just use Unsafe.As to cast to the right type. */
-            var rawObj = Unsafe.As<RawObjectData>(box);
-            ref byte r0 = ref rawObj.Data;
-            ref byte r1 = ref Unsafe.AddByteOffset(ref r0, Box<T>.DataOffset);
-            ref T r2 = ref Unsafe.As<byte, T>(ref r1);
-
-            return ref r2;
+             * another class. Here we just call the Unsafe.Unbox<T>(object)
+             * API, which is hidden away for users of the type for simplicity.
+             * Note that this API will always actually involve a conditional
+             * branch, which is introduced by the JIT compiler to validate the
+             * object instance being unboxed. But since the alternative of
+             * manually tracking the offset to the boxed data would be both
+             * more error prone, and it would still introduce some overhead,
+             * this doesn't really matter in this case anyway. */
+            return ref Unsafe.Unbox<T>(box);
         }
     }
 }

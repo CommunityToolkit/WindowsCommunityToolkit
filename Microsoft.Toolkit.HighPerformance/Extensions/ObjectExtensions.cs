@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             if (obj.GetType() == typeof(T))
             {
-                value = Box<T>.DangerousGetFrom(obj);
+                value = Unsafe.Unbox<T>(obj);
 
                 return true;
             }
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ref T DangerousUnbox<T>(this object obj)
             where T : struct
         {
-            return ref Box<T>.DangerousGetFrom(obj).GetReference();
+            return ref Unsafe.Unbox<T>(obj);
         }
     }
 }
