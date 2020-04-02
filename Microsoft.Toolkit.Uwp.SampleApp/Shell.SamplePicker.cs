@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
-        {         
+        {
             // UNO TODO
             // force materialization
             FindName("SamplePickerGrid");
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-        {           
+        {
             // force materialization
             FindName("SamplePickerGrid");
 

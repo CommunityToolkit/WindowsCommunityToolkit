@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 #if !HAS_UNO
             await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
 #endif
-		}
+        }
 
         public async void ReportError(XamlExceptionRange error)
         {
@@ -53,12 +53,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 range,
                 new IModelDecorationOptions() { IsWholeLine = true, GlyphMarginClassName = _errorIconStyle, GlyphMarginHoverMessage = new string[] { error.Message }.ToMarkdownString() }));
 #endif
-		}
+        }
 
-		public void ClearErrors()
+        public void ClearErrors()
         {
 #if !HAS_UNO
-           XamlCodeRenderer.Decorations.Clear();
+            XamlCodeRenderer.Decorations.Clear();
             XamlCodeRenderer.Options.GlyphMargin = false;
 #endif
         }
@@ -145,7 +145,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
         };
 #endif
-
 
         private ThreadPoolTimer _autocompileTimer;
 

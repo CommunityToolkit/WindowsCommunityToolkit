@@ -257,14 +257,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // UNO TODO
                     if (Children[i] is UIElement outerChild)
                     {
-                        arrange(outerChild);
+                        Arrange(outerChild);
                     }
                 }
 
                 // UNO TODO
                 if (Children[lastIndex] is UIElement outerChild2)
                 {
-                    arrange(outerChild2, StretchChild == StretchChild.Last);
+                    Arrange(outerChild2, StretchChild == StretchChild.Last);
                 }
             }
 

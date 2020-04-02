@@ -189,8 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (link is Image image)
                 {
+#if !HAS_UNO
                     image.Tapped -= NewImagelink_Tapped;
                     image.Tapped += NewImagelink_Tapped;
+#endif
                 }
             }
         }

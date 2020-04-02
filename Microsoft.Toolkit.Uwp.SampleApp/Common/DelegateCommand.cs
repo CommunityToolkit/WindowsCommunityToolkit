@@ -60,10 +60,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
             {
                 return commandCanExecute();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-				Console.WriteLine($"Action failed {e}");
-				return false;
+                Console.WriteLine($"Action failed {e}");
+                return false;
             }
         }
 
@@ -84,9 +84,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
             {
                 commandExecuteAction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-				Console.WriteLine($"Action failed {e}");
+                Console.WriteLine($"Action failed {e}");
                 Debugger.Break();
             }
         }

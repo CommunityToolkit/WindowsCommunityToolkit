@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
@@ -12,7 +12,11 @@
     <WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
 		<WasmShellEnableLongPathSupport>false</WasmShellEnableLongPathSupport>
   </PropertyGroup>
-  
+	
+  <ItemGroup>
+		<WasmShellMonoEnvironment Include="MONO_GC_PARAMS" Value="soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep" />
+	</ItemGroup>
+	
   <ItemGroup>
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.SampleApp.Wasm" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml" />
@@ -23,8 +27,6 @@
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI.Animations" />
-    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" />
-    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI.Controls.Graph" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Services" />
@@ -51,7 +53,6 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Graph\Microsoft.Toolkit.Uwp.UI.Controls.Graph.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
