@@ -1,5 +1,5 @@
-Issue: #
-<!-- Link to relevant issue. All PRs should be associated with an issue -->
+## Fixes #
+<!-- Link to relevant issue (for ex: #1234) which will automatically close the issue once the PR is merged -->
 
 ## PR Type
 What kind of change does this PR introduce?

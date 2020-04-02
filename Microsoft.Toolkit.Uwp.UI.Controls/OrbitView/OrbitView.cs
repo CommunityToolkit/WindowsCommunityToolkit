@@ -622,7 +622,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var elementNode = elementVisual.GetReference();
             var centerNode = centerVisual.GetReference();
 
-            ScalarNode expression = null;
+            ScalarNode expression;
             var elementY = elementNode.Offset.Y + (elementNode.Size.Y / 2);
             var centerY = centerNode.Offset.Y + (centerNode.Size.Y / 2);
             var elementX = elementNode.Offset.X + (elementNode.Size.X / 2);

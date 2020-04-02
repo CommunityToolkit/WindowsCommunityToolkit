@@ -9,7 +9,6 @@
     <PackageLicenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
     <PackageReleaseNotes>v3.0 release https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
     <DefaultLanguage>en-US</DefaultLanguage>
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
@@ -21,7 +20,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true'" >true</SignAssembly>
+    <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true' and '$(IsTestSampleProject)' != 'true'" >true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
@@ -59,11 +58,16 @@
   </Choose>
 
   <Choose>
+    <When Condition="'$(IsDesignProject)' != 'true'">
+      <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+      </ItemGroup>
+    </When>
+  </Choose>
+
+  <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <ItemGroup>
-        <!--<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="all" />-->
-        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
-
         <EmbeddedResource Include="**\*.rd.xml" />
         <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
         <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />

@@ -12,13 +12,13 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
@@ -32,9 +32,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>
-    </DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -49,9 +47,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>
-    </DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +59,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -78,9 +73,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>
-    </DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -92,7 +85,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -107,9 +99,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>
-    </DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -129,9 +119,6 @@
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers">
-      <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>1.1.0</Version>
@@ -384,7 +371,7 @@
     <Content Include="Assets\mtns.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
+    <None Include=".editorconfig" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
@@ -451,7 +438,6 @@
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBarCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
-    <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
@@ -524,6 +510,9 @@
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
       <DependentUpon>EyedropperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ClipToBounds\ClipToBoundsPage.xaml.cs">
+      <DependentUpon>ClipToBoundsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
@@ -769,14 +758,6 @@
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDriveDataTemplateSelector.cs" />
-    <Compile Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
-      <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
-      <DependentUpon>OneDrivePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="SamplePages\Saturation\SaturationBehaviorPage.xaml.cs">
       <DependentUpon>SaturationBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -938,6 +919,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Eyedropper\EyedropperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Content Include="SamplePages\ClipToBounds\ClipToBoundsCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Page Include="SamplePages\ClipToBounds\ClipToBoundsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1174,14 +1162,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1452,7 +1432,6 @@
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
@@ -1466,7 +1445,6 @@
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />

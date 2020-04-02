@@ -1,0 +1,7 @@
+[*.{cs,vb}]
+
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.CS1573.severity = none
+dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.CS1712.severity = none

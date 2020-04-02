@@ -218,9 +218,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-               var selection = !string.IsNullOrEmpty(DisplayMemberPath)
-                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
-                    : ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
+                var selection = !string.IsNullOrEmpty(DisplayMemberPath)
+                     ? ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
+                     : ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
 
                 comboBox.SelectedItem = selection;
             }

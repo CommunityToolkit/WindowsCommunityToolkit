@@ -28,7 +28,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.0.100'
+    version: '3.1.101'
   displayName: Use .NET Core sdk
 
 - task: DotNetCoreCLI@2  
@@ -44,8 +44,15 @@ steps:
 #- powershell: .\build\Install-WindowsSdkISO.ps1 17763
 #  displayName: Insider SDK
 
-- powershell: .\build\build.ps1 -target=Package
+- powershell: .\build\build.ps1 -target=Default
   displayName: Build 
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/VsTestResults.xml'
+  displayName: Publish Test Results
+  condition: succeededOrFailed()
 
 - task: PowerShell@2
   displayName: Authenticode Sign Packages
