@@ -34,22 +34,28 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="SelectedItemCountTextBlock"
-                   Margin="0,12"
                    Grid.ColumnSpan="2"
+                   Margin="0,12"
                    HorizontalAlignment="Center"
                    FontFamily="Segoe UI Light"
                    FontSize="21"
                    Text="You haven't selected any items"
                    Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <Grid x:Name="XamlRoot" Grid.ColumnSpan="2" Grid.Row="1" />
+        <Grid x:Name="XamlRoot"
+              Grid.Row="1"
+              Grid.ColumnSpan="2" />
 
-        <TextBlock FontFamily="Segoe UI Light"
-                   FontSize="21" 
-                   Text="Number of Photos" 
-                   Grid.Row="2" 
-                   Margin="5" />
-        
-        <Slider x:Name="NumberSlider" Grid.Row="2" Grid.Column="1" Margin="30,5" StepFrequency="1"   />
+        <TextBlock Grid.Row="2"
+                   Margin="4"
+                   FontFamily="Segoe UI Light"
+                   FontSize="21"
+                   Text="Number of Photos" />
+
+        <Slider x:Name="NumberSlider"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="32,4"
+                StepFrequency="1" />
     </Grid>
 </Page>
