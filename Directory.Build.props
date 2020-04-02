@@ -94,7 +94,7 @@
 	<!-- BEGIN Uno Specific -->
 
 	<PropertyGroup>
-		<TargetFrameworksOverride>uap10.0.16299;MonoAndroid80;xamarinios10;netstandard2.0</TargetFrameworksOverride>
+		<TargetFrameworksOverride>uap10.0.16299;MonoAndroid90;xamarinios10;netstandard2.0</TargetFrameworksOverride>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
