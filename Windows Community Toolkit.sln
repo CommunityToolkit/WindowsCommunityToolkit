@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Sampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.UWP", "UnitTests\UnitTests.UWP\UnitTests.UWP.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI", "Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj", "{3DD8AA7C-3569-4E51-992F-0C2257E8878E}"
 EndProject

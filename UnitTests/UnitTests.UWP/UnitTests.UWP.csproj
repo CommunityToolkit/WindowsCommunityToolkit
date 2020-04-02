@@ -7,8 +7,8 @@
     <ProjectGuid>{A139968E-AD78-4E8C-93B8-9A5523BCAC89}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
+    <RootNamespace>UnitTests.UWP</RootNamespace>
+    <AssemblyName>UnitTests.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
@@ -177,31 +177,31 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
       <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
       <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
       <Name>Microsoft.Toolkit.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
       <Name>Microsoft.Toolkit</Name>
     </ProjectReference>
@@ -210,7 +210,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
+  <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
