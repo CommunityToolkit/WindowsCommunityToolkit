@@ -138,6 +138,35 @@ namespace Microsoft.Toolkit.HighPerformance
             return Unsafe.As<Box<T>>(value);
         }
 
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            /* Here we're overriding the base object virtual methods to ensure
+             * calls to those methods have a correct results on all runtimes.
+             * For instance, not doing so is causing issue on .NET Core 2.1 Release
+             * due to how the runtime handles the Box<T> reference to an actual
+             * boxed T value (not a concrete Box<T> instance as it would expect).
+             * To fix that, the overrides will simply call the expected methods
+             * directly on the boxed T values. These methods will be directly
+             * invoked by the JIT compiler when using a Box<T> reference. When
+             * an object reference is used instead, the call would be forwarded
+             * to those same methods anyway, since the method table for an object
+             * representing a T instance is the one of type T anyway. */
+            return this.GetReference().ToString();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return Equals(this, obj);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return this.GetReference().GetHashCode();
+        }
+
         /// <summary>
         /// Throws an <see cref="InvalidCastException"/> when a cast from an invalid <see cref="object"/> is attempted.
         /// </summary>
