@@ -200,10 +200,12 @@ namespace Microsoft.Toolkit.HighPerformance
              * used over object references, but it is never actually instantiated.
              * Because of this, the method table of the objects in the heap will
              * be the one of type T created by the runtime, and not the one of
-             * the Box<T> type, so we wouldn't be able to call instance Box<T>
-             * methods anyway. To work around this, we use an extension method,
-             * which is just syntactic sugar for a static method belonging to
-             * another class. Here we just call the Unsafe.Unbox<T>(object)
+             * the Box<T> type. To avoid potential issues when invoking this method
+             * on different runtimes, which might handle that scenario differently,
+             * we use an extension method, which is just syntactic sugar for a static
+             * method belonging to another class. This isn't technically necessary,
+             * but it's just an extra precaution since the syntax for users remains
+             * exactly the same anyway. Here we just call the Unsafe.Unbox<T>(object)
              * API, which is hidden away for users of the type for simplicity.
              * Note that this API will always actually involve a conditional
              * branch, which is introduced by the JIT compiler to validate the
