@@ -315,7 +315,7 @@ namespace UnitTests.Diagnostics
         [TestMethod]
         public void Test_Guard_IsGreaterThanOrEqualTo_Ok()
         {
-            Guard.IsGreaterThanOrEqualTo(2,1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
+            Guard.IsGreaterThanOrEqualTo(2, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
             Guard.IsGreaterThanOrEqualTo(1, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
             Guard.IsGreaterThanOrEqualTo(MathF.PI, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
             Guard.IsGreaterThanOrEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
