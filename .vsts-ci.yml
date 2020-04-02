@@ -50,7 +50,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
-      version: '3.0.100'
+      version: '3.1.101'
     displayName: Use .NET Core sdk
 
   - task: DotNetCoreCLI@2  
@@ -118,8 +118,8 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
-      version: '3.0.100'
-    displayName: Use .NET Core sdk
+      version: '3.1.101'
+    displayName: Use .NETCore 3.1.101  sdk
 
   - bash: |
       cd ~
