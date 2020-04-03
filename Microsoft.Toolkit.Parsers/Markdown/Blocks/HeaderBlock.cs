@@ -11,6 +11,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a heading.
+    /// <seealso href="https://spec.commonmark.org/0.29/#atx-headings">Single-Line Header CommonMark Spec</seealso>
+    /// <seealso href="https://spec.commonmark.org/0.29/#setext-headings">Two-Line Header CommonMark Spec</seealso>
     /// </summary>
     public class HeaderBlock : MarkdownBlock
     {
