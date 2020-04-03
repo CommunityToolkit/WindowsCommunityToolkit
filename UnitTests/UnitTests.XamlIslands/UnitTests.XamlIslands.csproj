@@ -1,31 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <Platforms>x86</Platforms>
-    <IsPackable>false</IsPackable>
-    <OutputType>Exe</OutputType>
-    <UseWpf>true</UseWpf>
-    <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Platforms>x64;x86</Platforms>
+    <!--<IsPackable>false</IsPackable>-->
+    <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
+    <UseWindowsForms>true</UseWindowsForms>
     <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>UnitTests.XamlIslands.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ColorCode.Core" Version="2.0.6" />
+    <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.18362.2005" />
-    <PackageReference Include="Microsoft.Toolkit.UI.XamlHost" Version="6.0.0" />
-    <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.5" />
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.0.0" />
+    <!--<PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.5" />-->
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="Win2D.uwp" Version="1.24.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" />
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

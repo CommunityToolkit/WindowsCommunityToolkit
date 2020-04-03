@@ -3,45 +3,85 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Toolkit.Win32.UI.XamlHost;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
 using System.Reflection;
 using Windows.System;
 using System.Diagnostics;
+using System.Windows.Forms;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace UnitTests.XamlIslands
 {
     class Program
     {
-        private static IXamlMetadataContainer _metadataContainer;
-        internal static DispatcherQueue _dispatcher;
+        internal static DispatcherQueue Dispatcher;
+
+        internal static MainForm MainFormInstance;
 
         [STAThread]
         public static void Main()
         {
-            _metadataContainer = XamlApplicationExtensions.GetOrCreateXamlMetadataContainer();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            MainFormInstance = new MainForm();
+            Application.Run(MainFormInstance);
 
-            using (var xamlSource = new DesktopWindowXamlSource())
+            WriteLineColor("Press any key to close this window . . .");
+            Console.Read();
+        }
+
+        public class MainForm : Form
+        {
+            public WindowsXamlHost xamlHost = new WindowsXamlHost();
+
+            public MainForm()
             {
-                var frame = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.Frame");
-                xamlSource.Content = frame;
+                SuspendLayout();
+                xamlHost.AutoSizeMode = AutoSizeMode.GrowOnly;
+                xamlHost.Location = new System.Drawing.Point(0, 0);
+                xamlHost.Name = "xamlHost";
+                xamlHost.Size = new System.Drawing.Size(800, 800);
+                xamlHost.TabIndex = 0;
+                xamlHost.Text = "xamlHost";
+                xamlHost.Dock = DockStyle.Fill;
+                xamlHost.ChildChanged += XamlHost_ChildChanged;
+                xamlHost.InitialTypeName = "Windows.UI.Xaml.Controls.Frame";
+                // 
+                // Form1
+                // 
+                AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+                AutoScaleMode = AutoScaleMode.Font;
+                ClientSize = new System.Drawing.Size(800, 600);
+                Controls.Add(xamlHost);
+                Name = "MainForm";
+                Text = "Xaml Islands";
+                ResumeLayout(false);
+            }
 
-                _dispatcher = DispatcherQueue.GetForCurrentThread();
+            private async void XamlHost_ChildChanged(object sender, EventArgs e)
+            {
+                (xamlHost.Child as Frame).Background = new SolidColorBrush(Colors.CornflowerBlue);
 
-                _dispatcher.TryEnqueue(DispatcherQueuePriority.Normal, async () =>
+                Dispatcher = DispatcherQueue.GetForCurrentThread();
+
+                await Task.Delay(1000);
+
+                _ = Task.Run(async () =>
+                //_dispatcher.TryEnqueue(DispatcherQueuePriority.Normal, async () =>
                 {
                     TestResult testResult = default;
 
                     Stopwatch sw = new Stopwatch();
 
-                    ConsoleWriteLineColor("--- Starting Tests Execution ---");
+                    WriteLineColor("--- Starting Tests Execution ---");
 
                     sw.Start();
 
-                    foreach (var testClass in typeof(XamlIslandsTest_ThemeListener_Threading).Assembly.GetTypes())
+                    foreach (var testClass in typeof(XamlIslandsTest_SystemInformation).Assembly.GetTypes())
                     {
                         Attribute[] attributes = Attribute.GetCustomAttributes(testClass);
 
@@ -60,16 +100,11 @@ namespace UnitTests.XamlIslands
 
                     var color = testResult.Failed == 0 ? ConsoleColor.Green : ConsoleColor.Red;
 
-                    ConsoleWriteLineColor($"--- Finished Tests Execution ({testResult.Passed}/{testResult.Count}) ---", color);
-                    ConsoleWriteLineColor($"--- Duration - {sw.Elapsed} ---");
+                    WriteLineColor($"--- Finished Tests Execution ({testResult.Passed}/{testResult.Count}) ---", color);
+                    WriteLineColor($"--- Duration - {sw.Elapsed} ---");
 
-                    Window.Current.CoreWindow.Close();
-                    System.Windows.Application.Current.Shutdown();
+                    Application.Exit();
                 });
-
-                // This is just to have a Win32 message loop so the dispatcher processes it's events. This is not WPF or WinForms specific.
-                var app = new System.Windows.Application();
-                app.Run();
             }
         }
 
@@ -89,8 +124,11 @@ namespace UnitTests.XamlIslands
                     if (attribute is STATestMethodAttribute || attribute is TestMethodAttribute)
                     {
                         count++;
+                        var top = Console.CursorTop;
                         try
                         {
+                            WriteLineColor($"{type.FullName}.{method.Name}\t - \t Running...");
+
                             var instance = Activator.CreateInstance(type);
 
                             if (initMethod != null)
@@ -116,13 +154,14 @@ namespace UnitTests.XamlIslands
                                     await taskCleanup;
                                 }
                             }
-
-                            TestPass(type, method);
+                            Console.SetCursorPosition(0, top);
+                            WriteLineColor($"{type.FullName}.{method.Name}\t - \t PASS      ", ConsoleColor.Green);
                             passed++;
                         }
                         catch (Exception ex)
                         {
-                            TestFail(type, method, ex);
+                            Console.SetCursorPosition(0, top);
+                            WriteLineColor($"{type.FullName}.{method.Name}\t - \t FAIL      :{Environment.NewLine}{ex}", ConsoleColor.Red);
                         }
                         break;
                     }
@@ -146,20 +185,11 @@ namespace UnitTests.XamlIslands
             public static TestResult operator +(TestResult a, TestResult b) => new TestResult(a.Count + b.Count, a.Passed + b.Passed);
         }
 
-        private static void TestPass(Type type, MethodInfo method)
-        {
-            ConsoleWriteLineColor($"{type.FullName}.{method.Name}\t - \tPASS", ConsoleColor.Green);
-        }
-
-        private static void TestFail(Type type, MethodInfo method, Exception ex)
-        {
-            ConsoleWriteLineColor($"{type.FullName}.{method.Name}\t - \tFAIL:{Environment.NewLine}{ex}", ConsoleColor.Red);
-        }
-
-        private static void ConsoleWriteLineColor(string message, ConsoleColor color = ConsoleColor.White)
+        private static void WriteLineColor(string message, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(message);
+            Debug.WriteLine(message);
             Console.ResetColor();
         }
 

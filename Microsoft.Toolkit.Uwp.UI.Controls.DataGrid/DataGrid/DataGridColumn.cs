@@ -1055,11 +1055,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// rounding process, so we need to do it ourselves.  If we don't, then we'll end up with some
         /// pixel gaps and/or overlaps between columns.
         /// </summary>
-        internal void ComputeLayoutRoundedWidth(double leftEdge)
+        internal void ComputeLayoutRoundedWidth(double leftEdge, double scale)
         {
             if (this.OwningGrid != null && this.OwningGrid.UseLayoutRounding)
             {
-                double scale = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
                 double roundedLeftEdge = Math.Floor((scale * leftEdge) + 0.5) / scale;
                 double roundedRightEdge = Math.Floor((scale * (leftEdge + this.ActualWidth)) + 0.5) / scale;
                 this.LayoutRoundedWidth = roundedRightEdge - roundedLeftEdge;

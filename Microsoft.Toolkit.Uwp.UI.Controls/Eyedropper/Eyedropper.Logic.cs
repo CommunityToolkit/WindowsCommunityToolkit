@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdatePreview(x, y);
         }
 
-        private void UpadateWorkArea()
+        private void UpdateWorkArea()
         {
             if (_targetGrid == null)
             {
@@ -50,9 +50,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 var left = WorkArea.Left;
-                var right = Window.Current.Bounds.Width - WorkArea.Right;
                 var top = WorkArea.Top;
-                var bottom = Window.Current.Bounds.Height - WorkArea.Bottom;
+                double right;
+                double bottom;
+                if (_popup.XamlRoot != null)
+                {
+                    right = _popup.XamlRoot.Size.Width - WorkArea.Right;
+                    bottom = _popup.XamlRoot.Size.Height - WorkArea.Bottom;
+                }
+                else
+                {
+                    right = Window.Current.Bounds.Width - WorkArea.Right;
+                    bottom = Window.Current.Bounds.Height - WorkArea.Bottom;
+                }
+
                 _targetGrid.Margin = new Thickness(left, top, right, bottom);
             }
         }
@@ -98,12 +109,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task UpdateAppScreenshotAsync()
         {
+            double scale;
+            double width;
+            double height;
+            UIElement content;
+            if (_popup.XamlRoot != null)
+            {
+                scale = _popup.XamlRoot.RasterizationScale;
+                width = _popup.XamlRoot.Size.Width;
+                height = _popup.XamlRoot.Size.Width;
+                content = _popup.XamlRoot.Content;
+            }
+            else
+            {
+                var displayInfo = DisplayInformation.GetForCurrentView();
+                scale = displayInfo.RawPixelsPerViewPixel;
+                width = Window.Current.Bounds.Width;
+                height = Window.Current.Bounds.Width;
+                content = Window.Current.Content;
+            }
+
             var renderTarget = new RenderTargetBitmap();
-            var diaplayInfo = DisplayInformation.GetForCurrentView();
-            var scale = diaplayInfo.RawPixelsPerViewPixel;
-            var scaleWidth = (int)Math.Ceiling(Window.Current.Bounds.Width / scale);
-            var scaleHeight = (int)Math.Ceiling(Window.Current.Bounds.Height / scale);
-            await renderTarget.RenderAsync(Window.Current.Content, scaleWidth, scaleHeight);
+            var scaleWidth = (int)Math.Ceiling(width / scale);
+            var scaleHeight = (int)Math.Ceiling(height / scale);
+            await renderTarget.RenderAsync(content, scaleWidth, scaleHeight);
             var pixels = await renderTarget.GetPixelsAsync();
             _appScreenshot = CanvasBitmap.CreateFromBytes(_device, pixels, renderTarget.PixelWidth, renderTarget.PixelHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
         }

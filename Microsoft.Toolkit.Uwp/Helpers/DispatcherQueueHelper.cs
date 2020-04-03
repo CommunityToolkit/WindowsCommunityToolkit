@@ -31,9 +31,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             /* Run the function directly when we have thread access.
              * Also reuse Task.CompletedTask in case of success,
              * to skip an unnecessary heap allocation for every invocation. */
-
-            // Ignoring for now, but need to map the CurrentThreadID for all dispatcher queue code we have
-            /*
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -47,7 +44,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return Task.FromException(e);
                 }
             }
-            */
 
             var taskCompletionSource = new TaskCompletionSource<object>();
 
@@ -84,9 +80,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            // Skip the dispatch, if posssible
-            // Ignoring for now, but need to map the CurrentThreadID for all dispatcher queue code we have
-            /*
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -98,7 +91,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return Task.FromException<T>(e);
                 }
             }
-            */
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 
@@ -136,9 +128,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
              * We don't use ConfigureAwait(false) in this case, in order
              * to let the caller continue its execution on the same thread
              * after awaiting the task returned by this function. */
-
-            // Ignoring for now, but need to map the CurrentThreadID for all dispatcher queue code we have
-            /*
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -155,7 +144,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return Task.FromException(e);
                 }
             }
-            */
 
             var taskCompletionSource = new TaskCompletionSource<object>();
 
@@ -199,9 +187,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            // Skip the dispatch, if posssible
-            // Ignoring for now, but need to map the CurrentThreadID for all dispatcher queue code we have
-            /*
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -218,7 +203,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return Task.FromException<T>(e);
                 }
             }
-            */
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 

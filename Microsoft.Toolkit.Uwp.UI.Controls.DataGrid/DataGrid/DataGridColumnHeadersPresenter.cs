@@ -338,11 +338,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 {
                     columnHeader.Measure(new Size(column.ActualMaxWidth, double.PositiveInfinity));
                     this.OwningGrid.AutoSizeColumn(column, columnHeader.DesiredSize.Width);
-                    column.ComputeLayoutRoundedWidth(totalDisplayWidth);
+                    column.ComputeLayoutRoundedWidth(totalDisplayWidth, GetScale());
                 }
                 else if (!this.OwningGrid.UsesStarSizing)
                 {
-                    column.ComputeLayoutRoundedWidth(totalDisplayWidth);
+                    column.ComputeLayoutRoundedWidth(totalDisplayWidth, GetScale());
                     columnHeader.Measure(new Size(column.LayoutRoundedWidth, double.PositiveInfinity));
                 }
 
@@ -367,7 +367,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 double leftEdge = 0;
                 foreach (var column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
                 {
-                    column.ComputeLayoutRoundedWidth(leftEdge);
+                    column.ComputeLayoutRoundedWidth(leftEdge, GetScale());
                     column.HeaderCell.Measure(new Size(column.LayoutRoundedWidth, double.PositiveInfinity));
                     if (autoSizeHeight)
                     {
@@ -405,6 +405,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             this.OwningGrid.ColumnsInternal.EnsureVisibleEdgedColumnsWidth();
             return new Size(this.OwningGrid.ColumnsInternal.VisibleEdgedColumnsWidth, height);
+        }
+
+        private double GetScale()
+        {
+            if (OwningGrid.XamlRoot != null)
+            {
+                return OwningGrid.XamlRoot.RasterizationScale;
+            }
+            else
+            {
+                return Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            }
         }
 
         /// <summary>

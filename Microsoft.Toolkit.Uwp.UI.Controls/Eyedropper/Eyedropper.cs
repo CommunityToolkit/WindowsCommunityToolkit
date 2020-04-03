@@ -45,7 +45,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="Eyedropper"/> class.
         /// </summary>
-        public Eyedropper()
+        /// <param name="xamlRoot">The XamlRoot object that will be used for the Eyedropper. This is required for Xaml Islands.</param>
+        public Eyedropper(XamlRoot xamlRoot = null)
         {
             DefaultStyleKey = typeof(Eyedropper);
             _rootGrid = new Grid();
@@ -57,6 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Child = _rootGrid
             };
+            if (xamlRoot != null)
+            {
+                _popup.XamlRoot = xamlRoot;
+            }
+
             RenderTransform = _layoutTransform;
             _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
             Preview = _previewImageSource;
@@ -100,9 +106,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _rootGrid.Children.Add(_targetGrid);
             _rootGrid.Children.Add(this);
-            _rootGrid.Width = Window.Current.Bounds.Width;
-            _rootGrid.Height = Window.Current.Bounds.Height;
-            UpadateWorkArea();
+            if (_popup.XamlRoot != null)
+            {
+                _rootGrid.Width = _popup.XamlRoot.Size.Width;
+                _rootGrid.Height = _popup.XamlRoot.Size.Height;
+            }
+            else
+            {
+                _rootGrid.Width = Window.Current.Bounds.Width;
+                _rootGrid.Height = Window.Current.Bounds.Height;
+            }
+
+            UpdateWorkArea();
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             _taskSource = null;
@@ -124,21 +139,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void HookUpEvents()
         {
+            Unloaded -= Eyedropper_Unloaded;
             Unloaded += Eyedropper_Unloaded;
-            Window.Current.SizeChanged += Window_SizeChanged;
-            DisplayInformation.GetForCurrentView().DpiChanged += Eyedropper_DpiChanged;
+
+            if (XamlRoot != null)
+            {
+                XamlRoot.Changed -= XamlRoot_Changed;
+                XamlRoot.Changed += XamlRoot_Changed;
+            }
+            else
+            {
+                var window = Window.Current;
+                window.SizeChanged -= Window_SizeChanged;
+                window.SizeChanged += Window_SizeChanged;
+                var displayInformation = DisplayInformation.GetForCurrentView();
+                displayInformation.DpiChanged -= Eyedropper_DpiChanged;
+                displayInformation.DpiChanged += Eyedropper_DpiChanged;
+            }
+
+            _targetGrid.PointerEntered -= TargetGrid_PointerEntered;
             _targetGrid.PointerEntered += TargetGrid_PointerEntered;
+            _targetGrid.PointerExited -= TargetGrid_PointerExited;
             _targetGrid.PointerExited += TargetGrid_PointerExited;
+            _targetGrid.PointerPressed -= TargetGrid_PointerPressed;
             _targetGrid.PointerPressed += TargetGrid_PointerPressed;
+            _targetGrid.PointerMoved -= TargetGrid_PointerMoved;
             _targetGrid.PointerMoved += TargetGrid_PointerMoved;
+            _targetGrid.PointerReleased -= TargetGrid_PointerReleased;
             _targetGrid.PointerReleased += TargetGrid_PointerReleased;
+        }
+
+        private async void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+        {
+            UpdateRootGridSize(sender.Size.Width, sender.Size.Height);
+            await UpdateAppScreenshotAsync();
         }
 
         private void UnhookEvents()
         {
             Unloaded -= Eyedropper_Unloaded;
-            Window.Current.SizeChanged -= Window_SizeChanged;
-            DisplayInformation.GetForCurrentView().DpiChanged -= Eyedropper_DpiChanged;
+            if (XamlRoot != null)
+            {
+                XamlRoot.Changed -= XamlRoot_Changed;
+            }
+            else
+            {
+                Window.Current.SizeChanged -= Window_SizeChanged;
+                DisplayInformation.GetForCurrentView().DpiChanged -= Eyedropper_DpiChanged;
+            }
+
             if (_targetGrid != null)
             {
                 _targetGrid.PointerEntered -= TargetGrid_PointerEntered;
@@ -177,16 +226,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TargetGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            var pointer = e.Pointer;
-            if (pointer.PointerId == _pointerId)
+            var point = e.GetCurrentPoint(_rootGrid);
+            await InternalPointerReleasedAsync(e.Pointer.PointerId, point.Position);
+        }
+
+        internal async Task InternalPointerReleasedAsync(uint pointerId, Point position)
+        {
+            if (pointerId == _pointerId)
             {
-                var point = e.GetCurrentPoint(_rootGrid);
                 if (_appScreenshot == null)
                 {
                     await UpdateAppScreenshotAsync();
                 }
 
-                UpdateEyedropper(point.Position);
+                UpdateEyedropper(position);
                 PickCompleted?.Invoke(this, EventArgs.Empty);
                 _pointerId = null;
                 if (!_taskSource.Task.IsCanceled)
@@ -208,13 +261,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TargetGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            _pointerId = e.Pointer.PointerId;
             var point = e.GetCurrentPoint(_rootGrid);
+            await InternalPointerPressedAsync(e.Pointer.PointerId, point.Position, e.Pointer.PointerDeviceType);
+        }
+
+        internal async Task InternalPointerPressedAsync(uint pointerId, Point position, Windows.Devices.Input.PointerDeviceType pointerDeviceType)
+        {
+            _pointerId = pointerId;
             PickStarted?.Invoke(this, EventArgs.Empty);
             await UpdateAppScreenshotAsync();
-            UpdateEyedropper(point.Position);
+            UpdateEyedropper(position);
 
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            if (pointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
                 VisualStateManager.GoToState(this, TouchState, false);
             }
@@ -245,10 +303,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
+            UpdateRootGridSize(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+        }
+
+        private void UpdateRootGridSize(double width, double height)
+        {
             if (_rootGrid != null)
             {
-                _rootGrid.Width = Window.Current.Bounds.Width;
-                _rootGrid.Height = Window.Current.Bounds.Height;
+                _rootGrid.Width = width;
+                _rootGrid.Height = height;
             }
         }
     }
