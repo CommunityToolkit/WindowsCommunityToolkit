@@ -36,11 +36,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set
             {
                 _currentSample = value;
-                var nop = SetNavViewSelection();
+                _ = SetNavViewSelectionAsync();
             }
         }
 
-        private async Task SetNavViewSelection()
+        private async Task SetNavViewSelectionAsync()
         {
             if (_currentSample != null)
             {
@@ -59,10 +59,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HideSamplePicker()
         {
-            SamplePickerGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            SamplePickerGrid.Visibility = Visibility.Collapsed;
             _selectedCategory = null;
 
-            var noop = SetNavViewSelection();
+            _ = SetNavViewSelectionAsync();
         }
 
         private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
@@ -323,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     animation.Configuration = new DirectConnectedAnimationConfiguration();
                 }
 
-                var t = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
+                _ = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
             }
 
             MoreInfoContent.DataContext = null;

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -198,8 +197,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             for (int i = 0; i < choices.Count(); i++)
             {
-                var choice = choices.ElementAt(i);
-                box.Items.Add(new ToastSelectionBoxItem(choice.comboBoxItemId, choice.comboBoxItemContent));
+                var (comboBoxItemId, comboBoxItemContent) = choices.ElementAt(i);
+                box.Items.Add(new ToastSelectionBoxItem(comboBoxItemId, comboBoxItemContent));
             }
 
             return AddToastInput(box);
@@ -208,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Add an input option to the Toast.
         /// </summary>
-        /// <param name="input">An instance of a class that impmement <see cref="IToastInput"/> that will be used on the toast.</param>
+        /// <param name="input">An instance of a class that implement <see cref="IToastInput"/> that will be used on the toast.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddToastInput(IToastInput input)
         {

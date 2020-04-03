@@ -226,10 +226,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             }
 
             var line = loc.GetLineSpan().StartLinePosition.Line;
-
-            Diagnostic diagnostic = null;
-
-            if (reports.TryGetValue(line, out diagnostic) && diagnostic.Location.SourceSpan.Start <= loc.SourceSpan.Start)
+            if (reports.TryGetValue(line, out var diagnostic) && diagnostic.Location.SourceSpan.Start <= loc.SourceSpan.Start)
             {
                 return;
             }
