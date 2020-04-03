@@ -35,8 +35,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AutoSuggestBox _autoSuggestBox;
         private TextBox _autoSuggestTextBox;
+        private bool _pauseTokenClearOnFocus = false;
 
-        private bool CaretAtStart => _autoSuggestTextBox?.SelectionStart == 0 && Items.Count > 0;
+        /// <summary>
+        /// Gets a value indicating whether the textbox caret is in the first position. False otherwise
+        /// </summary>
+        private bool IsCaretAtStart => _autoSuggestTextBox?.SelectionStart == 0;
+
+        /// <summary>
+        /// Gets a value indicating whether all text in the text box is currently selected. False otherwise.
+        /// </summary>
+        private bool IsAllSelected => _autoSuggestTextBox?.SelectedText == _autoSuggestTextBox?.Text && !string.IsNullOrEmpty(_autoSuggestTextBox?.Text);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
@@ -61,6 +70,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // Clear any selection and place the focus back into the text box
                         this.DeselectAll();
+
+                        // Clear any selection in the text box
+                        if (IsAllSelected)
+                        {
+                            _autoSuggestTextBox.SelectionLength = 0;
+                        }
+
+                        // Ensure the focus is in the text box part.
                         _autoSuggestBox?.Focus(FocusState.Programmatic);
                         break;
                     }
@@ -100,6 +117,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.Down:
                     e.Handled = !FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox);
                     break;
+
+                case VirtualKey.A:
+                {
+                    // modify the select-all behaviour to ensure the text in the edit box gets selected.
+                    var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                    if (controlPressed)
+                    {
+                        this.SelectAllTokensAndText();
+                        e.Handled = true;
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -186,9 +216,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnASBLoaded(object sender, RoutedEventArgs e)
         {
+            // Local function for Selection changed
+            void AutoSuggestTextBox_SelectionChanged(object box, RoutedEventArgs args)
+            {
+                if (!this.IsAllSelected)
+                {
+                    this.DeselectAll();
+                }
+            }
+
+            // local function for clearing selection on interaction with text box
+            async void AutoSuggestTextBox_TextChangingAsync(TextBox o, TextBoxTextChangingEventArgs args)
+            {
+                // remove any selected tokens.
+                if (this.SelectedItems.Count > 0)
+                {
+                    await this.ClearAllSelected();
+                }
+            }
+
             if (_autoSuggestTextBox != null)
             {
                 _autoSuggestTextBox.PreviewKeyDown -= this.AutoSuggestTextBox_PreviewKeyDown;
+                _autoSuggestTextBox.TextChanging -= AutoSuggestTextBox_TextChangingAsync;
+                _autoSuggestTextBox.SelectionChanged -= AutoSuggestTextBox_SelectionChanged;
             }
 
             _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
@@ -196,6 +247,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_autoSuggestTextBox != null)
             {
                 _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
+                _autoSuggestTextBox.TextChanging += AutoSuggestTextBox_TextChangingAsync;
+                _autoSuggestTextBox.SelectionChanged += AutoSuggestTextBox_SelectionChanged;
             }
         }
 
@@ -203,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Handlers for the textbox only
             // Handlers for items in TokenizingTextBoxItem
-            if (CaretAtStart &&
+            if (IsCaretAtStart && !IsAllSelected &&
                 (e.Key == VirtualKey.Back ||
                  e.Key == VirtualKey.Left))
             {
@@ -227,11 +280,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (e.Key == VirtualKey.A && CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
             {
                 // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
-                // Need to Dispatch or ListView doesn't process request.
-                _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    this.SelectAllSafe();
-                });
+                this.SelectAllTokensAndText();
             }
         }
 
@@ -285,7 +334,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
-            selectAllMenuItem.Click += (s, e) => this.SelectAllSafe();
+            selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
             ContextFlyout = menuFlyout;
@@ -308,8 +357,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Clear any selected tokens
-            this.DeselectAll();
+            // Verify if the usual behaviour of clearing token selection is required
+            if (_pauseTokenClearOnFocus == false)
+            {
+                // Clear any selected tokens
+                this.DeselectAll();
+            }
+
+            _pauseTokenClearOnFocus = false;
 
             VisualStateManager.GoToState(this, PART_FocusedState, true);
         }
@@ -340,12 +395,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             var t = sender.Text.Trim();
-
-            // remove any selected tokens.
-            if (SelectedItems.Count > 0)
-            {
-                await ClearAllSelected();
-            }
 
             TextChanged?.Invoke(sender, args);
 
@@ -411,11 +460,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
-            selectAllMenuItem.Click += (s, e) => this.SelectAllSafe();
+            selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
 
             menuFlyout.Items.Add(selectAllMenuItem);
 
             tokenitem.ContextFlyout = menuFlyout;
+        }
+
+        private void SelectAllTokensAndText()
+        {
+            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                this.SelectAllSafe();
+
+                // need to synchronize the select all and the focus behaviour on the text box
+                // because there is no way to identify that the focus has been set from this point
+                // to avoid instantly clearing the selection of tokens
+                _pauseTokenClearOnFocus = true;
+                this._autoSuggestTextBox.Focus(FocusState.Programmatic);
+                this._autoSuggestTextBox.SelectAll();
+            });
         }
 
         private async void Tokenitem_ClearAllAction(TokenizingTextBoxItem sender, RoutedEventArgs args)
