@@ -99,19 +99,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 switch (patternInterface)
                 {
                     case PatternInterface.Invoke:
-                    {
-                       // this.OwningHeader.OwningGrid.DataConnection.AllowSort property is ignored because of the DataGrid.Sorting custom sorting capability.
-                       if (this.OwningHeader.OwningGrid.CanUserSortColumns &&
-                           this.OwningHeader.OwningColumn.CanUserSort)
+                        // this.OwningHeader.OwningGrid.DataConnection.AllowSort property is ignored because of the DataGrid.Sorting custom sorting capability.
+                        if (this.OwningHeader.OwningGrid.CanUserSortColumns &&
+                            this.OwningHeader.OwningColumn.CanUserSort)
                         {
                             return this;
                         }
 
                         break;
-                    }
 
                     case PatternInterface.ScrollItem:
-                    {
                         if (this.OwningHeader.OwningGrid.HorizontalScrollBar != null &&
                             this.OwningHeader.OwningGrid.HorizontalScrollBar.Maximum > 0)
                         {
@@ -119,10 +116,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                         }
 
                         break;
-                    }
 
                     case PatternInterface.Transform:
-                    {
                         if (this.OwningHeader.OwningColumn != null &&
                             this.OwningHeader.OwningColumn.ActualCanUserResize)
                         {
@@ -130,7 +125,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                         }
 
                         break;
-                    }
                 }
             }
 

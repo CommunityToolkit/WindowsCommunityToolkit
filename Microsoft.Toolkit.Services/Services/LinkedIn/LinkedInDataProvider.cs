@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             if (crendential != null)
             {
                 _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
-                 await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
+                await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
             }
 
             LoggedIn = false;

@@ -6,6 +6,7 @@ using System;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Windows.ApplicationModel;
+using Windows.System.Profile;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
 {
@@ -22,6 +23,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
     [Bindable]
     public class OnDevice : MarkupExtension
     {
+        /// <summary>
+        /// Gets the current device family.
+        /// </summary>
+        private string DeviceFamily { get; } = AnalyticsInfo.VersionInfo.DeviceFamily;
+
         /// <summary>
         /// Gets or sets the default value for this property
         /// </summary>
@@ -58,18 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
         /// <returns>The object value to set on the property where the extension is applied.</returns>
         protected override object ProvideValue()
         {
-            string deviceFamily = null;
-            if (DesignMode.DesignMode2Enabled)
-            {
-                // TODO: detect DeviceFamily in XAML Designer (device dropdown)
-                // deviceFamily = ???
-            }
-            else
-            {
-                deviceFamily = Uwp.Helpers.SystemInformation.DeviceFamily;
-            }
-
-            switch (deviceFamily)
+            switch (DeviceFamily)
             {
                 case "Windows.Desktop":
                     return this.Desktop ?? this.Default;

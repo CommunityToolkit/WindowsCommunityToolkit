@@ -412,6 +412,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     (frame.Content as Page)?.UnregisterElementForConnectedAnimation(oldKey);
                 }
+
                 if (e.NewValue is string newKey)
                 {
                     (frame.Content as Page)?.RegisterElementForConnectedAnimation(newKey, element);

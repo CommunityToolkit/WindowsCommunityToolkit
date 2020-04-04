@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ButtonMap DefaultButtons
         {
             get { return (ButtonMap)GetValue(DefaultButtonsProperty); }
-           private set { SetValue(DefaultButtonsProperty, value); }
+            private set { SetValue(DefaultButtonsProperty, value); }
         }
 
         /// <summary>

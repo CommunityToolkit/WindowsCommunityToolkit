@@ -174,10 +174,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             if (_group.IsBottomLevel)
             {
 #endif
+#pragma warning disable SA1137 // Elements should have the same indentation
                 foreach (object item in _group.GroupItems /*Items*/)
                 {
                     children.Add(this.OwningDataGridPeer.GetOrCreateItemPeer(item));
                 }
+#pragma warning restore SA1137 // Elements should have the same indentation
 #if FEATURE_ICOLLECTIONVIEW_GROUP
             }
             else

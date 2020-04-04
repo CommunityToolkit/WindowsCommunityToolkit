@@ -84,8 +84,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
 
             labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
-            selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string Labeltext);
-            labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, Labeltext);
+            selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string labeltext);
+            labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, labeltext);
 
             var result = await new ContentDialog
             {

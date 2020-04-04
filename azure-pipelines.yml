@@ -28,8 +28,16 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.1.101'
-  displayName: Use .NET Core sdk
+    version: '2.1.202' # This SDK contains .Net Core 2.0.9, which we still need to run some of our .Net Core Tests
+    performMultiLevelLookup: true
+  displayName: Use .NET Core sdk 2
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.200'
+    performMultiLevelLookup: true
+  displayName: Use .NET Core sdk 3
 
 - task: DotNetCoreCLI@2  
   inputs:
@@ -41,11 +49,18 @@ steps:
 - script: nbgv cloud
   displayName: Set Version
 
-#- powershell: .\build\Install-WindowsSdkISO.ps1 17763
+#- powershell: .\build\Install-WindowsSdkISO.ps1 18362
 #  displayName: Insider SDK
 
-- powershell: .\build\build.ps1 -target=Package
+- powershell: .\build\build.ps1 -target=Default
   displayName: Build 
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/VsTestResults*.trx'
+  displayName: Publish Test Results
+  condition: succeededOrFailed()
 
 - task: PowerShell@2
   displayName: Authenticode Sign Packages

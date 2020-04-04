@@ -416,6 +416,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                         builder.Append((char)0x0336);
                         builder.Append(c);
                     }
+
                     run.Text = builder.ToString();
                 });
             }

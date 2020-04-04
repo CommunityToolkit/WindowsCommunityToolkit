@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // Pay-per-play caching of easing functions
             EnsureEasingsCached();
 
-            if (_compositionEasingFunctions.TryGetValue((easingType.ToString(), easingMode), out(Vector2, Vector2) points))
+            if (_compositionEasingFunctions.TryGetValue((easingType.ToString(), easingMode), out (Vector2, Vector2) points))
             {
                 return compositor.CreateCubicBezierEasingFunction(points.Item1, points.Item2);
             }
