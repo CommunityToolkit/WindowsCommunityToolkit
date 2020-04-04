@@ -21,6 +21,16 @@
         <AppBarButton Icon="{ex:FontIcon Glyph=&#xE10F;}"/>
       </CommandBar>
 
+      <TextBlock Text="Use the SymbolIcon extension to create FontIcon items from known symbols."
+                 TextWrapping="Wrap"
+                 Style="{StaticResource BodyTextBlockStyle}"/>
+
+      <CommandBar>
+        <AppBarButton Icon="{ex:SymbolIcon Glyph=Play}"/>
+        <AppBarButton Icon="{ex:SymbolIcon Glyph=Pause}"/>
+        <AppBarButton Icon="{ex:SymbolIcon Glyph=Home}"/>
+      </CommandBar>
+
       <TextBlock Text="Use the FontIconSource extension to create FontIconSource items from custom glyphs."
                  TextWrapping="Wrap"
                  Style="{StaticResource BodyTextBlockStyle}"/>

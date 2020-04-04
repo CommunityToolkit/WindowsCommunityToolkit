@@ -12,6 +12,10 @@
                 <AppBarButton Icon="{ex:FontIcon Glyph=&#xE102;}"/>
             </CommandBar>
 
+            <CommandBar>
+                <AppBarButton Icon="{ex:SymbolIcon Glyph=Play}"/>
+            </CommandBar>
+
             <SwipeControl>
                 <SwipeControl.LeftItems>
                     <SwipeItems Mode="Reveal">
