@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
 
-namespace UnitTests.XamlIslands
+namespace UnitTests.XamlIslands.UWPApp
 {
     [STATestClass]
     public partial class XamlIslandsTest_ThemeListener_Threading
@@ -19,7 +19,7 @@ namespace UnitTests.XamlIslands
         [TestInitialize]
         public Task Init()
         {
-            return Program.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
             {
                 Application.Current.RequestedTheme = ApplicationTheme.Light;
 

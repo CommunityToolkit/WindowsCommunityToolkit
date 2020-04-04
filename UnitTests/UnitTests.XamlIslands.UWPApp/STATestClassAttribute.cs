@@ -4,7 +4,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.XamlIslands
+namespace UnitTests.XamlIslands.UWPApp
 {
     public class STATestClassAttribute : TestClassAttribute
     {

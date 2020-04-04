@@ -4,7 +4,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.XamlIslands
+namespace UnitTests.XamlIslands.UWPApp
 {
     [STATestClass]
     public partial class XamlIslandsTest_ObjectStorageHelper
@@ -12,7 +12,6 @@ namespace UnitTests.XamlIslands
         [TestMethod]
         public void LocalObjectStorageHelper_Writes()
         {
-            
         }
     }
 }

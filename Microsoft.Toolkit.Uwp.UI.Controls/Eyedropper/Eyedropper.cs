@@ -106,6 +106,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _rootGrid.Children.Add(_targetGrid);
             _rootGrid.Children.Add(this);
+
+            if (XamlRoot != null && _popup.XamlRoot == null)
+            {
+                _popup.XamlRoot = XamlRoot;
+            }
+
             if (_popup.XamlRoot != null)
             {
                 _rootGrid.Width = _popup.XamlRoot.Size.Width;
@@ -142,10 +148,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded -= Eyedropper_Unloaded;
             Unloaded += Eyedropper_Unloaded;
 
-            if (XamlRoot != null)
+            if (_popup.XamlRoot != null)
             {
-                XamlRoot.Changed -= XamlRoot_Changed;
-                XamlRoot.Changed += XamlRoot_Changed;
+                _popup.XamlRoot.Changed -= XamlRoot_Changed;
+                _popup.XamlRoot.Changed += XamlRoot_Changed;
             }
             else
             {
@@ -178,9 +184,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnhookEvents()
         {
             Unloaded -= Eyedropper_Unloaded;
-            if (XamlRoot != null)
+            if (_popup.XamlRoot != null)
             {
-                XamlRoot.Changed -= XamlRoot_Changed;
+                _popup.XamlRoot.Changed -= XamlRoot_Changed;
             }
             else
             {
@@ -242,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateEyedropper(position);
                 PickCompleted?.Invoke(this, EventArgs.Empty);
                 _pointerId = null;
-                if (!_taskSource.Task.IsCanceled)
+                if (_taskSource != null && !_taskSource.Task.IsCanceled)
                 {
                     _taskSource.SetResult(Color);
                 }
@@ -252,10 +258,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TargetGrid_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             var pointer = e.Pointer;
-            if (pointer.PointerId == _pointerId)
+            var point = e.GetCurrentPoint(_rootGrid);
+            InternalPointerMoved(pointer.PointerId, point.Position);
+        }
+
+        internal void InternalPointerMoved(uint pointerId, Point position)
+        {
+            if (pointerId == _pointerId)
             {
-                var point = e.GetCurrentPoint(_rootGrid);
-                UpdateEyedropper(point.Position);
+                UpdateEyedropper(position);
             }
         }
 

@@ -55,12 +55,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void HookUpEvents()
         {
+            Click -= EyedropperToolButton_Click;
             Click += EyedropperToolButton_Click;
+            Unloaded -= EyedropperToolButton_Unloaded;
             Unloaded += EyedropperToolButton_Unloaded;
+            ActualThemeChanged -= EyedropperToolButton_ActualThemeChanged;
             ActualThemeChanged += EyedropperToolButton_ActualThemeChanged;
-            Window.Current.SizeChanged += Window_SizeChanged;
+            if (XamlRoot != null)
+            {
+                XamlRoot.Changed -= XamlRoot_Changed;
+                XamlRoot.Changed += XamlRoot_Changed;
+            }
+            else
+            {
+                Window.Current.SizeChanged -= Window_SizeChanged;
+                Window.Current.SizeChanged += Window_SizeChanged;
+            }
+
+            _eyedropper.ColorChanged -= Eyedropper_ColorChanged;
             _eyedropper.ColorChanged += Eyedropper_ColorChanged;
+            _eyedropper.PickStarted -= Eyedropper_PickStarted;
             _eyedropper.PickStarted += Eyedropper_PickStarted;
+            _eyedropper.PickCompleted -= Eyedropper_PickCompleted;
             _eyedropper.PickCompleted += Eyedropper_PickCompleted;
         }
 
@@ -69,7 +85,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Click -= EyedropperToolButton_Click;
             Unloaded -= EyedropperToolButton_Unloaded;
             ActualThemeChanged -= EyedropperToolButton_ActualThemeChanged;
-            Window.Current.SizeChanged -= Window_SizeChanged;
+            if (XamlRoot != null)
+            {
+                XamlRoot.Changed -= XamlRoot_Changed;
+            }
+            else
+            {
+                Window.Current.SizeChanged -= Window_SizeChanged;
+            }
+
             _eyedropper.ColorChanged -= Eyedropper_ColorChanged;
             _eyedropper.PickStarted -= Eyedropper_PickStarted;
             _eyedropper.PickCompleted -= Eyedropper_PickCompleted;
@@ -170,11 +194,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateEyedropperWorkArea();
         }
 
+        private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+        {
+            UpdateEyedropperWorkArea();
+        }
+
         private async void UpdateEyedropperWorkArea()
         {
             if (TargetElement != null)
             {
-                var transform = TargetElement.TransformToVisual(Window.Current.Content);
+                UIElement content;
+                if (XamlRoot != null)
+                {
+                    content = XamlRoot.Content;
+                }
+                else
+                {
+                    content = Window.Current.Content;
+                }
+
+                var transform = TargetElement.TransformToVisual(content);
                 var position = transform.TransformPoint(default(Point));
                 _eyedropper.WorkArea = new Rect(position, new Size(TargetElement.ActualWidth, TargetElement.ActualHeight));
                 await _eyedropper.UpdateAppScreenshotAsync();

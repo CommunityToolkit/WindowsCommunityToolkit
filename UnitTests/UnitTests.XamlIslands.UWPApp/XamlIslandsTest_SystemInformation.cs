@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 
-namespace UnitTests.XamlIslands
+namespace UnitTests.XamlIslands.UWPApp
 {
     [STATestClass]
     public partial class XamlIslandsTest_SystemInformation
@@ -15,18 +15,18 @@ namespace UnitTests.XamlIslands
         [TestMethod]
         public async Task SystemInformationTrackAppUse()
         {
-            await Program.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
             {
                 var e = new FakeArgs
                 {
                     PreviousExecutionState = ApplicationExecutionState.NotRunning
                 };
-                var xamlRoot = Program.MainFormInstance.xamlHost.Child.XamlRoot;
+                var xamlRoot = App.XamlRoot;
                 SystemInformation.Instance.TrackAppUse(e, xamlRoot);
             });
         }
 
-        class FakeArgs : IActivatedEventArgs
+        private class FakeArgs : IActivatedEventArgs
         {
             public ActivationKind Kind { get; set; }
 

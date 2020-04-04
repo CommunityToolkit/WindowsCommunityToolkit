@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
-namespace UnitTests.XamlIslands
+namespace UnitTests.XamlIslands.UWPApp
 {
     [STATestClass]
     public partial class XamlIslandsTest_StringExtensions
@@ -15,9 +15,9 @@ namespace UnitTests.XamlIslands
         [TestMethod]
         public async Task StringExtensions_GetViewLocalized()
         {
-            await Program.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
             {
-                var xamlRoot = Program.MainFormInstance.xamlHost.Child.XamlRoot;
+                var xamlRoot = App.XamlRoot;
                 var str = StringExtensions.GetViewLocalized("abc", xamlRoot.UIContext);
                 Assert.AreEqual("ABCDEF", str);
             });
@@ -26,9 +26,9 @@ namespace UnitTests.XamlIslands
         [TestMethod]
         public async Task StringExtensions_GetLocalized()
         {
-            await Program.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
             {
-                var xamlRoot = Program.MainFormInstance.xamlHost.Child.XamlRoot;
+                var xamlRoot = App.XamlRoot;
                 var str = StringExtensions.GetLocalized("abc", xamlRoot.UIContext);
                 Assert.AreEqual("ABCDEF", str);
             });

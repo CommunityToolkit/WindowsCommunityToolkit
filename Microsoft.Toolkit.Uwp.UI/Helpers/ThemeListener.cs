@@ -12,7 +12,7 @@ using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
-[assembly: InternalsVisibleTo("UnitTests.XamlIslands")]
+[assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
 
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
@@ -75,7 +75,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
             _settings.ColorValuesChanged += Settings_ColorValuesChanged;
 
             // Fallback in case either of the above fail, we'll check when we get activated next.
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            }
         }
 
         private void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)
@@ -152,7 +155,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         {
             _accessible.HighContrastChanged -= Accessible_HighContrastChanged;
             _settings.ColorValuesChanged -= Settings_ColorValuesChanged;
-            Window.Current.CoreWindow.Activated -= CoreWindow_Activated;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.Activated -= CoreWindow_Activated;
+            }
         }
     }
 }
