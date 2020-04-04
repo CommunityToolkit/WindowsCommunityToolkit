@@ -3,11 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -55,8 +59,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             gazePointer = GazeInput.GetGazePointer(null);
-
+            ResetGazeCursor();
             CoreWindow.GetForCurrentThread().KeyDown += (CoreWindow sender, KeyEventArgs args) => gazePointer.Click();
+        }
+
+        private void ResetGazeCursor()
+        {
+            var size = GazeInput.GetCursorRadius(gazePointer.CursorElement);
+            gazePointer.CursorElement = new Ellipse
+            {
+                Fill = new SolidColorBrush(SelectedColor),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Width = 2 * size,
+                Height = 2 * size,
+                Margin = new Thickness(-size, -size, 0, 0),
+                IsHitTestVisible = false
+            };
+        }
+
+        private Color _selectedColor = Colors.MediumVioletRed;
+
+        public Color SelectedColor
+        {
+            get
+            {
+                return _selectedColor;
+            }
+
+            set
+            {
+                _selectedColor = value;
+                ResetGazeCursor();
+            }
         }
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
