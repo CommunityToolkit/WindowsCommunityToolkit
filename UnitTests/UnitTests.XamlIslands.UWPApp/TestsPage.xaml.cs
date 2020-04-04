@@ -4,9 +4,16 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Windows.System;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -17,19 +24,24 @@ namespace UnitTests.XamlIslands.UWPApp
             InitializeComponent();
         }
 
-        public void RunTest(XamlRoot xamlRoot, Action testsDone)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            XamlRoot = xamlRoot;
+            await RunTestsAsync();
+        }
 
-            Dispatcher = DispatcherQueue.GetForCurrentThread();
+        public async Task RunTestsAsync()
+        {
+            richTextBlock.Blocks.Clear();
+            App.Dispatcher = DispatcherQueue.GetForCurrentThread();
+            App.XamlRoot = XamlRoot;
 
-            _ = Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 TestResult testResult = default;
 
                 Stopwatch sw = new Stopwatch();
 
-                Debug.WriteLine("--- Starting Tests Execution ---");
+                await WriteLineAsync("--- Starting Tests Execution ---");
 
                 sw.Start();
 
@@ -50,10 +62,8 @@ namespace UnitTests.XamlIslands.UWPApp
 
                 sw.Stop();
 
-                Debug.WriteLine($"--- Finished Tests Execution ({testResult.Passed}/{testResult.Count}) ---");
-                Debug.WriteLine($"--- Duration - {sw.Elapsed} ---");
-
-                testsDone?.Invoke();
+                await WriteLineAsync($"--- Finished Tests Execution ({testResult.Passed}/{testResult.Count}) ---", testResult.Failed > 0 ? Colors.Red : Colors.Green);
+                await WriteLineAsync($"--- Duration - {sw.Elapsed} ---");
             });
         }
 
@@ -75,7 +85,7 @@ namespace UnitTests.XamlIslands.UWPApp
                         count++;
                         try
                         {
-                            Debug.WriteLine($"{type.FullName}.{method.Name}\t - \t Running...");
+                            await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t Running...");
 
                             var instance = Activator.CreateInstance(type);
 
@@ -103,12 +113,12 @@ namespace UnitTests.XamlIslands.UWPApp
                                 }
                             }
 
-                            Debug.WriteLine($"{type.FullName}.{method.Name}\t - \t PASS      ");
+                            await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t PASS      ", Colors.Green, true);
                             passed++;
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine($"{type.FullName}.{method.Name}\t - \t FAIL      :{Environment.NewLine}{ex}");
+                            await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t FAIL      :{Environment.NewLine}{ex}", Colors.Red, true);
                         }
 
                         break;
@@ -117,6 +127,30 @@ namespace UnitTests.XamlIslands.UWPApp
             }
 
             return new TestResult(count, passed);
+        }
+
+        private Task WriteLineAsync(string message, Color? color = null, bool deleteLastLine = false)
+        {
+            Debug.WriteLine(message);
+            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            {
+                if (deleteLastLine)
+                {
+                    richTextBlock.Blocks.Remove(richTextBlock.Blocks.Last());
+                }
+
+                var paragraph = new Paragraph();
+                if (color != null)
+                {
+                    paragraph.Foreground = new SolidColorBrush(color.Value);
+                }
+
+                paragraph.Inlines.Add(new Run
+                {
+                    Text = message
+                });
+                richTextBlock.Blocks.Add(paragraph);
+            });
         }
 
         private struct TestResult

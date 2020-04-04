@@ -12,7 +12,7 @@ namespace UnitTests.XamlIslands.UWPApp
     {
         internal static DispatcherQueue Dispatcher { get; set; }
 
-        public static XamlRoot XamlRoot { get; private set; }
+        internal static XamlRoot XamlRoot { get; set; }
 
         public App()
         {

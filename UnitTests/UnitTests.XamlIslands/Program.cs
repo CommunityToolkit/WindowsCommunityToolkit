@@ -27,9 +27,6 @@ namespace UnitTests.XamlIslands
                 var mainFormInstance = new MainForm();
                 Application.Run(mainFormInstance);
             }
-
-            // Console.WriteLine("Press any key to close this window . . .");
-            // Console.Read();
         }
 
         public class MainForm : Form
@@ -54,6 +51,7 @@ namespace UnitTests.XamlIslands
                 // 
                 AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 AutoScaleMode = AutoScaleMode.Font;
+                WindowState = FormWindowState.Maximized;
                 ClientSize = new System.Drawing.Size(800, 600);
                 Controls.Add(xamlHost);
                 Name = "MainForm";
@@ -61,18 +59,11 @@ namespace UnitTests.XamlIslands
                 ResumeLayout(false);
             }
 
-            private async void XamlHost_ChildChanged(object sender, EventArgs e)
+            private void XamlHost_ChildChanged(object sender, EventArgs e)
             {
                 if(xamlHost.Child is Frame frame)
                 {
-                    frame.Background = new SolidColorBrush(Colors.CornflowerBlue);
-
-                    frame.Navigate(typeof(TestsPage), );
-
-                    AppInstance.RunTest(xamlHost.Child.XamlRoot, () =>
-                    {
-                        Application.Exit();
-                    });
+                    frame.Navigate(typeof(TestsPage));
                 }
             }
         }

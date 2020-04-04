@@ -6,9 +6,29 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    RequestedTheme="Light"
+    Background="White">
 
-    <Grid>
-
+    <Grid RowSpacing="8" ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border>
+            <TextBlock HorizontalTextAlignment="Center" Text="Logs"/>
+        </Border>
+        <Button Content="Start Tests" Grid.Row="1" HorizontalAlignment="Stretch" Click="Button_Click"/>
+        <Border Grid.Row="2" Background="White">
+            <RichTextBlock x:Name="richTextBlock" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
+        </Border>
+        <TextBlock Grid.Column="1" HorizontalTextAlignment="Center" Text="Current Test"/>
+        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="CornflowerBlue">
+            <TextBlock  />
+        </Border>
     </Grid>
 </Page>

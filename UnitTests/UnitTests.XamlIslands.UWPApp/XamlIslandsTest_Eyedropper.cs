@@ -24,21 +24,16 @@ namespace UnitTests.XamlIslands.UWPApp
             Color? color = null;
             _ = App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
             {
-                try
-                {
-                    var xamlRoot = App.XamlRoot;
-                    eyedropper = new Eyedropper(xamlRoot);
-                    color = await eyedropper.Open();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
+                var xamlRoot = App.XamlRoot;
+                eyedropper = new Eyedropper(xamlRoot);
+                color = await eyedropper.Open();
             });
 
             await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
             {
-                var pos = new Point(200, 200);
+                var xamlRoot = App.XamlRoot;
+
+                var pos = new Point(xamlRoot.Size.Width / 2, xamlRoot.Size.Height / 2);
                 uint id = 1;
 
                 await eyedropper.InternalPointerPressedAsync(id, pos, PointerDeviceType.Mouse);

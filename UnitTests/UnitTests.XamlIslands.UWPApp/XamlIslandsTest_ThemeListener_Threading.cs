@@ -21,17 +21,16 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
             {
-                Application.Current.RequestedTheme = ApplicationTheme.Light;
-
                 _taskCompletionSource = new TaskCompletionSource<object>();
 
                 _themeListener = new ThemeListener();
+                _themeListener.CurrentTheme = ApplicationTheme.Light;
                 _themeListener.ThemeChanged += (s) =>
                 {
                     _taskCompletionSource.TrySetResult(null);
                 };
 
-                Application.Current.RequestedTheme = ApplicationTheme.Dark;
+                _themeListener.CurrentTheme = ApplicationTheme.Dark;
             });
         }
 
