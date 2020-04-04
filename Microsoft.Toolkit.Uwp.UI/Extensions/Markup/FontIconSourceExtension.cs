@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var fontIcon = new FontIconSource
             {
                 Glyph = Glyph,
-                FontFamily = FontFamily ?? new FontFamily("Segoe MDL2 Assets"),
+                FontFamily = FontFamily ?? SegoeMDL2AssetsFontFamily,
                 FontWeight = FontWeight,
                 FontStyle = FontStyle,
                 IsTextScaleFactorEnabled = IsTextScaleFactorEnabled,

@@ -2,10 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -15,17 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     [MarkupExtensionReturnType(ReturnType = typeof(FontIcon))]
     public class SymbolIconExtension : TextIconExtension<Symbol>
     {
-        [ThreadStatic]
-        private static FontFamily segoeMDL2AssetsFontFamily;
-
-        /// <summary>
-        /// Gets the reusable "Segoe MDL2 Assets" <see cref="FontFamily"/> instance.
-        /// </summary>
-        private static FontFamily SegoeMDL2AssetsFontFamily
-        {
-            get => segoeMDL2AssetsFontFamily ??= new FontFamily("Segoe MDL2 Assets");
-        }
-
         /// <inheritdoc/>
         protected override object ProvideValue()
         {

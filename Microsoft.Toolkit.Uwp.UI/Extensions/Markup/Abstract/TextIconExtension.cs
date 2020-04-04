@@ -2,26 +2,33 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Text;
 using Windows.UI.Xaml.Markup;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// An abstract <see cref="MarkupExtension"/> which to produce text-based icons.
     /// </summary>
-    /// <typeparam name="T">The type representing the glyph for the current icon.</typeparam>
-    public abstract class TextIconExtension<T> : MarkupExtension
+    public abstract class TextIconExtension : MarkupExtension
     {
-        /// <summary>
-        /// Gets or sets the <typeparamref name="T"/> value representing the icon to display.
-        /// </summary>
-        public T Glyph { get; set; }
-
         /// <summary>
         /// Gets or sets the size of the icon to display.
         /// </summary>
         public double FontSize { get; set; }
+
+        [ThreadStatic]
+        private static FontFamily segoeMDL2AssetsFontFamily;
+
+        /// <summary>
+        /// Gets the reusable "Segoe MDL2 Assets" <see cref="FontFamily"/> instance.
+        /// </summary>
+        protected static FontFamily SegoeMDL2AssetsFontFamily
+        {
+            get => segoeMDL2AssetsFontFamily ??= new FontFamily("Segoe MDL2 Assets");
+        }
 
         /// <summary>
         /// Gets or sets the thickness of the icon glyph.
