@@ -31,6 +31,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 fontIcon.FontSize = FontSize;
             }
 
+            if (Foreground != null)
+            {
+                fontIcon.Foreground = Foreground;
+            }
+
             return fontIcon;
         }
     }

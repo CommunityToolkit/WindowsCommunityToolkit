@@ -41,6 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public FontStyle FontStyle { get; set; } = FontStyle.Normal;
 
         /// <summary>
+        /// Gets or sets the foreground <see cref="Brush"/> for the icon.
+        /// </summary>
+        public Brush Foreground { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether automatic text enlargement, to reflect the system text size setting, is enabled.
         /// </summary>
         public bool IsTextScaleFactorEnabled { get; set; }
