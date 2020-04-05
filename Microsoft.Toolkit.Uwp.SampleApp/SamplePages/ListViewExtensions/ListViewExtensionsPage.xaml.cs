@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Load()
         {
-            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (_, __) =>
+            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (sender, args) =>
             {
                 var index = int.Parse(indexInput.Text);
                 var itemPlacement = (ItemPlacement)Enum.Parse(typeof(ItemPlacement), itemPlacementInput.Text);
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public ObservableCollection<string> GetOddEvenSource(int count)
+        private ObservableCollection<string> GetOddEvenSource(int count)
         {
             var oddEvenSource = new ObservableCollection<string>();
 

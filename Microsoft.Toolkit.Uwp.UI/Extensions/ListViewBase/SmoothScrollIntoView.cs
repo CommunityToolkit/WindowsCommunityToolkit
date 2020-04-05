@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     public static class SmoothScrollIntoView
     {
         /// <summary>
-        /// Smooth scrolling the list to bring the specified index into view 
+        /// Smooth scrolling the list to bring the specified index into view
         /// </summary>
         /// <param name="listViewBase">List to scroll</param>
         /// <param name="index">The intex to bring into view</param>
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (index > (listViewBase.Items.Count - 1))
             {
-                index = (listViewBase.Items.Count - 1);
+                index = listViewBase.Items.Count - 1;
             }
 
             index = (index < 0) ? (index + listViewBase.Items.Count) : index;
@@ -51,17 +51,17 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 var tcs = new TaskCompletionSource<object>();
 
-                void viewChanged(object _, ScrollViewerViewChangedEventArgs __) => tcs.TrySetResult(result: null);
+                void ViewChanged(object obj, ScrollViewerViewChangedEventArgs args) => tcs.TrySetResult(result: null);
 
                 try
                 {
-                    scrollViewer.ViewChanged += viewChanged;
+                    scrollViewer.ViewChanged += ViewChanged;
                     listViewBase.ScrollIntoView(listViewBase.Items[index], ScrollIntoViewAlignment.Leading);
                     await tcs.Task;
                 }
                 finally
                 {
-                    scrollViewer.ViewChanged -= viewChanged;
+                    scrollViewer.ViewChanged -= ViewChanged;
                 }
 
                 selectorItem = (SelectorItem)listViewBase.ContainerFromIndex(index);
@@ -74,17 +74,17 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 var tcs = new TaskCompletionSource<object>();
 
-                void viewChanged(object _, ScrollViewerViewChangedEventArgs __) => tcs.TrySetResult(result: null);
+                void ViewChanged(object obj, ScrollViewerViewChangedEventArgs args) => tcs.TrySetResult(result: null);
 
                 try
                 {
-                    scrollViewer.ViewChanged += viewChanged;
+                    scrollViewer.ViewChanged += ViewChanged;
                     scrollViewer.ChangeView(previousXOffset, previousYOffset, zoomFactor: null, disableAnimation: true);
                     await tcs.Task;
                 }
                 finally
                 {
-                    scrollViewer.ViewChanged -= viewChanged;
+                    scrollViewer.ViewChanged -= ViewChanged;
                 }
             }
 
@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Smooth scrolling the list to bring the specified data item into view 
+        /// Smooth scrolling the list to bring the specified data item into view
         /// </summary>
         /// <param name="listViewBase">List to scroll</param>
         /// <param name="item">The data item to bring into view</param>
