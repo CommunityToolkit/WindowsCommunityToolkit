@@ -8,6 +8,7 @@ namespace UnitTests.XamlIslands.UWPApp
 {
     public class STATestClassAttribute : TestClassAttribute
     {
+        /*
         public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
         {
             if (testMethodAttribute is STATestMethodAttribute)
@@ -17,5 +18,6 @@ namespace UnitTests.XamlIslands.UWPApp
 
             return new STATestMethodAttribute(base.GetTestMethodAttribute(testMethodAttribute));
         }
+        */
     }
 }

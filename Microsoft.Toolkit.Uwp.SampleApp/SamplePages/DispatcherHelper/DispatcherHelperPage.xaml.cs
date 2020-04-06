@@ -19,7 +19,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
+#pragma warning disable CS0612 // Type or member is obsolete
                 int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
+#pragma warning restore CS0612 // Type or member is obsolete
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
                     return 1;

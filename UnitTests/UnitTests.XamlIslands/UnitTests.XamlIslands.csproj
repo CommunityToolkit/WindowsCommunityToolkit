@@ -4,7 +4,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Platforms>x64;x86</Platforms>
-    <!--<IsPackable>false</IsPackable>-->
     <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
     <UseWindowsForms>true</UseWindowsForms>
     <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
@@ -14,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.0.0" />
-    <!--<PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.5" />-->
   </ItemGroup>
 
   <ItemGroup>

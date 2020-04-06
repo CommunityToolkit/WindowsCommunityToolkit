@@ -27,8 +27,7 @@
             <RichTextBlock x:Name="richTextBlock" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
         </Border>
         <TextBlock Grid.Column="1" HorizontalTextAlignment="Center" Text="Current Test"/>
-        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="CornflowerBlue">
-            <TextBlock  />
+        <Border x:Name="MainTestContent" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="CornflowerBlue">
         </Border>
     </Grid>
 </Page>

@@ -16,8 +16,8 @@ namespace UnitTests.XamlIslands.UWPApp
 
         public App()
         {
-            this.Initialize();
-            this.InitializeComponent();
+            Initialize();
+            InitializeComponent();
         }
     }
 }

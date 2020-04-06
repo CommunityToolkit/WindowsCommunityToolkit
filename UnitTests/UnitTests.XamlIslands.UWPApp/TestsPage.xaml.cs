@@ -19,8 +19,16 @@ namespace UnitTests.XamlIslands.UWPApp
 {
     public sealed partial class TestsPage
     {
+        internal static TestsPage Instance { get; private set; }
+
+        internal void SetMainTestContent(UIElement content)
+        {
+            MainTestContent.Child = content;
+        }
+
         public TestsPage()
         {
+            Instance = this;
             InitializeComponent();
         }
 
@@ -39,7 +47,7 @@ namespace UnitTests.XamlIslands.UWPApp
             {
                 TestResult testResult = default;
 
-                Stopwatch sw = new Stopwatch();
+                var sw = new Stopwatch();
 
                 await WriteLineAsync("--- Starting Tests Execution ---");
 
@@ -49,7 +57,7 @@ namespace UnitTests.XamlIslands.UWPApp
                 {
                     Attribute[] attributes = Attribute.GetCustomAttributes(testClass);
 
-                    foreach (Attribute attribute in attributes)
+                    foreach (var attribute in attributes)
                     {
                         if (attribute is STATestClassAttribute || attribute is TestClassAttribute)
                         {
@@ -62,7 +70,18 @@ namespace UnitTests.XamlIslands.UWPApp
 
                 sw.Stop();
 
-                await WriteLineAsync($"--- Finished Tests Execution ({testResult.Passed}/{testResult.Count}) ---", testResult.Failed > 0 ? Colors.Red : Colors.Green);
+                var color = testResult.Failed > 0 ? Colors.Red : Colors.Green;
+                await WriteLineAsync($"--- Finished Tests Execution ---", color);
+
+                if (testResult.Ignored > 0)
+                {
+                    await WriteLineAsync($"--- \tIgnored: {testResult.Ignored} ---", Colors.Orange);
+                }
+
+                await WriteLineAsync($"--- \tPassed: {testResult.Passed} ---", Colors.Green);
+                await WriteLineAsync($"--- \tFailed: {testResult.Failed} ---", Colors.Red);
+                await WriteLineAsync($"--- \tTotal: {testResult.Count} ---");
+
                 await WriteLineAsync($"--- Duration - {sw.Elapsed} ---");
             });
         }
@@ -71,6 +90,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             int count = 0;
             int passed = 0;
+            int ignored = 0;
             var initMethod = GetFirstMethod(type, typeof(TestInitializeAttribute));
             var cleanupMethod = GetFirstMethod(type, typeof(TestCleanupAttribute));
 
@@ -78,55 +98,64 @@ namespace UnitTests.XamlIslands.UWPApp
             {
                 Attribute[] attributes = Attribute.GetCustomAttributes(method);
 
-                foreach (Attribute attribute in attributes)
+                if (attributes.Any(a => a is STATestMethodAttribute || a is TestMethodAttribute))
                 {
-                    if (attribute is STATestMethodAttribute || attribute is TestMethodAttribute)
+                    count++;
+
+                    if (attributes.Any(a => a is IgnoreAttribute))
                     {
-                        count++;
-                        try
+                        ignored++;
+                        continue;
+                    }
+
+                    try
+                    {
+                        await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t Running...");
+
+                        var instance = Activator.CreateInstance(type);
+
+                        if (initMethod != null)
                         {
-                            await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t Running...");
-
-                            var instance = Activator.CreateInstance(type);
-
-                            if (initMethod != null)
+                            var resultInit = initMethod.Invoke(instance, null);
+                            if (resultInit is Task taskInit)
                             {
-                                var resultInit = initMethod.Invoke(instance, null);
-                                if (resultInit is Task taskInit)
-                                {
-                                    await taskInit;
-                                }
+                                await taskInit;
                             }
-
-                            var result = method.Invoke(instance, null);
-                            if (result is Task t)
-                            {
-                                await t;
-                            }
-
-                            if (cleanupMethod != null)
-                            {
-                                var resultCleanup = cleanupMethod.Invoke(instance, null);
-                                if (resultCleanup is Task taskCleanup)
-                                {
-                                    await taskCleanup;
-                                }
-                            }
-
-                            await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t PASS      ", Colors.Green, true);
-                            passed++;
-                        }
-                        catch (Exception ex)
-                        {
-                            await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t FAIL      :{Environment.NewLine}{ex}", Colors.Red, true);
                         }
 
-                        break;
+                        var result = method.Invoke(instance, null);
+                        if (result is Task t)
+                        {
+                            await t;
+                        }
+
+                        if (cleanupMethod != null)
+                        {
+                            var resultCleanup = cleanupMethod.Invoke(instance, null);
+                            if (resultCleanup is Task taskCleanup)
+                            {
+                                await taskCleanup;
+                            }
+                        }
+
+                        await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t PASS      ", Colors.Green, true);
+                        passed++;
+                    }
+                    catch (Exception ex)
+                    {
+                        await WriteLineAsync($"{type.FullName}.{method.Name}\t - \t FAIL      :{Environment.NewLine}{ex}", Colors.Red, true);
+                    }
+                    finally
+                    {
+                        await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+                        {
+                            SetMainTestContent(null);
+                        });
                     }
                 }
             }
 
-            return new TestResult(count, passed);
+            return new TestResult(count, passed, ignored);
         }
 
         private Task WriteLineAsync(string message, Color? color = null, bool deleteLastLine = false)
@@ -159,15 +188,18 @@ namespace UnitTests.XamlIslands.UWPApp
 
             public int Passed { get; }
 
-            public int Failed => Count - Passed;
+            public int Ignored { get; }
 
-            public TestResult(int count, int passed)
+            public int Failed => Count - Passed - Ignored;
+
+            public TestResult(int count, int passed, int ignored)
             {
                 Count = count;
                 Passed = passed;
+                Ignored = ignored;
             }
 
-            public static TestResult operator +(TestResult a, TestResult b) => new TestResult(a.Count + b.Count, a.Passed + b.Passed);
+            public static TestResult operator +(TestResult a, TestResult b) => new TestResult(a.Count + b.Count, a.Passed + b.Passed, a.Ignored + b.Ignored);
         }
 
         private MethodInfo GetFirstMethod(Type ofType, Type attributeType)

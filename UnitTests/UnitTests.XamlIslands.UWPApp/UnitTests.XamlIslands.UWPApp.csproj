@@ -121,12 +121,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FakeTestClasses\Assert.cs" />
+    <Compile Include="FakeTestClasses\IgnoreAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="STATestClassAttribute.cs" />
     <Compile Include="STATestMethodAttribute.cs" />
+    <Compile Include="FakeTestClasses\TestClassAttribute.cs" />
+    <Compile Include="FakeTestClasses\TestCleanupAttribute.cs" />
+    <Compile Include="FakeTestClasses\TestInitializeAttribute.cs" />
+    <Compile Include="FakeTestClasses\TestMethodAttribute.cs" />
     <Compile Include="TestsPage.xaml.cs">
       <DependentUpon>TestsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XamlIslandsTest_WrapPanel.cs" />
+    <Compile Include="XamlIslandsTest_DropShadowPanel.cs" />
     <Compile Include="XamlIslandsTest_Eyedropper.cs" />
     <Compile Include="XamlIslandsTest_ObjectStorageHelper.cs" />
     <Compile Include="XamlIslandsTest_StringExtensions.cs" />
@@ -161,9 +169,11 @@
     <PackageReference Include="Microsoft.Toolkit.Win32.UI.XamlApplication">
       <Version>6.0.0</Version>
     </PackageReference>
+    <!-- Ignored for now, until it supports Xaml Islands
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    -->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
