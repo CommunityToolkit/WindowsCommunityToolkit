@@ -94,6 +94,14 @@ void VerifyHeaders(bool Replace)
     }
 }
 
+void RetrieveVersion()
+{
+	Information("\nRetrieving version...");
+    var results = StartPowershellFile(versionClient);
+    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
+    Information("\nBuild Version: " + Version);
+}
+
 //////////////////////////////////////////////////////////////////////
 // DEFAULT TASK
 //////////////////////////////////////////////////////////////////////
@@ -137,10 +145,7 @@ Task("Version")
 
     NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
 
-    Information("\nRetrieving version...");
-    var results = StartPowershellFile(versionClient);
-    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
-    Information("\nBuild Version: " + Version);
+	RetrieveVersion();
 });
 
 Task("BuildProjects")
@@ -240,12 +245,14 @@ Task("Package")
     buildSettings.SetPlatformTarget(PlatformTarget.x86);
     MSBuild(Solution, buildSettings);
 
+    RetrieveVersion();
+
     var nuGetPackSettings = new NuGetPackSettings
 	{
 		OutputDirectory = nupkgDir,
         Version = Version
 	};
-
+	
     var nuspecs = GetFiles("./*.nuspec");
     foreach (var nuspec in nuspecs)
     {
