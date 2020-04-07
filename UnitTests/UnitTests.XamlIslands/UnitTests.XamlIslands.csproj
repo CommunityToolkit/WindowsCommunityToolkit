@@ -19,19 +19,4 @@
     <ProjectReference Include="..\UnitTests.XamlIslands.UWPApp\UnitTests.XamlIslands.UWPApp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
 </Project>

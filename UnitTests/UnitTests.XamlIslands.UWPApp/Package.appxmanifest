@@ -8,14 +8,14 @@
 
   <Identity
     Name="6f6e2642-66dc-4a18-8341-e2dbb5fcc626"
-    Publisher="CN=alzollin"
+    Publisher="CN=Microsoft"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="6f6e2642-66dc-4a18-8341-e2dbb5fcc626" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>UnitTests.XamlIslands.UWPApp</DisplayName>
-    <PublisherDisplayName>alzollin</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

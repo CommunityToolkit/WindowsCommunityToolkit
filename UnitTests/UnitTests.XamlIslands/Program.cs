@@ -46,9 +46,6 @@ namespace UnitTests.XamlIslands
                 xamlHost.ChildChanged += XamlHost_ChildChanged;
                 xamlHost.Child = new Frame();
 
-                // 
-                // Form1
-                // 
                 AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 AutoScaleMode = AutoScaleMode.Font;
                 WindowState = FormWindowState.Maximized;

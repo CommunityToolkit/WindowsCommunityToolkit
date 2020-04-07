@@ -93,12 +93,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         // Note: This can get called multiple times during HighContrast switch, do we care?
         private async void Settings_ColorValuesChanged(UISettings sender, object args)
         {
-            // Getting called off thread, so we need to dispatch to request value.
             await OnColorValuesChanged();
         }
 
         internal Task OnColorValuesChanged()
         {
+            // Getting called off thread, so we need to dispatch to request value.
             return DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {

@@ -8,12 +8,12 @@
 
   <Identity
     Name="e9b2d6ff-2c1a-456b-9ebb-813a54796bc9"
-    Publisher="CN=alzollin"
+    Publisher="CN=Microsoft"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>UnitTests.XamlIslands.Package</DisplayName>
-    <PublisherDisplayName>alzollin</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
