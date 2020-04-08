@@ -117,7 +117,6 @@
                                         <ComboBoxItem Content="40" />
                                         <ComboBoxItem Content="44" />
                                         <ComboBoxItem Content="48" />
-                                        <ComboBoxItem Content="48" />
                                         <ComboBoxItem Content="54" />
                                         <ComboBoxItem Content="60" />
                                         <ComboBoxItem Content="66" />
