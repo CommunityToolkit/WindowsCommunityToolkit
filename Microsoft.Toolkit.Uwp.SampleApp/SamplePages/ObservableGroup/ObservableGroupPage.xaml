@@ -50,7 +50,8 @@
             <TextBox x:Name="NewContact"
                      MinWidth="200"
                      PlaceholderText="New contact"
-                     TextChanged="OnNewContactTextChanged" />
+                     TextChanged="OnNewContactTextChanged"
+                     KeyDown="OnNewContactKeyDown"/>
             <Button x:Name="AddContact"
                     Click="OnAddContactClick"
                     Content="Add"

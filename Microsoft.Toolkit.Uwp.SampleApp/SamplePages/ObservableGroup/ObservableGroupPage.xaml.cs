@@ -4,6 +4,7 @@
 
 using System.Linq;
 using Microsoft.Toolkit.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -60,7 +61,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void OnAddContactClick(object sender, RoutedEventArgs e)
+        private bool CanAddContact() => !string.IsNullOrEmpty(NewContact.Text.Trim());
+
+        private void AddNewContact()
         {
             var newContact = new Person
             {
@@ -81,6 +84,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             NewContact.Text = string.Empty;
         }
 
-        private void OnNewContactTextChanged(object sender, TextChangedEventArgs e) => AddContact.IsEnabled = !string.IsNullOrEmpty(NewContact.Text.Trim());
+        private void OnAddContactClick(object sender, RoutedEventArgs e) => AddNewContact();
+
+        private void OnNewContactTextChanged(object sender, TextChangedEventArgs e) => AddContact.IsEnabled = CanAddContact();
+
+        private void OnNewContactKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter && CanAddContact())
+            {
+                AddNewContact();
+            }
+        }
     }
 }

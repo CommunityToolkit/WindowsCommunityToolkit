@@ -26,6 +26,7 @@ var grouped = contacts.GroupBy(GetGroupName).OrderBy(g => g.Key);
 var contactsSource = new ObservableGroupedCollection<string, Person>(grouped);
 
 // Create a read-only observable grouped collection
+// Note: This step is optional. It is usually used in view models to expose the collection as read-only and prevent the view from altering it.
 var readonlyContacts = new ReadOnlyObservableGroupedCollection<string, Person>(contactsSource);
 
 // Set up the CollectionViewSource
