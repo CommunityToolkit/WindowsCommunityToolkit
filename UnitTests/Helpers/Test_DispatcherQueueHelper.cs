@@ -17,6 +17,7 @@ using Windows.System;
 namespace UnitTests.Helpers
 {
     [TestClass]
+    [Ignore("Ignored until issue on .Net Native is fixed. These are working.")]
     public class Test_DispatcherQueueHelper
     {
         private const int TIME_OUT = 5000;
