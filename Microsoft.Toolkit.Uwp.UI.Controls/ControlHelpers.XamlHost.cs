@@ -9,26 +9,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     internal static partial class ControlHelpers
     {
-        private static bool isXamlRootAvailable = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
-        private static bool isXamlRootAvailableInitialized = false;
-
-        internal static bool IsXamlRootAvailable
-        {
-            get
-            {
-                if (!isXamlRootAvailableInitialized)
-                {
-                    InitializeXamlRootAvailable();
-                }
-
-                return isXamlRootAvailable;
-            }
-        }
-
-        internal static void InitializeXamlRootAvailable()
-        {
-            isXamlRootAvailable = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
-            isXamlRootAvailableInitialized = true;
-        }
+        internal static bool IsXamlRootAvailable { get; } = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
     }
 }
