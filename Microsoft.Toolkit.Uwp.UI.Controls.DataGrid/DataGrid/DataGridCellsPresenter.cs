@@ -246,11 +246,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     {
                         cell.Measure(new Size(column.ActualMaxWidth, measureHeight));
                         this.OwningGrid.AutoSizeColumn(column, cell.DesiredSize.Width);
-                        column.ComputeLayoutRoundedWidth(totalDisplayWidth, GetScale());
+                        column.ComputeLayoutRoundedWidth(totalDisplayWidth);
                     }
                     else if (!this.OwningGrid.UsesStarSizing)
                     {
-                        column.ComputeLayoutRoundedWidth(scrollingLeftEdge, GetScale());
+                        column.ComputeLayoutRoundedWidth(scrollingLeftEdge);
                         cell.Measure(new Size(column.LayoutRoundedWidth, measureHeight));
                     }
 
@@ -283,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 foreach (DataGridColumn column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
                 {
                     DataGridCell cell = this.OwningRow.Cells[column.Index];
-                    column.ComputeLayoutRoundedWidth(leftEdge, GetScale());
+                    column.ComputeLayoutRoundedWidth(leftEdge);
                     cell.Measure(new Size(column.LayoutRoundedWidth, measureHeight));
                     if (autoSizeHeight)
                     {
@@ -300,18 +300,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             this.OwningGrid.ColumnsInternal.EnsureVisibleEdgedColumnsWidth();
             return new Size(this.OwningGrid.ColumnsInternal.VisibleEdgedColumnsWidth, this.DesiredHeight);
-        }
-
-        private double GetScale()
-        {
-            if (OwningGrid.XamlRoot != null)
-            {
-                return OwningGrid.XamlRoot.RasterizationScale;
-            }
-            else
-            {
-                return Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            }
         }
 
         internal void Recycle()
