@@ -53,10 +53,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var top = WorkArea.Top;
                 double right;
                 double bottom;
-                if (_popup.XamlRoot != null)
+                if (XamlRoot != null)
                 {
-                    right = _popup.XamlRoot.Size.Width - WorkArea.Right;
-                    bottom = _popup.XamlRoot.Size.Height - WorkArea.Bottom;
+                    right = XamlRoot.Size.Width - WorkArea.Right;
+                    bottom = XamlRoot.Size.Height - WorkArea.Bottom;
                 }
                 else
                 {
@@ -113,28 +113,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double width;
             double height;
             UIElement content;
-            if (_popup.XamlRoot != null)
+            if (XamlRoot != null)
             {
-                scale = _popup.XamlRoot.RasterizationScale;
-                width = _popup.XamlRoot.Size.Width;
-                height = _popup.XamlRoot.Size.Width;
-                content = _popup.XamlRoot.Content;
+                scale = XamlRoot.RasterizationScale;
+                width = XamlRoot.Size.Width;
+                height = XamlRoot.Size.Height;
+                content = XamlRoot.Content;
             }
             else
             {
                 var displayInfo = DisplayInformation.GetForCurrentView();
                 scale = displayInfo.RawPixelsPerViewPixel;
                 width = Window.Current.Bounds.Width;
-                height = Window.Current.Bounds.Width;
+                height = Window.Current.Bounds.Height;
                 content = Window.Current.Content;
             }
 
-            var renderTarget = new RenderTargetBitmap();
-            var scaleWidth = (int)Math.Ceiling(width / scale);
-            var scaleHeight = (int)Math.Ceiling(height / scale);
-            await renderTarget.RenderAsync(content, scaleWidth, scaleHeight);
-            var pixels = await renderTarget.GetPixelsAsync();
-            _appScreenshot = CanvasBitmap.CreateFromBytes(_device, pixels, renderTarget.PixelWidth, renderTarget.PixelHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
+            try
+            {
+                var renderTarget = new RenderTargetBitmap();
+                var scaleWidth = (int)Math.Ceiling(width / scale);
+                var scaleHeight = (int)Math.Ceiling(height / scale);
+                await renderTarget.RenderAsync(content, scaleWidth, scaleHeight);
+                var pixels = await renderTarget.GetPixelsAsync();
+                _appScreenshot?.Dispose();
+                _appScreenshot = null;
+                _appScreenshot = CanvasBitmap.CreateFromBytes(_device, pixels, renderTarget.PixelWidth, renderTarget.PixelHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
+            }
+            catch (OutOfMemoryException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
     }
 }

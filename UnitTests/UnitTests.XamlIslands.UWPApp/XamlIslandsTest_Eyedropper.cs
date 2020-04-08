@@ -22,8 +22,10 @@ namespace UnitTests.XamlIslands.UWPApp
             Color? color = null;
             _ = App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
             {
-                var xamlRoot = App.XamlRoot;
-                eyedropper = new Eyedropper(xamlRoot);
+                eyedropper = new Eyedropper
+                {
+                    XamlRoot = App.XamlRoot
+                };
                 color = await eyedropper.Open();
             });
 

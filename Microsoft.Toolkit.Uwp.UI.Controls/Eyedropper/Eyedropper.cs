@@ -32,21 +32,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly CoreCursor MoveCursor = new CoreCursor(CoreCursorType.Cross, 1);
         private readonly CanvasDevice _device = CanvasDevice.GetSharedDevice();
         private readonly TranslateTransform _layoutTransform = new TranslateTransform();
-
-        private readonly Popup _popup;
         private readonly CanvasImageSource _previewImageSource;
         private readonly Grid _rootGrid;
         private readonly Grid _targetGrid;
+
+        private Popup _popup;
         private CanvasBitmap _appScreenshot;
         private Action _lazyTask;
         private uint? _pointerId = null;
         private TaskCompletionSource<Color> _taskSource;
+        private double _currentDpi;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Eyedropper"/> class.
         /// </summary>
-        /// <param name="xamlRoot">The XamlRoot object that will be used for the Eyedropper. This is required for Xaml Islands.</param>
-        public Eyedropper(XamlRoot xamlRoot = null)
+        public Eyedropper()
         {
             DefaultStyleKey = typeof(Eyedropper);
             _rootGrid = new Grid();
@@ -54,14 +54,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Background = new SolidColorBrush(Color.FromArgb(0x01, 0x00, 0x00, 0x00))
             };
-            _popup = new Popup
-            {
-                Child = _rootGrid
-            };
-            if (xamlRoot != null)
-            {
-                _popup.XamlRoot = xamlRoot;
-            }
 
             RenderTransform = _layoutTransform;
             _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
@@ -107,7 +99,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _rootGrid.Children.Add(_targetGrid);
             _rootGrid.Children.Add(this);
 
-            if (XamlRoot != null && _popup.XamlRoot == null)
+            if (_popup != null)
+            {
+                _popup.IsOpen = false;
+            }
+
+            _popup = new Popup
+            {
+                Child = _rootGrid
+            };
+
+            if (XamlRoot != null)
             {
                 _popup.XamlRoot = XamlRoot;
             }
@@ -127,6 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             _taskSource = null;
+            _popup = null;
             _rootGrid.Children.Clear();
             return result;
         }
@@ -138,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_taskSource != null && !_taskSource.Task.IsCanceled)
             {
-                _taskSource.SetCanceled();
+                _taskSource.TrySetCanceled();
                 _rootGrid.Children.Clear();
             }
         }
@@ -148,10 +151,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded -= Eyedropper_Unloaded;
             Unloaded += Eyedropper_Unloaded;
 
-            if (_popup.XamlRoot != null)
+            if (XamlRoot != null)
             {
-                _popup.XamlRoot.Changed -= XamlRoot_Changed;
-                _popup.XamlRoot.Changed += XamlRoot_Changed;
+                XamlRoot.Changed -= XamlRoot_Changed;
+                XamlRoot.Changed += XamlRoot_Changed;
+                _currentDpi = XamlRoot.RasterizationScale;
             }
             else
             {
@@ -161,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var displayInformation = DisplayInformation.GetForCurrentView();
                 displayInformation.DpiChanged -= Eyedropper_DpiChanged;
                 displayInformation.DpiChanged += Eyedropper_DpiChanged;
+                _currentDpi = displayInformation.LogicalDpi;
             }
 
             _targetGrid.PointerEntered -= TargetGrid_PointerEntered;
@@ -177,16 +182,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
         {
-            UpdateRootGridSize(sender.Size.Width, sender.Size.Height);
-            await UpdateAppScreenshotAsync();
+            if (_rootGrid.Width != sender.Size.Width || _rootGrid.Height != sender.Size.Height)
+            {
+                UpdateRootGridSize(sender.Size.Width, sender.Size.Height);
+            }
+
+            if (_currentDpi != sender.RasterizationScale)
+            {
+                _currentDpi = sender.RasterizationScale;
+                await UpdateAppScreenshotAsync();
+            }
         }
 
         private void UnhookEvents()
         {
             Unloaded -= Eyedropper_Unloaded;
-            if (_popup.XamlRoot != null)
+            if (XamlRoot != null)
             {
-                _popup.XamlRoot.Changed -= XamlRoot_Changed;
+                XamlRoot.Changed -= XamlRoot_Changed;
             }
             else
             {
@@ -227,6 +240,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void Eyedropper_DpiChanged(DisplayInformation sender, object args)
         {
+            _currentDpi = sender.LogicalDpi;
             await UpdateAppScreenshotAsync();
         }
 
@@ -246,12 +260,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 UpdateEyedropper(position);
-                PickCompleted?.Invoke(this, EventArgs.Empty);
                 _pointerId = null;
                 if (_taskSource != null && !_taskSource.Task.IsCanceled)
                 {
-                    _taskSource.SetResult(Color);
+                    _taskSource.TrySetResult(Color);
                 }
+
+                PickCompleted?.Invoke(this, EventArgs.Empty);
             }
         }
 

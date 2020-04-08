@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -65,6 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 XamlRoot.Changed -= XamlRoot_Changed;
                 XamlRoot.Changed += XamlRoot_Changed;
+                _eyedropper.XamlRoot = XamlRoot;
             }
             else
             {
@@ -189,17 +191,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             EyedropperEnabled = !EyedropperEnabled;
         }
 
-        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private async void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            UpdateEyedropperWorkArea();
+            await UpdateEyedropperWorkAreaAsync();
         }
 
-        private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+        private async void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
         {
-            UpdateEyedropperWorkArea();
+            await UpdateEyedropperWorkAreaAsync();
         }
 
-        private async void UpdateEyedropperWorkArea()
+        private async Task UpdateEyedropperWorkAreaAsync()
         {
             if (TargetElement != null)
             {
@@ -216,6 +218,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var transform = TargetElement.TransformToVisual(content);
                 var position = transform.TransformPoint(default(Point));
                 _eyedropper.WorkArea = new Rect(position, new Size(TargetElement.ActualWidth, TargetElement.ActualHeight));
+                if (XamlRoot != null)
+                {
+                    _eyedropper.XamlRoot = XamlRoot;
+                }
+
                 await _eyedropper.UpdateAppScreenshotAsync();
             }
         }
