@@ -48,7 +48,7 @@ namespace UnitTests.XamlIslands.UWPApp
         }
 
         [TestMethod]
-        public async Task DropShadowPanel_RendersFine()
+        public async Task WrapPanel_RendersFine()
         {
             await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
             {

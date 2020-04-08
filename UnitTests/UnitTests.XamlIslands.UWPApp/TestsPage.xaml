@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    RequestedTheme="Light"
     Background="White">
 
     <Grid RowSpacing="8" ColumnSpacing="8">
@@ -24,7 +23,9 @@
         </Border>
         <Button Content="Start Tests" Grid.Row="1" HorizontalAlignment="Stretch" Click="Button_Click"/>
         <Border Grid.Row="2" Background="White">
-            <RichTextBlock x:Name="richTextBlock" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
+            <ScrollViewer>
+                <RichTextBlock x:Name="richTextBlock" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
+            </ScrollViewer>
         </Border>
         <TextBlock Grid.Column="1" HorizontalTextAlignment="Center" Text="Current Test"/>
         <Border x:Name="MainTestContent" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="CornflowerBlue">
