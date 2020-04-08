@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
 using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
+using Microsoft.Toolkit.Uwp.Utilities;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -1060,7 +1061,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (this.OwningGrid != null && this.OwningGrid.UseLayoutRounding)
             {
                 double scale;
-                if (OwningGrid.XamlRoot != null)
+                if (TypeHelper.IsXamlRootAvailable && OwningGrid.XamlRoot != null)
                 {
                     scale = OwningGrid.XamlRoot.RasterizationScale;
                 }

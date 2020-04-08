@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             selectAllMenuItem.Click += (s, e) => SelectAll();
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
-            if (XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
             {
                 menuFlyout.XamlRoot = XamlRoot;
             }
@@ -330,7 +330,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(removeMenuItem);
-            if (XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
             {
                 menuFlyout.XamlRoot = XamlRoot;
             }

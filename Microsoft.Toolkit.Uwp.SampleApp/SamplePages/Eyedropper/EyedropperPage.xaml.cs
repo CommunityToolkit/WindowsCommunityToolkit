@@ -29,7 +29,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SampleController.Current.RegisterNewCommand("Global Eyedropper", async (sender, args) =>
             {
                 var eyedropper = new Eyedropper();
-                eyedropper.XamlRoot = base.XamlRoot;
                 var color = await eyedropper.Open();
                 InAppNotification.Show($"You get {color}.", 3000);
             });

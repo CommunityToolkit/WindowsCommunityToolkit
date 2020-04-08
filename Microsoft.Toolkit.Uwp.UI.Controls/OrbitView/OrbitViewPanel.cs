@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsInfinity(width))
             {
-                if (XamlRoot != null)
+                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
                 {
                     width = XamlRoot.Size.Width;
                 }
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsInfinity(height))
             {
-                if (XamlRoot != null)
+                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
                 {
                     height = XamlRoot.Size.Height;
                 }

@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UIElement content;
             double height;
             double width;
-            if (XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
             {
                 content = XamlRoot.Content;
                 height = XamlRoot.Size.Height;
@@ -303,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void CalculateBounds()
         {
-            var ttv = TransformToVisual(XamlRoot != null ? XamlRoot.Content : Window.Current.Content);
+            var ttv = TransformToVisual(ControlHelpers.IsXamlRootAvailable && XamlRoot != null ? XamlRoot.Content : Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
             _bounds.X = screenCoords.X;
             _bounds.Y = screenCoords.Y;

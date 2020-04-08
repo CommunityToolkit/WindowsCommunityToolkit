@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (eyedropperToolButton.EyedropperEnabled)
                 {
                     VisualStateManager.GoToState(eyedropperToolButton, eyedropperToolButton.IsPointerOver ? EyedropperEnabledPointerOverState : EyedropperEnabledState, true);
-                    if (eyedropperToolButton.XamlRoot != null)
+                    if (ControlHelpers.IsXamlRootAvailable && eyedropperToolButton.XamlRoot != null)
                     {
                         eyedropperToolButton._eyedropper.XamlRoot = eyedropperToolButton.XamlRoot;
                     }

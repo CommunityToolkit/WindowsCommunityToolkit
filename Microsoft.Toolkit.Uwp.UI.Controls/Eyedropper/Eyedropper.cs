@@ -109,12 +109,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Child = _rootGrid
             };
 
-            if (XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
             {
                 _popup.XamlRoot = XamlRoot;
             }
 
-            if (_popup.XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && _popup.XamlRoot != null)
             {
                 _rootGrid.Width = _popup.XamlRoot.Size.Width;
                 _rootGrid.Height = _popup.XamlRoot.Size.Height;
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded -= Eyedropper_Unloaded;
             Unloaded += Eyedropper_Unloaded;
 
-            if (XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
             {
                 XamlRoot.Changed -= XamlRoot_Changed;
                 XamlRoot.Changed += XamlRoot_Changed;
@@ -197,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnhookEvents()
         {
             Unloaded -= Eyedropper_Unloaded;
-            if (XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
             {
                 XamlRoot.Changed -= XamlRoot_Changed;
             }
