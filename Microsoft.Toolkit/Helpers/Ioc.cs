@@ -61,6 +61,29 @@ namespace Microsoft.Toolkit
         }
 
         /// <summary>
+        /// Checks whether or not a service of type <typeparamref name="TService"/> has already been registered.
+        /// </summary>
+        /// <typeparam name="TService">The type of contract to check for registration.</typeparam>
+        /// <returns><see langword="true"/> if the service <typeparamref name="TService"/> has already been registered, <see langword="false"/> otherwise.</returns>
+        [Pure]
+        public static bool IsRegistered<TService>()
+            where TService : class
+        {
+            if (!(Container<TService>.Instance is null) ||
+                !(Container<TService>.Lazy is null))
+            {
+                return true;
+            }
+
+            lock (Container<TService>.Lock)
+            {
+                return
+                    !(Container<TService>.Instance is null) ||
+                    !(Container<TService>.Lazy is null);
+            }
+        }
+
+        /// <summary>
         /// Registers a singleton instance of service <typeparamref name="TService"/> through the type <typeparamref name="TProvider"/>.
         /// </summary>
         /// <typeparam name="TService">The type of contract to register.</typeparam>
