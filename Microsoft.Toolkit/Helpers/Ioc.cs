@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit
         /// registered services that were setup to use lazy initialization.
         /// </remarks>
         [Pure]
-        public static IReadOnlyCollection<object> GetAllRegisteredServices()
+        public static IReadOnlyCollection<object> GetAllServices()
         {
             lock (RegisteredTypes)
             {
@@ -195,6 +195,25 @@ namespace Microsoft.Toolkit
                     let resolverOfT = resolver.MakeGenericMethod(serviceType)
                     let service = resolverOfT.Invoke(null, null)
                     select service).ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Gets all the currently registered and instantiated services.
+        /// </summary>
+        /// <returns>A collection of all the currently registered and instantiated services.</returns>
+        [Pure]
+        public static IReadOnlyCollection<object> GetAllCreatedServices()
+        {
+            lock (RegisteredTypes)
+            {
+                return (
+                    from Type serviceType in RegisteredTypes
+                    let containerType = typeof(Container<>).MakeGenericType(serviceType)
+                    let field = containerType.GetField(nameof(Container<object>.Instance))
+                    let instance = field.GetValue(null)
+                    where !(instance is null)
+                    select instance).ToArray();
             }
         }
 
