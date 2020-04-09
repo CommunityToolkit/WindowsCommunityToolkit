@@ -50,30 +50,6 @@ namespace Microsoft.Toolkit
         private static readonly HashSet<Type> RegisteredTypes = new HashSet<Type>();
 
         /// <summary>
-        /// Internal container type for services of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of services to store in this type.</typeparam>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Public fields for performance reasons")]
-        private static class Container<T>
-            where T : class
-        {
-            /// <summary>
-            /// An <see cref="object"/> used to synchronize accesses to the <see cref="Lazy"/> and <see cref="Instance"/> fields.
-            /// </summary>
-            public static readonly object Lock = new object();
-
-            /// <summary>
-            /// The optional <see cref="Lazy{T}"/> instance to produce instances of the service <typeparamref name="T"/>.
-            /// </summary>
-            public static Lazy<T>? Lazy;
-
-            /// <summary>
-            /// The current <typeparamref name="T"/> instance being produced, if available.
-            /// </summary>
-            public static T? Instance;
-        }
-
-        /// <summary>
         /// Checks whether or not a service of type <typeparamref name="TService"/> has already been registered.
         /// </summary>
         /// <typeparam name="TService">The type of contract to check for registration.</typeparam>
@@ -228,6 +204,30 @@ namespace Microsoft.Toolkit
 
                 return Container<TService>.Instance = lazy.Value;
             }
+        }
+
+        /// <summary>
+        /// Internal container type for services of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of services to store in this type.</typeparam>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Public fields for performance reasons")]
+        private static class Container<T>
+            where T : class
+        {
+            /// <summary>
+            /// An <see cref="object"/> used to synchronize accesses to the <see cref="Lazy"/> and <see cref="Instance"/> fields.
+            /// </summary>
+            public static readonly object Lock = new object();
+
+            /// <summary>
+            /// The optional <see cref="Lazy{T}"/> instance to produce instances of the service <typeparamref name="T"/>.
+            /// </summary>
+            public static Lazy<T>? Lazy;
+
+            /// <summary>
+            /// The current <typeparamref name="T"/> instance being produced, if available.
+            /// </summary>
+            public static T? Instance;
         }
     }
 }
