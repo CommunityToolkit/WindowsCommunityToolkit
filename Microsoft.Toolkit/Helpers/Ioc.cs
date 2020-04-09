@@ -260,6 +260,36 @@ namespace Microsoft.Toolkit
         }
 
         /// <summary>
+        /// Creates an instance of a registered type implementing the <typeparamref name="TService"/> service.
+        /// </summary>
+        /// <typeparam name="TService">The type of service to look for.</typeparam>
+        /// <returns>A new instance of a registered type implementing <typeparamref name="TService"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TService GetInstanceWithoutCaching<TService>()
+            where TService : class
+        {
+            lock (Container<TService>.Lock)
+            {
+                Func<TService>? factory = Container<TService>.Factory;
+
+                if (!(factory is null))
+                {
+                    return factory();
+                }
+
+                TService? service = Container<TService>.Instance;
+
+                if (!(service is null))
+                {
+                    return (TService)Activator.CreateInstance(service.GetType());
+                }
+
+                throw new InvalidOperationException($"Service {typeof(TService)} not initialized");
+            }
+        }
+
+        /// <summary>
         /// Internal container type for services of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of services to store in this type.</typeparam>
