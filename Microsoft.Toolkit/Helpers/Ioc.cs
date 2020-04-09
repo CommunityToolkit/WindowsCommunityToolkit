@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit
         /// <summary>
         /// Checks whether or not a service of type <typeparamref name="TService"/> has already been registered.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to check for registration.</typeparam>
+        /// <typeparam name="TService">The type of service to check for registration.</typeparam>
         /// <returns><see langword="true"/> if the service <typeparamref name="TService"/> has already been registered, <see langword="false"/> otherwise.</returns>
         [Pure]
         public static bool IsRegistered<TService>()
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit
         /// <summary>
         /// Registers a singleton instance of service <typeparamref name="TService"/> through the type <typeparamref name="TProvider"/>.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to register.</typeparam>
+        /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <typeparam name="TProvider">The type of service provider for type <typeparamref name="TService"/> to register.</typeparam>
         /// <remarks>This method will create a new <typeparamref name="TProvider"/> instance for future use.</remarks>
         public static void Register<TService, TProvider>()
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit
         /// <summary>
         /// Registers a singleton instance of service <typeparamref name="TService"/>.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to register.</typeparam>
+        /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <param name="provider">The <typeparamref name="TService"/> instance to register.</param>
         public static void Register<TService>(TService provider)
             where TService : class
@@ -106,8 +106,8 @@ namespace Microsoft.Toolkit
         /// <summary>
         /// Registers a service <typeparamref name="TService"/> through a <see cref="Func{TResult}"/> factory.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to register.</typeparam>
-        /// <param name="factory">The factory of instances implementing the <typeparamref name="TService"/> contract to use.</param>
+        /// <typeparam name="TService">The type of service to register.</typeparam>
+        /// <param name="factory">The factory of instances implementing the <typeparamref name="TService"/> service to use.</param>
         public static void Register<TService>(Func<TService> factory)
             where TService : class
         {
@@ -117,8 +117,8 @@ namespace Microsoft.Toolkit
         /// <summary>
         /// Registers a service <typeparamref name="TService"/> through a <see cref="Lazy{T}"/> instance.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to register.</typeparam>
-        /// <param name="lazy">The <see cref="Lazy{T}"/> instance used to create instances implementing the <typeparamref name="TService"/> contract.</param>
+        /// <typeparam name="TService">The type of service to register.</typeparam>
+        /// <param name="lazy">The <see cref="Lazy{T}"/> instance used to create instances implementing the <typeparamref name="TService"/> service.</param>
         public static void Register<TService>(Lazy<TService> lazy)
             where TService : class
         {
@@ -128,6 +128,23 @@ namespace Microsoft.Toolkit
                 RegisteredTypes.Add(typeof(TService));
 
                 Container<TService>.Lazy = lazy;
+                Container<TService>.Instance = null;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters a service of a specified type.
+        /// </summary>
+        /// <typeparam name="TService">The type of service to unregister.</typeparam>
+        public static void Unregister<TService>()
+            where TService : class
+        {
+            lock (RegisteredTypes)
+            lock (Container<TService>.Lock)
+            {
+                RegisteredTypes.Remove(typeof(TService));
+
+                Container<TService>.Lazy = null;
                 Container<TService>.Instance = null;
             }
         }
@@ -154,9 +171,9 @@ namespace Microsoft.Toolkit
         }
 
         /// <summary>
-        /// Resolves an instance of a registered type implementing the <typeparamref name="TService"/> contract.
+        /// Resolves an instance of a registered type implementing the <typeparamref name="TService"/> service.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to look for.</typeparam>
+        /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -178,7 +195,7 @@ namespace Microsoft.Toolkit
         /// This method implements the slow path for <see cref="Resolve{TService}"/>, locking
         /// to ensure thread-safety and invoking the available factory, if possible.
         /// </summary>
-        /// <typeparam name="TService">The type of contract to look for.</typeparam>
+        /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static TService ResolveOrThrow<TService>()
