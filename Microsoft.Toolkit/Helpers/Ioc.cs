@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit
     /// <summary>
     /// An Inversion of Control container that can be used to register and access instances of types providing services.
     /// It is focused on performance, and offers the ability to register service providers either through eagerly
-    /// produced instances, or by using the factory pattern. Accessing services is also thread-safe.
+    /// produced instances, or by using the factory pattern. The type is also fully thread-safe.
     /// In order to use this helper, first define a service and a service provider, like so:
     /// <code>
     /// public interface ILogger
@@ -83,7 +83,10 @@ namespace Microsoft.Toolkit
             where TService : class
             where TProvider : class, TService
         {
-            Container<TService>.Instance = provider;
+            lock (Container<TService>.Lock)
+            {
+                Container<TService>.Instance = provider;
+            }
         }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace Microsoft.Toolkit
         public static void Register<TService>(Func<TService> factory)
             where TService : class
         {
-            Container<TService>.Lazy = new Lazy<TService>(factory);
+            Register(new Lazy<TService>(factory));
         }
 
         /// <summary>
@@ -105,7 +108,10 @@ namespace Microsoft.Toolkit
         public static void Register<TService>(Lazy<TService> lazy)
             where TService : class
         {
-            Container<TService>.Lazy = lazy;
+            lock (Container<TService>.Lock)
+            {
+                Container<TService>.Lazy = lazy;
+            }
         }
 
         /// <summary>
