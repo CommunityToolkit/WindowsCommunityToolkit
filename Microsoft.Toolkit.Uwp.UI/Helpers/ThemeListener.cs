@@ -96,6 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
             await OnColorValuesChanged();
         }
 
+        // Internal abstraction is used by the Unit Tests
         internal Task OnColorValuesChanged()
         {
             // Getting called off thread, so we need to dispatch to request value.

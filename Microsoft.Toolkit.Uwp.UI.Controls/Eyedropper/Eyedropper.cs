@@ -250,6 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await InternalPointerReleasedAsync(e.Pointer.PointerId, point.Position);
         }
 
+        // Internal abstraction is used by the Unit Tests
         internal async Task InternalPointerReleasedAsync(uint pointerId, Point position)
         {
             if (pointerId == _pointerId)
@@ -277,6 +278,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InternalPointerMoved(pointer.PointerId, point.Position);
         }
 
+        // Internal abstraction is used by the Unit Tests
         internal void InternalPointerMoved(uint pointerId, Point position)
         {
             if (pointerId == _pointerId)
@@ -291,6 +293,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await InternalPointerPressedAsync(e.Pointer.PointerId, point.Position, e.Pointer.PointerDeviceType);
         }
 
+        // Internal abstraction is used by the Unit Tests
         internal async Task InternalPointerPressedAsync(uint pointerId, Point position, Windows.Devices.Input.PointerDeviceType pointerDeviceType)
         {
             _pointerId = pointerId;
