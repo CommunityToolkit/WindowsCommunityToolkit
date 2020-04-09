@@ -16,13 +16,13 @@ namespace UnitTests.Helpers
         public void Test_Ioc_SampleUsage()
         {
             Assert.IsFalse(Ioc.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.GetAllRegisteredServices().Count, 0);
+            Assert.AreEqual(Ioc.GetAllServices().Count, 0);
 
             Ioc.Register<INameService, BobService>();
 
             Assert.IsTrue(Ioc.IsRegistered<INameService>());
 
-            var services = Ioc.GetAllRegisteredServices();
+            var services = Ioc.GetAllServices();
 
             Assert.AreEqual(services.Count, 1);
             Assert.IsInstanceOfType(services.First(), typeof(INameService));
@@ -31,13 +31,13 @@ namespace UnitTests.Helpers
             Ioc.Unregister<INameService>();
 
             Assert.IsFalse(Ioc.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.GetAllRegisteredServices().Count, 0);
+            Assert.AreEqual(Ioc.GetAllServices().Count, 0);
 
             Ioc.Register<INameService>(() => new AliceService());
 
             Assert.IsTrue(Ioc.IsRegistered<INameService>());
 
-            services = Ioc.GetAllRegisteredServices();
+            services = Ioc.GetAllServices();
 
             Assert.AreEqual(services.Count, 1);
             Assert.IsInstanceOfType(services.First(), typeof(INameService));
@@ -46,7 +46,7 @@ namespace UnitTests.Helpers
             Ioc.Reset();
 
             Assert.IsFalse(Ioc.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.GetAllRegisteredServices().Count, 0);
+            Assert.AreEqual(Ioc.GetAllServices().Count, 0);
         }
 
         public interface INameService
