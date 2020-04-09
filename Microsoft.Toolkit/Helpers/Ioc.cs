@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -36,6 +38,17 @@ namespace Microsoft.Toolkit
     /// </summary>
     public static class Ioc
     {
+        /// <summary>
+        /// The collection of currently registered service types.
+        /// </summary>
+        /// <remarks>
+        /// This list is not used when retrieving registered instances through
+        /// the <see cref="Resolve{TService}"/> method, so it has no impact on
+        /// performances there. This is only used to allow users to retrieve all
+        /// the registered instances at any given time, or to unregister them all.
+        /// </remarks>
+        private static readonly HashSet<Type> RegisteredTypes = new HashSet<Type>();
+
         /// <summary>
         /// Internal container type for services of type <typeparamref name="T"/>.
         /// </summary>
@@ -104,8 +117,11 @@ namespace Microsoft.Toolkit
         public static void Register<TService>(TService provider)
             where TService : class
         {
+            lock (RegisteredTypes)
             lock (Container<TService>.Lock)
             {
+                RegisteredTypes.Add(typeof(TService));
+
                 Container<TService>.Lazy = null;
                 Container<TService>.Instance = provider;
             }
@@ -130,10 +146,34 @@ namespace Microsoft.Toolkit
         public static void Register<TService>(Lazy<TService> lazy)
             where TService : class
         {
+            lock (RegisteredTypes)
             lock (Container<TService>.Lock)
             {
+                RegisteredTypes.Add(typeof(TService));
+
                 Container<TService>.Lazy = lazy;
                 Container<TService>.Instance = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets all the currently registered services.
+        /// </summary>
+        /// <returns>A collection of all the currently registered services.</returns>
+        /// <remarks>
+        /// This will also cause the <see cref="Ioc"/> service to resolve instances of
+        /// registered services that were setup to use lazy initialization.
+        /// </remarks>
+        [Pure]
+        public static IReadOnlyCollection<object> GetAllRegisteredServices()
+        {
+            lock (RegisteredTypes)
+            {
+                return (
+                    from Type serviceType in RegisteredTypes
+                    let resolver = typeof(Ioc).GetMethod(nameof(Resolve))
+                    let service = resolver.Invoke(null, null)
+                    select service).ToArray();
             }
         }
 
