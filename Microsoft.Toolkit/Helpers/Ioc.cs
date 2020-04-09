@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -150,6 +151,32 @@ namespace Microsoft.Toolkit
         }
 
         /// <summary>
+        /// Resets the internal state of the <see cref="Ioc"/> type and unregisters all services.
+        /// </summary>
+        public static void Reset()
+        {
+            lock (RegisteredTypes)
+            {
+                foreach (Type serviceType in RegisteredTypes)
+                {
+                    Type containerType = typeof(Container<>).MakeGenericType(serviceType);
+                    FieldInfo
+                        lockField = containerType.GetField(nameof(Container<object>.Lock)),
+                        lazyField = containerType.GetField(nameof(Container<object>.Lazy)),
+                        instanceField = containerType.GetField(nameof(Container<object>.Instance));
+
+                    lock (lockField.GetValue(null))
+                    {
+                        lazyField.SetValue(null, null);
+                        instanceField.SetValue(null, null);
+                    }
+                }
+
+                RegisteredTypes.Clear();
+            }
+        }
+
+        /// <summary>
         /// Gets all the currently registered services.
         /// </summary>
         /// <returns>A collection of all the currently registered services.</returns>
@@ -165,7 +192,8 @@ namespace Microsoft.Toolkit
                 return (
                     from Type serviceType in RegisteredTypes
                     let resolver = typeof(Ioc).GetMethod(nameof(Resolve))
-                    let service = resolver.Invoke(null, null)
+                    let resolverOfT = resolver.MakeGenericMethod(serviceType)
+                    let service = resolverOfT.Invoke(null, null)
                     select service).ToArray();
             }
         }
