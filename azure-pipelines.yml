@@ -52,8 +52,14 @@ steps:
 #- powershell: .\build\Install-WindowsSdkISO.ps1 17763
 #  displayName: Insider SDK
 
-- powershell: .\build\build.ps1 -target=Default
-  displayName: Build 
+- powershell: .\build\build.ps1 -target=Build
+  displayName: Build
+
+- powershell: .\build\build.ps1 -target=Test
+  displayName: Test
+
+- powershell: .\build\build.ps1 -target=Package
+  displayName: Package
 
 - task: PublishTestResults@2
   inputs:
