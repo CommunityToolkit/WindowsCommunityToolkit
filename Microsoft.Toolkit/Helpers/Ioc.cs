@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit
     /// </code>
     /// Finally, use the <see cref="Ioc"/> type to retrieve service instances to use:
     /// <code>
-    /// IoC.Resolve&lt;ILogger>().Log("Hello world!");
+    /// IoC.GetInstance&lt;ILogger>().Log("Hello world!");
     /// </code>
     /// The <see cref="Ioc"/> type will make sure to initialize your service instance if needed, or it will
     /// throw an exception in case the requested service has not been registered yet.
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit
         /// </summary>
         /// <remarks>
         /// This list is not used when retrieving registered instances through
-        /// the <see cref="Resolve{TService}"/> method, so it has no impact on
+        /// the <see cref="GetInstance{TService}"/> method, so it has no impact on
         /// performances there. This is only used to allow users to retrieve all
         /// the registered instances at any given time, or to unregister them all.
         /// </remarks>
@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit
             {
                 return (
                     from Type serviceType in RegisteredTypes
-                    let resolver = typeof(Ioc).GetMethod(nameof(Resolve))
+                    let resolver = typeof(Ioc).GetMethod(nameof(GetInstance))
                     let resolverOfT = resolver.MakeGenericMethod(serviceType)
                     let service = resolverOfT.Invoke(null, null)
                     select service).ToArray();
@@ -213,14 +213,14 @@ namespace Microsoft.Toolkit
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TService Resolve<TService>()
+        public static TService GetInstance<TService>()
             where TService : class
         {
             TService? service = Container<TService>.Instance;
 
             if (service is null)
             {
-                return ResolveOrThrow<TService>();
+                return GetInstanceOrThrow<TService>();
             }
 
             return service;
@@ -228,13 +228,13 @@ namespace Microsoft.Toolkit
 
         /// <summary>
         /// Tries to resolve a <typeparamref name="TService"/> instance with additional checks.
-        /// This method implements the slow path for <see cref="Resolve{TService}"/>, locking
+        /// This method implements the slow path for <see cref="GetInstance{TService}"/>, locking
         /// to ensure thread-safety and invoking the available factory, if possible.
         /// </summary>
         /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static TService ResolveOrThrow<TService>()
+        private static TService GetInstanceOrThrow<TService>()
             where TService : class
         {
             lock (Container<TService>.Lock)
