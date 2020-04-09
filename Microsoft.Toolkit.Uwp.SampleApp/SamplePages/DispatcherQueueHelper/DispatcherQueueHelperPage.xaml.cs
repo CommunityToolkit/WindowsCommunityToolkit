@@ -4,24 +4,24 @@
 
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class DispatcherHelperPage
+    public sealed partial class DispatcherQueueHelperPage
     {
-        public DispatcherHelperPage()
+        public DispatcherQueueHelperPage()
         {
             this.InitializeComponent();
         }
 
         private async void ExecuteFromDifferentThreadButton_Click(object sender, RoutedEventArgs e)
         {
+            var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
-#pragma warning disable CS0612 // Type or member is obsolete
-                int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
-#pragma warning restore CS0612 // Type or member is obsolete
+                int returnedFromUIThread = await dispatcherQueue.ExecuteOnUIThreadAsync<int>(() =>
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
                     return 1;
