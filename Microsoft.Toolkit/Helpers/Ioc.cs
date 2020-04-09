@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit
             where TService : class
         {
             if (!(Container<TService>.Instance is null) ||
-                !(Container<TService>.Lazy is null))
+                !(Container<TService>.Factory is null))
             {
                 return true;
             }
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit
             {
                 return
                     !(Container<TService>.Instance is null) ||
-                    !(Container<TService>.Lazy is null);
+                    !(Container<TService>.Factory is null);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit
             {
                 RegisteredTypes.Add(typeof(TService));
 
-                Container<TService>.Lazy = null;
+                Container<TService>.Factory = null;
                 Container<TService>.Instance = provider;
             }
         }
@@ -112,23 +112,12 @@ namespace Microsoft.Toolkit
         public static void Register<TService>(Func<TService> factory)
             where TService : class
         {
-            Register(new Lazy<TService>(factory));
-        }
-
-        /// <summary>
-        /// Registers a service <typeparamref name="TService"/> through a <see cref="Lazy{T}"/> instance.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to register.</typeparam>
-        /// <param name="lazy">The <see cref="Lazy{T}"/> instance used to create instances implementing the <typeparamref name="TService"/> service.</param>
-        public static void Register<TService>(Lazy<TService> lazy)
-            where TService : class
-        {
             lock (RegisteredTypes)
             lock (Container<TService>.Lock)
             {
                 RegisteredTypes.Add(typeof(TService));
 
-                Container<TService>.Lazy = lazy;
+                Container<TService>.Factory = factory;
                 Container<TService>.Instance = null;
             }
         }
@@ -145,7 +134,7 @@ namespace Microsoft.Toolkit
             {
                 RegisteredTypes.Remove(typeof(TService));
 
-                Container<TService>.Lazy = null;
+                Container<TService>.Factory = null;
                 Container<TService>.Instance = null;
             }
         }
@@ -162,7 +151,7 @@ namespace Microsoft.Toolkit
                     Type containerType = typeof(Container<>).MakeGenericType(serviceType);
                     FieldInfo
                         lockField = containerType.GetField(nameof(Container<object>.Lock)),
-                        lazyField = containerType.GetField(nameof(Container<object>.Lazy)),
+                        lazyField = containerType.GetField(nameof(Container<object>.Factory)),
                         instanceField = containerType.GetField(nameof(Container<object>.Instance));
 
                     lock (lockField.GetValue(null))
@@ -258,15 +247,15 @@ namespace Microsoft.Toolkit
                     return service;
                 }
 
-                Lazy<TService>? lazy = Container<TService>.Lazy;
+                Func<TService>? factory = Container<TService>.Factory;
 
                 // If no factory is available, the service hasn't been registered yet
-                if (lazy is null)
+                if (factory is null)
                 {
                     throw new InvalidOperationException($"Service {typeof(TService)} not initialized");
                 }
 
-                return Container<TService>.Instance = lazy.Value;
+                return Container<TService>.Instance = factory();
             }
         }
 
@@ -284,9 +273,9 @@ namespace Microsoft.Toolkit
             public static readonly object Lock = new object();
 
             /// <summary>
-            /// The optional <see cref="Lazy{T}"/> instance to produce instances of the service <typeparamref name="T"/>.
+            /// The optional <see cref="Func{T}"/> instance to produce instances of the service <typeparamref name="T"/>.
             /// </summary>
-            public static Lazy<T>? Lazy;
+            public static Func<T>? Factory;
 
             /// <summary>
             /// The current <typeparamref name="T"/> instance being produced, if available.
