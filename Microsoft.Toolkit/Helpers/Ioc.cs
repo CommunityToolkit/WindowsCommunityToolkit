@@ -106,6 +106,7 @@ namespace Microsoft.Toolkit
         {
             lock (Container<TService>.Lock)
             {
+                Container<TService>.Lazy = null;
                 Container<TService>.Instance = provider;
             }
         }
@@ -132,6 +133,7 @@ namespace Microsoft.Toolkit
             lock (Container<TService>.Lock)
             {
                 Container<TService>.Lazy = lazy;
+                Container<TService>.Instance = null;
             }
         }
 
