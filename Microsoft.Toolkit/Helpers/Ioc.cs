@@ -298,7 +298,7 @@ namespace Microsoft.Toolkit
             where T : class
         {
             /// <summary>
-            /// An <see cref="object"/> used to synchronize accesses to the <see cref="Lazy"/> and <see cref="Instance"/> fields.
+            /// An <see cref="object"/> used to synchronize accesses to the <see cref="Factory"/> and <see cref="Instance"/> fields.
             /// </summary>
             public static readonly object Lock = new object();
 
