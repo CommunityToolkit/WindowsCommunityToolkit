@@ -70,18 +70,16 @@ namespace Microsoft.Toolkit
             where TService : class
             where TProvider : class, TService, new()
         {
-            Register<TService, TProvider>(new TProvider());
+            Register<TService>(new TProvider());
         }
 
         /// <summary>
-        /// Registers a singleton instance of service <typeparamref name="TService"/> through the type <typeparamref name="TProvider"/>.
+        /// Registers a singleton instance of service <typeparamref name="TService"/>.
         /// </summary>
         /// <typeparam name="TService">The type of contract to register.</typeparam>
-        /// <typeparam name="TProvider">The type of service provider for type <typeparamref name="TService"/> to register.</typeparam>
-        /// <param name="provider">The <typeparamref name="TProvider"/> instance to register.</param>
-        public static void Register<TService, TProvider>(TProvider provider)
+        /// <param name="provider">The <typeparamref name="TService"/> instance to register.</param>
+        public static void Register<TService>(TService provider)
             where TService : class
-            where TProvider : class, TService
         {
             lock (Container<TService>.Lock)
             {
