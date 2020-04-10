@@ -60,12 +60,6 @@ namespace Microsoft.Toolkit
         public static bool IsRegistered<TService>()
             where TService : class
         {
-            if (!(Container<TService>.Instance is null) ||
-                !(Container<TService>.Factory is null))
-            {
-                return true;
-            }
-
             lock (Container<TService>.Lock)
             {
                 return
@@ -204,6 +198,37 @@ namespace Microsoft.Toolkit
                     let instance = field.GetValue(null)
                     where !(instance is null)
                     select instance).ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Tries to resolve an instance of a registered type implementing the <typeparamref name="TService"/> service.
+        /// </summary>
+        /// <typeparam name="TService">The type of service to look for.</typeparam>
+        /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>, if registered.</returns>
+        [Pure]
+        public static bool TryGetInstance<TService>(out TService? service)
+            where TService : class
+        {
+            lock (Container<TService>.Lock)
+            {
+                service = Container<TService>.Instance;
+
+                if (!(service is null))
+                {
+                    return true;
+                }
+
+                Func<TService>? factory = Container<TService>.Factory;
+
+                if (factory is null)
+                {
+                    return false;
+                }
+
+                service = Container<TService>.Instance = factory();
+
+                return true;
             }
         }
 
