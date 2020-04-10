@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.
     /// </summary>
+    [Obsolete]
     public static class DispatcherHelper
     {
         /// <summary>

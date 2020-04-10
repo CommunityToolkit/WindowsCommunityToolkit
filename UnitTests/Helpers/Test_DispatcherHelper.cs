@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests.Helpers
 {
+#pragma warning disable CS0612 // Type or member is obsolete
     [TestClass]
     public class Test_DispatcherHelper
     {
@@ -30,9 +31,9 @@ namespace UnitTests.Helpers
         {
             DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                var textBlock = new TextBlock { Text = nameof(Test_DispatcherHelper_Action_Ok_NonUIThread) };
+                var textBlock = new TextBlock { Text = nameof(Test_DispatcherHelper_Action_Ok_UIThread) };
 
-                Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_Action_Ok_NonUIThread));
+                Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_Action_Ok_UIThread));
             }).Wait();
         }
 
@@ -77,10 +78,10 @@ namespace UnitTests.Helpers
         {
             var textBlock = DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                return new TextBlock { Text = nameof(Test_DispatcherHelper_FuncOfT_Ok_NonUIThread) };
+                return new TextBlock { Text = nameof(Test_DispatcherHelper_FuncOfT_Ok_UIThread) };
             }).Result;
 
-            Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_FuncOfT_Ok_NonUIThread));
+            Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_FuncOfT_Ok_UIThread));
         }
 
         [TestCategory("Helpers")]
@@ -128,9 +129,9 @@ namespace UnitTests.Helpers
         {
             DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                var textBlock = new TextBlock { Text = nameof(Test_DispatcherHelper_FuncOfTask_Ok_NonUIThread) };
+                var textBlock = new TextBlock { Text = nameof(Test_DispatcherHelper_FuncOfTask_Ok_UIThread) };
 
-                Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_FuncOfTask_Ok_NonUIThread));
+                Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_FuncOfTask_Ok_UIThread));
 
                 return Task.CompletedTask;
             }).Wait();
@@ -179,9 +180,9 @@ namespace UnitTests.Helpers
         {
             DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                var textBlock = new TextBlock { Text = nameof(Test_DispatcherHelper_FuncOfTaskOfT_Ok_NonUIThread) };
+                var textBlock = new TextBlock { Text = nameof(Test_DispatcherHelper_FuncOfTaskOfT_Ok_UIThread) };
 
-                Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_FuncOfTaskOfT_Ok_NonUIThread));
+                Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherHelper_FuncOfTaskOfT_Ok_UIThread));
 
                 return Task.FromResult(1);
             }).Wait();
@@ -218,4 +219,5 @@ namespace UnitTests.Helpers
             Assert.IsInstanceOfType(task.Exception.InnerExceptions.FirstOrDefault(), typeof(ArgumentException));
         }
     }
+#pragma warning restore CS0612 // Type or member is obsolete
 }

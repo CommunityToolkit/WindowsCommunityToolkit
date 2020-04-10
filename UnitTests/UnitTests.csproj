@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.1.0</Version>
@@ -136,6 +136,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
+    <Compile Include="Helpers\Test_DispatcherQueueHelper.cs" />
     <Compile Include="Helpers\Test_DispatcherHelper.cs" />
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
