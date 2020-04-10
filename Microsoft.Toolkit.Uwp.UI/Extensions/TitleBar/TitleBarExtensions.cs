@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -404,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static ApplicationViewTitleBar GetTitleBar()
         {
-            return IsTitleBarSupported ? Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar : null;
+            return IsTitleBarSupported ? ApplicationView.GetForCurrentView()?.TitleBar : null;
         }
     }
 }

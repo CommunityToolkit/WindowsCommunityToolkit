@@ -42,6 +42,16 @@
   </Choose>
 
   <Choose>
+    <When Condition="'$(Configuration)' == 'Debug' and '$(IsDesignProject)' != 'true'">
+      <!-- Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios -->
+      <PropertyGroup>
+        <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
+        <EnableXBindDiagnostics>false</EnableXBindDiagnostics>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
@@ -79,7 +89,7 @@
     </When>
   </Choose>
 
-  <PropertyGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true'">
+  <PropertyGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
 
     <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
     <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
@@ -90,7 +100,7 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
   
-  <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true'">
+  <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.WinUI">
       <Version>3.0.0-alpha.200210.0</Version>
     </PackageReference>

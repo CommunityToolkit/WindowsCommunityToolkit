@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Platforms>x64;x86</Platforms>
+    <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>UnitTests.XamlIslands.Program</StartupObject>
+    <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
+    <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.0.0" />
+    <PackageReference Include="Microsoft.WinUI">
+      <Version>3.0.0-alpha.200210.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UnitTests.XamlIslands.UWPApp\UnitTests.XamlIslands.UWPApp.csproj" />
+  </ItemGroup>
+
+</Project>

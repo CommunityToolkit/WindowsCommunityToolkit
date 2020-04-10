@@ -36,7 +36,7 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -61,7 +61,7 @@
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -86,7 +86,7 @@
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.1.0</Version>
@@ -136,7 +136,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
-    <Compile Include="Helpers\Test_DispatcherHelper.cs" />
+    <Compile Include="Helpers\Test_DispatcherQueueHelper.cs" />
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_CollectionCapableDeepLinkParser.cs" />
@@ -404,7 +404,7 @@
     <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>;2008;CS8002</NoWarn>
+    <NoWarn>;2008;CS8002;CS8305</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>

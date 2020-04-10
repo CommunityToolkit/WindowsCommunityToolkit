@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Printing;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
-using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -98,12 +98,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private PrintHelperOptions _defaultPrintHelperOptions;
 
         /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
         /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
-        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null, DispatcherQueue dispatcherQueue = null)
         {
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+
             if (canvasContainer == null)
             {
                 throw new ArgumentNullException();
@@ -198,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             _printCanvas = null;
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -222,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (!_directPrint)
             {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -255,32 +263,33 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                    {
-                        foreach (var element in _stateBags.Keys)
+                    await DispatcherQueue.ExecuteOnUIThreadAsync(
+                        async () =>
                         {
-                            _stateBags[element].Restore(element);
-                        }
+                            foreach (var element in _stateBags.Keys)
+                            {
+                                _stateBags[element].Restore(element);
+                            }
 
-                        _stateBags.Clear();
-                        _canvasContainer.RequestedTheme = ElementTheme.Default;
-                        await DetachCanvas();
+                            _stateBags.Clear();
+                            _canvasContainer.RequestedTheme = ElementTheme.Default;
+                            await DetachCanvas();
 
-                        switch (args.Completion)
-                        {
-                            case PrintTaskCompletion.Failed:
-                                OnPrintFailed?.Invoke();
-                                break;
+                            switch (args.Completion)
+                            {
+                                case PrintTaskCompletion.Failed:
+                                    OnPrintFailed?.Invoke();
+                                    break;
 
-                            case PrintTaskCompletion.Canceled:
-                                OnPrintCanceled?.Invoke();
-                                break;
+                                case PrintTaskCompletion.Canceled:
+                                    OnPrintCanceled?.Invoke();
+                                    break;
 
-                            case PrintTaskCompletion.Submitted:
-                                OnPrintSucceeded?.Invoke();
-                                break;
-                        }
-                    });
+                                case PrintTaskCompletion.Submitted:
+                                    OnPrintSucceeded?.Invoke();
+                                    break;
+                            }
+                        }, DispatcherQueuePriority.Normal);
                 };
 
                 sourceRequested.SetSource(_printDocumentSource);
@@ -472,7 +481,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             // Save state
             if (!_stateBags.ContainsKey(element))
             {
-                var stateBag = new PrintHelperStateBag();
+                var stateBag = new PrintHelperStateBag(DispatcherQueue);
                 stateBag.Capture(element);
                 _stateBags.Add(element, stateBag);
             }
@@ -513,7 +522,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             page.Content = element;
 
-            return DispatcherHelper.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
@@ -524,12 +533,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                     // Add the page to the page preview collection
                     _printPreviewPages.Add(page);
-                }, Windows.UI.Core.CoreDispatcherPriority.High);
+                }, DispatcherQueuePriority.High);
         }
 
         private Task ClearPageCache()
         {
-            return DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            return DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 if (!_directPrint)
                 {

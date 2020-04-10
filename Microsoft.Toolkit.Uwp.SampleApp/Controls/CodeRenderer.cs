@@ -87,10 +87,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void RenderDocument()
         {
-            _codeView?.Blocks?.Clear();
-            _formatter = new RichTextBlockFormatter(_theme);
-            _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
-            _rendered = true;
+            if (_codeView != null)
+            {
+                _codeView.Blocks?.Clear();
+                _formatter = new RichTextBlockFormatter(_theme);
+
+                _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
+                _rendered = true;
+            }
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)

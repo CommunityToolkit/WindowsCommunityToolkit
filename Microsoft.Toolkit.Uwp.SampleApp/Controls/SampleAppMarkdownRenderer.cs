@@ -12,11 +12,11 @@ using Microsoft.Toolkit.Parsers.Markdown.Render;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Microsoft.UI;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {

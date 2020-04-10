@@ -6,6 +6,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Security.ExchangeActiveSyncProvisioning;
@@ -180,7 +181,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Tracks information about the app's launch.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        public void TrackAppUse(LaunchActivatedEventArgs args)
+        /// <param name="xamlRoot">The XamlRoot object from your visual tree.</param>
+        public void TrackAppUse(IActivatedEventArgs args, XamlRoot xamlRoot = null)
         {
             if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
              || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
@@ -213,24 +215,42 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     : DateTime.MinValue;
             }
 
-            void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+            if (xamlRoot != null)
             {
-                if (e.Visible)
+                void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs e)
                 {
-                    _sessionStart = DateTime.UtcNow;
+                    UpdateVisibility(sender.IsHostVisible);
                 }
-                else
-                {
-                    var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
-                    var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
-
-                    _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subsessionLength);
-                }
+                xamlRoot.Changed -= XamlRoot_Changed;
+                xamlRoot.Changed += XamlRoot_Changed;
             }
+            else
+            {
+                void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+                {
+                    UpdateVisibility(e.Visible);
+                }
 
-            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
-            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
+                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+            }
+        }
+
+        private void UpdateVisibility(bool visible)
+        {
+            if (visible)
+            {
+                _sessionStart = DateTime.UtcNow;
+            }
+            else
+            {
+                var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+
+                var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
+
+                _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subsessionLength);
+            }
         }
 
         /// <summary>

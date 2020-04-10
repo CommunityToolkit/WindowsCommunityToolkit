@@ -15,8 +15,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class MasterDetailsViewPage : Page, IXamlRenderListener
     {
-        private double _previousWidth = Window.Current.Bounds.Width;
-
         public MasterDetailsViewPage()
         {
             Emails = new List<Email>

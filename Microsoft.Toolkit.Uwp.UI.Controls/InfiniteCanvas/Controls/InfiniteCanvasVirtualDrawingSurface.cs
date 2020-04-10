@@ -87,7 +87,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void SetScale(float zoomFactor)
         {
             /*
-            _screenScale = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                _screenScale = XamlRoot.RasterizationScale;
+            }
+            else
+            {
+                _screenScale = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            }
+
             var scale = _screenScale * zoomFactor;
             _surfaceBrush.Scale = new Vector2((float)(1 / scale));
             _surfaceBrush.BitmapInterpolationMode = CompositionBitmapInterpolationMode.NearestNeighbor;

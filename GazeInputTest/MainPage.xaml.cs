@@ -4,11 +4,11 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Microsoft.UI.ViewManagement;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace GazeInputTest
 {

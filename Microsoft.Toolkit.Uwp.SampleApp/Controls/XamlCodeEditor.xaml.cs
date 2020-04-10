@@ -24,6 +24,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public XamlCodeEditor()
         {
             this.InitializeComponent();
+
+            _errorStyle = new CssLineStyle(XamlCodeRenderer)
+            {
+                BackgroundColor = new SolidColorBrush(Windows.UI.Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
+            };
+            _errorIconStyle = new CssGlyphStyle(XamlCodeRenderer)
+            {
+                GlyphImage = new global::System.Uri("ms-appx-web:///Icons/Error.png")
+            };
         }
 
         public async Task ResetPosition()
@@ -122,15 +131,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public DateTime TimeSampleEditedLast { get; private set; } = DateTime.MinValue;
 
-        private CssLineStyle _errorStyle = new CssLineStyle()
-        {
-            BackgroundColor = new SolidColorBrush(Windows.UI.Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
-        };
+        private CssLineStyle _errorStyle;
 
-        private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
-        {
-            GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
-        };
+        private CssGlyphStyle _errorIconStyle;
 
         private ThreadPoolTimer _autocompileTimer;
 

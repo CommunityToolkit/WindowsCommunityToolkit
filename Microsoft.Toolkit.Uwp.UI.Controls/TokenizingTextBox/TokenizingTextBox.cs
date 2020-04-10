@@ -120,6 +120,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             selectAllMenuItem.Click += (s, e) => SelectAll();
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                menuFlyout.XamlRoot = XamlRoot;
+            }
+
             ContextFlyout = menuFlyout;
         }
 
@@ -324,6 +329,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(removeMenuItem);
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                menuFlyout.XamlRoot = XamlRoot;
+            }
+
             item.ContextFlyout = menuFlyout;
 
             var i = _wrapPanel.Children.Count - 1;

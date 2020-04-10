@@ -190,14 +190,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal FlyoutPlacementMode GetMenuFlyoutPlacementMode()
         {
-            var ttv = TransformToVisual(Window.Current.Content);
+            UIElement content;
+            double height;
+            double width;
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                content = XamlRoot.Content;
+                height = XamlRoot.Size.Height;
+                width = XamlRoot.Size.Width;
+            }
+            else
+            {
+                content = Window.Current.Content;
+                height = Window.Current.Bounds.Height;
+                width = Window.Current.Bounds.Width;
+            }
+
+            var ttv = TransformToVisual(content);
             var menuCoords = ttv.TransformPoint(new Point(0, 0));
 
             if (Orientation == Orientation.Horizontal)
             {
                 var menuCenter = menuCoords.Y + (ActualHeight / 2);
 
-                if (menuCenter <= Window.Current.Bounds.Height / 2)
+                if (menuCenter <= height / 2)
                 {
                     return FlyoutPlacementMode.Bottom;
                 }
@@ -210,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var menuCenter = menuCoords.X + (ActualWidth / 2);
 
-                if (menuCenter <= Window.Current.Bounds.Width / 2)
+                if (menuCenter <= width / 2)
                 {
                     return FlyoutPlacementMode.Right;
                 }
@@ -287,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void CalculateBounds()
         {
-            var ttv = TransformToVisual(Window.Current.Content);
+            var ttv = TransformToVisual(ControlHelpers.IsXamlRootAvailable && XamlRoot != null ? XamlRoot.Content : Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
             _bounds.X = screenCoords.X;
             _bounds.Y = screenCoords.Y;

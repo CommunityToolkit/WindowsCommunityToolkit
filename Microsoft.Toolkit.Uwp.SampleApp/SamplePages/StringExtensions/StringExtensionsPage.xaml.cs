@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Extensions;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

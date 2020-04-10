@@ -94,6 +94,14 @@ void VerifyHeaders(bool Replace)
     }
 }
 
+void RetrieveVersion()
+{
+	Information("\nRetrieving version...");
+    var results = StartPowershellFile(versionClient);
+    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
+    Information("\nBuild Version: " + Version);
+}
+
 //////////////////////////////////////////////////////////////////////
 // DEFAULT TASK
 //////////////////////////////////////////////////////////////////////
@@ -137,14 +145,11 @@ Task("Version")
 
     NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
 
-    Information("\nRetrieving version...");
-    var results = StartPowershellFile(versionClient);
-    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
-    Information("\nBuild Version: " + Version);
+	RetrieveVersion();
 });
 
-Task("Build")
-    .Description("Build all projects and get the assemblies")
+Task("BuildProjects")
+    .Description("Build all projects")
     .IsDependentOn("Version")
     .Does(() =>
 {
@@ -183,9 +188,9 @@ Task("Build")
 });
 
 Task("InheritDoc")
-	.Description("Updates <inheritdoc /> tags from base classes, interfaces, and similar methods")
-	.IsDependentOn("Build")
-	.Does(() =>
+    .Description("Updates <inheritdoc /> tags from base classes, interfaces, and similar methods")
+    .IsDependentOn("BuildProjects")
+    .Does(() =>
 {
 	Information("\nDownloading InheritDoc...");
 	var installSettings = new NuGetInstallSettings {
@@ -211,9 +216,13 @@ Task("InheritDoc")
     Information("\nFinished generating documentation with InheritDoc");
 });
 
+Task("Build")
+    .Description("Build all projects runs InheritDoc")
+    .IsDependentOn("BuildProjects")
+    .IsDependentOn("InheritDoc");
+
 Task("Package")
 	.Description("Pack the NuPkg")
-	.IsDependentOn("InheritDoc")
 	.Does(() =>
 {
 	// Invoke the pack target in the end
@@ -248,6 +257,9 @@ Task("Package")
 
     buildSettings.SetPlatformTarget(PlatformTarget.x86);
     MSBuild(Solution, buildSettings);
+
+    RetrieveVersion();
+
 	
 	// Ignored for now
     var nuGetPackSettings = new NuGetPackSettings
@@ -255,7 +267,7 @@ Task("Package")
 		OutputDirectory = nupkgDir,
         Version = Version
 	};
-
+	
     var nuspecs = GetFiles("./*.nuspec");
     foreach (var nuspec in nuspecs)
     {
@@ -279,7 +291,6 @@ public string getMSTestAdapterPath(){
 
 Task("Test")
 	.Description("Runs all Tests")
-	.IsDependentOn("Build")
     .Does(() =>
 {
 	var vswhere = VSWhereLatest(new VSWhereLatestSettings
@@ -315,7 +326,8 @@ Task("Test")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-	.IsDependentOn("Test")
+    .IsDependentOn("Build")
+    .IsDependentOn("Test")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")

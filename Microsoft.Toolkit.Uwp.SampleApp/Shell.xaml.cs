@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
+using Microsoft.System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -127,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 if (s is UIElement samplePicker && samplePicker.Visibility == Visibility.Visible)
                 {
-                    DispatcherHelper.ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
+                    DispatcherQueue.GetForCurrentThread().ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
             });
         }

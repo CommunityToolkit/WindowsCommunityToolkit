@@ -40,6 +40,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             var list = new ListBox { Margin = ThicknessHelper.FromUniformLength(0), Padding = ThicknessHelper.FromUniformLength(0) };
             headerFlyout = new Flyout { Content = list };
 
+            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            {
+                headerFlyout.XamlRoot = button.XamlRoot;
+            }
+
             string headerVal = "#";
             for (int i = 1; i <= 5; i++)
             {

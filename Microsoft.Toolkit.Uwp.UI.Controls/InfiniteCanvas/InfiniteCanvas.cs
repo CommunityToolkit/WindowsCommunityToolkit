@@ -29,11 +29,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = InfiniteCanvasScrollViewerName, Type = typeof(ScrollViewer))]
     [TemplatePart(Name = EraseAllButtonName, Type = typeof(Button))]
     [TemplatePart(Name = CanvasTextBoxName, Type = typeof(InfiniteCanvasTextBox))]
-    [TemplatePart(Name = EnableTextButtonName, Type = typeof(InkToolbarCustomToolButton))]
-    [TemplatePart(Name = EnableTouchInkingButtonName, Type = typeof(InkToolbarCustomToggleButton))]
-    [TemplatePart(Name = InkCanvasToolBarName, Type = typeof(InkToolbar))]
+
+    // [TemplatePart(Name = EnableTextButtonName, Type = typeof(InkToolbarCustomToolButton))]
+    // [TemplatePart(Name = EnableTouchInkingButtonName, Type = typeof(InkToolbarCustomToggleButton))]
+    // [TemplatePart(Name = InkCanvasToolBarName, Type = typeof(InkToolbar))]
     [TemplatePart(Name = CanvasToolbarContainerName, Type = typeof(StackPanel))]
-    [TemplatePart(Name = DrawingInkCanvasName, Type = typeof(InkCanvas))]
+
+    // [TemplatePart(Name = DrawingInkCanvasName, Type = typeof(InkCanvas))]
     [TemplatePart(Name = UndoButtonName, Type = typeof(Button))]
     [TemplatePart(Name = RedoButtonName, Type = typeof(Button))]
     [TemplatePart(Name = FontColorIconName, Type = typeof(FontIcon))]
@@ -62,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string RedoButtonName = "RedoButton";
         private const string FontColorIconName = "FontColorIcon";
 
-        //private InkCanvas _inkCanvas;
+        // private InkCanvas _inkCanvas;
         private InfiniteCanvasVirtualDrawingSurface _drawingSurfaceRenderer;
 
         // private InkSynchronizer _inkSync;
@@ -183,13 +185,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, ViewPortWidth, ViewPortHeight);
 
-        private double ViewPortHeight => (double.IsNaN(_infiniteCanvasScrollViewer.Height)
-            ? Window.Current.Bounds.Height
-            : _infiniteCanvasScrollViewer.ViewportHeight) / _infiniteCanvasScrollViewer.ZoomFactor;
+        private double ViewPortHeight
+        {
+            get
+            {
+                double height;
+                if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
+                {
+                    if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                    {
+                        height = _infiniteCanvasScrollViewer.XamlRoot.Size.Height;
+                    }
+                    else
+                    {
+                        height = Window.Current.Bounds.Height;
+                    }
+                }
+                else
+                {
+                    height = _infiniteCanvasScrollViewer.ViewportHeight;
+                }
 
-        private double ViewPortWidth => (double.IsNaN(_infiniteCanvasScrollViewer.Width)
-            ? Window.Current.Bounds.Width
-            : _infiniteCanvasScrollViewer.ViewportWidth) / _infiniteCanvasScrollViewer.ZoomFactor;
+                return height / _infiniteCanvasScrollViewer.ZoomFactor;
+            }
+        }
+
+        private double ViewPortWidth
+        {
+            get
+            {
+                double width;
+                if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
+                {
+                    if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                    {
+                        width = _infiniteCanvasScrollViewer.XamlRoot.Size.Width;
+                    }
+                    else
+                    {
+                        width = Window.Current.Bounds.Width;
+                    }
+                }
+                else
+                {
+                    width = _infiniteCanvasScrollViewer.ViewportWidth;
+                }
+
+                return width / _infiniteCanvasScrollViewer.ZoomFactor;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InfiniteCanvas"/> class.
@@ -212,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild(InfiniteCanvasScrollViewerName);
             _eraseAllButton = (Button)GetTemplateChild(EraseAllButtonName);
             _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild(CanvasTextBoxName);
-            
+
             // _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild(EnableTextButtonName);
             // _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild(EnableTouchInkingButtonName);
             // _inkCanvasToolBar = (InkToolbar)GetTemplateChild(InkCanvasToolBarName);
@@ -230,12 +274,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
             {
-                _infiniteCanvasScrollViewer.Width = Window.Current.Bounds.Width;
+                if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                {
+                    _infiniteCanvasScrollViewer.Width = _infiniteCanvasScrollViewer.XamlRoot.Size.Width;
+                }
+                else
+                {
+                    _infiniteCanvasScrollViewer.Width = Window.Current.Bounds.Width;
+                }
             }
 
             if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
             {
-                _infiniteCanvasScrollViewer.Height = Window.Current.Bounds.Height;
+                if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                {
+                    _infiniteCanvasScrollViewer.Height = _infiniteCanvasScrollViewer.XamlRoot.Size.Height;
+                }
+                else
+                {
+                    _infiniteCanvasScrollViewer.Height = Window.Current.Bounds.Height;
+                }
             }
 
             base.OnApplyTemplate();

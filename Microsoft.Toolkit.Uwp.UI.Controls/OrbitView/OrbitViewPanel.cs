@@ -64,12 +64,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsInfinity(width))
             {
-                width = Window.Current.Bounds.Width;
+                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                {
+                    width = XamlRoot.Size.Width;
+                }
+                else
+                {
+                    width = Window.Current.Bounds.Width;
+                }
             }
 
             if (double.IsInfinity(height))
             {
-                height = Window.Current.Bounds.Height;
+                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                {
+                    height = XamlRoot.Size.Height;
+                }
+                else
+                {
+                    height = Window.Current.Bounds.Height;
+                }
             }
 
             var finalSize = new Size(width, height);
