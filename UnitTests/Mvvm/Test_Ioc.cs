@@ -3,15 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
-using Microsoft.Toolkit;
+using Microsoft.Toolkit.Mvvm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.Helpers
+namespace UnitTests.Mvvm
 {
     [TestClass]
     public class Test_Ioc
     {
-        [TestCategory("Helpers")]
+        [TestCategory("Mvvm")]
         [TestMethod]
         public void Test_Ioc_SampleUsage()
         {
