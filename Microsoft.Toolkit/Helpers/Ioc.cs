@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -282,7 +283,14 @@ namespace Microsoft.Toolkit
 
                 if (!(service is null))
                 {
-                    return (TService)Activator.CreateInstance(service.GetType());
+                    Type serviceType = service.GetType();
+                    Expression[] expressions = { Expression.New(serviceType) };
+                    Expression body = Expression.Block(serviceType, expressions);
+                    factory = Expression.Lambda<Func<TService>>(body).Compile();
+
+                    Container<TService>.Factory = factory;
+
+                    return factory();
                 }
 
                 throw new InvalidOperationException($"Service {typeof(TService)} not initialized");
