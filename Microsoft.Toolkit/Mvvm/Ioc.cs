@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 #nullable enable
 
-namespace Microsoft.Toolkit
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// An Inversion of Control container that can be used to register and access instances of types providing services.
