@@ -18,7 +18,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             string text = "Hello, world!";
 
-            ref char r0 = ref Unsafe.AsRef(text.DangerousGetReference());
+            ref char r0 = ref text.DangerousGetReference();
             ref char r1 = ref Unsafe.AsRef(text.AsSpan()[0]);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
@@ -30,8 +30,8 @@ namespace UnitTests.HighPerformance.Extensions
         {
             string text = "Hello, world!";
 
-            ref char r0 = ref Unsafe.AsRef(text.DangerousGetReference());
-            ref char r1 = ref Unsafe.AsRef(text.DangerousGetReferenceAt(0));
+            ref char r0 = ref text.DangerousGetReference();
+            ref char r1 = ref text.DangerousGetReferenceAt(0);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
@@ -42,7 +42,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             string text = "Hello, world!";
 
-            ref char r0 = ref Unsafe.AsRef(text.DangerousGetReferenceAt(5));
+            ref char r0 = ref text.DangerousGetReferenceAt(5);
             ref char r1 = ref Unsafe.AsRef(text.AsSpan()[5]);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));

@@ -20,7 +20,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
 
-            ref int r0 = ref Unsafe.AsRef(data.DangerousGetReference());
+            ref int r0 = ref data.DangerousGetReference();
             ref int r1 = ref Unsafe.AsRef(data[0]);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
@@ -32,8 +32,8 @@ namespace UnitTests.HighPerformance.Extensions
         {
             ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
 
-            ref int r0 = ref Unsafe.AsRef(data.DangerousGetReference());
-            ref int r1 = ref Unsafe.AsRef(data.DangerousGetReferenceAt(0));
+            ref int r0 = ref data.DangerousGetReference();
+            ref int r1 = ref data.DangerousGetReferenceAt(0);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
@@ -44,7 +44,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
 
-            ref int r0 = ref Unsafe.AsRef(data.DangerousGetReferenceAt(5));
+            ref int r0 = ref data.DangerousGetReferenceAt(5);
             ref int r1 = ref Unsafe.AsRef(data[5]);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));

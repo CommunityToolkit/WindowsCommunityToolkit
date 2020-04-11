@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to perform checks in case the returned value is dereferenced.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly char DangerousGetReference(this string text)
+        public static ref char DangerousGetReference(this string text)
         {
             var stringData = Unsafe.As<RawStringData>(text);
 
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly char DangerousGetReferenceAt(this string text, int i)
+        public static ref char DangerousGetReferenceAt(this string text, int i)
         {
             var stringData = Unsafe.As<RawStringData>(text);
             ref var ri = ref Unsafe.Add(ref stringData.Data, i);
