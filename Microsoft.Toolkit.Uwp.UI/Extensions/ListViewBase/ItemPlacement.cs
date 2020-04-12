@@ -25,9 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         Top,
 
         /// <summary>
-        /// Aligned centre
+        /// Aligned center
         /// </summary>
-        Centre,
+        Center,
 
         /// <summary>
         /// Aligned right

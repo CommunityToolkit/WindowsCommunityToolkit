@@ -20,18 +20,23 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Smooth scrolling the list to bring the specified index into view
         /// </summary>
         /// <param name="listViewBase">List to scroll</param>
-        /// <param name="index">The intex to bring into view</param>
+        /// <param name="index">The index to bring into view. Index can be negative.</param>
         /// <param name="itemPlacement">Set the item placement after scrolling</param>
         /// <param name="disableAnimation">Set true to disable animation</param>
-        /// <param name="scrollIfVisibile">Set true to disable scrolling when the corresponding item is in view</param>
+        /// <param name="scrollIfVisible">Set false to disable scrolling when the corresponding item is in view</param>
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
         /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
-        public static async Task SmoothScrollIntoViewWithIndex(this ListViewBase listViewBase, int index, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
+        public static async Task SmoothScrollIntoViewWithIndex(this ListViewBase listViewBase, int index, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
             if (index > (listViewBase.Items.Count - 1))
             {
                 index = listViewBase.Items.Count - 1;
+            }
+
+            if (index < -listViewBase.Items.Count)
+            {
+                index = -listViewBase.Items.Count;
             }
 
             index = (index < 0) ? (index + listViewBase.Items.Count) : index;
@@ -42,6 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI
             var scrollViewer = listViewBase.FindDescendant<ScrollViewer>();
             var selectorItem = listViewBase.ContainerFromIndex(index) as SelectorItem;
 
+            // If selectorItem is null then the panel is virtualized.
+            // So in order to get the container of the item we need to scroll to that item first and then use ContainerFromIndex
             if (selectorItem == null)
             {
                 isVirtualizing = true;
@@ -70,6 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var transform = selectorItem.TransformToVisual((UIElement)scrollViewer.Content);
             var position = transform.TransformPoint(new Point(0, 0));
 
+            // Scrolling back to previous position
             if (isVirtualizing)
             {
                 var tcs = new TaskCompletionSource<object>();
@@ -104,7 +112,8 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             double finalXPosition, finalYPosition;
 
-            if (!scrollIfVisibile && (previousXOffset <= maxXPosition && previousXOffset >= minXPosition) && (previousYOffset <= maxYPosition && previousYOffset >= minYPosition))
+            // If the Item is in view and scrollIfVisible is false then we don't need to scroll
+            if (!scrollIfVisible && (previousXOffset <= maxXPosition && previousXOffset >= minXPosition) && (previousYOffset <= maxYPosition && previousYOffset >= minYPosition))
             {
                 finalXPosition = previousXOffset;
                 finalYPosition = previousYOffset;
@@ -152,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                         finalYPosition = maxYPosition + additionalVerticalOffset;
                         break;
 
-                    case ItemPlacement.Centre:
+                    case ItemPlacement.Center:
                         var centreX = (listViewBaseWidth - selectorItemWidth) / 2.0;
                         var centreY = (listViewBaseHeight - selectorItemHeight) / 2.0;
                         finalXPosition = maxXPosition - centreX + additionalHorizontalOffset;
