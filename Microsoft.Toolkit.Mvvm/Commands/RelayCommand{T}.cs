@@ -25,7 +25,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Mvvm
+namespace Microsoft.Toolkit.Mvvm.Commands
 {
     /// <summary>
     /// A generic command whose sole purpose is to relay its functionality to other
