@@ -201,6 +201,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
+      <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
+      <Name>Microsoft.Toolkit.Mvvm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
       <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
