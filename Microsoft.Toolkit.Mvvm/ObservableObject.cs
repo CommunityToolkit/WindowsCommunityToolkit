@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// Raises the <see cref="PropertyChanged"/> event if needed.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null!)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// Raises the <see cref="PropertyChanging"/> event if needed.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        protected virtual void RaisePropertyChanging([CallerMemberName] string propertyName = null!)
+        protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
         {
             PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
@@ -76,11 +76,11 @@ namespace Microsoft.Toolkit.Mvvm
                 return false;
             }
 
-            this.RaisePropertyChanging(propertyName);
+            this.OnPropertyChanging(propertyName);
 
             field = newValue;
 
-            this.RaisePropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
 
             return true;
         }
