@@ -224,24 +224,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                DataContext = CurrentSample;
-
-                var propertyDesc = CurrentSample.PropertyDescriptor;
-
                 InfoAreaPivot.Items.Clear();
-
-                if (propertyDesc != null)
-                {
-                    _xamlRenderer.DataContext = propertyDesc.Expando;
-                }
-
-                if (propertyDesc != null && propertyDesc.Options.Count > 0)
-                {
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
-                }
 
                 if (CurrentSample.HasXAMLCode)
                 {
+                    // Load Sample Properties before we load sample (if we haven't before)
+                    await CurrentSample.PreparePropertyDescriptorAsync();
+
+                    // We only have properties on examples with live XAML
+                    var propertyDesc = CurrentSample.PropertyDescriptor;
+
+                    if (propertyDesc != null)
+                    {
+                        _xamlRenderer.DataContext = propertyDesc.Expando;
+                    }
+
+                    if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                    {
+                        InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                    }
+
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
@@ -299,6 +301,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     GithubButton.Visibility = Visibility.Visible;
                 }
+
+                DataContext = CurrentSample;
 
                 if (InfoAreaPivot.Items.Count == 0)
                 {
