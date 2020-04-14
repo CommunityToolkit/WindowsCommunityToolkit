@@ -29,7 +29,7 @@ namespace Microsoft.Collections.Extensions
     /// 3) This means it can avoid storing a comparer, and avoid the likely virtual call to a comparer.
     /// </remarks>
     [DebuggerDisplay("Count = {Count}")]
-    internal sealed class DictionarySlim<TKey, TValue>
+    internal sealed class DictionarySlim<TKey, TValue> : IDictionary<TKey>
         where TKey : struct, IEquatable<TKey>
     {
         // See info in CoreFX labs for how this works
@@ -71,7 +71,7 @@ namespace Microsoft.Collections.Extensions
             _entries = InitialEntries;
         }
 
-        /// <inheritdoc cref="Dictionary{TKey,TValue}.Remove"/>
+        /// <inheritdoc/>
         public bool Remove(TKey key)
         {
             Entry[] entries = _entries;
