@@ -29,7 +29,7 @@ namespace Microsoft.Collections.Extensions
     /// 3) This means it can avoid storing a comparer, and avoid the likely virtual call to a comparer.
     /// </remarks>
     [DebuggerDisplay("Count = {Count}")]
-    internal sealed class DictionarySlim<TKey, TValue> : IDictionary<TKey>
+    internal sealed class DictionarySlim<TKey, TValue> : IDictionary<TKey>, IReadOnlyDictionary<TKey, TValue>
         where TKey : notnull, IEquatable<TKey>
     {
         // See info in CoreFX labs for how this works
@@ -59,6 +59,29 @@ namespace Microsoft.Collections.Extensions
         /// Gets the count of entries in the dictionary.
         /// </summary>
         public int Count => _count;
+
+        /// <inheritdoc/>
+        public TValue this[TKey key]
+        {
+            get
+            {
+                Entry[] entries = _entries;
+
+                for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
+                    (uint)i < (uint)entries.Length;
+                    i = entries[i].Next)
+                {
+                    if (key.Equals(entries[i].Key))
+                    {
+                        return entries[i].Value;
+                    }
+                }
+
+                ThrowArgumentExceptionForKeyNotFound(key);
+
+                return default!;
+            }
+        }
 
         /// <inheritdoc cref="Dictionary{TKey,TValue}.ContainsKey"/>
         public bool ContainsKey(TKey key)
@@ -249,6 +272,15 @@ namespace Microsoft.Collections.Extensions
 
             /// <inheritdoc cref="IEnumerator{T}.Current"/>
             public KeyValuePair<TKey, TValue> Current => _current;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when trying to load an element with a missing key.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowArgumentExceptionForKeyNotFound(TKey key)
+        {
+            throw new ArgumentException($"The target key {key} was not present in the dictionary");
         }
     }
 }
