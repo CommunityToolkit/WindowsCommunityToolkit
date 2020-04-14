@@ -48,6 +48,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool IsAllSelected => _autoSuggestTextBox?.SelectedText == _autoSuggestTextBox?.Text && !string.IsNullOrEmpty(_autoSuggestTextBox?.Text);
 
         /// <summary>
+        /// Gets a value indicating whether the control key is currently in a pressed state
+        /// </summary>
+        private bool IsControlPressed => CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+
+        /// <summary>
+        /// Gets a value indicating whether the shift key is currently in a pressed state
+        /// </summary>
+        private bool IsShiftPressed => CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
         /// </summary>
         public TokenizingTextBox()
@@ -89,21 +99,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Next, Previous
         }
 
-        private void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private async void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             // Global handlers on control regardless if focused on item or in textbox.
             switch (e.Key)
             {
                 case VirtualKey.C:
                     {
-                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                        if (controlPressed)
+                        if (IsControlPressed)
                         {
                             CopySelectedToClipboard();
                         }
 
                         break;
                     }
+
+                case VirtualKey.X:
+                {
+                    if (IsControlPressed)
+                    {
+                        CopySelectedToClipboard();
+
+                        // now clear all selected tokens and text, or all if none are selected 
+                        if (IsAllSelected)
+                        {
+                            // Clear the lot
+                            _autoSuggestTextBox.Text = string.Empty;
+                            await ClearAllTokens();
+                        }
+                        else
+                        {
+                            // Clear just the selected tokens
+                            _autoSuggestTextBox.SelectedText = string.Empty;
+                            await ClearAllSelected();
+                        }
+                    }
+
+                    break;
+                }
 
                 case Windows.System.VirtualKey.Left:
                     e.Handled = MoveFocusAndSelection(MoveDirection.Previous);
@@ -121,8 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.A:
                 {
                     // modify the select-all behaviour to ensure the text in the edit box gets selected.
-                    var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                    if (controlPressed)
+                    if (IsControlPressed)
                     {
                         this.SelectAllTokensAndText();
                         e.Handled = true;
@@ -181,11 +213,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var newItem = ContainerFromIndex(index) as TokenizingTextBoxItem;
                     newItem.Focus(FocusState.Keyboard);
 
-                    // if no control keys are selected then the seleciton also becomes just this item
-                    var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                    var shiftPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-
-                    if (shiftPressed)
+                    // if no control keys are selected then the selection also becomes just this item
+                    if (IsShiftPressed)
                     {
                         // What we do here depends on where the selection started
                         // if the previous item is between the start and new position then we add the new item to the selected range
@@ -202,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             SelectedItems.Remove(Items[previousIndex]);
                         }
                     }
-                    else if (!controlPressed)
+                    else if (!IsControlPressed)
                     {
                         SelectedIndex = index;
                     }
@@ -219,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Local function for Selection changed
             void AutoSuggestTextBox_SelectionChanged(object box, RoutedEventArgs args)
             {
-                if (!this.IsAllSelected)
+                if (!this.IsAllSelected && !IsShiftPressed)
                 {
                     this.DeselectAll();
                 }
@@ -254,9 +283,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            bool handled = false;
+
             // Handlers for the textbox only
             // Handlers for items in TokenizingTextBoxItem
-            if (IsCaretAtStart && !IsAllSelected &&
+            if (IsCaretAtStart && (this._autoSuggestTextBox?.SelectionLength == 0 || !IsShiftPressed) &&
                 (e.Key == VirtualKey.Back ||
                  e.Key == VirtualKey.Left))
             {
@@ -269,15 +300,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     // Clear any text box selection
                     _autoSuggestTextBox.SelectionLength = 0;
+                    e.Handled = true;
                 }
-                else
-                {
-                    FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
-                }
-
-                e.Handled = true;
             }
-            else if (e.Key == VirtualKey.A && CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
+            else if (e.Key == VirtualKey.A && IsControlPressed)
             {
                 // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
                 this.SelectAllTokensAndText();
@@ -358,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
         {
             // Verify if the usual behaviour of clearing token selection is required
-            if (_pauseTokenClearOnFocus == false)
+            if (_pauseTokenClearOnFocus == false && !IsShiftPressed)
             {
                 // Clear any selected tokens
                 this.DeselectAll();
@@ -392,7 +418,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SuggestionChosen?.Invoke(sender, args);
         }
 
-        private async void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             var t = sender.Text.Trim();
 
@@ -469,7 +495,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SelectAllTokensAndText()
         {
-            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 this.SelectAllSafe();
 
@@ -528,6 +554,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private async Task ClearAllTokens()
+        {
+            foreach (var token in Items)
+            { 
+                await RemoveToken(ContainerFromItem(token) as TokenizingTextBoxItem);
+            }
+        }
+
         private async Task AddToken(object data)
         {
             if (data is string str && TokenItemAdding != null)
@@ -553,15 +587,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CopySelectedToClipboard()
         {
-            if (Items.Count > 0)
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+
+            string tokenString = string.Empty;
+            bool addSeparator = false;
+
+            if (Items.Count > 0 || _autoSuggestTextBox?.SelectionLength == 0)
             {
-                DataPackage dataPackage = new DataPackage();
-                dataPackage.RequestedOperation = DataPackageOperation.Copy;
-
-                string tokenString = string.Empty;
-                bool addSeparator = false;
-
-                // Copy all items if none selected
+                // Copy all items if none selected (and no text selected)
                 foreach (var item in SelectedItems.Count > 0 ? SelectedItems : Items)
                 {
                     if (addSeparator)
@@ -575,7 +609,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     tokenString += item.ToString();
                 }
+            }
 
+            if (_autoSuggestTextBox?.SelectionLength > 0 || Items.Count == 0)
+            {
+                if (addSeparator)
+                {
+                    tokenString += TokenDelimiter + " ";
+                }
+
+                tokenString += _autoSuggestTextBox?.SelectionLength > 0
+                    ? _autoSuggestTextBox?.SelectedText
+                    : _autoSuggestTextBox?.Text;
+            }
+
+            if (!string.IsNullOrEmpty(tokenString))
+            {
                 dataPackage.SetText(tokenString);
                 Clipboard.SetContent(dataPackage);
             }
