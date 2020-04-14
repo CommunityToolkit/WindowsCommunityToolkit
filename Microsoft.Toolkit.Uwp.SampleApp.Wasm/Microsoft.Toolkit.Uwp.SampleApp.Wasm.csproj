@@ -9,7 +9,7 @@
     <WasmPWAManifestFile Condition="'$(Configuration)'=='Release'">manifest.json</WasmPWAManifestFile>
     <NoWarn>$(NoWarm);Uno0001</NoWarn>
     <MonoRuntimeDebuggerEnabled Condition="'$(Configuration)'=='Debug'">true</MonoRuntimeDebuggerEnabled>
-    <WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
+		<WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
 		<WasmShellEnableLongPathSupport>false</WasmShellEnableLongPathSupport>
   </PropertyGroup>
 	
@@ -21,6 +21,7 @@
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.SampleApp.Wasm" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Newtonsoft.Json" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.CSharp" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Parsers" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.DeveloperTools" />
@@ -35,9 +36,9 @@
   </ItemGroup>
       
   <ItemGroup>
-    <PackageReference Include="Uno.UI" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0-dev.16" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.2.0-dev.16" />
+    <PackageReference Include="Uno.UI" Version="2.2.0-dev.482" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0-dev.24" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.2.0-dev.24" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="Microsoft.TypeScript.Compiler" Version="2.8.3" />
