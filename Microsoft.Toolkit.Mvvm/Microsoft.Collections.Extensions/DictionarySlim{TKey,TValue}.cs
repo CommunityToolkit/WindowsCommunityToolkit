@@ -60,15 +60,21 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         public int Count => _count;
 
-        /// <summary>
-        /// Clears the dictionary. Note that this invalidates any active enumerators.
-        /// </summary>
-        public void Clear()
+        /// <inheritdoc cref="Dictionary{TKey,TValue}.ContainsKey"/>
+        public bool ContainsKey(TKey key)
         {
-            _count = 0;
-            _freeList = -1;
-            _buckets = new int[1];
-            _entries = InitialEntries;
+            Entry[] entries = _entries;
+
+            for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
+                (uint)i < (uint)entries.Length; i = entries[i].Next)
+            {
+                if (key.Equals(entries[i].Key))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>
@@ -77,8 +83,8 @@ namespace Microsoft.Collections.Extensions
             Entry[] entries = _entries;
             int bucketIndex = key.GetHashCode() & (_buckets.Length - 1);
             int entryIndex = _buckets[bucketIndex] - 1;
-
             int lastIndex = -1;
+
             while (entryIndex != -1)
             {
                 Entry candidate = entries[entryIndex];
@@ -122,7 +128,8 @@ namespace Microsoft.Collections.Extensions
             int bucketIndex = key.GetHashCode() & (_buckets.Length - 1);
 
             for (int i = _buckets[bucketIndex] - 1;
-                    (uint)i < (uint)entries.Length; i = entries[i].Next)
+                 (uint)i < (uint)entries.Length;
+                 i = entries[i].Next)
             {
                 if (key.Equals(entries[i].Key))
                 {
@@ -138,6 +145,7 @@ namespace Microsoft.Collections.Extensions
         {
             Entry[] entries = _entries;
             int entryIndex;
+
             if (_freeList != -1)
             {
                 entryIndex = _freeList;
@@ -172,7 +180,7 @@ namespace Microsoft.Collections.Extensions
             int count = _count;
             int newSize = _entries.Length * 2;
 
-            if ((uint)newSize > (uint)int.MaxValue)
+            if ((uint)newSize > int.MaxValue)
             {
                 throw new InvalidOperationException("Max capacity exceeded");
             }
