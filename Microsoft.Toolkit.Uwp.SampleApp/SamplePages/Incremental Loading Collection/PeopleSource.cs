@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
+    /// A sample implementation of the <see cref="Collections.IIncrementalSource{TSource}"/> interface.
     /// </summary>
-    /// <seealso cref="IIncrementalSource{TSource}"/>
+    /// <seealso cref="Collections.IIncrementalSource{TSource}"/>
     public class PeopleSource : Collections.IIncrementalSource<Person>
     {
         private readonly List<Person> _people;

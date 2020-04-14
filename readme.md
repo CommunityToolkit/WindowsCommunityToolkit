@@ -12,7 +12,7 @@ The Windows Community Toolkit is a collection of helper functions, custom contro
 ## Build Status
 | Target | Branch | Status | Recommended package version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/5.1.1 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/5.1.1)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/5.1.1) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) | 
+| Production | rel/6.0.0 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/6.0.0)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/6.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) | 
 | Pre-release beta testing | master | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=master)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting Started
@@ -48,12 +48,8 @@ Once you do a search, you should see a list similar to the one below (versions m
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking |
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app |
 
-## <a name="supported"></a> Supported SDKs
-* Fall Creators Update (16299)
-* April 2018 Update (17134)
-* October 2018 Update (17763)
-
-## Features
+## <a name="supported"></a> Features
+The following features can be found in the Windows Community Toolkit. Most features should work with the Falls Creator Update SDK 16299 and above; however, refer to specific documentation on each feature for more information.
 
 ### Animations
 * [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/AnimationSet)
@@ -173,6 +169,15 @@ Once you do a search, you should see a list similar to the one below (versions m
 Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
+## <a name="dependencies"></a> Required Dependencies
+The following dependencies are required for building the Windows Community Toolkit repo and sample app:
+
+* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
+* [Windows SDK October 2018 Update 17763](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
+* [Sample App - Windows SDK May 2019 Update 18362](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
+* [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/visual-studio-sdks)
+* [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
+
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).
 
@@ -183,7 +188,7 @@ Do you want to contribute? Here are our [contribution guidelines](https://github
 
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
 to clarify expected behavior in our community.
-For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct).
+For more information see the [.NET Foundation Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Roadmap
 Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
