@@ -18,17 +18,13 @@
 		<PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</PackageId>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.UI" Version="2.0.532" />
   </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'monoandroid90' or '$(TargetFramework)' == 'xamarinios10'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'monoandroid90' or '$(TargetFramework)' == 'xamarinios10' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
 		<Reference Include="System.ComponentModel.DataAnnotations" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Uno.UI" Version="2.0.532" />
 	</ItemGroup>
 	
 	<!--

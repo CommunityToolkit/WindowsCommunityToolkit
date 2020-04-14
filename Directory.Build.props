@@ -98,7 +98,7 @@
 	<!-- BEGIN Uno Specific -->
 
 	<PropertyGroup>
-		<TargetFrameworksOverride>uap10.0.16299;MonoAndroid90;xamarinios10;netstandard2.0</TargetFrameworksOverride>
+		<TargetFrameworksOverride>uap10.0.16299;MonoAndroid90;xamarinios10;netstandard2.0;xamarinmac20</TargetFrameworksOverride>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -109,7 +109,10 @@
 		<NoWarn>$(NoWarn);CS0649;CS0067;CS1998</NoWarn>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup>		
+		<!--https://github.com/xamarin/AndroidSupportComponents/issues/176-->
+		<XamarinAndroidSupportSkipVerifyVersions>true</XamarinAndroidSupportSkipVerifyVersions>
+
 		<!-- Workaround for android build using the Uno Source Generators: https://github.com/nventive/Uno.SourceGeneration/issues/109 -->
 		<JavaSdkDirectory Condition="'$(JavaSdkDirectory)'=='' and '$(JAVA_HOME_8_X64)'!=''">$(JAVA_HOME_8_X64)</JavaSdkDirectory>
 	</PropertyGroup>

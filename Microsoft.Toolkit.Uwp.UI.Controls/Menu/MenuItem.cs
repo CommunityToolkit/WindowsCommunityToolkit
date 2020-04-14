@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void ShowTooltip()
         {
-            var inputGestureText = GetValue(Menu.InputGestureTextProperty) as string;
+            var inputGestureText = GetValue(Controls.Menu.InputGestureTextProperty) as string;
             if (string.IsNullOrEmpty(inputGestureText))
             {
                 return;

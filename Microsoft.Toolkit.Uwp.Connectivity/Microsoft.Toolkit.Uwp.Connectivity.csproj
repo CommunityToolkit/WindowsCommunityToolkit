@@ -13,12 +13,8 @@
 		<PackageId>Uno.Microsoft.Toolkit.Uwp.Connectivity</PackageId>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
-		<PackageReference Include="Uno.UI" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Uno.UI" Version="2.0.532" />
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
+		<PackageReference Include="Uno.UI" Version="2.0.532" />
 	</ItemGroup>
 
 	<ItemGroup>
