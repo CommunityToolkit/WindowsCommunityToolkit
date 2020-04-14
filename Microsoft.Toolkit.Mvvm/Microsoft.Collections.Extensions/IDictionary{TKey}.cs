@@ -12,7 +12,7 @@ namespace Microsoft.Collections.Extensions
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
     internal interface IDictionary<in TKey>
-        where TKey : struct, IEquatable<TKey>
+        where TKey : notnull, IEquatable<TKey>
     {
         /// <inheritdoc cref="Dictionary{TKey,TValue}.Remove"/>
         bool Remove(TKey key);

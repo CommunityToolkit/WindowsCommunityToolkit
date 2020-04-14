@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
+        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         public static void Register<TMessage>(object recipient, Action<TMessage> action)
         {
             Register(recipient, default(Unit), action);
@@ -46,25 +47,34 @@ namespace Microsoft.Toolkit.Mvvm
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="token">A token used to determine the receiving channel to use.</param>
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
+        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         public static void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
+            where TToken : notnull, IEquatable<TToken>
         {
             lock (RecipientsMap)
             {
                 // Get the <TMessage, TToken> registration list for this recipient
                 var values = Container<TMessage, TToken>.Values;
                 var key = new Recipient(recipient);
-                ref var list = ref values.GetOrAddValueRef(key);
+                ref DictionarySlim<TToken, Action<TMessage>> map = ref values.GetOrAddValueRef(key);
 
-                if (list is null)
+                if (map is null)
                 {
-                    list = new List<Entry<TMessage, TToken>>();
+                    map = new DictionarySlim<TToken, Action<TMessage>>();
                 }
 
                 // Add the new registration entry
-                list.Add(new Entry<TMessage, TToken>(action, token));
+                ref Action<TMessage> handler = ref map.GetOrAddValueRef(token);
+
+                if (!(handler is null))
+                {
+                    ThrowInvalidOperationExceptionForDuplicateRegistration();
+                }
+
+                handler = action;
 
                 // Make sure this registration map is tracked for the current recipient
-                ref var set = ref RecipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
 
                 if (set is null)
                 {
@@ -80,6 +90,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// </summary>
         /// <typeparam name="TMessage">The type of message to stop receiving.</typeparam>
         /// <param name="recipient">The recipient to unregister.</param>
+        /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
         public static void Unregister<TMessage>(object recipient)
         {
             Unregister<TMessage, Unit>(recipient, default);
@@ -92,33 +103,35 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TToken">The type of token to identify what channel to unregister from.</typeparam>
         /// <param name="recipient">The recipient to unregister.</param>
         /// <param name="token">The token to use to identify which handlers to unregister.</param>
+        /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
         public static void Unregister<TMessage, TToken>(object recipient, TToken token)
+            where TToken : notnull, IEquatable<TToken>
         {
             lock (RecipientsMap)
             {
                 // Get the registration list (same as above)
                 var values = Container<TMessage, TToken>.Values;
                 var key = new Recipient(recipient);
-                ref var list = ref values.GetOrAddValueRef(key);
+                ref DictionarySlim<TToken, Action<TMessage>> map = ref values.GetOrAddValueRef(key);
 
-                if (list is null)
+                if (map is null)
                 {
                     return;
                 }
 
-                // Remove all entries with a matching token
-                list.RemoveAll(entry => EqualityComparer<TToken>.Default.Equals(entry.Token, token));
+                // Remove the target handler
+                map.Remove(token);
 
-                /* If the list is empty, it means that the current recipient has no remaining
+                /* If the map is empty, it means that the current recipient has no remaining
                  * registered handlers for the current <TMessage, TToken> combination, regardless,
                  * of the specific token value (ie. the channel used to receive messages of that type).
-                 * We can remove the list entirely from this map, and remove the link to the map itself
+                 * We can remove the map entirely from this container, and remove the link to the map itself
                  * to the static mapping between existing registered recipients. */
-                if (list.Count == 0)
+                if (map.Count == 0)
                 {
                     values.Remove(key);
 
-                    ref var set = ref RecipientsMap.GetOrAddValueRef(key);
+                    ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
 
                     set.Remove(values);
 
@@ -140,15 +153,15 @@ namespace Microsoft.Toolkit.Mvvm
             {
                 // If the recipient has no registered messages at all, ignore
                 var key = new Recipient(recipient);
-                ref var set = ref RecipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
 
-                if (set is null || set.Count == 0)
+                if (set is null)
                 {
                     return;
                 }
 
                 // Removes all the lists of registered handlers for the recipient
-                foreach (var map in set)
+                foreach (IDictionary<Recipient> map in set)
                 {
                     map.Remove(key);
                 }
@@ -176,9 +189,10 @@ namespace Microsoft.Toolkit.Mvvm
         /// <param name="message">The message to send.</param>
         /// <param name="token">The token indicating what channel to use.</param>
         public static void Send<TMessage, TToken>(TMessage message, TToken token)
+            where TToken : notnull, IEquatable<TToken>
         {
-            Entry<TMessage, TToken>[] entries;
-            int length = 0;
+            Action<TMessage>[] entries;
+            int i = 0;
 
             lock (RecipientsMap)
             {
@@ -189,24 +203,32 @@ namespace Microsoft.Toolkit.Mvvm
                  * we usually just need to pay the small overhead of copying the items. */
                 var values = Container<TMessage, TToken>.Values;
 
-                // Count the total number of recipients
+                // Count the total number of recipients (including with different tokens)
                 foreach (var pair in values)
                 {
-                    length += pair.Value.Count;
+                    i += pair.Value.Count;
                 }
 
                 // Rent the array to copy handlers to
-                entries = ArrayPool<Entry<TMessage, TToken>>.Shared.Rent(length);
+                entries = ArrayPool<Action<TMessage>>.Shared.Rent(i);
 
                 /* Copy the handlers to the local collection.
                  * Both types being enumerate expose a struct enumerator,
-                 * so we're not actually allocating the enumerator here. */
-                int i = 0;
+                 * so we're not actually allocating the enumerator here.
+                 * The array is oversized at this point, since it also includes
+                 * handlers for different tokens. We can reuse the same variable
+                 * to count the number of matching handlers to invoke later on.
+                 * This will be the array slice with valid actions in the rented buffer. */
+                i = 0;
                 foreach (var pair in values)
                 {
                     foreach (var entry in pair.Value)
                     {
-                        entries[i++] = entry;
+                        // Only select the ones with a matching token
+                        if (EqualityComparer<TToken>.Default.Equals(entry.Key, token))
+                        {
+                            entries[i++] = entry.Value;
+                        }
                     }
                 }
             }
@@ -214,17 +236,17 @@ namespace Microsoft.Toolkit.Mvvm
             try
             {
                 // Invoke all the necessary handlers on the local copy of entries
-                foreach (var entry in entries.AsSpan(0, length))
+                foreach (var entry in entries.AsSpan(0, i))
                 {
-                    if (EqualityComparer<TToken>.Default.Equals(token, entry.Token))
-                    {
-                        entry.Action(message);
-                    }
+                    entry(message);
                 }
             }
             finally
             {
-                ArrayPool<Entry<TMessage, TToken>>.Shared.Return(entries, true);
+                // Remove references to avoid leaks coming from the shader memory pool
+                entries.AsSpan(0, i).Clear();
+
+                ArrayPool<Action<TMessage>>.Shared.Return(entries, true);
             }
         }
 
@@ -234,6 +256,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
         /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
         private static class Container<TMessage, TToken>
+            where TToken : notnull, IEquatable<TToken>
         {
             /// <summary>
             /// The mapping of currently registered recipients for the combination of types
@@ -243,8 +266,8 @@ namespace Microsoft.Toolkit.Mvvm
             /// registration channel specified by the token in use. Using a <see cref="DictionarySlim{TKey,TValue}"/>
             /// for the mapping allows for quick access to all the registered entries for each recipient.
             /// </summary>
-            public static readonly DictionarySlim<Recipient, List<Entry<TMessage, TToken>>> Values
-                = new DictionarySlim<Recipient, List<Entry<TMessage, TToken>>>();
+            public static readonly DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> Values
+                = new DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>();
         }
 
         /// <summary>
@@ -299,38 +322,36 @@ namespace Microsoft.Toolkit.Mvvm
         /// <summary>
         /// An empty type representing a generic token with no specific value.
         /// </summary>
-        private struct Unit
+        private struct Unit : IEquatable<Unit>
         {
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool Equals(Unit other)
+            {
+                return true;
+            }
+
+            /// <inheritdoc/>
+            public override bool Equals(object? obj)
+            {
+                return obj is Unit;
+            }
+
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public override int GetHashCode()
+            {
+                return 0;
+            }
         }
 
         /// <summary>
-        /// A type representing a pair of message and token used for registration.
+        /// Throws an <see cref="InvalidOperationException"/> when trying to add a duplicate handler.
         /// </summary>
-        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
-        /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
-        private readonly struct Entry<TMessage, TToken>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionForDuplicateRegistration()
         {
-            /// <summary>
-            /// The <see cref="Action{T}"/> to invoke when a message is receive.
-            /// </summary>
-            public readonly Action<TMessage> Action;
-
-            /// <summary>
-            /// The token used for the message registration.
-            /// </summary>
-            public readonly TToken Token;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Entry{TMessage, TToken}"/> struct.
-            /// </summary>
-            /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is receive.</param>
-            /// <param name="token">The token used for the message registration.</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Entry(Action<TMessage> action, TToken token)
-            {
-                this.Action = action;
-                this.Token = token;
-            }
+            throw new InvalidOperationException("The target recipient has already subscribed to the target message");
         }
     }
 }

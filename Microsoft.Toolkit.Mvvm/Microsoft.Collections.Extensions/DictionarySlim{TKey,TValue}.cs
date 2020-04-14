@@ -30,7 +30,7 @@ namespace Microsoft.Collections.Extensions
     /// </remarks>
     [DebuggerDisplay("Count = {Count}")]
     internal sealed class DictionarySlim<TKey, TValue> : IDictionary<TKey>
-        where TKey : struct, IEquatable<TKey>
+        where TKey : notnull, IEquatable<TKey>
     {
         // See info in CoreFX labs for how this works
         private static readonly Entry[] InitialEntries = new Entry[1];
