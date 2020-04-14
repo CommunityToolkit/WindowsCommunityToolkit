@@ -31,8 +31,8 @@
 		<PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Animations</PackageId>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
-		<PackageReference Include="Uno.UI" />
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
+		<PackageReference Include="Uno.UI"  Version="2.0.532"/>
 		<PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
 
 		<Compile Remove="Effects\Blur.cs" />
@@ -53,10 +53,6 @@
 		<None Include="Behaviors\Blur.cs" />
 		<None Include="Behaviors\Light.cs" />
 		<None Include="Behaviors\Saturation.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Uno.UI" Version="2.0.532" />
 	</ItemGroup>
 
 	<ItemGroup>
