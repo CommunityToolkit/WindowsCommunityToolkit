@@ -188,7 +188,7 @@ Do you want to contribute? Here are our [contribution guidelines](https://github
 
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
 to clarify expected behavior in our community.
-For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct).
+For more information see the [.NET Foundation Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Roadmap
 Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
