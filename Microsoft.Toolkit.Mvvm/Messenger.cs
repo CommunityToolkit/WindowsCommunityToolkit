@@ -86,6 +86,34 @@ namespace Microsoft.Toolkit.Mvvm
         }
 
         /// <summary>
+        /// Unregisters a recipient from all registered messages.
+        /// </summary>
+        /// <param name="recipient">The recipient to unregister.</param>
+        public static void Unregister(object recipient)
+        {
+            lock (RecipientsMap)
+            {
+                // If the recipient has no registered messages at all, ignore
+                var key = new Recipient(recipient);
+                ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
+
+                if (set is null)
+                {
+                    return;
+                }
+
+                // Removes all the lists of registered handlers for the recipient
+                foreach (IDictionary<Recipient> map in set)
+                {
+                    map.Remove(key);
+                }
+
+                // Remove the associated set in the static map
+                RecipientsMap.Remove(key);
+            }
+        }
+
+        /// <summary>
         /// Unregisters a recipient from messages of a given type.
         /// </summary>
         /// <typeparam name="TMessage">The type of message to stop receiving.</typeparam>
@@ -140,34 +168,6 @@ namespace Microsoft.Toolkit.Mvvm
                         RecipientsMap.Remove(key);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Unregisters a recipient from all registered messages.
-        /// </summary>
-        /// <param name="recipient">The recipient to unregister.</param>
-        public static void Unregister(object recipient)
-        {
-            lock (RecipientsMap)
-            {
-                // If the recipient has no registered messages at all, ignore
-                var key = new Recipient(recipient);
-                ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
-
-                if (set is null)
-                {
-                    return;
-                }
-
-                // Removes all the lists of registered handlers for the recipient
-                foreach (IDictionary<Recipient> map in set)
-                {
-                    map.Remove(key);
-                }
-
-                // Remove the associated set in the static map
-                RecipientsMap.Remove(key);
             }
         }
 
