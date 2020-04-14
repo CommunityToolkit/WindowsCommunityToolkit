@@ -17,8 +17,8 @@ namespace Microsoft.Collections.Extensions
         /// <summary>
         /// Gets the value with the specified key.
         /// </summary>
-        /// <param name="key">The key to look for</param>
-        /// <returns>The returned value</returns>
+        /// <param name="key">The key to look for.</param>
+        /// <returns>The returned value.</returns>
         /// <exception cref="ArgumentException">Thrown if the key wasn't present.</exception>
         TValue this[TKey key] { get; }
     }

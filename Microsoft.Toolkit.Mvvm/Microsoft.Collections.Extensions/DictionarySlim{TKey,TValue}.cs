@@ -103,6 +103,33 @@ namespace Microsoft.Collections.Extensions
             return false;
         }
 
+        /// <summary>
+        /// Gets the value if present for the specified key.
+        /// </summary>
+        /// <param name="key">The key to look for.</param>
+        /// <param name="value">The value found, otherwise <see langword="default"/>.</param>
+        /// <returns>Whether or not the key was present.</returns>
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            Entry[] entries = _entries;
+
+            for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
+                 (uint)i < (uint)entries.Length;
+                 i = entries[i].Next)
+            {
+                if (key.Equals(entries[i].Key))
+                {
+                    value = entries[i].Value;
+
+                    return true;
+                }
+            }
+
+            value = default!;
+
+            return false;
+        }
+
         /// <inheritdoc/>
         public bool Remove(TKey key)
         {

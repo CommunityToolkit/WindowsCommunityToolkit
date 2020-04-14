@@ -174,9 +174,8 @@ namespace Microsoft.Toolkit.Mvvm
                 // Get the registration list (same as above)
                 var values = Container<TMessage, TToken>.Values;
                 var key = new Recipient(recipient);
-                ref DictionarySlim<TToken, Action<TMessage>> map = ref values.GetOrAddValueRef(key);
 
-                if (map is null)
+                if (!values.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>> map))
                 {
                     return;
                 }
@@ -193,7 +192,7 @@ namespace Microsoft.Toolkit.Mvvm
                 {
                     values.Remove(key);
 
-                    ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
+                    HashSet<IDictionary<Recipient>> set = RecipientsMap[key];
 
                     set.Remove(values);
 
