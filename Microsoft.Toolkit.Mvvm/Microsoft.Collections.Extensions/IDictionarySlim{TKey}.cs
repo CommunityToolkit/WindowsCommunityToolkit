@@ -14,6 +14,11 @@ namespace Microsoft.Collections.Extensions
     internal interface IDictionarySlim<in TKey>
         where TKey : notnull, IEquatable<TKey>
     {
+        /// <summary>
+        /// Gets the count of entries in the dictionary.
+        /// </summary>
+        int Count { get; }
+
         /// <inheritdoc cref="Dictionary{TKey,TValue}.Remove"/>
         bool Remove(TKey key);
     }

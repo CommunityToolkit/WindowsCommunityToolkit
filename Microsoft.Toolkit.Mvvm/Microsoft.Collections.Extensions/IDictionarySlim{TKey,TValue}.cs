@@ -12,7 +12,7 @@ namespace Microsoft.Collections.Extensions
     /// </summary>
     /// <typeparam name="TKey">The contravariant type of keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The covariant type of values in the dictionary.</typeparam>
-    internal interface IDictionarySlim<in TKey, out TValue>
+    internal interface IDictionarySlim<in TKey, out TValue> : IDictionarySlim<TKey>
         where TKey : notnull, IEquatable<TKey>
     {
         /// <summary>

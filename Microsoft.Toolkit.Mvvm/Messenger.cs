@@ -159,6 +159,90 @@ namespace Microsoft.Toolkit.Mvvm
         }
 
         /// <summary>
+        /// Unregisters a recipient from messages on a specific channel.
+        /// </summary>
+        /// <typeparam name="TToken">The type of token to identify what channel to unregister from.</typeparam>
+        /// <param name="recipient">The recipient to unregister.</param>
+        /// <param name="token">The token to use to identify which handlers to unregister.</param>
+        /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
+        public static void Unregister<TToken>(object recipient, TToken token)
+            where TToken : notnull, IEquatable<TToken>
+        {
+            lock (RecipientsMap)
+            {
+                // Get the shared set of mappings for the recipient, if present
+                var key = new Recipient(recipient);
+
+                if (!RecipientsMap.TryGetValue(key, out HashSet<IDictionarySlim<Recipient>> set))
+                {
+                    return;
+                }
+
+                /* Copy the candidate mappings for the target recipient to a local
+                 * array, as we can't modify the contents of the set while iterating it.
+                 * The rented buffer is oversized and will also include mappings for
+                 * handlers of messages that are registered through a different token. */
+                var maps = ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Rent(set.Count);
+                int i = 0;
+
+                try
+                {
+                    // Select the items with the same token type
+                    foreach (IDictionarySlim<Recipient> item in set)
+                    {
+                        if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> map)
+                        {
+                            maps[i++] = map;
+                        }
+                    }
+
+                    /* Iterate through all the local maps. These are all the currently
+                     * existing maps of handlers for messages of any given type, with a token
+                     * of the current type, for the target recipient. We heavily rely on
+                     * interfaces here to be able to iterate through all the available mappings
+                     * without having to know the concrete type in advance, and without having
+                     * to deal with reflection: we can just check if the type of the closed interface
+                     * matches with the token type currently in use, and operate on those instances. */
+                    foreach (IDictionarySlim<Recipient, IDictionarySlim<TToken>> map in maps.AsSpan(0, i))
+                    {
+                        IDictionarySlim<TToken> holder = map[key];
+
+                        /* Remove the registered handler for the input token,
+                         * for the current message type (unknown from here). */
+                        holder.Remove(token);
+
+                        if (holder.Count == 0)
+                        {
+                            // If the map is empty, remove the recipient entirely from its container
+                            map.Remove(key);
+
+                            if (map.Count == 0)
+                            {
+                                /* If no handlers are left at all for the recipient, across all
+                                 * message types and token types, remove the set of mappings
+                                 * entirely for the current recipient, and lost the strong
+                                 * reference to it as well. This is the same situation that
+                                 * would've been achieved by just calling Unregister(recipient). */
+                                set.Remove(map);
+
+                                if (set.Count == 0)
+                                {
+                                    RecipientsMap.Remove(key);
+                                }
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    maps.AsSpan(0, i).Clear();
+
+                    ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Return(maps);
+                }
+            }
+        }
+
+        /// <summary>
         /// Unregisters a recipient from messages of a given type.
         /// </summary>
         /// <typeparam name="TMessage">The type of message to stop receiving.</typeparam>
@@ -279,7 +363,7 @@ namespace Microsoft.Toolkit.Mvvm
                 // Remove references to avoid leaks coming from the shader memory pool
                 entries.AsSpan(0, i).Clear();
 
-                ArrayPool<Action<TMessage>>.Shared.Return(entries, true);
+                ArrayPool<Action<TMessage>>.Shared.Return(entries);
             }
         }
 
