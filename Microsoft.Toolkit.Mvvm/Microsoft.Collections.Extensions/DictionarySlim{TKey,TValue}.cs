@@ -54,7 +54,7 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         public DictionarySlim()
         {
-            _buckets = new int[1];
+            _buckets = HashHelpers.SizeOneIntArray;
             _entries = InitialEntries;
         }
 
@@ -84,13 +84,23 @@ namespace Microsoft.Collections.Extensions
             }
         }
 
+        /// <inheritdoc/>
+        public void Clear()
+        {
+            _count = 0;
+            _freeList = -1;
+            _buckets = HashHelpers.SizeOneIntArray;
+            _entries = InitialEntries;
+        }
+
         /// <inheritdoc cref="Dictionary{TKey,TValue}.ContainsKey"/>
         public bool ContainsKey(TKey key)
         {
             Entry[] entries = _entries;
 
             for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
-                (uint)i < (uint)entries.Length; i = entries[i].Next)
+                 (uint)i < (uint)entries.Length;
+                 i = entries[i].Next)
             {
                 if (key.Equals(entries[i].Key))
                 {

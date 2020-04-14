@@ -21,5 +21,10 @@ namespace Microsoft.Collections.Extensions
 
         /// <inheritdoc cref="Dictionary{TKey,TValue}.Remove"/>
         bool Remove(TKey key);
+
+        /// <summary>
+        /// Clears the current dictionary.
+        /// </summary>
+        void Clear();
     }
 }
