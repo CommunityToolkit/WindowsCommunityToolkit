@@ -16,14 +16,38 @@ namespace Microsoft.Toolkit.Mvvm
     /// </summary>
     public static class Messenger
     {
+        // The Messenger class uses the following logic to link stored instances together:
+        // --------------------------------------------------------------------------------------------------------
+        // DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> RecipientsMap
+        //                    |                  /       \    /
+        //                    \_________________/_____    \__/____[*]IDictionarySlim<Recipient, Token>
+        //                                     /      \     /                      ______________/
+        //                                    /        \   /                      /
+        // Container<TMessage, TToken>.DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> Values
+        // --------------------------------------------------------------------------------------------------------
+        // Each combination of <TMessage, TToken> results in a concrete Container<,> type, which holds the
+        // mapping to registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
+        // dictionary, so that each recipient can have up to one registered handler for a given token, for each
+        // message type. Each existing recipient is also stored in the main recipients map, along with a set of
+        // all the existing dictionaries of handlers for that recipient (for all message types and token types).
+        // A recipient is stored in the main map as long as it has at least one registered handler in any of the
+        // existing mappings for every message/token type combination. The shared map is used to access the set
+        // of all registered handlers for a given recipient, without having to know in advance the type of message
+        // or token being used for the registration, and without having to use reflection. Note that each dictionary
+        // stored in the associated set for each recipient also implements IDictionarySlim<Recipient, Token>, with
+        // any token type currently in use by that recipient. This allows to retrieve the type-closed mappings
+        // of registered handlers with a given token type, for any message type, for every receiver, again without
+        // having to use reflection. This shared map is used to unregister messages from a given recipients either
+        // unconditionally, by message type, by token, or for a specific pair of message type and token value.
+
         /// <summary>
         /// The collection of currently registered recipients, with a link to their linked message receivers.
         /// </summary>
         /// <remarks>
         /// This collection is used to allow reflection-free access to all the existing
-        /// registered recipients from <see cref="Unregister(object)"/>, so that all the
-        /// existing handlers can be removed without having to dynamically create the
-        /// generic types for the containers of the various dictionaries mapping the handlers.
+        /// registered recipients from <see cref="Unregister(object)"/> and other overloads,
+        /// so that all the existing handlers can be removed without having to dynamically create
+        /// the generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
         private static readonly DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> RecipientsMap
             = new DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>>();
