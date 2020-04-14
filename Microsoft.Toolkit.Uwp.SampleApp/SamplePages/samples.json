@@ -234,10 +234,10 @@
         "Type": "WrapLayoutPage",
         "Subcategory": "Layout",
         "About": "The WrapLayout virtualizes child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
-        //"CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/WrapLayout",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/WrapLayout",
         "XamlCodeFile": "WrapLayout.bind",
-        "Icon": "/SamplePages/WrapLayout/WrapLayout.png"
-        //"DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/Layout/WrapLayout.md"
+        "Icon": "/SamplePages/WrapLayout/WrapLayout.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/layout/WrapLayout.md"
       },
       {
         "Name": "OrbitView",
@@ -317,10 +317,10 @@
         "Type": "StaggeredLayoutPage",
         "Subcategory": "Layout",
         "About": "The StaggeredLayout virtualizes items in a column approach where an item will be added to whichever column has used the least amount of space.",
-        //"CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/StaggeredLayout",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/StaggeredLayout",
         "XamlCodeFile": "StaggeredLayout.bind",
-        "Icon": "/SamplePages/StaggeredLayout/StaggeredLayout.png"
-        //"DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/layout/StaggeredLayout.md"
+        "Icon": "/SamplePages/StaggeredLayout/StaggeredLayout.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/layout/StaggeredLayout.md"
       },
       {
         "Name": "LayoutTransformControl",
