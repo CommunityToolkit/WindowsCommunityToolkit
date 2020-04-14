@@ -191,6 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var columnIndex = GetColumnIndex(columnHeights);
 
+                bool measured = false;
                 UIElement element = null;
                 StaggeredItem item = state.GetItemAt(i);
                 if (item.Height == 0)
@@ -199,6 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     element = context.GetOrCreateElementAt(i);
                     element.Measure(new Size(state.ColumnWidth, availableHeight));
                     item.Height = element.DesiredSize.Height;
+                    measured = true;
                 }
 
                 double spacing = itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0;
@@ -226,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     deadColumns.Add(columnIndex);
                 }
-                else
+                else if (measured == false)
                 {
                     // We ALWAYS want to measure an item that will be in the bounds
                     context.GetOrCreateElementAt(i).Measure(new Size(state.ColumnWidth, availableHeight));
