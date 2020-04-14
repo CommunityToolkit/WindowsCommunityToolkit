@@ -5,6 +5,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
 
@@ -26,6 +27,39 @@ namespace Microsoft.Toolkit.Mvvm
         /// </remarks>
         private static readonly DictionarySlim<Recipient, HashSet<IDictionary<Recipient>>> RecipientsMap
             = new DictionarySlim<Recipient, HashSet<IDictionary<Recipient>>>();
+
+        /// <summary>
+        /// Checks whether or not a given recipient has already been registered for a message.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to check for the given recipient.</typeparam>
+        /// <param name="recipient">The target recipient to check the registration for.</param>
+        /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
+        [Pure]
+        public static bool IsRegistered<TMessage>(object recipient)
+        {
+            return IsRegistered<TMessage, Unit>(recipient, default);
+        }
+
+        /// <summary>
+        /// Checks whether or not a given recipient has already been registered for a message.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to check for the given recipient.</typeparam>
+        /// <typeparam name="TToken">The type of token to check the channel for.</typeparam>
+        /// <param name="recipient">The target recipient to check the registration for.</param>
+        /// <param name="token">The token used to identify the target channel to check.</param>
+        /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
+        [Pure]
+        public static bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
+            where TToken : notnull, IEquatable<TToken>
+        {
+            lock (RecipientsMap)
+            {
+                var values = Container<TMessage, TToken>.Values;
+                var key = new Recipient(recipient);
+
+                return values.ContainsKey(key);
+            }
+        }
 
         /// <summary>
         /// Registers a recipient for a given type of message.
