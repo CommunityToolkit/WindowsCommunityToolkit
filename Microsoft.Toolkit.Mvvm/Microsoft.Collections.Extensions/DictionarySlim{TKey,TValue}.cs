@@ -2,11 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#pragma warning disable SA1512
+
+// The DictionarySlim<TKey, TValue> type is originally from CoreFX labs, see
+// the source repository on GitHub at https://github.com/dotnet/corefxlab.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Collections.Extensions
@@ -14,10 +18,9 @@ namespace Microsoft.Collections.Extensions
     /// <summary>
     /// A lightweight Dictionary with three principal differences compared to <see cref="Dictionary{TKey, TValue}"/>
     ///
-    /// 1) It is possible to do "get or add" in a single lookup using <see cref="GetOrAddValueRef(TKey)"/>. For
-    /// values that are value types, this also saves a copy of the value.
+    /// 1) It is possible to do "get or add" in a single lookup. For value types, this also saves a copy of the value.
     /// 2) It assumes it is cheap to equate values.
-    /// 3) It assumes the keys implement <see cref="IEquatable{TKey}"/> or else Equals() and they are cheap and sufficient.
+    /// 3) It assumes the keys implement <see cref="IEquatable{TKey}"/> and they are cheap and sufficient.
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
