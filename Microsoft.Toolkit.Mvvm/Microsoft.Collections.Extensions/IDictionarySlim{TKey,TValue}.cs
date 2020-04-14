@@ -7,11 +7,12 @@ using System;
 namespace Microsoft.Collections.Extensions
 {
     /// <summary>
-    /// An interface providing value-invariant access to a <see cref="DictionarySlim{TKey,TValue}"/> instance.
+    /// An interface providing key type contravariant and value type covariant access
+    /// to a <see cref="DictionarySlim{TKey,TValue}"/> instance.
     /// </summary>
-    /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-    /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
-    internal interface IReadOnlyDictionary<in TKey, out TValue>
+    /// <typeparam name="TKey">The contravariant type of keys in the dictionary.</typeparam>
+    /// <typeparam name="TValue">The covariant type of values in the dictionary.</typeparam>
+    internal interface IDictionarySlim<in TKey, out TValue>
         where TKey : notnull, IEquatable<TKey>
     {
         /// <summary>

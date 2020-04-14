@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Mvvm
         /// existing handlers can be removed without having to dynamically create the
         /// generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
-        private static readonly DictionarySlim<Recipient, HashSet<IDictionary<Recipient>>> RecipientsMap
-            = new DictionarySlim<Recipient, HashSet<IDictionary<Recipient>>>();
+        private static readonly DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> RecipientsMap
+            = new DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>>();
 
         /// <summary>
         /// Checks whether or not a given recipient has already been registered for a message.
@@ -108,11 +108,11 @@ namespace Microsoft.Toolkit.Mvvm
                 handler = action;
 
                 // Make sure this registration map is tracked for the current recipient
-                ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IDictionarySlim<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
 
                 if (set is null)
                 {
-                    set = new HashSet<IDictionary<Recipient>>();
+                    set = new HashSet<IDictionarySlim<Recipient>>();
                 }
 
                 set.Add(values);
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Mvvm
             {
                 // If the recipient has no registered messages at all, ignore
                 var key = new Recipient(recipient);
-                ref HashSet<IDictionary<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IDictionarySlim<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
 
                 if (set is null)
                 {
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Mvvm
                 }
 
                 // Removes all the lists of registered handlers for the recipient
-                foreach (IDictionary<Recipient> map in set)
+                foreach (IDictionarySlim<Recipient> map in set)
                 {
                     map.Remove(key);
                 }
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Mvvm
                 {
                     values.Remove(key);
 
-                    HashSet<IDictionary<Recipient>> set = RecipientsMap[key];
+                    HashSet<IDictionarySlim<Recipient>> set = RecipientsMap[key];
 
                     set.Remove(values);
 

@@ -8,10 +8,10 @@ using System.Collections.Generic;
 namespace Microsoft.Collections.Extensions
 {
     /// <summary>
-    /// An interface providing value-invariant access to a <see cref="DictionarySlim{TKey,TValue}"/> instance.
+    /// An interface providing key type contravariant access to a <see cref="DictionarySlim{TKey,TValue}"/> instance.
     /// </summary>
-    /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-    internal interface IDictionary<in TKey>
+    /// <typeparam name="TKey">The contravariant type of keys in the dictionary.</typeparam>
+    internal interface IDictionarySlim<in TKey>
         where TKey : notnull, IEquatable<TKey>
     {
         /// <inheritdoc cref="Dictionary{TKey,TValue}.Remove"/>
