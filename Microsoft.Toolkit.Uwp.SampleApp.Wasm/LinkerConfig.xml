@@ -14,9 +14,6 @@
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp"/>
-	<assembly fullname="Microsoft.Toolkit.Uwp"/>
-	<assembly fullname="Newtonsoft.Json" />
-	<assembly fullname="WebAssembly.Net.Http" />
 
   <assembly fullname="System.Core">
 		<!-- This is required by JSon.NET and any expression.Compile caller -->

@@ -83,10 +83,10 @@ jobs:
 
 - job: linux
 
-  container: unoplatform/wasm-build:2.0
+  container: unoplatform/wasm-build:2.1
 
   pool:
-    vmImage: 'ubuntu-18.04'
+    vmImage: 'ubuntu-latest'
 
   variables:
     NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
@@ -125,16 +125,14 @@ jobs:
       cd ~
       git clone https://github.com/emscripten-core/emsdk
       cd emsdk
-      ./emsdk install sdk-1.39.9
-      ./emsdk activate sdk-1.39.9
+      ./emsdk install sdk-1.39.11
+      ./emsdk activate sdk-1.39.11
 
     displayName: 'Setup Emscripten'
   - bash: |
       cd ~/emsdk
-      wget https://raw.githubusercontent.com/mono/mono/27247739c68faee7b2a63ae805222d4b375d2161/sdks/builds/emscripten-pr-8457.diff
       wget https://raw.githubusercontent.com/mono/mono/27247739c68faee7b2a63ae805222d4b375d2161/sdks/builds/fix-emscripten-8511.diff
       cd ~/emsdk/upstream/emscripten
-      patch -N -p1 < ~/emsdk/emscripten-pr-8457.diff
       patch -N -p1 < ~/emsdk/fix-emscripten-8511.diff
 
   - bash: |
