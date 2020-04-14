@@ -392,6 +392,27 @@ namespace Microsoft.Toolkit.Mvvm
         }
 
         /// <summary>
+        /// Resets the <see cref="Messenger"/> class and unregisters all the existing recipients.
+        /// </summary>
+        public static void Reset()
+        {
+            lock (RecipientsMap)
+            {
+                foreach (var pair in RecipientsMap)
+                {
+                    // Clear all the typed maps, as they're assigned to static fields
+                    foreach (var map in pair.Value)
+                    {
+                        map.Clear();
+                    }
+                }
+
+                // Clear the shared map too
+                RecipientsMap.Clear();
+            }
+        }
+
+        /// <summary>
         /// A container class for registered recipients.
         /// </summary>
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
