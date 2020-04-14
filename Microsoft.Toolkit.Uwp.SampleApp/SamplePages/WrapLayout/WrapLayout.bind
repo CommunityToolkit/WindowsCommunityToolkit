@@ -8,7 +8,7 @@
 
   <Page.Resources>
     <DataTemplate x:Key="WrapTemplate">
-      <Border Width="{Binding Width}">
+      <Border Width="{Binding Width}" Height="50">
         <Border.Background>
           <SolidColorBrush Color="{Binding Color}"/>
         </Border.Background>
