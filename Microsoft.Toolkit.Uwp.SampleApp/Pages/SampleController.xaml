@@ -77,8 +77,8 @@
                                       OnContent="BG Image"
                                       IsOn="{x:Bind UseBackground, Mode=TwoWay}" />
 
-                        <TextBlock Text="Theme" VerticalAlignment="Center" Margin="0,0,10,0" />
-                        <ComboBox x:Name="ThemePicker">
+                        <TextBlock Text="Theme" VerticalAlignment="Center" Margin="0,0,10,0" Visibility="{x:Bind CanSelectTheme}" />
+                        <ComboBox x:Name="ThemePicker" Visibility="{x:Bind CanSelectTheme}">
                             <ComboBoxItem Content="System" />
                             <ComboBoxItem Content="Light" />
                             <ComboBoxItem Content="Dark" />
