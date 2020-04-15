@@ -7,7 +7,6 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -26,12 +25,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 diffPos.X--;
                 var upKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up);
                 var downKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down);
-                if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up) == CoreVirtualKeyStates.Down)
+                if (upKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y--;
                 }
 
-                if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down) == CoreVirtualKeyStates.Down)
+                if (downKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y++;
                 }

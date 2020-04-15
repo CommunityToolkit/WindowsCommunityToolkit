@@ -29,11 +29,11 @@
                                     </InkToolbarCustomToolButton>
                                 </InkToolbar>
 
-                                <StackPanel Background="{ThemeResource SystemChromeMediumColor}"
+                                <StackPanel Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                                             Orientation="Horizontal">
                                     <Grid Width="2"
                                           Height="48"
-                                          Background="{ThemeResource SystemListMediumColor}" />
+                                          Background="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                     <Button x:Name="EraseAllButton"
                                             Style="{StaticResource CanvasTextBoxButtonStyle}"
                                             ToolTipService.ToolTip="Erase All">
@@ -57,7 +57,7 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="CanvasTextBoxTools"
-                                            Background="{ThemeResource SystemChromeMediumColor}"
+                                            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                                             Orientation="Horizontal"
                                             Visibility="Collapsed">
                                     <Grid Width="2"
@@ -88,7 +88,7 @@
                                         </ToggleButton.Content>
                                     </ToggleButton>
 
-                                    <ToggleButton x:Name="CanvasTextBoxItlaicButton"
+                                    <ToggleButton x:Name="CanvasTextBoxItalicButton"
                                                   Style="{StaticResource CanvasTextBoxToggleButtonStyle}"
                                                   ToolTipService.ToolTip="Italic Text">
                                         <ToggleButton.Content>
@@ -157,14 +157,14 @@
            TargetType="ToggleButton">
         <Setter Property="Width" Value="48" />
         <Setter Property="Height" Value="48" />
-        <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
     </Style>
     <Style x:Key="CanvasTextBoxButtonStyle"
            TargetType="Button">
         <Setter Property="Width" Value="48" />
         <Setter Property="Height" Value="48" />
-        <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
     </Style>
 
