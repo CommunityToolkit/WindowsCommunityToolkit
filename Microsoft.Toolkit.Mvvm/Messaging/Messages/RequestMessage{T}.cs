@@ -6,10 +6,10 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
 {
     /// <summary>
-    /// A base <see langword="class"/> for request messages.
+    /// A <see langword="class"/> for request messages, which can either be used directly or through derived classes.
     /// </summary>
     /// <typeparam name="T">The type of request to make.</typeparam>
-    public abstract class RequestMessageBase<T>
+    public class RequestMessage<T>
     {
         /// <summary>
         /// An <see cref="object"/> used to synchronize access to <see cref="Result"/> and <see cref="ReportResult"/>.

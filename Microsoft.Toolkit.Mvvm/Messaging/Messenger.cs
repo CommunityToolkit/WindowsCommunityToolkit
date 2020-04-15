@@ -445,7 +445,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
         /// </remarks>
         public static TResult Request<TMessage, TResult>()
-            where TMessage : RequestMessageBase<TResult>, new()
+            where TMessage : RequestMessage<TResult>, new()
         {
             return Request<TMessage, TResult, Unit>(new TMessage(), default);
         }
@@ -459,7 +459,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
         /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
         public static TResult Request<TMessage, TResult>(TMessage message)
-            where TMessage : RequestMessageBase<TResult>
+            where TMessage : RequestMessage<TResult>
         {
             return Request<TMessage, TResult, Unit>(message, default);
         }
@@ -478,7 +478,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// just like <see cref="Send{TMessage}()"/>, and then send it to the right recipients.
         /// </remarks>
         public static TResult Request<TMessage, TResult, TToken>(TToken token)
-            where TMessage : RequestMessageBase<TResult>, new()
+            where TMessage : RequestMessage<TResult>, new()
             where TToken : notnull, IEquatable<TToken>
         {
             return Request<TMessage, TResult, TToken>(new TMessage(), token);
@@ -495,7 +495,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
         /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
         public static TResult Request<TMessage, TResult, TToken>(TMessage message, TToken token)
-            where TMessage : RequestMessageBase<TResult>
+            where TMessage : RequestMessage<TResult>
             where TToken : notnull, IEquatable<TToken>
         {
             Send(message, token);
