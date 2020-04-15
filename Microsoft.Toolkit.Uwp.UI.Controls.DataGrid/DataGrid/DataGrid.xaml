@@ -857,6 +857,43 @@
             </Setter.Value>
         </Setter>
     </Style>
+	
+    <ControlTemplate x:Key="ToggleButtonTemplate" TargetType="ToggleButton">
+        <Grid Background="{TemplateBinding Background}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Checked"/>
+                    <VisualState x:Name="CheckedPointerOver"/>
+                    <VisualState x:Name="CheckedPressed"/>
+                    <VisualState x:Name="CheckedDisabled"/>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <FontIcon x:Name="Arrow" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{ThemeResource RowGroupHeaderIconOpened}"
+                FontSize="12" Foreground="{ThemeResource DataGridRowGroupHeaderForegroundBrush}"
+                HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+    </ControlTemplate>
 
     <Style TargetType="local:DataGridRowGroupHeader">
         <Setter Property="IsTabStop" Value="False"/>
@@ -899,42 +936,7 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <localprimitives:DataGridFrozenGrid.Resources>
-                            <ControlTemplate x:Key="ToggleButtonTemplate" TargetType="ToggleButton">
-                                <Grid Background="{TemplateBinding Background}">
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal">
-                                                <VisualState.Setters>
-                                                    <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="PointerOver">
-                                                <VisualState.Setters>
-                                                    <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Pressed">
-                                                <VisualState.Setters>
-                                                    <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Disabled">
-                                                <VisualState.Setters>
-                                                    <Setter Target="Arrow.Glyph" Value="{ThemeResource RowGroupHeaderIconClosed}"/>
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Checked"/>
-                                            <VisualState x:Name="CheckedPointerOver"/>
-                                            <VisualState x:Name="CheckedPressed"/>
-                                            <VisualState x:Name="CheckedDisabled"/>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-
-                                    <FontIcon x:Name="Arrow" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{ThemeResource RowGroupHeaderIconOpened}"
-                                        FontSize="12" Foreground="{ThemeResource DataGridRowGroupHeaderForegroundBrush}"
-                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                </Grid>
-                            </ControlTemplate>
+							<!-- UNO TODO inline styles support -->
                         </localprimitives:DataGridFrozenGrid.Resources>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>

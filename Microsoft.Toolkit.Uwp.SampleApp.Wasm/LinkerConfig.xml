@@ -1,7 +1,6 @@
 ﻿<linker>
 	<assembly fullname="Uno.Foundation"/>
 	<assembly fullname="Uno.Xaml"/>
-	<assembly fullname="Uno.UI"/> <!-- Required for XamlReader -->
   <assembly fullname="Microsoft.Toolkit.Uwp.SampleApp.Wasm"/>
 	<assembly fullname="ColorCode.UWP"/>
 	<assembly fullname="ColorCode.Core"/>
@@ -15,6 +14,15 @@
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp.UI"/>
 	<assembly fullname="Microsoft.Toolkit.Uwp"/>
+	
+	<assembly fullname="Uno.UI">
+		<type fullname="Windows.UI.Xaml.Media.LinearGradientBrush" />
+		<type fullname="Windows.UI.Xaml.Media.GradientStop" />
+		<type fullname="Windows.UI.Xaml.FrameworkElement" />
+		<type fullname="Windows.UI.Xaml.UIElement" />
+		<type fullname="Windows.UI.Xaml.Controls.RowDefinition" />
+		<type fullname="Windows.UI.Xaml.Controls.ColumnDefinition" />
+	</assembly>
 
   <assembly fullname="System.Core">
 		<!-- This is required by JSon.NET and any expression.Compile caller -->
