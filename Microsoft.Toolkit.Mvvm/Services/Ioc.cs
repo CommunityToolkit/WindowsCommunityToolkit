@@ -11,7 +11,7 @@ using Microsoft.Collections.Extensions;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Mvvm
+namespace Microsoft.Toolkit.Mvvm.Services
 {
     /// <summary>
     /// An Inversion of Control container that can be used to register and access instances of types providing services.

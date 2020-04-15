@@ -24,6 +24,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using Microsoft.Toolkit.Mvvm.Services;
 
 namespace Microsoft.Toolkit.Mvvm
 {
@@ -47,7 +48,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// </summary>
         /// <remarks>
         /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/>
-        /// and <see cref="Mvvm.Ioc.Default"/> services to perform operations.
+        /// and <see cref="Services.Ioc.Default"/> services to perform operations.
         /// </remarks>
         protected ViewModelBase()
         {
@@ -65,7 +66,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
-        /// <param name="ioc">The optional <see cref="Mvvm.Ioc"/> instance to use to retrieve services.</param>
+        /// <param name="ioc">The optional <see cref="Services.Ioc"/> instance to use to retrieve services.</param>
         protected ViewModelBase(Ioc ioc)
         {
             this.ioc = ioc;
@@ -75,7 +76,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
         /// <param name="messenger">The <see cref="Messenger"/> instance to use to send messages.</param>
-        /// <param name="ioc">The optional <see cref="Mvvm.Ioc"/> instance to use to retrieve services.</param>
+        /// <param name="ioc">The optional <see cref="Services.Ioc"/> instance to use to retrieve services.</param>
         protected ViewModelBase(Messenger messenger, Ioc ioc)
         {
             this.messenger = messenger;
@@ -88,7 +89,7 @@ namespace Microsoft.Toolkit.Mvvm
         protected Messenger Messenger => this.messenger ?? Messenger.Default;
 
         /// <summary>
-        /// Gets the <see cref="Mvvm.Ioc"/> instance in use.
+        /// Gets the <see cref="Services.Ioc"/> instance in use.
         /// </summary>
         protected Ioc Ioc => this.ioc ?? Ioc.Default;
 
