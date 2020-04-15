@@ -60,6 +60,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
         [Pure]
         public static bool IsRegistered<TMessage>(object recipient)
+            where TMessage : class
         {
             return IsRegistered<TMessage, Unit>(recipient, default);
         }
@@ -74,6 +75,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
         [Pure]
         public static bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
+            where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
             lock (RecipientsMap)
@@ -93,6 +95,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         public static void Register<TMessage>(object recipient, Action<TMessage> action)
+            where TMessage : class
         {
             Register(recipient, default(Unit), action);
         }
@@ -107,6 +110,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         public static void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
+            where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
             lock (RecipientsMap)
@@ -178,6 +182,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The recipient to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
         public static void Unregister<TMessage>(object recipient)
+            where TMessage : class
         {
             Unregister<TMessage, Unit>(recipient, default);
         }
@@ -275,6 +280,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="token">The token to use to identify which handlers to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
         public static void Unregister<TMessage, TToken>(object recipient, TToken token)
+            where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
             lock (RecipientsMap)
@@ -316,10 +322,43 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Sends a message of the specified type to all registered recipients.
         /// </summary>
         /// <typeparam name="TMessage">The type of message to send.</typeparam>
+        /// <remarks>
+        /// This method is a shorthand for <see cref="Send{TMessage}(TMessage)"/> when the
+        /// message type exposes a parameterless constructor: it will automatically create
+        /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
+        /// </remarks>
+        public static void Send<TMessage>()
+            where TMessage : class, new()
+        {
+            Send(new TMessage(), default(Unit));
+        }
+
+        /// <summary>
+        /// Sends a message of the specified type to all registered recipients.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to send.</typeparam>
         /// <param name="message">The message to send.</param>
         public static void Send<TMessage>(TMessage message)
+            where TMessage : class
         {
             Send(message, default(Unit));
+        }
+
+        /// <summary>
+        /// Sends a message of the specified type to all registered recipients.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to send.</typeparam>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
+        /// <param name="token">The token indicating what channel to use.</param>
+        /// <remarks>
+        /// This method will automatically create a new <typeparamref name="TMessage"/> instance
+        /// just like <see cref="Send{TMessage}()"/>, and then send it to the right recipients.
+        /// </remarks>
+        public static void Send<TMessage, TToken>(TToken token)
+            where TMessage : class, new()
+            where TToken : notnull, IEquatable<TToken>
+        {
+            Send(new TMessage(), token);
         }
 
         /// <summary>
@@ -330,6 +369,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="message">The message to send.</param>
         /// <param name="token">The token indicating what channel to use.</param>
         public static void Send<TMessage, TToken>(TMessage message, TToken token)
+            where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
             Action<TMessage>[] entries;
@@ -418,6 +458,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
         /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
         private static class Container<TMessage, TToken>
+            where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
             /// <summary>
