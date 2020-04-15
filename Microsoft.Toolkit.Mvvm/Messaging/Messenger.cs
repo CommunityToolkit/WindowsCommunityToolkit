@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
@@ -432,6 +433,82 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <summary>
+        /// Sends a request of the specified type to all registered recipients, and returns the received response.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of request message to send.</typeparam>
+        /// <typeparam name="TResult">The type of response to expect.</typeparam>
+        /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
+        /// <remarks>
+        /// This method is a shorthand for <see cref="Send{TMessage}(TMessage)"/> when the
+        /// message type exposes a parameterless constructor: it will automatically create
+        /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
+        /// </remarks>
+        public static TResult Request<TMessage, TResult>()
+            where TMessage : RequestMessageBase<TResult>, new()
+        {
+            return Request<TMessage, TResult, Unit>(new TMessage(), default);
+        }
+
+        /// <summary>
+        /// Sends a request of the specified type to all registered recipients, and returns the received response.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of request message to send.</typeparam>
+        /// <typeparam name="TResult">The type of response to expect.</typeparam>
+        /// <param name="message">The message to send.</param>
+        /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
+        public static TResult Request<TMessage, TResult>(TMessage message)
+            where TMessage : RequestMessageBase<TResult>
+        {
+            return Request<TMessage, TResult, Unit>(message, default);
+        }
+
+        /// <summary>
+        /// Sends a request of the specified type to all registered recipients, and returns the received response.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of request message to send.</typeparam>
+        /// <typeparam name="TResult">The type of response to expect.</typeparam>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
+        /// <param name="token">The token indicating what channel to use.</param>
+        /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
+        /// <remarks>
+        /// This method will automatically create a new <typeparamref name="TMessage"/> instance
+        /// just like <see cref="Send{TMessage}()"/>, and then send it to the right recipients.
+        /// </remarks>
+        public static TResult Request<TMessage, TResult, TToken>(TToken token)
+            where TMessage : RequestMessageBase<TResult>, new()
+            where TToken : notnull, IEquatable<TToken>
+        {
+            return Request<TMessage, TResult, TToken>(new TMessage(), token);
+        }
+
+        /// <summary>
+        /// Sends a request of the specified type to all registered recipients, and returns the received response.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of request message to send.</typeparam>
+        /// <typeparam name="TResult">The type of response to expect.</typeparam>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
+        /// <param name="message">The request message to send.</param>
+        /// <param name="token">The token indicating what channel to use.</param>
+        /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
+        public static TResult Request<TMessage, TResult, TToken>(TMessage message, TToken token)
+            where TMessage : RequestMessageBase<TResult>
+            where TToken : notnull, IEquatable<TToken>
+        {
+            Send(message, token);
+
+            if (!message.IsResponseReceived)
+            {
+                ThrowInvalidOperationExceptionForNoResponseReceived();
+            }
+
+            return message.Result;
+        }
+
+        /// <summary>
         /// Resets the <see cref="Messenger"/> class and unregisters all the existing recipients.
         /// </summary>
         public static void Reset()
@@ -555,6 +632,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         private static void ThrowInvalidOperationExceptionForDuplicateRegistration()
         {
             throw new InvalidOperationException("The target recipient has already subscribed to the target message");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when trying to add a duplicate handler.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionForNoResponseReceived()
+        {
+            throw new InvalidOperationException("No response was received for the given request message");
         }
     }
 }
