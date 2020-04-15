@@ -38,8 +38,17 @@ namespace Microsoft.Toolkit.Mvvm
         private readonly Messenger? messenger;
 
         /// <summary>
+        /// The optional <see cref="Ioc"/> instance to use.
+        /// </summary>
+        private readonly Ioc? ioc;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
+        /// <remarks>
+        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/>
+        /// and <see cref="Mvvm.Ioc.Default"/> services to perform operations.
+        /// </remarks>
         protected ViewModelBase()
         {
         }
@@ -48,19 +57,40 @@ namespace Microsoft.Toolkit.Mvvm
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
         /// <param name="messenger">The <see cref="Messenger"/> instance to use to send messages.</param>
-        /// <remarks>
-        /// If <paramref name="messenger"/> is <see langword="null"/>, the <see cref="Messaging.Messenger.Default"/>
-        /// instance will be used to send message (eg. from <see cref="Set{T}"/> or <see cref="Broadcast{T}"/>).
-        /// </remarks>
         protected ViewModelBase(Messenger messenger)
         {
             this.messenger = messenger;
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// </summary>
+        /// <param name="ioc">The optional <see cref="Mvvm.Ioc"/> instance to use to retrieve services.</param>
+        protected ViewModelBase(Ioc ioc)
+        {
+            this.ioc = ioc;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// </summary>
+        /// <param name="messenger">The <see cref="Messenger"/> instance to use to send messages.</param>
+        /// <param name="ioc">The optional <see cref="Mvvm.Ioc"/> instance to use to retrieve services.</param>
+        protected ViewModelBase(Messenger messenger, Ioc ioc)
+        {
+            this.messenger = messenger;
+            this.ioc = ioc;
+        }
+
+        /// <summary>
         /// Gets the <see cref="Messaging.Messenger"/> instance in use.
         /// </summary>
         protected Messenger Messenger => this.messenger ?? Messenger.Default;
+
+        /// <summary>
+        /// Gets the <see cref="Mvvm.Ioc"/> instance in use.
+        /// </summary>
+        protected Ioc Ioc => this.ioc ?? Ioc.Default;
 
         private bool isActive;
 
