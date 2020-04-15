@@ -139,6 +139,8 @@
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_CollectionCapableDeepLinkParser.cs" />
+    <Compile Include="Mvvm\Test_RelayCommand{T}.cs" />
+    <Compile Include="Mvvm\Test_RelayCommand.cs" />
     <Compile Include="Mvvm\Test_ViewModelBase.cs" />
     <Compile Include="Mvvm\Test_ObservableObject.cs" />
     <Compile Include="Mvvm\Test_Messenger.cs" />
