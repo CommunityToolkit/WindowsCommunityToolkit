@@ -32,6 +32,36 @@ namespace Microsoft.Toolkit.Mvvm
     /// </summary>
     public abstract class ViewModelBase : ObservableObject
     {
+        /// <summary>
+        /// The optional <see cref="Messenger"/> instance to use.
+        /// </summary>
+        private readonly Messenger? messenger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// </summary>
+        protected ViewModelBase()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// </summary>
+        /// <param name="messenger">The <see cref="Messenger"/> instance to use to send messages.</param>
+        /// <remarks>
+        /// If <paramref name="messenger"/> is <see langword="null"/>, the <see cref="Messaging.Messenger.Default"/>
+        /// instance will be used to send message (eg. from <see cref="Set{T}"/> or <see cref="Broadcast{T}"/>).
+        /// </remarks>
+        protected ViewModelBase(Messenger messenger)
+        {
+            this.messenger = messenger;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Messaging.Messenger"/> instance in use.
+        /// </summary>
+        protected Messenger Messenger => this.messenger ?? Messenger.Default;
+
         private bool isActive;
 
         /// <summary>
@@ -71,7 +101,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <remarks>The base implementation unregisters all messages for this recipient (with no token).</remarks>
         protected virtual void OnDeactivate()
         {
-            Messenger.Default.Unregister(this);
+            Messenger.Unregister(this);
         }
 
         /// <summary>
@@ -90,7 +120,7 @@ namespace Microsoft.Toolkit.Mvvm
         {
             var message = new PropertyChangedMessage<T>(this, propertyName, oldValue, newValue);
 
-            Messenger.Default.Send(message);
+            Messenger.Send(message);
         }
 
         /// <summary>
