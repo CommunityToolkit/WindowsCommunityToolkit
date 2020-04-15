@@ -9,7 +9,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
 
-namespace Microsoft.Toolkit.Mvvm
+namespace Microsoft.Toolkit.Mvvm.Messaging
 {
     /// <summary>
     /// A type implementing a messaging system between objects.
