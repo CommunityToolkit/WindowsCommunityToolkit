@@ -110,7 +110,6 @@
         "CodeFile": "MasterDetailsViewCode.bind",
         "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MasterDetailsView.md",
-        "IsUno": true
       },
       {
         "Name": "MarkdownTextBlock",
@@ -790,7 +789,6 @@
         "CodeFile": "SystemInformationCode.bind",
         "Icon": "/SamplePages/SystemInformation/SystemInformation.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/SystemInformation.md",
-        "IsUno": true
       },
       {
         "Name": "PrintHelper",
@@ -1019,7 +1017,6 @@
         "XamlCodeFile": "ListViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ListViewExtensions.md",
-        "IsUno": true
       },
       {
         "Name": "ViewExtensions",
@@ -1038,7 +1035,6 @@
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/TextBoxMask.md",
-        "IsUno": true
       },
       {
         "Name": "Mouse",
@@ -1124,7 +1120,6 @@
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md",
-        "IsUno": true
       }
     ]
   },
