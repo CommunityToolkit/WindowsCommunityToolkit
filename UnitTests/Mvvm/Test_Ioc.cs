@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using Microsoft.Toolkit.Mvvm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,38 +14,38 @@ namespace UnitTests.Mvvm
         [TestMethod]
         public void Test_Ioc_SampleUsage()
         {
-            Assert.IsFalse(Ioc.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.GetAllServices().Count, 0);
+            Assert.IsFalse(Ioc.Default.IsRegistered<INameService>());
+            Assert.AreEqual(Ioc.Default.GetAllServices().Length, 0);
 
-            Ioc.Register<INameService, BobService>();
+            Ioc.Default.Register<INameService, BobService>();
 
-            Assert.IsTrue(Ioc.IsRegistered<INameService>());
+            Assert.IsTrue(Ioc.Default.IsRegistered<INameService>());
 
-            var services = Ioc.GetAllServices();
+            var services = Ioc.Default.GetAllServices();
 
-            Assert.AreEqual(services.Count, 1);
-            Assert.IsInstanceOfType(services.First(), typeof(INameService));
-            Assert.IsInstanceOfType(services.First(), typeof(BobService));
+            Assert.AreEqual(services.Length, 1);
+            Assert.IsInstanceOfType(services.Span[0], typeof(INameService));
+            Assert.IsInstanceOfType(services.Span[0], typeof(BobService));
 
-            Ioc.Unregister<INameService>();
+            Ioc.Default.Unregister<INameService>();
 
-            Assert.IsFalse(Ioc.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.GetAllServices().Count, 0);
+            Assert.IsFalse(Ioc.Default.IsRegistered<INameService>());
+            Assert.AreEqual(Ioc.Default.GetAllServices().Length, 0);
 
-            Ioc.Register<INameService>(() => new AliceService());
+            Ioc.Default.Register<INameService>(() => new AliceService());
 
-            Assert.IsTrue(Ioc.IsRegistered<INameService>());
+            Assert.IsTrue(Ioc.Default.IsRegistered<INameService>());
 
-            services = Ioc.GetAllServices();
+            services = Ioc.Default.GetAllServices();
 
-            Assert.AreEqual(services.Count, 1);
-            Assert.IsInstanceOfType(services.First(), typeof(INameService));
-            Assert.IsInstanceOfType(services.First(), typeof(AliceService));
+            Assert.AreEqual(services.Length, 1);
+            Assert.IsInstanceOfType(services.Span[0], typeof(INameService));
+            Assert.IsInstanceOfType(services.Span[0], typeof(AliceService));
 
-            Ioc.Reset();
+            Ioc.Default.Reset();
 
-            Assert.IsFalse(Ioc.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.GetAllServices().Count, 0);
+            Assert.IsFalse(Ioc.Default.IsRegistered<INameService>());
+            Assert.AreEqual(Ioc.Default.GetAllServices().Length, 0);
         }
 
         public interface INameService

@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Collections.Extensions;
 
 #nullable enable
 
@@ -33,27 +31,26 @@ namespace Microsoft.Toolkit.Mvvm
     /// </code>
     /// Then, register your services at startup, or at some time before using them:
     /// <code>
-    /// IoC.Register&lt;ILogger, ConsoleLogger>();
+    /// Ioc.Default.Register&lt;ILogger, ConsoleLogger>();
     /// </code>
     /// Finally, use the <see cref="Ioc"/> type to retrieve service instances to use:
     /// <code>
-    /// IoC.GetInstance&lt;ILogger>().Log("Hello world!");
+    /// Ioc.Default.GetInstance&lt;ILogger>().Log("Hello world!");
     /// </code>
     /// The <see cref="Ioc"/> type will make sure to initialize your service instance if needed, or it will
     /// throw an exception in case the requested service has not been registered yet.
     /// </summary>
-    public static class Ioc
+    public sealed class Ioc
     {
         /// <summary>
-        /// The collection of currently registered service types.
+        /// The <see cref="IContainer"/> instance for each registered type.
         /// </summary>
-        /// <remarks>
-        /// This list is not used when retrieving registered instances through
-        /// the <see cref="GetInstance{TService}"/> method, so it has no impact on
-        /// performances there. This is only used to allow users to retrieve all
-        /// the registered instances at any given time, or to unregister them all.
-        /// </remarks>
-        private static readonly HashSet<Type> RegisteredTypes = new HashSet<Type>();
+        private readonly DictionarySlim<Key, IContainer> typesMap = new DictionarySlim<Key, IContainer>();
+
+        /// <summary>
+        /// Gets the default <see cref="Ioc"/> instance.
+        /// </summary>
+        public static Ioc Default { get; } = new Ioc();
 
         /// <summary>
         /// Checks whether or not a service of type <typeparamref name="TService"/> has already been registered.
@@ -61,14 +58,12 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TService">The type of service to check for registration.</typeparam>
         /// <returns><see langword="true"/> if the service <typeparamref name="TService"/> has already been registered, <see langword="false"/> otherwise.</returns>
         [Pure]
-        public static bool IsRegistered<TService>()
+        public bool IsRegistered<TService>()
             where TService : class
         {
-            lock (Container<TService>.Lock)
+            lock (this.typesMap)
             {
-                return
-                    !(Container<TService>.Instance is null) ||
-                    !(Container<TService>.Factory is null);
+                return TryGetContainer<TService>(out _);
             }
         }
 
@@ -78,7 +73,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <typeparam name="TProvider">The type of service provider for type <typeparamref name="TService"/> to register.</typeparam>
         /// <remarks>This method will create a new <typeparamref name="TProvider"/> instance for future use.</remarks>
-        public static void Register<TService, TProvider>()
+        public void Register<TService, TProvider>()
             where TService : class
             where TProvider : class, TService, new()
         {
@@ -90,16 +85,15 @@ namespace Microsoft.Toolkit.Mvvm
         /// </summary>
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <param name="provider">The <typeparamref name="TService"/> instance to register.</param>
-        public static void Register<TService>(TService provider)
+        public void Register<TService>(TService provider)
             where TService : class
         {
-            lock (RegisteredTypes)
-            lock (Container<TService>.Lock)
+            lock (this.typesMap)
             {
-                RegisteredTypes.Add(typeof(TService));
+                Container<TService> container = GetContainer<TService>();
 
-                Container<TService>.Factory = null;
-                Container<TService>.Instance = provider;
+                container.Factory = null;
+                container.Instance = provider;
             }
         }
 
@@ -108,16 +102,15 @@ namespace Microsoft.Toolkit.Mvvm
         /// </summary>
         /// <typeparam name="TService">The type of service to register.</typeparam>
         /// <param name="factory">The factory of instances implementing the <typeparamref name="TService"/> service to use.</param>
-        public static void Register<TService>(Func<TService> factory)
+        public void Register<TService>(Func<TService> factory)
             where TService : class
         {
-            lock (RegisteredTypes)
-            lock (Container<TService>.Lock)
+            lock (this.typesMap)
             {
-                RegisteredTypes.Add(typeof(TService));
+                Container<TService> container = GetContainer<TService>();
 
-                Container<TService>.Factory = factory;
-                Container<TService>.Instance = null;
+                container.Factory = factory;
+                container.Instance = null;
             }
         }
 
@@ -125,83 +118,88 @@ namespace Microsoft.Toolkit.Mvvm
         /// Unregisters a service of a specified type.
         /// </summary>
         /// <typeparam name="TService">The type of service to unregister.</typeparam>
-        public static void Unregister<TService>()
+        public void Unregister<TService>()
             where TService : class
         {
-            lock (RegisteredTypes)
-            lock (Container<TService>.Lock)
+            lock (this.typesMap)
             {
-                RegisteredTypes.Remove(typeof(TService));
+                var key = new Key(typeof(TService));
 
-                Container<TService>.Factory = null;
-                Container<TService>.Instance = null;
+                this.typesMap.Remove(key);
             }
         }
 
         /// <summary>
         /// Resets the internal state of the <see cref="Ioc"/> type and unregisters all services.
         /// </summary>
-        public static void Reset()
+        public void Reset()
         {
-            lock (RegisteredTypes)
+            lock (this.typesMap)
             {
-                foreach (Type serviceType in RegisteredTypes)
-                {
-                    Type containerType = typeof(Container<>).MakeGenericType(serviceType);
-                    FieldInfo
-                        lockField = containerType.GetField(nameof(Container<object>.Lock)),
-                        lazyField = containerType.GetField(nameof(Container<object>.Factory)),
-                        instanceField = containerType.GetField(nameof(Container<object>.Instance));
-
-                    lock (lockField.GetValue(null))
-                    {
-                        lazyField.SetValue(null, null);
-                        instanceField.SetValue(null, null);
-                    }
-                }
-
-                RegisteredTypes.Clear();
+                this.typesMap.Clear();
             }
         }
 
         /// <summary>
         /// Gets all the currently registered services.
         /// </summary>
-        /// <returns>A collection of all the currently registered services.</returns>
+        /// <returns>A <see cref="ReadOnlyMemory{T}"/> collection of all the currently registered services.</returns>
         /// <remarks>
         /// This will also cause the <see cref="Ioc"/> service to resolve instances of
         /// registered services that were setup to use lazy initialization.
         /// </remarks>
         [Pure]
-        public static IReadOnlyCollection<object> GetAllServices()
+        public ReadOnlyMemory<object> GetAllServices()
         {
-            lock (RegisteredTypes)
+            lock (this.typesMap)
             {
-                return (
-                    from Type serviceType in RegisteredTypes
-                    let resolver = typeof(Ioc).GetMethod(nameof(GetInstance))
-                    let resolverOfT = resolver.MakeGenericMethod(serviceType)
-                    let service = resolverOfT.Invoke(null, null)
-                    select service).ToArray();
+                if (this.typesMap.Count == 0)
+                {
+                    return Array.Empty<object>();
+                }
+
+                object[] services = new object[this.typesMap.Count];
+
+                int i = 0;
+                foreach (var pair in this.typesMap)
+                {
+                    services[i++] = pair.Value.Instance ?? pair.Value.Factory!();
+                }
+
+                return services;
             }
         }
 
         /// <summary>
         /// Gets all the currently registered and instantiated services.
         /// </summary>
-        /// <returns>A collection of all the currently registered and instantiated services.</returns>
+        /// <returns>A <see cref="ReadOnlyMemory{T}"/> collection of all the currently registered and instantiated services.</returns>
         [Pure]
-        public static IReadOnlyCollection<object> GetAllCreatedServices()
+        public ReadOnlyMemory<object> GetAllCreatedServices()
         {
-            lock (RegisteredTypes)
+            lock (this.typesMap)
             {
-                return (
-                    from Type serviceType in RegisteredTypes
-                    let containerType = typeof(Container<>).MakeGenericType(serviceType)
-                    let field = containerType.GetField(nameof(Container<object>.Instance))
-                    let instance = field.GetValue(null)
-                    where !(instance is null)
-                    select instance).ToArray();
+                if (this.typesMap.Count == 0)
+                {
+                    return Array.Empty<object>();
+                }
+
+                object[] services = new object[this.typesMap.Count];
+
+                int i = 0;
+                foreach (var pair in this.typesMap)
+                {
+                    object? service = pair.Value.Instance;
+
+                    if (service is null)
+                    {
+                        continue;
+                    }
+
+                    services[i++] = service;
+                }
+
+                return services.AsMemory(0, i);
             }
         }
 
@@ -211,26 +209,19 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>, if registered.</returns>
         [Pure]
-        public static bool TryGetInstance<TService>(out TService? service)
+        public bool TryGetInstance<TService>(out TService? service)
             where TService : class
         {
-            lock (Container<TService>.Lock)
+            lock (this.typesMap)
             {
-                service = Container<TService>.Instance;
-
-                if (!(service is null))
+                if (!TryGetContainer(out Container<TService>? container))
                 {
-                    return true;
-                }
+                    service = null;
 
-                Func<TService>? factory = Container<TService>.Factory;
-
-                if (factory is null)
-                {
                     return false;
                 }
 
-                service = Container<TService>.Instance = factory();
+                service = container!.Instance ?? container.Factory?.Invoke();
 
                 return true;
             }
@@ -241,52 +232,18 @@ namespace Microsoft.Toolkit.Mvvm
         /// </summary>
         /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the requested service was not registered.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TService GetInstance<TService>()
+        public TService GetInstance<TService>()
             where TService : class
         {
-            TService? service = Container<TService>.Instance;
-
-            if (service is null)
+            if (!TryGetInstance(out TService? service))
             {
-                return GetInstanceOrThrow<TService>();
+                ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>();
             }
 
-            return service;
-        }
-
-        /// <summary>
-        /// Tries to resolve a <typeparamref name="TService"/> instance with additional checks.
-        /// This method implements the slow path for <see cref="GetInstance{TService}"/>, locking
-        /// to ensure thread-safety and invoking the available factory, if possible.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static TService GetInstanceOrThrow<TService>()
-            where TService : class
-        {
-            lock (Container<TService>.Lock)
-            {
-                TService? service = Container<TService>.Instance;
-
-                // Check the instance field again for race conditions
-                if (!(service is null))
-                {
-                    return service;
-                }
-
-                Func<TService>? factory = Container<TService>.Factory;
-
-                // If no factory is available, the service hasn't been registered yet
-                if (factory is null)
-                {
-                    throw new InvalidOperationException($"Service {typeof(TService)} not initialized");
-                }
-
-                return Container<TService>.Instance = factory();
-            }
+            return service!;
         }
 
         /// <summary>
@@ -295,34 +252,131 @@ namespace Microsoft.Toolkit.Mvvm
         /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>A new instance of a registered type implementing <typeparamref name="TService"/>.</returns>
         [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TService GetInstanceWithoutCaching<TService>()
+        public TService GetInstanceWithoutCaching<TService>()
             where TService : class
         {
-            lock (Container<TService>.Lock)
+            lock (this.typesMap)
             {
-                Func<TService>? factory = Container<TService>.Factory;
+                if (!TryGetContainer(out Container<TService>? container))
+                {
+                    ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>();
+                }
+
+                Func<TService>? factory = container!.Factory;
 
                 if (!(factory is null))
                 {
                     return factory();
                 }
 
-                TService? service = Container<TService>.Instance;
+                TService service = container.Instance!;
 
-                if (!(service is null))
+                if (service.GetType().GetConstructor(Type.EmptyTypes) is null)
                 {
-                    Type serviceType = service.GetType();
-                    Expression[] expressions = { Expression.New(serviceType) };
-                    Expression body = Expression.Block(serviceType, expressions);
-                    factory = Expression.Lambda<Func<TService>>(body).Compile();
-
-                    Container<TService>.Factory = factory;
-
-                    return factory();
+                    ThrowInvalidOperationExceptionOnServiceWithNoConstructor<TService>(service.GetType());
                 }
 
-                throw new InvalidOperationException($"Service {typeof(TService)} not initialized");
+                Type serviceType = service.GetType();
+                Expression[] expressions = { Expression.New(serviceType) };
+                Expression body = Expression.Block(serviceType, expressions);
+                factory = Expression.Lambda<Func<TService>>(body).Compile();
+
+                // Cache for later use
+                container.Factory = factory;
+
+                return factory();
+            }
+        }
+
+        /// <summary>
+        /// Tries to get a <see cref="Container{T}"/> instance for a specific service type.
+        /// </summary>
+        /// <typeparam name="TService">The type of service to look for.</typeparam>
+        /// <param name="container">The resulting <see cref="Container{T}"/>, if found.</param>
+        /// <returns>Whether or not the container was present.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool TryGetContainer<TService>(out Container<TService>? container)
+            where TService : class
+        {
+            var key = new Key(typeof(TService));
+
+            if (this.typesMap.TryGetValue(key, out IContainer local))
+            {
+                // We can use a fast cast here as the type is always known
+                container = Unsafe.As<Container<TService>>(local);
+
+                return true;
+            }
+
+            container = null;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Container{T}"/> instance for a specific service type.
+        /// </summary>
+        /// <typeparam name="TService">The type of service to look for.</typeparam>
+        /// <returns>A <see cref="Container{T}"/> instance with the requested type argument.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Container<TService> GetContainer<TService>()
+            where TService : class
+        {
+            var key = new Key(typeof(TService));
+            ref IContainer target = ref this.typesMap.GetOrAddValueRef(key);
+
+            if (target is null)
+            {
+                target = new Container<TService>();
+            }
+
+            return Unsafe.As<Container<TService>>(target);
+        }
+
+        /// <summary>
+        /// A simple type representing a registered type.
+        /// </summary>
+        /// <remarks>
+        /// This type is used to enable fast indexing in the type mapping, and is used to externally
+        /// inject the <see cref="IEquatable{T}"/> interface to <see cref="Type"/>.
+        /// </remarks>
+        private readonly struct Key : IEquatable<Key>
+        {
+            /// <summary>
+            /// The registered type.
+            /// </summary>
+            private readonly Type type;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Key"/> struct.
+            /// </summary>
+            /// <param name="type">The input <see cref="Type"/> instance.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public Key(Type type)
+            {
+                this.type = type;
+            }
+
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool Equals(Key other)
+            {
+                return ReferenceEquals(this.type, other.type);
+            }
+
+            /// <inheritdoc/>
+            public override bool Equals(object? obj)
+            {
+                return obj is Key other && Equals(other);
+            }
+
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public override int GetHashCode()
+            {
+                return RuntimeHelpers.GetHashCode(this.type);
             }
         }
 
@@ -330,24 +384,69 @@ namespace Microsoft.Toolkit.Mvvm
         /// Internal container type for services of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of services to store in this type.</typeparam>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Public fields for performance reasons")]
-        private static class Container<T>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "The type is private")]
+        private sealed class Container<T> : IContainer
             where T : class
         {
-            /// <summary>
-            /// An <see cref="object"/> used to synchronize accesses to the <see cref="Factory"/> and <see cref="Instance"/> fields.
-            /// </summary>
-            public static readonly object Lock = new object();
+            /// <inheritdoc/>
+            public object Lock { get; } = new object();
 
             /// <summary>
             /// The optional <see cref="Func{T}"/> instance to produce instances of the service <typeparamref name="T"/>.
             /// </summary>
-            public static Func<T>? Factory;
+            public Func<T>? Factory;
 
             /// <summary>
             /// The current <typeparamref name="T"/> instance being produced, if available.
             /// </summary>
-            public static T? Instance;
+            public T? Instance;
+
+            /// <inheritdoc/>
+            Func<object>? IContainer.Factory => this.Factory;
+
+            /// <inheritdoc/>
+            object? IContainer.Instance => this.Instance;
+        }
+
+        /// <summary>
+        /// A interface for the <see cref="Container{T}"/> type.
+        /// </summary>
+        private interface IContainer
+        {
+            /// <summary>
+            /// Gets an <see cref="object"/> used to synchronize accesses to the <see cref="Factory"/> and <see cref="Instance"/> fields.
+            /// </summary>
+            object Lock { get; }
+
+            /// <summary>
+            /// Gets the optional <see cref="Func{T}"/> instance to produce instances of the service.
+            /// </summary>
+            Func<object>? Factory { get; }
+
+            /// <summary>
+            /// Gets the current instance being produced, if available.
+            /// </summary>
+            object? Instance { get; }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when a service of a given type is not found.
+        /// </summary>
+        /// <typeparam name="TService">The type of service not found.</typeparam>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>()
+        {
+            throw new InvalidOperationException($"Service {typeof(TService)} not registered");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when a service doesn't expose a public parametrless constructor.
+        /// </summary>
+        /// <typeparam name="TService">The type of service not found.</typeparam>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionOnServiceWithNoConstructor<TService>(Type type)
+        {
+            throw new InvalidOperationException($"Type {type} implementing service {typeof(TService)} does not expose a public constructor");
         }
     }
 }
