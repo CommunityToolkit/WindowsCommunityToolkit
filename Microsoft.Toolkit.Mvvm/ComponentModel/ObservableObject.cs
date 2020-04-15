@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Mvvm
+namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
     /// A base class for objects of which the properties must be observable.
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
         {
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
 
         /// <summary>

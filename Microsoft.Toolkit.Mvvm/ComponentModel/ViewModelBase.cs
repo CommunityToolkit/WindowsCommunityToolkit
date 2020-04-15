@@ -26,7 +26,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Microsoft.Toolkit.Mvvm.Services;
 
-namespace Microsoft.Toolkit.Mvvm
+namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
     /// A base class for viewmodels.
