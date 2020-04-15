@@ -12,7 +12,26 @@ using Microsoft.Collections.Extensions;
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
     /// <summary>
-    /// A type implementing a messaging system between objects.
+    /// A type that can be used to exchange messages between different objects.
+    /// This can be useful to decouple different modules of an application without having to keep strong
+    /// references to types being referenced. It is also possible to send messages to specific channels, uniquely
+    /// identified by a token, and to have different messengers in different sections of an applications.
+    /// In order to use the <see cref="IMessenger"/> functionalities, first define a message type, like so:
+    /// <code>
+    /// public sealed class LoginCompletedMessage { }
+    /// </code>
+    /// Then, register your a recipient for this message:
+    /// <code>
+    /// Messenger.Default.Register&lt;LoginCompletedMessage>(this, m =>
+    /// {
+    ///     // Handle the message here...
+    /// });
+    /// </code>
+    /// Finally, send a message when needed, like so:
+    /// <code>
+    /// Messenger.Default.Send&lt;LoginCompletedMessage>();
+    /// </code>
+    /// For info on the other available features, check the <see cref="IMessenger"/> interface.
     /// </summary>
     public sealed class Messenger : IMessenger
     {
