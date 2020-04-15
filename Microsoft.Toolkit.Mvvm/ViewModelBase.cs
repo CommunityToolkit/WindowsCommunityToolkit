@@ -39,9 +39,9 @@ namespace Microsoft.Toolkit.Mvvm
         private readonly Messenger? messenger;
 
         /// <summary>
-        /// The optional <see cref="Ioc"/> instance to use.
+        /// The optional <see cref="IIoc"/> instance to use.
         /// </summary>
-        private readonly Ioc? ioc;
+        private readonly IIoc? ioc;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
@@ -66,8 +66,8 @@ namespace Microsoft.Toolkit.Mvvm
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
-        /// <param name="ioc">The optional <see cref="Services.Ioc"/> instance to use to retrieve services.</param>
-        protected ViewModelBase(Ioc ioc)
+        /// <param name="ioc">The optional <see cref="IIoc"/> instance to use to retrieve services.</param>
+        protected ViewModelBase(IIoc ioc)
         {
             this.ioc = ioc;
         }
@@ -76,8 +76,8 @@ namespace Microsoft.Toolkit.Mvvm
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
         /// <param name="messenger">The <see cref="Messenger"/> instance to use to send messages.</param>
-        /// <param name="ioc">The optional <see cref="Services.Ioc"/> instance to use to retrieve services.</param>
-        protected ViewModelBase(Messenger messenger, Ioc ioc)
+        /// <param name="ioc">The optional <see cref="IIoc"/> instance to use to retrieve services.</param>
+        protected ViewModelBase(Messenger messenger, IIoc ioc)
         {
             this.messenger = messenger;
             this.ioc = ioc;
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <summary>
         /// Gets the <see cref="Services.Ioc"/> instance in use.
         /// </summary>
-        protected Ioc Ioc => this.ioc ?? Ioc.Default;
+        protected IIoc Ioc => this.ioc ?? Services.Ioc.Default;
 
         private bool isActive;
 

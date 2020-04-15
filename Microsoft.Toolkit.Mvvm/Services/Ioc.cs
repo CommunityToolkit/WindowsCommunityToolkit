@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
     /// The <see cref="Ioc"/> type will make sure to initialize your service instance if needed, or it will
     /// throw an exception in case the requested service has not been registered yet.
     /// </summary>
-    public sealed class Ioc
+    public sealed class Ioc : IIoc
     {
         /// <summary>
         /// The <see cref="IContainer"/> instance for each registered type.
@@ -52,12 +52,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
         /// </summary>
         public static Ioc Default { get; } = new Ioc();
 
-        /// <summary>
-        /// Checks whether or not a service of type <typeparamref name="TService"/> has already been registered.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to check for registration.</typeparam>
-        /// <returns><see langword="true"/> if the service <typeparamref name="TService"/> has already been registered, <see langword="false"/> otherwise.</returns>
-        [Pure]
+        /// <inheritdoc/>
         public bool IsRegistered<TService>()
             where TService : class
         {
@@ -67,12 +62,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Registers a singleton instance of service <typeparamref name="TService"/> through the type <typeparamref name="TProvider"/>.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to register.</typeparam>
-        /// <typeparam name="TProvider">The type of service provider for type <typeparamref name="TService"/> to register.</typeparam>
-        /// <remarks>This method will create a new <typeparamref name="TProvider"/> instance for future use.</remarks>
+        /// <inheritdoc/>
         public void Register<TService, TProvider>()
             where TService : class
             where TProvider : class, TService, new()
@@ -80,11 +70,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             Register<TService>(new TProvider());
         }
 
-        /// <summary>
-        /// Registers a singleton instance of service <typeparamref name="TService"/>.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to register.</typeparam>
-        /// <param name="provider">The <typeparamref name="TService"/> instance to register.</param>
+        /// <inheritdoc/>
         public void Register<TService>(TService provider)
             where TService : class
         {
@@ -97,11 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Registers a service <typeparamref name="TService"/> through a <see cref="Func{TResult}"/> factory.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to register.</typeparam>
-        /// <param name="factory">The factory of instances implementing the <typeparamref name="TService"/> service to use.</param>
+        /// <inheritdoc/>
         public void Register<TService>(Func<TService> factory)
             where TService : class
         {
@@ -114,10 +96,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Unregisters a service of a specified type.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to unregister.</typeparam>
+        /// <inheritdoc/>
         public void Unregister<TService>()
             where TService : class
         {
@@ -129,9 +108,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Resets the internal state of the <see cref="Ioc"/> type and unregisters all services.
-        /// </summary>
+        /// <inheritdoc/>
         public void Reset()
         {
             lock (this.typesMap)
@@ -140,15 +117,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Gets all the currently registered services.
-        /// </summary>
-        /// <returns>A <see cref="ReadOnlyMemory{T}"/> collection of all the currently registered services.</returns>
-        /// <remarks>
-        /// This will also cause the <see cref="Ioc"/> service to resolve instances of
-        /// registered services that were setup to use lazy initialization.
-        /// </remarks>
-        [Pure]
+        /// <inheritdoc/>
         public ReadOnlyMemory<object> GetAllServices()
         {
             lock (this.typesMap)
@@ -170,11 +139,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Gets all the currently registered and instantiated services.
-        /// </summary>
-        /// <returns>A <see cref="ReadOnlyMemory{T}"/> collection of all the currently registered and instantiated services.</returns>
-        [Pure]
+        /// <inheritdoc/>
         public ReadOnlyMemory<object> GetAllCreatedServices()
         {
             lock (this.typesMap)
@@ -203,12 +168,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Tries to resolve an instance of a registered type implementing the <typeparamref name="TService"/> service.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>, if registered.</returns>
-        [Pure]
+        /// <inheritdoc/>
         public bool TryGetInstance<TService>(out TService? service)
             where TService : class
         {
@@ -227,13 +187,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             }
         }
 
-        /// <summary>
-        /// Resolves an instance of a registered type implementing the <typeparamref name="TService"/> service.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the requested service was not registered.</exception>
-        [Pure]
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TService GetInstance<TService>()
             where TService : class
@@ -246,12 +200,7 @@ namespace Microsoft.Toolkit.Mvvm.Services
             return service!;
         }
 
-        /// <summary>
-        /// Creates an instance of a registered type implementing the <typeparamref name="TService"/> service.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>A new instance of a registered type implementing <typeparamref name="TService"/>.</returns>
-        [Pure]
+        /// <inheritdoc/>
         public TService GetInstanceWithoutCaching<TService>()
             where TService : class
         {
