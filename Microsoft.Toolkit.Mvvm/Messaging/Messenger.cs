@@ -15,31 +15,42 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <summary>
     /// A type implementing a messaging system between objects.
     /// </summary>
-    public static class Messenger
+    public sealed class Messenger
     {
         // The Messenger class uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
-        // DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> RecipientsMap
-        //                    |                  /       \    /
-        //                    \_________________/_____    \__/____[*]IDictionarySlim<Recipient, Token>
-        //                                     /      \     /                      ______________/
-        //                                    /        \   /                      /
-        // Container<TMessage, TToken>.DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> Values
+        // DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> recipientsMap
+        //                    |                         \      /
+        //                    |                          \____/_____[*]IDictionarySlim<Recipient, Token>
+        //                    |  ____________________________/             \____
+        //                    | /                                               \
+        // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> Values
+        //                                            /               /          /
+        //                       __(T1)______________/_______________/          /
+        //                      /     ____(T2)______/                          /
+        //                     /     /                                        /
+        //                    /     /        ________(as object)_____________/
+        //                   /     /        /
+        // DictionarySlim<(Type, Type), object> typesMap;
         // --------------------------------------------------------------------------------------------------------
-        // Each combination of <TMessage, TToken> results in a concrete Container<,> type, which holds the
-        // mapping to registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
+        // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds
+        // the references from registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
         // dictionary, so that each recipient can have up to one registered handler for a given token, for each
-        // message type. Each existing recipient is also stored in the main recipients map, along with a set of
-        // all the existing dictionaries of handlers for that recipient (for all message types and token types).
-        // A recipient is stored in the main map as long as it has at least one registered handler in any of the
-        // existing mappings for every message/token type combination. The shared map is used to access the set
-        // of all registered handlers for a given recipient, without having to know in advance the type of message
-        // or token being used for the registration, and without having to use reflection. Note that each dictionary
-        // stored in the associated set for each recipient also implements IDictionarySlim<Recipient, Token>, with
-        // any token type currently in use by that recipient. This allows to retrieve the type-closed mappings
-        // of registered handlers with a given token type, for any message type, for every receiver, again without
-        // having to use reflection. This shared map is used to unregister messages from a given recipients either
-        // unconditionally, by message type, by token, or for a specific pair of message type and token value.
+        // message type. Each mapping is stored in the types map, which associates to each pair of concrete types the
+        // mapping instances. Each instances is just exposed as an object, as each will be a closed type over a different
+        // combination of TMessage and TToken generic type parameters. Each existing recipient is also stored in the main
+        // recipients map, along with a set of all the existing dictionaries of handlers for that recipient (for all
+        // message types and token types). A recipient is stored in the main map as long as it has at least one
+        // registered handler in any of the existing mappings for every message/token type combination.
+        // The shared map is used to access the set of all registered handlers for a given recipient, without having
+        // to know in advance the type of message or token being used for the registration, and without having to
+        // use reflection. This is the same approach used in the types map, just with a more specific exposed reference
+        // type as in this case we have at least some partial knowledge of the generic type parameters of the mapped types.
+        // Note that each dictionary stored in the associated set for each recipient also implements
+        // IDictionarySlim<Recipient, Token>, with any token type currently in use by that recipient. This allows to retrieve
+        // the type-closed mappings of registered handlers with a given token type, for an message type, for every receiver,
+        // again without having to use reflection. This shared map is used to unregister messages from a given recipients
+        // either unconditionally, by message type, by token, or for a specific pair of message type and token value.
 
         /// <summary>
         /// The collection of currently registered recipients, with a link to their linked message receivers.
@@ -50,8 +61,24 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// so that all the existing handlers can be removed without having to dynamically create
         /// the generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
-        private static readonly DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> RecipientsMap
+        private readonly DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> recipientsMap
             = new DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>>();
+
+        /// <summary>
+        /// The <see cref="Mapping{TMessage,TToken}"/> instance for types combination.
+        /// </summary>
+        /// <remarks>
+        /// The values are just of type <see cref="object"/> as we don't know the type parameters in advance.
+        /// Each method relies on <see cref="GetMapping{TMessage,TToken}"/> to get the type-safe instance
+        /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
+        /// </remarks>
+        private readonly DictionarySlim<(Type, Type), object> typesMap
+            = new DictionarySlim<(Type, Type), object>();
+
+        /// <summary>
+        /// Gets the default <see cref="Messenger"/> instance.
+        /// </summary>
+        public static Messenger Default { get; } = new Messenger();
 
         /// <summary>
         /// Checks whether or not a given recipient has already been registered for a message.
@@ -60,7 +87,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The target recipient to check the registration for.</param>
         /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
         [Pure]
-        public static bool IsRegistered<TMessage>(object recipient)
+        public bool IsRegistered<TMessage>(object recipient)
             where TMessage : class
         {
             return IsRegistered<TMessage, Unit>(recipient, default);
@@ -75,13 +102,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="token">The token used to identify the target channel to check.</param>
         /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
         [Pure]
-        public static bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
+        public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
-                var values = Container<TMessage, TToken>.Values;
+                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
 
                 return values.ContainsKey(key);
@@ -95,7 +122,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
-        public static void Register<TMessage>(object recipient, Action<TMessage> action)
+        public void Register<TMessage>(object recipient, Action<TMessage> action)
             where TMessage : class
         {
             Register(recipient, default(Unit), action);
@@ -110,14 +137,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="token">A token used to determine the receiving channel to use.</param>
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
-        public static void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
+        public void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
             where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
                 // Get the <TMessage, TToken> registration list for this recipient
-                var values = Container<TMessage, TToken>.Values;
+                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
                 ref DictionarySlim<TToken, Action<TMessage>> map = ref values.GetOrAddValueRef(key);
 
@@ -137,7 +164,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 handler = action;
 
                 // Make sure this registration map is tracked for the current recipient
-                ref HashSet<IDictionarySlim<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IDictionarySlim<Recipient>> set = ref this.recipientsMap.GetOrAddValueRef(key);
 
                 if (set is null)
                 {
@@ -152,13 +179,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Unregisters a recipient from all registered messages.
         /// </summary>
         /// <param name="recipient">The recipient to unregister.</param>
-        public static void Unregister(object recipient)
+        public void Unregister(object recipient)
         {
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
                 // If the recipient has no registered messages at all, ignore
                 var key = new Recipient(recipient);
-                ref HashSet<IDictionarySlim<Recipient>> set = ref RecipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IDictionarySlim<Recipient>> set = ref this.recipientsMap.GetOrAddValueRef(key);
 
                 if (set is null)
                 {
@@ -172,7 +199,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Remove the associated set in the static map
-                RecipientsMap.Remove(key);
+                this.recipientsMap.Remove(key);
             }
         }
 
@@ -182,7 +209,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to stop receiving.</typeparam>
         /// <param name="recipient">The recipient to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
-        public static void Unregister<TMessage>(object recipient)
+        public void Unregister<TMessage>(object recipient)
             where TMessage : class
         {
             Unregister<TMessage, Unit>(recipient, default);
@@ -195,15 +222,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The recipient to unregister.</param>
         /// <param name="token">The token to use to identify which handlers to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
-        public static void Unregister<TToken>(object recipient, TToken token)
+        public void Unregister<TToken>(object recipient, TToken token)
             where TToken : notnull, IEquatable<TToken>
         {
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
                 // Get the shared set of mappings for the recipient, if present
                 var key = new Recipient(recipient);
 
-                if (!RecipientsMap.TryGetValue(key, out HashSet<IDictionarySlim<Recipient>> set))
+                if (!this.recipientsMap.TryGetValue(key, out HashSet<IDictionarySlim<Recipient>> set))
                 {
                     return;
                 }
@@ -257,7 +284,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                                 if (set.Count == 0)
                                 {
-                                    RecipientsMap.Remove(key);
+                                    this.recipientsMap.Remove(key);
                                 }
                             }
                         }
@@ -280,14 +307,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The recipient to unregister.</param>
         /// <param name="token">The token to use to identify which handlers to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
-        public static void Unregister<TMessage, TToken>(object recipient, TToken token)
+        public void Unregister<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
                 // Get the registration list (same as above)
-                var values = Container<TMessage, TToken>.Values;
+                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
 
                 if (!values.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>> map))
@@ -307,13 +334,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 {
                     values.Remove(key);
 
-                    HashSet<IDictionarySlim<Recipient>> set = RecipientsMap[key];
+                    HashSet<IDictionarySlim<Recipient>> set = this.recipientsMap[key];
 
                     set.Remove(values);
 
                     if (set.Count == 0)
                     {
-                        RecipientsMap.Remove(key);
+                        this.recipientsMap.Remove(key);
                     }
                 }
             }
@@ -328,7 +355,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// message type exposes a parameterless constructor: it will automatically create
         /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
         /// </remarks>
-        public static void Send<TMessage>()
+        public void Send<TMessage>()
             where TMessage : class, new()
         {
             Send(new TMessage(), default(Unit));
@@ -339,7 +366,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         /// <typeparam name="TMessage">The type of message to send.</typeparam>
         /// <param name="message">The message to send.</param>
-        public static void Send<TMessage>(TMessage message)
+        public void Send<TMessage>(TMessage message)
             where TMessage : class
         {
             Send(message, default(Unit));
@@ -355,7 +382,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// This method will automatically create a new <typeparamref name="TMessage"/> instance
         /// just like <see cref="Send{TMessage}()"/>, and then send it to the right recipients.
         /// </remarks>
-        public static void Send<TMessage, TToken>(TToken token)
+        public void Send<TMessage, TToken>(TToken token)
             where TMessage : class, new()
             where TToken : notnull, IEquatable<TToken>
         {
@@ -369,21 +396,21 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
         /// <param name="message">The message to send.</param>
         /// <param name="token">The token indicating what channel to use.</param>
-        public static void Send<TMessage, TToken>(TMessage message, TToken token)
+        public void Send<TMessage, TToken>(TMessage message, TToken token)
             where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
             Action<TMessage>[] entries;
             int i = 0;
 
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
                 /* We need to make a local copy of the currently registered handlers,
                  * since users might try to unregister (or register) new handlers from
                  * inside one of the currently existing handlers. We can use memory pooling
                  * to reuse arrays, to minimize the average memory usage. In practice,
                  * we usually just need to pay the small overhead of copying the items. */
-                var values = Container<TMessage, TToken>.Values;
+                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
 
                 // Count the total number of recipients (including with different tokens)
                 foreach (var pair in values)
@@ -444,7 +471,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// message type exposes a parameterless constructor: it will automatically create
         /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
         /// </remarks>
-        public static TResult Request<TMessage, TResult>()
+        public TResult Request<TMessage, TResult>()
             where TMessage : RequestMessage<TResult>, new()
         {
             return Request<TMessage, TResult, Unit>(new TMessage(), default);
@@ -458,7 +485,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="message">The message to send.</param>
         /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
         /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
-        public static TResult Request<TMessage, TResult>(TMessage message)
+        public TResult Request<TMessage, TResult>(TMessage message)
             where TMessage : RequestMessage<TResult>
         {
             return Request<TMessage, TResult, Unit>(message, default);
@@ -477,7 +504,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// This method will automatically create a new <typeparamref name="TMessage"/> instance
         /// just like <see cref="Send{TMessage}()"/>, and then send it to the right recipients.
         /// </remarks>
-        public static TResult Request<TMessage, TResult, TToken>(TToken token)
+        public TResult Request<TMessage, TResult, TToken>(TToken token)
             where TMessage : RequestMessage<TResult>, new()
             where TToken : notnull, IEquatable<TToken>
         {
@@ -494,7 +521,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="token">The token indicating what channel to use.</param>
         /// <returns>The <typeparamref name="TResult"/> response value for the given message.</returns>
         /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
-        public static TResult Request<TMessage, TResult, TToken>(TMessage message, TToken token)
+        public TResult Request<TMessage, TResult, TToken>(TMessage message, TToken token)
             where TMessage : RequestMessage<TResult>
             where TToken : notnull, IEquatable<TToken>
         {
@@ -511,11 +538,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// Resets the <see cref="Messenger"/> class and unregisters all the existing recipients.
         /// </summary>
-        public static void Reset()
+        public void Reset()
         {
-            lock (RecipientsMap)
+            lock (this.recipientsMap)
             {
-                foreach (var pair in RecipientsMap)
+                foreach (var pair in this.recipientsMap)
                 {
                     // Clear all the typed maps, as they're assigned to static fields
                     foreach (var map in pair.Value)
@@ -525,29 +552,53 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Clear the shared map too
-                RecipientsMap.Clear();
+                this.recipientsMap.Clear();
             }
         }
 
         /// <summary>
-        /// A container class for registered recipients.
+        /// Gets the <see cref="Mapping{TMessage,TToken}"/> instance of currently registered recipients for the
+        /// combination of types <typeparamref name="TMessage"/> and <typeparamref name="TToken"/>, along with
+        /// their registered actions and tokens. Each recipient has an associated <see cref="DictionarySlim{TKey,TValue}"/>
+        /// mapping each token value to a specific handler on that communication channel, if available.
+        /// Using a pair of <see cref="DictionarySlim{TKey,TValue}"/> instances for the two indirect mappings allows for
+        /// quick access to all the handlers per recipient, and to the handler per token for each recipient.
         /// </summary>
-        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
-        /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
-        private static class Container<TMessage, TToken>
+        /// <typeparam name="TMessage">The type of message to send.</typeparam>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
+        /// <returns>A <see cref="Mapping{TMessage,TToken}"/> instance with the requested type arguments.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Mapping<TMessage, TToken> GetMapping<TMessage, TToken>()
             where TMessage : class
             where TToken : notnull, IEquatable<TToken>
         {
-            /// <summary>
-            /// The mapping of currently registered recipients for the combination of types
-            /// <typeparamref name="TMessage"/> and <typeparamref name="TToken"/>, along with
-            /// their registered actions and tokens. Each recipient has an associated <see cref="List{T}"/>
-            /// since it could have a number of handlers registered in parallel, each using a different
-            /// registration channel specified by the token in use. Using a <see cref="DictionarySlim{TKey,TValue}"/>
-            /// for the mapping allows for quick access to all the registered entries for each recipient.
-            /// </summary>
-            public static readonly DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> Values
-                = new DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>();
+            ref object target = ref this.typesMap.GetOrAddValueRef((typeof(TMessage), typeof(TToken)));
+
+            if (target is null)
+            {
+                target = new Mapping<TMessage, TToken>();
+            }
+
+            /* This method is the only one handling values in the types map, and here we
+             * are sure that the object reference we have points to an instance of the right
+             * type. Using an unsafe cast skips two conditional branches and is faster. */
+            return Unsafe.As<Mapping<TMessage, TToken>>(target);
+        }
+
+        /// <summary>
+        /// A mapping type representing a link to recipients and their view of handlers per communication channel.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
+        /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
+        /// <remarks>
+        /// This type is defined for simplicity and as a workaround for the lack of support for using type aliases
+        /// over open generic types in C# (using type aliases can only be used for concrete, closed types).
+        /// </remarks>
+        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>
+            where TMessage : class
+            where TToken : notnull, IEquatable<TToken>
+        {
         }
 
         /// <summary>

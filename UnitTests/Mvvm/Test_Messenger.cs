@@ -16,23 +16,23 @@ namespace UnitTests.Mvvm
         {
             object a = new object();
 
-            Assert.IsFalse(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Register<MessageA>(a, m => result = m.Text);
+            Messenger.Default.Register<MessageA>(a, m => result = m.Text);
 
-            Assert.IsTrue(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
 
-            Messenger.Send(new MessageA { Text = nameof(MessageA) });
+            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Unregister<MessageA>(a);
+            Messenger.Default.Unregister<MessageA>(a);
 
-            Assert.IsFalse(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             result = null;
-            Messenger.Send(new MessageA { Text = nameof(MessageA) });
+            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.IsNull(result);
         }
@@ -43,23 +43,23 @@ namespace UnitTests.Mvvm
         {
             object a = new object();
 
-            Assert.IsFalse(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Register<MessageA>(a, m => result = m.Text);
+            Messenger.Default.Register<MessageA>(a, m => result = m.Text);
 
-            Assert.IsTrue(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
 
-            Messenger.Send(new MessageA { Text = nameof(MessageA) });
+            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Unregister(a);
+            Messenger.Default.Unregister(a);
 
-            Assert.IsFalse(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             result = null;
-            Messenger.Send(new MessageA { Text = nameof(MessageA) });
+            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.IsNull(result);
         }
@@ -70,23 +70,23 @@ namespace UnitTests.Mvvm
         {
             object a = new object();
 
-            Assert.IsFalse(Messenger.IsRegistered<MessageA>(a));
+            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Register<MessageA, string>(a, nameof(MessageA), m => result = m.Text);
+            Messenger.Default.Register<MessageA, string>(a, nameof(MessageA), m => result = m.Text);
 
-            Assert.IsTrue(Messenger.IsRegistered<MessageA, string>(a, nameof(MessageA)));
+            Assert.IsTrue(Messenger.Default.IsRegistered<MessageA, string>(a, nameof(MessageA)));
 
-            Messenger.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
+            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
 
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Unregister<MessageA, string>(a, nameof(MessageA));
+            Messenger.Default.Unregister<MessageA, string>(a, nameof(MessageA));
 
-            Assert.IsFalse(Messenger.IsRegistered<MessageA, string>(a, nameof(MessageA)));
+            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA, string>(a, nameof(MessageA)));
 
             result = null;
-            Messenger.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
+            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
 
             Assert.IsNull(result);
         }

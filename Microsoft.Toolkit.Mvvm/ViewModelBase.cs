@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Mvvm
         /// <remarks>The base implementation unregisters all messages for this recipient (with no token).</remarks>
         protected virtual void OnDeactivate()
         {
-            Messenger.Unregister(this);
+            Messenger.Default.Unregister(this);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Mvvm
         {
             var message = new PropertyChangedMessage<T>(this, propertyName, oldValue, newValue);
 
-            Messenger.Send(message);
+            Messenger.Default.Send(message);
         }
 
         /// <summary>
