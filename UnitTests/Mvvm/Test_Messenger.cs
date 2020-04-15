@@ -93,7 +93,7 @@ namespace UnitTests.Mvvm
 
         public sealed class MessageA
         {
-            public string Text;
+            public string Text { get; set; }
         }
     }
 }
