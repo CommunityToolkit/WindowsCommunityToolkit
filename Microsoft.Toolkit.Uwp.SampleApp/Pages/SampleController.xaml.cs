@@ -56,7 +56,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
+
+#if HAS_UNO
+            CanSelectTheme = false;
+#endif
         }
+
+        public bool CanSelectTheme { get; set; } = true;
 
         /// <summary>
         /// Gets the Current UI Theme.

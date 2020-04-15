@@ -87,8 +87,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _layoutRoot = GetTemplateChild("LayoutRoot") as Panel;
             _matrixTransform = GetTemplateChild("MatrixTransform") as MatrixTransform;
 
+#if HAS_UNO // Incorrect value property precedence https://github.com/unoplatform/uno/issues/2993
+            OnChildChanged(savedContent);
+#else
             // RestoreAsync saved content
             Child = savedContent;
+#endif
 
             // Apply the current transform
             TransformUpdated();

@@ -4,7 +4,8 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-                    mc:Ignorable="d">
+					xmlns:xamarin="https://uno.ui/xamarin"
+                    mc:Ignorable="d xamarin">
 
     <converters:EmptyObjectToObjectConverter x:Key="NullToVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible" />
     <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -370,11 +371,16 @@
                                   Grid.Column="0"
                                   Grid.ColumnSpan="2"
                                   Background="{TemplateBinding Background}">
+								
+								<!-- UNO TODO https://github.com/unoplatform/uno/issues/857  -->
                                 <ContentPresenter x:Name="ContentPresenter"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch"
+												  xamarin:Content="{TemplateBinding Content}"
+												  xamarin:ContentTemplate="{TemplateBinding ContentTemplate}"
+												  xamarin:ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                                   Opacity="0">
                                     <ContentPresenter.RenderTransform>
                                         <TranslateTransform Y="0" />

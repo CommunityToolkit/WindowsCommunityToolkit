@@ -845,7 +845,9 @@
                                     </Border>
                                 </ControlTemplate>
                             </Grid.Resources>
-                            <ScrollViewer x:Name="ScrollViewer" BringIntoViewOnFocusChange="False" HorizontalScrollBarVisibility="Hidden" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" Margin="{TemplateBinding Padding}" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalContentAlignment="Stretch" VerticalSnapPointsType="None" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" ZoomMode="Disabled">
+                            <!--
+							UNO TODO https://github.com/unoplatform/uno/issues/258
+							<ScrollViewer x:Name="ScrollViewer" BringIntoViewOnFocusChange="False" HorizontalScrollBarVisibility="Hidden" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" Margin="{TemplateBinding Padding}" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalContentAlignment="Stretch" VerticalSnapPointsType="None" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" ZoomMode="Disabled">-->
                                 <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
                                     <Grid x:Name="PivotLayoutElement">
                                         <Grid.ColumnDefinitions>
@@ -894,7 +896,7 @@
                                         </ItemsPresenter>
                                     </Grid>
                                 </PivotPanel>
-                            </ScrollViewer>
+                            <!-- UNO TODO https://github.com/unoplatform/uno/issues/258 </ScrollViewer>-->
                         </Grid>
                     </Grid>
                 </ControlTemplate>
@@ -1335,4 +1337,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+	
+	
 </ResourceDictionary>
