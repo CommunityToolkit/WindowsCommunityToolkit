@@ -139,6 +139,7 @@
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_CollectionCapableDeepLinkParser.cs" />
+    <Compile Include="Mvvm\Test_ViewModelBase.cs" />
     <Compile Include="Mvvm\Test_ObservableObject.cs" />
     <Compile Include="Mvvm\Test_Messenger.cs" />
     <Compile Include="Mvvm\Test_Ioc.cs" />
