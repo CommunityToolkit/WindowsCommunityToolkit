@@ -1,12 +1,12 @@
 ﻿using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Mvvm.Commands
+namespace Microsoft.Toolkit.Mvvm.Commands.Interfaces
 {
     /// <summary>
-    /// A generic interface representing a more specific version of <see cref="ICommand"/>.
+    /// A generic interface representing a more specific version of <see cref="IRelayCommand"/>.
     /// </summary>
     /// <typeparam name="T">The type used as argument for the interface methods.</typeparam>
-    public interface ICommand<in T> : ICommand
+    public interface IRelayCommand<in T> : IRelayCommand
     {
         /// <summary>
         /// Provides a strongly-typed variant of <see cref="ICommand.CanExecute(object)"/>.

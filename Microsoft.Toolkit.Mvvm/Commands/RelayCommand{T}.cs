@@ -23,6 +23,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Mvvm.Commands.Interfaces;
 
 namespace Microsoft.Toolkit.Mvvm.Commands
 {
@@ -33,7 +34,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
     /// in the <see cref="Execute(T)"/> and <see cref="CanExecute(T)"/> callback methods.
     /// </summary>
     /// <typeparam name="T">The type of parameter being passed as input to the callbacks.</typeparam>
-    public sealed class RelayCommand<T> : ICommand<T>
+    public sealed class RelayCommand<T> : IRelayCommand<T>
     {
         /// <summary>
         /// The <see cref="Action"/> to invoke when <see cref="Execute(T)"/> is used.
@@ -68,9 +69,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
             this.canExecute = canExecute;
         }
 
-        /// <summary>
-        /// Raises the <see cref="CanExecuteChanged" /> event.
-        /// </summary>
+        /// <inheritdoc/>
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);

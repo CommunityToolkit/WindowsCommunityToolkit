@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Commands.Interfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Microsoft.Toolkit.Mvvm.Commands
@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
     /// action, and providing a <see cref="ExecutionTask"/> property that notifies changes when
     /// <see cref="Execute"/> is invoked and when the returned <see cref="Task{TResult}"/> completes.
     /// </summary>
-    public sealed class AsyncRelayCommand : ObservableObject, ICommand
+    public sealed class AsyncRelayCommand : ObservableObject, IRelayCommand
     {
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute"/> is used.
@@ -63,9 +63,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
             private set => SetAndNotifyOnCompletion(ref executionTask, () => executionTask, value);
         }
 
-        /// <summary>
-        /// Raises the <see cref="CanExecuteChanged" /> event.
-        /// </summary>
+        /// <inheritdoc/>
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
