@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         _xamlRenderer.DataContext = propertyDesc.Expando;
                     }
 
-                    if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                    if (propertyDesc?.Options.Count > 0)
                     {
                         InfoAreaPivot.Items.Add(PropertiesPivotItem);
                     }
