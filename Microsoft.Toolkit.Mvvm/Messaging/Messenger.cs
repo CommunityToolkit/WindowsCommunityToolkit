@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         //                    |                          \____/_____[*]IDictionarySlim<Recipient, Token>
         //                    |  ____________________________/             \____
         //                    | /                                               \
-        // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> Values
+        // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping
         //                                            /               /          /
         //                       __(T1)______________/_______________/          /
         //                      /     ____(T2)______/                          /
