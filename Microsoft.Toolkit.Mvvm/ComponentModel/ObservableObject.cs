@@ -97,9 +97,23 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
         /// raise the <see cref="PropertyChanged"/> again for the target property when it completes.
         /// This can be used to update bindings observing that <see cref="Task"/> or any of its properties.
+        /// Here is a sample property declaration using this method:
+        /// <code>
+        /// private Task myTask;
+        ///
+        /// public Task MyTask
+        /// {
+        ///     get => myTask;
+        ///     private set => SetAndNotifyOnCompletion(ref myTask, () => myTask, value);
+        /// }
+        /// </code>
         /// </summary>
         /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
-        /// <param name="field">An <see cref="Expression{TDelegate}"/> returning the field to update.</param>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="expr">
+        /// An <see cref="Expression{TDelegate}"/> returning the field to update. This is needed to be
+        /// able to raise the <see cref="PropertyChanged"/> to notify the completion of the input task.
+        /// </param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
@@ -107,34 +121,33 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetAndNotifyOnCompletion<TTask>(Expression<Func<TTask?>> field, TTask? newValue, [CallerMemberName] string propertyName = null!)
+        protected bool SetAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> expr, TTask? newValue, [CallerMemberName] string propertyName = null!)
             where TTask : Task
         {
-            // Get the target field to set
-            if (!((field.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
-            {
-                ThrowArgumentExceptionForInvalidFieldExpression();
-
-                // This is never executed, as the method above always throws
-                return false;
-            }
-
-            TTask? oldTask = (TTask?)fieldInfo.GetValue(this);
-
-            if (EqualityComparer<TTask?>.Default.Equals(oldTask, newValue))
+            if (EqualityComparer<TTask?>.Default.Equals(field, newValue))
             {
                 return false;
             }
 
             this.OnPropertyChanging(propertyName);
 
-            fieldInfo.SetValue(this, newValue);
+            field = newValue;
 
             OnPropertyChanged(propertyName);
 
             if (newValue is null)
             {
                 return true;
+            }
+
+            /* Get the target field to set. This is needed because we can't
+             * capture the ref field in a closure (for the async method). */
+            if (!((expr.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
+            {
+                ThrowArgumentExceptionForInvalidFieldExpression();
+
+                // This is never executed, as the method above always throws
+                return false;
             }
 
             /* We use a local async function here so that the main method can

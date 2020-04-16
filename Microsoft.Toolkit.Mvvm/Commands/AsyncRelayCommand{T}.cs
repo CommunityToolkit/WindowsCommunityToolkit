@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
         public Task? ExecutionTask
         {
             get => this.executionTask;
-            private set => SetAndNotifyOnCompletion(() => this.executionTask, value);
+            private set => SetAndNotifyOnCompletion(ref executionTask, () => executionTask, value);
         }
 
         /// <summary>

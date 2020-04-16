@@ -105,7 +105,7 @@ namespace UnitTests.Mvvm
             public Task<T> Data
             {
                 get => data;
-                set => SetAndNotifyOnCompletion(() => data, value);
+                set => SetAndNotifyOnCompletion(ref data, () => data, value);
             }
         }
     }
