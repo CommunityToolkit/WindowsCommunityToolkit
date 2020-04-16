@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetAndNotifyOnCompletion<TTask>(Expression<Func<TTask>> field, TTask newValue, [CallerMemberName] string propertyName = null!)
+        protected bool SetAndNotifyOnCompletion<TTask>(Expression<Func<TTask?>> field, TTask? newValue, [CallerMemberName] string propertyName = null!)
             where TTask : Task
         {
             // Get the target field to set
@@ -119,9 +119,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            TTask oldTask = (TTask)fieldInfo.GetValue(this);
+            TTask? oldTask = (TTask?)fieldInfo.GetValue(this);
 
-            if (EqualityComparer<TTask>.Default.Equals(oldTask, newValue))
+            if (EqualityComparer<TTask?>.Default.Equals(oldTask, newValue))
             {
                 return false;
             }
@@ -131,6 +131,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             fieldInfo.SetValue(this, newValue);
 
             OnPropertyChanged(propertyName);
+
+            if (newValue is null)
+            {
+                return true;
+            }
 
             /* We use a local async function here so that the main method can
              * remain synchronous and return a value that can be immediately
@@ -146,7 +151,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 {
                 }
 
-                TTask currentTask = (TTask)fieldInfo.GetValue(this);
+                TTask? currentTask = (TTask?)fieldInfo.GetValue(this);
 
                 // Only notify if the property hasn't changed
                 if (ReferenceEquals(newValue, currentTask))
