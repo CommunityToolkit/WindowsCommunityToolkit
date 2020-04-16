@@ -53,8 +53,8 @@ namespace Microsoft.Toolkit.Mvvm.Commands
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         public RelayCommand(Action execute)
-            : this(execute, null)
         {
+            this.execute = execute;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public RelayCommand(Action execute, Func<bool>? canExecute)
+        public RelayCommand(Action execute, Func<bool> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
