@@ -23,7 +23,6 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace Microsoft.Toolkit.Mvvm.Commands
 {
@@ -34,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
     /// in the <see cref="Execute(T)"/> and <see cref="CanExecute(T)"/> callback methods.
     /// </summary>
     /// <typeparam name="T">The type of parameter being passed as input to the callbacks.</typeparam>
-    public sealed class RelayCommand<T> : ICommand
+    public sealed class RelayCommand<T> : ICommand<T>
     {
         /// <summary>
         /// The <see cref="Action"/> to invoke when <see cref="Execute(T)"/> is used.
@@ -77,12 +76,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        /// <summary>
-        /// Provides a strongly-typed variant of <see cref="CanExecute(object)"/>.
-        /// </summary>
-        /// <param name="parameter">The input parameter.</param>
-        /// <returns>Whether or not the current command can be executed.</returns>
-        /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanExecute(T parameter)
         {
@@ -95,11 +89,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
             return CanExecute((T)parameter);
         }
 
-        /// <summary>
-        /// Provides a strongly-typed variant of <see cref="Execute(object)"/>.
-        /// </summary>
-        /// <param name="parameter">The input parameter.</param>
-        /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Execute(T parameter)
         {

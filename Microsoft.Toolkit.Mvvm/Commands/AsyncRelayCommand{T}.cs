@@ -5,7 +5,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Microsoft.Toolkit.Mvvm.Commands
@@ -17,7 +16,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
     /// <see cref="Execute(T)"/> is invoked and when the returned <see cref="Task{TResult}"/> completes.
     /// </summary>
     /// <typeparam name="T">The type of parameter being passed as input to the callbacks.</typeparam>
-    public sealed class AsyncRelayCommand<T> : ObservableObject, ICommand
+    public sealed class AsyncRelayCommand<T> : ObservableObject, ICommand<T>
     {
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute(T)"/> is used.
@@ -72,12 +71,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        /// <summary>
-        /// Provides a strongly-typed variant of <see cref="CanExecute(object)"/>.
-        /// </summary>
-        /// <param name="parameter">The input parameter.</param>
-        /// <returns>Whether or not the current command can be executed.</returns>
-        /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanExecute(T parameter)
         {
@@ -91,11 +85,7 @@ namespace Microsoft.Toolkit.Mvvm.Commands
             return CanExecute((T)parameter);
         }
 
-        /// <summary>
-        /// Provides a strongly-typed variant of <see cref="Execute(object)"/>.
-        /// </summary>
-        /// <param name="parameter">The input parameter.</param>
-        /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Execute(T parameter)
         {
