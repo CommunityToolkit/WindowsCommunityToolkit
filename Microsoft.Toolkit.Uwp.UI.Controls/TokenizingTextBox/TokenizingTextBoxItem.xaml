@@ -36,6 +36,8 @@
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
 
+                        <TextBox Name="PART_TextBox" Width="8"/>
+
                         <Rectangle
                             Name="SelectedState"
                             Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"

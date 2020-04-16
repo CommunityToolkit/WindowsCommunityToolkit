@@ -16,11 +16,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A control that manages as the item logic for the <see cref="TokenizingTextBox"/> control.
     /// </summary>
     [TemplatePart(Name = PART_ClearButton, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = PART_TextBox, Type = typeof(TextBox))]
     public class TokenizingTextBoxItem : ListViewItem
     {
         private const string PART_ClearButton = "PART_ClearButton";
+        private const string PART_TextBox = "PART_TextBox";
 
         private Button _clearButton;
+        private TextBox _dummyText;
 
         /// <summary>
         /// Event raised when the 'Clear' Button is clicked.
@@ -87,8 +90,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.Divide) ||
                     (code >= 0xBA && code <= 0xF5))
                 {
-                    e.Handled = true;
-                    KeyPressAction?.Invoke(this, e);
+                    ////e.Handled = true;
+                    ////KeyPressAction?.Invoke(this, e);
                 }
             }
         }
@@ -103,12 +106,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _clearButton.Click -= ClearButton_Click;
             }
 
-            _clearButton = (Button)GetTemplateChild(PART_ClearButton);
+            _clearButton = GetTemplateChild(PART_ClearButton) as Button;
+            _dummyText = GetTemplateChild(PART_TextBox) as TextBox;
 
             if (_clearButton != null)
             {
                 _clearButton.Click += ClearButton_Click;
             }
+
+            _dummyText.KeyDown += this._dummyText_KeyDown;
+            _dummyText.TextChanged += this._dummyText_TextChanged;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -132,6 +139,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
                 }
             }
+        }
+
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            _dummyText.Focus(FocusState.Programmatic);
+        }
+
+        private void _dummyText_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            
+        }
+
+        private void _dummyText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
         }
     }
 }
