@@ -37,11 +37,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     {
         // The Messenger class uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
-        // DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> recipientsMap
+        // DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> recipientsMap;
         //                    |                         \      /
-        //                    |                          \____/_____[*]IDictionarySlim<Recipient, Token>
-        //                    |  ____________________________/             \____
-        //                    | /                                               \
+        //                    |                          \____/_____[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
+        //                    |   ___________________________/             \____                    /
+        //                    |  /           ___________________________________\__________________/
+        //                    | /           /                                    \
         // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping
         //                                            /               /          /
         //                       __(T1)______________/_______________/          /
