@@ -20,9 +20,13 @@
 // </license>
 // ****************************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
@@ -83,6 +87,86 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             this.OnPropertyChanged(propertyName);
 
             return true;
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given field (which should be the backing
+        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
+        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// The behavior mirrors that of <see cref="Set{T}"/>, with the difference being that this method
+        /// will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
+        /// raise the <see cref="PropertyChanged"/> again for the target property when it completes.
+        /// This can be used to update bindings observing that <see cref="Task"/> or any of its properties.
+        /// </summary>
+        /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
+        /// <param name="field">An <see cref="Expression{TDelegate}"/> returning the field to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
+        /// if the current and new value for the target property are the same.
+        /// </remarks>
+        protected bool SetAndNotifyOnCompletion<TTask>(Expression<Func<TTask>> field, TTask newValue, [CallerMemberName] string propertyName = null!)
+            where TTask : Task
+        {
+            // Get the target field to set
+            if (!((field.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
+            {
+                ThrowArgumentExceptionForInvalidFieldExpression();
+
+                // This is never executed, as the method above always throws
+                return false;
+            }
+
+            TTask oldTask = (TTask)fieldInfo.GetValue(this);
+
+            if (EqualityComparer<TTask>.Default.Equals(oldTask, newValue))
+            {
+                return false;
+            }
+
+            this.OnPropertyChanging(propertyName);
+
+            fieldInfo.SetValue(this, newValue);
+
+            OnPropertyChanged(propertyName);
+
+            /* We use a local async function here so that the main method can
+             * remain synchronous and return a value that can be immediately
+             * used by the caller. This mirrors Set<T>(ref T, T, string). */
+            async Task MonitorTaskAsync()
+            {
+                try
+                {
+                    // Await the task and ignore any exceptions
+                    await newValue;
+                }
+                catch
+                {
+                }
+
+                TTask currentTask = (TTask)fieldInfo.GetValue(this);
+
+                // Only notify if the property hasn't changed
+                if (ReferenceEquals(newValue, currentTask))
+                {
+                    OnPropertyChanged(propertyName);
+                }
+            }
+
+            _ = MonitorTaskAsync();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property field.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowArgumentExceptionForInvalidFieldExpression()
+        {
+            throw new ArgumentException("The given expression must be in the form () => field");
         }
     }
 }
