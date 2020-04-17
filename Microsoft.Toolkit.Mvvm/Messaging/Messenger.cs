@@ -45,20 +45,19 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         //                    | /           /                                    \
         // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping
         //                                            /               /          /
-        //                       __(Type2.tToken)____/               /          /
-        //                      /_______________(Type2.tMessage)____/          /
-        //                     /                                              /
-        //                    /      ________________(as object)_____________/
-        //                   /      /
-        // DictionarySlim<Type2, object> typesMap;
+        //                      ___(Type2.tToken)____/               /          /
+        //                     /________________(Type2.tMessage)____/          /
+        //                    /           ____________________________________/
+        //                   /           /
+        // DictionarySlim<Type2, IDictionarySlim<Recipient>> typesMap;
         // --------------------------------------------------------------------------------------------------------
         // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds
         // the references from registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
         // dictionary, so that each recipient can have up to one registered handler for a given token, for each
         // message type. Each mapping is stored in the types map, which associates to each pair of concrete types the
-        // mapping instances. Each instances is just exposed as an object, as each will be a closed type over a different
-        // combination of TMessage and TToken generic type parameters. Each existing recipient is also stored in the main
-        // recipients map, along with a set of all the existing dictionaries of handlers for that recipient (for all
+        // mapping instances. Each instances is just exposed as an IDictionarySlim<Recipient>, as each will be a closed type over
+        // a different combination of TMessage and TToken generic type parameters. Each existing recipient is also stored in
+        // the main recipients map, along with a set of all the existing dictionaries of handlers for that recipient (for all
         // message types and token types). A recipient is stored in the main map as long as it has at least one
         // registered handler in any of the existing mappings for every message/token type combination.
         // The shared map is used to access the set of all registered handlers for a given recipient, without having
@@ -87,12 +86,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// The <see cref="Mapping{TMessage,TToken}"/> instance for types combination.
         /// </summary>
         /// <remarks>
-        /// The values are just of type <see cref="object"/> as we don't know the type parameters in advance.
+        /// The values are just of type <see cref="IDictionarySlim{T}"/> as we don't know the type parameters in advance.
         /// Each method relies on <see cref="GetOrAddMapping{TMessage,TToken}"/> to get the type-safe instance
         /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
         /// </remarks>
-        private readonly DictionarySlim<Type2, object> typesMap
-            = new DictionarySlim<Type2, object>();
+        private readonly DictionarySlim<Type2, IDictionarySlim<Recipient>> typesMap
+            = new DictionarySlim<Type2, IDictionarySlim<Recipient>>();
 
         /// <summary>
         /// Gets the default <see cref="Messenger"/> instance.
@@ -442,7 +441,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             var key = new Type2(typeof(TMessage), typeof(TToken));
 
-            if (this.typesMap.TryGetValue(key, out object target))
+            if (this.typesMap.TryGetValue(key, out IDictionarySlim<Recipient> target))
             {
                 /* This method and the ones above are the only ones handling values in the types map,
                  * and here we are sure that the object reference we have points to an instance of the
@@ -470,7 +469,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TToken : IEquatable<TToken>
         {
             var key = new Type2(typeof(TMessage), typeof(TToken));
-            ref object target = ref this.typesMap.GetOrAddValueRef(key);
+            ref IDictionarySlim<Recipient> target = ref this.typesMap.GetOrAddValueRef(key);
 
             target ??= new Mapping<TMessage, TToken>();
 
