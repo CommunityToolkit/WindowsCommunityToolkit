@@ -250,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var last = elements.Last();
                 foreach (var child in elements)
                 {
-                    arrange(child, child == last && StretchChild == StretchChild.Last);
+                    Arrange(child, child == last && StretchChild == StretchChild.Last);
                 }
             }
 
