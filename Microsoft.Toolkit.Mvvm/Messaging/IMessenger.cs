@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to check for the given recipient.</typeparam>
         /// <param name="recipient">The target recipient to check the registration for.</param>
         /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
+        /// <remarks>This method will use the default channel to check for the requested registration.</remarks>
         [Pure]
         bool IsRegistered<TMessage>(object recipient)
             where TMessage : class;
@@ -42,6 +43,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
+        /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
         void Register<TMessage>(object recipient, Action<TMessage> action)
             where TMessage : class;
 
@@ -62,6 +64,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Unregisters a recipient from all registered messages.
         /// </summary>
         /// <param name="recipient">The recipient to unregister.</param>
+        /// <remarks>
+        /// This method will unregister the target recipient across all channels.
+        /// Use this method as an easy way to lose all references to a target recipient.
+        /// If the recipient has no registered handler, this method does nothing.
+        /// </remarks>
         void Unregister(object recipient);
 
         /// <summary>
@@ -69,12 +76,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         /// <typeparam name="TMessage">The type of message to stop receiving.</typeparam>
         /// <param name="recipient">The recipient to unregister.</param>
-        /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
+        /// <remarks>
+        /// This method will unregister the target recipient only from the default channel.
+        /// If the recipient has no registered handler, this method does nothing.
+        /// </remarks>
         void Unregister<TMessage>(object recipient)
             where TMessage : class;
 
         /// <summary>
-        /// Unregisters a recipient from messages on a specific channel.
+        /// Unregisters a recipient from all messages on a specific channel.
         /// </summary>
         /// <typeparam name="TToken">The type of token to identify what channel to unregister from.</typeparam>
         /// <param name="recipient">The recipient to unregister.</param>
