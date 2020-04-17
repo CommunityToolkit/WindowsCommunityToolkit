@@ -30,7 +30,7 @@ namespace UnitTests.Mvvm
 
             command.CanExecuteChanged += (s, e) => args = (s, e);
 
-            command.RaiseCanExecuteChanged();
+            command.NotifyCanExecuteChanged();
 
             Assert.AreSame(args.Item1, command);
             Assert.AreSame(args.Item2, EventArgs.Empty);

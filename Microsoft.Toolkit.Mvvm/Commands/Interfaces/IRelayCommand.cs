@@ -13,8 +13,8 @@ namespace Microsoft.Toolkit.Mvvm.Input
     public interface IRelayCommand : ICommand
     {
         /// <summary>
-        /// Raises the <see cref="ICommand.CanExecuteChanged" /> event.
+        /// Notifies that the <see cref="ICommand.CanExecute"/> property has changed.
         /// </summary>
-        void RaiseCanExecuteChanged();
+        void NotifyCanExecuteChanged();
     }
 }
