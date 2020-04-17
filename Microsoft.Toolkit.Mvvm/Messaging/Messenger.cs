@@ -45,12 +45,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         //                    | /           /                                    \
         // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping
         //                                            /               /          /
-        //                       __(T1)______________/_______________/          /
-        //                      /     ____(T2)______/                          /
-        //                     /     /                                        /
-        //                    /     /        ________(as object)_____________/
-        //                   /     /        /
-        // DictionarySlim<(Type, Type), object> typesMap;
+        //                       __(Type2.tToken)____/               /          /
+        //                      /_______________(Type2.tMessage)____/          /
+        //                     /                                              /
+        //                    /      ________________(as object)_____________/
+        //                   /      /
+        // DictionarySlim<Type2, object> typesMap;
         // --------------------------------------------------------------------------------------------------------
         // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds
         // the references from registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
@@ -91,8 +91,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Each method relies on <see cref="GetOrAddMapping{TMessage,TToken}"/> to get the type-safe instance
         /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
         /// </remarks>
-        private readonly DictionarySlim<(Type, Type), object> typesMap
-            = new DictionarySlim<(Type, Type), object>();
+        private readonly DictionarySlim<Type2, object> typesMap
+            = new DictionarySlim<Type2, object>();
 
         /// <summary>
         /// Gets the default <see cref="Messenger"/> instance.
@@ -440,7 +440,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            if (this.typesMap.TryGetValue((typeof(TMessage), typeof(TToken)), out object target))
+            var key = new Type2(typeof(TMessage), typeof(TToken));
+
+            if (this.typesMap.TryGetValue(key, out object target))
             {
                 /* This method and the ones above are the only ones handling values in the types map,
                  * and here we are sure that the object reference we have points to an instance of the
@@ -467,7 +469,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            ref object target = ref this.typesMap.GetOrAddValueRef((typeof(TMessage), typeof(TToken)));
+            var key = new Type2(typeof(TMessage), typeof(TToken));
+            ref object target = ref this.typesMap.GetOrAddValueRef(key);
 
             target ??= new Mapping<TMessage, TToken>();
 
@@ -535,6 +538,75 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             public override int GetHashCode()
             {
                 return RuntimeHelpers.GetHashCode(this.target);
+            }
+        }
+
+        /// <summary>
+        /// A simple type representing an immutable pair of types.
+        /// </summary>
+        /// <remarks>
+        /// This type replaces a simple <see cref="ValueTuple{T1,T2}"/> as it's faster in its
+        /// <see cref="GetHashCode"/> and <see cref="IEquatable{T}.Equals(T)"/> methods, and because
+        /// unlike a value tuple it exposes its fields as immutable. Additionally, the
+        /// <see cref="tMessage"/> and <see cref="tToken"/> fields provide additional clarity reading
+        /// the code compared to <see cref="ValueTuple{T1,T2}.Item1"/> and <see cref="ValueTuple{T1,T2}.Item2"/>.
+        /// </remarks>
+        public readonly struct Type2 : IEquatable<Type2>
+        {
+            /// <summary>
+            /// The type of registered message.
+            /// </summary>
+            private readonly Type tMessage;
+
+            /// <summary>
+            /// The type of registration token.
+            /// </summary>
+            private readonly Type tToken;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Type2"/> struct.
+            /// </summary>
+            /// <param name="tMessage">The type of registered message.</param>
+            /// <param name="tToken">The type of registration token.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public Type2(Type tMessage, Type tToken)
+            {
+                this.tMessage = tMessage;
+                this.tToken = tToken;
+            }
+
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool Equals(Type2 other)
+            {
+                return
+                    ReferenceEquals(this.tMessage, other.tMessage) &&
+                    ReferenceEquals(this.tToken, other.tToken);
+            }
+
+            /// <inheritdoc/>
+            public override bool Equals(object? obj)
+            {
+                return obj is Type2 other && Equals(other);
+            }
+
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    /* To combine the two hashes, we can simply use the fast djb2 hash algorithm.
+                     * This is not a problem in this case since we already know that the base
+                     * RuntimeHelpers.GetHashCode method is providing hashes with a good enough distribution. */
+                    int hash = RuntimeHelpers.GetHashCode(this.tMessage);
+
+                    hash = (hash << 5) + hash;
+
+                    hash += RuntimeHelpers.GetHashCode(this.tToken);
+
+                    return hash;
+                }
             }
         }
 
