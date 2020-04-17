@@ -172,9 +172,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             {
                 // If the recipient has no registered messages at all, ignore
                 var key = new Recipient(recipient);
-                ref HashSet<IDictionarySlim<Recipient>> set = ref this.recipientsMap.GetOrAddValueRef(key);
 
-                if (set is null)
+                if (!this.recipientsMap.TryGetValue(key, out HashSet<IDictionarySlim<Recipient>> set))
                 {
                     return;
                 }
@@ -185,7 +184,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     map.Remove(key);
                 }
 
-                // Remove the associated set in the static map
+                // Remove the associated set in the recipients map
                 this.recipientsMap.Remove(key);
             }
         }
