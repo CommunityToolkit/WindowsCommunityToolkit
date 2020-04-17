@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TToken : IEquatable<TToken>;
 
         /// <summary>
-        /// Resets the <see cref="Messenger"/> class and unregisters all the existing recipients.
+        /// Resets the <see cref="IMessenger"/> instance and unregisters all the existing recipients.
         /// </summary>
         void Reset();
     }
