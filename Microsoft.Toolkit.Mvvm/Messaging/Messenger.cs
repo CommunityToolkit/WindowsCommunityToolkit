@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         /// <remarks>
         /// The values are just of type <see cref="object"/> as we don't know the type parameters in advance.
-        /// Each method relies on <see cref="GetMapping{TMessage,TToken}"/> to get the type-safe instance
+        /// Each method relies on <see cref="GetOrAddMapping{TMessage,TToken}"/> to get the type-safe instance
         /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
         /// </remarks>
         private readonly DictionarySlim<(Type, Type), object> typesMap
@@ -114,10 +114,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
+                if (!TryGetMapping(out Mapping<TMessage, TToken>? mapping))
+                {
+                    return false;
+                }
+
                 var key = new Recipient(recipient);
 
-                return values.ContainsKey(key);
+                return mapping!.ContainsKey(key);
             }
         }
 
@@ -136,7 +140,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 // Get the <TMessage, TToken> registration list for this recipient
-                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
+                Mapping<TMessage, TToken> values = GetOrAddMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
                 ref DictionarySlim<TToken, Action<TMessage>> map = ref values.GetOrAddValueRef(key);
 
@@ -278,11 +282,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                // Get the registration list (same as above)
-                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
+                // Get the registration list, if available
+                if (!TryGetMapping(out Mapping<TMessage, TToken>? mapping))
+                {
+                    return;
+                }
+
                 var key = new Recipient(recipient);
 
-                if (!values.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>> map))
+                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>> map))
                 {
                     return;
                 }
@@ -297,11 +305,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                  * to the static mapping between existing registered recipients. */
                 if (map.Count == 0)
                 {
-                    values.Remove(key);
+                    mapping.Remove(key);
 
                     HashSet<IDictionarySlim<Recipient>> set = this.recipientsMap[key];
 
-                    set.Remove(values);
+                    set.Remove(mapping);
 
                     if (set.Count == 0)
                     {
@@ -348,10 +356,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                  * inside one of the currently existing handlers. We can use memory pooling
                  * to reuse arrays, to minimize the average memory usage. In practice,
                  * we usually just need to pay the small overhead of copying the items. */
-                Mapping<TMessage, TToken> values = GetMapping<TMessage, TToken>();
+                if (!TryGetMapping(out Mapping<TMessage, TToken>? mapping))
+                {
+                    return;
+                }
 
                 // Count the total number of recipients (including with different tokens)
-                foreach (var pair in values)
+                foreach (var pair in mapping!)
                 {
                     i += pair.Value.Count;
                 }
@@ -367,7 +378,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                  * to count the number of matching handlers to invoke later on.
                  * This will be the array slice with valid actions in the rented buffer. */
                 i = 0;
-                foreach (var pair in values)
+                foreach (var pair in mapping)
                 {
                     foreach (var entry in pair.Value)
                     {
@@ -417,19 +428,43 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <summary>
-        /// Gets the <see cref="Mapping{TMessage,TToken}"/> instance of currently registered recipients for the
-        /// combination of types <typeparamref name="TMessage"/> and <typeparamref name="TToken"/>, along with
-        /// their registered actions and tokens. Each recipient has an associated <see cref="DictionarySlim{TKey,TValue}"/>
-        /// mapping each token value to a specific handler on that communication channel, if available.
-        /// Using a pair of <see cref="DictionarySlim{TKey,TValue}"/> instances for the two indirect mappings allows for
-        /// quick access to all the handlers per recipient, and to the handler per token for each recipient.
+        /// Tries to get the <see cref="Mapping{TMessage,TToken}"/> instance of currently registered recipients
+        /// for the combination of types <typeparamref name="TMessage"/> and <typeparamref name="TToken"/>.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to send.</typeparam>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
+        /// <param name="mapping">The resulting <see cref="Mapping{TMessage,TToken}"/> instance, if found.</param>
+        /// <returns>Whether or not the required <see cref="Mapping{TMessage,TToken}"/> instance was found.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool TryGetMapping<TMessage, TToken>(out Mapping<TMessage, TToken>? mapping)
+            where TMessage : class
+            where TToken : IEquatable<TToken>
+        {
+            if (this.typesMap.TryGetValue((typeof(TMessage), typeof(TToken)), out object target))
+            {
+                /* This method and the ones above are the only ones handling values in the types map,
+                 * and here we are sure that the object reference we have points to an instance of the
+                 * right type. Using an unsafe cast skips two conditional branches and is faster. */
+                mapping = Unsafe.As<Mapping<TMessage, TToken>>(target);
+
+                return true;
+            }
+
+            mapping = null;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Mapping{TMessage,TToken}"/> instance of currently registered recipients
+        /// for the combination of types <typeparamref name="TMessage"/> and <typeparamref name="TToken"/>.
         /// </summary>
         /// <typeparam name="TMessage">The type of message to send.</typeparam>
         /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
         /// <returns>A <see cref="Mapping{TMessage,TToken}"/> instance with the requested type arguments.</returns>
-        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Mapping<TMessage, TToken> GetMapping<TMessage, TToken>()
+        private Mapping<TMessage, TToken> GetOrAddMapping<TMessage, TToken>()
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
@@ -437,9 +472,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             target ??= new Mapping<TMessage, TToken>();
 
-            /* This method is the only one handling values in the types map, and here we
-             * are sure that the object reference we have points to an instance of the right
-             * type. Using an unsafe cast skips two conditional branches and is faster. */
             return Unsafe.As<Mapping<TMessage, TToken>>(target);
         }
 
