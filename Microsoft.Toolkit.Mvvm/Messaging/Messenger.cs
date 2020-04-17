@@ -253,6 +253,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                      * matches with the token type currently in use, and operate on those instances. */
                     foreach (IDictionarySlim<Recipient, IDictionarySlim<TToken>> map in maps.AsSpan(0, i))
                     {
+                        /* We don't need whether or not the map contains the recipient, as the
+                         * sequence of maps has already been copied from the set containing all
+                         * the mappings for the target recipiets: it is guaranteed to be here. */
                         IDictionarySlim<TToken> holder = map[key];
 
                         /* Remove the registered handler for the input token,

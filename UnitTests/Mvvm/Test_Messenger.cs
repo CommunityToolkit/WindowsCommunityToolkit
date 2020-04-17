@@ -18,9 +18,16 @@ namespace UnitTests.Mvvm
             var recipient = new object();
 
             messenger.Register<MessageA>(recipient, m => { });
+
+            // Fail check
+            messenger.Unregister<MessageA>(new object());
+
             messenger.Unregister<MessageA>(recipient);
 
             Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
+
+            // Fail check
+            messenger.Unregister<MessageA>(new object());
         }
 
         [TestCategory("Mvvm")]
@@ -31,9 +38,16 @@ namespace UnitTests.Mvvm
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+
+            // Fail check
+            messenger.Unregister<MessageA, string>(new object(), nameof(MessageA));
+
             messenger.Unregister<MessageA, string>(recipient, nameof(MessageA));
 
             Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
+
+            // Fail check
+            messenger.Unregister<MessageA, string>(new object(), nameof(MessageA));
         }
 
         [TestCategory("Mvvm")]
@@ -44,9 +58,16 @@ namespace UnitTests.Mvvm
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+
+            // Fail check
+            messenger.Unregister(new object(), nameof(MessageA));
+
             messenger.Unregister(recipient, nameof(MessageA));
 
             Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
+
+            // Fail check
+            messenger.Unregister(new object(), nameof(MessageA));
         }
 
         [TestCategory("Mvvm")]
@@ -57,9 +78,16 @@ namespace UnitTests.Mvvm
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+
+            // Fail check
+            messenger.Unregister(new object());
+
             messenger.Unregister(recipient);
 
             Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
+
+            // Fail check
+            messenger.Unregister(new object());
         }
 
         [TestCategory("Mvvm")]
