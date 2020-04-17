@@ -34,16 +34,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     public abstract class ViewModelBase : ObservableObject
     {
         /// <summary>
-        /// The optional <see cref="IMessenger"/> instance to use.
-        /// </summary>
-        private readonly IMessenger? messenger;
-
-        /// <summary>
-        /// The optional <see cref="IIoc"/> instance to use.
-        /// </summary>
-        private readonly IIoc? ioc;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
         /// <remarks>
@@ -51,6 +41,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// and <see cref="Services.Ioc.Default"/> services to perform operations.
         /// </remarks>
         protected ViewModelBase()
+            : this(Messaging.Messenger.Default, Services.Ioc.Default)
         {
         }
 
@@ -59,8 +50,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
         protected ViewModelBase(IMessenger messenger)
+            : this(messenger, Services.Ioc.Default)
         {
-            this.messenger = messenger;
         }
 
         /// <summary>
@@ -68,8 +59,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="ioc">The optional <see cref="IIoc"/> instance to use to retrieve services.</param>
         protected ViewModelBase(IIoc ioc)
+            : this(Messaging.Messenger.Default, ioc)
         {
-            this.ioc = ioc;
         }
 
         /// <summary>
@@ -79,19 +70,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="ioc">The optional <see cref="IIoc"/> instance to use to retrieve services.</param>
         protected ViewModelBase(IMessenger messenger, IIoc ioc)
         {
-            this.messenger = messenger;
-            this.ioc = ioc;
+            Messenger = messenger;
+            Ioc = ioc;
         }
 
         /// <summary>
         /// Gets the <see cref="IMessenger"/> instance in use.
         /// </summary>
-        protected IMessenger Messenger => this.messenger ?? Messaging.Messenger.Default;
+        protected IMessenger Messenger { get; }
 
         /// <summary>
         /// Gets the <see cref="IIoc"/> instance in use.
         /// </summary>
-        protected IIoc Ioc => this.ioc ?? Services.Ioc.Default;
+        protected IIoc Ioc { get; }
 
         private bool isActive;
 
