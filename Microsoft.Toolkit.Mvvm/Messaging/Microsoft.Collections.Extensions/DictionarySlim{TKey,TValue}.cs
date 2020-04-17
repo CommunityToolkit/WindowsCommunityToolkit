@@ -273,16 +273,16 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         public ref struct Enumerator
         {
-            private readonly DictionarySlim<TKey, TValue> dictionary;
+            private readonly Entry[] entries;
             private int index;
             private int count;
             private KeyValuePair<TKey, TValue> current;
 
             internal Enumerator(DictionarySlim<TKey, TValue> dictionary)
             {
-                this.dictionary = dictionary;
+                this.entries = dictionary.entries;
                 this.index = 0;
-                this.count = this.dictionary.count;
+                this.count = dictionary.count;
                 this.current = default;
             }
 
@@ -292,24 +292,32 @@ namespace Microsoft.Collections.Extensions
                 if (this.count == 0)
                 {
                     this.current = default;
+
                     return false;
                 }
 
                 this.count--;
 
-                while (this.dictionary.entries[this.index].Next < -1)
+                Entry[] entries = this.entries;
+
+                while (entries[this.index].Next < -1)
                 {
                     this.index++;
                 }
 
                 this.current = new KeyValuePair<TKey, TValue>(
-                    this.dictionary.entries[this.index].Key,
-                    this.dictionary.entries[this.index++].Value);
+                    entries[this.index].Key,
+                    entries[this.index++].Value);
+
                 return true;
             }
 
             /// <inheritdoc cref="IEnumerator{T}.Current"/>
-            public KeyValuePair<TKey, TValue> Current => this.current;
+            public KeyValuePair<TKey, TValue> Current
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => this.current;
+            }
         }
 
         /// <summary>
