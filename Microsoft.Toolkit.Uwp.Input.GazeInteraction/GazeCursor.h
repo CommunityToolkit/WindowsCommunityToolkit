@@ -26,22 +26,21 @@ public:
 	void IsCursorVisible(bool const& value);
 
 	bool IsGazeEntered() { return _isGazeEntered; }
-	void IsGazeEntered(bool const& value) { _isGazeEntered = value; }
+	void IsGazeEntered(bool const& value);
 
 	Point Position() { return _cursorPosition; }
 	void Position(Point const& value)
 	{
 		_cursorPosition = value;
-		_gazePopup.HorizontalOffset = value.X;
-		_gazePopup.VerticalOffset = value.Y;
+		_gazePopup.HorizontalOffset(value.X);
+		_gazePopup.VerticalOffset(value.Y);
 		SetVisibility();
 	}
 
-	UIElement PopupChild() { return _gazePopup.Child; };
-	void PopupChild(UIElement value) { _gazePopup.Child = value; }
+	UIElement PopupChild() { return _gazePopup.Child(); };
+	void PopupChild(UIElement value) { _gazePopup.Child(value); }
 
-
-	FrameworkElement CursorElement() { return _gazePopup.Child; }
+	FrameworkElement CursorElement() { return _gazePopup.Child().try_as<FrameworkElement>(); }
 
 	GazeCursor();
 

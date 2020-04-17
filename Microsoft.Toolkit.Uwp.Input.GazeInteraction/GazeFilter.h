@@ -24,10 +24,10 @@ struct GazeFilterArgs sealed
     /// </summary>
     TimeSpan Timestamp () { return _timestamp; }
 
-    GazeFilterArgs(Point location, TimeSpan timestamp)
+    GazeFilterArgs(Point location, TimeSpan timestamp):
+        _location{ location },
+        _timestamp{ timestamp }
     {
-        _location = location;
-        _timestamp = timestamp;
     }
 
 private:
@@ -36,12 +36,13 @@ private:
     TimeSpan _timestamp;
 };
 
-// Every filter must provide an Wpdate method which transforms sample data 
+// Every filter must provide an Update method which transforms sample data
 // and returns filtered output
-interface IGazeFilter
+class IGazeFilter
 {
-    GazeFilterArgs Update(GazeFilterArgs args);
-    void LoadSettings(ValueSet settings);
+public:
+    virtual GazeFilterArgs Update(GazeFilterArgs args) = 0;
+    virtual void LoadSettings(ValueSet settings) = 0;
 };
 
 
@@ -50,15 +51,9 @@ interface IGazeFilter
 class NullFilter sealed : public IGazeFilter
 {
 public:
-    virtual inline GazeFilterArgs Update(GazeFilterArgs args)
-    {
-        return args;
-    }
+    GazeFilterArgs Update(GazeFilterArgs args);
 
-    virtual inline void LoadSettings(ValueSet settings)
-    {
-
-    }
+    void LoadSettings(ValueSet settings);
 };
 
 END_NAMESPACE_GAZE_INPUT

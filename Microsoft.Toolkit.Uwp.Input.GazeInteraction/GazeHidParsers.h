@@ -11,64 +11,64 @@ using namespace winrt::Windows::Devices::Input::Preview;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 namespace GazeHidParsers {
-    class GazeHidPosition sealed
-    {
-    public:
-        property long long X;
-        property long long Y;
-        property long long Z;
-    };
+	class GazeHidPosition sealed
+	{
+	public:
+		long long X;
+		long long Y;
+		long long Z;
+	};
 
-    class GazeHidPositions sealed
-    {
-    public:
-        property GazeHidPosition LeftEyePosition;
-        property GazeHidPosition RightEyePosition;
-        property GazeHidPosition HeadPosition;
-        property GazeHidPosition HeadRotation;
-    };
+	class GazeHidPositions sealed
+	{
+	public:
+		GazeHidPosition LeftEyePosition;
+		GazeHidPosition RightEyePosition;
+		GazeHidPosition HeadPosition;
+		GazeHidPosition HeadRotation;
+	};
 
-    class GazeHidPositionParser sealed
-    {
-    public:
-        GazeHidPositionParser(GazeDevicePreview  gazeDevice, uint16 usage);
+	class GazeHidPositionParser sealed
+	{
+	public:
+		GazeHidPositionParser(GazeDevicePreview  gazeDevice, unsigned short usage);
 
-        GazeHidPosition GetPosition(HidInputReport  report);
+		GazeHidPosition GetPosition(HidInputReport  report);
 
-    private:
-        HidNumericControlDescription  _X = nullptr;
-        HidNumericControlDescription  _Y = nullptr;
-        HidNumericControlDescription  _Z = nullptr;
-        uint16 _usage                     = 0x0000;
-    };
+	private:
+		HidNumericControlDescription  _X = nullptr;
+		HidNumericControlDescription  _Y = nullptr;
+		HidNumericControlDescription  _Z = nullptr;
+		unsigned short _usage = 0x0000;
+	};
 
-    class GazeHidRotationParser sealed
-    {
-    public:
-        GazeHidRotationParser(GazeDevicePreview  gazeDevice, uint16 usage);
+	class GazeHidRotationParser sealed
+	{
+	public:
+		GazeHidRotationParser(GazeDevicePreview  gazeDevice, unsigned short usage);
 
-        GazeHidPosition GetRotation(HidInputReport report);
+		GazeHidPosition GetRotation(const HidInputReport& report);
 
-    private:
-        HidNumericControlDescription  _X = nullptr;
-        HidNumericControlDescription  _Y = nullptr;
-        HidNumericControlDescription  _Z = nullptr;
-        uint16 _usage                     = 0x0000;
-    };
+	private:
+		HidNumericControlDescription _X;
+		HidNumericControlDescription _Y;
+		HidNumericControlDescription _Z;
+		unsigned short _usage = 0x0000;
+	};
 
-    class GazeHidPositionsParser sealed
-    {
-    public:
-        GazeHidPositionsParser(GazeDevicePreview  gazeDevice);
+	class GazeHidPositionsParser sealed
+	{
+	public:
+		GazeHidPositionsParser(GazeDevicePreview  gazeDevice);
 
-        GazeHidPositions GetGazeHidPositions(HidInputReport  report);
+		GazeHidPositions GetGazeHidPositions(HidInputReport  report);
 
-    private:
-        GazeHidPositionParser  _leftEyePositionParser;
-        GazeHidPositionParser  _rightEyePositionParser;
-        GazeHidPositionParser  _headPositionParser;
-        GazeHidRotationParser  _headRotationParser;
-    };
+	private:
+		GazeHidPositionParser  _leftEyePositionParser;
+		GazeHidPositionParser  _rightEyePositionParser;
+		GazeHidPositionParser  _headPositionParser;
+		GazeHidRotationParser  _headRotationParser;
+	};
 }
 
 END_NAMESPACE_GAZE_INPUT

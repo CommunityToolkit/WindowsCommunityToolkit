@@ -12,18 +12,18 @@ BEGIN_NAMESPACE_GAZE_INPUT
 GazeCursor::GazeCursor()
 {
     _gazePopup = Popup();
-    _gazePopup.IsHitTestVisible = false;
+    _gazePopup.IsHitTestVisible(false);
 
     auto gazeCursor = Shapes::Ellipse();
-    gazeCursor.Fill = SolidColorBrush(Colors::IndianRed());
-    gazeCursor.VerticalAlignment = winrt::Microsoft::UI::Xaml::VerticalAlignment::Top;
-    gazeCursor.HorizontalAlignment = winrt::Microsoft::UI::Xaml::HorizontalAlignment::Left;
-    gazeCursor.Width = 2 * CursorRadius();
-    gazeCursor.Height = 2 * CursorRadius();
-	gazeCursor.Margin = ThicknessHelper::FromLengths(-CursorRadius(), -CursorRadius(), 0, 0);
-    gazeCursor.IsHitTestVisible = false;
+    gazeCursor.Fill(SolidColorBrush(Colors::IndianRed()));
+    gazeCursor.VerticalAlignment(winrt::Microsoft::UI::Xaml::VerticalAlignment::Top);
+    gazeCursor.HorizontalAlignment(winrt::Microsoft::UI::Xaml::HorizontalAlignment::Left);
+    gazeCursor.Width(2 * CursorRadius());
+    gazeCursor.Height(2 * CursorRadius());
+	gazeCursor.Margin(ThicknessHelper::FromLengths(-CursorRadius(), -CursorRadius(), 0, 0));
+    gazeCursor.IsHitTestVisible(false);
 
-    _gazePopup.Child = gazeCursor;
+    _gazePopup.Child(gazeCursor);
 }
 
 void GazeCursor::CursorRadius(int const& value)
@@ -32,9 +32,9 @@ void GazeCursor::CursorRadius(int const& value)
 	auto gazeCursor = CursorElement();
 	if (gazeCursor != nullptr)
 	{
-		gazeCursor.Width = 2 * _cursorRadius;
-		gazeCursor.Height = 2 * _cursorRadius;
-		gazeCursor.Margin = ThicknessHelper::FromLengths(-_cursorRadius, -_cursorRadius, 0, 0);
+		gazeCursor.Width(2 * _cursorRadius);
+		gazeCursor.Height(2 * _cursorRadius);
+		gazeCursor.Margin(ThicknessHelper::FromLengths(-_cursorRadius, -_cursorRadius, 0, 0));
 	}
 }
 
@@ -65,17 +65,17 @@ void GazeCursor::LoadSettings(ValueSet const& settings)
 void GazeCursor::SetVisibility()
 {
     auto isOpen = _isCursorVisible && _isGazeEntered;
-    if (_gazePopup.IsOpen != isOpen)
+    if (_gazePopup.IsOpen() != isOpen)
     {
-        _gazePopup.IsOpen = isOpen;
+        _gazePopup.IsOpen(isOpen);
     }
     else if (isOpen)
     {
-        auto topmost = VisualTreeHelper::GetOpenPopups(Window::Current()).First().Current;
+        auto topmost = VisualTreeHelper::GetOpenPopups(Window::Current()).First().Current();
         if (_gazePopup != topmost)
         {
-            _gazePopup.IsOpen = false;
-            _gazePopup.IsOpen = true;
+            _gazePopup.IsOpen(false);
+            _gazePopup.IsOpen(true);
         }
     }
 }

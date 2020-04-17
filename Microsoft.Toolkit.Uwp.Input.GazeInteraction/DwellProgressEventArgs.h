@@ -3,40 +3,46 @@
 
 #pragma once
 
-#include "DwellProgressState.h"
+#include "DwellProgressEventArgs.g.h"
 
-BEGIN_NAMESPACE_GAZE_INPUT
-
-/// <summary>
-/// This parameter is passed to the GazeElement.DwellProgressFeedback event. The event is fired to inform the application of the user's progress towards completing dwelling on a control
-/// </summary>
-class DwellProgressEventArgs : public RoutedEventArgs
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
 {
-public:
-
     /// <summary>
-    /// An enum that reflects the current state of dwell progress
+    /// This parameter is passed to the GazeElement.DwellProgressFeedback event. The event is fired to inform the application of the user's progress towards completing dwelling on a control
     /// </summary>
-    property DwellProgressState State { DwellProgressState get() { return _state; }}
+    struct DwellProgressEventArgs : DwellProgressEventArgsT<DwellProgressEventArgs>
+    {
+    public:
+        DwellProgressEventArgs() = default;
 
-    /// <summary>
-    /// A value between 0 and 1 that reflects the fraction of progress towards completing dwell
-    /// </summary>
-    property double Progress { double get() { return _progress; }}
+        DwellProgressEventArgs(Microsoft::Toolkit::Uwp::Input::GazeInteraction::DwellProgressState const& state, Windows::Foundation::TimeSpan const& elapsedDuration, Windows::Foundation::TimeSpan const& triggerDuration);
 
-    /// <summary>
-    /// A parameter for the application to set to true if it handles the event. If this parameter is set to true, the library suppresses default animation for dwell feedback on the control
-    /// </summary>
-    property bool Handled;
+        /// <summary>
+        /// An enum that reflects the current state of dwell progress
+        /// </summary>
+        DwellProgressState State();
+        
+        /// <summary>
+        /// A parameter for the application to set to true if it handles the event. If this parameter is set to true, the library suppresses default animation for dwell feedback on the control
+        /// </summary>
+        bool Handled();
 
-	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
-	{
-        _state = state;
-        _progress = ((double)elapsedDuration.Duration) / triggerDuration.Duration;
-	}
-private:
-    DwellProgressState _state;
-    double _progress;
-};
+        void Handled(bool value);
 
-END_NAMESPACE_GAZE_INPUT
+        /// <summary>
+        /// A value between 0 and 1 that reflects the fraction of progress towards completing dwell
+        /// </summary>
+        double Progress();
+
+    private:
+        DwellProgressState _state{ DwellProgressState::Idle };
+        double _progress;
+        bool _handled{ false };
+    };
+}
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::factory_implementation
+{
+    struct DwellProgressEventArgs : DwellProgressEventArgsT<DwellProgressEventArgs, implementation::DwellProgressEventArgs>
+    {
+    };
+}

@@ -3,24 +3,23 @@
 
 #pragma once
 
-BEGIN_NAMESPACE_GAZE_INPUT
+#include "GazeEventArgs.g.h"
 
-struct GazeEventArgs sealed
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
 {
-    bool Handled;
-    Point Location;
-    TimeSpan Timestamp;
-
-    GazeEventArgs()
+    struct GazeEventArgs : GazeEventArgsT<GazeEventArgs>
     {
-    }
+    public:
+        GazeEventArgs();
 
-    void Set(Point location, TimeSpan timestamp)
-    {
-        Handled = false;
-        Location = location;
-        Timestamp = timestamp;
-    }
-};
-
-END_NAMESPACE_GAZE_INPUT
+        bool Handled();
+        void Handled(bool value);
+        Windows::Foundation::Point Location();
+        Windows::Foundation::TimeSpan Timestamp();
+        void Set(Windows::Foundation::Point const& location, Windows::Foundation::TimeSpan const& timestamp);
+    private:
+        bool m_handled{ false };
+        Point m_location;
+        TimeSpan m_timestamp;
+    };
+}

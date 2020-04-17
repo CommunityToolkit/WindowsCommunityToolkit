@@ -10,7 +10,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 ///
 /// https://www.usb.org/sites/default/files/hutrr74_-_usage_page_for_head_and_eye_trackers_0.pdf
 /// </summary>
-public enum class GazeHidUsages
+enum GazeHidUsages
 {
     UsagePage_EyeHeadTracker            = 0x0012,
     Usage_EyeTracker                    = 0x0001,

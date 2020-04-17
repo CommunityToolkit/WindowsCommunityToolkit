@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "IGazeFilter.h"
+#include "GazeFilter.h"
 
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Foundation::Collections;
@@ -17,48 +17,53 @@ const float ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF = 1.0f;
 class LowpassFilter sealed
 {
 public:
-    LowpassFilter()
-    {
-        Previous = Point(0, 0);
-    }
+	LowpassFilter() :
+		_previous{ Point(0, 0) }
+	{
+	}
 
-    LowpassFilter(Point initial)
-    {
-        Previous = initial;
-    }
+	LowpassFilter(Point initial) :
+		_previous{ initial }
+	{
+	}
 
-    property Point Previous;
+	Point Previous() { return _previous; }
 
-    Point Update(Point point, Point alpha)
-    {
-        Point pt;
-        pt.X = (alpha.X * point.X) + ((1 - alpha.X) * Previous.X);
-        pt.Y = (alpha.Y * point.Y) + ((1 - alpha.Y) * Previous.Y);
-        Previous = pt;
-        return Previous;
-    }
+	Point Update(Point point, Point alpha)
+	{
+		Point pt;
+		pt.X = (alpha.X * point.X) + ((1 - alpha.X) * _previous.X);
+		pt.Y = (alpha.Y * point.Y) + ((1 - alpha.Y) * _previous.Y);
+		_previous = pt;
+		return _previous;
+	}
+private:
+	Point _previous;
 };
 
 class OneEuroFilter sealed : public IGazeFilter
 {
 public:
-    OneEuroFilter();
-    OneEuroFilter(float cutoff, float beta);
-    virtual GazeFilterArgs Update(GazeFilterArgs args);
-    virtual void LoadSettings(ValueSet settings);
+	OneEuroFilter();
+	OneEuroFilter(float cutoff, float beta);
+	virtual GazeFilterArgs Update(GazeFilterArgs args);
+	virtual void LoadSettings(ValueSet settings);
 
 public:
-    property float Beta;
-    property float Cutoff;
-    property float VelocityCutoff;
+	float Beta() { return _beta; }
+	float Cutoff() { return _cutoff; }
+	float VelocityCutoff() { return _velocityCutoff; }
 
 private:
-    float  Alpha(float rate, float cutoff);
+	float  Alpha(float rate, float cutoff);
+	float _beta;
+	float _cutoff;
+	float _velocityCutoff;
 
 private:
-    TimeSpan       _lastTimestamp;
-    LowpassFilter  _pointFilter;
-    LowpassFilter  _deltaFilter;
+	TimeSpan       _lastTimestamp;
+	LowpassFilter  _pointFilter;
+	LowpassFilter  _deltaFilter;
 
 };
 

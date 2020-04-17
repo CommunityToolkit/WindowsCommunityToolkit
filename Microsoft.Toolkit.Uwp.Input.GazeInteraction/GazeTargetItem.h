@@ -3,118 +3,68 @@
 
 #pragma once
 
-#include "DwellProgressState.h"
+#include "GazeTargetItem.g.h"
 #include "GazeInput.h"
 #include "PointerState.h"
-#include <DwellProgressState.h>
 
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Microsoft::UI::Xaml;
 using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
 
-BEGIN_NAMESPACE_GAZE_INPUT
-
-class GazeTargetItem abstract
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
 {
-	TimeSpan DetailedTime() { return _detailedTime; }
-	void DetailedTime(TimeSpan const& value) { _detailedTime = value; }
-	TimeSpan OverflowTime() { return _overflowTime; }
-	void OverflowTime(TimeSpan const& value) { _overflowTime = value; }
-	TimeSpan ElapsedTime() { return DetailedTime() + OverflowTime(); }
-	TimeSpan NextStateTime() { return _nextStateTime; }
-	void NextStateTime(TimeSpan const& value) { _nextStateTime = value; }
-	TimeSpan LastTimestamp() { return _lastTimestamp; }
-	void LastTimestamp(TimeSpan const& value) { _lastTimestamp = value; }
-	PointerState ElementState() { return _elementState; }
-	void ElementState(PointerState const& value) { _elementState = value; }
-	UIElement TargetElement() { return _targetElement; }
-	void TargetElement(UIElement const& value) { _targetElement = value; }
-	int RepeatCount() { return _repeatCount; }
-	void RepeatCount(int const& value) { _repeatCount = value; }
-	int MaxDwellRepeatCount() { return _maxDwellRepeatCount; }
-	void MaxDwellRepeatCount(int const& value) { _maxDwellRepeatCount = value; }
-
-	GazeTargetItem(UIElement target)
+	struct GazeTargetItem : GazeTargetItemT<GazeTargetItem>
 	{
-		TargetElement(target);
-	}
+	public:
+		GazeTargetItem(Microsoft::UI::Xaml::UIElement const& target);
+		static Microsoft::Toolkit::Uwp::Input::GazeInteraction::GazeTargetItem GetOrCreate(Microsoft::UI::Xaml::UIElement const& element);
+		static Microsoft::UI::Xaml::DependencyProperty GazeTargetItemProperty();
+		Windows::Foundation::TimeSpan DetailedTime();
+		void DetailedTime(Windows::Foundation::TimeSpan const& value);
+		Windows::Foundation::TimeSpan OverflowTime();
+		void OverflowTime(Windows::Foundation::TimeSpan const& value);
+		Windows::Foundation::TimeSpan ElapsedTime();
+		Windows::Foundation::TimeSpan NextStateTime();
+		void NextStateTime(Windows::Foundation::TimeSpan const& value);
+		Windows::Foundation::TimeSpan LastTimestamp();
+		void LastTimestamp(Windows::Foundation::TimeSpan const& value);
+		Microsoft::Toolkit::Uwp::Input::GazeInteraction::PointerState ElementState();
+		void ElementState(Microsoft::Toolkit::Uwp::Input::GazeInteraction::PointerState const& value);
+		Microsoft::UI::Xaml::UIElement TargetElement();
+		void TargetElement(Microsoft::UI::Xaml::UIElement const& value);
+		int32_t RepeatCount();
+		void RepeatCount(int32_t value);
+		int32_t MaxDwellRepeatCount();
+		void MaxDwellRepeatCount(int32_t value);
+		virtual void Invoke();
+		virtual bool IsInvokable();
+		void Reset(Windows::Foundation::TimeSpan const& nextStateTime);
+		void GiveFeedback();
 
-	static GazeTargetItem GetOrCreate(UIElement element);
+	private:
 
-	virtual void Invoke() = 0;
+		TimeSpan _detailedTime;
+		TimeSpan _overflowTime;
+		TimeSpan _nextStateTime;
+		TimeSpan _lastTimestamp;
+		PointerState _elementState{ PointerState::Exit };
+		UIElement _targetElement{ nullptr };
+		int _repeatCount;
+		int _maxDwellRepeatCount;
 
-	virtual bool IsInvokable() { return true; }
+		void RaiseProgressEvent(DwellProgressState state);
 
-	void Reset(TimeSpan nextStateTime)
+		PointerState _notifiedPointerState{ PointerState::Exit };
+		TimeSpan _prevStateTime;
+		DwellProgressState _notifiedProgressState{ DwellProgressState::Idle };
+		Popup _feedbackPopup{ nullptr };
+
+		static Microsoft::UI::Xaml::DependencyProperty m_gazeTargetItemProperty;
+	};
+}
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::factory_implementation
+{
+	struct GazeTargetItem : GazeTargetItemT<GazeTargetItem, implementation::GazeTargetItem>
 	{
-		ElementState(PointerState::PreEnter);
-		DetailedTime(TimeSpanZero);
-		OverflowTime(TimeSpanZero);
-		NextStateTime(nextStateTime);
-		RepeatCount(0);
-		MaxDwellRepeatCount(GazeInput::GetMaxDwellRepeatCount(TargetElement()));
-	}
-
-	void GiveFeedback()
-	{
-		if (_nextStateTime != NextStateTime())
-		{
-			_prevStateTime = _nextStateTime;
-			_nextStateTime = NextStateTime();
-		}
-
-		if (ElementState() != _notifiedPointerState)
-		{
-			switch (ElementState())
-			{
-			case PointerState::Enter:
-				RaiseProgressEvent(DwellProgressState::Fixating);
-				break;
-
-			case PointerState::Dwell:
-			case PointerState::Fixation:
-				RaiseProgressEvent(DwellProgressState::Progressing);
-				break;
-
-			case PointerState::Exit:
-			case PointerState::PreEnter:
-				RaiseProgressEvent(DwellProgressState::Idle);
-				break;
-			}
-
-			_notifiedPointerState = ElementState();
-		}
-		else if (ElementState() == PointerState::Dwell || ElementState() == PointerState::Fixation)
-		{
-			if (RepeatCount() <= MaxDwellRepeatCount())
-			{
-				RaiseProgressEvent(DwellProgressState::Progressing);
-			}
-			else
-			{
-				RaiseProgressEvent(DwellProgressState::Complete);
-			}
-		}
-	}
-
-private:
-
-	TimeSpan _detailedTime;
-	TimeSpan _overflowTime;
-	TimeSpan _nextStateTime;
-	TimeSpan _lastTimestamp;
-	PointerState _elementState;
-	UIElement _targetElement;
-	int _repeatCount;
-	int _maxDwellRepeatCount;
-
-	void RaiseProgressEvent(DwellProgressState state);
-
-	PointerState _notifiedPointerState = PointerState::Exit;
-	TimeSpan _prevStateTime;
-	TimeSpan _nextStateTime;
-	DwellProgressState _notifiedProgressState = DwellProgressState::Idle;
-	Popup _feedbackPopup;
-};
-
-END_NAMESPACE_GAZE_INPUT
+	};
+}

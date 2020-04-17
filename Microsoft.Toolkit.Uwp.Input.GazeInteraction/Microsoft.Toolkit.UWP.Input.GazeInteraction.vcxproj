@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.props" Condition="Exists('..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.props')" />
-  <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
@@ -42,7 +42,6 @@
     <MinimalCoreWin>true</MinimalCoreWin>
     <ProjectGuid>{a5e98964-45b1-442d-a07a-298a3221d81e}</ProjectGuid>
     <ProjectName>Microsoft.Toolkit.Uwp.Input.GazeInteraction</ProjectName>
-    <Keyword>WindowsRuntimeComponent</Keyword>
     <RootNamespace>Microsoft.Toolkit.Uwp.Input.GazeInteraction</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
@@ -52,7 +51,6 @@
     <WindowsTargetPlatformMinVersion>10.0.17134.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <ProjectName>Microsoft.Toolkit.Uwp.Input.GazeInteraction</ProjectName>
-    <TargetFrameworks>UAP,Version=v10.0</TargetFrameworks>
     <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
     <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
   </PropertyGroup>
@@ -60,45 +58,53 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <LinkIncremental>true</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <LinkIncremental>true</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <LinkIncremental>true</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <LinkIncremental>true</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <LinkIncremental>false</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <LinkIncremental>false</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <LinkIncremental>false</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <LinkIncremental>false</LinkIncremental>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -133,30 +139,38 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CharacterSet>Unicode</CharacterSet>
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -302,8 +316,25 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ComboBoxItemGazeTargetItem.h" />
+    <ClInclude Include="ExpandCollapsePatternGazeTargetItem.h" />
     <ClInclude Include="GazeEventArgs.h" />
+    <ClInclude Include="GazeFilter.h" />
     <ClInclude Include="GazeHidParsers.h" />
     <ClInclude Include="GazeHidUsages.h" />
     <ClInclude Include="GazeInput.h" />
@@ -314,6 +345,10 @@
     <ClInclude Include="GazeHistoryItem.h" />
     <ClInclude Include="DwellInvokedRoutedEventArgs.h" />
     <ClInclude Include="GazePointer.h" />
+    <ClInclude Include="InvokePatternGazeTargetItem.h" />
+    <ClInclude Include="NonInvokeGazeTargetItem.h" />
+    <ClInclude Include="PivotItemGazeTargetItem.h" />
+    <ClInclude Include="SelectionItemPatternGazeTargetItem.h" />
     <ClInclude Include="StateChangedEventArgs.h" />
     <ClInclude Include="GazePointerProxy.h" />
     <ClInclude Include="PointerState.h" />
@@ -322,12 +357,23 @@
     <ClInclude Include="GazeSettingsHelper.h" />
     <ClInclude Include="GazeStats.h" />
     <ClInclude Include="GazeTargetItem.h" />
-    <ClInclude Include="IGazeFilter.h" />
     <ClInclude Include="OneEuroFilter.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="TogglePatternGazeTargetItem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="XamlMetaDataProvider.cpp" />
+    <ClCompile Include="ComboBoxItemGazeTargetItem.cpp" />
+    <ClCompile Include="DwellInvokedRoutedEventArgs.cpp" />
+    <ClCompile Include="DwellProgressEventArgs.cpp" />
+    <ClCompile Include="ExpandCollapsePatternGazeTargetItem.cpp" />
+    <ClCompile Include="GazeElement.cpp" />
+    <ClCompile Include="GazeFilter.cpp" />
+    <ClCompile Include="GazeHistoryItem.cpp" />
+    <ClCompile Include="InvokePatternGazeTargetItem.cpp" />
+    <ClCompile Include="NonInvokeGazeTargetItem.cpp" />
+    <ClCompile Include="PivotItemGazeTargetItem.cpp" />
+    <ClCompile Include="SelectionItemPatternGazeTargetItem.cpp" />
+    <ClCompile Include="StateChangedEventArgs.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="GazeEventArgs.cpp" />
     <ClCompile Include="GazeHidParsers.cpp" />
@@ -350,9 +396,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TogglePatternGazeTargetItem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="XamlMetaDataProvider.idl" />
+    <Midl Include="Microsoft.Toolkit.Uwp.Input.GazeInteraction.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -360,15 +407,15 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.targets')" />
     <Import Project="..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.targets" Condition="Exists('..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.191018.6\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.200316.3\build\native\Microsoft.Windows.CppWinRT.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WinUI.3.0.0-alpha.200210.0\build\native\Microsoft.WinUI.targets'))" />
   </Target>

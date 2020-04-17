@@ -10,13 +10,13 @@ BEGIN_NAMESPACE_GAZE_INPUT
 class GazeStats sealed
 {
 public:
-    GazeStats(int maxHistoryLen);
+    GazeStats(unsigned int maxHistoryLen);
     void Reset();
     void Update(float x, float y);
 
     Point Mean()
     {
-        UINT count = _history->Size;
+        UINT count = _history.size();
         return Point((float)_sumX / count, (float)_sumY / count);
     }
 
@@ -25,7 +25,7 @@ public:
     //
     Point StandardDeviation()
     {
-        UINT count = _history->Size;
+        UINT count = _history.size();
         if (count < _maxHistoryLen)
         {
             return Point(0.0f, 0.0f);
@@ -43,7 +43,7 @@ private:
     double          _sumY;
     double          _sumSquaredX;
     double          _sumSquaredY;
-    Vector<Point>  _history;
+    std::vector<Point>  _history;
 };
 
 END_NAMESPACE_GAZE_INPUT

@@ -3,11 +3,9 @@
 
 #pragma once
 
-#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 
 using namespace std;
-using namespace winrt::Windows::Foundation::Collections;
 using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
 
 BEGIN_NAMESPACE_GAZE_INPUT
@@ -22,7 +20,7 @@ public:
 
     Popup Get();
 
-    void Return(Popup popup);
+    void Return(Popup const& popup);
 };
 
 END_NAMESPACE_GAZE_INPUT

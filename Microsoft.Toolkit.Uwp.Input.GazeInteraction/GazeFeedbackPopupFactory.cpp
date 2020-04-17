@@ -12,31 +12,31 @@ Popup GazeFeedbackPopupFactory::Get()
     Popup popup;
     winrt::Microsoft::UI::Xaml::Shapes::Rectangle rectangle;
 
-    if (s_cache.size != 0)
+    if (s_cache.size() != 0)
     {
         popup = s_cache[0];
         s_cache.erase(s_cache.begin());
 
-        rectangle = popup.Child;
+        rectangle = popup.Child().try_as<winrt::Microsoft::UI::Xaml::Shapes::Rectangle>();
     }
     else
     {
         popup = Popup();
 
         rectangle = winrt::Microsoft::UI::Xaml::Shapes::Rectangle();
-        rectangle.IsHitTestVisible = false;
+        rectangle.IsHitTestVisible(false);
 
-        popup.Child = rectangle;
+        popup.Child(rectangle);
     }
 
-    rectangle.StrokeThickness = GazeInput::DwellStrokeThickness;
+    rectangle.StrokeThickness(GazeInput::DwellStrokeThickness());
 
     return popup;
 }
 
-void GazeFeedbackPopupFactory::Return(Popup popup)
+void GazeFeedbackPopupFactory::Return(Popup const& popup)
 {
-    popup.IsOpen = false;
+    popup.IsOpen(false);
     s_cache.push_back(popup);
 }
 

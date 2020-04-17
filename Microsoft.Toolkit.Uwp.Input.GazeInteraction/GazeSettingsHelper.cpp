@@ -4,7 +4,8 @@
 #include "pch.h"
 #include "GazeSettingsHelper.h"
 
-using namespace concurrency;
+#include <winrt/Windows.ApplicationModel.AppService.h>
+
 using namespace winrt::Windows::ApplicationModel::AppService;
 using namespace winrt::Windows::Foundation;
 
@@ -14,57 +15,51 @@ GazeSettingsHelper::GazeSettingsHelper()
 {
 }
 
-Windows::Foundation::IAsyncAction GazeSettingsHelper::RetrieveSharedSettings(ValueSet settings)
+winrt::Windows::Foundation::IAsyncAction GazeSettingsHelper::RetrieveSharedSettings(ValueSet settings)
 {
-    return create_async([settings] {
-        // Setup a new app service connection
-        AppServiceConnection connection = ref new AppServiceConnection();
-        connection->AppServiceName = "com.microsoft.ectksettings";
-        connection->PackageFamilyName = "Microsoft.EyeControlToolkitSettings_s9y1p3hwd5qda";
+    // Setup a new app service connection
+    AppServiceConnection connection;
+    connection.AppServiceName(L"com.microsoft.ectksettings");
+    connection.PackageFamilyName(L"Microsoft.EyeControlToolkitSettings_s9y1p3hwd5qda");
 
-        // open the connection
-        return create_task(connection->OpenAsync()).then([settings, connection](AppServiceConnectionStatus status)
-        {
-            switch (status)
-            {
-            case AppServiceConnectionStatus::Success:
-                // The new connection opened successfully
-                // Set up the inputs and send a message to the service
-                return create_task(connection->SendMessageAsync(ref new ValueSet()));
-                break;
+    // open the connection
 
-            default:
-            case AppServiceConnectionStatus::AppNotInstalled:
-            case AppServiceConnectionStatus::AppUnavailable:
-            case AppServiceConnectionStatus::AppServiceUnavailable:
-            case AppServiceConnectionStatus::Unknown:
-                // All return paths need to return a task of type AppServiceResponse, so fake it
-                AppServiceResponse  response = nullptr;
-                return task_from_result(response);
-            }
-        }).then([settings](AppServiceResponse response)
-        {
-            if (response == nullptr)
-            {
-                return;
-            }
+    AppServiceConnectionStatus status{ co_await connection.OpenAsync() };
+    AppServiceResponse response = nullptr;
+    switch (status)
+    {
+        case AppServiceConnectionStatus::Success:
+            // The new connection opened successfully
+            // Set up the inputs and send a message to the service
+            response = co_await connection.SendMessageAsync(ValueSet());
+            break;
 
-            switch (response->Status)
+        default:
+        case AppServiceConnectionStatus::AppNotInstalled:
+        case AppServiceConnectionStatus::AppUnavailable:
+        case AppServiceConnectionStatus::AppServiceUnavailable:
+        case AppServiceConnectionStatus::Unknown:
+            break;
+    }
+    if (response == nullptr)
+    {
+        co_return;
+    }
+
+    switch (response.Status())
+    {
+        case AppServiceResponseStatus::Success:
+            for (auto item : response.Message())
             {
-            case AppServiceResponseStatus::Success:
-                for each (auto item in response->Message)
-                {
-                    settings->Insert(item->Key, item->Value);
-                }
-                break;
-            default:
-            case AppServiceResponseStatus::Failure:
-            case AppServiceResponseStatus::ResourceLimitsExceeded:
-            case AppServiceResponseStatus::Unknown:
-                break;
+                settings.Insert(item.Key(), item.Value());
             }
-        });
-    }); // create_async()
+            break;
+        default:
+        case AppServiceResponseStatus::Failure:
+        case AppServiceResponseStatus::ResourceLimitsExceeded:
+        case AppServiceResponseStatus::Unknown:
+            break;
+    }
 }
 
 END_NAMESPACE_GAZE_INPUT

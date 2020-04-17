@@ -3,41 +3,39 @@
 
 #pragma once
 
-#include "PointerState.h"
+#include "StateChangedEventArgs.g.h"
 
-using namespace winrt::Microsoft::UI::Xaml;
-
-BEGIN_NAMESPACE_GAZE_INPUT
-
-/// <summary>
-/// This parameter is passed to the StateChanged event.
-/// </summary>
-struct StateChangedEventArgs sealed
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
 {
-public:
     /// <summary>
-    /// The state of user's gaze with respect to a control
+    /// This parameter is passed to the StateChanged event.
     /// </summary>
-    PointerState PointerState() { return _pointerState; }
-
-    /// <summary>
-    /// Elapsed time since the last state
-    /// </summary>
-    TimeSpan ElapsedTime () { return _elapsedTime; }
-
-    StateChangedEventArgs() { }
-
-    StateChangedEventArgs(UIElement target, PointerState state, TimeSpan elapsedTime)
+    struct StateChangedEventArgs : StateChangedEventArgsT<StateChangedEventArgs>
     {
-        _hitTarget = target;
-        _pointerState = state;
-        _elapsedTime = elapsedTime;
-    }
+    public:
+        StateChangedEventArgs();
 
-private:
-    UIElement _hitTarget;
-    PointerState _pointerState;
-    TimeSpan _elapsedTime;
-};
+        StateChangedEventArgs(Microsoft::UI::Xaml::UIElement const& target, Microsoft::Toolkit::Uwp::Input::GazeInteraction::PointerState const& state, Windows::Foundation::TimeSpan const& elapsedTime);
 
-END_NAMESPACE_GAZE_INPUT
+        /// <summary>
+        /// The state of user's gaze with respect to a control
+        /// </summary>
+        Microsoft::Toolkit::Uwp::Input::GazeInteraction::PointerState PointerState();
+
+        /// <summary>
+        /// Elapsed time since the last state
+        /// </summary>
+        Windows::Foundation::TimeSpan ElapsedTime();
+
+    private:
+        winrt::Microsoft::UI::Xaml::UIElement _hitTarget;
+        ::Microsoft::Toolkit::Uwp::Input::GazeInteraction::PointerState _pointerState{ ::Microsoft::Toolkit::Uwp::Input::GazeInteraction::PointerState::Exit };
+        Windows::Foundation::TimeSpan _elapsedTime;
+    };
+}
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::factory_implementation
+{
+    struct StateChangedEventArgs : StateChangedEventArgsT<StateChangedEventArgs, implementation::StateChangedEventArgs>
+    {
+    };
+}

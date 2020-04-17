@@ -2,138 +2,141 @@
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
+#include "assert.h"
+#include <winrt/Microsoft.UI.Xaml.Interop.h>
 #include "GazePointerProxy.h"
+#include "GazePointerProxy.g.cpp"
 #include "GazePointer.h"
 
-BEGIN_NAMESPACE_GAZE_INPUT
-
-/// <summary>
-/// The IsLoaded heuristic for testing whether a FrameworkElement is in the visual tree.
-/// </summary>
-static bool IsLoadedHeuristic(FrameworkElement element)
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
 {
-    bool isLoaded;
-
-    // element.Loaded has already happened if it is in the visual tree...
-    auto parent = VisualTreeHelper::GetParent(element);
-    if (parent != nullptr)
+    /// <summary>
+    /// The IsLoaded heuristic for testing whether a FrameworkElement is in the visual tree.
+    /// </summary>
+    static bool IsLoadedHeuristic(FrameworkElement element)
     {
-        isLoaded = true;
-    }
-    // ...or...
-    else
-    {
-        // ...if the element is a dynamically created Popup that has been opened.
-        auto popup = Popup(element.as<Popup>());
-        isLoaded = popup != nullptr && popup.IsOpen;
-    }
+        bool isLoaded{ false };
 
-    return isLoaded;
-}
+        // element.Loaded has already happened if it is in the visual tree...
+        auto parent = VisualTreeHelper::GetParent(element);
+        if (parent != nullptr)
+        {
+            isLoaded = true;
+        }
+        // ...or...
+        else
+        {
+            // ...if the element is a dynamically created Popup that has been opened.
+            if (auto popup{ element.try_as<Popup>() })
+            {
+                isLoaded = popup.IsOpen();
+            }
+        }
 
-DependencyProperty GazePointerProxy::GazePointerProxyProperty()
-{
-    // The attached property registration.
-    auto value = DependencyProperty::RegisterAttached(L"_GazePointerProxy", winrt::xaml_typename<GazePointerProxy>(), winrt::xaml_typename<GazePointerProxy>(),
-        PropertyMetadata(nullptr));
-    return value;
-}
-
-GazePointerProxy::GazePointerProxy(FrameworkElement element)
-{
-    static int lastId = 0;
-    lastId++;
-    _uniqueId = lastId;
-
-    _isLoaded = IsLoadedHeuristic(element);
-
-    // Start watching for the element to enter and leave the visual tree.
-    element.Loaded += RoutedEventHandler(this, &GazePointerProxy::OnLoaded);
-    element.Unloaded += RoutedEventHandler(this, &GazePointerProxy::OnUnloaded);
-}
-
-void GazePointerProxy::SetInteraction(FrameworkElement element, Interaction value)
-{
-    // Get or create a GazePointerProxy for element.
-    GazePointerProxy proxy = nullptr;
-    if (!element.GetValue(GazePointerProxyProperty()).try_as<GazePointerProxy>(proxy))
-    {
-        proxy = GazePointerProxy(element);
-        element.SetValue(GazePointerProxyProperty(), proxy);
+        return isLoaded;
     }
 
-    // Set the proxy's _isEnabled value.
-    proxy.SetIsEnabled(element, value == Interaction::Enabled);
-}
+    DependencyProperty GazePointerProxy::m_gazePointerProxyProperty = DependencyProperty::RegisterAttached(L"_GazePointerProxy", xaml_typename<GazePointerProxy>(), xaml_typename<GazePointerProxy>(), PropertyMetadata(nullptr));
 
-void GazePointerProxy::SetIsEnabled(winrt::Windows::Foundation::IUnknown sender, bool value)
-{
-    // If we have a new value...
-    if (_isEnabled != value)
+    DependencyProperty GazePointerProxy::GazePointerProxyProperty()
     {
-        // ...record the new value.
-        _isEnabled = value;
+        return m_gazePointerProxyProperty;
+    }
 
-        // If we are in the visual tree...
+    GazePointerProxy::GazePointerProxy(Microsoft::UI::Xaml::FrameworkElement const& element)
+    {
+        static int lastId = 0;
+        lastId++;
+        _uniqueId = lastId;
+
+        _isLoaded = IsLoadedHeuristic(element);
+
+        // Start watching for the element to enter and leave the visual tree.
+        element.Loaded({ this, &GazePointerProxy::OnLoaded });
+        element.Unloaded({ this,&GazePointerProxy::OnUnloaded });
+    }
+
+    void GazePointerProxy::SetInteraction(Microsoft::UI::Xaml::FrameworkElement const& element, Microsoft::Toolkit::Uwp::Input::GazeInteraction::Interaction const& value)
+    {
+        // Get or create a GazePointerProxy for element.
+        winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::GazePointerProxy proxy{ nullptr };
+        if (!(element.GetValue(GazePointerProxyProperty()).try_as<winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::GazePointerProxy>(proxy)))
+        {
+            proxy = winrt::make<GazePointerProxy>(element);
+            element.SetValue(GazePointerProxyProperty(), proxy);
+        }
+
+        // Set the proxy's _isEnabled value.
+        proxy.SetIsEnabled(element, value == Interaction::Enabled);
+    }
+
+    void GazePointerProxy::SetIsEnabled(Windows::Foundation::IInspectable const& sender, bool value)
+    {
+        // If we have a new value...
+        if (_isEnabled != value)
+        {
+            // ...record the new value.
+            _isEnabled = value;
+
+            // If we are in the visual tree...
+            if (_isLoaded)
+            {
+                // ...if we're being enabled...
+                if (value)
+                {
+                    // ...count the element in...
+                    GazePointer::Instance().AddRoot(_uniqueId);
+                }
+                else
+                {
+                    // ...otherwise count the element out.
+                    GazePointer::Instance().RemoveRoot(_uniqueId);
+                }
+            }
+        }
+    }
+
+    void GazePointerProxy::OnLoaded(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    {
+        //assert(!IsLoadedHeuristic(sender.try_as<FrameworkElement>()));
+
+        if (!_isLoaded)
+        {
+            // Record that we are now loaded.
+            _isLoaded = true;
+
+            // If we were previously enabled...
+            if (_isEnabled)
+            {
+                // ...we can now be counted as actively enabled.
+                GazePointer::Instance().AddRoot(_uniqueId);
+            }
+        }
+        else
+        {
+            Debug::WriteLine(L"Unexpected Load");
+        }
+    }
+
+    void GazePointerProxy::OnUnloaded(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    {
+        //assert(!IsLoadedHeuristic(sender.try_as<FrameworkElement>()));
+
         if (_isLoaded)
         {
-            // ...if we're being enabled...
-            if (value)
+            // Record that we have left the visual tree.
+            _isLoaded = false;
+
+            // If we are set as enabled...
+            if (_isEnabled)
             {
-                // ...count the element in...
-                GazePointer::Instance->AddRoot(_uniqueId);
-            }
-            else
-            {
-                // ...otherwise count the element out.
-                GazePointer::Instance->RemoveRoot(_uniqueId);
+                // ...we no longer count as being actively enabled (because we have fallen out the visual tree).
+                GazePointer::Instance().RemoveRoot(_uniqueId);
             }
         }
-    }
-}
-
-void GazePointerProxy::OnLoaded(winrt::Windows::Foundation::IUnknown sender, RoutedEventArgs args)
-{
-    assert(IsLoadedHeuristic(safe_cast<FrameworkElement>(sender)));
-
-    if (!_isLoaded)
-    {
-        // Record that we are now loaded.
-        _isLoaded = true;
-
-        // If we were previously enabled...
-        if (_isEnabled)
+        else
         {
-            // ...we can now be counted as actively enabled.
-            GazePointer::Instance->AddRoot(_uniqueId);
+            Debug::WriteLine(L"Unexpected unload");
         }
     }
-    else
-    {
-        Debug::WriteLine(L"Unexpected Load");
-    }
 }
-
-void GazePointerProxy::OnUnloaded(winrt::Windows::Foundation::IUnknown sender, RoutedEventArgs args)
-{
-    assert(!IsLoadedHeuristic(safe_cast<FrameworkElement>(sender)));
-
-    if (_isLoaded)
-    {
-        // Record that we have left the visual tree.
-        _isLoaded = false;
-
-        // If we are set as enabled...
-        if (_isEnabled)
-        {
-            // ...we no longer count as being actively enabled (because we have fallen out the visual tree).
-            GazePointer::Instance->RemoveRoot(_uniqueId);
-        }
-    }
-    else
-    {
-        Debug::WriteLine(L"Unexpected unload");
-    }
-}
-
-END_NAMESPACE_GAZE_INPUT

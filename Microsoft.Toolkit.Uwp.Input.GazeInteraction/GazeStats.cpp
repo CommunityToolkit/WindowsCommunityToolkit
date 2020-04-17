@@ -8,10 +8,9 @@ using namespace winrt::Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-GazeStats::GazeStats(int maxHistoryLen)
+GazeStats::GazeStats(unsigned int maxHistoryLen) :
+    _maxHistoryLen{ maxHistoryLen }
 {
-    _maxHistoryLen = maxHistoryLen;
-    _history = Vector<Point>();
 }
 
 void GazeStats::Reset()
@@ -20,18 +19,18 @@ void GazeStats::Reset()
     _sumY = 0;
     _sumSquaredX = 0;
     _sumSquaredY = 0;
-    _history->Clear();
+    _history.clear();
 }
 
 void GazeStats::Update(float x, float y)
 {
     Point pt(x, y);
-    _history->Append(pt);
+    _history.push_back(pt);
 
-    if (_history->Size > _maxHistoryLen)
+    if (_history.size() > _maxHistoryLen)
     {
-        auto oldest = _history->GetAt(0);
-        _history->RemoveAt(0);
+        auto oldest = _history.at(0);
+        _history.erase(_history.begin());
             
         _sumX -= oldest.X;
         _sumY -= oldest.Y;

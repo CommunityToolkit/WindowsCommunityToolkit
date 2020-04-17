@@ -5,26 +5,27 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-/// <summary>
-/// This enum indicates the current state of gaze interaction. 
-/// </summary>
-enum class Interaction
-{
-
-    /// <summary>
-    /// The state of gaze interaction is inherited from the nearest parent
-    /// </summary>
-    Inherited,
-
-    /// <summary>
-    /// Gaze interaction is enabled
-    /// </summary>
-    Enabled,
-
-    /// <summary>
-    /// Gaze interaction is disabled
-    /// </summary>
-    Disabled
-};
+// This is now in the IDL file. Need to migrate the docs.
+///// <summary>
+///// This enum indicates the current state of gaze interaction. 
+///// </summary>
+//enum Interaction
+//{
+//
+//    /// <summary>
+//    /// The state of gaze interaction is inherited from the nearest parent
+//    /// </summary>
+//    Inherited,
+//
+//    /// <summary>
+//    /// Gaze interaction is enabled
+//    /// </summary>
+//    Enabled,
+//
+//    /// <summary>
+//    /// Gaze interaction is disabled
+//    /// </summary>
+//    Disabled
+//};
 
 END_NAMESPACE_GAZE_INPUT

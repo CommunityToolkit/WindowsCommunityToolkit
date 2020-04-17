@@ -2,29 +2,32 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
+#include "DwellInvokedRoutedEventArgs.g.h"
 
-BEGIN_NAMESPACE_GAZE_INPUT
-
-/// <summary>
-/// This parameter is passed to the GazeElement::Invoked event and allows 
-/// the application to prevent default invocation when the user dwells on a control
-/// </summary>
-class DwellInvokedRoutedEventArgs : public RoutedEventArgs
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
 {
-public:
-
     /// <summary>
-    /// The application should set this value to true to prevent invoking the control when the user dwells on a control
+    /// This parameter is passed to the GazeElement::Invoked event and allows 
+    /// the application to prevent default invocation when the user dwells on a control
     /// </summary>
-    bool Handled() { return _handled; }
-    void Handled(bool const& value) { _handled = value; }
-
-    DwellInvokedRoutedEventArgs()
+    struct DwellInvokedRoutedEventArgs : DwellInvokedRoutedEventArgsT<DwellInvokedRoutedEventArgs>
     {
-    }
+    public:
+        DwellInvokedRoutedEventArgs() = default;
 
-private:
-    bool _handled;
-};
+        /// <summary>
+        /// The application should set this value to true to prevent invoking the control when the user dwells on a control
+        /// </summary>
+        bool Handled();
+        void Handled(bool value);
 
-END_NAMESPACE_GAZE_INPUT
+    private:
+        bool _handled{ false };
+    };
+}
+namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::factory_implementation
+{
+    struct DwellInvokedRoutedEventArgs : DwellInvokedRoutedEventArgsT<DwellInvokedRoutedEventArgs, implementation::DwellInvokedRoutedEventArgs>
+    {
+    };
+}
