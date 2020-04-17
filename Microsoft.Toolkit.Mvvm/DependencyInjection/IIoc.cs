@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Mvvm.Services
+namespace Microsoft.Toolkit.Mvvm.DependencyInjection
 {
     /// <summary>
     /// An interface for a type implementing an Inversion of Control service provider.

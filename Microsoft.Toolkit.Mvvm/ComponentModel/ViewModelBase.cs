@@ -22,9 +22,9 @@
 // ****************************************************************************
 
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
-using Microsoft.Toolkit.Mvvm.Services;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
@@ -38,10 +38,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <remarks>
         /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/>
-        /// and <see cref="Services.Ioc.Default"/> services to perform operations.
+        /// and <see cref="DependencyInjection.Ioc.Default"/> services to perform operations.
         /// </remarks>
         protected ViewModelBase()
-            : this(Messaging.Messenger.Default, Services.Ioc.Default)
+            : this(Messaging.Messenger.Default, DependencyInjection.Ioc.Default)
         {
         }
 
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
         protected ViewModelBase(IMessenger messenger)
-            : this(messenger, Services.Ioc.Default)
+            : this(messenger, DependencyInjection.Ioc.Default)
         {
         }
 
