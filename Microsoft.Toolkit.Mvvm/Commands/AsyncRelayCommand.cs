@@ -5,10 +5,9 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.Commands.Interfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace Microsoft.Toolkit.Mvvm.Commands
+namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
     /// A command that mirrors the functionality of <see cref="RelayCommand"/>, with the addition of

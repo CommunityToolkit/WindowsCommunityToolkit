@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Mvvm.Commands.Interfaces
+namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
     /// An interface expanding <see cref="ICommand"/> with the ability to raise

@@ -23,9 +23,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Mvvm.Commands.Interfaces;
 
-namespace Microsoft.Toolkit.Mvvm.Commands
+namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
     /// A command whose sole purpose is to relay its functionality to other

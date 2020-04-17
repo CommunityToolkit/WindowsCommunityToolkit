@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Mvvm.Commands.Interfaces
+namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
     /// A generic interface representing a more specific version of <see cref="IRelayCommand"/>.
