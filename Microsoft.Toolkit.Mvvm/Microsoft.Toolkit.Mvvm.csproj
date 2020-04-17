@@ -7,7 +7,11 @@
     <Title>Windows Community Toolkit Mvvm .NET Standard</Title>
     <Description>
       This package includes Mvvm .NET Standard code only helpers such as:
-      - Ioc: Provides a fast and minimalistic implementation of an IoC container.
+      - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
+      - ViewModelBase: a base class for view-models with built-in minimal dependency injection support.
+      - RelayCommand: a simple delegate command implementing the ICommand interface.
+      - Messenger: a messaging system to exchange messages through different loosely-coupled objects.
+      - Ioc: a fast and minimalistic Inversion of Control service provider.
     </Description>
     <PackageTags>UWP Toolkit Windows Mvvm Ioc extensions helpers</PackageTags>
 
