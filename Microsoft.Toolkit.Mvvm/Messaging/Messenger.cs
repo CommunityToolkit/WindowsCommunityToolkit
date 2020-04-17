@@ -140,10 +140,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 var key = new Recipient(recipient);
                 ref DictionarySlim<TToken, Action<TMessage>> map = ref values.GetOrAddValueRef(key);
 
-                if (map is null)
-                {
-                    map = new DictionarySlim<TToken, Action<TMessage>>();
-                }
+                map ??= new DictionarySlim<TToken, Action<TMessage>>();
 
                 // Add the new registration entry
                 ref Action<TMessage> handler = ref map.GetOrAddValueRef(token);
@@ -158,10 +155,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Make sure this registration map is tracked for the current recipient
                 ref HashSet<IDictionarySlim<Recipient>> set = ref this.recipientsMap.GetOrAddValueRef(key);
 
-                if (set is null)
-                {
-                    set = new HashSet<IDictionarySlim<Recipient>>();
-                }
+                set ??= new HashSet<IDictionarySlim<Recipient>>();
 
                 set.Add(values);
             }
@@ -441,10 +435,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             ref object target = ref this.typesMap.GetOrAddValueRef((typeof(TMessage), typeof(TToken)));
 
-            if (target is null)
-            {
-                target = new Mapping<TMessage, TToken>();
-            }
+            target ??= new Mapping<TMessage, TToken>();
 
             /* This method is the only one handling values in the types map, and here we
              * are sure that the object reference we have points to an instance of the right
