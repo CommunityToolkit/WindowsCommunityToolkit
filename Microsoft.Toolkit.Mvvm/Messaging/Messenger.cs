@@ -37,25 +37,25 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     {
         // The Messenger class uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
-        // DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> recipientsMap;
-        //                    |                         \      /
-        //                    |                          \____/_____[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
-        //                    |   ___________________________/             \____                    /
-        //                    |  /           ___________________________________\__________________/
+        // DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap;
+        //                    |                  \             /
+        //                    |                   \___________/_____[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
+        //                    |   ___________________________/             \____                      /
+        //                    |  /           ___________________________________\____________________/
         //                    | /           /                                    \
         // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping
         //                                            /               /          /
         //                      ___(Type2.tToken)____/               /          /
         //                     /________________(Type2.tMessage)____/          /
-        //                    /           ____________________________________/
-        //                   /           /
-        // DictionarySlim<Type2, IDictionarySlim<Recipient>> typesMap;
+        //                    /       ________________________________________/
+        //                   /       /
+        // DictionarySlim<Type2, IMapping> typesMap;
         // --------------------------------------------------------------------------------------------------------
         // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds
         // the references from registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
         // dictionary, so that each recipient can have up to one registered handler for a given token, for each
         // message type. Each mapping is stored in the types map, which associates to each pair of concrete types the
-        // mapping instances. Each instances is just exposed as an IDictionarySlim<Recipient>, as each will be a closed type over
+        // mapping instances. Each instances is just exposed as an IMapping, as each will be a closed type over
         // a different combination of TMessage and TToken generic type parameters. Each existing recipient is also stored in
         // the main recipients map, along with a set of all the existing dictionaries of handlers for that recipient (for all
         // message types and token types). A recipient is stored in the main map as long as it has at least one
@@ -79,8 +79,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// so that all the existing handlers can be removed without having to dynamically create
         /// the generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
-        private readonly DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>> recipientsMap
-            = new DictionarySlim<Recipient, HashSet<IDictionarySlim<Recipient>>>();
+        private readonly DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap = new DictionarySlim<Recipient, HashSet<IMapping>>();
 
         /// <summary>
         /// The <see cref="Mapping{TMessage,TToken}"/> instance for types combination.
@@ -90,8 +89,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Each method relies on <see cref="GetOrAddMapping{TMessage,TToken}"/> to get the type-safe instance
         /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
         /// </remarks>
-        private readonly DictionarySlim<Type2, IDictionarySlim<Recipient>> typesMap
-            = new DictionarySlim<Type2, IDictionarySlim<Recipient>>();
+        private readonly DictionarySlim<Type2, IMapping> typesMap = new DictionarySlim<Type2, IMapping>();
 
         /// <summary>
         /// Gets the default <see cref="Messenger"/> instance.
@@ -156,9 +154,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 handler = action;
 
                 // Make sure this registration map is tracked for the current recipient
-                ref HashSet<IDictionarySlim<Recipient>> set = ref this.recipientsMap.GetOrAddValueRef(key);
+                ref HashSet<IMapping> set = ref this.recipientsMap.GetOrAddValueRef(key);
 
-                set ??= new HashSet<IDictionarySlim<Recipient>>();
+                set ??= new HashSet<IMapping>();
 
                 set.Add(values);
             }
@@ -172,15 +170,28 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // If the recipient has no registered messages at all, ignore
                 var key = new Recipient(recipient);
 
-                if (!this.recipientsMap.TryGetValue(key, out HashSet<IDictionarySlim<Recipient>> set))
+                if (!this.recipientsMap.TryGetValue(key, out HashSet<IMapping> set))
                 {
                     return;
                 }
 
                 // Removes all the lists of registered handlers for the recipient
-                foreach (IDictionarySlim<Recipient> map in set)
+                foreach (IMapping map in set)
                 {
                     map.Remove(key);
+
+                    if (map.Count == 0)
+                    {
+                        /* Maps here are really of type Mapping<,> and with unknown type arguments.
+                         * If after removing the current recipient a given map becomes empty, it means
+                         * that there are no registered recipients at all for a given pair of message
+                         * and token types. In that case, we also remove the map from the types map.
+                         * The reason for keeping a key in each mapping is that removing items from a
+                         * dictionary (a hashed collection) only costs O(1) in the best case, while
+                         * if we had tried to iterate the whole dictionary every time we would have
+                         * paid an O(n) minimum cost for each single remove operation. */
+                        this.typesMap.Remove(map.TypeArguments);
+                    }
                 }
 
                 // Remove the associated set in the recipients map
@@ -204,7 +215,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Get the shared set of mappings for the recipient, if present
                 var key = new Recipient(recipient);
 
-                if (!this.recipientsMap.TryGetValue(key, out HashSet<IDictionarySlim<Recipient>> set))
+                if (!this.recipientsMap.TryGetValue(key, out HashSet<IMapping> set))
                 {
                     return;
                 }
@@ -219,8 +230,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 try
                 {
                     // Select the items with the same token type
-                    foreach (IDictionarySlim<Recipient> item in set)
+                    foreach (IMapping item in set)
                     {
+                        /* This is technically a "suspicious cast" as there's no type that inherits
+                         * from both IMapping and IDictionarySlim<Recipient, IDictionarySlim<TToken>>.
+                         * But this is fine since IMapping instances are really instances of
+                         * Mapping<TMessage, TToken>, which in turn inherits from
+                         * DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>, which
+                         * then implements IDictionarySlim<Recipient, IDictionarySlim<TToken>>. */
                         if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> map)
                         {
                             maps[i++] = map;
@@ -254,7 +271,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                                  * entirely for the current recipient, and lost the strong
                                  * reference to it as well. This is the same situation that
                                  * would've been achieved by just calling Unregister(recipient). */
-                                set.Remove(map);
+                                set.Remove(Unsafe.As<IMapping>(map));
 
                                 if (set.Count == 0)
                                 {
@@ -305,7 +322,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 {
                     mapping.Remove(key);
 
-                    HashSet<IDictionarySlim<Recipient>> set = this.recipientsMap[key];
+                    HashSet<IMapping> set = this.recipientsMap[key];
 
                     set.Remove(mapping);
 
@@ -441,7 +458,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             var key = new Type2(typeof(TMessage), typeof(TToken));
 
-            if (this.typesMap.TryGetValue(key, out IDictionarySlim<Recipient> target))
+            if (this.typesMap.TryGetValue(key, out IMapping target))
             {
                 /* This method and the ones above are the only ones handling values in the types map,
                  * and here we are sure that the object reference we have points to an instance of the
@@ -469,7 +486,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TToken : IEquatable<TToken>
         {
             var key = new Type2(typeof(TMessage), typeof(TToken));
-            ref IDictionarySlim<Recipient> target = ref this.typesMap.GetOrAddValueRef(key);
+            ref IMapping target = ref this.typesMap.GetOrAddValueRef(key);
 
             target ??= new Mapping<TMessage, TToken>();
 
@@ -485,10 +502,32 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// This type is defined for simplicity and as a workaround for the lack of support for using type aliases
         /// over open generic types in C# (using type aliases can only be used for concrete, closed types).
         /// </remarks>
-        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>
+        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>, IMapping
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Mapping{TMessage, TToken}"/> class.
+            /// </summary>
+            public Mapping()
+            {
+                TypeArguments = new Type2(typeof(TMessage), typeof(TToken));
+            }
+
+            /// <inheritdoc/>
+            public Type2 TypeArguments { get; }
+        }
+
+        /// <summary>
+        /// An interface for the <see cref="Mapping{TMessage,TToken}"/> type which allows to retrieve the type
+        /// arguments from a given generic instance without having any prior knowledge about those arguments.
+        /// </summary>
+        private interface IMapping : IDictionarySlim<Recipient>
+        {
+            /// <summary>
+            /// Gets the <see cref="Type2"/> instance representing the current type arguments.
+            /// </summary>
+            Type2 TypeArguments { get; }
         }
 
         /// <summary>
