@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         [Pure]
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             lock (this.recipientsMap)
             {
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <inheritdoc/>
         public void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             lock (this.recipientsMap)
             {
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
         /// <inheritdoc/>
         public void Unregister<TToken>(object recipient, TToken token)
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             lock (this.recipientsMap)
             {
@@ -280,7 +280,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <inheritdoc/>
         public void Unregister<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             lock (this.recipientsMap)
             {
@@ -334,7 +334,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <inheritdoc/>
         public void Send<TMessage, TToken>(TToken token)
             where TMessage : class, new()
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             Send(new TMessage(), token);
         }
@@ -342,7 +342,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <inheritdoc/>
         public void Send<TMessage, TToken>(TMessage message, TToken token)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             Action<TMessage>[] entries;
             int i = 0;
@@ -437,7 +437,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Mapping<TMessage, TToken> GetMapping<TMessage, TToken>()
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             ref object target = ref this.typesMap.GetOrAddValueRef((typeof(TMessage), typeof(TToken)));
 
@@ -463,7 +463,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </remarks>
         private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
         }
 

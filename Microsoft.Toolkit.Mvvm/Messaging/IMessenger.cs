@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         [Pure]
         bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>;
+            where TToken : IEquatable<TToken>;
 
         /// <summary>
         /// Registers a recipient for a given type of message.
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>;
+            where TToken : IEquatable<TToken>;
 
         /// <summary>
         /// Unregisters a recipient from all registered messages.
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="token">The token to use to identify which handlers to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
         void Unregister<TToken>(object recipient, TToken token)
-            where TToken : notnull, IEquatable<TToken>;
+            where TToken : IEquatable<TToken>;
 
         /// <summary>
         /// Unregisters a recipient from messages of a given type.
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
         void Unregister<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>;
+            where TToken : IEquatable<TToken>;
 
         /// <summary>
         /// Sends a message of the specified type to all registered recipients.
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </remarks>
         void Send<TMessage, TToken>(TToken token)
             where TMessage : class, new()
-            where TToken : notnull, IEquatable<TToken>;
+            where TToken : IEquatable<TToken>;
 
         /// <summary>
         /// Sends a message of the specified type to all registered recipients.
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="token">The token indicating what channel to use.</param>
         void Send<TMessage, TToken>(TMessage message, TToken token)
             where TMessage : class
-            where TToken : notnull, IEquatable<TToken>;
+            where TToken : IEquatable<TToken>;
 
         /// <summary>
         /// Resets the <see cref="Messenger"/> class and unregisters all the existing recipients.

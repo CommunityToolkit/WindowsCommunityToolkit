@@ -12,7 +12,7 @@ namespace Microsoft.Collections.Extensions
     /// </summary>
     /// <typeparam name="TKey">The contravariant type of keys in the dictionary.</typeparam>
     internal interface IDictionarySlim<in TKey>
-        where TKey : notnull, IEquatable<TKey>
+        where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// Gets the count of entries in the dictionary.

@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </remarks>
         public static TResult Request<TMessage, TResult, TToken>(this IMessenger messenger, TToken token)
             where TMessage : RequestMessage<TResult>, new()
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             return Request<TMessage, TResult, TToken>(messenger, new TMessage(), token);
         }
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <exception cref="InvalidOperationException">Thrown if no response is received for the message.</exception>
         public static TResult Request<TMessage, TResult, TToken>(this IMessenger messenger, TMessage message, TToken token)
             where TMessage : RequestMessage<TResult>
-            where TToken : notnull, IEquatable<TToken>
+            where TToken : IEquatable<TToken>
         {
             messenger.Send(message, token);
 

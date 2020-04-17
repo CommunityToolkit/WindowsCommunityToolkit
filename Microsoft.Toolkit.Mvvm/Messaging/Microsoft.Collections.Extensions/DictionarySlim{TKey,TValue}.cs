@@ -33,7 +33,7 @@ namespace Microsoft.Collections.Extensions
     /// </remarks>
     [DebuggerDisplay("Count = {Count}")]
     internal class DictionarySlim<TKey, TValue> : IDictionarySlim<TKey, TValue>
-        where TKey : notnull, IEquatable<TKey>
+        where TKey : IEquatable<TKey>
     {
         // See info in CoreFX labs for how this works
         private static readonly Entry[] InitialEntries = new Entry[1];
