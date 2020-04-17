@@ -37,10 +37,10 @@ namespace Microsoft.Collections.Extensions
     {
         // See info in CoreFX labs for how this works
         private static readonly Entry[] InitialEntries = new Entry[1];
-        private int _count;
-        private int _freeList = -1;
-        private int[] _buckets;
-        private Entry[] _entries;
+        private int count;
+        private int freeList = -1;
+        private int[] buckets;
+        private Entry[] entries;
 
         private struct Entry
         {
@@ -54,21 +54,21 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         public DictionarySlim()
         {
-            _buckets = HashHelpers.SizeOneIntArray;
-            _entries = InitialEntries;
+            this.buckets = HashHelpers.SizeOneIntArray;
+            this.entries = InitialEntries;
         }
 
         /// <inheritdoc/>
-        public int Count => _count;
+        public int Count => this.count;
 
         /// <inheritdoc/>
         public TValue this[TKey key]
         {
             get
             {
-                Entry[] entries = _entries;
+                Entry[] entries = this.entries;
 
-                for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
+                for (int i = this.buckets[key.GetHashCode() & (this.buckets.Length - 1)] - 1;
                     (uint)i < (uint)entries.Length;
                     i = entries[i].Next)
                 {
@@ -87,18 +87,18 @@ namespace Microsoft.Collections.Extensions
         /// <inheritdoc/>
         public void Clear()
         {
-            _count = 0;
-            _freeList = -1;
-            _buckets = HashHelpers.SizeOneIntArray;
-            _entries = InitialEntries;
+            this.count = 0;
+            this.freeList = -1;
+            this.buckets = HashHelpers.SizeOneIntArray;
+            this.entries = InitialEntries;
         }
 
         /// <inheritdoc cref="Dictionary{TKey,TValue}.ContainsKey"/>
         public bool ContainsKey(TKey key)
         {
-            Entry[] entries = _entries;
+            Entry[] entries = this.entries;
 
-            for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
+            for (int i = this.buckets[key.GetHashCode() & (this.buckets.Length - 1)] - 1;
                  (uint)i < (uint)entries.Length;
                  i = entries[i].Next)
             {
@@ -119,9 +119,9 @@ namespace Microsoft.Collections.Extensions
         /// <returns>Whether or not the key was present.</returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
-            Entry[] entries = _entries;
+            Entry[] entries = this.entries;
 
-            for (int i = _buckets[key.GetHashCode() & (_buckets.Length - 1)] - 1;
+            for (int i = this.buckets[key.GetHashCode() & (this.buckets.Length - 1)] - 1;
                  (uint)i < (uint)entries.Length;
                  i = entries[i].Next)
             {
@@ -141,9 +141,9 @@ namespace Microsoft.Collections.Extensions
         /// <inheritdoc/>
         public bool Remove(TKey key)
         {
-            Entry[] entries = _entries;
-            int bucketIndex = key.GetHashCode() & (_buckets.Length - 1);
-            int entryIndex = _buckets[bucketIndex] - 1;
+            Entry[] entries = this.entries;
+            int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
+            int entryIndex = this.buckets[bucketIndex] - 1;
             int lastIndex = -1;
 
             while (entryIndex != -1)
@@ -157,15 +157,15 @@ namespace Microsoft.Collections.Extensions
                     }
                     else
                     {
-                        _buckets[bucketIndex] = candidate.Next + 1;
+                        this.buckets[bucketIndex] = candidate.Next + 1;
                     }
 
                     entries[entryIndex] = default;
 
-                    entries[entryIndex].Next = -3 - _freeList;
-                    _freeList = entryIndex;
+                    entries[entryIndex].Next = -3 - this.freeList;
+                    this.freeList = entryIndex;
 
-                    _count--;
+                    this.count--;
                     return true;
                 }
 
@@ -185,10 +185,10 @@ namespace Microsoft.Collections.Extensions
         /// <returns>Reference to the new or existing value</returns>
         public ref TValue GetOrAddValueRef(TKey key)
         {
-            Entry[] entries = _entries;
-            int bucketIndex = key.GetHashCode() & (_buckets.Length - 1);
+            Entry[] entries = this.entries;
+            int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
 
-            for (int i = _buckets[bucketIndex] - 1;
+            for (int i = this.buckets[bucketIndex] - 1;
                  (uint)i < (uint)entries.Length;
                  i = entries[i].Next)
             {
@@ -204,30 +204,30 @@ namespace Microsoft.Collections.Extensions
         [MethodImpl(MethodImplOptions.NoInlining)]
         private ref TValue AddKey(TKey key, int bucketIndex)
         {
-            Entry[] entries = _entries;
+            Entry[] entries = this.entries;
             int entryIndex;
 
-            if (_freeList != -1)
+            if (this.freeList != -1)
             {
-                entryIndex = _freeList;
-                _freeList = -3 - entries[_freeList].Next;
+                entryIndex = this.freeList;
+                this.freeList = -3 - entries[this.freeList].Next;
             }
             else
             {
-                if (_count == entries.Length || entries.Length == 1)
+                if (this.count == entries.Length || entries.Length == 1)
                 {
                     entries = Resize();
-                    bucketIndex = key.GetHashCode() & (_buckets.Length - 1);
+                    bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
                 }
 
-                entryIndex = _count;
+                entryIndex = this.count;
             }
 
             entries[entryIndex].Key = key;
-            entries[entryIndex].Next = _buckets[bucketIndex] - 1;
+            entries[entryIndex].Next = this.buckets[bucketIndex] - 1;
 
-            _buckets[bucketIndex] = entryIndex + 1;
-            _count++;
+            this.buckets[bucketIndex] = entryIndex + 1;
+            this.count++;
 
             return ref entries[entryIndex].Value;
         }
@@ -238,8 +238,8 @@ namespace Microsoft.Collections.Extensions
         [MethodImpl(MethodImplOptions.NoInlining)]
         private Entry[] Resize()
         {
-            int count = _count;
-            int newSize = _entries.Length * 2;
+            int count = this.count;
+            int newSize = this.entries.Length * 2;
 
             if ((uint)newSize > int.MaxValue)
             {
@@ -248,7 +248,7 @@ namespace Microsoft.Collections.Extensions
 
             var entries = new Entry[newSize];
 
-            Array.Copy(_entries, 0, entries, 0, count);
+            Array.Copy(this.entries, 0, entries, 0, count);
 
             var newBuckets = new int[entries.Length];
 
@@ -259,8 +259,8 @@ namespace Microsoft.Collections.Extensions
                 newBuckets[bucketIndex] = count + 1;
             }
 
-            _buckets = newBuckets;
-            _entries = entries;
+            this.buckets = newBuckets;
+            this.entries = entries;
 
             return entries;
         }
@@ -273,43 +273,43 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         public ref struct Enumerator
         {
-            private readonly DictionarySlim<TKey, TValue> _dictionary;
-            private int _index;
-            private int _count;
-            private KeyValuePair<TKey, TValue> _current;
+            private readonly DictionarySlim<TKey, TValue> dictionary;
+            private int index;
+            private int count;
+            private KeyValuePair<TKey, TValue> current;
 
             internal Enumerator(DictionarySlim<TKey, TValue> dictionary)
             {
-                _dictionary = dictionary;
-                _index = 0;
-                _count = _dictionary._count;
-                _current = default;
+                this.dictionary = dictionary;
+                this.index = 0;
+                this.count = this.dictionary.count;
+                this.current = default;
             }
 
             /// <inheritdoc cref="IEnumerator.MoveNext"/>
             public bool MoveNext()
             {
-                if (_count == 0)
+                if (this.count == 0)
                 {
-                    _current = default;
+                    this.current = default;
                     return false;
                 }
 
-                _count--;
+                this.count--;
 
-                while (_dictionary._entries[_index].Next < -1)
+                while (this.dictionary.entries[this.index].Next < -1)
                 {
-                    _index++;
+                    this.index++;
                 }
 
-                _current = new KeyValuePair<TKey, TValue>(
-                    _dictionary._entries[_index].Key,
-                    _dictionary._entries[_index++].Value);
+                this.current = new KeyValuePair<TKey, TValue>(
+                    this.dictionary.entries[this.index].Key,
+                    this.dictionary.entries[this.index++].Value);
                 return true;
             }
 
             /// <inheritdoc cref="IEnumerator{T}.Current"/>
-            public KeyValuePair<TKey, TValue> Current => _current;
+            public KeyValuePair<TKey, TValue> Current => this.current;
         }
 
         /// <summary>
