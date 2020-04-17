@@ -12,7 +12,59 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Ioc_IsRegistered_Register_Send_UnregisterOfTMessage_WithNoToken()
+        public void Test_Messenger_UnregisterRecipientWithMessageType()
+        {
+            var messenger = new Messenger();
+            var recipient = new object();
+
+            messenger.Register<MessageA>(recipient, m => { });
+            messenger.Unregister<MessageA>(recipient);
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_UnregisterRecipientWithMessageTypeAndToken()
+        {
+            var messenger = new Messenger();
+            var recipient = new object();
+
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Unregister<MessageA, string>(recipient, nameof(MessageA));
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_UnregisterRecipientWithToken()
+        {
+            var messenger = new Messenger();
+            var recipient = new object();
+
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Unregister(recipient, nameof(MessageA));
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_UnregisterRecipientWithRecipient()
+        {
+            var messenger = new Messenger();
+            var recipient = new object();
+
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Unregister(recipient);
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithNoToken()
         {
             object a = new object();
 
@@ -39,7 +91,7 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Ioc_IsRegistered_Register_Send_UnregisterRecipient_WithNoToken()
+        public void Test_Messenger_IsRegistered_Register_Send_UnregisterRecipient_WithNoToken()
         {
             object a = new object();
 
@@ -66,7 +118,7 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Ioc_IsRegistered_Register_Send_UnregisterOfTMessage_WithToken()
+        public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithToken()
         {
             object a = new object();
 
