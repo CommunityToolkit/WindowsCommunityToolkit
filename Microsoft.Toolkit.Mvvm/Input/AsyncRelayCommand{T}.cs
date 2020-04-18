@@ -7,6 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
+// See comment in RelayCommand<T>
+#pragma warning disable CS8604, CS8605
+
 namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
@@ -72,7 +75,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return CanExecute((T)parameter);
         }
@@ -85,7 +88,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             ExecuteAsync((T)parameter);
         }
@@ -102,7 +105,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(object parameter)
+        public Task ExecuteAsync(object? parameter)
         {
             return ExecuteAsync((T)parameter);
         }

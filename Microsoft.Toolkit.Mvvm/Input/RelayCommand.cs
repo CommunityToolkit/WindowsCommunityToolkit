@@ -75,13 +75,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return this.canExecute?.Invoke() != false;
         }
 
         /// <inheritdoc/>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             if (CanExecute(parameter))
             {
