@@ -22,6 +22,9 @@
 // ****************************************************************************
 
 using System;
+#if NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Runtime.CompilerServices;
 
 /* Suppress the nullability warnings for all (T) casts from an object? parameter.
@@ -80,7 +83,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(T parameter)
+        public bool CanExecute(
+#if NETSTANDARD2_1
+            [AllowNull]
+#endif
+            T parameter)
         {
             return this.canExecute?.Invoke(parameter) != false;
         }
@@ -93,7 +100,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Execute(T parameter)
+        public void Execute(
+#if NETSTANDARD2_1
+            [AllowNull]
+#endif
+            T parameter)
         {
             if (CanExecute(parameter))
             {

@@ -2,6 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Mvvm.Input
@@ -18,6 +21,10 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// </summary>
         /// <param name="parameter">The input parameter.</param>
         /// <returns>The <see cref="Task"/> representing the async operation being executed.</returns>
-        Task ExecuteAsync(T parameter);
+        Task ExecuteAsync(
+#if NETSTANDARD2_1
+            [AllowNull]
+#endif
+            T parameter);
     }
 }

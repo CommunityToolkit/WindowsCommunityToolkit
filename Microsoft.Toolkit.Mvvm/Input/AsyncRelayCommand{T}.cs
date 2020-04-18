@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+#if NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -68,7 +71,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(T parameter)
+        public bool CanExecute(
+#if NETSTANDARD2_1
+            [AllowNull]
+#endif
+            T parameter)
         {
             return this.canExecute?.Invoke(parameter) != false;
         }
@@ -82,7 +89,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Execute(T parameter)
+        public void Execute(
+#if NETSTANDARD2_1
+            [AllowNull]
+#endif
+            T parameter)
         {
             ExecuteAsync(parameter);
         }
@@ -94,7 +105,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(T parameter)
+        public Task ExecuteAsync(
+#if NETSTANDARD2_1
+            [AllowNull]
+#endif
+            T parameter)
         {
             if (CanExecute(parameter))
             {
