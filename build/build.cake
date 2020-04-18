@@ -236,7 +236,6 @@ Task("Package")
 
     MSBuild(Solution, buildSettings);
 
-	/*
 	// Build and pack C++ packages
     buildSettings = new MSBuildSettings
     {
@@ -259,9 +258,7 @@ Task("Package")
     MSBuild(Solution, buildSettings);
 
     RetrieveVersion();
-
 	
-	// Ignored for now
     var nuGetPackSettings = new NuGetPackSettings
 	{
 		OutputDirectory = nupkgDir,
@@ -273,7 +270,6 @@ Task("Package")
     {
         NuGetPack(nuspec, nuGetPackSettings);
     }
-	*/
 });
 
 public string getMSTestAdapterPath(){
