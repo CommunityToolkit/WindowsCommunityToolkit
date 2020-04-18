@@ -3,15 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if NETSTANDARD2_1
-using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-
-// See comment in RelayCommand<T>
-#pragma warning disable CS8604, CS8605
 
 namespace Microsoft.Toolkit.Mvvm.Input
 {
@@ -38,6 +32,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// Initializes a new instance of the <see cref="AsyncRelayCommand{T}"/> class that can always execute.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
+        /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
         public AsyncRelayCommand(Func<T, Task> execute)
         {
             this.execute = execute;
@@ -48,6 +43,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
+        /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
         public AsyncRelayCommand(Func<T, Task> execute, Func<T, bool> canExecute)
         {
             this.execute = execute;
@@ -71,11 +67,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter)
+        public bool CanExecute(T parameter)
         {
             return this.canExecute?.Invoke(parameter) != false;
         }
@@ -84,16 +76,12 @@ namespace Microsoft.Toolkit.Mvvm.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanExecute(object? parameter)
         {
-            return CanExecute((T)parameter);
+            return CanExecute((T)parameter!);
         }
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Execute(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter)
+        public void Execute(T parameter)
         {
             ExecuteAsync(parameter);
         }
@@ -101,15 +89,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            ExecuteAsync((T)parameter);
+            ExecuteAsync((T)parameter!);
         }
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter)
+        public Task ExecuteAsync(T parameter)
         {
             if (CanExecute(parameter))
             {
@@ -122,7 +106,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public Task ExecuteAsync(object? parameter)
         {
-            return ExecuteAsync((T)parameter);
+            return ExecuteAsync((T)parameter!);
         }
     }
 }

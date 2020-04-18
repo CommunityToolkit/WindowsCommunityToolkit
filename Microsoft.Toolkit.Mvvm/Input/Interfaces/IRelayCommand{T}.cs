@@ -2,9 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_1
-using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Windows.Input;
 
 namespace Microsoft.Toolkit.Mvvm.Input
@@ -21,21 +18,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="parameter">The input parameter.</param>
         /// <returns>Whether or not the current command can be executed.</returns>
         /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
-        bool CanExecute(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter);
+        bool CanExecute(T parameter);
 
         /// <summary>
         /// Provides a strongly-typed variant of <see cref="ICommand.Execute(object)"/>.
         /// </summary>
         /// <param name="parameter">The input parameter.</param>
         /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
-        void Execute(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter);
+        void Execute(T parameter);
     }
 }

@@ -22,14 +22,7 @@
 // ****************************************************************************
 
 using System;
-#if NETSTANDARD2_1
-using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Runtime.CompilerServices;
-
-/* Suppress the nullability warnings for all (T) casts from an object? parameter.
- * If this happens, we do want to throw an exception to notify the users. */
-#pragma warning disable CS8604, CS8605
 
 namespace Microsoft.Toolkit.Mvvm.Input
 {
@@ -59,6 +52,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class that can always execute.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
+        /// <remarks>
+        /// Due to the fact that the <see cref="System.Windows.Input.ICommand"/> interface exposes methods that accept a
+        /// nullable <see cref="object"/> parameter, it is recommended that if <typeparamref name="T"/> is a reference type,
+        /// you should always declare it as nullable, and to always perform checks within <paramref name="execute"/>.
+        /// </remarks>
         public RelayCommand(Action<T> execute)
         {
             this.execute = execute;
@@ -69,6 +67,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
+        /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
         public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
         {
             this.execute = execute;
@@ -83,11 +82,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter)
+        public bool CanExecute(T parameter)
         {
             return this.canExecute?.Invoke(parameter) != false;
         }
@@ -95,16 +90,12 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public bool CanExecute(object? parameter)
         {
-            return CanExecute((T)parameter);
+            return CanExecute((T)parameter!);
         }
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Execute(
-#if NETSTANDARD2_1
-            [AllowNull]
-#endif
-            T parameter)
+        public void Execute(T parameter)
         {
             if (CanExecute(parameter))
             {
@@ -115,7 +106,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            Execute((T)parameter);
+            Execute((T)parameter!);
         }
     }
 }
