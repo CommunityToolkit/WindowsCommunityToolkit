@@ -11,11 +11,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
     /// A command that mirrors the functionality of <see cref="RelayCommand"/>, with the addition of
-    /// accepting a <see cref="Func{TResult}"/> returning a <see cref="Task{TResult}"/> as the execute
-    /// action, and providing a <see cref="ExecutionTask"/> property that notifies changes when
-    /// <see cref="Execute"/> is invoked and when the returned <see cref="Task{TResult}"/> completes.
+    /// accepting a <see cref="Func{TResult}"/> returning a <see cref="Task"/> as the execute
+    /// action, and providing an <see cref="ExecutionTask"/> property that notifies changes when
+    /// <see cref="ExecuteAsync"/> is invoked and when the returned <see cref="Task"/> completes.
     /// </summary>
-    public sealed class AsyncRelayCommand : ObservableObject, IRelayCommand
+    public sealed class AsyncRelayCommand : ObservableObject, IAsyncRelayCommand
     {
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute"/> is used.
@@ -52,10 +52,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         private Task? executionTask;
 
-        /// <summary>
-        /// Gets the last scheduled <see cref="Task"/>, if available.
-        /// This property notifies a change when the <see cref="Task{TResult}"/> completes.
-        /// </summary>
+        /// <inheritdoc/>
         public Task? ExecutionTask
         {
             get => this.executionTask;
@@ -78,10 +75,18 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public void Execute(object parameter)
         {
+            ExecuteAsync(parameter);
+        }
+
+        /// <inheritdoc/>
+        public Task ExecuteAsync(object parameter)
+        {
             if (CanExecute(parameter))
             {
-                ExecutionTask = this.execute();
+                return ExecutionTask = this.execute();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

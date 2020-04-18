@@ -10,13 +10,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 namespace Microsoft.Toolkit.Mvvm.Input
 {
     /// <summary>
-    /// A generic command that mirrors the functionality of <see cref="RelayCommand"/>, with the addition
-    /// of accepting a <see cref="Func{TResult}"/> returning a <see cref="Task{TResult}"/> as the execute
-    /// action, and providing a <see cref="ExecutionTask"/> property that notifies changes when
-    /// <see cref="Execute(T)"/> is invoked and when the returned <see cref="Task{TResult}"/> completes.
+    /// A generic command that provides a more specific version of <see cref="AsyncRelayCommand"/>.
     /// </summary>
     /// <typeparam name="T">The type of parameter being passed as input to the callbacks.</typeparam>
-    public sealed class AsyncRelayCommand<T> : ObservableObject, IRelayCommand<T>
+    public sealed class AsyncRelayCommand<T> : ObservableObject, IAsyncRelayCommand<T>
     {
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute(T)"/> is used.
@@ -53,10 +50,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         private Task? executionTask;
 
-        /// <summary>
-        /// Gets the last scheduled <see cref="Task"/>, if available.
-        /// This property notifies a change when the <see cref="Task{TResult}"/> completes.Th
-        /// </summary>
+        /// <inheritdoc/>
         public Task? ExecutionTask
         {
             get => this.executionTask;
@@ -87,16 +81,30 @@ namespace Microsoft.Toolkit.Mvvm.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Execute(T parameter)
         {
-            if (CanExecute(parameter))
-            {
-                ExecutionTask = this.execute(parameter);
-            }
+            ExecuteAsync(parameter);
         }
 
         /// <inheritdoc/>
         public void Execute(object parameter)
         {
-            Execute((T)parameter);
+            ExecuteAsync((T)parameter);
+        }
+
+        /// <inheritdoc/>
+        public Task ExecuteAsync(T parameter)
+        {
+            if (CanExecute(parameter))
+            {
+                return ExecutionTask = this.execute(parameter);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task ExecuteAsync(object parameter)
+        {
+            return ExecuteAsync((T)parameter);
         }
     }
 }
