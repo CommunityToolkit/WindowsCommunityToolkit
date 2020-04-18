@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 
 namespace Microsoft.Collections.Extensions
 {
@@ -19,7 +18,11 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         int Count { get; }
 
-        /// <inheritdoc cref="Dictionary{TKey,TValue}.Remove"/>
+        /// <summary>
+        /// Removes an item from the dictionary with the specified key, if present.
+        /// </summary>
+        /// <param name="key">The key of the item to remove.</param>
+        /// <returns>Whether or not an item was removed.</returns>
         bool Remove(TKey key);
 
         /// <summary>
