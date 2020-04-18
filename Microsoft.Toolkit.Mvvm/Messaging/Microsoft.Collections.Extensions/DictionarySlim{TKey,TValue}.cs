@@ -243,7 +243,7 @@ namespace Microsoft.Collections.Extensions
 
             if ((uint)newSize > int.MaxValue)
             {
-                throw new InvalidOperationException("Max capacity exceeded");
+                ThrowInvalidOperationExceptionForMaxCapacityExceeded();
             }
 
             var entries = new Entry[newSize];
@@ -327,6 +327,15 @@ namespace Microsoft.Collections.Extensions
         private static void ThrowArgumentExceptionForKeyNotFound(TKey key)
         {
             throw new ArgumentException($"The target key {key} was not present in the dictionary");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when trying to resize over the maximum capacity.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionForMaxCapacityExceeded()
+        {
+            throw new InvalidOperationException("Max capacity exceeded");
         }
     }
 }
