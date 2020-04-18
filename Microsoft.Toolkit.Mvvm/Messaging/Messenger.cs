@@ -38,14 +38,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         // The Messenger class uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
         // DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap;
-        //                    |                  \             /
-        //                    |                   \___________/_____[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
-        //                    |   ___________________________/             \____                      /
-        //                    |  /           ___________________________________\____________________/
-        //                    | /           /                                    \
-        // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping
-        //                                            /               /          /
-        //                      ___(Type2.tToken)____/               /          /
+        //                    |                   \________________[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
+        //                    |                                            \___          /            /            /
+        //                    |   ________(recipients registrations)___________\________/            /          __/
+        //                    |  /           _______(channel registrations)_____\___________________/          /
+        //                    | /           /                                    \                            /
+        // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping = Mapping<TMessage, TToken>
+        //                                            /               / \        /                   /
+        //                      ___(Type2.tToken)____/               /   \______/___________________/
         //                     /________________(Type2.tMessage)____/          /
         //                    /       ________________________________________/
         //                   /       /
@@ -54,19 +54,18 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds
         // the references from registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
         // dictionary, so that each recipient can have up to one registered handler for a given token, for each
-        // message type. Each mapping is stored in the types map, which associates to each pair of concrete types the
-        // mapping instances. Each instances is just exposed as an IMapping, as each will be a closed type over
+        // message type. Each mapping is stored in the types map, which associates each pair of concrete types to its
+        // mapping instance. Mapping instances are exposed as IMapping items, as each will be a closed type over
         // a different combination of TMessage and TToken generic type parameters. Each existing recipient is also stored in
         // the main recipients map, along with a set of all the existing dictionaries of handlers for that recipient (for all
         // message types and token types). A recipient is stored in the main map as long as it has at least one
         // registered handler in any of the existing mappings for every message/token type combination.
         // The shared map is used to access the set of all registered handlers for a given recipient, without having
         // to know in advance the type of message or token being used for the registration, and without having to
-        // use reflection. This is the same approach used in the types map, just with a more specific exposed reference
-        // type as in this case we have at least some partial knowledge of the generic type parameters of the mapped types.
-        // Note that each dictionary stored in the associated set for each recipient also implements
+        // use reflection. This is the same approach used in the types map, as we expose saved items as IMapping values too.
+        // Note that each mapping stored in the associated set for each recipient also indirectly implements
         // IDictionarySlim<Recipient, Token>, with any token type currently in use by that recipient. This allows to retrieve
-        // the type-closed mappings of registered handlers with a given token type, for an message type, for every receiver,
+        // the type-closed mappings of registered handlers with a given token type, for any message type, for every receiver,
         // again without having to use reflection. This shared map is used to unregister messages from a given recipients
         // either unconditionally, by message type, by token, or for a specific pair of message type and token value.
 
@@ -229,15 +228,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 try
                 {
-                    // Select the items with the same token type
                     foreach (IMapping item in set)
                     {
-                        /* This is technically a "suspicious cast" as there's no type that inherits
-                         * from both IMapping and IDictionarySlim<Recipient, IDictionarySlim<TToken>>.
-                         * But this is fine since IMapping instances are really instances of
-                         * Mapping<TMessage, TToken>, which in turn inherits from
-                         * DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>, which
-                         * then implements IDictionarySlim<Recipient, IDictionarySlim<TToken>>. */
+                        // Select all mappings using the same token type
                         if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> map)
                         {
                             maps[i++] = map;
