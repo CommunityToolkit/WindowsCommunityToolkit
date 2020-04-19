@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <exception cref="InvalidOperationException">Thrown if the requested service was not registered.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TService GetInstance<TService>(this IServiceProvider provider)
+        public static TService GetService<TService>(this IServiceProvider provider)
             where TService : class
         {
             return (TService)provider.GetService(typeof(TService));

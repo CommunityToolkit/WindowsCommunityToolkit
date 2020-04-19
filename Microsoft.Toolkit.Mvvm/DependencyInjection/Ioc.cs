@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     /// </code>
     /// Finally, use the <see cref="Ioc"/> type to retrieve service instances to use:
     /// <code>
-    /// Ioc.Default.GetInstance&lt;ILogger>().Log("Hello world!");
+    /// Ioc.Default.GetService&lt;ILogger>().Log("Hello world!");
     /// </code>
     /// The <see cref="Ioc"/> type will make sure to initialize your service instance if needed, or it will
     /// throw an exception in case the requested service has not been registered yet.
@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         }
 
         /// <inheritdoc/>
-        public bool TryGetInstance<TService>(out TService? service)
+        public bool TryGetService<TService>(out TService? service)
             where TService : class
         {
             lock (this.typesMap)
@@ -189,10 +189,10 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TService GetInstance<TService>()
+        public TService GetService<TService>()
             where TService : class
         {
-            if (!TryGetInstance(out TService? service))
+            if (!this.TryGetService(out TService? service))
             {
                 ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>();
             }
@@ -217,7 +217,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         }
 
         /// <inheritdoc/>
-        public TService GetInstanceWithoutCaching<TService>()
+        public TService GetServiceWithoutCaching<TService>()
             where TService : class
         {
             lock (this.typesMap)

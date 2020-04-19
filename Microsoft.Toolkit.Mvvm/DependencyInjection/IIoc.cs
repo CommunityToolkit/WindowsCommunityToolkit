@@ -86,13 +86,13 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>, if registered.</returns>
         [Pure]
-        bool TryGetInstance<TService>(out TService? service)
+        bool TryGetService<TService>(out TService? service)
             where TService : class;
 
-        /// <inheritdoc cref="IServiceProviderExtensions.GetInstance{TService}"/>
+        /// <inheritdoc cref="IServiceProviderExtensions.GetService{TService}"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        TService GetInstance<TService>()
+        TService GetService<TService>()
             where TService : class;
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <typeparam name="TService">The type of service to look for.</typeparam>
         /// <returns>A new instance of a registered type implementing <typeparamref name="TService"/>.</returns>
         [Pure]
-        TService GetInstanceWithoutCaching<TService>()
+        TService GetServiceWithoutCaching<TService>()
             where TService : class;
     }
 }
