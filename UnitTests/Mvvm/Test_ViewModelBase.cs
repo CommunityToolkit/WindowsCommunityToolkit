@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -37,7 +38,7 @@ namespace UnitTests.Mvvm
             var viewmodel = new SomeViewModel<int>();
 
             Assert.AreSame(viewmodel.CurrentMessenger, Messenger.Default);
-            Assert.AreSame(viewmodel.CurrentIoc, Ioc.Default);
+            Assert.AreSame(viewmodel.CurrentServiceProvider, Ioc.Default.ServiceProvider);
         }
 
         [TestCategory("Mvvm")]
@@ -45,11 +46,11 @@ namespace UnitTests.Mvvm
         public void Test_ViewModelBase_Injection()
         {
             var messenger = new Messenger();
-            var ioc = new Ioc();
-            var viewmodel = new SomeViewModel<int>(messenger, ioc);
+            var services = new Ioc().ServiceProvider;
+            var viewmodel = new SomeViewModel<int>(messenger, services);
 
             Assert.AreSame(viewmodel.CurrentMessenger, messenger);
-            Assert.AreSame(viewmodel.CurrentIoc, ioc);
+            Assert.AreSame(viewmodel.CurrentServiceProvider, services);
         }
 
         [TestCategory("Mvvm")]
@@ -78,12 +79,12 @@ namespace UnitTests.Mvvm
             {
             }
 
-            public SomeViewModel(IMessenger messenger, IIoc ioc)
-                : base(messenger, ioc)
+            public SomeViewModel(IMessenger messenger, IServiceProvider serviceProvider)
+                : base(messenger, serviceProvider)
             {
             }
 
-            public IIoc CurrentIoc => Ioc;
+            public IServiceProvider CurrentServiceProvider => ServiceProvider;
 
             public IMessenger CurrentMessenger => Messenger;
 

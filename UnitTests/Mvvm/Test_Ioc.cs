@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,40 +14,76 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Ioc_SampleUsage()
+        public void Test_Ioc_DefaultServiceProvider()
         {
-            Assert.IsFalse(Ioc.Default.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.Default.GetAllServices().Length, 0);
+            var ioc = new Ioc();
 
-            Ioc.Default.Register<INameService, BobService>();
+            IServiceProvider
+                providerA = ioc.ServiceProvider,
+                providerB = ioc.ServiceProvider;
 
-            Assert.IsTrue(Ioc.Default.IsRegistered<INameService>());
+            Assert.IsNotNull(providerA);
+            Assert.IsNotNull(providerB);
+            Assert.AreSame(providerA, providerB);
+        }
 
-            var services = Ioc.Default.GetAllServices();
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Ioc_LambdaInitialization()
+        {
+            var ioc = new Ioc();
 
-            Assert.AreEqual(services.Length, 1);
-            Assert.IsInstanceOfType(services.Span[0], typeof(INameService));
-            Assert.IsInstanceOfType(services.Span[0], typeof(BobService));
+            ioc.ConfigureServices(services =>
+            {
+                services.AddSingleton<INameService, AliceService>();
+            });
 
-            Ioc.Default.Unregister<INameService>();
+            var service = ioc.ServiceProvider.GetRequiredService<INameService>();
 
-            Assert.IsFalse(Ioc.Default.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.Default.GetAllServices().Length, 0);
+            Assert.IsNotNull(service);
+            Assert.IsInstanceOfType(service, typeof(AliceService));
+        }
 
-            Ioc.Default.Register<INameService>(() => new AliceService());
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Ioc_CollectionInitialization()
+        {
+            var ioc = new Ioc();
 
-            Assert.IsTrue(Ioc.Default.IsRegistered<INameService>());
+            var services = new ServiceCollection();
 
-            services = Ioc.Default.GetAllServices();
+            services.AddSingleton<INameService, AliceService>();
 
-            Assert.AreEqual(services.Length, 1);
-            Assert.IsInstanceOfType(services.Span[0], typeof(INameService));
-            Assert.IsInstanceOfType(services.Span[0], typeof(AliceService));
+            ioc.ConfigureServices(services);
 
-            Ioc.Default.Reset();
+            var service = ioc.ServiceProvider.GetRequiredService<INameService>();
 
-            Assert.IsFalse(Ioc.Default.IsRegistered<INameService>());
-            Assert.AreEqual(Ioc.Default.GetAllServices().Length, 0);
+            Assert.IsNotNull(service);
+            Assert.IsInstanceOfType(service, typeof(AliceService));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Ioc_RepeatedLambdaInitialization()
+        {
+            var ioc = new Ioc();
+
+            ioc.ConfigureServices(services => { });
+
+            Assert.ThrowsException<InvalidOperationException>(() => ioc.ConfigureServices(services => { }));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Ioc_RepeatedCollectionInitialization()
+        {
+            var ioc = new Ioc();
+
+            var services = new ServiceCollection();
+
+            ioc.ConfigureServices(services);
+
+            Assert.ThrowsException<InvalidOperationException>(() => ioc.ConfigureServices(services));
         }
 
         public interface INameService

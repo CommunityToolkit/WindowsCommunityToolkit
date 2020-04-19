@@ -21,6 +21,7 @@
 // <LastBaseLevel>BL0014</LastBaseLevel>
 // ****************************************************************************
 
+using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -38,10 +39,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <remarks>
         /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/>
-        /// and <see cref="DependencyInjection.Ioc.Default"/> services to perform operations.
+        /// and <see cref="Ioc.ServiceProvider"/> instances to perform requested operations.
         /// </remarks>
         protected ViewModelBase()
-            : this(Messaging.Messenger.Default, DependencyInjection.Ioc.Default)
+            : this(Messaging.Messenger.Default, Ioc.Default.ServiceProvider)
         {
         }
 
@@ -50,16 +51,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
         protected ViewModelBase(IMessenger messenger)
-            : this(messenger, DependencyInjection.Ioc.Default)
+            : this(messenger, Ioc.Default.ServiceProvider)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
-        /// <param name="ioc">The optional <see cref="IIoc"/> instance to use to retrieve services.</param>
-        protected ViewModelBase(IIoc ioc)
-            : this(Messaging.Messenger.Default, ioc)
+        /// <param name="serviceProvider">The optional <see cref="IServiceProvider"/> instance to use to retrieve services.</param>
+        protected ViewModelBase(IServiceProvider serviceProvider)
+            : this(Messaging.Messenger.Default, serviceProvider)
         {
         }
 
@@ -67,11 +68,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
-        /// <param name="ioc">The optional <see cref="IIoc"/> instance to use to retrieve services.</param>
-        protected ViewModelBase(IMessenger messenger, IIoc ioc)
+        /// <param name="serviceProvider">The optional <see cref="IServiceProvider"/> instance to use to retrieve services.</param>
+        protected ViewModelBase(IMessenger messenger, IServiceProvider serviceProvider)
         {
             Messenger = messenger;
-            Ioc = ioc;
+            ServiceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -80,9 +81,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected IMessenger Messenger { get; }
 
         /// <summary>
-        /// Gets the <see cref="IIoc"/> instance in use.
+        /// Gets the <see cref="IServiceProvider"/> instance in use.
         /// </summary>
-        protected IIoc Ioc { get; }
+        protected IServiceProvider ServiceProvider { get; }
 
         private bool isActive;
 

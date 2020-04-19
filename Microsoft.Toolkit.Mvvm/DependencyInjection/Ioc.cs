@@ -3,383 +3,114 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using Microsoft.Collections.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 #nullable enable
 
 namespace Microsoft.Toolkit.Mvvm.DependencyInjection
 {
     /// <summary>
-    /// An Inversion of Control container that can be used to register and access instances of types providing services.
-    /// It is focused on performance, and offers the ability to register service providers either through eagerly
-    /// produced instances, or by using the factory pattern. The type is also fully thread-safe.
-    /// In order to use this helper, first define a service and a service provider, like so:
+    /// A type that facilitates the use of the <see cref="IServiceProvider"/> type.
+    /// The <see cref="Ioc"/> provides the ability to configure services in a singleton, thread-safe
+    /// service provider instance, which is then automatically injected into all viewmodels inheriting
+    /// from the provided <see cref="ComponentModel.ViewModelBase"/> class. First, you should define
+    /// some services you will use in your app. Here is an example:
     /// <code>
     /// public interface ILogger
     /// {
     ///     void Log(string text);
     /// }
-    ///
+    /// </code>
+    /// <code>
     /// public class ConsoleLogger : ILogger
     /// {
     ///     void Log(string text) => Console.WriteLine(text);
     /// }
     /// </code>
-    /// Then, register your services at startup, or at some time before using them:
+    /// The <see cref="ServiceProvider"/> configuration should then be done at startup, by calling one of
+    /// the available <see cref="ConfigureServices(IServiceCollection)"/> overloads, like so:
     /// <code>
-    /// Ioc.Default.Register&lt;ILogger, ConsoleLogger>();
+    /// Ioc.Default.ConfigureServices(collection =>
+    /// {
+    ///     collection.AddSingleton&lt;ILogger, Logger>();
+    /// });
     /// </code>
-    /// Finally, use the <see cref="Ioc"/> type to retrieve service instances to use:
+    /// Finally, you can use the <see cref="ServiceProvider"/> property to retrieve the
+    /// <see cref="IServiceProvider"/> instance with the collection of all the registered services:
     /// <code>
-    /// Ioc.Default.GetService&lt;ILogger>().Log("Hello world!");
+    /// Ioc.Default.ServiceProvider.GetService&lt;ILogger>().Log("Hello world!");
     /// </code>
-    /// The <see cref="Ioc"/> type will make sure to initialize your service instance if needed, or it will
-    /// throw an exception in case the requested service has not been registered yet.
     /// </summary>
-    public sealed class Ioc : IIoc
+    public sealed class Ioc
     {
-        /// <summary>
-        /// The <see cref="IContainer"/> instance for each registered type.
-        /// </summary>
-        private readonly DictionarySlim<Key, IContainer> typesMap = new DictionarySlim<Key, IContainer>();
-
         /// <summary>
         /// Gets the default <see cref="Ioc"/> instance.
         /// </summary>
         public static Ioc Default { get; } = new Ioc();
 
-        /// <inheritdoc/>
-        public bool IsRegistered<TService>()
-            where TService : class
-        {
-            lock (this.typesMap)
-            {
-                return TryGetContainer<TService>(out _);
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Register<TService, TProvider>()
-            where TService : class
-            where TProvider : class, TService, new()
-        {
-            Register<TService>(new TProvider());
-        }
-
-        /// <inheritdoc/>
-        public void Register<TService>(TService provider)
-            where TService : class
-        {
-            lock (this.typesMap)
-            {
-                Container<TService> container = GetContainer<TService>();
-
-                container.Factory = null;
-                container.Instance = provider;
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Register<TService>(Func<TService> factory)
-            where TService : class
-        {
-            lock (this.typesMap)
-            {
-                Container<TService> container = GetContainer<TService>();
-
-                container.Factory = factory;
-                container.Instance = null;
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Unregister<TService>()
-            where TService : class
-        {
-            lock (this.typesMap)
-            {
-                var key = new Key(typeof(TService));
-
-                this.typesMap.Remove(key);
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Reset()
-        {
-            lock (this.typesMap)
-            {
-                this.typesMap.Clear();
-            }
-        }
-
-        /// <inheritdoc/>
-        public ReadOnlyMemory<object> GetAllServices()
-        {
-            lock (this.typesMap)
-            {
-                if (this.typesMap.Count == 0)
-                {
-                    return Array.Empty<object>();
-                }
-
-                object[] services = new object[this.typesMap.Count];
-
-                int i = 0;
-                foreach (var pair in this.typesMap)
-                {
-                    services[i++] = pair.Value.Instance ?? pair.Value.Factory!();
-                }
-
-                return services;
-            }
-        }
-
-        /// <inheritdoc/>
-        public ReadOnlyMemory<object> GetAllCreatedServices()
-        {
-            lock (this.typesMap)
-            {
-                if (this.typesMap.Count == 0)
-                {
-                    return Array.Empty<object>();
-                }
-
-                object[] services = new object[this.typesMap.Count];
-
-                int i = 0;
-                foreach (var pair in this.typesMap)
-                {
-                    object? service = pair.Value.Instance;
-
-                    if (service is null)
-                    {
-                        continue;
-                    }
-
-                    services[i++] = service;
-                }
-
-                return services.AsMemory(0, i);
-            }
-        }
-
-        /// <inheritdoc/>
-        object? IServiceProvider.GetService(Type serviceType)
-        {
-            lock (this.typesMap)
-            {
-                var key = new Key(serviceType);
-
-                if (!this.typesMap.TryGetValue(key, out IContainer container))
-                {
-                    return null;
-                }
-
-                return container!.Instance ?? container.Factory?.Invoke();
-            }
-        }
-
-        /// <inheritdoc/>
-        public TService GetServiceWithoutCaching<TService>()
-            where TService : class
-        {
-            lock (this.typesMap)
-            {
-                if (!TryGetContainer(out Container<TService>? container))
-                {
-                    ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>();
-                }
-
-                Func<TService>? factory = container!.Factory;
-
-                if (!(factory is null))
-                {
-                    return factory();
-                }
-
-                TService service = container.Instance!;
-
-                if (service.GetType().GetConstructor(Type.EmptyTypes) is null)
-                {
-                    ThrowInvalidOperationExceptionOnServiceWithNoConstructor<TService>(service.GetType());
-                }
-
-                Type serviceType = service.GetType();
-                Expression[] expressions = { Expression.New(serviceType) };
-                Expression body = Expression.Block(serviceType, expressions);
-                factory = Expression.Lambda<Func<TService>>(body).Compile();
-
-                // Cache for later use
-                container.Factory = factory;
-
-                return factory();
-            }
-        }
-
         /// <summary>
-        /// Tries to get a <see cref="Container{T}"/> instance for a specific service type.
+        /// An <see cref="object"/> used to synchronize access to <see cref="ServiceProvider"/>.
         /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <param name="container">The resulting <see cref="Container{T}"/>, if found.</param>
-        /// <returns>Whether or not the container was present.</returns>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryGetContainer<TService>(out Container<TService>? container)
-            where TService : class
-        {
-            var key = new Key(typeof(TService));
+        private readonly object dummy = new object();
 
-            if (this.typesMap.TryGetValue(key, out IContainer local))
-            {
-                // We can use a fast cast here as the type is always known
-                container = Unsafe.As<Container<TService>>(local);
-
-                return true;
-            }
-
-            container = null;
-
-            return false;
-        }
+        private IServiceProvider? serviceProvider;
 
         /// <summary>
-        /// Gets the <see cref="Container{T}"/> instance for a specific service type.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>A <see cref="Container{T}"/> instance with the requested type argument.</returns>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Container<TService> GetContainer<TService>()
-            where TService : class
-        {
-            var key = new Key(typeof(TService));
-            ref IContainer target = ref this.typesMap.GetOrAddValueRef(key);
-
-            if (target is null)
-            {
-                target = new Container<TService>();
-            }
-
-            return Unsafe.As<Container<TService>>(target);
-        }
-
-        /// <summary>
-        /// A simple type representing a registered type.
+        /// Gets the shared <see cref="IServiceProvider"/> instance to use.
         /// </summary>
         /// <remarks>
-        /// This type is used to enable fast indexing in the type mapping, and is used to externally
-        /// inject the <see cref="IEquatable{T}"/> interface to <see cref="Type"/>.
+        /// Make sure to call any of the <see cref="ConfigureServices(IServiceCollection)"/> overloads
+        /// before accessing this property, otherwise it'll just fallback to an empty collection.
         /// </remarks>
-        private readonly struct Key : IEquatable<Key>
+        public IServiceProvider ServiceProvider
         {
-            /// <summary>
-            /// The registered type.
-            /// </summary>
-            private readonly Type type;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Key"/> struct.
-            /// </summary>
-            /// <param name="type">The input <see cref="Type"/> instance.</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Key(Type type)
+            get
             {
-                this.type = type;
-            }
-
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public bool Equals(Key other)
-            {
-                return ReferenceEquals(this.type, other.type);
-            }
-
-            /// <inheritdoc/>
-            public override bool Equals(object? obj)
-            {
-                return obj is Key other && Equals(other);
-            }
-
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public override int GetHashCode()
-            {
-                return RuntimeHelpers.GetHashCode(this.type);
+                lock (dummy)
+                {
+                    return serviceProvider ??= new ServiceCollection().BuildServiceProvider();
+                }
             }
         }
 
         /// <summary>
-        /// Internal container type for services of type <typeparamref name="T"/>.
+        /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
-        /// <typeparam name="T">The type of services to store in this type.</typeparam>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "The type is private")]
-        private sealed class Container<T> : IContainer
-            where T : class
+        /// <param name="setup">The configuration delegate to use to add services.</param>
+        public void ConfigureServices(Action<IServiceCollection> setup)
         {
-            /// <inheritdoc/>
-            public object Lock { get; } = new object();
+            var collection = new ServiceCollection();
 
-            /// <summary>
-            /// The optional <see cref="Func{T}"/> instance to produce instances of the service <typeparamref name="T"/>.
-            /// </summary>
-            public Func<T>? Factory;
+            setup(collection);
 
-            /// <summary>
-            /// The current <typeparamref name="T"/> instance being produced, if available.
-            /// </summary>
-            public T? Instance;
-
-            /// <inheritdoc/>
-            Func<object>? IContainer.Factory => this.Factory;
-
-            /// <inheritdoc/>
-            object? IContainer.Instance => this.Instance;
+            ConfigureServices(collection);
         }
 
         /// <summary>
-        /// A interface for the <see cref="Container{T}"/> type.
+        /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
-        private interface IContainer
+        /// <param name="collection">The input <see cref="IServiceCollection"/> instance to use.</param>
+        public void ConfigureServices(IServiceCollection collection)
         {
-            /// <summary>
-            /// Gets an <see cref="object"/> used to synchronize accesses to the <see cref="Factory"/> and <see cref="Instance"/> fields.
-            /// </summary>
-            object Lock { get; }
+            lock (dummy)
+            {
+                if (!(this.serviceProvider is null))
+                {
+                    ThrowInvalidOperationExceptionForRepeatedConfiguration();
+                }
 
-            /// <summary>
-            /// Gets the optional <see cref="Func{T}"/> instance to produce instances of the service.
-            /// </summary>
-            Func<object>? Factory { get; }
-
-            /// <summary>
-            /// Gets the current instance being produced, if available.
-            /// </summary>
-            object? Instance { get; }
+                this.serviceProvider ??= collection.BuildServiceProvider();
+            }
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when a service of a given type is not found.
+        /// Throws an <see cref="InvalidOperationException"/> when a configuration is attempted more than once.
         /// </summary>
-        /// <typeparam name="TService">The type of service not found.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>()
+        private static void ThrowInvalidOperationExceptionForRepeatedConfiguration()
         {
-            throw new InvalidOperationException($"Service {typeof(TService)} not registered");
-        }
-
-        /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when a service doesn't expose a public parametrless constructor.
-        /// </summary>
-        /// <typeparam name="TService">The type of service not found.</typeparam>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowInvalidOperationExceptionOnServiceWithNoConstructor<TService>(Type type)
-        {
-            throw new InvalidOperationException($"Type {type} implementing service {typeof(TService)} does not expose a public constructor");
+            throw new InvalidOperationException("The default service provider has already been configured");
         }
     }
 }
