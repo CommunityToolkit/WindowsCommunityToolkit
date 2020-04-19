@@ -80,11 +80,21 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <param name="setup">The configuration delegate to use to add services.</param>
         public void ConfigureServices(Action<IServiceCollection> setup)
         {
+            ConfigureServices(setup, new ServiceProviderOptions());
+        }
+
+        /// <summary>
+        /// Initializes the shared <see cref="IServiceProvider"/> instance.
+        /// </summary>
+        /// <param name="setup">The configuration delegate to use to add services.</param>
+        /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
+        public void ConfigureServices(Action<IServiceCollection> setup, ServiceProviderOptions options)
+        {
             var collection = new ServiceCollection();
 
             setup(collection);
 
-            ConfigureServices(collection);
+            ConfigureServices(collection, options);
         }
 
         /// <summary>
@@ -93,6 +103,16 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <param name="collection">The input <see cref="IServiceCollection"/> instance to use.</param>
         public void ConfigureServices(IServiceCollection collection)
         {
+            ConfigureServices(collection, new ServiceProviderOptions());
+        }
+
+        /// <summary>
+        /// Initializes the shared <see cref="IServiceProvider"/> instance.
+        /// </summary>
+        /// <param name="collection">The input <see cref="IServiceCollection"/> instance to use.</param>
+        /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
+        public void ConfigureServices(IServiceCollection collection, ServiceProviderOptions options)
+        {
             lock (dummy)
             {
                 if (!(this.serviceProvider is null))
@@ -100,7 +120,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
                     ThrowInvalidOperationExceptionForRepeatedConfiguration();
                 }
 
-                this.serviceProvider ??= collection.BuildServiceProvider();
+                this.serviceProvider ??= collection.BuildServiceProvider(options);
             }
         }
 
