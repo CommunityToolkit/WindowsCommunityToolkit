@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     /// <summary>
     /// An interface for a type implementing an Inversion of Control service provider.
     /// </summary>
-    public interface IIoc
+    public interface IIoc : IServiceProvider
     {
         /// <summary>
         /// Checks whether or not a service of type <typeparamref name="TService"/> has already been registered.
@@ -89,12 +89,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         bool TryGetInstance<TService>(out TService? service)
             where TService : class;
 
-        /// <summary>
-        /// Resolves an instance of a registered type implementing the <typeparamref name="TService"/> service.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the requested service was not registered.</exception>
+        /// <inheritdoc cref="IServiceProviderExtensions.GetInstance{TService}"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         TService GetInstance<TService>()
