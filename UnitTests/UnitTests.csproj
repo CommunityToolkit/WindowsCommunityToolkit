@@ -129,6 +129,7 @@
     <Compile Include="Diagnostics\Test_Guard.Array.cs" />
     <Compile Include="Diagnostics\Test_Guard.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
+    <Compile Include="Extensions\Test_TaskExtensions.cs" />
     <Compile Include="Extensions\Test_TypeExtensions.cs" />
     <Compile Include="Extensions\Test_ValueTypeExtensions.cs" />
     <Compile Include="Extensions\Test_ArrayExtensions.cs" />
