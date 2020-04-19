@@ -169,39 +169,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         }
 
         /// <inheritdoc/>
-        public bool TryGetService<TService>(out TService? service)
-            where TService : class
-        {
-            lock (this.typesMap)
-            {
-                if (!TryGetContainer(out Container<TService>? container))
-                {
-                    service = null;
-
-                    return false;
-                }
-
-                service = container!.Instance ?? container.Factory!.Invoke();
-
-                return true;
-            }
-        }
-
-        /// <inheritdoc/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TService GetService<TService>()
-            where TService : class
-        {
-            if (!this.TryGetService(out TService? service))
-            {
-                ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>();
-            }
-
-            return service!;
-        }
-
-        /// <inheritdoc/>
-        object IServiceProvider.GetService(Type serviceType)
+        object? IServiceProvider.GetService(Type serviceType)
         {
             lock (this.typesMap)
             {
@@ -209,10 +177,10 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
 
                 if (!this.typesMap.TryGetValue(key, out IContainer container))
                 {
-                    ThrowInvalidOperationExceptionOnServiceNotRegistered(serviceType);
+                    return null;
                 }
 
-                return container!.Instance ?? container.Factory!.Invoke();
+                return container!.Instance ?? container.Factory?.Invoke();
             }
         }
 
@@ -402,16 +370,6 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         private static void ThrowInvalidOperationExceptionOnServiceNotRegistered<TService>()
         {
             throw new InvalidOperationException($"Service {typeof(TService)} not registered");
-        }
-
-        /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when a service of a given type is not found.
-        /// </summary>
-        /// <param name="type">The type of service not found.</param>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowInvalidOperationExceptionOnServiceNotRegistered(Type type)
-        {
-            throw new InvalidOperationException($"Service {type} not registered");
         }
 
         /// <summary>

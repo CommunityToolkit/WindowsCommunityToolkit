@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -79,21 +78,6 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <returns>A <see cref="ReadOnlyMemory{T}"/> collection of all the currently registered and instantiated services.</returns>
         [Pure]
         ReadOnlyMemory<object> GetAllCreatedServices();
-
-        /// <summary>
-        /// Tries to resolve an instance of a registered type implementing the <typeparamref name="TService"/> service.
-        /// </summary>
-        /// <typeparam name="TService">The type of service to look for.</typeparam>
-        /// <returns>An instance of a registered type implementing <typeparamref name="TService"/>, if registered.</returns>
-        [Pure]
-        bool TryGetService<TService>(out TService? service)
-            where TService : class;
-
-        /// <inheritdoc cref="IServiceProviderExtensions.GetService{TService}"/>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        TService GetService<TService>()
-            where TService : class;
 
         /// <summary>
         /// Creates an instance of a registered type implementing the <typeparamref name="TService"/> service.
