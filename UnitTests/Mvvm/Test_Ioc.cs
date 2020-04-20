@@ -18,7 +18,7 @@ namespace UnitTests.Mvvm
         {
             var ioc = new Ioc();
 
-            Assert.ThrowsException<InvalidOperationException>(() => ioc.ServiceProvider);
+            Assert.ThrowsException<InvalidOperationException>(() => ioc.GetService<IServiceProvider>());
         }
 
         [TestCategory("Mvvm")]
@@ -32,7 +32,7 @@ namespace UnitTests.Mvvm
                 services.AddSingleton<INameService, AliceService>();
             });
 
-            var service = ioc.ServiceProvider.GetRequiredService<INameService>();
+            var service = ioc.GetRequiredService<INameService>();
 
             Assert.IsNotNull(service);
             Assert.IsInstanceOfType(service, typeof(AliceService));
@@ -50,7 +50,7 @@ namespace UnitTests.Mvvm
 
             ioc.ConfigureServices(services);
 
-            var service = ioc.ServiceProvider.GetRequiredService<INameService>();
+            var service = ioc.GetRequiredService<INameService>();
 
             Assert.IsNotNull(service);
             Assert.IsInstanceOfType(service, typeof(AliceService));

@@ -14,9 +14,8 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     /// <summary>
     /// A type that facilitates the use of the <see cref="IServiceProvider"/> type.
     /// The <see cref="Ioc"/> provides the ability to configure services in a singleton, thread-safe
-    /// service provider instance, which is then automatically injected into all viewmodels inheriting
-    /// from the provided <see cref="ComponentModel.ViewModelBase"/> class. First, you should define
-    /// some services you will use in your app. Here is an example:
+    /// service provider instance, which can then be used to resolve service instances.
+    /// The first step to use this feature is to declare some services, for instance:
     /// <code>
     /// public interface ILogger
     /// {
@@ -29,7 +28,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     ///     void Log(string text) => Console.WriteLine(text);
     /// }
     /// </code>
-    /// The <see cref="ServiceProvider"/> configuration should then be done at startup, by calling one of
+    /// Then the services configuration should then be done at startup, by calling one of
     /// the available <see cref="ConfigureServices(IServiceCollection)"/> overloads, like so:
     /// <code>
     /// Ioc.Default.ConfigureServices(collection =>
@@ -37,52 +36,46 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     ///     collection.AddSingleton&lt;ILogger, Logger>();
     /// });
     /// </code>
-    /// Finally, you can use the <see cref="ServiceProvider"/> property to retrieve the
-    /// <see cref="IServiceProvider"/> instance with the collection of all the registered services:
+    /// Finally, you can use the <see cref="Ioc"/> instance (which implements <see cref="IServiceProvider"/>)
+    /// to retrieve the service instances from anywhere in your application, by doing as follows:
     /// <code>
-    /// Ioc.Default.ServiceProvider.GetService&lt;ILogger>().Log("Hello world!");
+    /// Ioc.Default.GetService&lt;ILogger>().Log("Hello world!");
     /// </code>
     /// </summary>
-    public sealed class Ioc
+    public sealed class Ioc : IServiceProvider
     {
         /// <summary>
         /// Gets the default <see cref="Ioc"/> instance.
         /// </summary>
         public static Ioc Default { get; } = new Ioc();
 
-        private IServiceProvider? serviceProvider;
-
         /// <summary>
-        /// Gets the shared <see cref="IServiceProvider"/> instance to use.
+        /// The <see cref="ServiceProvider"/> instance to use, if initialized.
         /// </summary>
-        /// <remarks>
-        /// Make sure to call any of the <see cref="ConfigureServices(IServiceCollection)"/> overloads
-        /// before accessing this property, otherwise it'll just fallback to an empty collection.
-        /// </remarks>
-        public IServiceProvider ServiceProvider
+        private ServiceProvider? serviceProvider;
+
+        /// <inheritdoc/>
+        object? IServiceProvider.GetService(Type serviceType)
         {
-            get
+            /* As per section I.12.6.6 of the official CLI ECMA-335 spec:
+             * "[...] read and write access to properly aligned memory locations no larger than the native
+             * word size is atomic when all the write accesses to a location are the same size. Atomic writes
+             * shall alter no bits other than those written. Unless explicit layout control is used [...],
+             * data elements no larger than the natural word size [...] shall be properly aligned.
+             * Object references shall be treated as though they are stored in the native word size."
+             * The field being accessed here is of native int size (reference type), and is only ever accessed
+             * directly and atomically by a compare exhange instruction (see below), or here. We can therefore
+             * assume this read is thread safe with respect to accesses to this property or to invocations to one
+             * of the available configuration methods. So we can just read the field directly and make the necessary
+             * check with our local copy, without the need of paying the locking overhead from this get accessor. */
+            ServiceProvider? provider = this.serviceProvider;
+
+            if (provider is null)
             {
-                /* As per section I.12.6.6 of the official CLI ECMA-335 spec:
-                 * "[...] read and write access to properly aligned memory locations no larger than the native
-                 * word size is atomic when all the write accesses to a location are the same size. Atomic writes
-                 * shall alter no bits other than those written. Unless explicit layout control is used [...],
-                 * data elements no larger than the natural word size [...] shall be properly aligned.
-                 * Object references shall be treated as though they are stored in the native word size."
-                 * The field being accessed here is of native int size (reference type), and is only ever accessed
-                 * directly and atomically by a compare exhange instruction (see below), or here. We can therefore
-                 * assume this read is thread safe with respect to accesses to this property or to invocations to one
-                 * of the available configuration methods. So we can just read the field directly and make the necessary
-                 * check with our local copy, without the need of paying the locking overhead from this get accessor. */
-                IServiceProvider? provider = this.serviceProvider;
-
-                if (provider is null)
-                {
-                    ThrowInvalidOperationExceptionForMissingInitialization();
-                }
-
-                return provider!;
+                ThrowInvalidOperationExceptionForMissingInitialization();
             }
+
+            return provider!.GetService(serviceType);
         }
 
         /// <summary>
@@ -124,9 +117,9 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
         public void ConfigureServices(IServiceCollection collection, ServiceProviderOptions options)
         {
-            IServiceProvider newServices = collection.BuildServiceProvider(options);
+            ServiceProvider newServices = collection.BuildServiceProvider(options);
 
-            IServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, newServices, null);
+            ServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, newServices, null);
 
             if (!(oldServices is null))
             {
