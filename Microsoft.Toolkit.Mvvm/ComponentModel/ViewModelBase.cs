@@ -72,11 +72,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 {
                     if (value)
                     {
-                        OnActivate();
+                        OnActivated();
                     }
                     else
                     {
-                        OnDeactivate();
+                        OnDeactivated();
                     }
                 }
             }
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Raised whenever the <see cref="IsActive"/> property is set to <see langword="true"/>.
         /// Use this method to register to messages and do other initialization for this instance.
         /// </summary>
-        protected virtual void OnActivate()
+        protected virtual void OnActivated()
         {
         }
 
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Use this method to unregister from messages and do general cleanup for this instance.
         /// </summary>
         /// <remarks>The base implementation unregisters all messages for this recipient (with no token).</remarks>
-        protected virtual void OnDeactivate()
+        protected virtual void OnDeactivated()
         {
             Messenger.Unregister(this);
         }

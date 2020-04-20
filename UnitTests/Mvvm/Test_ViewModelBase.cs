@@ -91,14 +91,14 @@ namespace UnitTests.Mvvm
 
             public bool IsActivatedCheck { get; private set; }
 
-            protected override void OnActivate()
+            protected override void OnActivated()
             {
                 IsActivatedCheck = true;
             }
 
-            protected override void OnDeactivate()
+            protected override void OnDeactivated()
             {
-                base.OnDeactivate();
+                base.OnDeactivated();
 
                 IsActivatedCheck = false;
             }
