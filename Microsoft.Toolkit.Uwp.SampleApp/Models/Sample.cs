@@ -80,11 +80,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             var categories = await Samples.GetCategoriesAsync();
 
+#if HAS_UNO
+            return categories?
+                .SelectMany(c => c.Samples)
+                .FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+#else
             // Replace any spaces in the category name as it's used for the host part of the URI in deep links and that can't have spaces.
             return categories?
                 .FirstOrDefault(c => c.Name.Replace(" ", string.Empty).Equals(category, StringComparison.OrdinalIgnoreCase))?
                 .Samples
                 .FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+#endif
         }
 
         private PropertyDescriptor _propertyDescriptor;
