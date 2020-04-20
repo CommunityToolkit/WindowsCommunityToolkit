@@ -69,6 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             PreviewKeyDown += this.TokenizingTextBox_PreviewKeyDown;
             PreviewKeyUp += this.TokenizingTextBox_PreviewKeyUp;
+            CharacterReceived += TokenizingTextBox_CharacterReceived;
         }
 
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
@@ -366,6 +367,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ContextFlyout = menuFlyout;
         }
 
+        private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+        {
+            // check to see if the character came from one of the tokens. 
+            if (!FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox))
+            {
+                // If so, send it to the text box and set the focus to the text box
+                await ClearAllSelected();
+                var position = _autoSuggestTextBox.SelectionStart;
+                this.Text = _autoSuggestTextBox.Text.Substring(0, position) + args.Character +
+                            _autoSuggestTextBox.Text.Substring(position);
+                _autoSuggestTextBox.SelectionStart = position + 1;
+
+                _autoSuggestTextBox.Focus(FocusState.Keyboard);
+            }
+        }
+
         private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, PART_PointerOverState, true);
@@ -466,9 +483,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tokenitem.ClearClicked -= TokenizingTextBoxItem_ClearClicked;
             tokenitem.ClearClicked += TokenizingTextBoxItem_ClearClicked;
 
-            tokenitem.KeyPressAction -= Tokenitem_KeyPressAction;
-            tokenitem.KeyPressAction += Tokenitem_KeyPressAction;
-
             tokenitem.ClearAllAction -= Tokenitem_ClearAllAction;
             tokenitem.ClearAllAction += Tokenitem_ClearAllAction;
 
@@ -532,13 +546,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // focus the item prior to the first selected item
                 (ContainerFromIndex(newSelectedIndex) as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
             }
-        }
-
-        private async void Tokenitem_KeyPressAction(TokenizingTextBoxItem sender, RoutedEventArgs args)
-        {
-            // set focus to the text box
-            await ClearAllSelected();
-            _autoSuggestTextBox.Focus(FocusState.Keyboard);
         }
 
         private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)

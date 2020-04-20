@@ -33,11 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ClearAllAction;
 
         /// <summary>
-        /// Event raised when a keypress happens on the item.
-        /// </summary>
-        public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> KeyPressAction;
-
-        /// <summary>
         /// Identifies the <see cref="ClearButtonStyle"/> property.
         /// </summary>
         public static readonly DependencyProperty ClearButtonStyleProperty = DependencyProperty.Register(
@@ -64,34 +59,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(TokenizingTextBoxItem);
 
             RightTapped += TokenizingTextBoxItem_RightTapped;
-            PreviewKeyDown += this.TokenizingTextBoxItem_PreviewKeyDown;
             KeyDown += TokenizingTextBoxItem_KeyDown;
         }
 
-        private void TokenizingTextBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            // check if this is a key stroke that would cause input to a text box
-            // If CTRL or ALT modifier are applied then no-op
-            bool processAsInput =
-                !(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down) ||
-                CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Application).HasFlag(CoreVirtualKeyStates.Down) ||
-                CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down));
-
-            if (processAsInput)
-            {
-                int code = (int)e.Key;
-
-                // TODO: verify this list is complete - need to call something like ToAscii() to confirm if the key is a printable character.
-                if (e.Key == VirtualKey.Space ||
-                    (e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Z) ||
-                    (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.Divide) ||
-                    (code >= 0xBA && code <= 0xF5))
-                {
-                    e.Handled = true;
-                    KeyPressAction?.Invoke(this, e);
-                }
-            }
-        }
 
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
