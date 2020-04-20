@@ -4,6 +4,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
 #nullable enable
@@ -49,11 +50,6 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// </summary>
         public static Ioc Default { get; } = new Ioc();
 
-        /// <summary>
-        /// An <see cref="object"/> used to synchronize access to <see cref="ServiceProvider"/>.
-        /// </summary>
-        private readonly object dummy = new object();
-
         private IServiceProvider? serviceProvider;
 
         /// <summary>
@@ -67,10 +63,25 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         {
             get
             {
-                lock (dummy)
+                /* As per section I.12.6.6 of the official CLI ECMA-335 spec:
+                 * "[...] read and write access to properly aligned memory locations no larger than the native
+                 * word size is atomic when all the write accesses to a location are the same size. Atomic writes
+                 * shall alter no bits other than those written. Unless explicit layout control is used [...],
+                 * data elements no larger than the natural word size [...] shall be properly aligned.
+                 * Object references shall be treated as though they are stored in the native word size."
+                 * The field being accessed here is of native int size (reference type), and is only ever accessed
+                 * directly and atomically by a compare exhange instruction (see below), or here. We can therefore
+                 * assume this read is thread safe with respect to accesses to this property or to invocations to one
+                 * of the available configuration methods. So we can just read the field directly and make the necessary
+                 * check with our local copy, without the need of paying the locking overhead from this get accessor. */
+                IServiceProvider? provider = this.serviceProvider;
+
+                if (provider is null)
                 {
-                    return serviceProvider ??= new ServiceCollection().BuildServiceProvider();
+                    ThrowInvalidOperationExceptionForMissingInitialization();
                 }
+
+                return provider!;
             }
         }
 
@@ -113,15 +124,23 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
         public void ConfigureServices(IServiceCollection collection, ServiceProviderOptions options)
         {
-            lock (dummy)
-            {
-                if (!(this.serviceProvider is null))
-                {
-                    ThrowInvalidOperationExceptionForRepeatedConfiguration();
-                }
+            IServiceProvider newServices = collection.BuildServiceProvider(options);
 
-                this.serviceProvider ??= collection.BuildServiceProvider(options);
+            IServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, newServices, null);
+
+            if (!(oldServices is null))
+            {
+                ThrowInvalidOperationExceptionForRepeatedConfiguration();
             }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when the <see cref="ServiceProvider"/> property is used before initialization.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionForMissingInitialization()
+        {
+            throw new InvalidOperationException("The service provider has not been configured yet");
         }
 
         /// <summary>

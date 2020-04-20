@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +36,6 @@ namespace UnitTests.Mvvm
             var viewmodel = new SomeViewModel<int>();
 
             Assert.AreSame(viewmodel.CurrentMessenger, Messenger.Default);
-            Assert.AreSame(viewmodel.CurrentServiceProvider, Ioc.Default.ServiceProvider);
         }
 
         [TestCategory("Mvvm")]
@@ -46,11 +43,9 @@ namespace UnitTests.Mvvm
         public void Test_ViewModelBase_Injection()
         {
             var messenger = new Messenger();
-            var services = new Ioc().ServiceProvider;
-            var viewmodel = new SomeViewModel<int>(messenger, services);
+            var viewmodel = new SomeViewModel<int>(messenger);
 
             Assert.AreSame(viewmodel.CurrentMessenger, messenger);
-            Assert.AreSame(viewmodel.CurrentServiceProvider, services);
         }
 
         [TestCategory("Mvvm")]
@@ -58,7 +53,7 @@ namespace UnitTests.Mvvm
         public void Test_ViewModelBase_Broadcast()
         {
             var messenger = new Messenger();
-            var viewmodel = new SomeViewModel<int>(messenger, null);
+            var viewmodel = new SomeViewModel<int>(messenger);
 
             PropertyChangedMessage<int> message = null;
 
@@ -79,12 +74,10 @@ namespace UnitTests.Mvvm
             {
             }
 
-            public SomeViewModel(IMessenger messenger, IServiceProvider serviceProvider)
-                : base(messenger, serviceProvider)
+            public SomeViewModel(IMessenger messenger)
+                : base(messenger)
             {
             }
-
-            public IServiceProvider CurrentServiceProvider => ServiceProvider;
 
             public IMessenger CurrentMessenger => Messenger;
 

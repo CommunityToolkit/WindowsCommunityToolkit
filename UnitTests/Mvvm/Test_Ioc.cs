@@ -14,17 +14,11 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Ioc_DefaultServiceProvider()
+        public void Test_Ioc_ServicesNotConfigured()
         {
             var ioc = new Ioc();
 
-            IServiceProvider
-                providerA = ioc.ServiceProvider,
-                providerB = ioc.ServiceProvider;
-
-            Assert.IsNotNull(providerA);
-            Assert.IsNotNull(providerB);
-            Assert.AreSame(providerA, providerB);
+            Assert.ThrowsException<InvalidOperationException>(() => ioc.ServiceProvider);
         }
 
         [TestCategory("Mvvm")]

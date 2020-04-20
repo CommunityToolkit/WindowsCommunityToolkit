@@ -21,9 +21,7 @@
 // <LastBaseLevel>BL0014</LastBaseLevel>
 // ****************************************************************************
 
-using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
@@ -38,11 +36,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/>
-        /// and <see cref="Ioc.ServiceProvider"/> instances to perform requested operations.
+        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/> instance
+        /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
         protected ViewModelBase()
-            : this(Messaging.Messenger.Default, Ioc.Default.ServiceProvider)
+            : this(Messaging.Messenger.Default)
         {
         }
 
@@ -51,39 +49,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
         protected ViewModelBase(IMessenger messenger)
-            : this(messenger, Ioc.Default.ServiceProvider)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
-        /// </summary>
-        /// <param name="serviceProvider">The optional <see cref="IServiceProvider"/> instance to use to retrieve services.</param>
-        protected ViewModelBase(IServiceProvider serviceProvider)
-            : this(Messaging.Messenger.Default, serviceProvider)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
-        /// </summary>
-        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
-        /// <param name="serviceProvider">The optional <see cref="IServiceProvider"/> instance to use to retrieve services.</param>
-        protected ViewModelBase(IMessenger messenger, IServiceProvider serviceProvider)
         {
             Messenger = messenger;
-            ServiceProvider = serviceProvider;
         }
 
         /// <summary>
         /// Gets the <see cref="IMessenger"/> instance in use.
         /// </summary>
         protected IMessenger Messenger { get; }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> instance in use.
-        /// </summary>
-        protected IServiceProvider ServiceProvider { get; }
 
         private bool isActive;
 
