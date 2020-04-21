@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,9 +64,8 @@ namespace Microsoft.Toolkit.Collections
         }
 
         /// <summary>
-        /// Add <paramref name="item"/> into the group with <paramref name="key"/> key.
+        /// Add <paramref name="item"/> into the first group with <paramref name="key"/> key.
         /// If the group does not exist, it will be added.
-        /// If several groups exist with the same key, <paramref name="item"/> will be added to the first group.
         /// </summary>
         /// <typeparam name="TKey">The type of the group key.</typeparam>
         /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
@@ -86,6 +86,34 @@ namespace Microsoft.Toolkit.Collections
             }
 
             existingGroup.Add(item);
+            return existingGroup;
+        }
+
+        /// <summary>
+        /// Insert <paramref name="item"/> into the first group with <paramref name="key"/> key at <paramref name="index"/>.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the group key.</typeparam>
+        /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
+        /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
+        /// <param name="key">The key to add.</param>
+        /// <param name="index">The index where to insert <paramref name="item"/>.</param>
+        /// <param name="item">The item to add.</param>
+        /// <returns>The instance of the <see cref="ObservableGroup{TKey, TValue}"/> which will receive the value.</returns>
+        /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than zero or <paramref name="index"/> is greater than the group elements' count.</exception>
+        public static ObservableGroup<TKey, TValue> InsertItem<TKey, TValue>(
+            this ObservableGroupedCollection<TKey, TValue> source,
+            TKey key,
+            int index,
+            TValue item)
+        {
+            var existingGroup = source.First(group => GroupKeyPredicate(group, key));
+            if (existingGroup is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            existingGroup.Insert(index, item);
             return existingGroup;
         }
 

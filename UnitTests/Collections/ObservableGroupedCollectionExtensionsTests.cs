@@ -5,6 +5,7 @@
 using FluentAssertions;
 using Microsoft.Toolkit.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace UnitTests.Collections
@@ -143,6 +144,62 @@ namespace UnitTests.Collections
             groupedCollection.ElementAt(3).Key.Should().Be("C");
             groupedCollection.ElementAt(3).Should().HaveCount(2);
             groupedCollection.ElementAt(3).Should().ContainInOrder(10, 11);
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void InsertItem_WhenGroupDoesNotExist_ShoudThrow()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 1, 2, 3);
+
+            Action action = () => groupedCollection.InsertItem("I do not exist", 0, 23);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestCategory("Collections")]
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(4)]
+        public void InsertItem_WhenIndexOutOfRange_ShoudThrow(int index)
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 1, 2, 3);
+
+            Action action = () => groupedCollection.InsertItem("A", index, 23);
+
+            action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [TestCategory("Collections")]
+        [DataTestMethod]
+        [DataRow(0, new[] { 23, 1, 2, 3 })]
+        [DataRow(1, new[] { 1, 23, 2, 3 })]
+        [DataRow(3, new[] { 1, 2, 3, 23 })]
+        public void InsertItem_WithValidIndex_WithSeveralGroups_ShoudInsertItemInFirstGroup(int index, int[] expecteGroupValues)
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 4, 5);
+            var targetGroup = groupedCollection.AddGroup("B", 1, 2, 3);
+            groupedCollection.AddGroup("B", 6, 7);
+
+            var group = groupedCollection.InsertItem("B", index, 23);
+
+            group.Should().BeSameAs(targetGroup);
+
+            groupedCollection.Should().HaveCount(3);
+            groupedCollection.ElementAt(0).Key.Should().Be("A");
+            groupedCollection.ElementAt(0).Should().HaveCount(2);
+            groupedCollection.ElementAt(0).Should().ContainInOrder(4, 5);
+
+            groupedCollection.ElementAt(1).Key.Should().Be("B");
+            groupedCollection.ElementAt(1).Should().HaveCount(4);
+            groupedCollection.ElementAt(1).Should().ContainInOrder(expecteGroupValues);
+
+            groupedCollection.ElementAt(2).Key.Should().Be("B");
+            groupedCollection.ElementAt(2).Should().HaveCount(2);
+            groupedCollection.ElementAt(2).Should().ContainInOrder(6, 7);
         }
 
         [TestCategory("Collections")]
