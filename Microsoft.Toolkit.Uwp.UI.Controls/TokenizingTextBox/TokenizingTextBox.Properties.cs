@@ -150,6 +150,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="TabNavigateBackOnArrow"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TabNavigateBackOnArrowProperty = DependencyProperty.Register(
+            nameof(TabNavigateBackOnArrow),
+            typeof(bool),
+            typeof(TokenizingTextBox),
+            new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets or sets the Style for the contained AutoSuggestBox template part.
         /// </summary>
         public Style AutoSuggestBoxStyle
@@ -282,6 +291,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (Style)GetValue(SuggestedItemContainerStyleProperty);
             set => SetValue(SuggestedItemContainerStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control will move focus to the previous
+        /// control when an arrow key is pressed and selection is at one of the limits in the control.
+        /// </summary>
+        public bool TabNavigateBackOnArrow
+        {
+            get => (bool)GetValue(TabNavigateBackOnArrowProperty);
+            set => SetValue(TabNavigateBackOnArrowProperty, value);
         }
     }
 }

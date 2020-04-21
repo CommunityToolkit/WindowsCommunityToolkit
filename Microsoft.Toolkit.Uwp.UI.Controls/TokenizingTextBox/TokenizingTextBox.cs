@@ -106,17 +106,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.C:
+                    if (IsControlPressed)
                     {
-                        if (IsControlPressed)
-                        {
-                            CopySelectedToClipboard();
-                        }
-
-                        break;
+                        CopySelectedToClipboard();
                     }
 
+                    break;
+
                 case VirtualKey.X:
-                {
                     if (IsControlPressed)
                     {
                         CopySelectedToClipboard();
@@ -137,7 +134,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                }
 
                 case Windows.System.VirtualKey.Left:
                     e.Handled = MoveFocusAndSelection(MoveDirection.Previous);
@@ -153,7 +149,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
 
                 case VirtualKey.A:
-                {
                     // modify the select-all behaviour to ensure the text in the edit box gets selected.
                     if (IsControlPressed)
                     {
@@ -162,7 +157,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                }
             }
         }
 
@@ -191,7 +185,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                        if (TabNavigateBackOnArrow)
+                        {
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                        }
+
                         retVal = true;
                     }
                 }
@@ -203,6 +201,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
+                        _autoSuggestTextBox.SelectionLength = 0;
+                        _autoSuggestTextBox.SelectionStart = 0;
                         _autoSuggestTextBox.Focus(FocusState.Keyboard);
                         retVal = true;
                     }
