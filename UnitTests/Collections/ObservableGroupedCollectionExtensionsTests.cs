@@ -204,6 +204,62 @@ namespace UnitTests.Collections
 
         [TestCategory("Collections")]
         [TestMethod]
+        public void SetItem_WhenGroupDoesNotExist_ShoudThrow()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 1, 2, 3);
+
+            Action action = () => groupedCollection.SetItem("I do not exist", 0, 23);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestCategory("Collections")]
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(3)]
+        public void SetItem_WhenIndexOutOfRange_ShoudThrow(int index)
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 1, 2, 3);
+
+            Action action = () => groupedCollection.SetItem("A", index, 23);
+
+            action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [TestCategory("Collections")]
+        [DataTestMethod]
+        [DataRow(0, new[] { 23, 2, 3 })]
+        [DataRow(1, new[] { 1, 23, 3 })]
+        [DataRow(2, new[] { 1, 2, 23 })]
+        public void SetItem_WithValidIndex_WithSeveralGroups_ShoudReplaceItemInFirstGroup(int index, int[] expecteGroupValues)
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 4, 5);
+            var targetGroup = groupedCollection.AddGroup("B", 1, 2, 3);
+            groupedCollection.AddGroup("B", 6, 7);
+
+            var group = groupedCollection.SetItem("B", index, 23);
+
+            group.Should().BeSameAs(targetGroup);
+
+            groupedCollection.Should().HaveCount(3);
+            groupedCollection.ElementAt(0).Key.Should().Be("A");
+            groupedCollection.ElementAt(0).Should().HaveCount(2);
+            groupedCollection.ElementAt(0).Should().ContainInOrder(4, 5);
+
+            groupedCollection.ElementAt(1).Key.Should().Be("B");
+            groupedCollection.ElementAt(1).Should().HaveCount(3);
+            groupedCollection.ElementAt(1).Should().ContainInOrder(expecteGroupValues);
+
+            groupedCollection.ElementAt(2).Key.Should().Be("B");
+            groupedCollection.ElementAt(2).Should().HaveCount(2);
+            groupedCollection.ElementAt(2).Should().ContainInOrder(6, 7);
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
         public void RemoveGroup_WhenGroupDoesNotExists_ShouldDoNothing()
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();
