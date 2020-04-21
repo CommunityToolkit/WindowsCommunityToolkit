@@ -15,6 +15,142 @@ namespace UnitTests.Collections
     {
         [TestCategory("Collections")]
         [TestMethod]
+        public void First_WhenGroupExists_ShouldReturnFirstGroup()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+            var target = groupedCollection.AddGroup("B", 10);
+            groupedCollection.AddGroup("B", 42);
+
+            var result = groupedCollection.First("B");
+
+            result.Should().BeSameAs(target);
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void First_WhenGroupDoesNotExist_ShouldThrow()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+
+            Action action = () => groupedCollection.First("I do not exist");
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void FirstOrDefault_WhenGroupExists_ShouldReturnFirstGroup()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+            var target = groupedCollection.AddGroup("B", 10);
+            groupedCollection.AddGroup("B", 42);
+
+            var result = groupedCollection.FirstOrDefault("B");
+
+            result.Should().BeSameAs(target);
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void FirstOrDefault_WhenGroupDoesNotExist_ShouldReturnNull()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+
+            var result = groupedCollection.FirstOrDefault("I do not exist");
+
+            result.Should().BeNull();
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void ElementAt_WhenGroupExistsAndIndexInRange_ShouldReturnFirstGroupValue()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+            groupedCollection.AddGroup("B", 10, 11, 12);
+            groupedCollection.AddGroup("B", 42);
+
+            var result = groupedCollection.ElementAt("B", 2);
+
+            result.Should().Be(12);
+        }
+
+        [TestCategory("Collections")]
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(3)]
+        public void ElementAt_WhenGroupExistsAndIndexOutOfRange_ShouldReturnThrow(int index)
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+            groupedCollection.AddGroup("B", 10, 11, 12);
+            groupedCollection.AddGroup("B", 42);
+
+            Action action = () => groupedCollection.ElementAt("B", index);
+
+            action.Should().Throw<ArgumentException>();
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void ElementAt_WhenGroupDoesNotExist_ShouldThrow()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+
+            Action action = () => groupedCollection.ElementAt("I do not exist", 0);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void ElementAtOrDefault_WhenGroupExistsAndIndexInRange_ShouldReturnValue()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+            groupedCollection.AddGroup("B", 10, 11, 12);
+            groupedCollection.AddGroup("B", 42);
+
+            var result = groupedCollection.ElementAt("B", 2);
+
+            result.Should().Be(12);
+        }
+
+        [TestCategory("Collections")]
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(3)]
+        public void ElementAtOrDefault_WhenGroupExistsAndIndexOutOfRange_ShouldReturnDefaultValue(int index)
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+            groupedCollection.AddGroup("B", 10, 11, 12);
+            groupedCollection.AddGroup("B", 42);
+
+            var result = groupedCollection.ElementAtOrDefault("B", index);
+
+            result.Should().Be(0);
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
+        public void ElementAtOrDefault_WhenGroupDoesNotExist_ShouldReturnDefaultValue()
+        {
+            var groupedCollection = new ObservableGroupedCollection<string, int>();
+            groupedCollection.AddGroup("A", 23);
+
+            var result = groupedCollection.ElementAtOrDefault("I do not exist", 0);
+
+            result.Should().Be(0);
+        }
+
+        [TestCategory("Collections")]
+        [TestMethod]
         public void AddGroup_WithItem_ShouldAddGroup()
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();

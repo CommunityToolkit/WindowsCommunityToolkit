@@ -14,6 +14,69 @@ namespace Microsoft.Toolkit.Collections
     public static class ObservableGroupedCollectionExtensions
     {
         /// <summary>
+        /// Return the first group with <paramref name="key"/> key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the group key.</typeparam>
+        /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
+        /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
+        /// <param name="key">The key of the group to query.</param>
+        /// <returns>The first group matching <paramref name="key"/>.</returns>
+        /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
+        public static ObservableGroup<TKey, TValue> First<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            => source.First(group => GroupKeyPredicate(group, key));
+
+        /// <summary>
+        /// Return the first group with <paramref name="key"/> key or null if not found.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the group key.</typeparam>
+        /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
+        /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
+        /// <param name="key">The key of the group to query.</param>
+        /// <returns>The first group matching <paramref name="key"/> or null.</returns>
+        public static ObservableGroup<TKey, TValue> FirstOrDefault<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            => source.FirstOrDefault(group => GroupKeyPredicate(group, key));
+
+        /// <summary>
+        /// Return the element at position <paramref name="index"/> from the first group with <paramref name="key"/> key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the group key.</typeparam>
+        /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
+        /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
+        /// <param name="key">The key of the group to query.</param>
+        /// <param name="index">The index of the item from the targeted group.</param>
+        /// <returns>The element.</returns>
+        /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than zero or <paramref name="index"/> is greater than the group elements' count.</exception>
+        public static TValue ElementAt<TKey, TValue>(
+            this ObservableGroupedCollection<TKey, TValue> source,
+            TKey key,
+            int index)
+            => source.First(key)[index];
+
+        /// <summary>
+        /// Return the element at position <paramref name="index"/> from the first group with <paramref name="key"/> key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the group key.</typeparam>
+        /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
+        /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
+        /// <param name="key">The key of the group to query.</param>
+        /// <param name="index">The index of the item from the targeted group.</param>
+        /// <returns>The element or default(TValue) if it does not exist.</returns>
+        public static TValue ElementAtOrDefault<TKey, TValue>(
+            this ObservableGroupedCollection<TKey, TValue> source,
+            TKey key,
+            int index)
+        {
+            var existingGroup = source.FirstOrDefault(key);
+            if (existingGroup is null)
+            {
+                return default;
+            }
+
+            return existingGroup.ElementAtOrDefault(index);
+        }
+
+        /// <summary>
         /// Adds a key-value <see cref="ObservableGroup{TKey, TValue}"/> item into a target <see cref="ObservableGroupedCollection{TKey, TValue}"/>.
         /// </summary>
         /// <typeparam name="TKey">The type of the group key.</typeparam>
@@ -23,10 +86,10 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="value">The value to add.</param>
         /// <returns>The added <see cref="ObservableGroup{TKey, TValue}"/>.</returns>
         public static ObservableGroup<TKey, TValue> AddGroup<TKey, TValue>(
-            this ObservableGroupedCollection<TKey, TValue> source,
-            TKey key,
-            TValue value)
-            => AddGroup(source, key, new[] { value });
+        this ObservableGroupedCollection<TKey, TValue> source,
+        TKey key,
+        TValue value)
+        => AddGroup(source, key, new[] { value });
 
         /// <summary>
         /// Adds a key-collection <see cref="ObservableGroup{TKey, TValue}"/> item into a target <see cref="ObservableGroupedCollection{TKey, TValue}"/>.
@@ -78,7 +141,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             TValue item)
         {
-            var existingGroup = source.FirstOrDefault(group => GroupKeyPredicate(group, key));
+            var existingGroup = source.FirstOrDefault(key);
             if (existingGroup is null)
             {
                 existingGroup = new ObservableGroup<TKey, TValue>(key);
@@ -107,12 +170,7 @@ namespace Microsoft.Toolkit.Collections
             int index,
             TValue item)
         {
-            var existingGroup = source.First(group => GroupKeyPredicate(group, key));
-            if (existingGroup is null)
-            {
-                throw new InvalidOperationException();
-            }
-
+            var existingGroup = source.First(key);
             existingGroup.Insert(index, item);
             return existingGroup;
         }
@@ -135,12 +193,7 @@ namespace Microsoft.Toolkit.Collections
             int index,
             TValue item)
         {
-            var existingGroup = source.First(group => GroupKeyPredicate(group, key));
-            if (existingGroup is null)
-            {
-                throw new InvalidOperationException();
-            }
-
+            var existingGroup = source.First(key);
             existingGroup[index] = item;
             return existingGroup;
         }
