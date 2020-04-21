@@ -264,13 +264,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasXAMLCode)
                 {
+#if !HAS_UNO
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
+#endif
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
                         XamlReadOnlyCodeRenderer.SetCode(CurrentSample.UpdatedXamlCode, "xaml");
 
                         InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
                     }
+#if !HAS_UNO
                     else
                     {
                         XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
@@ -279,6 +282,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         _xamlCodeRendererSupported = true;
                     }
+#endif
 
                     InfoAreaPivot.SelectedIndex = 0;
                 }

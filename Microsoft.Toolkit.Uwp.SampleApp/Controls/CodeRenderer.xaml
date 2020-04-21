@@ -2,6 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:xamarin="http://uno.ui/xamarin"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d xamarin"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Controls">
 
     <Style TargetType="controls:CodeRenderer">
@@ -20,7 +25,12 @@
                                           Grid.Row="0"
                                           HorizontalScrollMode="Auto"
                                           HorizontalScrollBarVisibility="Auto">
-                            <RichTextBlock Name="codeView"
+                            <win:RichTextBlock Name="codeView"
+                                               FontFamily="Consolas"
+                                               Padding="10" />
+                            <xamarin:TextBox Name="codeView"
+											 IsReadOnly="True"
+											 AcceptsReturn="True"
                                                FontFamily="Consolas"
                                                Padding="10" />
                         </ScrollViewer>
@@ -30,7 +40,7 @@
                             <Button x:Name="CopyButton"
                                         Margin="5"
                                         Content="Copy" />
-                            <Button x:Name="PrintButton"
+                            <win:Button x:Name="PrintButton"
                                         Margin="5"
                                         Content="Print" />
                         </StackPanel>
