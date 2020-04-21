@@ -36,6 +36,7 @@
         - StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
+        - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
         - UniformGrid: Presents items in a evenly-spaced set of rows or columns to fill the total available display space.
         - WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
     </Description>
