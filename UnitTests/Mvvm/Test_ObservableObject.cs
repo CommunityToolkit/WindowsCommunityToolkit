@@ -56,6 +56,54 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
+        public void Test_ObservableObject_ProxyCrud()
+        {
+            var model = new WrappingModel { Person = new Person { Name = "Alice" } };
+
+            (PropertyChangingEventArgs, string) changing = default;
+            (PropertyChangedEventArgs, string) changed = default;
+
+            model.PropertyChanging += (s, e) =>
+            {
+                Assert.AreSame(model, s);
+
+                changing = (e, model.Name);
+            };
+
+            model.PropertyChanged += (s, e) =>
+            {
+                Assert.AreSame(model, s);
+
+                changed = (e, model.Name);
+            };
+
+            model.Name = "Bob";
+
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(WrappingModel.Name));
+            Assert.AreEqual(changing.Item2, "Alice");
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(WrappingModel.Name));
+            Assert.AreEqual(changed.Item2, "Bob");
+            Assert.AreEqual(model.Person.Name, "Bob");
+        }
+
+        public class Person
+        {
+            public string Name { get; set; }
+        }
+
+        public class WrappingModel : ObservableObject
+        {
+            public Person Person { get; set; }
+
+            public string Name
+            {
+                get => Person.Name;
+                set => Set(() => Person.Name, value);
+            }
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
         public async Task Test_ObservableObject_NotifyTask()
         {
             var model = new SampleModelWithTask<int>();
