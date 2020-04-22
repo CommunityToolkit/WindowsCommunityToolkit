@@ -82,7 +82,7 @@ namespace UnitTests.Extensions
 
             Assert.AreEqual(icon.Glyph, "\uE14D", "Expected icon glyph to be E14D.");
             Assert.AreEqual(icon.FontSize, 7.0, "Expected font size of 7");
-            Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe UI");
+            Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe MDL2 Assets");
             Assert.AreEqual(icon.FontWeight, FontWeights.Bold, "Expected bold font weight");
             Assert.AreEqual(icon.FontStyle, FontStyle.Italic, "Expected italic font style");
             Assert.AreEqual(icon.IsTextScaleFactorEnabled, true, "Expected IsTextScaleFactorEnabled set to true");

@@ -73,7 +73,7 @@ namespace UnitTests.Extensions
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" Icon=""{ex:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe UI', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ex:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChildByName("Check") as MockSwipeItem;
@@ -86,7 +86,7 @@ namespace UnitTests.Extensions
 
             Assert.AreEqual(icon.Glyph, "\uE14D", "Expected icon glyph to be E14D.");
             Assert.AreEqual(icon.FontSize, 7.0, "Expected font size of 7");
-            Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe UI");
+            Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe MDL2 Assets");
             Assert.AreEqual(icon.FontWeight, FontWeights.Bold, "Expected bold font weight");
             Assert.AreEqual(icon.FontStyle, FontStyle.Italic, "Expected italic font style");
             Assert.AreEqual(icon.IsTextScaleFactorEnabled, true, "Expected IsTextScaleFactorEnabled set to true");
