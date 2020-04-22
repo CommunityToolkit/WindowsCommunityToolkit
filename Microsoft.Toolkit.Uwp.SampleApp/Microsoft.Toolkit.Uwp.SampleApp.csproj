@@ -521,6 +521,9 @@
     <Compile Include="SamplePages\IconExtensions\IconExtensionsPage.xaml.cs">
       <DependentUpon>IconExtensionsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml.cs">
+      <DependentUpon>ObservableGroupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
@@ -546,6 +549,7 @@
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\IconExtensions\IconExtensionsXaml.bind" />
+    <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -946,6 +950,10 @@
     <Page Include="SamplePages\IconExtensions\IconExtensionsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\OnDevice\OnDevicePage.xaml">
       <Generator>MSBuild:Compile</Generator>
