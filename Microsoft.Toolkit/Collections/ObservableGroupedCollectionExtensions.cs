@@ -265,7 +265,7 @@ namespace Microsoft.Toolkit.Collections
         /// <typeparam name="TKey">The type of the group key.</typeparam>
         /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
         /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
-        /// <param name="key">The key of the group where the <paramref name="item"/> should be removed.</param>
+        /// <param name="key">The key of the group where the item at <paramref name="index"/> should be removed.</param>
         /// <param name="index">The index of the item to remove in the group.</param>
         /// <param name="removeGroupIfEmpty">If true (default value), the group will be removed once it becomes empty.</param>
         public static void RemoveItemAt<TKey, TValue>(
