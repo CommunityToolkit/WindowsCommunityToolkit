@@ -69,7 +69,7 @@ namespace UnitTests.Extensions
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
-        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe UI', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
+        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChildByName("Check") as AppBarButton;
