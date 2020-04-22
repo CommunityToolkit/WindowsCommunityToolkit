@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A text input control that auto-suggests and displays token items.
     /// </summary>
-    public partial class TokenizingTextBox : Control
+    public partial class TokenizingTextBox : ListViewBase
     {
         /// <summary>
         /// Identifies the <see cref="AutoSuggestBoxStyle"/> property.
@@ -29,15 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AutoSuggestBoxTextBoxStyleProperty = DependencyProperty.Register(
             nameof(AutoSuggestBoxTextBoxStyle),
             typeof(Style),
-            typeof(TokenizingTextBox),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="DisplayMemberPath"/> property.
-        /// </summary>
-        public static readonly DependencyProperty DisplayMemberPathProperty = DependencyProperty.Register(
-            nameof(DisplayMemberPath),
-            typeof(string),
             typeof(TokenizingTextBox),
             new PropertyMetadata(null));
 
@@ -159,6 +150,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="TabNavigateBackOnArrow"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TabNavigateBackOnArrowProperty = DependencyProperty.Register(
+            nameof(TabNavigateBackOnArrow),
+            typeof(bool),
+            typeof(TokenizingTextBox),
+            new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets or sets the Style for the contained AutoSuggestBox template part.
         /// </summary>
         public Style AutoSuggestBoxStyle
@@ -174,57 +174,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (Style)GetValue(AutoSuggestBoxStyleProperty);
             set => SetValue(AutoSuggestBoxStyleProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets the DisplayMemberPath of the AutoSuggestBox template part.
-        /// </summary>
-        public string DisplayMemberPath
-        {
-            get => (string)GetValue(DisplayMemberPathProperty);
-            set => SetValue(DisplayMemberPathProperty, value);
-        }
-
-        private IList<TokenizingTextBoxItem> SelectedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
-
-        /// <summary>
-        /// Gets the collection of currently selected token items.
-        /// </summary>
-        public IList<object> SelectedItems
-        {
-            get
-            {
-                IList<object> items = new List<object>();
-
-                foreach (var item in SelectedItemsInternal)
-                {
-                    items.Add(item.Content);
-                }
-
-                return items;
-            }
-        }
-
-        private IList<TokenizingTextBoxItem> TokenizedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
-
-        /// <summary>
-        /// Gets the collection of current token items.
-        /// </summary>
-        public IList<object> Items
-        {
-            get
-            {
-                IList<object> items = new List<object>();
-
-                foreach (var item in TokenizedItemsInternal)
-                {
-                    items.Add(item.Content);
-                }
-
-                return items;
-            }
-
-            //// TODO: Need to make this settable/changable
         }
 
         /// <summary>
@@ -342,6 +291,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (Style)GetValue(SuggestedItemContainerStyleProperty);
             set => SetValue(SuggestedItemContainerStyleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control will move focus to the previous
+        /// control when an arrow key is pressed and selection is at one of the limits in the control.
+        /// </summary>
+        public bool TabNavigateBackOnArrow
+        {
+            get => (bool)GetValue(TabNavigateBackOnArrowProperty);
+            set => SetValue(TabNavigateBackOnArrowProperty, value);
         }
     }
 }

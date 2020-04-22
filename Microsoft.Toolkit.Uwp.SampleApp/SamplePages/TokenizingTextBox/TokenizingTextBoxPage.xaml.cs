@@ -6,9 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,9 +17,36 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TokenizingTextBoxPage : Page, IXamlRenderListener
     {
-        private TokenizingTextBox _ttb;
+        private readonly List<SampleEmailDataType> _emailSamples = new List<SampleEmailDataType>()
+        {
+            new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman", Icon = Symbol.Account },
+            new SampleEmailDataType() { FirstName = "Ian", FamilyName = "Smith", Icon = Symbol.AddFriend },
+            new SampleEmailDataType() { FirstName = "Peter", FamilyName = "Strange", Icon = Symbol.Attach },
+            new SampleEmailDataType() { FirstName = "Alex", FamilyName = "Wilber", Icon = Symbol.AttachCamera },
+            new SampleEmailDataType() { FirstName = "Allan", FamilyName = "Deyoung", Icon = Symbol.Audio },
+            new SampleEmailDataType() { FirstName = "Adele", FamilyName = "Vance", Icon = Symbol.BlockContact },
+            new SampleEmailDataType() { FirstName = "Grady", FamilyName = "Archie", Icon = Symbol.Calculator },
+            new SampleEmailDataType() { FirstName = "Megan", FamilyName = "Bowen", Icon = Symbol.Calendar },
+            new SampleEmailDataType() { FirstName = "Ben", FamilyName = "Walters", Icon = Symbol.Camera },
+            new SampleEmailDataType() { FirstName = "Debra", FamilyName = "Berger", Icon = Symbol.Contact },
+            new SampleEmailDataType() { FirstName = "Emily", FamilyName = "Braun", Icon = Symbol.Favorite },
+            new SampleEmailDataType() { FirstName = "Christine", FamilyName = "Cline", Icon = Symbol.Link },
+            new SampleEmailDataType() { FirstName = "Enrico", FamilyName = "Catteneo", Icon = Symbol.Mail },
+            new SampleEmailDataType() { FirstName = "Davit", FamilyName = "Badalyan", Icon = Symbol.Map },
+            new SampleEmailDataType() { FirstName = "Diego", FamilyName = "Siciliani", Icon = Symbol.Phone },
+            new SampleEmailDataType() { FirstName = "Raul", FamilyName = "Razo", Icon = Symbol.Pin },
+            new SampleEmailDataType() { FirstName = "Miriam", FamilyName = "Graham", Icon = Symbol.Rotate },
+            new SampleEmailDataType() { FirstName = "Lynne", FamilyName = "Robbins", Icon = Symbol.RotateCamera },
+            new SampleEmailDataType() { FirstName = "Lydia", FamilyName = "Holloway", Icon = Symbol.Send },
+            new SampleEmailDataType() { FirstName = "Nestor", FamilyName = "Wilke", Icon = Symbol.Tag },
+            new SampleEmailDataType() { FirstName = "Patti", FamilyName = "Fernandez", Icon = Symbol.UnFavorite },
+            new SampleEmailDataType() { FirstName = "Pradeep", FamilyName = "Gupta", Icon = Symbol.UnPin },
+            new SampleEmailDataType() { FirstName = "Joni", FamilyName = "Sherman", Icon = Symbol.Zoom },
+            new SampleEmailDataType() { FirstName = "Isaiah", FamilyName = "Langer", Icon = Symbol.ZoomIn },
+            new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers", Icon = Symbol.ZoomOut },
+        };
 
-        private List<SampleDataType> _samples = new List<SampleDataType>()
+        private readonly List<SampleDataType> _samples = new List<SampleDataType>()
         {
             new SampleDataType() { Text = "Account", Icon = Symbol.Account },
             new SampleDataType() { Text = "Add Friend", Icon = Symbol.AddFriend },
@@ -47,9 +75,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             new SampleDataType() { Text = "ZoomOut", Icon = Symbol.ZoomOut },
         };
 
+        private TokenizingTextBox _ttb;
+        private TokenizingTextBox _ttbEmail;
+        private ListView _ttbEmailSuggestions;
+        private Button _ttbEmailClear;
+
+        private readonly AdvancedCollectionView _acv;
+        private readonly AdvancedCollectionView _acvEmail;
+
         public TokenizingTextBoxPage()
         {
             InitializeComponent();
+
+            _acv = new AdvancedCollectionView(_samples, false);
+            _acvEmail = new AdvancedCollectionView(_emailSamples, false);
+
+            _acv.SortDescriptions.Add(new SortDescription(nameof(SampleDataType.Text), SortDirection.Ascending));
+            _acvEmail.SortDescriptions.Add(new SortDescription(nameof(SampleEmailDataType.DisplayName), SortDirection.Ascending));
+
+            Loaded += (sender, e) => { this.OnXamlRendered(this); };
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -57,9 +101,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_ttb != null)
             {
                 _ttb.TokenItemAdded -= TokenItemAdded;
-                _ttb.TokenItemRemoved -= TokenItemRemoved;
+                _ttb.TokenItemRemoving -= TokenItemRemoved;
                 _ttb.TextChanged -= TextChanged;
-                _ttb.TokenItemCreating -= TokenItemCreating;
+                _ttb.TokenItemAdding -= TokenItemCreating;
             }
 
             if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
@@ -67,47 +111,104 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttb = ttb;
 
                 _ttb.TokenItemAdded += TokenItemAdded;
-                _ttb.TokenItemRemoved += TokenItemRemoved;
+                _ttb.TokenItemRemoving += TokenItemRemoved;
                 _ttb.TextChanged += TextChanged;
-                _ttb.TokenItemCreating += TokenItemCreating;
+                _ttb.TokenItemAdding += TokenItemCreating;
+
+                _acv.Filter = item => !_ttb.Items.Contains(item) && (item as SampleDataType).Text.Contains(_ttb.Text, System.StringComparison.CurrentCultureIgnoreCase);
+
+                _ttb.SuggestedItemsSource = _acv;
             }
+
+            // For the Email Selection control
+            if (_ttbEmail != null)
+            {
+                _ttbEmail.ItemClick -= EmailTokenItemClick;
+                _ttbEmail.TokenItemAdding -= EmailTokenItemAdding;
+                _ttbEmail.TokenItemAdded -= EmailTokenItemAdded;
+                _ttbEmail.TokenItemRemoved -= EmailTokenItemRemoved;
+                _ttbEmail.TextChanged -= EmailTextChanged;
+            }
+
+            if (control.FindChildByName("TokenBoxEmail") is TokenizingTextBox ttbEmail)
+            {
+                _ttbEmail = ttbEmail;
+
+                _ttbEmail.ItemClick += EmailTokenItemClick;
+                _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
+                _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
+                _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
+                _ttbEmail.TextChanged += EmailTextChanged;
+
+                _acvEmail.Filter = item => !_ttbEmail.Items.Contains(item) && (item as SampleEmailDataType).DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_ttbEmailSuggestions != null)
+            {
+                _ttbEmailSuggestions.ItemClick -= EmailList_ItemClick;
+            }
+
+            if (control.FindChildByName("EmailList") is ListView ttbList)
+            {
+                _ttbEmailSuggestions = ttbList;
+
+                _ttbEmailSuggestions.ItemClick += EmailList_ItemClick;
+
+                _ttbEmailSuggestions.ItemsSource = _acvEmail;
+            }
+
+            if (_ttbEmailClear != null)
+            {
+                _ttbEmailClear.Click -= ClearButtonClick;
+            }
+
+            if (control.FindChildByName("ClearButton") is Button btn)
+            {
+                _ttbEmailClear = btn;
+
+                _ttbEmailClear.Click += ClearButtonClick;
+            }
+        }
+
+        private async void EmailTokenItemClick(object sender, ItemClickEventArgs e)
+        {
+            MessageDialog md = new MessageDialog($"email address {(e.ClickedItem as SampleEmailDataType)?.EmailAddress} clicked", "Clicked Item");
+            await md.ShowAsync();
         }
 
         private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                if (string.IsNullOrWhiteSpace(sender.Text))
-                {
-                    _ttb.SuggestedItemsSource = Array.Empty<object>();
-                }
-                else
-                {
-                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
-                }
+                _acv.RefreshFilter();
             }
         }
 
-        private void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
+        private void TokenItemCreating(object sender, TokenItemAddingEventArgs e)
         {
-            // Take the user's text and convert it to our data type.
-            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+            // Take the user's text and convert it to our data type (if we have a matching one).
+            e.Item = this._samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase)) ??
+                     // Otherwise, create a new version of our data type
+                     new SampleDataType()
+                        {
+                            Text = e.TokenText,
+                            Icon = Symbol.OutlineStar
+                        };
         }
 
-        private void TokenItemAdded(TokenizingTextBox sender, TokenizingTextBoxItem args)
+        private void TokenItemAdded(TokenizingTextBox sender, object data)
         {
-            // TODO: Add InApp Notification?
-            if (args.Content is SampleDataType sample)
+            if (data is SampleDataType sample)
             {
                 Debug.WriteLine("Added Token: " + sample.Text);
             }
             else
             {
-                Debug.WriteLine("Added Token: " + args.Content);
+                Debug.WriteLine("Added Token: " + data);
             }
         }
 
-        private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovedEventArgs args)
+        private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovingEventArgs args)
         {
             if (args.Item is SampleDataType sample)
             {
@@ -117,6 +218,75 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Debug.WriteLine("Removed Token: " + args.Item);
             }
+        }
+
+        private void EmailTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                _acvEmail.RefreshFilter();
+            }
+        }
+
+        private void EmailTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+        {
+            // Search our list for a matching person
+            foreach (var person in _emailSamples)
+            {
+                if (args.TokenText.Contains(person.EmailAddress) ||
+                    args.TokenText.Contains(person.DisplayName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    args.Item = person;
+                    return;
+                }
+            }
+
+            // Otherwise don't create a token.
+            args.Cancel = true;
+        }
+
+        private void EmailTokenItemAdded(TokenizingTextBox sender, object args)
+        {
+            if (args is SampleEmailDataType sample)
+            {
+                Debug.WriteLine("Added Email: " + sample.DisplayName);
+            }
+            else
+            {
+                Debug.WriteLine("Added Token: " + args);
+            }
+
+            _acvEmail.RefreshFilter();
+        }
+
+        private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
+        {
+            if (args is SampleEmailDataType sample)
+            {
+                Debug.WriteLine("Removed Email: " + sample.DisplayName);
+            }
+            else
+            {
+                Debug.WriteLine("Removed Token: " + args);
+            }
+
+            _acvEmail.RefreshFilter();
+        }
+
+        private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem != null)
+            {
+                _ttbEmail.Items.Add(e.ClickedItem);
+                _ttbEmail.Text = string.Empty;
+                _acvEmail.RefreshFilter();
+            }
+        }
+
+        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        {
+            _ttbEmail.Items.Clear();
+            _acvEmail.RefreshFilter();
         }
     }
 }
