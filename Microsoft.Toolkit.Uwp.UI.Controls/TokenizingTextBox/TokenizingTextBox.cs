@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private enum MoveDirection
         {
-            Next, 
+            Next,
             Previous
         }
 
