@@ -37,10 +37,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <param name="newValue">The value that the property has after the change.</param>
         public PropertyChangedMessage(object sender, string propertyName, T oldValue, T newValue)
         {
-            this.Sender = sender;
-            this.PropertyName = propertyName;
-            this.OldValue = oldValue;
-            this.NewValue = newValue;
+            Sender = sender;
+            PropertyName = propertyName;
+            OldValue = oldValue;
+            NewValue = newValue;
         }
 
         /// <summary>
