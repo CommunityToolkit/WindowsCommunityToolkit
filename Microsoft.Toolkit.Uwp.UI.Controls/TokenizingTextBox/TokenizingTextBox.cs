@@ -97,7 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private enum MoveDirection
         {
-            Next, Previous
+            Next, 
+            Previous
         }
 
         private async void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -118,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         CopySelectedToClipboard();
 
-                        // now clear all selected tokens and text, or all if none are selected 
+                        // now clear all selected tokens and text, or all if none are selected
                         if (IsAllSelected)
                         {
                             // Clear the lot
@@ -284,8 +285,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            bool handled = false;
-
             // Handlers for the textbox only
             // Handlers for items in TokenizingTextBoxItem
             if (IsCaretAtStart && (this._autoSuggestTextBox?.SelectionLength == 0 || !IsShiftPressed) &&
@@ -369,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
-            // check to see if the character came from one of the tokens. 
+            // check to see if the character came from one of the tokens.
             if (!FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox))
             {
                 // If so, send it to the text box and set the focus to the text box

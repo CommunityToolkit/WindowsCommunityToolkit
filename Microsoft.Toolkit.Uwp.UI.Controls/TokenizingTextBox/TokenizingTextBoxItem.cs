@@ -62,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             KeyDown += TokenizingTextBoxItem_KeyDown;
         }
 
-
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
