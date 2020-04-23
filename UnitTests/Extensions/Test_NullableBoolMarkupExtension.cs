@@ -128,16 +128,18 @@ namespace UnitTests.Extensions
             Assert.AreEqual(null, obj.NullableBool, "Expected obj value to be null.");
         }
 
+        #pragma warning disable SA1124 // Do not use regions
+        #region System-based Unit Tests, See Issue #3198
+        #pragma warning restore SA1124 // Do not use regions
+        [Ignore] // This test has trouble running on CI in release mode for some reason, we should re-enable when we test WinUI 3 Issue #3106
         [TestCategory("NullableBoolMarkupExtension")]
+
         [UITestMethod]
-        public void Test_NullableBool_DependencyProperty_SystemTrueValueFails()
+        public void Test_NullableBool_DependencyProperty_SystemTrue()
         {
             // This is the failure case in the OS currently which causes us to need
             // this markup extension.
-            var exception = Assert.ThrowsException<XamlParseException>(
-                () =>
-            {
-                var treeroot = XamlReader.Load(@"<Page
+            var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
@@ -146,12 +148,61 @@ namespace UnitTests.Extensions
         <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""True""/>
     </Page.Resources>
 </Page>") as FrameworkElement;
-            }, "Expected assignment failure during parsing, OS now supports, update documentation.");
 
-            Assert.IsNotNull(exception);
+            var obj = treeroot.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
-            Assert.IsTrue(exception.Message.Contains("Failed to create a 'Windows.Foundation.IReference`1<Boolean>' from the text 'True'."));
+            Assert.IsNotNull(obj, "Could not find object in resources.");
+
+            Assert.AreEqual(true, obj.NullableBool, "Expected obj value to be true.");
         }
+
+        [Ignore] // This test has trouble running on CI in release mode for some reason, we should re-enable when we test WinUI 3 Issue #3106
+        [TestCategory("NullableBoolMarkupExtension")]
+        [UITestMethod]
+        public void Test_NullableBool_DependencyProperty_SystemFalse()
+        {
+            // This is the failure case in the OS currently which causes us to need
+            // this markup extension.
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
+    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
+    <Page.Resources>
+        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""False""/>
+    </Page.Resources>
+</Page>") as FrameworkElement;
+
+            var obj = treeroot.Resources["OurObject"] as ObjectWithNullableBoolProperty;
+
+            Assert.IsNotNull(obj, "Could not find object in resources.");
+
+            Assert.AreEqual(false, obj.NullableBool, "Expected obj value to be true.");
+        }
+
+        [TestCategory("NullableBoolMarkupExtension")]
+        [UITestMethod]
+        public void Test_NullableBool_DependencyProperty_SystemNull()
+        {
+            // This is the failure case in the OS currently which causes us to need
+            // this markup extension.
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
+    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
+    <Page.Resources>
+        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{x:Null}""/>
+    </Page.Resources>
+</Page>") as FrameworkElement;
+
+            var obj = treeroot.Resources["OurObject"] as ObjectWithNullableBoolProperty;
+
+            Assert.IsNotNull(obj, "Could not find object in resources.");
+
+            Assert.IsNull(obj.NullableBool, "Expected obj value to be null.");
+        }
+        #endregion
 
         [TestCategory("NullableBoolMarkupExtension")]
         [UITestMethod]

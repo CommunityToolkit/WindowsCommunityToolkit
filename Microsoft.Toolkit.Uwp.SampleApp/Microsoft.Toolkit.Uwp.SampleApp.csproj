@@ -512,8 +512,14 @@
     <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
       <DependentUpon>EyedropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ClipToBounds\ClipToBoundsPage.xaml.cs">
+      <DependentUpon>ClipToBoundsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml.cs">
+      <DependentUpon>ObservableGroupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
@@ -539,6 +545,7 @@
     <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
+    <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -925,7 +932,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="SamplePages\ClipToBounds\ClipToBoundsCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Page Include="SamplePages\ClipToBounds\ClipToBoundsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
