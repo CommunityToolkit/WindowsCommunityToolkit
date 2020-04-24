@@ -289,7 +289,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 (e.Key == VirtualKey.Back ||
                  e.Key == VirtualKey.Left))
             {
-                // if the back key is pressed and there is any selection in the text box then the text box can handle it 
+                // if the back key is pressed and there is any selection in the text box then the text box can handle it
                 if (e.Key == VirtualKey.Left || _autoSuggestTextBox.SelectionLength == 0)
                 {
                     // Select last token item (if there is one)
