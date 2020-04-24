@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.IsNullOrEmptyTriggerPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.IsNullOrEmptyStateTriggerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"

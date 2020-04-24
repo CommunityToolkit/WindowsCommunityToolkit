@@ -11,16 +11,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class IsNullOrEmptyTriggerPage : Page, IXamlRenderListener
+    public sealed partial class UserHandPreferenceStateTriggerPage : Page, IXamlRenderListener
     {
         private Button _addButton;
         private Button _removeButton;
         private ListBox _listBox;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IsNullOrEmptyTriggerPage"/> class.
+        /// Initializes a new instance of the <see cref="UserHandPreferenceStateTriggerPage"/> class.
         /// </summary>
-        public IsNullOrEmptyTriggerPage()
+        public UserHandPreferenceStateTriggerPage()
         {
             InitializeComponent();
         }

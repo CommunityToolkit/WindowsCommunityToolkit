@@ -918,16 +918,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
       },
       {
-        "Name": "IsNullOrEmptyTriggers",
-        "Type": "IsNullOrEmptyTriggerPage",
-        "Subcategory": "State Triggers",
-        "About": "Enables a state if an Object is null or a String/IEnumerable is empty",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
-        "XamlCodeFile": "/SamplePages/Triggers/IsNullOrEmptyTrigger.bind",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
-      },
-      {
         "Name": "CompareStateTrigger",
         "Type": "CompareStateTriggerPage",
         "Subcategory": "State Triggers",
@@ -944,6 +934,86 @@
         "About": "Enables a state if the value is equal to another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
         "XamlCodeFile": "/SamplePages/Triggers/EqualsStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "FullScreenModeStateTrigger",
+        "Type": "FullScreenModeStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/FullScreenModeStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "InputTypeStateTrigger",
+        "Type": "InputTypeStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state based on input type used",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/InputTypeStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "IsNullOrEmptyStateTriggers",
+        "Type": "IsNullOrEmptyStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if an Object is null or a String/IEnumerable is empty",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/IsNullOrEmptyStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "NetworkConnectionStateTrigger",
+        "Type": "NetworkConnectionStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching when the network availability changes",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/NetworkConnectionStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "NotEqualStateTrigger",
+        "Type": "NotEqualStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the value is not equal to another value",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/NotEqualStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "RegexStateTrigger",
+        "Type": "RegexStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the regex expression is true for a given string value",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/RegexStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "UserHandPreferenceStateTrigger",
+        "Type": "UserHandPreferenceStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching UI based on whether the user favours their left or right hand.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/UserHandPreferenceStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "UserInteractionModeStateTrigger",
+        "Type": "UserInteractionModeStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching when the User interaction mode changes (tablet mode)",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/UserInteractionModeStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       }
