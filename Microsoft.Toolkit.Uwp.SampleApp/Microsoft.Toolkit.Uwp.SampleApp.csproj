@@ -535,6 +535,9 @@
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Triggers\IsNullOrEmptyTriggerPage.xaml.cs">
+      <DependentUpon>IsNullOrEmptyTriggerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorXaml.bind" />
@@ -546,6 +549,7 @@
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
+    <Content Include="SamplePages\Triggers\IsNullOrEmptyTrigger.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1003,6 +1007,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
+    <Page Include="SamplePages\Triggers\IsNullOrEmptyTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
