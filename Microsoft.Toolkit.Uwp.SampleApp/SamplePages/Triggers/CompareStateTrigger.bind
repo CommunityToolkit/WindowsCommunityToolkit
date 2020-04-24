@@ -1,0 +1,46 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    mc:Ignorable="d">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+		<VisualStateManager.VisualStateGroups>
+
+			<VisualStateGroup >
+				<VisualState x:Name="less">
+					<VisualState.StateTriggers>
+						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" CompareTo="3" Comparison="LessThan" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="sliderStatus.Text" Value="Slider value is less than 3" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="equal">
+					<VisualState.StateTriggers>
+						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" CompareTo="3" Comparison="Equal" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="sliderStatus.Text" Value="Slider value is 3" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="greater">
+					<VisualState.StateTriggers>
+						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" CompareTo="3" Comparison="GreaterThan" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="sliderStatus.Text" Value="Slider value is greater than 3" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<StackPanel VerticalAlignment="Center" MaxWidth="400">
+			<Slider x:Name="slider" Minimum="0" Maximum="5" />
+			<TextBlock x:Name="sliderStatus" Text="If you see this, trigger isn't working" />
+		</StackPanel>
+
+  </Grid>
+</Page>

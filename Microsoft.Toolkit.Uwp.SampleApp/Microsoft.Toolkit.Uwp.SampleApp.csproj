@@ -535,6 +535,12 @@
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Triggers\CompareStateTriggerPage.xaml.cs">
+      <DependentUpon>CompareStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\EqualsStateTriggerPage.xaml.cs">
+      <DependentUpon>EqualsStateTriggerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Triggers\IsNullOrEmptyTriggerPage.xaml.cs">
       <DependentUpon>IsNullOrEmptyTriggerPage.xaml</DependentUpon>
     </Compile>
@@ -550,6 +556,8 @@
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
     <Content Include="SamplePages\Triggers\IsNullOrEmptyTrigger.bind" />
+    <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\EqualsStateTrigger.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1007,6 +1015,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
+    <Page Include="SamplePages\Triggers\CompareStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\EqualsStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Triggers\IsNullOrEmptyTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
