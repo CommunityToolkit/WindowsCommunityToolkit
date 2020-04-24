@@ -285,22 +285,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            // Handlers for the textbox only
-            // Handlers for items in TokenizingTextBoxItem
-            if (IsCaretAtStart && (this._autoSuggestTextBox?.SelectionLength == 0 || !IsShiftPressed) &&
+            if (IsCaretAtStart &&
                 (e.Key == VirtualKey.Back ||
                  e.Key == VirtualKey.Left))
             {
-                // Select last token item (if there is one)
-                if (Items.Count > 0)
+                // if the back key is pressed and there is any selection in the text box then the text box can handle it 
+                if (e.Key == VirtualKey.Left || _autoSuggestTextBox.SelectionLength == 0)
                 {
-                    var item = ContainerFromItem(Items[Items.Count - 1]);
-                    SelectedIndex = Items.Count - 1;
-                    (item as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
+                    // Select last token item (if there is one)
+                    if (Items.Count > 0)
+                    {
+                        var item = ContainerFromItem(Items[Items.Count - 1]);
+                        if (!IsShiftPressed)
+                        {
+                            // Clear any text box selection
+                            _autoSuggestTextBox.SelectionLength = 0;
+                        }
 
-                    // Clear any text box selection
-                    _autoSuggestTextBox.SelectionLength = 0;
-                    e.Handled = true;
+                        _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            // Defer this selection to prevent the token being cleared on selection change for the text box
+                            SelectedIndex = Items.Count - 1;
+                        });
+
+                        (item as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
+                        e.Handled = true;
+                    }
                 }
             }
             else if (e.Key == VirtualKey.A && IsControlPressed)
@@ -368,8 +378,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
-            // check to see if the character came from one of the tokens.
-            if (!FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox))
+            // check to see if the character came from one of the tokens, and its not a control character
+            if (!(FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox) || char.IsControl(args.Character)))
             {
                 // If so, send it to the text box and set the focus to the text box
                 await ClearAllSelected();
