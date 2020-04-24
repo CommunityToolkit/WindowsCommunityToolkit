@@ -425,16 +425,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             QuerySubmitted?.Invoke(sender, args);
 
+            object chosenItem = null;
             if (args.ChosenSuggestion != null)
             {
-                sender.Text = string.Empty;
-                await AddToken(args.ChosenSuggestion);
-                sender.Focus(FocusState.Programmatic);
+                chosenItem = args.ChosenSuggestion;
             }
             else if (!string.IsNullOrWhiteSpace(args.QueryText))
             {
+                chosenItem = args.QueryText;
+            }
+
+            if (chosenItem != null)
+            {
+                await AddToken(chosenItem);
                 sender.Text = string.Empty;
-                await AddToken(args.QueryText);
                 sender.Focus(FocusState.Programmatic);
             }
         }

@@ -413,6 +413,7 @@
                                     HeaderTransitions="{TemplateBinding HeaderTransitions}" />
 
                     <AutoSuggestBox Name="PART_AutoSuggestBox"
+                                    UpdateTextOnSelect="False"
                                     DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                     ItemTemplate="{TemplateBinding SuggestedItemTemplate}"
                                     ItemsSource="{TemplateBinding SuggestedItemsSource}"

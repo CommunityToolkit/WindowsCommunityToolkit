@@ -55,7 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public TokenizingTextBoxItem()
         {
-            // TODO: Check if the ListView ItemClick event works still...
             DefaultStyleKey = typeof(TokenizingTextBoxItem);
 
             RightTapped += TokenizingTextBoxItem_RightTapped;
