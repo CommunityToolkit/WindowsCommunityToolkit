@@ -11,17 +11,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// <summary>
     /// Trigger for switching when in full screen mode.
     /// </summary>
-    public class FullScreenModeTrigger : StateTriggerBase
+    public class FullScreenModeStateTrigger : StateTriggerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FullScreenModeTrigger"/> class.
+        /// Initializes a new instance of the <see cref="FullScreenModeStateTrigger"/> class.
         /// </summary>
-        public FullScreenModeTrigger()
+        public FullScreenModeStateTrigger()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var weakEvent =
-                    new WeakEventListener<FullScreenModeTrigger, ApplicationView, object>(this)
+                    new WeakEventListener<FullScreenModeStateTrigger, ApplicationView, object>(this)
                     {
                         OnEventAction = (instance, source, eventArgs) => instance.FullScreenModeTrigger_VisibleBoundsChanged(source, eventArgs),
                         OnDetachAction = (weakEventListener) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= weakEventListener.OnEvent

@@ -12,17 +12,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// <summary>
     /// Trigger for switching when the User interaction mode changes (tablet mode)
     /// </summary>
-    public sealed class UserInteractionModeTrigger : StateTriggerBase
+    public sealed class UserInteractionModeStateTrigger : StateTriggerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserInteractionModeTrigger"/> class.
+        /// Initializes a new instance of the <see cref="UserInteractionModeStateTrigger"/> class.
         /// </summary>
-        public UserInteractionModeTrigger()
+        public UserInteractionModeStateTrigger()
         {
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var weakEvent =
-                    new WeakEventListener<UserInteractionModeTrigger, object, WindowSizeChangedEventArgs>(this)
+                    new WeakEventListener<UserInteractionModeStateTrigger, object, WindowSizeChangedEventArgs>(this)
                     {
                         OnEventAction = (instance, source, eventArgs) => UserInteractionModeTrigger_SizeChanged(source, eventArgs),
                         OnDetachAction = (weakEventListener) => Window.Current.SizeChanged -= weakEventListener.OnEvent
@@ -45,11 +45,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="InteractionMode"/> parameter.
         /// </summary>
         public static readonly DependencyProperty InteractionModeProperty =
-            DependencyProperty.Register(nameof(InteractionMode), typeof(UserInteractionMode), typeof(UserInteractionModeTrigger), new PropertyMetadata(UserInteractionMode.Mouse, OnInteractionModeChanged));
+            DependencyProperty.Register(nameof(InteractionMode), typeof(UserInteractionMode), typeof(UserInteractionModeStateTrigger), new PropertyMetadata(UserInteractionMode.Mouse, OnInteractionModeChanged));
 
         private static void OnInteractionModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var obj = (UserInteractionModeTrigger)d;
+            var obj = (UserInteractionModeStateTrigger)d;
             if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 var orientation = (UserInteractionMode)e.NewValue;

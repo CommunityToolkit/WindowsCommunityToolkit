@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// <summary>
     /// Enables a state based on input type used
     /// </summary>
-    public class InputTypeTrigger : StateTriggerBase
+    public class InputTypeStateTrigger : StateTriggerBase
     {
         /// <summary>
         /// Gets or sets the type of the pointer used.
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="PointerType"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty PointerTypeProperty =
-            DependencyProperty.Register(nameof(PointerType), typeof(PointerDeviceType), typeof(InputTypeTrigger), new PropertyMetadata(PointerDeviceType.Pen));
+            DependencyProperty.Register(nameof(PointerType), typeof(PointerDeviceType), typeof(InputTypeStateTrigger), new PropertyMetadata(PointerDeviceType.Pen));
 
         /// <summary>
         /// Gets or sets the target element.
@@ -41,11 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="TargetElement"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty TargetElementProperty =
-            DependencyProperty.Register(nameof(TargetElement), typeof(string), typeof(InputTypeTrigger), new PropertyMetadata(string.Empty, OnTargetElementPropertyChanged));
+            DependencyProperty.Register(nameof(TargetElement), typeof(string), typeof(InputTypeStateTrigger), new PropertyMetadata(string.Empty, OnTargetElementPropertyChanged));
 
         private static void OnTargetElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var obj = (InputTypeTrigger)d;
+            var obj = (InputTypeStateTrigger)d;
             var valOld = e.OldValue as FrameworkElement;
             if (valOld != null)
             {
