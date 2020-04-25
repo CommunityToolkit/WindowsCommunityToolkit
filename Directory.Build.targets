@@ -1,21 +1,17 @@
 <Project>
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17134' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">
-      <!-- UAP versions for uap10.0 where TPMV isn't implied -->
-      <PropertyGroup>
-        <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
-        <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
-        <DebugType>Full</DebugType>
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
+      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
+        <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
       </PropertyGroup>
-
       <ItemGroup>
-        <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
-          <Name>Windows Desktop Extensions for the UWP</Name>
-        </SDKReference>
-        <SDKReference Condition="'$(UseWindowsMobileSdk)' == 'true' " Include="WindowsMobile, Version=$(TargetPlatformVersion)">
-          <Name>Windows Mobile Extensions for the UWP</Name>
-        </SDKReference>
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.0.200424.6" />
+        <!--<PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />-->
       </ItemGroup>
+
+      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
+        <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
+      </PropertyGroup>
     </When>
   </Choose>
 

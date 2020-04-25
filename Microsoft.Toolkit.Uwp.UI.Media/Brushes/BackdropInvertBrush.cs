@@ -4,7 +4,7 @@
 
 //// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
 
-using Microsoft.Graphics.Canvas.Effects;
+// using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
                 // Use a Win2D invert affect applied to a CompositionBackdropBrush.
+                /*
                 var graphicsEffect = new InvertEffect
                 {
                     Name = "Invert",
@@ -52,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 effectBrush.SetSourceParameter("backdrop", backdrop);
 
                 CompositionBrush = effectBrush;
+                */
             }
         }
 

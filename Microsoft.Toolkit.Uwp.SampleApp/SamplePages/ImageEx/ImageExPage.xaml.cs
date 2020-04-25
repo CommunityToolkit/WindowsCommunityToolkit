@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ImageExPage : IXamlRenderListener
     {
-        private TestObservableCollection<PhotoDataItem> photos;
+        private ObservableCollection<PhotoDataItem> photos;
         private int imageIndex;
         private StackPanel container;
         private ResourceDictionary resources;

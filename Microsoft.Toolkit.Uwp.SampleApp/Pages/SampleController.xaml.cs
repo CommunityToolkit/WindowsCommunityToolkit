@@ -656,7 +656,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public Sample CurrentSample { get; private set; }
 
-        public TestObservableCollection<SampleCommand> Commands { get; } = new TestObservableCollection<SampleCommand>();
+        public ObservableCollection<SampleCommand> Commands { get; } = new ObservableCollection<SampleCommand>();
 
         public bool DisplayWaitRing
         {

@@ -61,22 +61,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
         {
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(500, 500));
 
-            if (e.PrelaunchActivated)
+            if (e.UWPLaunchActivatedEventArgs.PrelaunchActivated)
             {
                 return;
             }
 
-            if (e.PreviousExecutionState != ApplicationExecutionState.Running
-                && e.PreviousExecutionState != ApplicationExecutionState.Suspended)
+            if (e.UWPLaunchActivatedEventArgs.PreviousExecutionState != ApplicationExecutionState.Running
+                && e.UWPLaunchActivatedEventArgs.PreviousExecutionState != ApplicationExecutionState.Suspended)
             {
                 await RunAppInitialization(e?.Arguments);
             }
 
-            SystemInformation.Instance.TrackAppUse(e);
+            SystemInformation.Instance.TrackAppUse(e.UWPLaunchActivatedEventArgs);
         }
 
         /// <summary>

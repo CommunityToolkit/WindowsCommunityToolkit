@@ -4,10 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-#if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-#endif
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -100,8 +98,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return ConvertToElement().GetContent();
         }
 
-#if WINDOWS_UWP
-
         /// <summary>
         /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Toast notification's constructor on either <see cref="ToastNotification"/> or <see cref="ScheduledToastNotification"/>.
         /// </summary>
@@ -113,8 +109,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             return doc;
         }
-
-#endif
 
         internal Element_Toast ConvertToElement()
         {

@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class RotatorTilePage : IXamlRenderListener
     {
-        private TestObservableCollection<PhotoDataItem> _pictures;
+        private ObservableCollection<PhotoDataItem> _pictures;
 
         public RotatorTilePage()
         {

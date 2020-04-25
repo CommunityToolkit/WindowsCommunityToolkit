@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationX.To = offsetX;
                 animationY.To = offsetY;
 
-                animationX.Duration = animationY.Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
+                animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
                 animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType, easingMode);
 

@@ -1,5 +1,5 @@
 <Project>
-
+  
   <PropertyGroup>
     <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -14,12 +14,16 @@
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
+    <ShouldAddWinUI>False</ShouldAddWinUI>
+    <ShouldAddWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">True</ShouldAddWinUI>
     <DefaultTargetPlatformVersion>18362</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <NoWarn>CS8002;CS8305</NoWarn> <!-- Temporary since WinUI3 is not stable yet -->
   </PropertyGroup>
-
+  
   <PropertyGroup>
     <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true' and '$(IsTestSampleProject)' != 'true'" >true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
@@ -33,23 +37,26 @@
     </When>
   </Choose>
 
+  <!--  
   <Choose>
     <When Condition="('$(IsUwpProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
-        <GenerateLibraryLayout>true</GenerateLibraryLayout>
+        -->
+    <!--<GenerateLibraryLayout>true</GenerateLibraryLayout>--><!--
       </PropertyGroup>
     </When>
   </Choose>
 
   <Choose>
     <When Condition="'$(Configuration)' == 'Debug' and '$(IsDesignProject)' != 'true'">
-      <!-- Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios -->
+      --><!-- Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios --><!--
       <PropertyGroup>
         <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
         <EnableXBindDiagnostics>false</EnableXBindDiagnostics>
       </PropertyGroup>
     </When>
   </Choose>
+-->
 
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
@@ -58,7 +65,7 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <!-- Optional: Include PDB in the built .nupkg -->
+        <!-- Optional: Include PDB in the built .nupkg --> 
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
       </PropertyGroup>
       <ItemGroup>
@@ -67,7 +74,7 @@
       </ItemGroup>
     </When>
   </Choose>
-
+  
   <Choose>
     <When Condition="'$(IsDesignProject)' != 'true'">
       <ItemGroup>
@@ -75,7 +82,8 @@
       </ItemGroup>
     </When>
   </Choose>
-
+  
+  <!--
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <ItemGroup>
@@ -88,21 +96,15 @@
       </PropertyGroup>
     </When>
   </Choose>
-
-  <PropertyGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
-
-    <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
-    <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
-	
-  </PropertyGroup>
-
+  -->
+  
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.WinUI">
-      <Version>3.0.0-alpha.200210.0</Version>
+      <Version>3.0.0-preview1.200424.4-CI</Version>
     </PackageReference>
   </ItemGroup>
 

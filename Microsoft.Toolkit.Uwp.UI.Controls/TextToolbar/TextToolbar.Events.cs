@@ -4,16 +4,15 @@
 
 using System;
 using System.Collections;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Interop;
 using Windows.System;
 using Windows.UI.Core;
-using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

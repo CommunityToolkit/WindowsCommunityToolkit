@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas.Effects;
+// using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Windows.Foundation.Metadata;
 
@@ -39,18 +39,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
         /// </returns>
         public override string[] ApplyEffect()
         {
+            /*
             var saturationEffect = new SaturationEffect
             {
                 Saturation = 1f,
                 Name = EffectName,
                 Source = new CompositionEffectSourceParameter("source")
             };
+            */
 
             var propertyToChange = $"{EffectName}.Saturation";
             var propertiesToAnimate = new[] { propertyToChange };
 
+            /*
             EffectBrush = Compositor.CreateEffectFactory(saturationEffect, propertiesToAnimate).CreateBrush();
             EffectBrush.SetSourceParameter("source", Compositor.CreateBackdropBrush());
+            */
 
             return propertiesToAnimate;
         }

@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 {
                     Name = TextToolbar.StrikethoughElement,
                     ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_StrikethroughLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
-                    Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = ThicknessHelper.FromLengths(0, -5, 0, 0) },
+                    Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                     Activation = MakeStrike,
                     ShortcutKey = VirtualKey.Subtract,
                     ShortcutFancyName = "-"

@@ -5,7 +5,8 @@
 //// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
 
 using System;
-using Microsoft.Graphics.Canvas.Effects;
+
+// using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -153,6 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
                 // Use a Win2D invert affect applied to a CompositionBackdropBrush.
+                /*
                 var graphicsEffect = new BlendEffect
                 {
                     Name = "Invert",
@@ -168,6 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 effectBrush.SetSourceParameter("image", _surfaceBrush);
 
                 CompositionBrush = effectBrush;
+                */
             }
         }
 

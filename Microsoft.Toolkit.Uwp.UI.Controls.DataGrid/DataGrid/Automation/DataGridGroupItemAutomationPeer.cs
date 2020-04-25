@@ -564,7 +564,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             if (!_dataGridAutomationPeer.IsEnabled())
             {
-                throw new Windows.UI.Xaml.Automation.ElementNotEnabledException();
+                throw new ElementNotEnabledException();
             }
         }
     }

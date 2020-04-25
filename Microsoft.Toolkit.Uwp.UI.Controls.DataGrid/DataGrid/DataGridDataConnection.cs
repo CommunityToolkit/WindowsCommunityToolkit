@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -14,10 +15,8 @@ using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.Toolkit.Uwp.Utilities;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Interop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 {
@@ -39,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
         private WeakEventListener<DataGridDataConnection, object, IVectorChangedEventArgs> _weakVectorChangedListener;
         private WeakEventListener<DataGridDataConnection, object, CurrentChangingEventArgs> _weakCurrentChangingListener;
         private WeakEventListener<DataGridDataConnection, object, object> _weakCurrentChangedListener;
-        private WeakEventListener<DataGridDataConnection, object, Microsoft.UI.Xaml.Data.PropertyChangedEventArgs> _weakIncrementalItemsSourcePropertyChangedListener;
+        private WeakEventListener<DataGridDataConnection, object, PropertyChangedEventArgs> _weakIncrementalItemsSourcePropertyChangedListener;
 
 #if FEATURE_ICOLLECTIONVIEW_SORT
         private WeakEventListener<DataGridDataConnection, object, NotifyCollectionChangedEventArgs> _weakSortDescriptionsCollectionChangedListener;
@@ -896,12 +895,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             {
                 case NotifyCollectionChangedAction.Add:
                     Debug.Assert(e.NewItems != null, "Unexpected NotifyCollectionChangedAction.Add notification");
-                    Debug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Size == 1, "Expected NewItems.Count equals 1.");
+                    Debug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Count == 1, "Expected NewItems.Count equals 1.");
                     NotifyingDataSource_Add(e.NewStartingIndex);
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    var removedItems = e.OldItems;
+                    IList removedItems = e.OldItems;
                     if (removedItems == null || e.OldStartingIndex < 0)
                     {
                         Debug.Assert(false, "Unexpected NotifyCollectionChangedAction.Remove notification");
@@ -912,7 +911,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     {
                         // If we're grouping then we handle this through the CollectionViewGroup notifications.
                         // Remove is a single item operation.
-                        foreach (object item in (IEnumerable)removedItems)
+                        foreach (object item in removedItems)
                         {
                             Debug.Assert(item != null, "Expected non-null item.");
                             _owner.RemoveRowAt(e.OldStartingIndex, item);
@@ -997,7 +996,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             }
         }
 
-        private void NotifyingIncrementalItemsSource(object sender, Microsoft.UI.Xaml.Data.PropertyChangedEventArgs e)
+        private void NotifyingIncrementalItemsSource(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(HasMoreItems))
             {
@@ -1050,12 +1049,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                 _incrementalItemsSource = default(ISupportIncrementalLoading);
             }
 
-            if (_incrementalItemsSource != null && _incrementalItemsSource is Microsoft.UI.Xaml.Data.INotifyPropertyChanged inpc)
+            if (_incrementalItemsSource != null && _incrementalItemsSource is INotifyPropertyChanged inpc)
             {
-                    _weakIncrementalItemsSourcePropertyChangedListener = new WeakEventListener<DataGridDataConnection, object, Microsoft.UI.Xaml.Data.PropertyChangedEventArgs>(this);
-                    _weakIncrementalItemsSourcePropertyChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingIncrementalItemsSource(source, eventArgs);
-                    _weakIncrementalItemsSourcePropertyChangedListener.OnDetachAction = (weakEventListener) => inpc.PropertyChanged -= weakEventListener.OnEvent;
-                    inpc.PropertyChanged += _weakIncrementalItemsSourcePropertyChangedListener.OnEvent;
+                _weakIncrementalItemsSourcePropertyChangedListener = new WeakEventListener<DataGridDataConnection, object, PropertyChangedEventArgs>(this);
+                _weakIncrementalItemsSourcePropertyChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingIncrementalItemsSource(source, eventArgs);
+                _weakIncrementalItemsSourcePropertyChangedListener.OnDetachAction = (weakEventListener) => inpc.PropertyChanged -= weakEventListener.OnEvent;
+                inpc.PropertyChanged += _weakIncrementalItemsSourcePropertyChangedListener.OnEvent;
             }
 
             if (_loadingOperation != null)

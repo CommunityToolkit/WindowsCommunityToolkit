@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
@@ -12,7 +13,6 @@ using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Interop;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
 
@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var textBlockElement = new TextBlock
             {
-                Margin = ThicknessHelper.FromLengths(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
+                Margin = new Thickness(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
                 VerticalAlignment = VerticalAlignment.Center
             };
 
@@ -672,7 +672,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var notifyingDataItem = dataItem as Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+            var notifyingDataItem = dataItem as INotifyPropertyChanged;
 
             if (notifyingDataItem == null)
             {
@@ -698,7 +698,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var notifyingDataItem = dataItem as Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+            var notifyingDataItem = dataItem as INotifyPropertyChanged;
 
             if (notifyingDataItem == null)
             {
@@ -712,7 +712,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void DataItem_PropertyChanged(object dataItem, Microsoft.UI.Xaml.Data.PropertyChangedEventArgs e)
+        private void DataItem_PropertyChanged(object dataItem, PropertyChangedEventArgs e)
         {
             if (this.OwningGrid != null && Binding?.Path != null && this.Binding.Path.Path == e.PropertyName)
             {

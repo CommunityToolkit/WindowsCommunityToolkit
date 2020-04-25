@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
-#endif
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -80,7 +78,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return GetContent();
         }
 
-#if WINDOWS_UWP
         /// <summary>
         /// Retrieves the notification XML content as a WinRT Xml document.
         /// </summary>
@@ -91,7 +88,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             xml.LoadXml(GetContent());
             return xml;
         }
-#endif
 
         private BadgeGlyphValue _glyph = (BadgeGlyphValue)(-1);
     }

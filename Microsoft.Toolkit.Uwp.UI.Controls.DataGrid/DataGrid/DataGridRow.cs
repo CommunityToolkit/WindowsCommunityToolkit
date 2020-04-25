@@ -798,7 +798,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 #if FEATURE_IEDITABLECOLLECTIONVIEW
             currentAddItemIsDataContext = this.OwningGrid.DataConnection.EditableCollectionView.CurrentAddItem == this.DataContext;
 #endif
-            Size desiredSize;
+            Size desiredSize = default;
             try
             {
                 desiredSize = base.MeasureOverride(availableSize);

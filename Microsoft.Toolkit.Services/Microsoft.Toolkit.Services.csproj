@@ -1,7 +1,7 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17134;netstandard2.0;NET462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp5.0;netstandard2.0</TargetFrameworks> <!-- Removed  NET462/WPF -->
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>
       This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.
@@ -11,12 +11,10 @@
     </Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
 
-    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
-    <DebugType>Full</DebugType>
     <NoWarn>CS8002;CS0618</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.17134'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp5.0'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
@@ -27,10 +25,10 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Net.Http" Version="4.3.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.17134'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp5.0'">
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
 
@@ -53,19 +51,19 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="[5.0.0-preview.gb86cb1c4cb,)" />
-    <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="[5.0.0-preview.gb86cb1c4cb,)" />
-    <Page Update="PlatformSpecific\NetFramework\PopupWPF.xaml">
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="[6.0.1,)" />
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="[6.0.1,)" />
+    <!--<Page Update="PlatformSpecific\NetFramework\PopupWPF.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Update="PlatformSpecific\NetFramework\PopupWPF.xaml.cs">
       <DependentUpon>PlatformSpecific\NetFramework\PopupWPF.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
+    </Compile>-->
   </ItemGroup>
 
-  <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0.17134')">
+  <ItemGroup Condition="!('$(TargetFramework)'=='netcoreapp5.0')">
     <Compile Remove="PlatformSpecific\Uwp\**\*" />
   </ItemGroup>
 </Project>

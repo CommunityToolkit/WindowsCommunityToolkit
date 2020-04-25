@@ -5,11 +5,10 @@
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
-using Microsoft.Toolkit.Uwp.Internal;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Interop;
-using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 {
@@ -29,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         internal EnumerableCollectionView(IEnumerable source)
             : base(source)
         {
-            _snapshot = new TestObservableCollection<object>();
+            _snapshot = new ObservableCollection<object>();
 
             LoadSnapshotCore(source);
 
@@ -50,8 +49,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             INotifyCollectionChanged incc = _view as INotifyCollectionChanged;
             incc.CollectionChanged += new NotifyCollectionChangedEventHandler(EnumerableCollectionView_OnViewChanged);
 
-            Microsoft.UI.Xaml.Data.INotifyPropertyChanged ipc = _view as Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
-            ipc.PropertyChanged += new Microsoft.UI.Xaml.Data.PropertyChangedEventHandler(EnumerableCollectionView_OnPropertyChanged);
+            INotifyPropertyChanged ipc = _view as INotifyPropertyChanged;
+            ipc.PropertyChanged += new PropertyChangedEventHandler(EnumerableCollectionView_OnPropertyChanged);
 
             _view.CurrentChanging += new CurrentChangingEventHandler(EnumerableCollectionView_OnCurrentChanging);
             _view.CurrentChanged += new EventHandler<object>(EnumerableCollectionView_OnCurrentChanged);
@@ -445,25 +444,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// </param>
         protected override void ProcessCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
-            uint i;
-            int index;
-
             // Apply the change to the snapshot
             switch (args.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     if (args.NewStartingIndex < 0 || _snapshot.Count <= args.NewStartingIndex)
                     { // Append
-                        for (i = 0; i < args.NewItems.Size; ++i)
+                        for (int i = 0; i < args.NewItems.Count; ++i)
                         {
-                            _snapshot.Add(args.NewItems.GetAt(i));
+                            _snapshot.Add(args.NewItems[i]);
                         }
                     }
                     else
                     { // Insert
-                        for (i = args.NewItems.Size - 1; i >= 0; --i)
+                        for (int i = args.NewItems.Count - 1; i >= 0; --i)
                         {
-                            _snapshot.Insert(args.NewStartingIndex, args.NewItems.GetAt(i));
+                            _snapshot.Insert(args.NewStartingIndex, args.NewItems[i]);
                         }
                     }
 
@@ -475,9 +471,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                         throw CollectionViewsError.EnumerableCollectionView.RemovedItemNotFound();
                     }
 
-                    for (i = args.OldItems.Size - 1, index = args.OldStartingIndex + (int)i; i >= 0; --i, --index)
+                    for (int i = args.OldItems.Count - 1, index = args.OldStartingIndex + i; i >= 0; --i, --index)
                     {
-                        if (!object.Equals(args.OldItems.GetAt(i), _snapshot[index]))
+                        if (!object.Equals(args.OldItems[i], _snapshot[index]))
                         {
                             throw CollectionViewsError.CollectionView.ItemNotAtIndex("removed");
                         }
@@ -488,14 +484,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    for (i = args.NewItems.Size - 1, index = args.NewStartingIndex + (int)i; i >= 0; --i, --index)
+                    for (int i = args.NewItems.Count - 1, index = args.NewStartingIndex + i; i >= 0; --i, --index)
                     {
-                        if (!object.Equals(args.OldItems.GetAt(i), _snapshot[index]))
+                        if (!object.Equals(args.OldItems[i], _snapshot[index]))
                         {
                             throw CollectionViewsError.CollectionView.ItemNotAtIndex("replaced");
                         }
 
-                        _snapshot[index] = args.NewItems.GetAt(i);
+                        _snapshot[index] = args.NewItems[i];
                     }
 
                     break;
@@ -529,28 +525,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             LoadSnapshotCore(source);
 
             // Tell listeners everything has changed
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, null, null, 0, 0));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
             OnCurrentChanged();
 
             if (IsCurrentAfterLast != oldIsCurrentAfterLast)
             {
-                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(IsCurrentAfterLastPropertyName));
+                OnPropertyChanged(new PropertyChangedEventArgs(IsCurrentAfterLastPropertyName));
             }
 
             if (IsCurrentBeforeFirst != oldIsCurrentBeforeFirst)
             {
-                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(IsCurrentBeforeFirstPropertyName));
+                OnPropertyChanged(new PropertyChangedEventArgs(IsCurrentBeforeFirstPropertyName));
             }
 
             if (oldCurrentPosition != CurrentPosition)
             {
-                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(CurrentPositionPropertyName));
+                OnPropertyChanged(new PropertyChangedEventArgs(CurrentPositionPropertyName));
             }
 
             if (oldCurrentItem != CurrentItem)
             {
-                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(CurrentItemPropertyName));
+                OnPropertyChanged(new PropertyChangedEventArgs(CurrentItemPropertyName));
             }
         }
 
@@ -610,7 +606,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         // forward events from the internal view to our own listeners
-        private void EnumerableCollectionView_OnPropertyChanged(object sender, Microsoft.UI.Xaml.Data.PropertyChangedEventArgs args)
+        private void EnumerableCollectionView_OnPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             if (_ignoreEventsLevel != 0)
             {
@@ -671,7 +667,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         //
         //------------------------------------------------------
         private ListCollectionView _view;
-        private TestObservableCollection<object> _snapshot;
+        private ObservableCollection<object> _snapshot;
         private IEnumerator _trackingEnumerator;
         private int _ignoreEventsLevel;
         private bool _pollForChanges;

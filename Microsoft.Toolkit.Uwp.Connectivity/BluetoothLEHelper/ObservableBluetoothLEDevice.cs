@@ -6,26 +6,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.System;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Wrapper around <see cref="BluetoothLEDevice" /> to make it bindable.
     /// </summary>
-    /// <seealso cref="global::Microsoft.UI.Xaml.Data.INotifyPropertyChanged" />
+    /// <seealso cref="global::System.ComponentModel.INotifyPropertyChanged" />
     /// <seealso cref="global::System.IEquatable{ObservableBluetoothLEDevice}" />
     public class ObservableBluetoothLEDevice : INotifyPropertyChanged, IEquatable<ObservableBluetoothLEDevice>
     {
@@ -133,8 +131,8 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <summary>
         /// Source for <see cref="Services" />
         /// </summary>
-        private TestObservableCollection<ObservableGattDeviceService> _services =
-            new TestObservableCollection<ObservableGattDeviceService>();
+        private ObservableCollection<ObservableGattDeviceService> _services =
+            new ObservableCollection<ObservableGattDeviceService>();
 
         /// <summary>
         /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
@@ -260,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Gets the services this device supports
         /// </summary>
         /// <value>The services.</value>
-        public TestObservableCollection<ObservableGattDeviceService> Services
+        public ObservableCollection<ObservableGattDeviceService> Services
         {
             get
             {

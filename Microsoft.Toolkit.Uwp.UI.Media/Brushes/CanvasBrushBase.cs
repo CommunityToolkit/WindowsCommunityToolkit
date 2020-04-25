@@ -3,8 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.UI.Composition;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -29,10 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         protected float SurfaceHeight { get; set; }
 
-        private CanvasDevice _device;
+        // private CanvasDevice _device;
 
         // private CompositionGraphicsDevice _graphics;
 
+        /*
         /// <summary>
         /// Implemented by parent class and called when canvas is being constructed for brush.
         /// </summary>
@@ -41,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <param name="size">Size of surface to draw on.</param>
         /// <returns>True if drawing was completed and the brush is ready, otherwise return False to not create brush yet.</returns>
         protected abstract bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size);
+        */
 
         /// <summary>
         /// Initializes the Composition Brush.
@@ -49,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             base.OnConnected();
 
+            /*
             if (_device != null)
             {
                 _device.DeviceLost -= CanvasDevice_DeviceLost;
@@ -57,7 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _device = CanvasDevice.GetSharedDevice();
             _device.DeviceLost += CanvasDevice_DeviceLost;
 
-            /*
             if (_graphics != null)
             {
                 _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
@@ -93,22 +96,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 CompositionBrush = _surfaceBrush;
             }
             */
-            throw new global::System.NotImplementedException("WinUI3");
         }
 
-        /*
         private void CanvasDevice_RenderingDeviceReplaced(CompositionGraphicsDevice sender, object args)
         {
             OnDisconnected();
             OnConnected();
         }
-        */
 
+        /*
         private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
         {
             OnDisconnected();
             OnConnected();
         }
+        */
 
         /// <summary>
         /// Deconstructs the Composition Brush.
@@ -117,13 +119,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             base.OnDisconnected();
 
+            /*
             if (_device != null)
             {
                 _device.DeviceLost -= CanvasDevice_DeviceLost;
                 _device = null;
             }
 
-            /*
             if (_graphics != null)
             {
                 _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;

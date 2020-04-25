@@ -4,8 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.UI.Xaml;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -31,14 +32,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const int PixelCountPerRow = 11;
         private static readonly CoreCursor DefaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
         private static readonly CoreCursor MoveCursor = new CoreCursor(CoreCursorType.Cross, 1);
-        private readonly CanvasDevice _device = CanvasDevice.GetSharedDevice();
+
+        // private readonly CanvasDevice _device = CanvasDevice.GetSharedDevice();
         private readonly TranslateTransform _layoutTransform = new TranslateTransform();
-        private readonly CanvasImageSource _previewImageSource;
+
+        // private readonly CanvasImageSource _previewImageSource;
         private readonly Grid _rootGrid;
         private readonly Grid _targetGrid;
 
         private Popup _popup;
-        private CanvasBitmap _appScreenshot;
+
+        // private CanvasBitmap _appScreenshot;
         private Action _lazyTask;
         private uint? _pointerId = null;
         private TaskCompletionSource<Color> _taskSource;
@@ -57,7 +61,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
 
             RenderTransform = _layoutTransform;
-            _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
+
+            // _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
 
             // Preview = _previewImageSource;
             Loaded += Eyedropper_Loaded;
@@ -259,7 +264,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (pointerId == _pointerId)
             {
-                if (_appScreenshot == null)
+                // if (_appScreenshot == null)
                 {
                     await UpdateAppScreenshotAsync();
                 }
@@ -328,13 +333,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _popup.IsOpen = false;
             }
 
-            _appScreenshot?.Dispose();
-            _appScreenshot = null;
-
+            // _appScreenshot?.Dispose();
+            // _appScreenshot = null;
             Window.Current.CoreWindow.PointerCursor = DefaultCursor;
         }
 
-        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void Window_SizeChanged(object sender, Microsoft.UI.Xaml.WindowSizeChangedEventArgs e)
         {
             UpdateRootGridSize(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
         }

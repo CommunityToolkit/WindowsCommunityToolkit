@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <summary>
         /// Gets the list of available bluetooth devices
         /// </summary>
-        public TestObservableCollection<ObservableBluetoothLEDevice> BluetoothLeDevices { get; } = new TestObservableCollection<ObservableBluetoothLEDevice>();
+        public ObservableCollection<ObservableBluetoothLEDevice> BluetoothLeDevices { get; } = new ObservableCollection<ObservableBluetoothLEDevice>();
 
         /// <summary>
         /// Gets a value indicating whether app is currently enumerating

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Threading;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -241,14 +242,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// <returns>True if the process cannot be recovered from the exception.</returns>
         public static bool IsCriticalException(Exception exception)
         {
-#if WINDOWS_UWP
-            return exception is OutOfMemoryException;
-#else
             return (exception is OutOfMemoryException) ||
                 (exception is StackOverflowException) ||
                 (exception is AccessViolationException) ||
                 (exception is ThreadAbortException);
-#endif
         }
 
         /// <summary>

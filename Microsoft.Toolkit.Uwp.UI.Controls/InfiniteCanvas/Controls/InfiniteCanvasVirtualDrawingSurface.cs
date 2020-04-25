@@ -4,8 +4,9 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.UI.Composition;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -22,7 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InfiniteCanvasVirtualDrawingSurface : Panel
     {
         private Compositor _compositor;
-        private CanvasDevice _win2DDevice;
+
+        // private CanvasDevice _win2DDevice;
 
         // private CompositionGraphicsDevice _comositionGraphicsDevice;
         private SpriteVisual _myDrawingVisual;
@@ -48,7 +50,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void InitializeComposition()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _win2DDevice = CanvasDevice.GetSharedDevice();
+
+            // _win2DDevice = CanvasDevice.GetSharedDevice();
 
             // _compositionGraphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _win2DDevice);
             _myDrawingVisual = _compositor.CreateSpriteVisual();
@@ -57,13 +60,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void ConfigureSpriteVisual(double width, double height, float zoomFactor)
         {
-            /*
             var size = new SizeInt32
             {
                 Height = (int)width,
                 Width = (int)height
             };
 
+            /*
             _drawingSurface = _compositionGraphicsDevice.CreateVirtualDrawingSurface(
                 size,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
@@ -80,8 +83,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _myDrawingVisual.Brush = _surfaceBrush;
             _surfaceBrush.Offset = new Vector2(0, 0);
             */
-
-            throw new NotImplementedException("WinUI3");
         }
 
         internal void SetScale(float zoomFactor)
@@ -100,7 +101,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _surfaceBrush.Scale = new Vector2((float)(1 / scale));
             _surfaceBrush.BitmapInterpolationMode = CompositionBitmapInterpolationMode.NearestNeighbor;
             */
-            throw new NotImplementedException("WinUI3");
         }
     }
 }

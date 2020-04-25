@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp
     /// </typeparam>
     /// <seealso cref="IIncrementalSource{TSource}"/>
     /// <seealso cref="ISupportIncrementalLoading"/>
-    public class IncrementalLoadingCollection<TSource, IType> : TestObservableCollection<IType>,
+    public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
          where TSource : Collections.IIncrementalSource<IType>
     {
@@ -79,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (value != _isLoading)
                 {
                     _isLoading = value;
-                    OnPropertyChanged(nameof(IsLoading));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsLoading)));
 
                     if (_isLoading)
                     {
@@ -113,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (value != _hasMoreItems)
                 {
                     _hasMoreItems = value;
-                    OnPropertyChanged(nameof(HasMoreItems));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasMoreItems)));
                 }
             }
         }

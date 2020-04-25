@@ -5,9 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-#if WINDOWS_UWP
-
-#endif
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {

@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TwitterPage
     {
-        private TestObservableCollection<ITwitterResult> _tweets;
+        private ObservableCollection<ITwitterResult> _tweets;
 
         public TwitterPage()
         {
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            _tweets = new TestObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+            _tweets = new ObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
 
             ListView.ItemsSource = _tweets;
 

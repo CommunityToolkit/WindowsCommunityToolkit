@@ -6,12 +6,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Interop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     {
         private readonly List<object> _view;
 
-        private readonly TestObservableCollection<SortDescription> _sortDescriptions;
+        private readonly ObservableCollection<SortDescription> _sortDescriptions;
 
         private readonly Dictionary<string, PropertyInfo> _sortProperties;
 
@@ -57,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             _liveShapingEnabled = isLiveShaping;
             _view = new List<object>();
-            _sortDescriptions = new TestObservableCollection<SortDescription>();
+            _sortDescriptions = new ObservableCollection<SortDescription>();
             _sortDescriptions.CollectionChanged += SortDescriptions_CollectionChanged;
             _sortProperties = new Dictionary<string, PropertyInfo>();
             Source = source;
@@ -610,12 +611,12 @@ namespace Microsoft.Toolkit.Uwp.UI
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    AttachPropertyChangedHandler((IEnumerable)e.NewItems);
+                    AttachPropertyChangedHandler(e.NewItems);
                     if (_deferCounter <= 0)
                     {
-                        if (e.NewItems?.Size == 1)
+                        if (e.NewItems?.Count == 1)
                         {
-                            HandleItemAdded(e.NewStartingIndex, e.NewItems.GetAt(0));
+                            HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
                         }
                         else
                         {
@@ -625,12 +626,12 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    DetachPropertyChangedHandler((IEnumerable)e.OldItems);
+                    DetachPropertyChangedHandler(e.OldItems);
                     if (_deferCounter <= 0)
                     {
-                        if (e.OldItems?.Size == 1)
+                        if (e.OldItems?.Count == 1)
                         {
-                            HandleItemRemoved(e.OldStartingIndex, e.OldItems.GetAt(0));
+                            HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
                         }
                         else
                         {

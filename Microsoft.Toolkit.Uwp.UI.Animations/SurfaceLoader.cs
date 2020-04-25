@@ -4,9 +4,10 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Text;
-using Microsoft.Graphics.Canvas.UI.Composition;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.Text;
+// using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Windows.Foundation;
@@ -14,6 +15,7 @@ using Windows.Graphics.DirectX;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
+    /*
     /// <summary>
     /// A delegate for load time effects.
     /// </summary>
@@ -22,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <param name="sizeTarget">The size target.</param>
     /// <returns>A CompositeDrawingSurface</returns>
     public delegate CompositionDrawingSurface LoadTimeEffectHandler(CanvasBitmap bitmap, CompositionGraphicsDevice device, Size sizeTarget);
+    */
 
     /// <summary>
     /// The SurfaceLoader is responsible to loading images into Composition Objects.
@@ -38,10 +41,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         private static Compositor _compositor;
 
+        /*
         /// <summary>
         /// The canvas device
         /// </summary>
         private static CanvasDevice _canvasDevice;
+        */
 
         /// <summary>
         /// The composition graphic device to determinde which GPU is handling the request.
@@ -57,7 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (!_intialized)
             {
                 _compositor = compositor;
-                _canvasDevice = new CanvasDevice();
+
+                // _canvasDevice = new CanvasDevice();
 
                 // _compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _canvasDevice);
                 _intialized = true;
@@ -79,11 +85,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 _compositionDevice = null;
             }
 
+            /*
             if (_canvasDevice != null)
             {
                 _canvasDevice.Dispose();
                 _canvasDevice = null;
             }
+            */
 
             _intialized = false;
         }
@@ -120,6 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
         public static async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget)
         {
+            /*
             CanvasBitmap bitmap = await CanvasBitmap.LoadAsync(_canvasDevice, uri);
             Size sizeSource = bitmap.Size;
 
@@ -133,18 +142,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
 
-            /*
             using (var ds = CanvasComposition.CreateDrawingSession(surface))
             {
                 ds.Clear(Windows.UI.Color.FromArgb(0, 0, 0, 0));
                 ds.DrawImage(bitmap, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), new Rect(0, 0, sizeSource.Width, sizeSource.Height));
             }
             */
+            await Task.Yield();
             throw new NotImplementedException("WinUI3");
 
             // return surface;
         }
 
+        /*
         /// <summary>
         /// Loads the text on to a <see cref="CompositionDrawingSurface"/>.
         /// </summary>
@@ -161,17 +171,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
 
-            /*
             using (var ds = CanvasComposition.CreateDrawingSession(surface))
             {
                 ds.Clear(bgColor);
                 ds.DrawText(text, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), textColor, textFormat);
             }
-            */
 
-            throw new NotImplementedException("WinUI3");
-
-            // return surface;
+            return surface;
         }
 
         /// <summary>
@@ -193,5 +199,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return await LoadFromUri(uri, sizeTarget);
             }
         }
+        */
     }
 }

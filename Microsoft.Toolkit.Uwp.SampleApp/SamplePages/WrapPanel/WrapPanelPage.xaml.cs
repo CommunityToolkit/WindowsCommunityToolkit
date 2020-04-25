@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class WrapPanelPage : Page, IXamlRenderListener
     {
         private static readonly Random Rand = new Random();
-        private TestObservableCollection<PhotoDataItemWithDimension> _wrapPanelCollection;
+        private ObservableCollection<PhotoDataItemWithDimension> _wrapPanelCollection;
         private ListView _itemControl;
 
         public WrapPanelPage()
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Load()
         {
-            _wrapPanelCollection = new TestObservableCollection<PhotoDataItemWithDimension>();
+            _wrapPanelCollection = new ObservableCollection<PhotoDataItemWithDimension>();
 
             SampleController.Current.RegisterNewCommand("Add random sized Image", AddButton_Click);
             SampleController.Current.RegisterNewCommand("Add fixed sized Image", AddFixedButton_Click);

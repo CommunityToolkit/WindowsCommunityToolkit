@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.UI.Composition;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -43,8 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                }
             }
             */
-
-            throw new NotImplementedException("WinUI3");
         }
 
         private Rect ScaleRect(Rect rect, double scale)
@@ -52,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return new Rect(rect.X * scale, rect.Y * scale, rect.Width * scale, rect.Height * scale);
         }
 
+        /*
         internal CanvasRenderTarget ExportMaxOffScreenDrawings()
         {
             var toDraw = GetMaxDrawingsBoundaries();
@@ -64,9 +64,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _visibleList.Clear();
             ExecuteClearAll();
 
-            // _drawingSurface.Trim(new RectInt32[0]);
-            throw new NotImplementedException("WinUI3");
+            _drawingSurface.Trim(new RectInt32[0]);
         }
+        */
 
         internal string GetSerializedList()
         {
@@ -147,6 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return toDraw;
         }
 
+        /*
         private Rect GetMaxDrawingsBoundaries()
         {
             double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
@@ -184,5 +185,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return offScreen;
         }
+        */
     }
 }

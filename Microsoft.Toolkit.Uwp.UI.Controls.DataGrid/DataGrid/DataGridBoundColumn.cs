@@ -58,12 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _binding.Converter = new DataGridValueConverter();
                         }
 
-#if !WINDOWS_UWP
                         // Setup the binding for validation
-                        _binding.ValidatesOnDataErrors = true;
-                        _binding.ValidatesOnExceptions = true;
-                        _binding.NotifyOnValidationError = true;
-#endif
+                        // Todo: WinUI3, can this be reenabled now?
+                        // _binding.ValidatesOnDataErrors = true;
+                        // _binding.ValidatesOnExceptions = true;
+                        // _binding.NotifyOnValidationError = true;
                         _binding.UpdateSourceTrigger = UpdateSourceTrigger.Explicit;
 
                         // Apply the new Binding to existing rows in the DataGrid

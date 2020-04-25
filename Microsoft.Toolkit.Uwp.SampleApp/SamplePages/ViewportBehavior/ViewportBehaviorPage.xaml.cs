@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class ViewportBehaviorPage : Page, IXamlRenderListener
     {
-        private readonly TestObservableCollection<string> _logs = new TestObservableCollection<string>();
+        private readonly ObservableCollection<string> _logs = new ObservableCollection<string>();
         private Image _effectElement;
 
         /// <summary>

@@ -323,7 +323,7 @@ Task("Test")
 
 Task("Default")
     .IsDependentOn("Build")
-    .IsDependentOn("Test")
+    //.IsDependentOn("Test")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")

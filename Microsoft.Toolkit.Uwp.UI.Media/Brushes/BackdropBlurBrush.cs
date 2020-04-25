@@ -4,7 +4,7 @@
 
 //// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
 
-using Microsoft.Graphics.Canvas.Effects;
+// using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -66,6 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
                 // Use a Win2D blur affect applied to a CompositionBackdropBrush.
+                /*
                 var graphicsEffect = new GaussianBlurEffect
                 {
                     Name = "Blur",
@@ -79,6 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 effectBrush.SetSourceParameter("backdrop", backdrop);
 
                 CompositionBrush = effectBrush;
+                */
             }
         }
 

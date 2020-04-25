@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="AnimationDuration"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationDurationProperty =
-            DependencyProperty.Register(nameof(AnimationDuration), typeof(Duration), typeof(InAppNotification), new PropertyMetadata(DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(100))));
+            DependencyProperty.Register(nameof(AnimationDuration), typeof(TimeSpan), typeof(InAppNotification), new PropertyMetadata(TimeSpan.FromMilliseconds(100)));
 
         /// <summary>
         /// Identifies the <see cref="VerticalOffset"/> dependency property.
@@ -54,9 +54,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating the duration of the popup animation (in milliseconds).
         /// </summary>
-        public Duration AnimationDuration
+        public TimeSpan AnimationDuration
         {
-            get { return (Duration)GetValue(AnimationDurationProperty); }
+            get { return (TimeSpan)GetValue(AnimationDurationProperty); }
             set { SetValue(AnimationDurationProperty, value); }
         }
 

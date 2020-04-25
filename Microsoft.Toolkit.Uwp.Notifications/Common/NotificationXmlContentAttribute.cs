@@ -3,9 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if WINDOWS_UWP
-
-#endif
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {

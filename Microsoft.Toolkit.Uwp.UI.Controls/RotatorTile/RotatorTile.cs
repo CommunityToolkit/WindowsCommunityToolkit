@@ -4,14 +4,13 @@
 
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Interop;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
-using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -47,13 +46,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ExtraRandomDuration"/> property.
         /// </summary>
         public static readonly DependencyProperty ExtraRandomDurationProperty =
-            DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(Duration), typeof(RotatorTile), new PropertyMetadata(default(Duration)));
+            DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
 
         /// <summary>
         /// Identifies the <see cref="RotationDelay"/> property.
         /// </summary>
         public static readonly DependencyProperty RotationDelayProperty =
-            DependencyProperty.Register(nameof(RotationDelay), typeof(Duration), typeof(RotatorTile), new PropertyMetadata(default(Duration), OnRotationDelayInSecondsPropertyChanged));
+            DependencyProperty.Register(nameof(RotationDelay), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan), OnRotationDelayInSecondsPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -208,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var anim = new DoubleAnimation
                 {
-                    Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(500)),
+                    Duration = TimeSpan.FromMilliseconds(500),
                     From = 0
                 };
                 if (Direction == RotateDirection.Up)
@@ -405,7 +404,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
         private TimeSpan GetTileDuration()
         {
-            return RotationDelay.TimeSpan + TimeSpan.FromSeconds(Randomizer.Next(0, (int)(ExtraRandomDuration.TimeSpan - TimeSpan.Zero).TotalSeconds));
+            return RotationDelay + TimeSpan.FromSeconds(Randomizer.Next(0, (int)(ExtraRandomDuration - TimeSpan.Zero).TotalSeconds));
         }
 
         /// <summary>
@@ -458,9 +457,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                if (e.OldItems?.Size > 0)
+                if (e.OldItems?.Count > 0)
                 {
-                    int endIndex = e.OldStartingIndex + (int)e.OldItems.Size;
+                    int endIndex = e.OldStartingIndex + e.OldItems.Count;
                     if (_currentIndex >= e.NewStartingIndex && _currentIndex < endIndex)
                     {
                         // Current item was removed. Replace with the next one
@@ -483,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                if (e.NewItems?.Size > 0)
+                if (e.NewItems?.Count > 0)
                 {
                     if (_currentIndex < 0)
                     {
@@ -493,7 +492,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else if (_currentIndex >= e.NewStartingIndex)
                     {
                         // Items were inserted before the current item. Update the index
-                        _currentIndex += (int)e.NewItems.Size;
+                        _currentIndex += e.NewItems.Count;
                     }
                     else if (_currentIndex + 1 == e.NewStartingIndex)
                     {
@@ -507,7 +506,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (e.Action == NotifyCollectionChangedAction.Replace)
             {
-                int endIndex = e.OldStartingIndex + (int)e.OldItems.Size;
+                int endIndex = e.OldStartingIndex + e.OldItems.Count;
                 if (_currentIndex >= e.OldStartingIndex && _currentIndex < endIndex + 1)
                 {
                     // Current item was removed. Replace with the next one
@@ -516,7 +515,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (e.Action == NotifyCollectionChangedAction.Move)
             {
-                int endIndex = e.OldStartingIndex + (int)e.OldItems.Size;
+                int endIndex = e.OldStartingIndex + e.OldItems.Count;
                 if (_currentIndex >= e.OldStartingIndex && _currentIndex < endIndex)
                 {
                     // The current item was moved. Get its new location
@@ -593,9 +592,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the duration for tile rotation.
         /// </summary>
-        public Duration RotationDelay
+        public TimeSpan RotationDelay
         {
-            get { return (Duration)GetValue(RotationDelayProperty); }
+            get { return (TimeSpan)GetValue(RotationDelayProperty); }
             set { SetValue(RotationDelayProperty, value); }
         }
 
@@ -621,9 +620,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the extra randomized duration to be added to the <see cref="RotationDelay"/> property.
         /// A value between zero and this value *in seconds* will be added to the <see cref="RotationDelay"/>.
         /// </summary>
-        public Duration ExtraRandomDuration
+        public TimeSpan ExtraRandomDuration
         {
-            get { return (Duration)GetValue(ExtraRandomDurationProperty); }
+            get { return (TimeSpan)GetValue(ExtraRandomDurationProperty); }
             set { SetValue(ExtraRandomDurationProperty, value); }
         }
     }

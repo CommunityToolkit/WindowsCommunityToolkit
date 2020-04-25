@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = new DoubleAnimation
                 {
                     To = value,
-                    Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(duration)),
+                    Duration = TimeSpan.FromMilliseconds(duration),
                     BeginTime = TimeSpan.FromMilliseconds(delay),
                     EasingFunction = GetEasingFunction(easingType, easingMode)
                 };

@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Text;
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI;
@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return IsActive;
         }
 
+        /*
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
             const int verticalMargin = 3;
@@ -58,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             drawingSession.DrawTextLayout(textLayout, (float)(Bounds.X - sessionBounds.X + HorizontalMarginBasedOnFont), (float)(Bounds.Y - sessionBounds.Y + verticalMargin), TextColor);
         }
+        */
 
         public void UpdateBounds(double actualWidth, double actualHeight)
         {

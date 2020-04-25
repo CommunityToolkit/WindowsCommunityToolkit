@@ -1,7 +1,7 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Title>Windows Community Toolkit Notifications for JavaScript</Title>
     <Description>
@@ -13,7 +13,6 @@
       Also works with C# portable class libraries and non-UWP C# projects like server projects.
     </Description>
     <PackageTags>notifications win10 windows-10 tile tiles toast toasts badge xml uwp javascript</PackageTags>
-    <ExtrasImplicitPlatformPackageIsPrivate>true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
 
   <ItemGroup>

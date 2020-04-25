@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private Random _random = new Random();
 
-        public TestObservableCollection<DeviceItem> DeviceList { get; private set; } = new TestObservableCollection<DeviceItem>();
+        public ObservableCollection<DeviceItem> DeviceList { get; private set; } = new ObservableCollection<DeviceItem>();
 
         public OrbitViewPage()
         {

@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         Visibility = Visibility.Visible;
                         VisualStateManager.GoToState(this, StateContentVisible, true);
 
-                        _openAnimationTimer.Interval = AnimationDuration.TimeSpan;
+                        _openAnimationTimer.Interval = AnimationDuration;
                         _openAnimationTimer.Start();
 
                         if (duration > 0)
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                             _lastDismissKind = dismissKind;
 
-                            _closingAnimationTimer.Interval = AnimationDuration.TimeSpan;
+                            _closingAnimationTimer.Interval = AnimationDuration;
                             _closingAnimationTimer.Start();
                         }
                     }

@@ -11,6 +11,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <!-- Workaround for WinUI3 bug -->
+    <MsAppxPackageTargets>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\..\EmptyMsAppxPackage.Targets'))</MsAppxPackageTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

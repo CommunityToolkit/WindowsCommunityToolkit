@@ -5,10 +5,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Utilities;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Interop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -622,7 +623,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// <summary>
         /// PropertyChanged event (per <see cref="INotifyPropertyChanged" />).
         /// </summary>
-        public virtual event Microsoft.UI.Xaml.Data.PropertyChangedEventHandler PropertyChanged;
+        public virtual event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Re-create the view, using any SortDescriptions and/or Filter.

@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Microsoft.Graphics.Canvas;
+
+// using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Newtonsoft.Json;
 using Windows.Foundation;
@@ -57,6 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return IsActive;
         }
 
+        /*
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
             var finalStrokeList = new List<InkStroke>(Strokes.Count);
@@ -77,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             drawingSession.DrawInk(finalStrokeList);
         }
+        */
 
         private static InkPoint MapPointToToSessionBounds(InkPoint point, Rect sessionBounds)
         {

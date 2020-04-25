@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new DoubleAnimation()
             {
                 To = to,
-                Duration = DurationHelper.FromTimeSpan(duration),
+                Duration = duration,
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new PointAnimation()
             {
                 To = to,
-                Duration = DurationHelper.FromTimeSpan(duration),
+                Duration = duration,
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var animation = new ObjectAnimationUsingKeyFrames
             {
-                Duration = DurationHelper.FromTimeSpan(duration),
+                Duration = duration,
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -116,14 +116,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 };
                 rectKeyframes.Add(new DiscreteObjectKeyFrame
                 {
-                    KeyTime = KeyTimeHelper.FromTimeSpan(time),
+                    KeyTime = KeyTime.FromTimeSpan(time),
                     Value = new Rect(startPoint, endPoint)
                 });
             }
 
             rectKeyframes.Add(new DiscreteObjectKeyFrame
             {
-                KeyTime = KeyTimeHelper.FromTimeSpan(duration),
+                KeyTime = duration,
                 Value = to
             });
             return rectKeyframes;

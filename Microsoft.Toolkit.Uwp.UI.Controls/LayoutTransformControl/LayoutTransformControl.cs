@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (transformGroup != null)
                 {
-                    var groupMatrix = MatrixHelper.Identity;
+                    var groupMatrix = Matrix.Identity;
 
                     foreach (var child in transformGroup.Children)
                     {
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Fall back to no-op transformation
-            return MatrixHelper.Identity;
+            return Matrix.Identity;
         }
 
         /// <summary>

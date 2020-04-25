@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Matrix representing transform.</returns>
         public static Matrix GetMatrix(this ScaleTransform transform)
         {
-            return MatrixHelper.Identity.ScaleAt(transform.ScaleX, transform.ScaleY, transform.CenterX, transform.CenterY);
+            return Matrix.Identity.ScaleAt(transform.ScaleX, transform.ScaleY, transform.CenterX, transform.CenterY);
         }
     }
 }

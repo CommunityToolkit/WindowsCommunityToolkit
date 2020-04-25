@@ -5,8 +5,9 @@
 //// UWP Replacement for WPF RadialGradientBrush: https://msdn.microsoft.com/en-us/library/system.windows.media.radialgradientbrush(v=vs.110).aspx.
 
 using System.Numerics;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Brushes;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
@@ -69,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             GradientStops = gradientStopCollection;
         }
 
+        /*
         /// <inheritdoc/>
         protected override bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size)
         {
@@ -103,5 +105,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
             return false;
         }
+        */
     }
 }

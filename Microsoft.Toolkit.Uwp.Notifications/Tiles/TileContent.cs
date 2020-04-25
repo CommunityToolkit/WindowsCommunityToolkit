@@ -2,10 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-#endif
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -28,7 +26,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return ConvertToElement().GetContent();
         }
 
-#if WINDOWS_UWP
         /// <summary>
         /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Tile notification's constructor on either <see cref="TileNotification"/> or <see cref="ScheduledTileNotification"/>.
         /// </summary>
@@ -40,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             return doc;
         }
-#endif
 
         internal Element_Tile ConvertToElement()
         {

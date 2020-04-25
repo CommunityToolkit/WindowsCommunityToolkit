@@ -7,9 +7,6 @@
     <PackageTags>UWP Toolkit Windows Platform Specific Analyzer</PackageTags>
     
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    
-    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
-    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,9 +19,9 @@
     <EmbeddedResource Include="Differences-7.0.0.0.gz" />
   </ItemGroup>
    
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />

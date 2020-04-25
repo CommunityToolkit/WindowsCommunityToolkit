@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// </summary>
         /// <param name="resourceKey">Resource key to retrieve.</param>
         /// <param name="uiContext"><see cref="UIContext"/> to be used to get the <paramref name="resourceKey"/> from.
-        /// You can retrieve this from a <see cref="UIElement.UIContext"/>, <see cref="XamlRoot.UIContext"/> (XamlIslands), or <see cref="Window.UIContext"/>.</param>
+        /// You can retrieve this from a UIElement.UIContext, XamlRoot.UIContext (XamlIslands), or Window.UIContext.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetViewLocalized(this string resourceKey, UIContext uiContext = null)
         {
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// </summary>
         /// <param name="resourceKey">Resource key to retrieve.</param>
         /// <param name="uiContext"><see cref="UIContext"/> to be used to get the <paramref name="resourceKey"/> from.
-        /// You can retrieve this from a <see cref="UIElement.UIContext"/>, <see cref="XamlRoot.UIContext"/> (XamlIslands), or <see cref="Window.UIContext"/>.</param>
+        /// You can retrieve this from a UIElement.UIContext, XamlRoot.UIContext (XamlIslands), or Window.UIContext.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey, UIContext uiContext = null)
         {

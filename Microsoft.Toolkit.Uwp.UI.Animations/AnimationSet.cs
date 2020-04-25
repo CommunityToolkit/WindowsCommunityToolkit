@@ -345,7 +345,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = timeline.Value as DoubleAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = DurationHelper.FromTimeSpan(duration);
+                    animation.Duration = duration;
                 }
             }
 

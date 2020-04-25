@@ -6,9 +6,10 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Graphics.Canvas.Geometry;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.Effects;
+// using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Foundation;
@@ -51,6 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static async Task CropImageWithShapeAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, CropShape cropShape)
         {
+            await Task.Yield();
+            throw new NotImplementedException("WinUI3");
+            /*
             var device = CanvasDevice.GetSharedDevice();
             var clipGeometry = CreateClipGeometry(device, cropShape, new Size(croppedRect.Width, croppedRect.Height));
             if (clipGeometry == null)
@@ -91,8 +95,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 bitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
                 await bitmapEncoder.FlushAsync();
             }
+            */
         }
 
+        /*
         private static CanvasGeometry CreateClipGeometry(ICanvasResourceCreator resourceCreator, CropShape cropShape, Size croppedSize)
         {
             switch (cropShape)
@@ -108,6 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return null;
         }
+        */
 
         private static Guid GetEncoderId(BitmapFileFormat bitmapFileFormat)
         {

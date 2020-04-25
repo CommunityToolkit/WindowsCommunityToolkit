@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     [Bindable]
     public class DataGridDataSource
     {
-        private static TestObservableCollection<DataGridDataItem> _items;
+        private static ObservableCollection<DataGridDataItem> _items;
         private static List<string> _mountains;
         private static CollectionViewSource groupedItems;
         private string _cachedSortedColumn = string.Empty;
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             var uri = new Uri($"ms-appx:///Assets/mtns.csv");
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
             IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
-            _items = new TestObservableCollection<DataGridDataItem>();
+            _items = new ObservableCollection<DataGridDataItem>();
 
             using (StreamReader sr = new StreamReader(randomStream.AsStreamForRead()))
             {
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             }
         }
 
-        public TestObservableCollection<DataGridDataItem> SortData(string sortBy, bool ascending)
+        public ObservableCollection<DataGridDataItem> SortData(string sortBy, bool ascending)
         {
             _cachedSortedColumn = sortBy;
             switch (sortBy)
@@ -92,13 +92,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 case "Rank":
                     if (ascending)
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Rank ascending
                                                                           select item);
                     }
                     else
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Rank descending
                                                                           select item);
                     }
@@ -106,13 +106,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 case "Parent_mountain":
                     if (ascending)
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Parent_mountain ascending
                                                                           select item);
                     }
                     else
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Parent_mountain descending
                                                                           select item);
                     }
@@ -120,13 +120,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 case "Mountain":
                     if (ascending)
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Mountain ascending
                                                                           select item);
                     }
                     else
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Mountain descending
                                                                           select item);
                     }
@@ -134,13 +134,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 case "Height_m":
                     if (ascending)
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Height_m ascending
                                                                           select item);
                     }
                     else
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Height_m descending
                                                                           select item);
                     }
@@ -148,13 +148,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 case "Range":
                     if (ascending)
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Range ascending
                                                                           select item);
                     }
                     else
                     {
-                        return new TestObservableCollection<DataGridDataItem>(from item in _items
+                        return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                           orderby item.Range descending
                                                                           select item);
                     }
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         // Grouping implementation using LINQ
         public CollectionViewSource GroupData()
         {
-            TestObservableCollection<GroupInfoCollection<DataGridDataItem>> groups = new TestObservableCollection<GroupInfoCollection<DataGridDataItem>>();
+            ObservableCollection<GroupInfoCollection<DataGridDataItem>> groups = new ObservableCollection<GroupInfoCollection<DataGridDataItem>>();
             var query = from item in _items
                         orderby item
                         group item by item.Range into g
@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             return groupedItems;
         }
 
-        public class GroupInfoCollection<T> : TestObservableCollection<T>
+        public class GroupInfoCollection<T> : ObservableCollection<T>
         {
             public object Key { get; set; }
 
@@ -210,30 +210,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             Height_High = 3
         }
 
-        public TestObservableCollection<DataGridDataItem> FilterData(FilterOptions filterBy)
+        public ObservableCollection<DataGridDataItem> FilterData(FilterOptions filterBy)
         {
             switch (filterBy)
             {
                 case FilterOptions.All:
-                    return new TestObservableCollection<DataGridDataItem>(_items);
+                    return new ObservableCollection<DataGridDataItem>(_items);
 
                 case FilterOptions.Rank_Low:
-                    return new TestObservableCollection<DataGridDataItem>(from item in _items
+                    return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                       where item.Rank < 50
                                                                       select item);
 
                 case FilterOptions.Rank_High:
-                    return new TestObservableCollection<DataGridDataItem>(from item in _items
+                    return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                       where item.Rank > 50
                                                                       select item);
 
                 case FilterOptions.Height_High:
-                    return new TestObservableCollection<DataGridDataItem>(from item in _items
+                    return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                       where item.Height_m > 8000
                                                                       select item);
 
                 case FilterOptions.Height_Low:
-                    return new TestObservableCollection<DataGridDataItem>(from item in _items
+                    return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                       where item.Height_m < 8000
                                                                       select item);
             }

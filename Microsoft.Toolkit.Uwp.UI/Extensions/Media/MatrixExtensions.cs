@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.UI.Xaml.Media;
-using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -109,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Translated Matrix.</returns>
         public static Matrix Translate(this Matrix matrix, double offsetX, double offsetY)
         {
-            return MatrixHelper.FromElements(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
+            return new Matrix(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
         }
 
         internal static Matrix CreateRotationRadians(double angle)
@@ -125,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var dy = (centerY * (1.0 - cos)) - (centerX * sin);
 
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return MatrixHelper.FromElements(cos, sin,
+            return new Matrix(cos, sin,
                               -sin, cos,
                               dx, dy);
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines
@@ -134,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         internal static Matrix CreateScaling(double scaleX, double scaleY)
         {
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return MatrixHelper.FromElements(scaleX, 0,
+            return new Matrix(scaleX, 0,
                               0, scaleY,
                               0, 0);
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines
@@ -143,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         internal static Matrix CreateScaling(double scaleX, double scaleY, double centerX, double centerY)
         {
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return MatrixHelper.FromElements(scaleX, 0,
+            return new Matrix(scaleX, 0,
                               0, scaleY,
                               centerX - (scaleX * centerX), centerY - (scaleY * centerY));
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines
@@ -152,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         internal static Matrix CreateSkewRadians(double skewX, double skewY)
         {
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return MatrixHelper.FromElements(1.0, Math.Tan(skewY),
+            return new Matrix(1.0, Math.Tan(skewY),
                               Math.Tan(skewX), 1.0,
                               0.0, 0.0);
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines

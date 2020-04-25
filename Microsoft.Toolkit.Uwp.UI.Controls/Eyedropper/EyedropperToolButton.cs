@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             EyedropperEnabled = !EyedropperEnabled;
         }
 
-        private async void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private async void Window_SizeChanged(object sender, Microsoft.UI.Xaml.WindowSizeChangedEventArgs e)
         {
             await UpdateEyedropperWorkAreaAsync();
         }

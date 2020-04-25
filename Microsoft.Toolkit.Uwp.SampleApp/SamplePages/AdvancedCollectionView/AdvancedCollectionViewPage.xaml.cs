@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Setup()
         {
             // left list
-            var oc = new TestObservableCollection<Person>
+            var oc = new ObservableCollection<Person>
             {
                 new Person { Name = "Staff" },
                 new Person { Name = "42" },

@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas.Effects;
+// using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -301,6 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
                 // Use a Win2D blur affect applied to a CompositionBackdropBrush.
+                /*
                 var graphicsEffect = new GammaTransferEffect
                 {
                     Name = "GammaTransfer",
@@ -343,6 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 effectBrush.SetSourceParameter("backdrop", backdrop);
 
                 CompositionBrush = effectBrush;
+                */
             }
         }
 

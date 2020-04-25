@@ -104,14 +104,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
             ClearTextBoxValue();
-            _drawingSurfaceRenderer.ClearAll(ViewPort);
+
+            // _drawingSurfaceRenderer.ClearAll(ViewPort);
         }
 
         private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
         {
             // work around to virtual drawing surface bug.
             await Task.Delay(1000);
-            _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
+
+            // _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)

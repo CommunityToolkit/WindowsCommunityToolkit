@@ -5,7 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas;
+
+// using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -477,8 +478,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Task</returns>
         public async Task SaveBitmapAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
         {
-            var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
-            await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
+            await Task.Yield();
+
+            // var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
+            // await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
         }
 
         /// <summary>
@@ -486,6 +489,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event EventHandler ReRenderCompleted;
 
+        /*
         private static CanvasBitmapFileFormat MapToCanvasBitmapFileFormat(BitmapFileFormat bitmapFileFormat)
         {
             switch (bitmapFileFormat)
@@ -505,5 +509,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 default: return CanvasBitmapFileFormat.Auto;
             }
         }
+        */
     }
 }

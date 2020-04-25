@@ -8,10 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-#if WINDOWS_UWP
-
-#endif
-
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal static class XmlWriterHelper

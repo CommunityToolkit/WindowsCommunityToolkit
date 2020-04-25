@@ -1,20 +1,18 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.17134</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <Title>Windows Community Toolkit</Title>
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
-    <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
-
 
   <ItemGroup>
     
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
-
+  
   </ItemGroup>
-
+  
 </Project>

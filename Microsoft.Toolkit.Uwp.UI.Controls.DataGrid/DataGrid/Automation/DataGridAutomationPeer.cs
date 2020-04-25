@@ -344,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             if (!IsEnabled())
             {
-                throw new Windows.UI.Xaml.Automation.ElementNotEnabledException();
+                throw new ElementNotEnabledException();
             }
 
             bool scrollHorizontally = horizontalAmount != ScrollAmount.NoAmount;
@@ -408,7 +408,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             if (!IsEnabled())
             {
-                throw new Windows.UI.Xaml.Automation.ElementNotEnabledException();
+                throw new ElementNotEnabledException();
             }
 
             bool scrollHorizontally = horizontalPercent != (double)ScrollPatternIdentifiers.NoScroll;
