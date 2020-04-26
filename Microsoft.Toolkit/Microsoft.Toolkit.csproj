@@ -2,12 +2,69 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Title>Windows Community Toolkit .NET Standard</Title>
-    <Description>This package includes .NET Standard code only helpers, such as IncrementalLoadingCollection, string extensions and array extensions. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions</PackageTags>
+    <Description>
+      This package includes .NET Standard code only helpers such as:
+      - IncrementalLoadingCollection: Simplifies the definition and usage of collections whose items can be loaded incrementally only when needed by the view.
+      - String extensions and array extensions: These extensions make working with string and arrays easier.
+    </Description>
+    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Diagnostics\Generated\Guard.Comparable.Numeric.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Guard.Comparable.Numeric.g.cs</LastGenOutput>
+    </None>
+    <None Update="Diagnostics\Generated\Guard.Collection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Guard.Collection.g.cs</LastGenOutput>
+    </None>
+    <None Update="Diagnostics\Generated\ThrowHelper.Collection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ThrowHelper.Collection.g.cs</LastGenOutput>
+    </None>
+    <None Update="Diagnostics\Generated\TypeInfo.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TypeInfo.g.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <!-- T4 service used by the Guard APIs -->
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Diagnostics\Generated\Guard.Comparable.Numeric.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Guard.Comparable.Numeric.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Diagnostics\Generated\Guard.Collection.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Guard.Collection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Diagnostics\Generated\ThrowHelper.Collection.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ThrowHelper.Collection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Diagnostics\Generated\TypeInfo.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TypeInfo.ttinclude</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 </Project>

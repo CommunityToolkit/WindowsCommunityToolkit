@@ -36,11 +36,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set
             {
                 _currentSample = value;
-                var nop = SetNavViewSelection();
+                _ = SetNavViewSelectionAsync();
             }
         }
 
-        private async Task SetNavViewSelection()
+        private async Task SetNavViewSelectionAsync()
         {
             if (_currentSample != null)
             {
@@ -59,10 +59,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HideSamplePicker()
         {
-            SamplePickerGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            SamplePickerGrid.Visibility = Visibility.Collapsed;
             _selectedCategory = null;
 
-            var noop = SetNavViewSelection();
+            _ = SetNavViewSelectionAsync();
         }
 
         private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
@@ -93,6 +93,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 return;
             }
+
+            SamplePickerGridView.ItemsSource = samples;
 
             var groups = samples.GroupBy(sample => sample.Subcategory);
 
@@ -187,7 +189,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (button != null)
             {
                 button.Click -= MoreInfoClicked;
+                button.LostFocus -= MoreInfoLostFocus;
                 button.Click += MoreInfoClicked;
+                button.LostFocus += MoreInfoLostFocus;
             }
 
             var itemIndex = SamplePickerGridView.IndexFromContainer(itemContainer);
@@ -249,13 +253,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void MoreInfoClicked(object sender, RoutedEventArgs e)
         {
-            if (MoreInfoContent == null)
-            {
-                return;
-            }
-
             var button = (Button)sender;
-            var sample = button.DataContext as Sample;
+            var sampleData = button.DataContext as Sample;
 
             var container = button.FindAscendant<GridViewItem>();
             if (container == null)
@@ -263,8 +262,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
+            InitMoreInfoContentContainer(container);
+            MoreInfoContent.DataContext = sampleData;
 
+            if (MoreInfoCanvas.Visibility == Visibility.Visible)
+            {
+                HideMoreInfo();
+            }
+            else
+            {
+                MoreInfoCanvas.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void MoreInfoLostFocus(object sender, RoutedEventArgs e)
+        {
+            HideMoreInfo();
+        }
+
+        private void InitMoreInfoContentContainer(GridViewItem container)
+        {
+            if (MoreInfoContent == null)
+            {
+                return;
+            }
+
+            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
             var x = point.X - ((MoreInfoContent.Width - container.ActualWidth) / 2);
             var y = point.Y - ((MoreInfoContent.Height - container.ActualHeight) / 2);
 
@@ -281,9 +304,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var centerY = (point.Y + (container.ActualHeight / 2)) - y;
 
             VisualExtensions.SetCenterPoint(MoreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
-
-            MoreInfoContent.DataContext = sample;
-            MoreInfoCanvas.Visibility = Visibility.Visible;
         }
 
         private void HideMoreInfo()
@@ -303,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     animation.Configuration = new DirectConnectedAnimationConfiguration();
                 }
 
-                var t = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
+                _ = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
             }
 
             MoreInfoContent.DataContext = null;

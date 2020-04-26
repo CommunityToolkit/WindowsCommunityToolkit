@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -161,11 +160,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }));
         }
 
-        public async Task RefreshXamlRenderAsync()
+        public void RefreshXamlRender()
         {
             if (CurrentSample != null)
             {
-                var code = string.Empty;
+                string code;
                 if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
                 {
                     code = CurrentSample.BindedXamlCode;
@@ -177,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (!string.IsNullOrWhiteSpace(code))
                 {
-                    await UpdateXamlRenderAsync(code);
+                    UpdateXamlRender(code);
                 }
             }
         }
@@ -225,24 +224,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                DataContext = CurrentSample;
-
-                var propertyDesc = CurrentSample.PropertyDescriptor;
-
                 InfoAreaPivot.Items.Clear();
-
-                if (propertyDesc != null)
-                {
-                    _xamlRenderer.DataContext = propertyDesc.Expando;
-                }
-
-                if (propertyDesc != null && propertyDesc.Options.Count > 0)
-                {
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
-                }
 
                 if (CurrentSample.HasXAMLCode)
                 {
+                    // Load Sample Properties before we load sample (if we haven't before)
+                    await CurrentSample.PreparePropertyDescriptorAsync();
+
+                    // We only have properties on examples with live XAML
+                    var propertyDesc = CurrentSample.PropertyDescriptor;
+
+                    if (propertyDesc != null)
+                    {
+                        _xamlRenderer.DataContext = propertyDesc.Expando;
+                    }
+
+                    if (propertyDesc?.Options.Count > 0)
+                    {
+                        InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                    }
+
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
@@ -301,6 +302,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     GithubButton.Visibility = Visibility.Visible;
                 }
 
+                DataContext = CurrentSample;
+
                 if (InfoAreaPivot.Items.Count == 0)
                 {
                     SidePaneState = PaneState.None;
@@ -358,7 +361,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 _lastRenderedProperties = true;
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
-                var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
+                UpdateXamlRender(CurrentSample.BindedXamlCode);
             }
         }
 
@@ -384,7 +387,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     _lastRenderedProperties = true;
 
-                    var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
+                    UpdateXamlRender(CurrentSample.BindedXamlCode);
                 }
 
                 return;
@@ -398,7 +401,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
 
-                var t = UpdateXamlRenderAsync(CurrentSample.UpdatedXamlCode);
+                UpdateXamlRender(CurrentSample.UpdatedXamlCode);
                 await XamlCodeEditor.ResetPosition();
 
                 XamlCodeEditor.Focus(FocusState.Programmatic);
@@ -432,7 +435,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                var t = UpdateXamlRenderAsync(XamlCodeEditor.Text);
+                UpdateXamlRender(XamlCodeEditor.Text);
             });
         }
 
@@ -500,7 +503,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async Task UpdateXamlRenderAsync(string text)
+        private void UpdateXamlRender(string text)
         {
             // Hide any Previous Errors
             XamlCodeEditor.ClearErrors();

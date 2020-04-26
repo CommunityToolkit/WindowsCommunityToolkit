@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Windows.System;
@@ -94,8 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         {
             get
             {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out var currentvalue);
                 return currentvalue;
             }
         }
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 StrikeButton = CommonButtons.Strikethrough;
                 Underline = new ToolbarButton
                 {
-                    ToolTip = Model.Labels.UnderlineLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_UnderlineLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
                     Activation = ((RichTextButtonActions)ButtonActions).FormatUnderline

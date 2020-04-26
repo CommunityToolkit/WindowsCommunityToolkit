@@ -412,5 +412,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             InitImageLayout(true);
         }
+
+        /// <summary>
+        /// Tries to set a new value for the cropped region, returns true if it succeeded, false if the region is invalid
+        /// </summary>
+        /// <param name="rect">The new cropped region.</param>
+        /// <returns>bool</returns>
+        public bool TrySetCroppedRegion(Rect rect)
+        {
+            // Reject regions smaller than the minimum size
+            if (rect.Width < MinCropSize.Width || rect.Height < MinCropSize.Height)
+            {
+                return false;
+            }
+
+            // Reject regions that are not contained in the original picture
+            if (rect.Left < _restrictedCropRect.Left || rect.Top < _restrictedCropRect.Top || rect.Right > _restrictedCropRect.Right || rect.Bottom > _restrictedCropRect.Bottom)
+            {
+                return false;
+            }
+
+            // If an aspect ratio is set, reject regions that don't respect it
+            // If cropping a circle, reject regions where the aspect ratio is not 1
+            if (KeepAspectRatio && UsedAspectRatio != rect.Width / rect.Height)
+            {
+                return false;
+            }
+
+            _currentCroppedRect = rect;
+            UpdateImageLayout(true);
+            return true;
+        }
     }
 }

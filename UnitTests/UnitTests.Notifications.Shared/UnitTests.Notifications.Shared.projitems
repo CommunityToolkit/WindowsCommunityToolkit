@@ -9,8 +9,9 @@
     <Import_RootNamespace>UnitTests.Notifications.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssertHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestAssertHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestMail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestToastContentBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestWeather.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Adaptive_Xml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Badge_Xml.cs" />

@@ -3,15 +3,51 @@
   <PropertyGroup>
     <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
-    <Description>This library provides XAML templated controls. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
+    <Description>
+      This library provides XAML templated controls. It is part of the Windows Community Toolkit.
+      
+      Controls:
+        - AdaptiveGridView: Presents items in a evenly-spaced set of columns to fill the total available space.
+        - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
+        - CameraPreview: Easily preview video from camera sources and get realtime frames from the selected source.
+        - Carousel: Presents items in a carousel control.
+        - DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
+        - DropShadowPanel: DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
+        - Expander: Expander allows user to show/hide content based on a boolean state.
+        - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
+        - HeaderedContentControl: Provides a header to content.
+        - HeaderedItemsControl: Provides a header to items.
+        - HeaderedTextBlock: Provide a header for read only text.
+        - ImageCropper: ImageCropper control allows user to crop image freely.
+        - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
+        - InAppNotification: Show local notifications in your application.
+        - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
+        - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
+        - Loading: Helps to show content with animation to the user while the app is doing some calculation.
+        - MarkdownTextBlock: An efficient and extensible control that can parse and render markdown.
+        - MasterDetailsView: Implements the Master/Details design pattern.
+        - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
+        - RadialGauge: Displays a value within a range, using a needle on a circular face.
+        - RadialProgressBar: Displays progress as a circle getting filled.
+        - RangeSelector: "Double slider" control for range values.
+        - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
+        - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
+        - ScrollHeader: A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.
+        - StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
+        - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
+        - TileControl: A ContentControl that show an image repeated many times.
+        - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
+        - UniformGrid: Presents items in a evenly-spaced set of rows or columns to fill the total available display space.
+        - WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
+    </Description>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile Tokenizing TextBox UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
-    <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
  
@@ -33,12 +69,19 @@
      <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
       <SubType>Designer</SubType>
     </Page>
+     <Page Update="TokenizingTextBox\TokenizingTextBox.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
+     <Page Update="TokenizingTextBox\TokenizingTextBoxItem.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
   </ItemGroup>
   
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
+  
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 

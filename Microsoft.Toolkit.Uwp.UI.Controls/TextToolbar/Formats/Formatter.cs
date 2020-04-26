@@ -5,7 +5,6 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Windows.UI.Text;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
@@ -81,8 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             int counter = 0;
             bool atNewLine = false;
 
-            string docText = string.Empty;
-            Model.Editor.Document.GetText(TextGetOptions.NoHidden, out docText);
+            Model.Editor.Document.GetText(TextGetOptions.NoHidden, out var docText);
             var lines = docText.Split(new string[] { Return }, StringSplitOptions.None);
 
             foreach (var line in lines)
@@ -176,8 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out var currentvalue);
                 return currentvalue;
             }
         }

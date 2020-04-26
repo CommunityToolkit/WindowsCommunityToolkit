@@ -52,12 +52,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnDefaultButtonModificationsChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Labels"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty LabelsProperty =
-            DependencyProperty.Register(nameof(Labels), typeof(TextToolbarStrings), typeof(TextToolbar), new PropertyMetadata(new TextToolbarStrings()));
-
-        /// <summary>
         /// Identifies the <see cref="UseURIChecker"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty UseURICheckerProperty =
@@ -115,15 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DefaultButtonModificationList)GetValue(DefaultButtonModificationsProperty); }
             set { SetValue(DefaultButtonModificationsProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the default string Labels
-        /// </summary>
-        public TextToolbarStrings Labels
-        {
-            get { return (TextToolbarStrings)GetValue(LabelsProperty); }
-            set { SetValue(LabelsProperty, value); }
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.filters
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -222,4 +223,8 @@ AppPackages
 project.lock.json
 msbuild.binlog
 *.project.lock.json
-/build/tools
+/build/tools/**
+!/build/tools/packages.config
+
+# Generated file from .ttinclude
+**/Generated/TypeInfo.g.cs

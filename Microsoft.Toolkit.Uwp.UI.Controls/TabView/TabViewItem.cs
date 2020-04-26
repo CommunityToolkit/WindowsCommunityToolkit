@@ -4,6 +4,8 @@
 
 using System;
 using Windows.Devices.Input;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -58,8 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void OnPointerPressed(PointerRoutedEventArgs e)
         {
-            base.OnPointerPressed(e);
-
             _isMiddleClick = false;
 
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
@@ -71,7 +71,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _isMiddleClick = true;
                 }
+
+                // Disable unwanted behaviour inherited by ListViewItem:
+                // Disable "Ctrl + Left click" to deselect tab
+                // Or variant like "Ctrl + Shift + Left click"
+                // Or "Ctrl + Alt + Left click"
+                if (pointerPoint.Properties.IsLeftButtonPressed)
+                {
+                    var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+                    if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+                    {
+                        // return here so the event won't be picked up by the base class
+                        // but keep this event unhandled so it can be picked up further
+                        return;
+                    }
+                }
             }
+
+            base.OnPointerPressed(e);
         }
 
         /// <inheritdoc/>

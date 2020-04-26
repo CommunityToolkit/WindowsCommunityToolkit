@@ -724,8 +724,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 {
                     if (item != null)
                     {
-                        DataGridItemAutomationPeer peer = null;
-
+                        DataGridItemAutomationPeer peer;
                         if (oldChildren.ContainsKey(item))
                         {
                             peer = oldChildren[item] as DataGridItemAutomationPeer;

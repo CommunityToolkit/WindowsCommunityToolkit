@@ -168,7 +168,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void Timer_Tick(object sender, object e)
         {
-            var item = GetItemAt(_currentIndex + 1);
             _timer.Interval = GetTileDuration();
             UpdateNextItem();
         }
@@ -247,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             sb.Completed += async (a, b) =>
             {
-                if (_currentElement != null)
+                if (_currentElement != null && _nextElement != null)
                 {
                     _currentElement.DataContext = _nextElement.DataContext;
                 }
@@ -322,7 +321,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (ItemsSource is IEnumerable)
                 {
-                    var items = ItemsSource as IEnumerable;
                     var ienum = ((IEnumerable)ItemsSource).GetEnumerator();
                     int count = 0;
                     while (ienum.MoveNext())
@@ -475,13 +473,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else if (e.NewStartingIndex == _currentIndex + 1)
                     {
                         // Upcoming item was changed, so update the datacontext
-                        _nextElement.DataContext = GetNext();
+                        if (_nextElement != null)
+                        {
+                            _nextElement.DataContext = GetNext();
+                        }
                     }
                 }
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                int endIndex = e.NewStartingIndex + e.NewItems.Count;
                 if (e.NewItems?.Count > 0)
                 {
                     if (_currentIndex < 0)
@@ -497,7 +497,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else if (_currentIndex + 1 == e.NewStartingIndex)
                     {
                         // Upcoming item was changed, so update the datacontext
-                        _nextElement.DataContext = GetNext();
+                        if (_nextElement != null)
+                        {
+                            _nextElement.DataContext = GetNext();
+                        }
                     }
                 }
             }
@@ -557,7 +560,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (index > -1)
             {
                 ctrl._currentIndex = index;
-                ctrl._nextElement.DataContext = e.NewValue;
+                if (ctrl._nextElement != null)
+                {
+                    ctrl._nextElement.DataContext = e.NewValue;
+                }
+
                 ctrl.RotateToNextItem();
                 ctrl._timer.Stop();
                 ctrl._timer.Start();
