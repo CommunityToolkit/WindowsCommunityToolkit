@@ -31,6 +31,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 sampleListView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
                 ListViewExtensions.SetCommand(sampleListView, SampleCommand);
             }
+
+            // Transfer Data Context so we can access SampleCommand
+            control.DataContext = this;
         }
 
         private async void OnExecuteSampleCommand(PhotoDataItem item)
