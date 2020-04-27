@@ -36,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private AutoSuggestBox _autoSuggestBox;
         private TextBox _autoSuggestTextBox;
         private bool _pauseTokenClearOnFocus = false;
+        private bool _isSelectedFocusOnFirstCharacter = false;
 
         /// <summary>
         /// Gets a value indicating whether the textbox caret is in the first position. False otherwise
@@ -110,6 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (IsControlPressed)
                     {
                         CopySelectedToClipboard();
+                        e.Handled = true;
                     }
 
                     break;
@@ -271,6 +273,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestTextBox.PreviewKeyDown -= this.AutoSuggestTextBox_PreviewKeyDown;
                 _autoSuggestTextBox.TextChanging -= AutoSuggestTextBox_TextChangingAsync;
                 _autoSuggestTextBox.SelectionChanged -= AutoSuggestTextBox_SelectionChanged;
+                _autoSuggestTextBox.SelectionChanging -= AutoSuggestTextBox_SelectionChanging;
             }
 
             _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
@@ -280,7 +283,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
                 _autoSuggestTextBox.TextChanging += AutoSuggestTextBox_TextChangingAsync;
                 _autoSuggestTextBox.SelectionChanged += AutoSuggestTextBox_SelectionChanged;
+                _autoSuggestTextBox.SelectionChanging += AutoSuggestTextBox_SelectionChanging;
             }
+        }
+
+        private void AutoSuggestTextBox_SelectionChanging(TextBox sender, TextBoxSelectionChangingEventArgs args)
+        {
+            _isSelectedFocusOnFirstCharacter = args.SelectionLength > 0 && args.SelectionStart == 0 && _autoSuggestTextBox.SelectionStart > 0;
         }
 
         private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -290,7 +299,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                  e.Key == VirtualKey.Left))
             {
                 // if the back key is pressed and there is any selection in the text box then the text box can handle it
-                if (e.Key == VirtualKey.Left || _autoSuggestTextBox.SelectionLength == 0)
+                if ((e.Key == VirtualKey.Left && _isSelectedFocusOnFirstCharacter) ||
+                    _autoSuggestTextBox.SelectionLength == 0)
                 {
                     // Select last token item (if there is one)
                     if (Items.Count > 0)
@@ -305,7 +315,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
                             // Defer this selection to prevent the token being cleared on selection change for the text box
-                            SelectedIndex = Items.Count - 1;
+                            SelectedItems.Add(Items[Items.Count - 1]);
                         });
 
                         (item as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
@@ -620,7 +630,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (addSeparator)
                     {
-                        tokenString += TokenDelimiter + " ";
+                        tokenString += TokenDelimiter;
                     }
                     else
                     {
@@ -635,7 +645,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (addSeparator)
                 {
-                    tokenString += TokenDelimiter + " ";
+                    tokenString += TokenDelimiter;
                 }
 
                 tokenString += _autoSuggestTextBox?.SelectionLength > 0
