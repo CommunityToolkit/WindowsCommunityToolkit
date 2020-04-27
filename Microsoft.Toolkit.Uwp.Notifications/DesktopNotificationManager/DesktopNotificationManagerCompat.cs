@@ -31,7 +31,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
-using static DesktopNotifications.NotificationActivator;
+using static Microsoft.Toolkit.Uwp.Notifications.NotificationActivator;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
