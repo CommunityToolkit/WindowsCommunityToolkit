@@ -2,6 +2,27 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+/*
+ * License for the RegisterActivator portion of code from FrecherxDachs
+The MIT License (MIT)
+Copyright (c) 2020 Michael Dietrich
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ * */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +31,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
+using static DesktopNotifications.NotificationActivator;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -28,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static bool _registeredActivator;
 
         /// <summary>
-        /// If not running under the Desktop Bridge, you must call this method to register your AUMID with the Compat library and to
+        /// If you're not using MSIX or sparse packages, you must call this method to register your AUMID with the Compat library and to
         /// register your COM CLSID and EXE in LocalServer32 registry. Feel free to call this regardless, and we will no-op if running
         /// under Desktop Bridge. Call this upon application startup, before calling any other APIs.
         /// </summary>
@@ -78,18 +100,69 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <typeparam name="T">Your implementation of NotificationActivator. Must have GUID and ComVisible attributes on class.</typeparam>
         public static void RegisterActivator<T>()
-            where T : NotificationActivator
+            where T : NotificationActivator, new()
         {
-            // Register type
-            var regService = new RegistrationServices();
-
-            regService.RegisterTypeForComClients(
-                typeof(T),
-                RegistrationClassContext.LocalServer,
-                RegistrationConnectionType.MultipleUse);
+            // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
+            var uuid = typeof(T).GUID;
+            uint _cookie;
+            CoRegisterClassObject(uuid, new NotificationActivatorClassFactory<T>(), CLSCTX_LOCAL_SERVER,
+                REGCLS_MULTIPLEUSE, out _cookie);
 
             _registeredActivator = true;
         }
+
+        [ComImport]
+        [Guid("00000001-0000-0000-C000-000000000046")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        private interface IClassFactory
+        {
+            [PreserveSig]
+            int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject);
+
+            [PreserveSig]
+            int LockServer(bool fLock);
+        }
+
+        private const int CLASS_E_NOAGGREGATION = -2147221232;
+        private const int E_NOINTERFACE = -2147467262;
+        private const int CLSCTX_LOCAL_SERVER = 4;
+        private const int REGCLS_MULTIPLEUSE = 1;
+        private const int S_OK = 0;
+        private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
+
+        private class NotificationActivatorClassFactory<T> : IClassFactory where T : NotificationActivator, new()
+        {
+            public int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject)
+            {
+                ppvObject = IntPtr.Zero;
+
+                if (pUnkOuter != IntPtr.Zero)
+                    Marshal.ThrowExceptionForHR(CLASS_E_NOAGGREGATION);
+
+                if (riid == typeof(T).GUID || riid == IUnknownGuid)
+                    // Create the instance of the .NET object
+                    ppvObject = Marshal.GetComInterfaceForObject(new T(),
+                        typeof(INotificationActivationCallback));
+                else
+                    // The object that ppvObject points to does not support the
+                    // interface identified by riid.
+                    Marshal.ThrowExceptionForHR(E_NOINTERFACE);
+                return S_OK;
+            }
+
+            public int LockServer(bool fLock)
+            {
+                return S_OK;
+            }
+        }
+
+        [DllImport("ole32.dll")]
+        private static extern int CoRegisterClassObject(
+            [MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
+            [MarshalAs(UnmanagedType.IUnknown)] object pUnk,
+            uint dwClsContext,
+            uint flags,
+            out uint lpdwRegister);
 
         /// <summary>
         /// Creates a toast notifier. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer(string)"/> if you're a classic Win32 app), or this will throw an exception.
@@ -151,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Gets a value indicating whether http images can be used within toasts. This is true if running under Desktop Bridge.
+        /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (MSIX or sparse package).
         /// </summary>
         public static bool CanUseHttpImages
         {
