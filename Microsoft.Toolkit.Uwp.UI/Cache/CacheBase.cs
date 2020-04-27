@@ -390,7 +390,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             var folder = await GetCacheFolderAsync().ConfigureAwait(false);
-            var baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
+            var baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
 
             bool downloadDataFile = baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(false);
 
@@ -520,7 +520,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             try
             {
-                _cacheFolder = await _baseFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
+                _cacheFolder = await _baseFolder.CreateFolderAsync(_cacheFolderName, CreationCollisionOption.OpenIfExists);
             }
             finally
             {
