@@ -124,6 +124,7 @@
         <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
         <Setter Property="MinHeight" Value="28" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="SelectionHighlightColorWhenNotFocused" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
@@ -357,6 +358,7 @@
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
         <Setter Property="TokenSpacing" Value="{StaticResource TokenizingTextBoxTokenSpacing}" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+        <Setter Property="IsItemClickEnabled" Value="True"/>
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection />

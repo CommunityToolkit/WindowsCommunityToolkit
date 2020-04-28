@@ -49,8 +49,7 @@
             HorizontalAlignment="Stretch"
             QueryIcon="Find"
             TextMemberPath="Text"
-            TokenDelimiter=","
-            IsItemClickEnabled="True">
+            TokenDelimiter=",">
         <controls:TokenizingTextBox.TokenItemTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">

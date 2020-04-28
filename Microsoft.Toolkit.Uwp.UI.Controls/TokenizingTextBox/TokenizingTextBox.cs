@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private TextBox _autoSuggestTextBox;
         private bool _pauseTokenClearOnFocus = false;
         private bool _isSelectedFocusOnFirstCharacter = false;
+        private bool _isClearingForClick = false;
 
         /// <summary>
         /// Gets a value indicating whether the textbox caret is in the first position. False otherwise
@@ -65,12 +66,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(TokenizingTextBox);
 
-            // TODO: Do we want to support ItemsSource better? Need to investigate how that works with adding...
-            ////RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
-
-            PreviewKeyDown += this.TokenizingTextBox_PreviewKeyDown;
-            PreviewKeyUp += this.TokenizingTextBox_PreviewKeyUp;
+            PreviewKeyDown += TokenizingTextBox_PreviewKeyDown;
+            PreviewKeyUp += TokenizingTextBox_PreviewKeyUp;
             CharacterReceived += TokenizingTextBox_CharacterReceived;
+            ItemClick += TokenizingTextBox_ItemClick;
+
+            PointerMoved += TokenizingTextBox_PointerMoved;
+        }
+
+        private void TokenizingTextBox_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            // If the user taps an item in the list, make sure to clear any text selection as required
+            if (!IsControlPressed)
+            {
+                // Set class state flag to prevent click item being immediately deselected
+                _isClearingForClick = true;
+                _autoSuggestTextBox.SelectionLength = 0;
+            }
+        }
+
+        private void TokenizingTextBox_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
         }
 
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
@@ -204,8 +220,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        _autoSuggestTextBox.SelectionLength = 0;
-                        _autoSuggestTextBox.SelectionStart = 0;
+                        if (IsShiftPressed)
+                        {
+                            // Remove the current item from the selection list if its the only one
+                            // but don't clear selection text in the text box
+                            if (SelectedItems.Count == 1 && _autoSuggestTextBox.SelectionLength != 0)
+                            {
+                                SelectedItems.Remove(Items[previousIndex]);
+                            }
+                        }
+                        else
+                        {
+                            // Clear any selection in the text and in the items
+                            _autoSuggestTextBox.SelectionLength = 0;
+                            _autoSuggestTextBox.SelectionStart = 0;
+                        }
+
                         _autoSuggestTextBox.Focus(FocusState.Keyboard);
                         retVal = true;
                     }
@@ -252,10 +282,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Local function for Selection changed
             void AutoSuggestTextBox_SelectionChanged(object box, RoutedEventArgs args)
             {
-                if (!this.IsAllSelected && !IsShiftPressed)
+                if (!(IsAllSelected || IsShiftPressed || _isClearingForClick))
                 {
                     this.DeselectAll();
                 }
+
+                // Ensure flag is always reset
+                _isClearingForClick = false;
             }
 
             // local function for clearing selection on interaction with text box
