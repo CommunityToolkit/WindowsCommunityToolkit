@@ -45,6 +45,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public const string ToastActivatedLaunchArg = "-ToastActivated";
 
+        private const int CLASS_E_NOAGGREGATION = -2147221232;
+        private const int E_NOINTERFACE = -2147467262;
+        private const int CLSCTX_LOCAL_SERVER = 4;
+        private const int REGCLS_MULTIPLEUSE = 1;
+        private const int S_OK = 0;
+        private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
+
         private static bool _registeredAumidAndComServer;
         private static string _aumid;
         private static bool _registeredActivator;
@@ -104,9 +111,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
             var uuid = typeof(T).GUID;
-            uint _cookie;
-            CoRegisterClassObject(uuid, new NotificationActivatorClassFactory<T>(), CLSCTX_LOCAL_SERVER,
-                REGCLS_MULTIPLEUSE, out _cookie);
+            uint cookie;
+            CoRegisterClassObject(
+                uuid,
+                new NotificationActivatorClassFactory<T>(),
+                CLSCTX_LOCAL_SERVER,
+                REGCLS_MULTIPLEUSE,
+                out cookie);
 
             _registeredActivator = true;
         }
@@ -123,30 +134,33 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             int LockServer(bool fLock);
         }
 
-        private const int CLASS_E_NOAGGREGATION = -2147221232;
-        private const int E_NOINTERFACE = -2147467262;
-        private const int CLSCTX_LOCAL_SERVER = 4;
-        private const int REGCLS_MULTIPLEUSE = 1;
-        private const int S_OK = 0;
-        private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
-
-        private class NotificationActivatorClassFactory<T> : IClassFactory where T : NotificationActivator, new()
+        private class NotificationActivatorClassFactory<T> : IClassFactory
+            where T : NotificationActivator, new()
         {
+
             public int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject)
             {
                 ppvObject = IntPtr.Zero;
 
                 if (pUnkOuter != IntPtr.Zero)
+                {
                     Marshal.ThrowExceptionForHR(CLASS_E_NOAGGREGATION);
+                }
 
                 if (riid == typeof(T).GUID || riid == IUnknownGuid)
+                {
                     // Create the instance of the .NET object
-                    ppvObject = Marshal.GetComInterfaceForObject(new T(),
+                    ppvObject = Marshal.GetComInterfaceForObject(
+                        new T(),
                         typeof(INotificationActivationCallback));
+                }
                 else
+                {
                     // The object that ppvObject points to does not support the
                     // interface identified by riid.
                     Marshal.ThrowExceptionForHR(E_NOINTERFACE);
+                }
+
                 return S_OK;
             }
 
