@@ -137,7 +137,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private class NotificationActivatorClassFactory<T> : IClassFactory
             where T : NotificationActivator, new()
         {
-
             public int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject)
             {
                 ppvObject = IntPtr.Zero;
