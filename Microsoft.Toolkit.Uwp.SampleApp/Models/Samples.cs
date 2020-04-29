@@ -73,7 +73,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         if (sample.IsSupported)
                         {
                             finalSamples.Add(sample);
-                            await sample.PreparePropertyDescriptorAsync();
                         }
                     }
 
