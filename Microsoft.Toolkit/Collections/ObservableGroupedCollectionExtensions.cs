@@ -86,9 +86,9 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="value">The value to add.</param>
         /// <returns>The added <see cref="ObservableGroup{TKey, TValue}"/>.</returns>
         public static ObservableGroup<TKey, TValue> AddGroup<TKey, TValue>(
-        this ObservableGroupedCollection<TKey, TValue> source,
-        TKey key,
-        TValue value)
+            this ObservableGroupedCollection<TKey, TValue> source,
+            TKey key,
+            TValue value)
         => AddGroup(source, key, new[] { value });
 
         /// <summary>
