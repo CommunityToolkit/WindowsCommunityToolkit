@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Collections
         /// <returns>The first group matching <paramref name="key"/>.</returns>
         /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
         [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ObservableGroup<TKey, TValue> First<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
         {
             ObservableGroup<TKey, TValue>? group = source.FirstOrDefault(key);
@@ -70,6 +69,8 @@ namespace Microsoft.Toolkit.Collections
         /// <summary>
         /// Slow path for <see cref="First{TKey,TValue}"/>.
         /// </summary>
+        [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
         private static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq<TKey, TValue>(ObservableGroupedCollection<TKey, TValue> source, TKey key)
         {
             return source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
@@ -257,10 +258,36 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key)
         {
+            if (source.TryGetList(out var list))
+            {
+                var index = 0;
+                foreach (var group in list!)
+                {
+                    if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                    {
+                        source.RemoveAt(index);
+
+                        return;
+                    }
+
+                    index++;
+                }
+            }
+            else
+            {
+                RemoveGroupWithLinq(source, key);
+            }
+        }
+
+        /// <summary>
+        /// Slow path for <see cref="RemoveGroup{TKey,TValue}"/>.
+        /// </summary>
+        private static void RemoveGroupWithLinq<TKey, TValue>(ObservableGroupedCollection<TKey, TValue> source, TKey key)
+        {
             var index = 0;
             foreach (var group in source)
             {
-                if (GroupKeyPredicate(group, key))
+                if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                 {
                     source.RemoveAt(index);
                     return;
