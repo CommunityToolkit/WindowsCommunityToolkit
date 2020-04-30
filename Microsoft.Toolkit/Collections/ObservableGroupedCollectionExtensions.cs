@@ -4,7 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Collections
 {
@@ -22,8 +26,19 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="key">The key of the group to query.</param>
         /// <returns>The first group matching <paramref name="key"/>.</returns>
         /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ObservableGroup<TKey, TValue> First<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
-            => source.First(group => GroupKeyPredicate(group, key));
+        {
+            ObservableGroup<TKey, TValue>? group = source.FirstOrDefault(key);
+
+            if (group is null)
+            {
+                ThrowArgumentExceptionForKeyNotFound();
+            }
+
+            return group!;
+        }
 
         /// <summary>
         /// Return the first group with <paramref name="key"/> key or null if not found.
@@ -33,8 +48,32 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="source">The source <see cref="ObservableGroupedCollection{TKey, TValue}"/> instance.</param>
         /// <param name="key">The key of the group to query.</param>
         /// <returns>The first group matching <paramref name="key"/> or null.</returns>
-        public static ObservableGroup<TKey, TValue> FirstOrDefault<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
-            => source.FirstOrDefault(group => GroupKeyPredicate(group, key));
+        [Pure]
+        public static ObservableGroup<TKey, TValue>? FirstOrDefault<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+        {
+            if (source.TryGetList(out var list))
+            {
+                foreach (var group in list!)
+                {
+                    if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                    {
+                        return group;
+                    }
+                }
+
+                return null;
+            }
+
+            return FirstOrDefaultWithLinq(source, key);
+        }
+
+        /// <summary>
+        /// Slow path for <see cref="First{TKey,TValue}"/>.
+        /// </summary>
+        private static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq<TKey, TValue>(ObservableGroupedCollection<TKey, TValue> source, TKey key)
+        {
+            return source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
+        }
 
         /// <summary>
         /// Return the element at position <paramref name="index"/> from the first group with <paramref name="key"/> key.
@@ -47,6 +86,7 @@ namespace Microsoft.Toolkit.Collections
         /// <returns>The element.</returns>
         /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than zero or <paramref name="index"/> is greater than the group elements' count.</exception>
+        [Pure]
         public static TValue ElementAt<TKey, TValue>(
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
@@ -62,18 +102,21 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="key">The key of the group to query.</param>
         /// <param name="index">The index of the item from the targeted group.</param>
         /// <returns>The element or default(TValue) if it does not exist.</returns>
+        [Pure]
         public static TValue ElementAtOrDefault<TKey, TValue>(
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             int index)
         {
-            var existingGroup = source.FirstOrDefault(key);
-            if (existingGroup is null)
+            var group = source.FirstOrDefault(key);
+
+            if (group is null ||
+                (uint)index >= (uint)group.Count)
             {
-                return default;
+                return default!;
             }
 
-            return existingGroup.ElementAtOrDefault(index);
+            return group[index];
         }
 
         /// <summary>
@@ -89,7 +132,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             TValue value)
-        => AddGroup(source, key, new[] { value });
+            => AddGroup(source, key, new[] { value });
 
         /// <summary>
         /// Adds a key-collection <see cref="ObservableGroup{TKey, TValue}"/> item into a target <see cref="ObservableGroupedCollection{TKey, TValue}"/>.
@@ -141,15 +184,17 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             TValue item)
         {
-            var existingGroup = source.FirstOrDefault(key);
-            if (existingGroup is null)
+            var group = source.FirstOrDefault(key);
+
+            if (group is null)
             {
-                existingGroup = new ObservableGroup<TKey, TValue>(key);
-                source.Add(existingGroup);
+                group = new ObservableGroup<TKey, TValue>(key);
+                source.Add(group);
             }
 
-            existingGroup.Add(item);
-            return existingGroup;
+            group.Add(item);
+
+            return group;
         }
 
         /// <summary>
@@ -172,6 +217,7 @@ namespace Microsoft.Toolkit.Collections
         {
             var existingGroup = source.First(key);
             existingGroup.Insert(index, item);
+
             return existingGroup;
         }
 
@@ -195,6 +241,7 @@ namespace Microsoft.Toolkit.Collections
         {
             var existingGroup = source.First(key);
             existingGroup[index] = item;
+
             return existingGroup;
         }
 
@@ -295,5 +342,14 @@ namespace Microsoft.Toolkit.Collections
 
         private static bool GroupKeyPredicate<TKey, TValue>(ObservableGroup<TKey, TValue> group, TKey expectedKey)
             => EqualityComparer<TKey>.Default.Equals(group.Key, expectedKey);
+
+        /// <summary>
+        /// Throws a new <see cref="InvalidOperationException"/> when a key is not found.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowArgumentExceptionForKeyNotFound()
+        {
+            throw new InvalidOperationException("The requested key was not present in the collection");
+        }
     }
 }
