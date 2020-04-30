@@ -69,24 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PreviewKeyDown += TokenizingTextBox_PreviewKeyDown;
             PreviewKeyUp += TokenizingTextBox_PreviewKeyUp;
             CharacterReceived += TokenizingTextBox_CharacterReceived;
-            ItemClick += TokenizingTextBox_ItemClick;
-
-            PointerMoved += TokenizingTextBox_PointerMoved;
-        }
-
-        private void TokenizingTextBox_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            // If the user taps an item in the list, make sure to clear any text selection as required
-            if (!IsControlPressed)
-            {
-                // Set class state flag to prevent click item being immediately deselected
-                _isClearingForClick = true;
-                _autoSuggestTextBox.SelectionLength = 0;
-            }
-        }
-
-        private void TokenizingTextBox_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
         }
 
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
@@ -528,6 +510,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
+            void Tokenitem_ContentClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
+            {
+                // If the user taps an item in the list, make sure to clear any text selection as required
+                if (!IsControlPressed)
+                {
+                    // Set class state flag to prevent click item being immediately deselected
+                    _isClearingForClick = true;
+                    _autoSuggestTextBox.SelectionLength = 0;
+                }
+            }
+
             base.PrepareContainerForItemOverride(element, item);
 
             var tokenitem = element as TokenizingTextBoxItem;
@@ -541,6 +534,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             tokenitem.ClearAllAction -= Tokenitem_ClearAllAction;
             tokenitem.ClearAllAction += Tokenitem_ClearAllAction;
+
+            tokenitem.ContentClicked -= Tokenitem_ContentClicked;
+            tokenitem.ContentClicked += Tokenitem_ContentClicked;
 
             var menuFlyout = new MenuFlyout();
 

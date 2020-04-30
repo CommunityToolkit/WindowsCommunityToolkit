@@ -21,11 +21,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PART_ClearButton = "PART_ClearButton";
 
         private Button _clearButton;
+        private ContentPresenter _contentPresenter;
+        private bool IsClick = false;
 
         /// <summary>
         /// Event raised when the 'Clear' Button is clicked.
         /// </summary>
         public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ClearClicked;
+
+        /// <summary>
+        /// Event raised when the content is clicked.
+        /// </summary>
+        public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ContentClicked;
 
         /// <summary>
         /// Event raised when the delete key or a backspace is pressed.
@@ -71,12 +78,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _clearButton.Click -= ClearButton_Click;
             }
 
+            if (_contentPresenter != null)
+            {
+                _contentPresenter.PointerPressed -= ContentPresenter_PointerPressed;
+                _contentPresenter.PointerReleased -= ContentPresenter_PointerReleased;
+                _contentPresenter.PointerCanceled -= ContentPresenter_PointerCancel;
+                _contentPresenter.PointerExited -= ContentPresenter_PointerCancel;
+            }
+
             _clearButton = (Button)GetTemplateChild(PART_ClearButton);
+            _contentPresenter = (ContentPresenter)GetTemplateChild("ContentPresenter");
 
             if (_clearButton != null)
             {
                 _clearButton.Click += ClearButton_Click;
             }
+
+            if (_contentPresenter != null)
+            {
+                _contentPresenter.PointerPressed += ContentPresenter_PointerPressed;
+                _contentPresenter.PointerReleased += ContentPresenter_PointerReleased;
+                _contentPresenter.PointerCanceled += ContentPresenter_PointerCancel;
+                _contentPresenter.PointerExited += ContentPresenter_PointerCancel;
+            }
+        }
+
+        private void ContentPresenter_PointerCancel(object sender, PointerRoutedEventArgs e)
+        {
+            IsClick = false;
+        }
+
+        private void ContentPresenter_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            IsClick = true;
+        }
+
+        private void ContentPresenter_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsClick)
+            {
+                ContentClicked?.Invoke(this, e);
+            }
+
+            IsClick = false;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
