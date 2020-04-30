@@ -71,10 +71,10 @@ namespace Microsoft.Toolkit.Collections
         /// </summary>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq<TKey, TValue>(ObservableGroupedCollection<TKey, TValue> source, TKey key)
-        {
-            return source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
-        }
+        private static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq<TKey, TValue>(
+            ObservableGroupedCollection<TKey, TValue> source,
+            TKey key)
+            => source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
 
         /// <summary>
         /// Return the element at position <paramref name="index"/> from the first group with <paramref name="key"/> key.
