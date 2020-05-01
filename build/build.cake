@@ -102,6 +102,19 @@ void RetrieveVersion()
     Information("\nBuild Version: " + Version);
 }
 
+void UpdateToolsPath(MSBuildSettings buildSettings)
+{
+    // Workaround for https://github.com/cake-build/cake/issues/2128
+	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = true });
+
+	if (vsInstallation != null)
+	{
+		buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\Current\Bin\MSBuild.exe");
+		if (!FileExists(buildSettings.ToolPath))
+			buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\15.0\Bin\MSBuild.exe");
+	}
+}
+
 //////////////////////////////////////////////////////////////////////
 // DEFAULT TASK
 //////////////////////////////////////////////////////////////////////
@@ -161,15 +174,7 @@ Task("BuildProjects")
     .SetConfiguration("Release")
     .WithTarget("Restore");
 	
-	// Workaround for https://github.com/cake-build/cake/issues/2128
-	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = true });
-
-	if (vsInstallation != null)
-	{
-		buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\Current\Bin\MSBuild.exe");
-		if (!FileExists(buildSettings.ToolPath))
-			buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\15.0\Bin\MSBuild.exe");
-	}
+    UpdateToolsPath(buildSettings);
 
     MSBuild(Solution, buildSettings);
 
@@ -183,6 +188,8 @@ Task("BuildProjects")
     .SetConfiguration("Release")
     .WithTarget("Build")
     .WithProperty("GenerateLibraryLayout", "true");
+
+    UpdateToolsPath(buildSettings);
 
 	MSBuild(Solution, buildSettings);
 });
@@ -234,6 +241,8 @@ Task("Package")
     .WithProperty("GenerateLibraryLayout", "true")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
+    UpdateToolsPath(buildSettings);
+
     MSBuild(Solution, buildSettings);
 
 	// Build and pack C++ packages
@@ -242,6 +251,8 @@ Task("Package")
         MaxCpuCount = 0
     }
     .SetConfiguration("Native");
+
+    UpdateToolsPath(buildSettings);
 
 	// Ignored for now since WinUI3 alpha does not support ARM
     // buildSettings.SetPlatformTarget(PlatformTarget.ARM);
@@ -291,7 +302,7 @@ Task("Test")
 {
 	var vswhere = VSWhereLatest(new VSWhereLatestSettings
 	{
-		IncludePrerelease = false
+		IncludePrerelease = true
 	});
 
 	var testSettings = new VSTestSettings

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp5.0;net461</TargetFrameworks> <!-- TODO WinUI3 add netstandard1.4 and native back-->
+    <TargetFrameworks>net5.0;net461</TargetFrameworks> <!-- TODO WinUI3 add netstandard1.4 and native back-->
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
       This library provides UI components, such as XAML extensions, helpers, converters and more. It is part of the Windows Community Toolkit.
@@ -53,5 +53,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
-  
+
 </Project>

@@ -1,17 +1,13 @@
 <Project>
   <Choose>
-    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
-      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'net5.0'">
+      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'net5.0'">
         <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.0.200429.4" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.0.200501.4" />
         <!--<PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />-->
       </ItemGroup>
-
-      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
-        <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
-      </PropertyGroup>
     </When>
   </Choose>
 
