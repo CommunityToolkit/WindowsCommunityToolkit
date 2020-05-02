@@ -8,6 +8,18 @@
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.0.200501.4" />
         <!--<PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />-->
       </ItemGroup>
+      <ItemGroup>
+        <Page Update="**\*.xaml">
+          <Pack>true</Pack>
+          <PackagePath>lib\$(TargetFramework)\$(AssemblyName)</PackagePath>
+        </Page>
+      </ItemGroup>
+      <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName)\$(AssemblyName).xr.xml')">
+        <Resource Include="$(OutputPath)\$(AssemblyName)\$(AssemblyName).xr.xml">
+          <Pack>true</Pack>
+          <PackagePath>lib\$(TargetFramework)\$(AssemblyName)\$(AssemblyName).xr.xml</PackagePath>
+        </Resource>
+      </ItemGroup>
     </When>
   </Choose>
 
