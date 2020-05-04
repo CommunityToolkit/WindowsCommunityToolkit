@@ -17,18 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages
 
         public ThirdPage()
         {
-            Loaded += OnLoaded;
             this.InitializeComponent();
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
