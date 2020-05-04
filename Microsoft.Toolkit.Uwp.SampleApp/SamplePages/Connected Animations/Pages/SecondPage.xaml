@@ -39,7 +39,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="data:PhotoDataItem">
                     <Grid Height="200" Width="200">
-                        <Image x:Name="ItemThumbnail" Source="{Binding Thumbnail}" Stretch="UniformToFill"/>
+                        <Image x:Name="ItemThumbnail" Source="{x:Bind Thumbnail}" Stretch="UniformToFill"/>
                         <Border Background="#99FFFFFF" VerticalAlignment="Bottom" Padding="5">
                             <TextBlock Text="{x:Bind Title}" FontSize="14"/>
                         </Border>
