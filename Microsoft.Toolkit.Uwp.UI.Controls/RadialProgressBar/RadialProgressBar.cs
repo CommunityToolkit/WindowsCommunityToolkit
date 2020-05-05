@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the Outline dependency property
         /// </summary>
-        public static readonly DependencyProperty OutlineProperty = DependencyProperty.Register(nameof(Outline), typeof(Brush), typeof(RadialProgressBar), new PropertyMetadata(new SolidColorBrush(Windows.UI.Colors.Transparent)));
+        public static readonly DependencyProperty OutlineProperty = DependencyProperty.Register(nameof(Outline), typeof(Brush), typeof(RadialProgressBar), new PropertyMetadata(new SolidColorBrush(Microsoft.UI.Colors.Transparent)));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialProgressBar"/> class.

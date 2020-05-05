@@ -1119,17 +1119,24 @@
                                         HorizontalContentAlignment="Stretch"
                                         Grid.Column="2"/>
 
-                                    <!-- Top nav list -->
-                                    <winui:NavigationViewList AutomationProperties.LandmarkType="Navigation" x:Name="TopNavMenuItemsHost" Grid.Column="3" SelectionMode="Single" IsItemClickEnabled="True" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SingleSelectionFollowsFocus="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SingleSelectionFollowsFocus}">
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                        <ListView.ItemContainerTransitions>
-                                            <TransitionCollection />
-                                        </ListView.ItemContainerTransitions>
-                                    </winui:NavigationViewList>
+                                    <!-- Top nav ItemsRepeater -->
+                                    <winui:ItemsRepeaterScrollHost Grid.Column="3">
+                                        <ScrollViewer
+                                            HorizontalScrollMode="Disabled"
+                                            HorizontalScrollBarVisibility="Hidden"
+                                            VerticalScrollMode="Disabled"
+                                            VerticalScrollBarVisibility="Hidden">
+                                            <winui:ItemsRepeater 
+                                                AutomationProperties.LandmarkType="Navigation"
+                                                AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
+                                                AutomationProperties.AccessibilityView = "Content"
+                                                x:Name="TopNavMenuItemsHost">
+                                                <winui:ItemsRepeater.Layout>
+                                                    <winui:StackLayout Orientation="Horizontal"/>
+                                                </winui:ItemsRepeater.Layout>
+                                            </winui:ItemsRepeater>
+                                        </ScrollViewer>
+                                    </winui:ItemsRepeaterScrollHost>
 
                                     <Button 
                                         x:Name="TopNavOverflowButton"
@@ -1151,11 +1158,17 @@
                                                         <Setter Property="Margin" Value="0,-4,0,0" />
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
-                                                <winui:NavigationViewList x:Name="TopNavMenuItemsOverflowHost" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" SingleSelectionFollowsFocus="False" IsItemClickEnabled="True">
-                                                    <ListView.ItemContainerTransitions>
-                                                        <TransitionCollection />
-                                                    </ListView.ItemContainerTransitions>
-                                                </winui:NavigationViewList>
+                                                <winui:ItemsRepeaterScrollHost>
+                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                        <winui:ItemsRepeater
+                                                            AutomationProperties.AccessibilityView = "Content"
+                                                            x:Name="TopNavMenuItemsOverflowHost">
+                                                            <winui:ItemsRepeater.Layout>
+                                                                <winui:StackLayout Orientation="Vertical"/>
+                                                            </winui:ItemsRepeater.Layout>
+                                                        </winui:ItemsRepeater>
+                                                    </ScrollViewer>
+                                                </winui:ItemsRepeaterScrollHost>
                                             </Flyout>
                                         </Button.Flyout>
                                     </Button>
@@ -1282,8 +1295,24 @@
                                             HorizontalContentAlignment="Stretch"
                                             Grid.Row="4" />
 
-                                        <!-- Left nav list -->
-                                        <winui:NavigationViewList x:Name="MenuItemsHost" Grid.Row="6" SingleSelectionFollowsFocus="False" Margin="0,0,0,20" SelectionMode="Single" IsItemClickEnabled="True" HorizontalAlignment="Stretch" SelectedItem="{TemplateBinding SelectedItem}" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" />
+                                        <!-- Left nav ItemsRepeater -->
+                                        <winui:ItemsRepeaterScrollHost
+                                            Grid.Row="6"
+                                            Margin="0,0,0,20"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Top">
+                                            <ScrollViewer
+                                                VerticalScrollBarVisibility="Auto">
+                                                <winui:ItemsRepeater 
+                                                    x:Name="MenuItemsHost"
+                                                    AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
+                                                        AutomationProperties.AccessibilityView = "Content">
+                                                    <winui:ItemsRepeater.Layout>
+                                                        <winui:StackLayout Orientation="Vertical"/>
+                                                    </winui:ItemsRepeater.Layout>
+                                                </winui:ItemsRepeater>
+                                            </ScrollViewer>
+                                        </winui:ItemsRepeaterScrollHost>
 
                                         <ContentControl
                                             x:Name="FooterContentBorder"

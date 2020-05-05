@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Common
@@ -12,9 +11,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is Duration dur)
+            if (value is TimeSpan tSpan)
             {
-                return dur.TimeSpan.TotalMilliseconds;
+                return tSpan.TotalMilliseconds;
             }
 
             return value;
@@ -24,10 +23,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
         {
             if (value is double milliseconds)
             {
-                return DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(milliseconds));
+                return TimeSpan.FromMilliseconds(milliseconds);
             }
 
-            return DurationHelper.FromTimeSpan(TimeSpan.MinValue);
+            return TimeSpan.MinValue;
         }
     }
 }

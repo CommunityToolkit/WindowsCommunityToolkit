@@ -511,19 +511,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Saturation.md"
       },
       {
-        "Name": "Light",
-        "Type": "LightBehaviorPage",
-        "Subcategory": "Behavior",
-        "About": "The Light effect will be removed in a future major release",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The Light effect will be removed in a future major release",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "LightBehaviorCode.bind",
-        "XamlCodeFile": "LightBehaviorXaml.bind",
-        "Icon": "/SamplePages/Light/LightBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Light.md"
-      },
-      {
         "Name": "FadeHeader",
         "Type": "FadeHeaderBehaviorPage",
         "Subcategory": "Effect",
@@ -636,17 +623,6 @@
     "Name": "Services",
     "Icon": "Icons/Services.png",
     "Samples": [
-      {
-        "Name": "Facebook Service",
-        "Type": "FacebookPage",
-        "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
-        "CodeFile": "FacebookCode.bind",
-        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "These helpers will be removed in the next release.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
-      },
       {
         "Name": "Microsoft Graph Service",
         "About": "These providers help you easily authenticate and connect to the Microsoft Graph.",
@@ -1007,7 +983,7 @@
       {
         "Name": "ViewExtensions",
         "Type": "ViewExtensionsPage",
-        "About": "View extensions to set StatusBar and TitleBar properties.",
+        "About": "View extensions to set TitleBar properties.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions",
         "XamlCodeFile": "ViewExtensionsCode.bind",
         "Icon": "/SamplePages/ViewExtensions/ViewExtensions.png",

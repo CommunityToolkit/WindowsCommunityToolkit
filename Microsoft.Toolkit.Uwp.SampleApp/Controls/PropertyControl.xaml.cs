@@ -202,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     }
 
                     controlToAdd.SetBinding(dependencyProperty, binding);
-                    controlToAdd.Margin = ThicknessHelper.FromLengths(0, 5, 0, 20);
+                    controlToAdd.Margin = new Thickness(0, 5, 0, 20);
                     RootPanel.Children.Add(controlToAdd);
                 }
             }

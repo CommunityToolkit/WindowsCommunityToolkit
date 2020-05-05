@@ -10,15 +10,11 @@
       extensions:TitleBarExtensions.ForegroundColor="White"
       extensions:TitleBarExtensions.ButtonBackgroundColor="CornflowerBlue"
       extensions:TitleBarExtensions.ButtonForegroundColor="White"
-      extensions:StatusBarExtensions.BackgroundColor="CornflowerBlue"
-      extensions:StatusBarExtensions.BackgroundOpacity="0.8"
-      extensions:StatusBarExtensions.ForegroundColor="White"
-      extensions:StatusBarExtensions.IsVisible="False"
       mc:Ignorable="d">
 
   <Grid>
     <TextBlock Margin="16">
-      Modify the XAML to change the Title and (mobile) Status bars.
+      Modify the XAML to change the Title bars.
     </TextBlock>
   </Grid>
 </Page>

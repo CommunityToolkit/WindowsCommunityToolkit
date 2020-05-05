@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             XamlCodeRenderer.Options.GlyphMargin = true;
 
-            var range = new Range(error.StartLine, 1, error.EndLine, await XamlCodeRenderer.GetModel().GetLineMaxColumnAsync(error.EndLine));
+            var range = new Monaco.Range(error.StartLine, 1, error.EndLine, await XamlCodeRenderer.GetModel().GetLineMaxColumnAsync(error.EndLine));
 
             // Highlight Error Line
             XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(

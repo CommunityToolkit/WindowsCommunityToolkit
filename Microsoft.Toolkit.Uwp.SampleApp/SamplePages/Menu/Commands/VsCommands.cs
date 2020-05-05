@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.UI.Xaml.Input;
+using System.Windows.Input;
 using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 #pragma warning restore SA1649 // File name must match first type name
     {
 #pragma warning disable CS0067 // An event was declared but never used in the class in which it was declared.
-        public event EventHandler<object> CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 #pragma warning restore CS0067 // An event was declared but never used in the class in which it was declared.
 
         public bool CanExecute(object parameter)
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 #pragma warning restore SA1402 // File may only contain a single class
     {
 #pragma warning disable CS0067 // An event was declared but never used in the class in which it was declared.
-        public event EventHandler<object> CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 #pragma warning restore CS0067 // An event was declared but never used in the class in which it was declared.
 
         public bool CanExecute(object parameter)
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 #pragma warning restore SA1402 // File may only contain a single class
     {
 #pragma warning disable CS0067 // An event was declared but never used in the class in which it was declared.
-        public event EventHandler<object> CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 #pragma warning restore CS0067 // An event was declared but never used in the class in which it was declared.
 
         public bool CanExecute(object parameter)

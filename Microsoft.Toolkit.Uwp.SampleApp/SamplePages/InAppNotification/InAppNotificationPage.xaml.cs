@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -64,18 +64,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 var grid = new Grid()
                 {
-                    Margin = ThicknessHelper.FromLengths(0, 0, -38, 0)
+                    Margin = new Thickness(0, 0, -38, 0)
                 };
 
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLengthHelper.FromValueAndType(1, GridUnitType.Star) });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLengthHelper.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
                 // Text part
                 var textBlock = new TextBlock
                 {
                     Text = "Do you like it?",
                     VerticalAlignment = VerticalAlignment.Center,
-                    Margin = ThicknessHelper.FromLengths(0, 0, 24, 0),
+                    Margin = new Thickness(0, 0, 24, 0),
                     FontSize = 16
                 };
                 grid.Children.Add(textBlock);
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     Width = 120,
                     Height = 40,
                     FontSize = 16,
-                    Margin = ThicknessHelper.FromLengths(4, 0, 0, 0)
+                    Margin = new Thickness(4, 0, 0, 0)
                 };
                 noButton.Click += NoButton_Click;
                 stackPanel.Children.Add(noButton);
@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 #pragma warning restore SA1402 // File may only contain a single class
     {
 #pragma warning disable CS0067 // An event was declared but never used in the class in which it was declared.
-        public event EventHandler<object> CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 #pragma warning restore CS0067 // An event was declared but never used in the class in which it was declared.
 
         public bool CanExecute(object parameter)

@@ -207,12 +207,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (itemContainer.Content != CurrentSample && itemIndex >= 0 && itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
             {
-                var staggerDelay = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(relativeIndex * 30));
+                var staggerDelay = TimeSpan.FromMilliseconds(relativeIndex * 30);
 
                 var animationCollection = new AnimationCollection()
                 {
-                    new OpacityAnimation() { From = 0, To = 1, Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(400)), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
-                    new ScaleAnimation() { From = "0.9", To = "1", Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(400)), Delay = staggerDelay }
+                    new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
+                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
                 };
 
                 VisualExtensions.SetNormalizedCenterPoint(itemContainer, "0.5");
@@ -226,10 +226,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
             if (panel != null)
             {
-                var animation = new OpacityAnimation() { To = 0, Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(1200)) };
+                var animation = new OpacityAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(1200) };
                 animation.StartAnimation(panel);
 
-                var parentAnimation = new ScaleAnimation() { To = "1", Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(1200)) };
+                var parentAnimation = new ScaleAnimation() { To = "1", Duration = TimeSpan.FromMilliseconds(1200) };
                 parentAnimation.StartAnimation(panel.Parent as UIElement);
             }
         }
@@ -242,10 +242,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (panel != null)
                 {
                     panel.Visibility = Visibility.Visible;
-                    var animation = new OpacityAnimation() { To = 1, Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(600)) };
+                    var animation = new OpacityAnimation() { To = 1, Duration = TimeSpan.FromMilliseconds(600) };
                     animation.StartAnimation(panel);
 
-                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(600)) };
+                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = TimeSpan.FromMilliseconds(600) };
                     parentAnimation.StartAnimation(panel.Parent as UIElement);
                 }
             }

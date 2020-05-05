@@ -29,7 +29,6 @@
       - ScaleTransformExtensions: Extension methods for ScaleTransform.
       - ScrollViewerExtensions: Provides attached dependency properties for the ListViewBase
       - SkewTransformExtensions: Extension methods for SkewTransform.
-      - StatusBarExtensions: Provides attached dependency properties for interacting with the StatusBar on a window (app view).
       - SurfaceDialTextbox: Helper class that provides attached properties to enable any TextBox with the Surface Dial.
       - TextBoxMask: TextBox mask property allows a user to more easily enter fixed width text in TextBox control.
       - TextBoxRegex: TextBoxRegex allows text validation using a regular expression.

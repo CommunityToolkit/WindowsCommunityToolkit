@@ -104,7 +104,7 @@
   
   <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.WinUI">
-      <Version>3.0.0-preview1.200501.0-nightly</Version>
+      <Version>3.0.0-preview1.200504.8-CI</Version>
     </PackageReference>
   </ItemGroup>
 

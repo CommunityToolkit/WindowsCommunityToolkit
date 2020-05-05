@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return ThicknessHelper.FromLengths(0, (double)value, 0, 0);
+            return new Thickness(0, (double)value, 0, 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
