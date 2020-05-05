@@ -19,11 +19,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// InfiniteCanvas is a canvas that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.
     /// </summary>
+    [TemplatePart(Name = CanvasTextBoxToolsName, Type = typeof(StackPanel))]
+    [TemplatePart(Name = CanvasTextBoxColorPickerName, Type = typeof(ColorPicker))]
+    [TemplatePart(Name = CanvasTextBoxFontSizeTextBoxName, Type = typeof(TextBox))]
+    [TemplatePart(Name = CanvasTextBoxItalicButtonName, Type = typeof(ToggleButton))]
+    [TemplatePart(Name = CanvasTextBoxBoldButtonName, Type = typeof(ToggleButton))]
+    [TemplatePart(Name = DrawingSurfaceRendererName, Type = typeof(InfiniteCanvasVirtualDrawingSurface))]
+    [TemplatePart(Name = MainContainerName, Type = typeof(Canvas))]
+    [TemplatePart(Name = InfiniteCanvasScrollViewerName, Type = typeof(ScrollViewer))]
+    [TemplatePart(Name = EraseAllButtonName, Type = typeof(Button))]
+    [TemplatePart(Name = CanvasTextBoxName, Type = typeof(InfiniteCanvasTextBox))]
+    [TemplatePart(Name = EnableTextButtonName, Type = typeof(InkToolbarCustomToolButton))]
+    [TemplatePart(Name = EnableTouchInkingButtonName, Type = typeof(InkToolbarCustomToggleButton))]
+    [TemplatePart(Name = InkCanvasToolBarName, Type = typeof(InkToolbar))]
+    [TemplatePart(Name = CanvasToolbarContainerName, Type = typeof(StackPanel))]
+    [TemplatePart(Name = DrawingInkCanvasName, Type = typeof(InkCanvas))]
+    [TemplatePart(Name = UndoButtonName, Type = typeof(Button))]
+    [TemplatePart(Name = RedoButtonName, Type = typeof(Button))]
+    [TemplatePart(Name = FontColorIconName, Type = typeof(FontIcon))]
     public partial class InfiniteCanvas : Control
     {
         private const double DefaultMaxZoomFactor = 4.0;
         private const double DefaultMinZoomFactor = .25;
         private const double LargeCanvasWidthHeight = 1 << 21;
+
+        private const string CanvasTextBoxToolsName = "CanvasTextBoxTools";
+        private const string CanvasTextBoxColorPickerName = "CanvasTextBoxColorPicker";
+        private const string CanvasTextBoxFontSizeTextBoxName = "CanvasTextBoxFontSizeTextBox";
+        private const string CanvasTextBoxItalicButtonName = "CanvasTextBoxItalicButton";
+        private const string CanvasTextBoxBoldButtonName = "CanvasTextBoxBoldButton";
+        private const string DrawingSurfaceRendererName = "DrawingSurfaceRenderer";
+        private const string MainContainerName = "MainContainer";
+        private const string InfiniteCanvasScrollViewerName = "InfiniteCanvasScrollViewer";
+        private const string EraseAllButtonName = "EraseAllButton";
+        private const string CanvasTextBoxName = "CanvasTextBox";
+        private const string EnableTextButtonName = "EnableTextButton";
+        private const string EnableTouchInkingButtonName = "EnableTouchInkingButton";
+        private const string InkCanvasToolBarName = "InkCanvasToolBar";
+        private const string CanvasToolbarContainerName = "CanvasToolbarContainer";
+        private const string DrawingInkCanvasName = "DrawingInkCanvas";
+        private const string UndoButtonName = "UndoButton";
+        private const string RedoButtonName = "RedoButton";
+        private const string FontColorIconName = "FontColorIcon";
 
         private InkCanvas _inkCanvas;
         private InfiniteCanvasVirtualDrawingSurface _drawingSurfaceRenderer;
@@ -35,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ColorPicker _canvasTextBoxColorPicker;
 
         private TextBox _canvasTextBoxFontSizeTextBox;
-        private ToggleButton _canvasTextBoxItlaicButton;
+        private ToggleButton _canvasTextBoxItalicButton;
         private ToggleButton _canvasTextBoxBoldButton;
         private Button _undoButton;
         private Button _redoButton;
@@ -163,25 +200,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
-            _canvasTextBoxTools = (StackPanel)GetTemplateChild("CanvasTextBoxTools");
-            _canvasTextBoxColorPicker = (ColorPicker)GetTemplateChild("CanvasTextBoxColorPicker");
-            _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild("CanvasTextBoxFontSizeTextBox");
-            _canvasTextBoxItlaicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItlaicButton");
-            _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild("CanvasTextBoxBoldButton");
-            _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild("DrawingSurfaceRenderer");
-            _mainContainer = (Canvas)GetTemplateChild("MainContainer");
-            _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild("InfiniteCanvasScrollViewer");
-            _eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
-            _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
-            _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
-            _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild("EnableTouchInkingButton");
-            _inkCanvasToolBar = (InkToolbar)GetTemplateChild("InkCanvasToolBar");
-            _canvasToolbarContainer = (StackPanel)GetTemplateChild("CanvasToolbarContainer");
+            _canvasTextBoxTools = (StackPanel)GetTemplateChild(CanvasTextBoxToolsName);
+            _canvasTextBoxColorPicker = (ColorPicker)GetTemplateChild(CanvasTextBoxColorPickerName);
+            _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild(CanvasTextBoxFontSizeTextBoxName);
+            _canvasTextBoxItalicButton = (ToggleButton)GetTemplateChild(CanvasTextBoxItalicButtonName);
+            _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild(CanvasTextBoxBoldButtonName);
+            _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild(DrawingSurfaceRendererName);
+            _mainContainer = (Canvas)GetTemplateChild(MainContainerName);
+            _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild(InfiniteCanvasScrollViewerName);
+            _eraseAllButton = (Button)GetTemplateChild(EraseAllButtonName);
+            _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild(CanvasTextBoxName);
+            _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild(EnableTextButtonName);
+            _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild(EnableTouchInkingButtonName);
+            _inkCanvasToolBar = (InkToolbar)GetTemplateChild(InkCanvasToolBarName);
+            _canvasToolbarContainer = (StackPanel)GetTemplateChild(CanvasToolbarContainerName);
 
-            _inkCanvas = (InkCanvas)GetTemplateChild("DrawingInkCanvas");
-            _undoButton = (Button)GetTemplateChild("UndoButton");
-            _redoButton = (Button)GetTemplateChild("RedoButton");
-            _fontColorIcon = (FontIcon)GetTemplateChild("FontColorIcon");
+            _inkCanvas = (InkCanvas)GetTemplateChild(DrawingInkCanvasName);
+            _undoButton = (Button)GetTemplateChild(UndoButtonName);
+            _redoButton = (Button)GetTemplateChild(RedoButtonName);
+            _fontColorIcon = (FontIcon)GetTemplateChild(FontColorIconName);
 
             UnRegisterEvents();
             RegisterEvents();
@@ -204,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnRegisterEvents()
         {
             _canvasTextBoxFontSizeTextBox.TextChanged -= CanvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Click -= CanvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxItalicButton.Click -= CanvasTextBoxItalicButton_Clicked;
             _canvasTextBoxBoldButton.Click -= CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged -= CanvasTextBoxColorPicker_ColorChanged;
             _enableTouchInkingButton.Checked -= EnableTouchInkingButton_Checked;
@@ -228,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RegisterEvents()
         {
             _canvasTextBoxFontSizeTextBox.TextChanged += CanvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Click += CanvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxItalicButton.Click += CanvasTextBoxItalicButton_Clicked;
             _canvasTextBoxBoldButton.Click += CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged += CanvasTextBoxColorPicker_ColorChanged;
             _enableTouchInkingButton.Checked += EnableTouchInkingButton_Checked;

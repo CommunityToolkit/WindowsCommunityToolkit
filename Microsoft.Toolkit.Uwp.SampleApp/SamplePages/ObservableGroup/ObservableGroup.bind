@@ -1,0 +1,40 @@
+﻿// Grab a sample type
+public class Person
+{
+    public string Name { get; set; }
+}
+
+// Set up the original list with a few sample items
+var contacts = new[]
+{
+    new Person { Name = "Staff" },
+    new Person { Name = "Swan" },
+    new Person { Name = "Orchid" },
+    new Person { Name = "Flame" },
+    new Person { Name = "Arrow" },
+    new Person { Name = "Tempest" },
+    new Person { Name = "Pearl" },
+    new Person { Name = "Hydra" },
+    new Person { Name = "Lamp Post" },
+    new Person { Name = "Looking Glass" },
+};
+
+// Group the contacts by first letter
+var grouped = contacts.GroupBy(GetGroupName).OrderBy(g => g.Key);
+
+// Create an observable grouped collection
+var contactsSource = new ObservableGroupedCollection<string, Person>(grouped);
+
+// Create a read-only observable grouped collection
+// Note: This step is optional. It is usually used in view models to expose the collection as read-only and prevent the view from altering it.
+var readonlyContacts = new ReadOnlyObservableGroupedCollection<string, Person>(contactsSource);
+
+// Set up the CollectionViewSource
+var cvs = new CollectionViewSource
+{
+    IsSourceGrouped = True,
+    Source = readonlyContacts,
+};
+
+// Bind the CollectionViewSource to anything that supports grouped collections.
+ContactsList.ItemsSource = cvs.View;
