@@ -37,9 +37,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.ThrowExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Box{T}.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Test_NullableReadOnlyByReference{T}.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Test_NullableByReference{T}.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Test_ByReference{T}.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Test_ReadOnlyByReference{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_NullableReadOnlyRef{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_NullableRef{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Ref{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_ReadOnlyRef{T}.cs" />
   </ItemGroup>
 </Project>

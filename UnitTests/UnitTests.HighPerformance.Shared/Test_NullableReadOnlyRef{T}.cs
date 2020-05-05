@@ -14,38 +14,34 @@ namespace UnitTests.HighPerformance
 {
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
-    public class Test_NullableByReferenceOfT
+    public class Test_NullableReadOnlyRefOfT
     {
-        [TestCategory("NullableByReferenceOfT")]
+        [TestCategory("NullableReadOnlyRefOfT")]
         [TestMethod]
-        public void Test_ByReferenceOfT_CreateNullableByReferenceOfT_Ok()
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_Ok()
         {
             int value = 1;
-            var reference = new NullableByReference<int>(ref value);
+            var reference = new NullableReadOnlyRef<int>(value);
 
             Assert.IsTrue(reference.HasValue);
-            Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
-
-            reference.Value++;
-
-            Assert.AreEqual(value, 2);
+            Assert.IsTrue(Unsafe.AreSame(ref value, ref Unsafe.AsRef(reference.Value)));
         }
 
-        [TestCategory("NullableByReferenceOfT")]
+        [TestCategory("NullableReadOnlyRefOfT")]
         [TestMethod]
-        public void Test_ByReferenceOfT_CreateNullableByReferenceOfT_Null()
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_Null()
         {
-            NullableByReference<int> reference = default;
+            NullableReadOnlyRef<int> reference = default;
 
             Assert.IsFalse(reference.HasValue);
         }
 
-        [TestCategory("NullableByReferenceOfT")]
+        [TestCategory("NullableReadOnlyRefOfT")]
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void Test_ByReferenceOfT_CreateNullableByReferenceOfT_Null_Exception()
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_Null_Exception()
         {
-            NullableByReference<int> reference = default;
+            NullableReadOnlyRef<int> reference = default;
 
             _ = reference.Value;
         }

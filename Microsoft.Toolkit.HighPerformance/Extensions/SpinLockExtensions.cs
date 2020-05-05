@@ -137,9 +137,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public ref struct Lock
         {
             /// <summary>
-            /// The <see cref="ByReference{T}"/> instance pointing to the target <see cref="SpinLock"/> value to use.
+            /// The <see cref="Ref{T}"/> instance pointing to the target <see cref="SpinLock"/> value to use.
             /// </summary>
-            private readonly ByReference<SpinLock> spinLock;
+            private readonly Ref<SpinLock> spinLock;
 
             /// <summary>
             /// A value indicating whether or not the lock is taken by this <see cref="Lock"/> instance.
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public Lock(ref SpinLock spinLock)
             {
-                this.spinLock = new ByReference<SpinLock>(ref spinLock);
+                this.spinLock = new Ref<SpinLock>(ref spinLock);
                 this.lockTaken = false;
 
                 spinLock.Enter(ref this.lockTaken);
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public Lock(object owner, ref SpinLock spinLock)
             {
-                this.spinLock = new ByReference<SpinLock>(owner, ref spinLock);
+                this.spinLock = new Ref<SpinLock>(owner, ref spinLock);
                 this.lockTaken = false;
 
                 spinLock.Enter(ref this.lockTaken);

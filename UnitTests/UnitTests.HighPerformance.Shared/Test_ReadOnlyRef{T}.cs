@@ -11,15 +11,15 @@ namespace UnitTests.HighPerformance
 {
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
-    public class Test_ReadOnlyByReferenceT
+    public class Test_ReadOnlyRefOfT
     {
-        [TestCategory("ReadOnlyByReferenceT")]
+        [TestCategory("ReadOnlyRefOfT")]
         [TestMethod]
 #if NETCOREAPP2_1 || WINDOWS_UWP
-        public void Test_ByReferenceOfT_CreateByReferenceOfT()
+        public void Test_RefOfT_CreateRefOfT()
         {
             var model = new ReadOnlyFieldOwner();
-            var reference = new ReadOnlyByReference<int>(model, model.Value);
+            var reference = new ReadOnlyRef<int>(model, model.Value);
 
             Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(model.Value), ref Unsafe.AsRef(reference.Value)));
         }
@@ -33,10 +33,10 @@ namespace UnitTests.HighPerformance
             public readonly int Value = 1;
         }
 #else
-        public void Test_ByReferenceOfT_CreateByReferenceOfT()
+        public void Test_RefOfT_CreateRefOfT()
         {
             int value = 1;
-            var reference = new ReadOnlyByReference<int>(value);
+            var reference = new ReadOnlyRef<int>(value);
 
             Assert.IsTrue(Unsafe.AreSame(ref value, ref Unsafe.AsRef(reference.Value)));
         }

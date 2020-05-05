@@ -15,7 +15,7 @@
       - BitHelper: a class with helper methods to perform bit operations on numeric types.
       - ParallelHelper: helpers to work with parallel code in a highly optimized manner.
       - Box&lt;T&gt;: a type mapping boxed value types and exposing some utility and high performance methods.
-      - ByReference&lt;T&gt;: a stack-only struct that can store a reference to a value of a specified type.
+      - Ref&lt;T&gt;: a stack-only struct that can store a reference to a value of a specified type.
     </Description>
     <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
 

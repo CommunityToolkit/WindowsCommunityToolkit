@@ -11,15 +11,15 @@ namespace UnitTests.HighPerformance
 {
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
-    public class Test_ByReferenceOfT
+    public class Test_RefOfT
     {
-        [TestCategory("ByReferenceOfT")]
+        [TestCategory("RefOfT")]
         [TestMethod]
 #if NETCOREAPP2_1 || WINDOWS_UWP
-        public void Test_ByReferenceOfT_CreateByReferenceOfT()
+        public void Test_RefOfT_CreateRefOfT()
         {
             var model = new FieldOwner { Value = 1 };
-            var reference = new ByReference<int>(model, ref model.Value);
+            var reference = new Ref<int>(model, ref model.Value);
 
             Assert.IsTrue(Unsafe.AreSame(ref model.Value, ref reference.Value));
 
@@ -37,10 +37,10 @@ namespace UnitTests.HighPerformance
             public int Value;
         }
 #else
-        public void Test_ByReferenceOfT_CreateByReferenceOfT()
+        public void Test_RefOfT_CreateRefOfT()
         {
             int value = 1;
-            var reference = new ByReference<int>(ref value);
+            var reference = new Ref<int>(ref value);
 
             Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
 

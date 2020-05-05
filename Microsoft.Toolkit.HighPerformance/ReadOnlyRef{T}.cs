@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance
     /// </summary>
     /// <typeparam name="T">The type of value to reference.</typeparam>
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
-    public readonly ref struct ReadOnlyByReference<T>
+    public readonly ref struct ReadOnlyRef<T>
     {
 #if NETSTANDARD2_1
         /// <summary>
@@ -25,11 +25,11 @@ namespace Microsoft.Toolkit.HighPerformance
         private readonly ReadOnlySpan<T> span;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyByReference{T}"/> struct.
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
         /// </summary>
         /// <param name="value">The readonly reference to the target <typeparamref name="T"/> value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ReadOnlyByReference(in T value)
+        public ReadOnlyRef(in T value)
         {
             ref T r0 = ref Unsafe.AsRef(value);
 
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="ByReference{T}"/> instance.
+        /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
         /// </summary>
         public ref readonly T Value
         {
@@ -46,13 +46,13 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Implicitly converts a <see cref="ByReference{T}"/> instance into a <see cref="ReadOnlyByReference{T}"/> one.
+        /// Implicitly converts a <see cref="Ref{T}"/> instance into a <see cref="ReadOnlyRef{T}"/> one.
         /// </summary>
-        /// <param name="reference">The input <see cref="ByReference{T}"/> instance.</param>
+        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ReadOnlyByReference<T>(ByReference<T> reference)
+        public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
-            return new ReadOnlyByReference<T>(reference.Value);
+            return new ReadOnlyRef<T>(reference.Value);
         }
 #else
         /// <summary>
@@ -66,26 +66,26 @@ namespace Microsoft.Toolkit.HighPerformance
         private readonly IntPtr offset;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyByReference{T}"/> struct.
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="offset">The target offset within <paramref name="owner"/> for the target reference.</param>
         /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ReadOnlyByReference(object owner, IntPtr offset)
+        private ReadOnlyRef(object owner, IntPtr offset)
         {
             this.owner = owner;
             this.offset = offset;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyByReference{T}"/> struct.
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="value">The target reference to point to (it must be within <paramref name="owner"/>).</param>
         /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ReadOnlyByReference(object owner, in T value)
+        public ReadOnlyRef(object owner, in T value)
         {
             this.owner = owner;
 
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="ByReference{T}"/> instance.
+        /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
         /// </summary>
         public ref readonly T Value
         {
@@ -114,22 +114,22 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Implicitly converts a <see cref="ByReference{T}"/> instance into a <see cref="ReadOnlyByReference{T}"/> one.
+        /// Implicitly converts a <see cref="Ref{T}"/> instance into a <see cref="ReadOnlyRef{T}"/> one.
         /// </summary>
-        /// <param name="reference">The input <see cref="ByReference{T}"/> instance.</param>
+        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ReadOnlyByReference<T>(ByReference<T> reference)
+        public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
-            return new ReadOnlyByReference<T>(reference.Owner, reference.Offset);
+            return new ReadOnlyRef<T>(reference.Owner, reference.Offset);
         }
 #endif
 
         /// <summary>
-        /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="ReadOnlyByReference{T}"/> instance.
+        /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="ReadOnlyRef{T}"/> instance.
         /// </summary>
-        /// <param name="reference">The input <see cref="ReadOnlyByReference{T}"/> instance.</param>
+        /// <param name="reference">The input <see cref="ReadOnlyRef{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator T(ReadOnlyByReference<T> reference)
+        public static implicit operator T(ReadOnlyRef<T> reference)
         {
             return reference.Value;
         }

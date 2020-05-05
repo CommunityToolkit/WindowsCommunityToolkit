@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.HighPerformance
     /// </summary>
     /// <typeparam name="T">The type of value to reference.</typeparam>
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
-    public readonly ref struct ByReference<T>
+    public readonly ref struct Ref<T>
     {
 #if NETSTANDARD2_1
         /// <summary>
@@ -23,17 +23,17 @@ namespace Microsoft.Toolkit.HighPerformance
         private readonly Span<T> span;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByReference{T}"/> struct.
+        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
         /// </summary>
         /// <param name="value">The reference to the target <typeparamref name="T"/> value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ByReference(ref T value)
+        public Ref(ref T value)
         {
             span = MemoryMarshal.CreateSpan(ref value, 1);
         }
 
         /// <summary>
-        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="ByReference{T}"/> instance.
+        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
         /// </summary>
         public ref T Value
         {
@@ -56,13 +56,13 @@ namespace Microsoft.Toolkit.HighPerformance
         internal readonly IntPtr Offset;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByReference{T}"/> struct.
+        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="value">The target reference to point to (it must be within <paramref name="owner"/>).</param>
         /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ByReference(object owner, ref T value)
+        public Ref(object owner, ref T value)
         {
             this.Owner = owner;
 
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="ByReference{T}"/> instance.
+        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
         /// </summary>
         public ref T Value
         {
@@ -91,11 +91,11 @@ namespace Microsoft.Toolkit.HighPerformance
 #endif
 
         /// <summary>
-        /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="ByReference{T}"/> instance.
+        /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="Ref{T}"/> instance.
         /// </summary>
-        /// <param name="reference">The input <see cref="ByReference{T}"/> instance.</param>
+        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator T(ByReference<T> reference)
+        public static implicit operator T(Ref<T> reference)
         {
             return reference.Value;
         }
