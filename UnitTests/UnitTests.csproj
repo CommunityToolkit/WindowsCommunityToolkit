@@ -123,6 +123,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ObservableGroupedCollectionExtensionsTests.cs" />
     <Compile Include="Converters\Test_AdaptiveHeightValueConverter.cs" />
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
