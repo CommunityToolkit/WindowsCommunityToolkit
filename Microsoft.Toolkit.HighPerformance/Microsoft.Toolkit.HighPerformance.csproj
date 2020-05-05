@@ -32,7 +32,7 @@
   <!-- Always import the Unsafe type even on .NET Standard 2.1, so that the 5.0.0 version can be used.
        This is necessary to be able to use the Unsafe.Unbox<T>(object) API, which is otherwise missing. -->
   <ItemGroup>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0-preview.2.20160.6" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
   </ItemGroup>
 
 </Project>
