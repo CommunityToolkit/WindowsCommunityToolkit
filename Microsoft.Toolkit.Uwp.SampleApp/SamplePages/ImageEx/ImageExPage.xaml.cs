@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private int imageIndex;
         private StackPanel container;
         private ResourceDictionary resources;
+        private Border lazyLoadingControlHost;
 
         public ImageExPage()
         {
@@ -33,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
             container = control.FindChildByName("Container") as StackPanel;
             resources = control.Resources;
+            lazyLoadingControlHost = control.FindChildByName("LazyLoadingControlHost") as Border;
         }
 
         private async void Load()
@@ -66,6 +68,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 AddImage(false, false, true);
             });
+
+            if (ImageExBase.IsLazyLoadingSupported)
+            {
+                SampleController.Current.RegisterNewCommand("Lazy loading sample (17763 or higher supported)", (sender, args) =>
+                {
+                    var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
+                    imageExLazyLoadingControl.CloseButtonClick += (s, a) =>
+                    {
+                        if (lazyLoadingControlHost != null)
+                        {
+                            lazyLoadingControlHost.Child = null;
+                        }
+                    };
+
+                    if (lazyLoadingControlHost != null)
+                    {
+                        lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                    }
+                });
+            }
 
             SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
             {

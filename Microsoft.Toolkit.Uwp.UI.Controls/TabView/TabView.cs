@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
@@ -70,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<TabDraggedOutsideEventArgs> TabDraggedOutside;
 
         /// <summary>
-        /// Occurs when a tab's Close button is clicked.  Set <see cref="TabClosingEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
+        /// Occurs when a tab's Close button is clicked.  Set <see cref="CancelEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
         /// </summary>
         public event EventHandler<TabClosingEventArgs> TabClosing;
 
@@ -191,6 +192,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var tabitem = element as TabViewItem;
 
+            tabitem.Loaded -= TabViewItem_Loaded;
+            tabitem.Closing -= TabViewItem_Closing;
             tabitem.Loaded += TabViewItem_Loaded;
             tabitem.Closing += TabViewItem_Closing;
 

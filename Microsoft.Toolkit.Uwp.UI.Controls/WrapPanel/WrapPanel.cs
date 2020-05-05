@@ -99,6 +99,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(WrapPanel),
                 new PropertyMetadata(default(Thickness), LayoutPropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating how to arrange child items
+        /// </summary>
+        public StretchChild StretchChild
+        {
+            get { return (StretchChild)GetValue(StretchChildProperty); }
+            set { SetValue(StretchChildProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="StretchChild"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="StretchChild"/> dependency property.</returns>
+        public static readonly DependencyProperty StretchChildProperty =
+            DependencyProperty.Register(
+                nameof(StretchChild),
+                typeof(StretchChild),
+                typeof(WrapPanel),
+                new PropertyMetadata(StretchChild.None, LayoutPropertyChanged));
+
         private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WrapPanel wp)
@@ -179,42 +199,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
-            var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
-            var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
-            var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
-
-            double currentV = 0;
-            foreach (var child in Children)
+            if (Children.Count > 0)
             {
-                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if (desiredMeasure.U == 0)
+                var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
+                var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+                var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
+                var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
+                var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
+
+                double currentV = 0;
+                void Arrange(UIElement child, bool isLast = false)
                 {
-                    continue; // if an item is collapsed, avoid adding the spacing
+                    var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                    if (desiredMeasure.U == 0)
+                    {
+                        return; // if an item is collapsed, avoid adding the spacing
+                    }
+
+                    if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
+                    {
+                        // next row!
+                        position.U = paddingStart.U;
+                        position.V += currentV + spacingMeasure.V;
+                        currentV = 0;
+                    }
+
+                    // Stretch the last item to fill the available space
+                    if (isLast)
+                    {
+                        desiredMeasure.U = parentMeasure.U - position.U;
+                    }
+
+                    // place the item
+                    if (Orientation == Orientation.Horizontal)
+                    {
+                        child.Arrange(new Rect(position.U, position.V, desiredMeasure.U, desiredMeasure.V));
+                    }
+                    else
+                    {
+                        child.Arrange(new Rect(position.V, position.U, desiredMeasure.V, desiredMeasure.U));
+                    }
+
+                    // adjust the location for the next items
+                    position.U += desiredMeasure.U + spacingMeasure.U;
+                    currentV = Math.Max(desiredMeasure.V, currentV);
                 }
 
-                if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
+                var lastIndex = Children.Count - 1;
+                for (var i = 0; i < lastIndex; i++)
                 {
-                    // next row!
-                    position.U = paddingStart.U;
-                    position.V += currentV + spacingMeasure.V;
-                    currentV = 0;
+                    Arrange(Children[i]);
                 }
 
-                // place the item
-                if (Orientation == Orientation.Horizontal)
-                {
-                    child.Arrange(new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height));
-                }
-                else
-                {
-                    child.Arrange(new Rect(position.V, position.U, child.DesiredSize.Width, child.DesiredSize.Height));
-                }
-
-                // adjust the location for the next items
-                position.U += desiredMeasure.U + spacingMeasure.U;
-                currentV = Math.Max(desiredMeasure.V, currentV);
+                Arrange(Children[lastIndex], StretchChild == StretchChild.Last);
             }
 
             return finalSize;

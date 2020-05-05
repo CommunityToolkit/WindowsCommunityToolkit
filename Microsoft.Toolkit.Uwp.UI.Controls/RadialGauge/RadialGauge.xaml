@@ -108,7 +108,6 @@
                                            FontSize="20"
                                            FontWeight="SemiBold"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Value}"
                                            TextAlignment="Center" />
                                 <TextBlock Margin="0"
                                            FontSize="16"

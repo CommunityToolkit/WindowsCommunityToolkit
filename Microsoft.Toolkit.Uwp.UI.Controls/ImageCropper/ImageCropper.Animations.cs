@@ -97,7 +97,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rectKeyframes = new List<DiscreteObjectKeyFrame>();
             var step = TimeSpan.FromMilliseconds(10);
-            var total = duration.TotalMilliseconds;
             var startPointFrom = new Point(from.X, from.Y);
             var endPointFrom = new Point(from.X + from.Width, from.Y + from.Height);
             var startPointTo = new Point(to.X, to.Y);

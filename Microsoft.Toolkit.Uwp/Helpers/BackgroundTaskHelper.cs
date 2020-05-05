@@ -63,8 +63,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             // build the background task
-            BackgroundTaskBuilder builder = new BackgroundTaskBuilder();
-            builder.Name = backgroundTaskName;
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
+            {
+                Name = backgroundTaskName
+            };
 
             // check if we are registering in SPM mode
             if (backgroundTaskEntryPoint != string.Empty)

@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Notifications
 {
@@ -38,7 +38,7 @@ namespace UnitTests.Notifications
 #endif
             });
         }
-        
+
         [TestMethod]
         public void Test_Adaptive_Text_HintStyle_Values()
         {
@@ -77,7 +77,7 @@ namespace UnitTests.Notifications
             AssertAdaptiveTextAlign("center", AdaptiveTextAlign.Center);
             AssertAdaptiveTextAlign("right", AdaptiveTextAlign.Right);
         }
-        
+
         private static void AssertAdaptiveTextAlign(string expectedPropertyValue, AdaptiveTextAlign align)
         {
             AssertAdaptiveTextPropertyValue("hint-align", expectedPropertyValue, new AdaptiveText()
@@ -116,19 +116,21 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Adaptive_Text_HintMaxLines_BelowMin()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                new AdaptiveText() { HintMaxLines = 0 };
-            }, "ArgumentOutOfRangeExceptions should have been thrown.");
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
+                () =>
+                {
+                    new AdaptiveText() { HintMaxLines = 0 };
+                }, "ArgumentOutOfRangeExceptions should have been thrown.");
         }
 
         [TestMethod]
         public void Test_Adaptive_Text_HintMaxLines_AboveMax()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                new AdaptiveText() { HintMaxLines = -54 };
-            }, "ArgumentOutOfRangeExceptions should have been thrown.");
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
+                () =>
+                {
+                    new AdaptiveText() { HintMaxLines = -54 };
+                }, "ArgumentOutOfRangeExceptions should have been thrown.");
         }
 
         [TestMethod]
@@ -161,19 +163,21 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Adaptive_Text_HintMinLines_BelowMin()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                new AdaptiveText() { HintMinLines = 0 };
-            }, "ArgumentOutOfRangeExceptions should have been thrown.");
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
+                () =>
+                {
+                    new AdaptiveText() { HintMinLines = 0 };
+                }, "ArgumentOutOfRangeExceptions should have been thrown.");
         }
 
         [TestMethod]
         public void Test_Adaptive_Text_HintMinLines_AboveMax()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                new AdaptiveText() { HintMinLines = -54 };
-            }, "ArgumentOutOfRangeExceptions should have been thrown.");
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
+                () =>
+                {
+                    new AdaptiveText() { HintMinLines = -54 };
+                }, "ArgumentOutOfRangeExceptions should have been thrown.");
         }
 
         [TestMethod]
@@ -213,10 +217,11 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Adaptive_Image_Defaults()
         {
-            Assert.ThrowsException<NullReferenceException>(() =>
-            {
-                AssertAdaptiveChild("exception should be thrown", new AdaptiveImage());
-            }, "NullReferenceException should have been thrown.");
+            Assert.ThrowsException<NullReferenceException>(
+                () =>
+                {
+                    AssertAdaptiveChild("exception should be thrown", new AdaptiveImage());
+                }, "NullReferenceException should have been thrown.");
         }
 
         [TestMethod]
@@ -246,13 +251,14 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Adaptive_Image_Source_Null()
         {
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                new AdaptiveImage()
+            Assert.ThrowsException<ArgumentNullException>(
+                () =>
                 {
-                    Source = null
-                };
-            }, "ArgumentNullException should have been thrown.");
+                    new AdaptiveImage()
+                    {
+                        Source = null
+                    };
+                }, "ArgumentNullException should have been thrown.");
         }
 
         [TestMethod]
@@ -350,7 +356,9 @@ namespace UnitTests.Notifications
             string xml = $"<image {expectedPropertyName}='{expectedPropertyValue}'";
 
             if (addedSource)
+            {
                 xml += " src='img.png'";
+            }
 
             xml += "/>";
 
@@ -360,10 +368,11 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Adaptive_Group_Defaults()
         {
-            Assert.ThrowsException<InvalidOperationException>(() =>
-            {
-                AssertAdaptiveChild("exception should be thrown since groups need at least one subgroup child", new AdaptiveGroup());
-            }, "InvalidOperationException should have been thrown.");
+            Assert.ThrowsException<InvalidOperationException>(
+                () =>
+                {
+                    AssertAdaptiveChild("exception should be thrown since groups need at least one subgroup child", new AdaptiveGroup());
+                }, "InvalidOperationException should have been thrown.");
         }
 
         [TestMethod]
@@ -441,25 +450,27 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Adaptive_Subgroup_HintWeight_JustBelowMin()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                AssertAdaptiveSubgroup("exception should be thrown", new AdaptiveSubgroup()
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
+                () =>
                 {
-                    HintWeight = 0
-                });
-            }, "ArgumentOutOfRangeException should have been thrown.");
+                    AssertAdaptiveSubgroup("exception should be thrown", new AdaptiveSubgroup()
+                    {
+                        HintWeight = 0
+                    });
+                }, "ArgumentOutOfRangeException should have been thrown.");
         }
 
         [TestMethod]
         public void Test_Adaptive_Subgroup_HintWeight_BelowMin()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                AssertAdaptiveSubgroup("exception should be thrown", new AdaptiveSubgroup()
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
+                () =>
                 {
-                    HintWeight = -53
-                });
-            }, "ArgumentOutOfRangeException should have been thrown.");
+                    AssertAdaptiveSubgroup("exception should be thrown", new AdaptiveSubgroup()
+                    {
+                        HintWeight = -53
+                    });
+                }, "ArgumentOutOfRangeException should have been thrown.");
         }
 
         [TestMethod]

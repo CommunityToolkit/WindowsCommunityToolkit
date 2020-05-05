@@ -1537,7 +1537,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Figure out which slots actually need to be expanded since some might already be collapsed
             double currentHeightChange = 0;
             int firstSlot = startSlot;
-            int lastSlot = endSlot;
+            int lastSlot;
             while (firstSlot <= endSlot)
             {
                 firstSlot = _collapsedSlotsTable.GetNextIndex(firstSlot - 1);
@@ -1553,9 +1553,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (!isHeaderDisplayed)
                     {
                         // Estimate the height change if the slots aren't displayed.  If they are displayed, we can add real values
-                        double headerHeight = 0;
                         double rowCount = lastSlot - firstSlot + 1;
-                        rowCount -= GetRowGroupHeaderCount(firstSlot, lastSlot, Visibility.Collapsed, out headerHeight);
+                        rowCount -= GetRowGroupHeaderCount(firstSlot, lastSlot, Visibility.Collapsed, out var headerHeight);
                         double detailsCount = GetDetailsCountInclusive(firstSlot, lastSlot);
                         currentHeightChange += headerHeight + (detailsCount * this.RowDetailsHeightEstimate) + (rowCount * this.RowHeightEstimate);
                     }
@@ -1747,9 +1746,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Returns an estimate for the height of the slots between fromSlot and toSlot
         private double GetHeightEstimate(int fromSlot, int toSlot)
         {
-            double headerHeight = 0;
             double rowCount = toSlot - fromSlot + 1;
-            rowCount -= GetRowGroupHeaderCount(fromSlot, toSlot, Visibility.Visible, out headerHeight);
+            rowCount -= GetRowGroupHeaderCount(fromSlot, toSlot, Visibility.Visible, out var headerHeight);
             double detailsCount = GetDetailsCountInclusive(fromSlot, toSlot);
 
             return headerHeight + (detailsCount * this.RowDetailsHeightEstimate) + (rowCount * this.RowHeightEstimate);
@@ -2706,6 +2704,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CorrectSlotsAfterDeletion(slot, isRow);
 
             OnRemovedElement(slot, item, isRow);
+
+            // Synchronize CurrentCellCoordinates, CurrentColumn, CurrentColumnIndex, CurrentItem
+            // and CurrentSlot with the currently edited cell, since OnRemovingElement called
+            // SetCurrentCellCore(-1, -1) to temporarily reset the current cell.
+            if (_temporarilyResetCurrentCell &&
+                _editingColumnIndex != -1 &&
+                _previousCurrentItem != null &&
+                this.EditingRow != null &&
+                this.EditingRow.Slot != -1)
+            {
+                ProcessSelectionAndCurrency(
+                    columnIndex: _editingColumnIndex,
+                    item: _previousCurrentItem,
+                    backupSlot: this.EditingRow.Slot,
+                    action: DataGridSelectionAction.None,
+                    scrollIntoView: false);
+            }
         }
 
         private void RemoveNonDisplayedRows(int newFirstDisplayedSlot, int newLastDisplayedSlot)

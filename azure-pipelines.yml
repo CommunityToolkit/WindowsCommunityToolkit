@@ -7,7 +7,7 @@ pr:
 - rel/*
 
 pool:
-  vmImage: vs2017-win2016
+  vmImage: windows-2019
 
 variables: 
   BuildConfiguration: Release
@@ -15,15 +15,29 @@ variables:
 steps:
 - task: BatchScript@1
   inputs:
-    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
     arguments: -no_logo
     modifyEnvironment: true
   displayName: Setup Environment Variables
   
 - task: NuGetToolInstaller@0
-  displayName: Use NuGet 4.7.0
+  displayName: Use NuGet 5.0.0
   inputs:
-    versionSpec: 4.7.0
+    versionSpec: 5.0.0
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '2.1.202' # This SDK contains .Net Core 2.0.9, which we still need to run some of our .Net Core Tests
+    performMultiLevelLookup: true
+  displayName: Use .NET Core sdk 2
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.200'
+    performMultiLevelLookup: true
+  displayName: Use .NET Core sdk 3
 
 - task: DotNetCoreCLI@2  
   inputs:
@@ -35,11 +49,24 @@ steps:
 - script: nbgv cloud
   displayName: Set Version
 
-- powershell: .\build\Install-WindowsSdkISO.ps1 17763
-  displayName: Insider SDK
+#- powershell: .\build\Install-WindowsSdkISO.ps1 17763
+#  displayName: Insider SDK
+
+- powershell: .\build\build.ps1 -target=Build
+  displayName: Build
+
+- powershell: .\build\build.ps1 -target=Test
+  displayName: Test
 
 - powershell: .\build\build.ps1 -target=Package
-  displayName: Build 
+  displayName: Package
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/VsTestResults*.trx'
+  displayName: Publish Test Results
+  condition: succeededOrFailed()
 
 - task: PowerShell@2
   displayName: Authenticode Sign Packages
