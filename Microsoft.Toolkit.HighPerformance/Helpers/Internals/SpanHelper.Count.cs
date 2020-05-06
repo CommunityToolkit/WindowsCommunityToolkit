@@ -138,8 +138,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
             IntPtr offset = default;
 
-            // Only run the SIMD-enabled branch if the Vector<T> APIs are hardware accelerated
-            if (Vector.IsHardwareAccelerated)
+            // Skip the initialization overhead if there are not enough items
+            if ((byte*)length >= (byte*)Vector<T>.Count)
             {
                 var partials = Vector<T>.Zero;
                 var vc = new Vector<T>(value);
@@ -164,7 +164,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                 if ((byte*)length <= (byte*)threshold)
                 {
-                    while ((byte*)length >= (byte*)Vector<T>.Count)
+                    // There are always enough items for one iteration
+                    do
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
@@ -184,10 +185,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                         length -= Vector<T>.Count;
                         offset += Vector<T>.Count;
                     }
+                    while ((byte*)length >= (byte*)Vector<T>.Count);
                 }
                 else
                 {
-                    for (int j = 0; (byte*)length >= (byte*)Vector<T>.Count; j++)
+                    int j = 0;
+
+                    // Same as before, just with the added overflow check
+                    do
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
@@ -196,21 +201,55 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                         partials -= ve;
 
-                        length -= Vector<T>.Count;
-                        offset += Vector<T>.Count;
-
-                        // Additional checks to avoid overflows
                         if (j == threshold)
                         {
                             j = 0;
                             result += CastToInt(Vector.Dot(partials, Vector<T>.One));
                             partials = Vector<T>.Zero;
                         }
+
+                        length -= Vector<T>.Count;
+                        offset += Vector<T>.Count;
+
+                        j++;
                     }
+                    while ((byte*)length >= (byte*)Vector<T>.Count);
                 }
 
                 // Compute the horizontal sum of the partial results
                 result += CastToInt(Vector.Dot(partials, Vector<T>.One));
+            }
+
+            // Optional 8 unrolled iterations. This is only done when a single SIMD
+            // register can contain over 8 values of the current type, as otherwise
+            // there could never be enough items left after the vectorized path
+            if (Vector<T>.Count > 8 &&
+                (byte*)length >= (byte*)8)
+            {
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 4).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 5).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToInt();
+
+                length -= 8;
+                offset += 8;
+            }
+
+            // Optional 4 unrolled iterations
+            if (Vector<T>.Count > 4 &&
+                (byte*)length >= (byte*)4)
+            {
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
+
+                length -= 4;
+                offset += 4;
             }
 
             // Iterate over the remaining values and count those that match
