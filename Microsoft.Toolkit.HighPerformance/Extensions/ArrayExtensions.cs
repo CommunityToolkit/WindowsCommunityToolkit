@@ -3,9 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCORE_RUNTIME
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 #nullable enable
@@ -26,12 +29,28 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to perform checks in case the returned value is dereferenced.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1131", Justification = "JIT bounds check elimination")]
         public static ref T DangerousGetReference<T>(this T[] array)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArrayData>(array);
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 
             return ref r0;
+#else
+            // Checking the length of the array like so allows the JIT
+            // to skip its own bounds check, which results in the element
+            // access below to be executed without branches.
+            if (0u < (uint)array.Length)
+            {
+                return ref array[0];
+            }
+
+            unsafe
+            {
+                return ref Unsafe.AsRef<T>(null);
+            }
+#endif
         }
 
         /// <summary>
@@ -46,13 +65,26 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArrayData>(array);
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
             ref T ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
+#else
+            if ((uint)i < (uint)array.Length)
+            {
+                return ref array[i];
+            }
+
+            unsafe
+            {
+                return ref Unsafe.AsRef<T>(null);
+            }
+#endif
         }
 
+#if NETCORE_RUNTIME
         // Description taken from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
         // CLR arrays are laid out in memory as follows (multidimensional array bounds are optional):
         // [ sync block || pMethodTable || num components || MD array bounds || array data .. ]
@@ -72,6 +104,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #pragma warning restore CS0649
 #pragma warning restore SA1401
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given value into a target <typeparamref name="T"/> array instance.
