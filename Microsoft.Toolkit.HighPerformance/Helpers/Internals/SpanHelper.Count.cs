@@ -90,8 +90,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // Main loop with 8 unrolled iterations
             while ((byte*)length >= (byte*)8)
             {
-                length -= 8;
-
                 result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
                 result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
                 result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
@@ -101,28 +99,27 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToInt();
                 result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToInt();
 
+                length -= 8;
                 offset += 8;
             }
 
             if ((byte*)length >= (byte*)4)
             {
-                length -= 4;
-
                 result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
                 result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
                 result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
                 result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
 
+                length -= 4;
                 offset += 4;
             }
 
             // Iterate over the remaining values and count those that match
             while ((byte*)length > (byte*)0)
             {
-                length -= 1;
-
                 result += Unsafe.Add(ref r0, offset).Equals(value).ToInt();
 
+                length -= 1;
                 offset += 1;
             }
 

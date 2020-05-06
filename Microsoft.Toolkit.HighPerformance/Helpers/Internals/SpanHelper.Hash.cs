@@ -31,8 +31,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
             while ((byte*)length >= (byte*)8)
             {
-                length -= 8;
-
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
@@ -42,27 +40,26 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 6).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 7).GetHashCode());
 
+                length -= 8;
                 offset += 8;
             }
 
             if ((byte*)length >= (byte*)4)
             {
-                length -= 4;
-
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 3).GetHashCode());
 
+                length -= 4;
                 offset += 4;
             }
 
             while ((byte*)length > (byte*)0)
             {
-                length -= 1;
-
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset).GetHashCode());
 
+                length -= 1;
                 offset += 1;
             }
 
@@ -96,6 +93,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // iteration of the vectorized path. This heuristics is to balance
             // the overhead of loading the constant values in the two registers,
             // and the final loop to combine the partial hash values.
+            // Note that even when we use the vectorized path we don't need to do
+            // any preprocessing to try to get memory aligned, as that would cause
+            // the hashcodes to potentially be different for the same data.
             if (Vector.IsHardwareAccelerated &&
                 (byte*)length >= (byte*)(Vector<byte>.Count << 3))
             {
