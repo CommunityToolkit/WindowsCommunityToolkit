@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             ref T r0 = ref Unsafe.AsRef(value);
 
-            span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
+            this.span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.HighPerformance
             get
             {
                 // See comment in NullableRef<T> about this
-                byte length = unchecked((byte)span.Length);
+                byte length = unchecked((byte)this.span.Length);
 
                 return Unsafe.As<byte, bool>(ref length);
             }
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance
                     ThrowNullReferenceException();
                 }
 
-                return ref MemoryMarshal.GetReference(span);
+                return ref MemoryMarshal.GetReference(this.span);
             }
         }
 

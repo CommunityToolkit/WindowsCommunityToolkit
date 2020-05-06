@@ -5,7 +5,11 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+#if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+#else
+using Microsoft.Toolkit.HighPerformance.Extensions;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance
 {
@@ -29,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Ref(ref T value)
         {
-            span = MemoryMarshal.CreateSpan(ref value, 1);
+            this.span = MemoryMarshal.CreateSpan(ref value, 1);
         }
 
         /// <summary>
@@ -38,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(span);
+            get => ref MemoryMarshal.GetReference(this.span);
         }
 #else
         /// <summary>
@@ -64,13 +68,8 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Ref(object owner, ref T value)
         {
-            this.Owner = owner;
-
-            var data = Unsafe.As<RawObjectData>(owner);
-            ref byte r0 = ref data.Data;
-            ref byte r1 = ref Unsafe.As<T, byte>(ref value);
-
-            Offset = Unsafe.ByteOffset(ref r0, ref r1);
+            Owner = owner;
+            Offset = owner.DangerousGetObjectDataByteOffset(ref value);
         }
 
         /// <summary>
@@ -79,14 +78,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                var data = Unsafe.As<RawObjectData>(Owner);
-                ref byte r0 = ref data.Data;
-                ref byte r1 = ref Unsafe.AddByteOffset(ref r0, Offset);
-
-                return ref Unsafe.As<byte, T>(ref r1);
-            }
+            get => ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
         }
 #endif
 
@@ -99,25 +91,5 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             return reference.Value;
         }
-    }
-
-    // Description adapted from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
-    // CLR objects are laid out in memory as follows:
-    // [ sync block || pMethodTable || raw data .. ]
-    //                 ^               ^
-    //                 |               \-- ref Unsafe.As<RawObjectData>(owner).Data
-    //                 \-- object
-    // The reference to RawObjectData.Data points to the first data byte in the
-    // target object, skipping over the sync block, method table and string length.
-    // This type is not nested to avoid creating multiple generic types.
-    [StructLayout(LayoutKind.Explicit)]
-    internal sealed class RawObjectData
-    {
-#pragma warning disable CS0649 // Unassigned fields
-#pragma warning disable SA1401 // Fields should be private
-        [FieldOffset(0)]
-        public byte Data;
-#pragma warning restore CS0649
-#pragma warning restore SA1401
     }
 }

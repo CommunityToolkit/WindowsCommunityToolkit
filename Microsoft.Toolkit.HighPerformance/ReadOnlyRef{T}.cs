@@ -5,6 +5,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Extensions;
+
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #endif
@@ -33,7 +35,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             ref T r0 = ref Unsafe.AsRef(value);
 
-            span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
+            this.span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(span);
+            get => ref MemoryMarshal.GetReference(this.span);
         }
 
         /// <summary>
@@ -88,13 +90,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ReadOnlyRef(object owner, in T value)
         {
             this.owner = owner;
-
-            ref T valueRef = ref Unsafe.AsRef(value);
-            var data = Unsafe.As<RawObjectData>(owner);
-            ref byte r0 = ref data.Data;
-            ref byte r1 = ref Unsafe.As<T, byte>(ref valueRef);
-
-            offset = Unsafe.ByteOffset(ref r0, ref r1);
+            this.offset = owner.DangerousGetObjectDataByteOffset(ref Unsafe.AsRef(value));
         }
 
         /// <summary>
@@ -103,14 +99,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                var data = Unsafe.As<RawObjectData>(owner);
-                ref byte r0 = ref data.Data;
-                ref byte r1 = ref Unsafe.AddByteOffset(ref r0, offset);
-
-                return ref Unsafe.As<byte, T>(ref r1);
-            }
+            get => ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
         }
 
         /// <summary>

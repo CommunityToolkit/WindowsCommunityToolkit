@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public NullableRef(ref T value)
         {
-            span = MemoryMarshal.CreateSpan(ref value, 1);
+            this.span = MemoryMarshal.CreateSpan(ref value, 1);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance
                  * also account for the byte endianness of the current system),
                  * and then reinterpret that value to a bool flag.
                  * This results in a single movzx instruction on x86-64. */
-                byte length = unchecked((byte)span.Length);
+                byte length = unchecked((byte)this.span.Length);
 
                 return Unsafe.As<byte, bool>(ref length);
             }
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.HighPerformance
                     ThrowNullReferenceException();
                 }
 
-                return ref MemoryMarshal.GetReference(span);
+                return ref MemoryMarshal.GetReference(this.span);
             }
         }
 
