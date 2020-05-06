@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static IntPtr DangerousGetObjectDataByteOffset<T>(this object obj, ref T data)
+        public static IntPtr DangerousGetObjectDataByteOffset<T>(this object obj, ref T data)
         {
             var rawObj = Unsafe.As<RawObjectData>(obj);
             ref byte r0 = ref rawObj.Data;
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ref T DangerousGetObjectDataReferenceAt<T>(this object obj, IntPtr offset)
+        public static ref T DangerousGetObjectDataReferenceAt<T>(this object obj, IntPtr offset)
         {
             var rawObj = Unsafe.As<RawObjectData>(obj);
             ref byte r0 = ref rawObj.Data;
