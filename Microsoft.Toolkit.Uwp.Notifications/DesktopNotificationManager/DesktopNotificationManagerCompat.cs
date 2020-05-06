@@ -2,27 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-/*
- * License for the RegisterActivator portion of code from FrecherxDachs
-The MIT License (MIT)
-Copyright (c) 2020 Michael Dietrich
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
- * */
-
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -98,6 +77,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // We also wrap EXE path in quotes for extra security
             key.SetValue(null, '"' + exePath + '"' + " " + ToastActivatedLaunchArg);
         }
+
+        
+        /*
+        * RegisterActivator code and all internal dependencies is from FrecherxDachs.
+        * See entry #2 in ThirdPartyNotices.txt in root repository directory for full license. */
 
         /// <summary>
         /// Registers the activator type as a COM server client so that Windows can launch your activator.
