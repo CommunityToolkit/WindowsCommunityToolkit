@@ -53,9 +53,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         public ArrayPoolBufferWriter()
         {
-            /* Since we're using pooled arrays, we can rent the buffer with the
-             * default size immediately, we don't need to use lazy initialization
-             * to save unnecessary memory allocations in this case. */
+            // Since we're using pooled arrays, we can rent the buffer with the
+            // default size immediately, we don't need to use lazy initialization
+            // to save unnecessary memory allocations in this case.
             this.array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize);
             this.index = 0;
         }
@@ -86,16 +86,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         Memory<T> IMemoryOwner<T>.Memory
         {
-            /* This property is explicitly implemented so that it's hidden
-             * under normal usage, as the name could be confusing when
-             * displayed besides WrittenMemory and GetMemory().
-             * The IMemoryOwner<T> interface is implemented primarily
-             * so that the AsStream() extension can be used on this type,
-             * allowing users to first create a ArrayPoolBufferWriter<byte>
-             * instance to write data to, then get a stream through the
-             * extension and let it take care of returning the underlying
-             * buffer to the shared pool when it's no longer necessary.
-             * Inlining is not needed here since this will always be a callvirt. */
+            // This property is explicitly implemented so that it's hidden
+            // under normal usage, as the name could be confusing when
+            // displayed besides WrittenMemory and GetMemory().
+            // The IMemoryOwner<T> interface is implemented primarily
+            // so that the AsStream() extension can be used on this type,
+            // allowing users to first create a ArrayPoolBufferWriter<byte>
+            // instance to write data to, then get a stream through the
+            // extension and let it take care of returning the underlying
+            // buffer to the shared pool when it's no longer necessary.
+            // Inlining is not needed here since this will always be a callvirt.
             get => MemoryMarshal.AsMemory(WrittenMemory);
         }
 

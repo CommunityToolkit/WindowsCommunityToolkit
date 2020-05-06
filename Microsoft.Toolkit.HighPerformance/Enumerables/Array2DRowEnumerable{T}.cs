@@ -151,9 +151,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-                    /* This type is never used on .NET Core runtimes, where
-                     * the fast indexer is available. Therefore, we can just
-                     * use the built-in indexer for 2D arrays to access the value. */
+                    // This type is never used on .NET Core runtimes, where
+                    // the fast indexer is available. Therefore, we can just
+                    // use the built-in indexer for 2D arrays to access the value.
                     return ref this.array[this.row, this.column];
                 }
             }

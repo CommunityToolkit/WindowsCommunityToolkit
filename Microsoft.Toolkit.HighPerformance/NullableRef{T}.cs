@@ -41,13 +41,13 @@ namespace Microsoft.Toolkit.HighPerformance
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                /* We know that the span will always have a length of either
-                 * 1 or 0, se instead of using a cmp instruction and setting the
-                 * zero flag to produce our boolean value, we can just cast
-                 * the length to byte without overflow checks (doing a cast will
-                 * also account for the byte endianness of the current system),
-                 * and then reinterpret that value to a bool flag.
-                 * This results in a single movzx instruction on x86-64. */
+                // We know that the span will always have a length of either
+                // 1 or 0, se instead of using a cmp instruction and setting the
+                // zero flag to produce our boolean value, we can just cast
+                // the length to byte without overflow checks (doing a cast will
+                // also account for the byte endianness of the current system),
+                // and then reinterpret that value to a bool flag.
+                // This results in a single movzx instruction on x86-64.
                 byte length = unchecked((byte)this.span.Length);
 
                 return Unsafe.As<byte, bool>(ref length);

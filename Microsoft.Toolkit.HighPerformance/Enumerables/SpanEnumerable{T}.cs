@@ -99,12 +99,12 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
                     ref T ri = ref Unsafe.Add(ref r0, this.index);
 
-                    /* On .NET Standard 2.1 we can save 4 bytes by piggybacking
-                     * the current index in the length of the wrapped span.
-                     * We're going to use the first item as the target reference,
-                     * and the length as a host for the current original offset.
-                     * This is not possible on .NET Standard 2.1 as we lack
-                     * the API to create spans from arbitrary references. */
+                    // On .NET Standard 2.1 we can save 4 bytes by piggybacking
+                    // the current index in the length of the wrapped span.
+                    // We're going to use the first item as the target reference,
+                    // and the length as a host for the current original offset.
+                    // This is not possible on .NET Standard 2.1 as we lack
+                    // the API to create spans from arbitrary references.
                     return new Item(ref ri, this.index);
 #else
                     return new Item(this.span, this.index);

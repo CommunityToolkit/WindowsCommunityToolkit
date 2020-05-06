@@ -237,10 +237,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [Pure]
         public override string ToString()
         {
-            /* Normally we would throw if the array has been disposed,
-             * but in this case we'll just return the non formatted
-             * representation as a fallback, since the ToString method
-             * is generally expected not to throw exceptions. */
+            // Normally we would throw if the array has been disposed,
+            // but in this case we'll just return the non formatted
+            // representation as a fallback, since the ToString method
+            // is generally expected not to throw exceptions.
             if (typeof(T) == typeof(char) &&
                 this.array is char[] chars)
             {

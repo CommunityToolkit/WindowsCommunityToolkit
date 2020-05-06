@@ -19,9 +19,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 #if SPAN_RUNTIME_SUPPORT
         where T : notnull
 #else
-        /* If we lack the RuntimeHelpers.IsReferenceOrContainsReferences<T> API,
-         * we need to constraint the generic type parameter to unmanaged, as we
-         * wouldn't otherwise be able to properly validate it at runtime. */
+        // If we lack the RuntimeHelpers.IsReferenceOrContainsReferences<T> API,
+        // we need to constraint the generic type parameter to unmanaged, as we
+        // wouldn't otherwise be able to properly validate it at runtime.
         where T : unmanaged
 #endif
     {
@@ -54,9 +54,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             ref T r0 = ref MemoryMarshal.GetReference(span);
 
 #if SPAN_RUNTIME_SUPPORT
-            /* If typeof(T) is not unmanaged, iterate over all the items one by one.
-             * This check is always known in advance either by the JITter or by the AOT
-             * compiler, so this branch will never actually be executed by the code. */
+            // If typeof(T) is not unmanaged, iterate over all the items one by one.
+            // This check is always known in advance either by the JITter or by the AOT
+            // compiler, so this branch will never actually be executed by the code.
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 return SpanHelper.GetDjb2HashCode(ref r0, (IntPtr)span.Length);

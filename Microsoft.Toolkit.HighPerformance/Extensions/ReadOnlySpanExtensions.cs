@@ -91,21 +91,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
-            /* Check whether the input is in range by first casting both
-             * operands to uint and then comparing them, as this allows
-             * the test to also identify cases where the input index is
-             * less than zero. The resulting bool is then reinterpreted
-             * as a byte (either 1 or 0), and then decremented.
-             * This will result in either 0 if the input index was
-             * valid for the target span, or -1 (0xFFFFFFFF) otherwise.
-             * The result is then negated, producing the value 0xFFFFFFFF
-             * for valid indices, or 0 otherwise. The generated mask
-             * is then combined with the original index. This leaves
-             * the index intact if it was valid, otherwise zeroes it.
-             * The computed offset is finally used to access the
-             * lookup table, and it is guaranteed to never go out of
-             * bounds unless the input span was just empty, which for a
-             * lookup table can just be assumed to always be false. */
+            // Check whether the input is in range by first casting both
+            // operands to uint and then comparing them, as this allows
+            // the test to also identify cases where the input index is
+            // less than zero. The resulting bool is then reinterpreted
+            // as a byte (either 1 or 0), and then decremented.
+            // This will result in either 0 if the input index was
+            // valid for the target span, or -1 (0xFFFFFFFF) otherwise.
+            // The result is then negated, producing the value 0xFFFFFFFF
+            // for valid indices, or 0 otherwise. The generated mask
+            // is then combined with the original index. This leaves
+            // the index intact if it was valid, otherwise zeroes it.
+            // The computed offset is finally used to access the
+            // lookup table, and it is guaranteed to never go out of
+            // bounds unless the input span was just empty, which for a
+            // lookup table can just be assumed to always be false.
             bool isInRange = (uint)i < (uint)span.Length;
             byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
             int

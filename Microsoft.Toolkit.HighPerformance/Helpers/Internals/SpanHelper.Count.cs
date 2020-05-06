@@ -146,23 +146,23 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 var partials = Vector<T>.Zero;
                 var vc = new Vector<T>(value);
 
-                /* Run the fast path if the input span is short enough.
-                 * There are two branches here because if the search space is large
-                 * enough, the partial results could overflow if the target value
-                 * is present too many times. This upper limit depends on the type
-                 * being used, as the smaller the type is, the shorter the supported
-                 * fast range will be. In the worst case scenario, the same value appears
-                 * always at the offset aligned with the same SIMD value in the current
-                 * register. Therefore, if the input span is longer than that minimum
-                 * threshold, additional checks need to be performed to avoid overflows.
-                 * This value is equal to the maximum (signed) numerical value for the current
-                 * type, divided by the number of value that can fit in a register, minus 1.
-                 * This is because the partial results are accumulated with a dot product,
-                 * which sums them horizontally while still working on the original type.
-                 * Dividing the max value by their count ensures that overflows can't happen.
-                 * The check is moved outside of the loop to enable a branchless version
-                 * of this method if the input span is guaranteed not to cause overflows.
-                 * Otherwise, the safe but slower variant is used. */
+                // Run the fast path if the input span is short enough.
+                // There are two branches here because if the search space is large
+                // enough, the partial results could overflow if the target value
+                // is present too many times. This upper limit depends on the type
+                // being used, as the smaller the type is, the shorter the supported
+                // fast range will be. In the worst case scenario, the same value appears
+                // always at the offset aligned with the same SIMD value in the current
+                // register. Therefore, if the input span is longer than that minimum
+                // threshold, additional checks need to be performed to avoid overflows.
+                // This value is equal to the maximum (signed) numerical value for the current
+                // type, divided by the number of value that can fit in a register, minus 1.
+                // This is because the partial results are accumulated with a dot product,
+                // which sums them horizontally while still working on the original type.
+                // Dividing the max value by their count ensures that overflows can't happen.
+                // The check is moved outside of the loop to enable a branchless version
+                // of this method if the input span is guaranteed not to cause overflows.
+                // Otherwise, the safe but slower variant is used.
                 int threshold = (max / Vector<T>.Count) - 1;
 
                 if ((byte*)length <= (byte*)threshold)
@@ -171,14 +171,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
-                        /* Load the current Vector<T> register, and then use
-                         * Vector.Equals to check for matches. This API sets the
-                         * values corresponding to matching pairs to all 1s.
-                         * Since the input type is guaranteed to always be signed,
-                         * this means that a value with all 1s represents -1, as
-                         * signed numbers are represented in two's complement.
-                         * So we can subtract this intermediate value to the
-                         * partial results, which effectively sums 1 for each match. */
+                        // Load the current Vector<T> register, and then use
+                        // Vector.Equals to check for matches. This API sets the
+                        // values corresponding to matching pairs to all 1s.
+                        // Since the input type is guaranteed to always be signed,
+                        // this means that a value with all 1s represents -1, as
+                        // signed numbers are represented in two's complement.
+                        // So we can subtract this intermediate value to the
+                        // partial results, which effectively sums 1 for each match.
                         var vi = Unsafe.As<T, Vector<T>>(ref ri);
                         var ve = Vector.Equals(vi, vc);
 

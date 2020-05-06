@@ -151,10 +151,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
                 for (int j = 0; j < bounds.Width; j++)
                 {
-                    /* Storing the initial reference and only incrementing
-                     * that one in each iteration saves one additional indirect
-                     * dereference for every loop iteration compared to using
-                     * the DangerousGetReferenceAt<T> extension on the array. */
+                    // Storing the initial reference and only incrementing
+                    // that one in each iteration saves one additional indirect
+                    // dereference for every loop iteration compared to using
+                    // the DangerousGetReferenceAt<T> extension on the array.
                     Unsafe.Add(ref r0, j) = value;
                 }
 #endif
@@ -174,18 +174,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #if SPAN_RUNTIME_SUPPORT
             Span<T>
 #else
-            /* .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
-             * which is necessary to create arbitrary Span<T>-s over a 2D array.
-             * To work around this, we use a custom ref struct enumerator,
-             * which makes the lack of that API completely transparent to the user.
-             * If a user then moves from .NET Standard 2.0 to 2.1, all the previous
-             * features will be perfectly supported, and in addition to that it will
-             * also gain the ability to use the Span<T> value elsewhere.
-             * The only case where this would be a breaking change for a user upgrading
-             * the target framework is when the returned enumerator type is used directly,
-             * but since that's specifically discouraged from the docs, we don't
-             * need to worry about that scenario in particular, as users doing that
-             * would be willingly go against the recommended usage of this API. */
+            // .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
+            // which is necessary to create arbitrary Span<T>-s over a 2D array.
+            // To work around this, we use a custom ref struct enumerator,
+            // which makes the lack of that API completely transparent to the user.
+            // If a user then moves from .NET Standard 2.0 to 2.1, all the previous
+            // features will be perfectly supported, and in addition to that it will
+            // also gain the ability to use the Span<T> value elsewhere.
+            // The only case where this would be a breaking change for a user upgrading
+            // the target framework is when the returned enumerator type is used directly,
+            // but since that's specifically discouraged from the docs, we don't
+            // need to worry about that scenario in particular, as users doing that
+            // would be willingly go against the recommended usage of this API.
             Array2DRowEnumerable<T>
 #endif
             GetRow<T>(this T[,] array, int row)
@@ -248,15 +248,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
 
-            /* On x64, the length is padded to x64, but it is represented in memory
-             * as two sequential uint fields (one of which is padding).
-             * So we can just reinterpret a reference to the IntPtr as one of type
-             * uint, to access the first 4 bytes of that field, regardless of whether
-             * we're running in a 32 or 64 bit process. This will work when on little
-             * endian systems as well, as the memory layout for fields is the same,
-             * the only difference is the order of bytes within each field of a given type.
-             * We use checked here to follow suit with the CoreCLR source, where an
-             * invalid value here should fail to perform the cast and throw an exception. */
+            // On x64, the length is padded to x64, but it is represented in memory
+            // as two sequential uint fields (one of which is padding).
+            // So we can just reinterpret a reference to the IntPtr as one of type
+            // uint, to access the first 4 bytes of that field, regardless of whether
+            // we're running in a 32 or 64 bit process. This will work when on little
+            // endian systems as well, as the memory layout for fields is the same,
+            // the only difference is the order of bytes within each field of a given type.
+            // We use checked here to follow suit with the CoreCLR source, where an
+            // invalid value here should fail to perform the cast and throw an exception.
             int length = checked((int)Unsafe.As<IntPtr, uint>(ref arrayData.Length));
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 #else

@@ -33,13 +33,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // Read the n-th bit, downcast to byte
             byte flag = (byte)((value >> n) & 1);
 
-            /* Reinterpret the byte to avoid the test, setnz and
-             * movzx instructions (asm x64). This is because the JIT
-             * compiler is able to optimize this reinterpret-cast as
-             * a single "and eax, 0x1" instruction, whereas if we had
-             * compared the previous computed flag against 0, the assembly
-             * would have had to perform the test, set the non-zero
-             * flag and then extend the (byte) result to eax. */
+            // Reinterpret the byte to avoid the test, setnz and
+            // movzx instructions (asm x64). This is because the JIT
+            // compiler is able to optimize this reinterpret-cast as
+            // a single "and eax, 0x1" instruction, whereas if we had
+            // compared the previous computed flag against 0, the assembly
+            // would have had to perform the test, set the non-zero
+            // flag and then extend the (byte) result to eax.
             return Unsafe.As<byte, bool>(ref flag);
         }
 
@@ -76,19 +76,19 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasLookupFlag(uint table, int x, int min = 0)
         {
-            /* First, the input value is scaled down by the given minimum.
-             * This step will be skipped entirely if min is just the default of 0.
-             * The valid range is given by 32, which is the number of bits in the
-             * lookup table. The input value is first cast to uint so that if it was
-             * negative, the check will fail as well. Then, the result of this
-             * operation is used to compute a bitwise flag of either 0xFFFFFFFF if the
-             * input is accepted, or all 0 otherwise. The target bit is then extracted,
-             * and this value is combined with the previous mask. This is done so that
-             * if the shift was performed with a value that was too high, which has an
-             * undefined behavior and could produce a non-0 value, the mask will reset
-             * the final value anyway. This result is then unchecked-cast to a byte (as
-             * it is guaranteed to always be either 1 or 0), and then reinterpreted
-             * as a bool just like in the HasFlag method above, and then returned. */
+            // First, the input value is scaled down by the given minimum.
+            // This step will be skipped entirely if min is just the default of 0.
+            // The valid range is given by 32, which is the number of bits in the
+            // lookup table. The input value is first cast to uint so that if it was
+            // negative, the check will fail as well. Then, the result of this
+            // operation is used to compute a bitwise flag of either 0xFFFFFFFF if the
+            // input is accepted, or all 0 otherwise. The target bit is then extracted,
+            // and this value is combined with the previous mask. This is done so that
+            // if the shift was performed with a value that was too high, which has an
+            // undefined behavior and could produce a non-0 value, the mask will reset
+            // the final value anyway. This result is then unchecked-cast to a byte (as
+            // it is guaranteed to always be either 1 or 0), and then reinterpreted
+            // as a bool just like in the HasFlag method above, and then returned.
             int i = x - min;
             bool isInRange = (uint)i < 32u;
             byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
@@ -134,30 +134,30 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SetFlag(uint value, int n, bool flag)
         {
-            /* Shift a bit left to the n-th position, negate the
-             * resulting value and perform an AND with the input value.
-             * This effectively clears the n-th bit of our input. */
+            // Shift a bit left to the n-th position, negate the
+            // resulting value and perform an AND with the input value.
+            // This effectively clears the n-th bit of our input.
             uint
                 bit = 1u << n,
                 not = ~bit,
                 and = value & not;
 
-            /* Reinterpret the flag as 1 or 0, and cast to uint.
-             * The flag is first copied to a local variable as taking
-             * the address of an argument is slower than doing the same
-             * for a local variable. This is because when referencing
-             * the argument the JIT compiler will emit code to temporarily
-             * move the argument to the stack, and then copy it back.
-             * With a temporary variable instead, the JIT will be able to
-             * optimize the method to only use CPU registers. */
+            // Reinterpret the flag as 1 or 0, and cast to uint.
+            // The flag is first copied to a local variable as taking
+            // the address of an argument is slower than doing the same
+            // for a local variable. This is because when referencing
+            // the argument the JIT compiler will emit code to temporarily
+            // move the argument to the stack, and then copy it back.
+            // With a temporary variable instead, the JIT will be able to
+            // optimize the method to only use CPU registers.
             bool localFlag = flag;
             uint
                 flag32 = Unsafe.As<bool, byte>(ref localFlag),
 
-                /* Finally, we left shift the uint flag to the right position
-                 * and perform an OR with the resulting value of the previous
-                 * operation. This will always guaranteed to work, thanks to the
-                 * initial code clearing that bit before setting it again. */
+                // Finally, we left shift the uint flag to the right position
+                // and perform an OR with the resulting value of the previous
+                // operation. This will always guaranteed to work, thanks to the
+                // initial code clearing that bit before setting it again.
                 shift = flag32 << n,
                 or = and | shift;
 
