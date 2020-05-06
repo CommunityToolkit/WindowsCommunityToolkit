@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return Count(ref r1, length, target, int.MaxValue);
             }
 
-            return Count(ref MemoryMarshal.GetReference(span), span.Length, value);
+            return Count(ref MemoryMarshal.GetReference(span), (IntPtr)span.Length, value);
         }
 
         /// <summary>
@@ -87,31 +87,50 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Count<T>(ref T r0, int length, T value)
+        private static unsafe int Count<T>(ref T r0, IntPtr length, T value)
             where T : IEquatable<T>
         {
-            int
-                i = 0,
-                result = 0,
-                end8 = length - 8;
+            int result = 0;
+
+            IntPtr offset = default;
 
             // Main loop with 8 unrolled iterations
-            for (; i <= end8; i += 8)
+            while ((byte*)length >= (byte*)8)
             {
-                result += Unsafe.Add(ref r0, i + 0).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 1).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 2).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 3).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 4).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 5).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 6).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, i + 7).Equals(value).ToInt();
+                length -= 8;
+
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 4).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 5).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToInt();
+
+                offset += 8;
+            }
+
+            if ((byte*)length >= (byte*)4)
+            {
+                length -= 4;
+
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
+
+                offset += 4;
             }
 
             // Iterate over the remaining values and count those that match
-            for (; i < length; i++)
+            while ((byte*)length > (byte*)0)
             {
-                result += Unsafe.Add(ref r0, i).Equals(value).ToInt();
+                length -= 1;
+
+                result += Unsafe.Add(ref r0, offset).Equals(value).ToInt();
+
+                offset += 1;
             }
 
             return result;
