@@ -41,6 +41,66 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         /// <summary>
+        /// Checks whether or not a given bit is set in a given bitwise lookup table.
+        /// This method provides a branchless, register-based (with no memory accesses) way to
+        /// check whether a given value is valid, according to a precomputed lookup table.
+        /// It is similar in behavior to <see cref="HasFlag(uint,int)"/>, with the main difference
+        /// being that this method will also validate the input <paramref name="x"/> parameter, and
+        /// will always return <see langword="false"/> if it falls outside of the expected interval.
+        /// Additionally, this method accepts a <paramref name="min"/> parameter, which is used to
+        /// decrement the input parameter <paramref name="x"/> to ensure that the range of accepted
+        /// values fits within the available 32 bits of the lookup table in use.
+        /// For more info on this optimization technique, see <see href="https://egorbo.com/llvm-range-checks.html"/>.
+        /// Here is how the code from the lik above would be implemented using this method:
+        /// <code>
+        /// bool IsReservedCharacter(char c)
+        /// {
+        ///     return BitHelper.HasLookupFlag(314575237u, c, 36);
+        /// }
+        /// </code>
+        /// The resulted assembly is virtually identical, with the added optimization that
+        /// the one produced by <see cref="HasLookupFlag(uint,int,int)"/> has no conditional branches at all.
+        /// </summary>
+        /// <param name="table">The input lookup table to use.</param>
+        /// <param name="x">The input value to check.</param>
+        /// <param name="min">The minimum accepted value for <paramref name="x"/> (defaults to 0).</param>
+        /// <returns>Whether or not the corresponding flag for <paramref name="x"/> is set in <paramref name="table"/>.</returns>
+        /// <remarks>
+        /// For best results, as shown in the sample code, both <paramref name="table"/> and <paramref name="min"/>
+        /// should be compile-time constants, so that the JIT compiler will be able to produce more efficient code.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasLookupFlag(uint table, int x, int min = 0)
+        {
+            /* First, the input value is scaled down by the given minimum.
+             * This step will be skipped entirely if min is just the default of 0.
+             * The valid range is given by 32, which is the number of bits in the
+             * lookup table. The input value is first cast to uint so that if it was
+             * negative, the check will fail as well. Then, the result of this
+             * operation is used to compute a bitwise flag of either 0xFFFFFFFF if the
+             * input is accepted, or all 0 otherwise. The target bit is then extracted,
+             * and this value is combined with the previous mask. This is done so that
+             * if the shift was performed with a value that was too high, which has an
+             * undefined behavior and could produce a non-0 value, the mask will reset
+             * the final value anyway. This result is then unchecked-cast to a byte (as
+             * it is guaranteed to always be either 1 or 0), and then reinterpreted
+             * as a bool just like in the HasFlag method above, and then returned. */
+            int i = x - min;
+            bool isInRange = (uint)i < 32u;
+            byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
+            int
+                negativeFlag = byteFlag - 1,
+                mask = ~negativeFlag,
+                shift = unchecked((int)((table >> i) & 1)),
+                and = shift & mask;
+            byte result = unchecked((byte)and);
+            bool valid = Unsafe.As<byte, bool>(ref result);
+
+            return valid;
+        }
+
+        /// <summary>
         /// Sets a bit to a specified value.
         /// </summary>
         /// <param name="value">The target <see cref="uint"/> value.</param>
@@ -120,6 +180,37 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             byte flag = (byte)((value >> n) & 1);
 
             return Unsafe.As<byte, bool>(ref flag);
+        }
+
+        /// <summary>
+        /// Checks whether or not a given bit is set in a given bitwise lookup table.
+        /// For more info, check the XML docs of the <see cref="HasLookupFlag(uint,int,int)"/> overload.
+        /// </summary>
+        /// <param name="table">The input lookup table to use.</param>
+        /// <param name="x">The input value to check.</param>
+        /// <param name="min">The minimum accepted value for <paramref name="x"/> (defaults to 0).</param>
+        /// <returns>Whether or not the corresponding flag for <paramref name="x"/> is set in <paramref name="table"/>.</returns>
+        /// <remarks>
+        /// For best results, as shown in the sample code, both <paramref name="table"/> and <paramref name="min"/>
+        /// should be compile-time constants, so that the JIT compiler will be able to produce more efficient code.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasLookupFlag(ulong table, int x, int min = 0)
+        {
+            // Same logic as the uint overload above
+            int i = x - min;
+            bool isInRange = (uint)i < 64u;
+            byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
+            int
+                negativeFlag = byteFlag - 1,
+                mask = ~negativeFlag,
+                shift = unchecked((int)((table >> i) & 1)),
+                and = shift & mask;
+            byte result = unchecked((byte)and);
+            bool valid = Unsafe.As<byte, bool>(ref result);
+
+            return valid;
         }
 
         /// <summary>

@@ -27,6 +27,58 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("BitHelper")]
         [TestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(6, true)]
+        [DataRow(7, false)]
+        [DataRow(12, true)]
+        [DataRow(14, true)]
+        [DataRow(15, false)]
+        [DataRow(20, false)]
+        [DataRow(21, true)]
+        [DataRow(30, false)]
+        [DataRow(31, true)]
+        [DataRow(42, false)]
+        [DataRow(43741384, false)]
+        [DataRow(int.MaxValue, false)]
+        public void Test_BitHelper_HasLookupFlag_Default(int index, bool flag)
+        {
+            const uint value = 0xAAAA5555u;
+
+            Assert.AreEqual(flag, BitHelper.HasLookupFlag(value, index));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow('+', true)]
+        [DataRow('-', true)]
+        [DataRow('>', true)]
+        [DataRow('<', true)]
+        [DataRow('.', true)]
+        [DataRow(',', true)]
+        [DataRow('(', true)]
+        [DataRow(')', true)]
+        [DataRow(':', true)]
+        [DataRow('a', false)]
+        [DataRow('%', false)]
+        [DataRow('A', false)]
+        [DataRow('€', false)]
+        [DataRow(0, false)]
+        [DataRow(1, false)]
+        [DataRow(-1, false)]
+        [DataRow(int.MaxValue, false)]
+        [DataRow(int.MinValue, false)]
+        [DataRow(short.MaxValue, false)]
+        [DataRow(short.MinValue, false)]
+        public void Test_BitHelper_HasLookupFlag32_WithMin(int x, bool flag)
+        {
+            const uint mask = 8126587;
+
+            Assert.AreEqual(flag, BitHelper.HasLookupFlag(mask, x, 40));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
         public void Test_BitHelper_SetFlag_UInt32()
         {
             Assert.AreEqual(0b1u, BitHelper.SetFlag(0u, 0, true));
@@ -51,6 +103,37 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsFalse(BitHelper.HasFlag(value, 30));
             Assert.IsTrue(BitHelper.HasFlag(value, 31));
             Assert.IsTrue(BitHelper.HasFlag(value, 63));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow('+', true)]
+        [DataRow('-', true)]
+        [DataRow('>', true)]
+        [DataRow('<', true)]
+        [DataRow('.', true)]
+        [DataRow(',', true)]
+        [DataRow('[', true)]
+        [DataRow(']', true)]
+        [DataRow('(', true)]
+        [DataRow(')', true)]
+        [DataRow(':', true)]
+        [DataRow('a', false)]
+        [DataRow('%', false)]
+        [DataRow('A', false)]
+        [DataRow('€', false)]
+        [DataRow(0, false)]
+        [DataRow(1, false)]
+        [DataRow(-1, false)]
+        [DataRow(int.MaxValue, false)]
+        [DataRow(int.MinValue, false)]
+        [DataRow(short.MaxValue, false)]
+        [DataRow(short.MinValue, false)]
+        public void Test_BitHelper_HasLookupFlag64_WithMin(int x, bool flag)
+        {
+            const ulong mask = 11258999073931387;
+
+            Assert.AreEqual(flag, BitHelper.HasLookupFlag(mask, x, 40));
         }
 
         [TestCategory("BitHelper")]
