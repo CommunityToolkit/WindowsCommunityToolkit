@@ -121,7 +121,7 @@
       <Version>0.7.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>1.1.0</Version>
+      <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
@@ -520,6 +520,9 @@
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml.cs">
+      <DependentUpon>ObservableGroupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
@@ -552,6 +555,7 @@
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
+    <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -946,6 +950,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
