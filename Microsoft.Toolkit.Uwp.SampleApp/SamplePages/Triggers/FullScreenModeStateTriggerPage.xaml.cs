@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public FullScreenModeStateTriggerPage()
         {
             InitializeComponent();
+            SampleController.Current.RegisterNewCommand("Toggle Full Screen", ToggleFullScreenMode);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -71,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void fullScreenMode_Click(object sender, RoutedEventArgs e)
+        private void ToggleFullScreenMode(object sender, RoutedEventArgs e)
 		{
 			var view = ApplicationView.GetForCurrentView();
 			var isFullScreenMode = view.IsFullScreenMode;

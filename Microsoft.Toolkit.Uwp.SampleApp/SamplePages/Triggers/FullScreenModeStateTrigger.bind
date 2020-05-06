@@ -15,7 +15,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="fullScreenModeStatus.Text" Value="App is in full screen mode" />
-                        <Setter Target="fullScreenMode.Content" Value="Exit full screen" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="windowed">
@@ -24,18 +23,14 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="fullScreenModeStatus.Text" Value="App is in windowed mode" />
-                        <Setter Target="fullScreenMode.Content" Value="Enter full screen" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="fullScreenModeStatus" 
-                HorizontalAlignment="Center" 
-				        VerticalAlignment="Center" />
-            <Button x:Name="fullScreenMode" Content="Toggle Full Screen Mode" Click="fullScreenMode_Click" />
-        </StackPanel>
+          <TextBlock x:Name="fullScreenModeStatus" 
+              HorizontalAlignment="Center" 
+				      VerticalAlignment="Center" />
 
   </Grid>
 </Page>
