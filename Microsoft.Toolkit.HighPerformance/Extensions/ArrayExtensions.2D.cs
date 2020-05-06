@@ -265,6 +265,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #endif
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given value into a target 2D <typeparamref name="T"/> array instance.
@@ -278,9 +279,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this T[,] array, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(array.AsSpan(), value);
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.LongLength;
+
+            return SpanHelper.Count(ref r0, length, value);
         }
-#endif
 
         /// <summary>
         /// Gets a content hash from the input 2D <typeparamref name="T"/> array instance using the Djb2 algorithm.

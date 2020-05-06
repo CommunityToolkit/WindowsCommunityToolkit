@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
     /// <summary>
     /// Helpers to process sequences of values by reference.
     /// </summary>
-    internal static class SpanHelper
+    internal static partial class SpanHelper
     {
         /// <summary>
         /// Calculates the djb2 hash for the target sequence of items of a given type.

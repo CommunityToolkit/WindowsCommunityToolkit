@@ -77,7 +77,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(this string text, char c)
         {
-            return text.AsSpan().Count(c);
+            ref char r0 = ref text.DangerousGetReference();
+            IntPtr length = (IntPtr)text.Length;
+
+            return SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>

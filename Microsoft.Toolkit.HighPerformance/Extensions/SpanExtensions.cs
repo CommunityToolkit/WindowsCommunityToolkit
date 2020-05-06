@@ -104,7 +104,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this Span<T> span, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(span, value);
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            IntPtr length = (IntPtr)span.Length;
+
+            return SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,77 +6,15 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 {
     /// <summary>
-    /// Helpers for working with the <see cref="ReadOnlySpan{T}"/> type.
+    /// Helpers to process sequences of values by reference.
     /// </summary>
-    public static partial class ReadOnlySpanExtensions
+    internal static partial class SpanHelper
     {
-        /// <summary>
-        /// Counts the number of occurrences of a given value into a target <see cref="ReadOnlySpan{T}"/> instance.
-        /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
-        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read.</param>
-        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
-        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
-        [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static int Count<T>(this ReadOnlySpan<T> span, T value)
-            where T : IEquatable<T>
-        {
-            // Special vectorized version when using a supported type
-            if (typeof(T) == typeof(byte) ||
-                typeof(T) == typeof(sbyte) ||
-                typeof(T) == typeof(bool))
-            {
-                ref T r0 = ref MemoryMarshal.GetReference(span);
-                ref sbyte r1 = ref Unsafe.As<T, sbyte>(ref r0);
-                int length = span.Length;
-                sbyte target = Unsafe.As<T, sbyte>(ref value);
-
-                return Count(ref r1, length, target, sbyte.MaxValue);
-            }
-
-            if (typeof(T) == typeof(char) ||
-                typeof(T) == typeof(ushort) ||
-                typeof(T) == typeof(short))
-            {
-                ref T r0 = ref MemoryMarshal.GetReference(span);
-                ref short r1 = ref Unsafe.As<T, short>(ref r0);
-                int length = span.Length;
-                short target = Unsafe.As<T, short>(ref value);
-
-                return Count(ref r1, length, target, short.MaxValue);
-            }
-
-            if (typeof(T) == typeof(int) ||
-                typeof(T) == typeof(uint))
-            {
-                ref T r0 = ref MemoryMarshal.GetReference(span);
-                ref int r1 = ref Unsafe.As<T, int>(ref r0);
-                int length = span.Length;
-                int target = Unsafe.As<T, int>(ref value);
-
-                return Count(ref r1, length, target, int.MaxValue);
-            }
-
-            if (typeof(T) == typeof(long) ||
-                typeof(T) == typeof(ulong))
-            {
-                ref T r0 = ref MemoryMarshal.GetReference(span);
-                ref long r1 = ref Unsafe.As<T, long>(ref r0);
-                int length = span.Length;
-                long target = Unsafe.As<T, long>(ref value);
-
-                return Count(ref r1, length, target, int.MaxValue);
-            }
-
-            return Count(ref MemoryMarshal.GetReference(span), (IntPtr)span.Length, value);
-        }
-
         /// <summary>
         /// Counts the number of occurrences of a given value into a target search space.
         /// </summary>
@@ -86,8 +24,63 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of value to look for.</typeparam>
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe int Count<T>(ref T r0, IntPtr length, T value)
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static int Count<T>(ref T r0, IntPtr length, T value)
+            where T : IEquatable<T>
+        {
+            if (!Vector.IsHardwareAccelerated)
+            {
+                return CountSequential(ref r0, length, value);
+            }
+
+            // Special vectorized version when using a supported type
+            if (typeof(T) == typeof(byte) ||
+                typeof(T) == typeof(sbyte) ||
+                typeof(T) == typeof(bool))
+            {
+                ref sbyte r1 = ref Unsafe.As<T, sbyte>(ref r0);
+                sbyte target = Unsafe.As<T, sbyte>(ref value);
+
+                return CountSimd(ref r1, length, target, sbyte.MaxValue);
+            }
+
+            if (typeof(T) == typeof(char) ||
+                typeof(T) == typeof(ushort) ||
+                typeof(T) == typeof(short))
+            {
+                ref short r1 = ref Unsafe.As<T, short>(ref r0);
+                short target = Unsafe.As<T, short>(ref value);
+
+                return CountSimd(ref r1, length, target, short.MaxValue);
+            }
+
+            if (typeof(T) == typeof(int) ||
+                typeof(T) == typeof(uint))
+            {
+                ref int r1 = ref Unsafe.As<T, int>(ref r0);
+                int target = Unsafe.As<T, int>(ref value);
+
+                return CountSimd(ref r1, length, target, int.MaxValue);
+            }
+
+            if (typeof(T) == typeof(long) ||
+                typeof(T) == typeof(ulong))
+            {
+                ref long r1 = ref Unsafe.As<T, long>(ref r0);
+                long target = Unsafe.As<T, long>(ref value);
+
+                return CountSimd(ref r1, length, target, int.MaxValue);
+            }
+
+            return CountSequential(ref r0, length, value);
+        }
+
+        /// <summary>
+        /// Implements <see cref="Count{T}"/> with a sequential search.
+        /// </summary>
+        [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static unsafe int CountSequential<T>(ref T r0, IntPtr length, T value)
             where T : IEquatable<T>
         {
             int result = 0;
@@ -137,25 +130,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Counts the number of occurrences of a given value into a target search space.
+        /// Implements <see cref="Count{T}"/> with a vectorized search.
         /// </summary>
-        /// <param name="r0">A <typeparamref name="T"/> reference to the start of the search space.</param>
-        /// <param name="length">The number of items in the search space.</param>
-        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
-        /// <param name="max">The maximum amount that a <typeparamref name="T"/> value can reach.</param>
-        /// <typeparam name="T">The type of value to look for.</typeparam>
-        /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Count<T>(ref T r0, int length, T value, int max)
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static unsafe int CountSimd<T>(ref T r0, IntPtr length, T value, int max)
             where T : unmanaged, IEquatable<T>
         {
-            int i = 0, result = 0;
+            int result = 0;
+
+            IntPtr offset = default;
 
             // Only run the SIMD-enabled branch if the Vector<T> APIs are hardware accelerated
             if (Vector.IsHardwareAccelerated)
             {
-                int end = length - Vector<T>.Count;
+                IntPtr end = length - Vector<T>.Count;
 
                 var partials = Vector<T>.Zero;
                 var vc = new Vector<T>(value);
@@ -179,11 +168,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                  * Otherwise, the safe but slower variant is used. */
                 int threshold = (max / Vector<T>.Count) - 1;
 
-                if (length <= threshold)
+                if ((byte*)length <= (byte*)threshold)
                 {
-                    for (; i <= end; i += Vector<T>.Count)
+                    for (; (byte*)offset <= (byte*)end; offset += Vector<T>.Count)
                     {
-                        ref T ri = ref Unsafe.Add(ref r0, i);
+                        ref T ri = ref Unsafe.Add(ref r0, offset);
 
                         /* Load the current Vector<T> register, and then use
                          * Vector.Equals to check for matches. This API sets the
@@ -201,9 +190,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 }
                 else
                 {
-                    for (int j = 0; i <= end; i += Vector<T>.Count, j++)
+                    for (int j = 0; (byte*)offset <= (byte*)end; offset += Vector<T>.Count, j++)
                     {
-                        ref T ri = ref Unsafe.Add(ref r0, i);
+                        ref T ri = ref Unsafe.Add(ref r0, offset);
 
                         // Same as before
                         var vi = Unsafe.As<T, Vector<T>>(ref ri);
@@ -226,9 +215,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
             // Iterate over the remaining values and count those that match
-            for (; i < length; i++)
+            for (; (byte*)offset < (byte*)length; offset += 1)
             {
-                result += Unsafe.Add(ref r0, i).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset).Equals(value).ToInt();
             }
 
             return result;

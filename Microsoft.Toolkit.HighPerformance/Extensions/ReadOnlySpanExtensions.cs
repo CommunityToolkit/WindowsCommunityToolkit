@@ -119,6 +119,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// Counts the number of occurrences of a given value into a target <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static int Count<T>(this ReadOnlySpan<T> span, T value)
+            where T : IEquatable<T>
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            IntPtr length = (IntPtr)span.Length;
+
+            return SpanHelper.Count(ref r0, length, value);
+        }
+
+        /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlySpan{T}"/> of bytes.
         /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>

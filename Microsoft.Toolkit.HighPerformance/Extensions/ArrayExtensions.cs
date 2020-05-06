@@ -119,7 +119,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this T[] array, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(array, value);
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>
