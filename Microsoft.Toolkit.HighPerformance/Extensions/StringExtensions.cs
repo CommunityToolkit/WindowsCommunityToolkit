@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -76,7 +77,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(this string text, char c)
         {
-            return text.AsSpan().Count(c);
+            ref char r0 = ref text.DangerousGetReference();
+            IntPtr length = (IntPtr)text.Length;
+
+            return SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>
@@ -138,7 +142,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetDjb2HashCode(this string text)
         {
-            return text.AsSpan().GetDjb2HashCode();
+            ref char r0 = ref text.DangerousGetReference();
+            IntPtr length = (IntPtr)text.Length;
+
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
     }
 }

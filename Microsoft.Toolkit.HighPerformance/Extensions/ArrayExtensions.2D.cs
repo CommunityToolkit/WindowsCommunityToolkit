@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 #nullable enable
 
@@ -264,6 +265,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #endif
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given value into a target 2D <typeparamref name="T"/> array instance.
@@ -277,7 +279,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this T[,] array, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(array.AsSpan(), value);
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.LongLength;
+
+            return SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>
@@ -292,8 +297,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this T[,] array)
             where T : notnull
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(array.AsSpan());
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
-#endif
     }
 }
