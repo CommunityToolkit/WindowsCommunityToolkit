@@ -7,7 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+#if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 #nullable enable
