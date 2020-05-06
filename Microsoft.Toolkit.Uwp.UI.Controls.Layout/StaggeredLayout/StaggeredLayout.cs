@@ -192,14 +192,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var columnIndex = GetColumnIndex(columnHeights);
 
                 bool measured = false;
-                UIElement element = null;
                 StaggeredItem item = state.GetItemAt(i);
                 if (item.Height == 0)
                 {
                     // Item has not been measured yet. Get the element and store the values
-                    element = context.GetOrCreateElementAt(i);
-                    element.Measure(new Size(state.ColumnWidth, availableHeight));
-                    item.Height = element.DesiredSize.Height;
+                    item.Element = context.GetOrCreateElementAt(i);
+                    item.Element.Measure(new Size(state.ColumnWidth, availableHeight));
+                    item.Height = item.Element.DesiredSize.Height;
                     measured = true;
                 }
 
@@ -213,17 +212,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (bottom < context.RealizationRect.Top)
                 {
                     // The bottom of the element is above the realization area
-                    if (element != null)
+                    if (item.Element != null)
                     {
-                        context.RecycleElement(element);
+                        context.RecycleElement(item.Element);
+                        item.Element = null;
                     }
                 }
                 else if (item.Top > context.RealizationRect.Bottom)
                 {
                     // The top of the element is below the realization area
-                    if (element != null)
+                    if (item.Element != null)
                     {
-                        context.RecycleElement(element);
+                        context.RecycleElement(item.Element);
+                        item.Element = null;
                     }
 
                     deadColumns.Add(columnIndex);
@@ -231,7 +232,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (measured == false)
                 {
                     // We ALWAYS want to measure an item that will be in the bounds
-                    context.GetOrCreateElementAt(i).Measure(new Size(state.ColumnWidth, availableHeight));
+                    item.Element = context.GetOrCreateElementAt(i);
+                    item.Element.Measure(new Size(state.ColumnWidth, availableHeight));
                 }
 
                 if (deadColumns.Count == numColumns)

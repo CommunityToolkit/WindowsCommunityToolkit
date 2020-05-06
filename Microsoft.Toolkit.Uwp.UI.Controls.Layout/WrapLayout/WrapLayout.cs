@@ -165,14 +165,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double currentV = 0;
             for (int i = 0; i < context.ItemCount; i++)
             {
-                UIElement child = null;
                 bool measured = false;
                 WrapItem item = state.GetItemAt(i);
                 if (item.Measure == null)
                 {
-                    child = context.GetOrCreateElementAt(i);
-                    child.Measure(availableSize);
-                    item.Measure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                    item.Element = context.GetOrCreateElementAt(i);
+                    item.Element.Measure(availableSize);
+                    item.Measure = new UvMeasure(Orientation, item.Element.DesiredSize.Width, item.Element.DesiredSize.Height);
                     measured = true;
                 }
 
@@ -201,17 +200,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (vEnd < realizationBounds.VMin)
                 {
                     // Item is "above" the bounds
-                    if (child != null)
+                    if (item.Element != null)
                     {
-                        context.RecycleElement(child);
+                        context.RecycleElement(item.Element);
+                        item.Element = null;
                     }
                 }
                 else if (position.V > realizationBounds.VMax)
                 {
                     // Item is "below" the bounds.
-                    if (child != null)
+                    if (item.Element != null)
                     {
-                        context.RecycleElement(child);
+                        context.RecycleElement(item.Element);
+                        item.Element = null;
                     }
 
                     // We don't need to measure anything below the bounds
@@ -220,8 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (measured == false)
                 {
                     // Always measure elements that are within the bounds
-                    child = context.GetOrCreateElementAt(i);
-                    child.Measure(availableSize);
+                    item.Element = context.GetOrCreateElementAt(i);
+                    item.Element.Measure(availableSize);
                 }
 
                 position.U += currentMeasure.U + spacingMeasure.U;

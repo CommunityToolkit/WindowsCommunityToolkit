@@ -21,5 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public double Height { get; internal set; }
 
         public int Index { get; }
+
+        public UIElement Element { get; internal set; }
     }
 }
