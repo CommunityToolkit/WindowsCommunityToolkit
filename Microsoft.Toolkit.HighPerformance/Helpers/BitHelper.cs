@@ -4,6 +4,9 @@
 
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCOREAPP3_1
+using System.Runtime.Intrinsics.X86;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
@@ -58,8 +61,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         ///     return BitHelper.HasLookupFlag(314575237u, c, 36);
         /// }
         /// </code>
-        /// The resulted assembly is virtually identical, with the added optimization that
-        /// the one produced by <see cref="HasLookupFlag(uint,int,int)"/> has no conditional branches at all.
+        /// The resulted assembly is virtually identical, with the added optimization that the one
+        /// produced by <see cref="HasLookupFlag(uint,int,int)"/> has no conditional branches at all.
         /// </summary>
         /// <param name="table">The input lookup table to use.</param>
         /// <param name="x">The input value to check.</param>
@@ -162,6 +165,80 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         /// <summary>
+        /// Extracts a bit field range from a given value.
+        /// </summary>
+        /// <param name="value">The input <see cref="uint"/> value.</param>
+        /// <param name="start">The initial index of the range to extract.</param>
+        /// <param name="length">The length of the range to extract.</param>
+        /// <returns>The value of the extracted range within <paramref name="value"/>.</returns>
+        /// <remarks>
+        /// This method doesn't validate <paramref name="start"/> and <paramref name="length"/>.
+        /// If either parameter is not valid, the result will just be inconsistent.
+        /// Additionally, no conditional branches are used to retrieve the range.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint ExtractRange(uint value, byte start, byte length)
+        {
+#if NETCOREAPP3_1
+            if (Bmi1.IsSupported)
+            {
+                return Bmi1.BitFieldExtract(value, start, length);
+            }
+#endif
+
+            return (value >> start) & ((1u << length) - 1u);
+        }
+
+        /// <summary>
+        /// Sets a bit field range within a target value.
+        /// </summary>
+        /// <param name="value">The target <see cref="uint"/> value.</param>
+        /// <param name="start">The initial index of the range to extract.</param>
+        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="flags">The input flags to insert in the target range.</param>
+        /// <remarks>
+        /// Just like <see cref="ExtractRange(uint,byte,byte)"/>, this method doesn't validate the parameters
+        /// and does not contain branching instructions, so it's well suited for use in tight loops as well.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetRange(ref uint value, byte start, byte length, uint flags)
+        {
+            value = SetRange(value, start, length, flags);
+        }
+
+        /// <summary>
+        /// Sets a bit field range within a target value.
+        /// </summary>
+        /// <param name="value">The initial <see cref="uint"/> value.</param>
+        /// <param name="start">The initial index of the range to extract.</param>
+        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="flags">The input flags to insert in the target range.</param>
+        /// <returns>The updated bit field value after setting the specified range.</returns>
+        /// <remarks>
+        /// Just like <see cref="ExtractRange(uint,byte,byte)"/>, this method doesn't validate the parameters
+        /// and does not contain branching instructions, so it's well suited for use in tight loops as well.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint SetRange(uint value, byte start, byte length, uint flags)
+        {
+            uint
+                highBits = (1u << length) - 1u,
+                loadMask = highBits << start,
+                storeMask = (flags & highBits) << start;
+
+#if NETCOREAPP3_1
+            if (Bmi1.IsSupported)
+            {
+                return Bmi1.AndNot(loadMask, value) | storeMask;
+            }
+#endif
+
+            return (~loadMask & value) | storeMask;
+        }
+
+        /// <summary>
         /// Checks whether or not a given bit is set.
         /// </summary>
         /// <param name="value">The input <see cref="ulong"/> value.</param>
@@ -256,6 +333,80 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 or = and | shift;
 
             return or;
+        }
+
+        /// <summary>
+        /// Extracts a bit field range from a given value.
+        /// </summary>
+        /// <param name="value">The input <see cref="ulong"/> value.</param>
+        /// <param name="start">The initial index of the range to extract.</param>
+        /// <param name="length">The length of the range to extract.</param>
+        /// <returns>The value of the extracted range within <paramref name="value"/>.</returns>
+        /// <remarks>
+        /// This method doesn't validate <paramref name="start"/> and <paramref name="length"/>.
+        /// If either parameter is not valid, the result will just be inconsistent.
+        /// Additionally, no conditional branches are used to retrieve the range.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong ExtractRange(ulong value, byte start, byte length)
+        {
+#if NETCOREAPP3_1
+            if (Bmi1.X64.IsSupported)
+            {
+                return Bmi1.X64.BitFieldExtract(value, start, length);
+            }
+#endif
+
+            return (value >> start) & ((1ul << length) - 1ul);
+        }
+
+        /// <summary>
+        /// Sets a bit field range within a target value.
+        /// </summary>
+        /// <param name="value">The target <see cref="ulong"/> value.</param>
+        /// <param name="start">The initial index of the range to extract.</param>
+        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="flags">The input flags to insert in the target range.</param>
+        /// <remarks>
+        /// Just like <see cref="ExtractRange(ulong,byte,byte)"/>, this method doesn't validate the parameters
+        /// and does not contain branching instructions, so it's well suited for use in tight loops as well.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetRange(ref ulong value, byte start, byte length, ulong flags)
+        {
+            value = SetRange(value, start, length, flags);
+        }
+
+        /// <summary>
+        /// Sets a bit field range within a target value.
+        /// </summary>
+        /// <param name="value">The initial <see cref="ulong"/> value.</param>
+        /// <param name="start">The initial index of the range to extract.</param>
+        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="flags">The input flags to insert in the target range.</param>
+        /// <returns>The updated bit field value after setting the specified range.</returns>
+        /// <remarks>
+        /// Just like <see cref="ExtractRange(ulong,byte,byte)"/>, this method doesn't validate the parameters
+        /// and does not contain branching instructions, so it's well suited for use in tight loops as well.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong SetRange(ulong value, byte start, byte length, ulong flags)
+        {
+            ulong
+                highBits = (1ul << length) - 1ul,
+                loadMask = highBits << start,
+                storeMask = (flags & highBits) << start;
+
+#if NETCOREAPP3_1
+            if (Bmi1.X64.IsSupported)
+            {
+                return Bmi1.X64.AndNot(loadMask, value) | storeMask;
+            }
+#endif
+
+            return (~loadMask & value) | storeMask;
         }
     }
 }

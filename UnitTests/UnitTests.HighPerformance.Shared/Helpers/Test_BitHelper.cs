@@ -89,6 +89,47 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("BitHelper")]
         [TestMethod]
+        [DataRow(0u, (byte)0, (byte)0, 0u)]
+        [DataRow(uint.MaxValue, (byte)0, (byte)8, 255u)]
+        [DataRow(uint.MaxValue, (byte)24, (byte)8, 255u)]
+        [DataRow(uint.MaxValue, (byte)0, (byte)32, uint.MaxValue)]
+        [DataRow(12345u << 7, (byte)7, (byte)32, 12345u)]
+        [DataRow(3u << 1, (byte)1, (byte)2, 3u)]
+        [DataRow(21u << 17, (byte)17, (byte)5, 21u)]
+        [DataRow(1u << 31, (byte)31, (byte)1, 1u)]
+        public void Test_BitHelper_ExtractRange_UInt32(uint value, byte start, byte length, uint result)
+        {
+            Assert.AreEqual(result, BitHelper.ExtractRange(value, start, length));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow((byte)0, (byte)0, 0u)]
+        [DataRow((byte)0, (byte)8, 255u)]
+        [DataRow((byte)24, (byte)8, 255u)]
+        [DataRow((byte)0, (byte)31, (uint)int.MaxValue)]
+        [DataRow((byte)29, (byte)3, 5u)]
+        [DataRow((byte)7, (byte)14, 12345u)]
+        [DataRow((byte)1, (byte)2, 3u)]
+        [DataRow((byte)17, (byte)5, 21u)]
+        [DataRow((byte)31, (byte)1, 1u)]
+        public void Test_BitHelper_SetRange_UInt32(byte start, byte length, uint flags)
+        {
+            // Specific initial bit mask to check for unwanted modifications
+            const uint value = 0xAAAA5555u;
+
+            uint
+                backup = BitHelper.ExtractRange(value, start, length),
+                result = BitHelper.SetRange(value, start, length, flags),
+                extracted = BitHelper.ExtractRange(result, start, length),
+                restored = BitHelper.SetRange(result, start, length, backup);
+
+            Assert.AreEqual(extracted, flags);
+            Assert.AreEqual(restored, value);
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
         public void Test_UInt64Extensions_HasFlag()
         {
             ulong value = 0b10_1001110101_0110010010_1100100010;
