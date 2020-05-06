@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 #nullable enable
 
@@ -221,36 +222,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The Djb2 value for the input <see cref="ReadOnlySpan{T}"/> instance.</returns>
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
             where T : notnull
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            int
-                hash = 5381,
-                length = span.Length,
-                i = 0,
-                end8 = length - 8;
+            IntPtr length = (IntPtr)span.Length;
 
-            // Main loop with 8 unrolled iterations
-            for (; i <= end8; i += 8)
-            {
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 0).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 1).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 2).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 3).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 4).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 5).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 6).GetHashCode());
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 7).GetHashCode());
-            }
-
-            // Handle the leftover items
-            for (; i < length; i++)
-            {
-                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i).GetHashCode());
-            }
-
-            return hash;
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
     }
 }

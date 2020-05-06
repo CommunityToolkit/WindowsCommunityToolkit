@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 #nullable enable
 
@@ -279,6 +280,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             return ReadOnlySpanExtensions.Count(array.AsSpan(), value);
         }
+#endif
 
         /// <summary>
         /// Gets a content hash from the input 2D <typeparamref name="T"/> array instance using the Djb2 algorithm.
@@ -292,8 +294,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this T[,] array)
             where T : notnull
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(array.AsSpan());
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
-#endif
     }
 }
