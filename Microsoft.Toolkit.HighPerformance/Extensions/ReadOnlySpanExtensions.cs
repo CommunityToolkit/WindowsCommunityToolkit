@@ -50,6 +50,74 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// Returns a reference to the first element within a given <see cref="ReadOnlySpan{T}"/>, clamping the input index in the valid range.
+        /// If the <paramref name="i"/> parameter exceeds the length of <paramref name="span"/>, it will be clamped to 0.
+        /// Therefore, the returned reference will always point to a valid element within <paramref name="span"/>, assuming it is not empty.
+        /// This method is specifically meant to efficiently index lookup tables, especially if they point to constant data.
+        /// Consider this example where a lookup table is used to validate whether a given character is within a specific set:
+        /// <code>
+        /// public static ReadOnlySpan&lt;bool> ValidSetLookupTable => new bool[]
+        /// {
+        ///     false, true, true, true, true, true, false, true, 
+        ///     false, false, true, false, true, false, true, false,
+        ///     true, false, false, true, false, false, false, false,
+        ///     false, false, false, false, true, true, false, true
+        /// };
+        ///
+        /// int ch = Console.Read();
+        /// bool isValid = ValidSetLookupTable.DangerousGetLookupReference(ch);
+        /// </code>
+        /// Even if the input index is outside the range of the lookup table, being clamped to 0, it will
+        /// just cause the value 0 to be returned in this case, which is functionally the same for the check
+        /// being performed. This extension can easily be used whenever the first position in a lookup
+        /// table being referenced corresponds to a falsey value, like in this case.
+        /// Additionally, the example above leverages a compiler optimization introduced with C# 7.3,
+        /// which allows <see cref="ReadOnlySpan{T}"/> instances pointing to compile-time constant data
+        /// to be directly mapped to the static .text section in the final assembly: the array being
+        /// created in code will never actually be allocated, and the <see cref="ReadOnlySpan{T}"/> will
+        /// just point to constant data. Note that this only works for blittable values that are not
+        /// dependent on the byte endianness of the system, like <see cref="byte"/> or <see cref="bool"/>.
+        /// For more info, see <see href="https://vcsjones.dev/2019/02/01/csharp-readonly-span-bytes-static/"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
+        /// <returns>
+        /// A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>,
+        /// or a reference to the first element within <paramref name="span"/> if <paramref name="i"/> was not a valid index.
+        /// </returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        {
+            /* Check whether the input is in range by first casting both
+             * operands to uint and then comparing them, as this allows
+             * the test to also identify cases where the input index is
+             * less than zero. The resulting bool is then reinterpreted
+             * as a byte (either 1 or 0), and then decremented.
+             * This will result in either 0 if the input index was
+             * valid for the target span, or -1 (0xFFFFFFFF) otherwise.
+             * The result is then negated, producing the value 0xFFFFFFFF
+             * for valid indices, or 0 otherwise. The generated mask
+             * is then combined with the original index. This leaves
+             * the index intact if it was valid, otherwise zeroes it.
+             * The computed offset is finally used to access the
+             * lookup table, and it is guaranteed to never go out of
+             * bounds unless the input span was just empty, which for a
+             * lookup table can just be assumed to always be false. */
+            bool isInRange = (uint)i < (uint)span.Length;
+            byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
+            int
+                negativeFlag = rangeFlag - 1,
+                mask = ~negativeFlag,
+                offset = i & mask;
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T r1 = ref Unsafe.Add(ref r0, offset);
+
+            return ref r1;
+        }
+
+        /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlySpan{T}"/> of bytes.
         /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>

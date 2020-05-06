@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -48,6 +49,44 @@ namespace UnitTests.HighPerformance.Extensions
             ref int r1 = ref Unsafe.AsRef(data[5]);
 
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(4)]
+        [DataRow(22)]
+        [DataRow(43)]
+        [DataRow(44)]
+        [DataRow(45)]
+        [DataRow(46)]
+        [DataRow(100)]
+        [DataRow(int.MaxValue)]
+        [DataRow(-1)]
+        [DataRow(int.MinValue)]
+        public void Test_ReadOnlySpanExtensions_DangerousGetLookupReferenceAt(int i)
+        {
+            ReadOnlySpan<byte> table = new byte[]
+            {
+                0xFF, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 1, 1, 0, 1, 1, 1, 1,
+                0, 1, 0, 1, 0, 1, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 1, 0, 1
+            };
+
+            ref byte ri = ref Unsafe.AsRef(table.DangerousGetLookupReferenceAt(i));
+
+            bool isInRange = (uint)i < (uint)table.Length;
+
+            if (isInRange)
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref ri, ref Unsafe.AsRef(table[i])));
+            }
+            else
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref ri, ref MemoryMarshal.GetReference(table)));
+            }
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
