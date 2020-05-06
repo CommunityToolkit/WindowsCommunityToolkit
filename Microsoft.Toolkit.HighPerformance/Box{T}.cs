@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1115", Justification = "Comment for [NotNullWhen] attribute")]
         public static bool TryGetFrom(
             object obj,
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER
             /* On .NET Standard 2.1, we can add the [NotNullWhen] attribute
              * to let the code analysis engine know that whenever this method
              * returns true, box will always be assigned to a non-null value.
@@ -139,6 +139,7 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <inheritdoc/>
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "Null forgiving operator")]
         public override string ToString()
         {
             /* Here we're overriding the base object virtual methods to ensure
@@ -152,11 +153,11 @@ namespace Microsoft.Toolkit.HighPerformance
              * an object reference is used instead, the call would be forwarded
              * to those same methods anyway, since the method table for an object
              * representing a T instance is the one of type T anyway. */
-            return this.GetReference().ToString();
+            return this.GetReference().ToString()!;
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(this, obj);
         }

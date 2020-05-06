@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
     /// </summary>
     /// <typeparam name="T">The type of values to hash.</typeparam>
     public struct HashCode<T>
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
         where T : notnull
 #else
         /* .NET Standard 2.0 doesn't have the API to check at runtime whether a
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             /* If typeof(T) is not unmanaged, iterate over all the items one by one.
              * This check is always known in advance either by the JITter or by the AOT
              * compiler, so this branch will never actually be executed by the code. */

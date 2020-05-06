@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     public readonly ref struct Ref<T>
     {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// The 1-length <see cref="Span{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>

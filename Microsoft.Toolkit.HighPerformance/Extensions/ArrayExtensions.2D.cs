@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             for (int i = bounds.Top; i < bounds.Bottom; i++)
             {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
                 ref T r0 = ref array[i, bounds.Left];
 
                 // Span<T>.Fill will use vectorized instructions when possible
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             Span<T>
 #else
             /* .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 throw new ArgumentOutOfRangeException(nameof(row));
             }
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
 
             return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return new Array2DColumnEnumerable<T>(array, column);
         }
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Cretes a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
         /// </summary>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Title>Windows Community Toolkit High Performance .NET Standard</Title>
@@ -22,17 +22,62 @@
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <ItemGroup>
 
-  <!-- .NET Standard 2.0 doesn't have the Span<T> and HashCode types -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
-    <PackageReference Include="System.Memory" Version="4.5.4" />
-  </ItemGroup>
+        <!-- .NET Standard 2.0 doesn't have the Span<T>, HashCode and ValueTask types.
+             We also need to reference the System.Runtime.CompilerServices.Unsafe package directly,
+             even though System.Memory references it already, as we need a more recent version than
+             the one bundled with it. This is so that we can use the Unsafe.Unbox<T> method,
+             which is used by the Box<T> type in the package.-->
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
+        <PackageReference Include="System.Memory" Version="4.5.4" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+      <ItemGroup>
 
-  <!-- Always import the Unsafe type even on .NET Standard 2.1, so that the 5.0.0 version can be used.
-       This is necessary to be able to use the Unsafe.Unbox<T>(object) API, which is otherwise missing. -->
-  <ItemGroup>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
-  </ItemGroup>
+        <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+      </ItemGroup>
+      <PropertyGroup>
+
+        <!-- NETSTANDARD2_1_OR_GREATER: includes both .NET Standard 2.1 and .NET Core 3.1.
+             This is needed because .NET Core 3.1 will be a separate package than .NET Standard 2.1. -->
+
+        <!-- SPAN_RUNTIME_SUPPORT: define a constant to indicate runtimes with runtime support for
+             the fast Span<T> type, as well as some overloads with Span<T> parameters (eg. Stream.Write).
+             In particular, these are runtimes which are able to create Span<T> instances from just
+             a managed reference, which can be used to slice arbitrary objects not technically supported.
+             This API (MemoryMarshal.CreateSpan) is not part of .NET Standard 2.0, but it is still
+             available on .NET Core 2.1. So by using this constant, we can make sure to expose those
+             APIs relying on that method on all target frameworks that are able to support them. -->
+        <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+      <PropertyGroup>
+
+        <!-- NETCORE_RUNTIME: to avoid issues with APIs that assume a specific memory layout, we define a
+             .NET Core runtime constant to indicate the either .NET Core 2.1 or .NET Core 3.1. These are
+             runtimes with the same overall memory layout for objects (in particular: strings, SZ arrays
+             and 2D arrays). We can use this constant to make sure that APIs that are exclusively available
+             for .NET Standard targets do not make any assumtpion of any internals of the runtime being
+             actually used by the consumers. -->
+        <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+      <ItemGroup>
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+      </ItemGroup>
+      <PropertyGroup>
+        <DefineConstants>SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
 </Project>

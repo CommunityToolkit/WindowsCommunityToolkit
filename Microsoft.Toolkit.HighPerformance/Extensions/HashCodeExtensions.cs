@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Add<T>(ref this HashCode hashCode, ReadOnlySpan<T> span)
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             where T : notnull
 #else
             // Same type constraints as HashCode<T>, see comments there
