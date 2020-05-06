@@ -5,7 +5,7 @@
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Extensions
+namespace UnitTests.HighPerformance.Helpers
 {
     [TestClass]
     public class Test_BitHelper
@@ -185,6 +185,60 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.AreEqual(0b110ul, BitHelper.SetFlag(2u, 2, true));
             Assert.AreEqual(1ul << 31, BitHelper.SetFlag(0ul, 31, true));
             Assert.AreEqual(1ul << 63, BitHelper.SetFlag(0ul, 63, true));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow(0u, (byte)0, (byte)0, 0u)]
+        [DataRow(uint.MaxValue, (byte)0, (byte)8, 255u)]
+        [DataRow(uint.MaxValue, (byte)24, (byte)8, 255u)]
+        [DataRow(12345u << 7, (byte)7, (byte)16, 12345u)]
+        [DataRow(3u << 1, (byte)1, (byte)2, 3u)]
+        [DataRow(21u << 17, (byte)17, (byte)5, 21u)]
+        [DataRow(1u << 31, (byte)31, (byte)1, 1u)]
+        [DataRow(ulong.MaxValue, (byte)0, (byte)8, 255u)]
+        [DataRow(ulong.MaxValue, (byte)24, (byte)8, 255u)]
+        [DataRow(ulong.MaxValue, (byte)44, (byte)8, 255u)]
+        [DataRow(12345ul << 35, (byte)35, (byte)16, 12345ul)]
+        [DataRow(3ul << 56, (byte)56, (byte)2, 3ul)]
+        [DataRow(21ul << 37, (byte)37, (byte)5, 21ul)]
+        [DataRow(1ul << 63, (byte)63, (byte)1, 1ul)]
+        public void Test_BitHelper_ExtractRange_UInt64(ulong value, byte start, byte length, ulong result)
+        {
+            Assert.AreEqual(result, BitHelper.ExtractRange(value, start, length));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow((byte)0, (byte)0, 0u)]
+        [DataRow((byte)0, (byte)8, 255ul)]
+        [DataRow((byte)24, (byte)8, 255ul)]
+        [DataRow((byte)0, (byte)31, (ulong)int.MaxValue)]
+        [DataRow((byte)29, (byte)3, 5ul)]
+        [DataRow((byte)7, (byte)14, 12345ul)]
+        [DataRow((byte)1, (byte)2, 3ul)]
+        [DataRow((byte)17, (byte)5, 21ul)]
+        [DataRow((byte)31, (byte)1, 1ul)]
+        [DataRow((byte)44, (byte)8, 255ul)]
+        [DataRow((byte)23, (byte)8, 255ul)]
+        [DataRow((byte)55, (byte)3, 5ul)]
+        [DataRow((byte)34, (byte)14, 12345ul)]
+        [DataRow((byte)59, (byte)2, 3ul)]
+        [DataRow((byte)45, (byte)5, 21ul)]
+        [DataRow((byte)62, (byte)1, 1ul)]
+        public void Test_BitHelper_SetRange_UInt64(byte start, byte length, ulong flags)
+        {
+            // Specific initial bit mask to check for unwanted modifications
+            const ulong value = 0xAAAA5555AAAA5555u;
+
+            ulong
+                backup = BitHelper.ExtractRange(value, start, length),
+                result = BitHelper.SetRange(value, start, length, flags),
+                extracted = BitHelper.ExtractRange(result, start, length),
+                restored = BitHelper.SetRange(result, start, length, backup);
+
+            Assert.AreEqual(extracted, flags);
+            Assert.AreEqual(restored, value);
         }
     }
 }
