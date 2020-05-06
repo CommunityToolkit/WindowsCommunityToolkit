@@ -141,8 +141,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // Only run the SIMD-enabled branch if the Vector<T> APIs are hardware accelerated
             if (Vector.IsHardwareAccelerated)
             {
-                IntPtr end = length - Vector<T>.Count;
-
                 var partials = Vector<T>.Zero;
                 var vc = new Vector<T>(value);
 
@@ -151,23 +149,22 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 // enough, the partial results could overflow if the target value
                 // is present too many times. This upper limit depends on the type
                 // being used, as the smaller the type is, the shorter the supported
-                // fast range will be. In the worst case scenario, the same value appears
-                // always at the offset aligned with the same SIMD value in the current
-                // register. Therefore, if the input span is longer than that minimum
-                // threshold, additional checks need to be performed to avoid overflows.
+                // fast range will be. Therefore, if the input span is longer than that
+                // minimum threshold, additional checks need to be performed to avoid overflows.
                 // This value is equal to the maximum (signed) numerical value for the current
                 // type, divided by the number of value that can fit in a register, minus 1.
                 // This is because the partial results are accumulated with a dot product,
                 // which sums them horizontally while still working on the original type.
-                // Dividing the max value by their count ensures that overflows can't happen.
                 // The check is moved outside of the loop to enable a branchless version
                 // of this method if the input span is guaranteed not to cause overflows.
                 // Otherwise, the safe but slower variant is used.
+                // Note that even the slower vectorized version is still much
+                // faster than just doing a linear search without using vectorization.
                 int threshold = (max / Vector<T>.Count) - 1;
 
                 if ((byte*)length <= (byte*)threshold)
                 {
-                    for (; (byte*)offset <= (byte*)end; offset += Vector<T>.Count)
+                    while ((byte*)length >= (byte*)Vector<T>.Count)
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
@@ -177,25 +174,30 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                         // Since the input type is guaranteed to always be signed,
                         // this means that a value with all 1s represents -1, as
                         // signed numbers are represented in two's complement.
-                        // So we can subtract this intermediate value to the
+                        // So we can just subtract this intermediate value to the
                         // partial results, which effectively sums 1 for each match.
                         var vi = Unsafe.As<T, Vector<T>>(ref ri);
                         var ve = Vector.Equals(vi, vc);
 
                         partials -= ve;
+
+                        length -= Vector<T>.Count;
+                        offset += Vector<T>.Count;
                     }
                 }
                 else
                 {
-                    for (int j = 0; (byte*)offset <= (byte*)end; offset += Vector<T>.Count, j++)
+                    for (int j = 0; (byte*)length >= (byte*)Vector<T>.Count; j++)
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
-                        // Same as before
                         var vi = Unsafe.As<T, Vector<T>>(ref ri);
                         var ve = Vector.Equals(vi, vc);
 
                         partials -= ve;
+
+                        length -= Vector<T>.Count;
+                        offset += Vector<T>.Count;
 
                         // Additional checks to avoid overflows
                         if (j == threshold)
@@ -212,9 +214,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
 
             // Iterate over the remaining values and count those that match
-            for (; (byte*)offset < (byte*)length; offset += 1)
+            while ((byte*)length > (byte*)0)
             {
                 result += Unsafe.Add(ref r0, offset).Equals(value).ToInt();
+
+                length -= 1;
+                offset += 1;
             }
 
             return result;
