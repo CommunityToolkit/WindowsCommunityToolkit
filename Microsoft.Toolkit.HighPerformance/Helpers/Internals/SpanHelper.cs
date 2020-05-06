@@ -32,14 +32,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 length -= 8;
 
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 3).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 4).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 5).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 6).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 7).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 3).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 4).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 5).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 6).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 7).GetHashCode());
 
                 offset += 8;
             }
@@ -48,10 +48,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 length -= 4;
 
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset + 3).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 3).GetHashCode());
 
                 offset += 4;
             }
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 length -= 1;
 
-                hash = unchecked((hash << 5) + hash ^ Unsafe.Add(ref r0, offset).GetHashCode());
+                hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset).GetHashCode());
 
                 offset += 1;
             }
