@@ -2,11 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.IO;
-#if !SPAN_RUNTIME_SUPPORT
 using System;
-using System.Buffers;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+#if !SPAN_RUNTIME_SUPPORT
+using System.Buffers;
 using System.Threading;
 using System.Threading.Tasks;
 #endif
@@ -157,5 +158,97 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
         }
 #endif
+
+        /// <summary>
+        /// Reads a value of a specified type from a source <see cref="Stream"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of value to read.</typeparam>
+        /// <param name="stream">The source <see cref="Stream"/> instance to read from.</param>
+        /// <returns>The <typeparamref name="T"/> value read from <paramref name="stream"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="stream"/> reaches the end.</exception>
+#if SPAN_RUNTIME_SUPPORT
+        // Avoid inlining as we're renting a stack buffer, which
+        // cause issues if this method was called inside a loop
+        [MethodImpl(MethodImplOptions.NoInlining)]
+#endif
+        public static T Read<T>(this Stream stream)
+            where T : unmanaged
+        {
+#if SPAN_RUNTIME_SUPPORT
+            Span<byte> span = stackalloc byte[Unsafe.SizeOf<T>()];
+
+            if (stream.Read(span) != span.Length)
+            {
+                ThrowInvalidOperationExceptionForEndOfStream();
+            }
+
+            ref byte r0 = ref MemoryMarshal.GetReference(span);
+
+            return Unsafe.ReadUnaligned<T>(ref r0);
+#else
+            int length = Unsafe.SizeOf<T>();
+            byte[] buffer = ArrayPool<byte>.Shared.Rent(length);
+
+            try
+            {
+                if (stream.Read(buffer, 0, length) != length)
+                {
+                    ThrowInvalidOperationExceptionForEndOfStream();
+                }
+
+                return Unsafe.ReadUnaligned<T>(ref buffer[0]);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Writes a value of a specified type into a target <see cref="Stream"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of value to write.</typeparam>
+        /// <param name="stream">The target <see cref="Stream"/> instance to write to.</param>
+        /// <param name="value">The input value to write to <paramref name="stream"/>.</param>
+#if SPAN_RUNTIME_SUPPORT
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static void Write<T>(this Stream stream, in T value)
+            where T : unmanaged
+        {
+#if SPAN_RUNTIME_SUPPORT
+            ref T r0 = ref Unsafe.AsRef(value);
+            ref byte r1 = ref Unsafe.As<T, byte>(ref r0);
+            int length = Unsafe.SizeOf<T>();
+
+            ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpan(ref r1, length);
+
+            stream.Write(span);
+#else
+            int length = Unsafe.SizeOf<T>();
+            byte[] buffer = ArrayPool<byte>.Shared.Rent(length);
+
+            try
+            {
+                Unsafe.WriteUnaligned(ref buffer[0], value);
+
+                stream.Write(buffer, 0, length);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when <see cref="Read{T}"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOperationExceptionForEndOfStream()
+        {
+            throw new InvalidOperationException("The stream didn't contain enough data to read the requested item");
+        }
     }
 }
