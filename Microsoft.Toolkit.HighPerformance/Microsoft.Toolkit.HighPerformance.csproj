@@ -16,7 +16,8 @@
       - ParallelHelper: helpers to work with parallel code in a highly optimized manner.
       - Box&lt;T&gt;: a type mapping boxed value types and exposing some utility and high performance methods.
       - Ref&lt;T&gt;: a stack-only struct that can store a reference to a value of a specified type.
-    </Description>
+      - NullableRef&lt;T&gt;: a stack-only struct similar to Ref&lt;T&gt;, which also supports nullable references.
+  </Description>
     <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
