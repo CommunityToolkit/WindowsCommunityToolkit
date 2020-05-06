@@ -71,12 +71,12 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when trying to write too many bytes to the target stream.
+        /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target stream.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForEndOfStreamOnWrite()
         {
-            throw new InvalidOperationException("The current stream can't contain the requested input data.");
+            throw new ArgumentException("The current stream can't contain the requested input data.");
         }
 
         /// <summary>
