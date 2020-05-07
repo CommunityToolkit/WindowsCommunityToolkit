@@ -15,34 +15,26 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class IBufferWriterExtensions
     {
         /// <summary>
-        /// Writes a <see cref="byte"/> into a target <see cref="IBufferWriter{T}"/> instance.
-        /// </summary>
-        /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
-        /// <param name="value">The input value to write to <paramref name="writer"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Write(this IBufferWriter<byte> writer, byte value)
-        {
-            Span<byte> span = writer.GetSpan(1);
-
-            span[0] = value;
-
-            writer.Advance(1);
-        }
-
-        /// <summary>
         /// Writes a value of a specified type into a target <see cref="IBufferWriter{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of value to write.</typeparam>
         /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
         /// <param name="value">The input value to write to <paramref name="writer"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Write<T>(this IBufferWriter<byte> writer, in T value)
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="writer"/> reaches the end.</exception>
+        public static void Write<T>(this IBufferWriter<byte> writer, T value)
             where T : unmanaged
         {
             int length = Unsafe.SizeOf<T>();
-            Span<byte> span = writer.GetSpan(length);
+            Span<byte> span = writer.GetSpan(1);
 
-            MemoryMarshal.Write(span, ref Unsafe.AsRef(value));
+            if (span.Length < length)
+            {
+                ThrowArgumentExceptionForEndOfBuffer();
+            }
+
+            ref byte r0 = ref MemoryMarshal.GetReference(span);
+
+            Unsafe.WriteUnaligned(ref r0, value);
 
             writer.Advance(length);
         }
@@ -53,29 +45,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of value to write.</typeparam>
         /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
         /// <param name="value">The input value to write to <paramref name="writer"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="writer"/> reaches the end.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Write<T>(this IBufferWriter<T> writer, T value)
         {
             Span<T> span = writer.GetSpan(1);
 
-            span[0] = value;
+            if (span.Length < 1)
+            {
+                ThrowArgumentExceptionForEndOfBuffer();
+            }
+
+            MemoryMarshal.GetReference(span) = value;
 
             writer.Advance(1);
-        }
-
-        /// <summary>
-        /// Writes a series of bytes of a specified type into a target <see cref="IBufferWriter{T}"/> instance.
-        /// </summary>
-        /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
-        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> to write to <paramref name="writer"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Write(this IBufferWriter<byte> writer, ReadOnlySpan<byte> span)
-        {
-            Span<byte> destination = writer.GetSpan(span.Length);
-
-            span.CopyTo(destination);
-
-            writer.Advance(span.Length);
         }
 
         /// <summary>
@@ -84,6 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of value to write.</typeparam>
         /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> to write to <paramref name="writer"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="writer"/> reaches the end.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Write<T>(this IBufferWriter<byte> writer, ReadOnlySpan<T> span)
             where T : unmanaged
@@ -96,21 +80,32 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             writer.Advance(source.Length);
         }
 
+#if !SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Writes a series of items of a specified type into a target <see cref="IBufferWriter{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of value to write.</typeparam>
         /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance to write to.</param>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> to write to <paramref name="writer"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="writer"/> reaches the end.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Write<T>(this IBufferWriter<T> writer, ReadOnlySpan<T> span)
-            where T : unmanaged
         {
             Span<T> destination = writer.GetSpan(span.Length);
 
             span.CopyTo(destination);
 
             writer.Advance(span.Length);
+        }
+#endif
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target writer.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowArgumentExceptionForEndOfBuffer()
+        {
+            throw new ArgumentException("The current buffer writer can't contain the requested input data.");
         }
     }
 }
