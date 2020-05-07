@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// <summary>
     /// Helpers for working with the <see cref="ReadOnlySpan{T}"/> type.
     /// </summary>
-    public static partial class ReadOnlySpanExtensions
+    public static class ReadOnlySpanExtensions
     {
         /// <summary>
         /// Returns a reference to the first element within a given <see cref="ReadOnlySpan{T}"/>, with no bounds checks.
