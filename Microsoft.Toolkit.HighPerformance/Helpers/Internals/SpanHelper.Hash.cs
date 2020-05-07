@@ -31,6 +31,11 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
             while ((byte*)length >= (byte*)8)
             {
+                // Doing a left shift by 5 and adding is equivalent to multiplying by 33.
+                // This is preferred for performance reasons, as when working with integer
+                // values most CPUs have higher latency for multiplication operations
+                // compared to a simple shift and add. For more info on this, see the
+                // details for imul, shl, add: https://gmplib.org/~tege/x86-timing.pdf.
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 2).GetHashCode());
