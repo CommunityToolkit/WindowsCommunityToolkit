@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// </remarks>
     [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
-    public sealed class MemoryBufferWriter<T> : IBufferWriter<T>
+    public sealed class MemoryBufferWriter<T> : IBuffer<T>
     {
         /// <summary>
         /// The underlying <see cref="Memory{T}"/> instance.
@@ -48,57 +48,42 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             this.memory = memory;
         }
 
-        /// <summary>
-        /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlyMemory{T}"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public ReadOnlyMemory<T> WrittenMemory
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.memory.Slice(0, this.index);
         }
 
-        /// <summary>
-        /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlySpan{T}"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public ReadOnlySpan<T> WrittenSpan
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.memory.Slice(0, this.index).Span;
         }
 
-        /// <summary>
-        /// Gets the amount of data written to the underlying buffer so far.
-        /// </summary>
+        /// <inheritdoc/>
         public int WrittenCount
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.index;
         }
 
-        /// <summary>
-        /// Gets the total amount of space within the underlying buffer.
-        /// </summary>
+        /// <inheritdoc/>
         public int Capacity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.memory.Length;
         }
 
-        /// <summary>
-        /// Gets the amount of space available that can still be written into without forcing the underlying buffer to grow.
-        /// </summary>
+        /// <inheritdoc/>
         public int FreeCapacity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.memory.Length - this.index;
         }
 
-        /// <summary>
-        /// Clears the data written to the underlying buffer.
-        /// </summary>
-        /// <remarks>
-        /// You must clear the <see cref="MemoryBufferWriter{T}"/> before trying to re-use it.
-        /// </remarks>
+        /// <inheritdoc/>
         public void Clear()
         {
             this.memory.Slice(0, this.index).Span.Clear();
