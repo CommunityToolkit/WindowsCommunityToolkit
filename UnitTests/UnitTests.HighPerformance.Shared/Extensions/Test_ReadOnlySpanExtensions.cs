@@ -132,7 +132,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_Tokenize_Csv()
+        public void Test_ReadOnlySpanExtensions_Tokenize_Comma()
         {
             string text = "name,surname,city,year,profession,age";
 
@@ -150,7 +150,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_Tokenize_CsvWithMissingValues()
+        public void Test_ReadOnlySpanExtensions_Tokenize_CommaWithMissingValues()
         {
             string text = ",name,,city,,,profession,,age,,";
 
