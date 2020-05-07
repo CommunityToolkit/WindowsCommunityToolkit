@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         private T[]? array;
 
-#pragma warning disable IDE0032
+#pragma warning disable IDE0032 // Use field over auto-property (clearer and faster)
         /// <summary>
         /// The starting offset within <see cref="array"/>.
         /// </summary>

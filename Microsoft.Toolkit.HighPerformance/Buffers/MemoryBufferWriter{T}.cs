@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         private readonly Memory<T> memory;
 
-#pragma warning disable IDE0032
+#pragma warning disable IDE0032 // Use field over auto-property (like in ArrayPoolBufferWriter<T>)
         /// <summary>
         /// The starting offset within <see cref="memory"/>.
         /// </summary>
