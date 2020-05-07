@@ -26,9 +26,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReference(this string text)
         {
+#if NETCOREAPP3_1
+            return ref Unsafe.AsRef(text.GetPinnableReference());
+#elif NETCOREAPP2_1
             var stringData = Unsafe.As<RawStringData>(text);
 
             return ref stringData.Data;
+#else
+            return ref MemoryMarshal.GetReference(text.AsSpan());
+#endif
         }
 
         /// <summary>
@@ -42,12 +48,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReferenceAt(this string text, int i)
         {
-            var stringData = Unsafe.As<RawStringData>(text);
-            ref var ri = ref Unsafe.Add(ref stringData.Data, i);
+#if NETCOREAPP3_1
+            ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
+#elif NETCOREAPP2_1
+            ref char r0 = ref Unsafe.As<RawStringData>(text).Data;
+#else
+            ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
+#endif
+            ref char ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
         }
 
+#if NETCOREAPP2_1
         // Description adapted from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
         // CLR strings are laid out in memory as follows:
         // [ sync block || pMethodTable || length || string data .. ]
@@ -66,6 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #pragma warning restore CS0649
 #pragma warning restore SA1401
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given character into a target <see cref="string"/> instance.
