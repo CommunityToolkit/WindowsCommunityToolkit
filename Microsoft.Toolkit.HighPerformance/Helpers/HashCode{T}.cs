@@ -15,6 +15,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
     /// Combines the hash code of sequences of <typeparamref name="T"/> values into a single hash code.
     /// </summary>
     /// <typeparam name="T">The type of values to hash.</typeparam>
+    /// <remarks>
+    /// The hash codes returned by the <see cref="Combine"/> method are only guaranteed to be repeatable for
+    /// the current execution session, just like with the available <see cref="HashCode"/> APIs.In other words,
+    /// hashing the same <see cref="ReadOnlySpan{T}"/> collection multiple times in the same process will always
+    /// result in the same hash code, while the same collection being hashed again from another process
+    /// (or another instance of the same process) is not guaranteed to result in the same final value.
+    /// For more info, see: https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode#remarks.
+    /// </remarks>
     public struct HashCode<T>
 #if SPAN_RUNTIME_SUPPORT
         where T : notnull
