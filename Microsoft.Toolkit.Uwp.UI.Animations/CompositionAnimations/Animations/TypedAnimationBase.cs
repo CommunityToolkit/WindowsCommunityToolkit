@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             PrepareKeyFrames();
             var animation = GetTypedAnimationFromCompositor(compositor);
             animation.Target = Target;
-            animation.Duration = Duration.TimeSpan;
+            animation.Duration = Duration;
             animation.DelayTime = Delay;
 
             if (ApiInformationHelper.IsCreatorsUpdateOrAbove)

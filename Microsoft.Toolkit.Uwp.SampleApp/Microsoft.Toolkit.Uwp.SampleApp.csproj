@@ -7,7 +7,7 @@
     <RootNamespace>Microsoft.Toolkit.Uwp.SampleApp</RootNamespace>
 
     <Platforms>x86;x64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
 
     <AssetTargetFallback>uap10.0.17134</AssetTargetFallback>
 
@@ -1328,6 +1328,9 @@
     <Page Update="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ReferenceCopyLocalPaths Include="$(PkgMicrosoft_WinUI)\lib\uap10.0\*.winmd" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <_GenerateAppxManifestDependsOn>

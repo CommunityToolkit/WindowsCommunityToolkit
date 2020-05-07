@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Duration"/> property
         /// </summary>
         public static readonly DependencyProperty DurationProperty =
-            DependencyProperty.Register(nameof(Duration), typeof(Duration), typeof(AnimationBase), new PropertyMetadata(new Duration(TimeSpan.FromMilliseconds(400)), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(Duration), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(new Duration(TimeSpan.FromMilliseconds(400)), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="KeyFrames"/> property
@@ -71,9 +71,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the duration of the animation
         /// </summary>
-        public Duration Duration
+        public TimeSpan Duration
         {
-            get { return (Duration)GetValue(DurationProperty); }
+            get { return (TimeSpan)GetValue(DurationProperty); }
             set { SetValue(DurationProperty, value); }
         }
 
