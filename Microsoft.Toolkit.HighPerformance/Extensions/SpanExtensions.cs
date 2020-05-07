@@ -164,6 +164,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Gets a content hash from the input <see cref="Span{T}"/> instance using the Djb2 algorithm.
+        /// For more info, see the documentation for <see cref="ReadOnlySpanExtensions.GetDjb2HashCode{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
         /// <param name="span">The input <see cref="Span{T}"/> instance.</param>

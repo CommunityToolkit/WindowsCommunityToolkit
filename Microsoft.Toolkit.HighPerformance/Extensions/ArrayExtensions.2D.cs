@@ -287,6 +287,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Gets a content hash from the input 2D <typeparamref name="T"/> array instance using the Djb2 algorithm.
+        /// For more info, see the documentation for <see cref="ReadOnlySpanExtensions.GetDjb2HashCode{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of items in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>

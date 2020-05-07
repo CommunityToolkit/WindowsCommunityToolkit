@@ -234,6 +234,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance using the Djb2 algorithm.
+        /// It was designed by <see href="https://en.wikipedia.org/wiki/Daniel_J._Bernstein">Daniel J. Bernstein</see> and is a
+        /// <see href="https://en.wikipedia.org/wiki/List_of_hash_functions#Non-cryptographic_hash_functions">non-cryptographic has function</see>.
+        /// The main advantages of this algorithm are a good distribution of the resulting hash codes, which results in a relatively low
+        /// number of collisions, while at the same time being particularly fast to process, making it suitable for quickly hashing
+        /// even long sequences of values. For the reference implementation, see: <see href="http://www.cse.yorku.ca/~oz/hash.html"/>.
+        /// For details on the used constants, see the details provided in this StackOverflow answer (as well as the accepted one):
+        /// <see href="https://stackoverflow.com/questions/10696223/reason-for-5381-number-in-djb-hash-function/13809282#13809282"/>.
+        /// Additionally, a comparison between some common hashing algoriths can be found in the reply to this StackExchange question:
+        /// <see href="https://softwareengineering.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed"/>.
+        /// Note that the exact implementation is slightly different in this method when it is not called on a sequence of <see cref="byte"/>
+        /// values: in this case the <see cref="object.GetHashCode"/> method will be invoked for each <typeparamref name="T"/> value in
+        /// the provided <see cref="ReadOnlySpan{T}"/> instance, and then those values will be combined using the Djb2 algorithm.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>

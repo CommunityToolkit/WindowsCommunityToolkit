@@ -148,6 +148,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Gets a content hash from the input <see cref="string"/> instance using the Djb2 algorithm.
+        /// For more info, see the documentation for <see cref="ReadOnlySpanExtensions.GetDjb2HashCode{T}"/>.
         /// </summary>
         /// <param name="text">The source <see cref="string"/> to enumerate.</param>
         /// <returns>The Djb2 value for the input <see cref="string"/> instance.</returns>
