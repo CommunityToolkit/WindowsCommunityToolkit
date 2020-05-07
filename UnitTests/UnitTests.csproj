@@ -103,6 +103,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FluentAssertions">
+      <Version>5.10.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
@@ -120,6 +123,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ObservableGroupedCollectionExtensionsTests.cs" />
     <Compile Include="Converters\Test_AdaptiveHeightValueConverter.cs" />
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
@@ -166,6 +170,11 @@
     <Compile Include="Markdown\Parse\SuperscriptTests.cs" />
     <Compile Include="Markdown\Parse\TableTests.cs" />
     <Compile Include="Markdown\TestBase.cs" />
+    <Compile Include="Collections\IntGroup.cs" />
+    <Compile Include="Collections\ObservableGroupedCollectionTests.cs" />
+    <Compile Include="Collections\ObservableGroupTests.cs" />
+    <Compile Include="Collections\ReadOnlyObservableGroupedCollectionTests.cs" />
+    <Compile Include="Collections\ReadOnlyObservableGroupTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />

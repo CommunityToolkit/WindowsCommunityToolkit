@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Title>Windows Community Toolkit High Performance .NET Standard</Title>
+    <Description>
+      This package includes high performance .NET Standard helpers such as:
+      - ArrayPoolBufferWriter&lt;T&gt;: an IBufferWriter&lt;T&gt; implementation using pooled arrays, which also supports IMemoryOwner&lt;T&gt;.
+      - MemoryOwner&lt;T&gt;: an IMemoryOwner&lt;T&gt; implementation with an embedded length and a fast Span&lt;T&gt; accessor.
+      - SpanOwner&lt;T&gt;: a stack-only type with the ability to rent a buffer of a specified length and getting a Span&lt;T&gt; from it.
+      - String, array, Span&lt;T&gt;, Memory&lt;T&gt; extensions and more, all focused on high performance.
+      - HashCode&lt;T&gt;: a SIMD-enabled extension of HashCode to quickly process sequences of values.
+      - BitHelper: a class with helper methods to perform bit operations on numeric types.
+      - ParallelHelper: helpers to work with parallel code in a highly optimized manner.
+      - Box&lt;T&gt;: a type mapping boxed value types and exposing some utility and high performance methods.
+      - Ref&lt;T&gt;: a stack-only struct that can store a reference to a value of a specified type.
+    </Description>
+    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
+
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
+  <!-- .NET Standard 2.0 doesn't have the Span<T> and HashCode types -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+  </ItemGroup>
+
+  <!-- Always import the Unsafe type even on .NET Standard 2.1, so that the 5.0.0 version can be used.
+       This is necessary to be able to use the Unsafe.Unbox<T>(object) API, which is otherwise missing. -->
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+  </ItemGroup>
+
+</Project>

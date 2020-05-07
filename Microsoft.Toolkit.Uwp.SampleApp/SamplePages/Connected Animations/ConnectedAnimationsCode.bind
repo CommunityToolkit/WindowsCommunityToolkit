@@ -51,11 +51,13 @@
         animations:Connected.ListItemElementName="ItemThumbnail"
         animations:Connected.ListItemKey="listItem">
         <GridView.ItemTemplate>
-          <DataTemplate x:DataType="data:Item">
-            <StackPanel>
-              <Border x:Name="ItemThumbnail" Background="Purple" Height="200" Width="200"></Border>
-              <TextBlock Text="{x:Bind Title}"></TextBlock>
-            </StackPanel>
+          <DataTemplate x:DataType="data:PhotoDataItem">
+            <Grid Height="200" Width="200">
+              <Image x:Name="ItemThumbnail" Source="{x:Bind Thumbnail}" Stretch="UniformToFill"/>
+              <Border Background="#99FFFFFF" VerticalAlignment="Bottom" Padding="5">
+                <TextBlock Text="{x:Bind Title}" FontSize="14"/>
+              </Border>
+            </Grid>
           </DataTemplate>
         </GridView.ItemTemplate>
       </GridView>
@@ -81,10 +83,10 @@
 
         </StackPanel>
 
-        <Border x:Name="ItemHeroElement" 
-          Height="300" Width="300" 
-          Background="Purple" 
-          animations:Connected.Key="listItem"></Border>
+        <Image x:Name="ItemHeroElement"
+                Height="300" Width="300"
+                Source="{x:Bind item.Thumbnail}"
+                animations:Connected.Key="listItem"/>
       </StackPanel>
 
       <TextBlock Margin="0,40" 
