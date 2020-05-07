@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Views
     /// <summary>
     /// A debug proxy used to display items for the <see cref="MemoryOwner{T}"/> type.
     /// </summary>
-    /// <typeparam name="T">The type of items stored in the input <see cref="MemoryOwner{T}"/> instances..</typeparam>
+    /// <typeparam name="T">The type of items stored in the input <see cref="MemoryOwner{T}"/> instances.</typeparam>
     internal sealed class MemoryOwnerDebugView<T>
     {
         /// <summary>

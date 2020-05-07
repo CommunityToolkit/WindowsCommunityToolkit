@@ -174,7 +174,7 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(stream.Position, data.Length);
             Assert.IsTrue(data.SequenceEqual(result));
 
-            Assert.ThrowsException<InvalidOperationException>(() => stream.WriteByte(128));
+            Assert.ThrowsException<ArgumentException>(() => stream.WriteByte(128));
 
             int exitCode = stream.ReadByte();
 

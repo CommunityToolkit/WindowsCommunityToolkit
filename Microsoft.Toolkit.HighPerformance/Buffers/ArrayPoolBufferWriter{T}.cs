@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// </remarks>
     [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
-    public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>, IMemoryOwner<T>
+    public sealed class ArrayPoolBufferWriter<T> : IBuffer<T>, IMemoryOwner<T>
     {
         /// <summary>
         /// The default buffer size to use to expand empty arrays.
@@ -99,9 +99,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             get => MemoryMarshal.AsMemory(WrittenMemory);
         }
 
-        /// <summary>
-        /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlyMemory{T}"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public ReadOnlyMemory<T> WrittenMemory
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -118,9 +116,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlySpan{T}"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public ReadOnlySpan<T> WrittenSpan
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -137,18 +133,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Gets the amount of data written to the underlying buffer so far.
-        /// </summary>
+        /// <inheritdoc/>
         public int WrittenCount
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.index;
         }
 
-        /// <summary>
-        /// Gets the total amount of space within the underlying buffer.
-        /// </summary>
+        /// <inheritdoc/>
         public int Capacity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,9 +157,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Gets the amount of space available that can still be written into without forcing the underlying buffer to grow.
-        /// </summary>
+        /// <inheritdoc/>
         public int FreeCapacity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -184,12 +174,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Clears the data written to the underlying buffer.
-        /// </summary>
-        /// <remarks>
-        /// You must clear the <see cref="ArrayPoolBufferWriter{T}"/> before trying to re-use it.
-        /// </remarks>
+        /// <inheritdoc/>
         public void Clear()
         {
             T[]? array = this.array;
