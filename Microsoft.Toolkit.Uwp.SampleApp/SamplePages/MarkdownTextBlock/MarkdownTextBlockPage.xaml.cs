@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.IO;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI;
@@ -72,8 +73,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Load the initial demo data from the file.
             try
             {
-                string initalMarkdownText = await FileIO.ReadTextAsync(await Package.Current.InstalledLocation.GetFileAsync("SamplePages\\MarkdownTextBlock\\InitialContent.md"));
-                SetInitalText(initalMarkdownText);
+                using (var jsonStream = await Samples.LoadLocalFile("SamplePages/MarkdownTextBlock/InitialContent.md"))
+                {
+                    using (var streamreader = new StreamReader(jsonStream))
+                    {
+                        string initalMarkdownText = await streamreader.ReadToEndAsync();
+                        SetInitalText(initalMarkdownText);
+                    }
+                }
             }
             catch (Exception)
             {

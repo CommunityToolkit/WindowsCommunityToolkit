@@ -3,19 +3,22 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Services.Store.Engagement;
+using System.Diagnostics;
 
+// using Microsoft.Services.Store.Engagement;
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class TrackingManager
     {
+        /*
         private static StoreServicesCustomEventLogger logger;
+        */
 
         static TrackingManager()
         {
             try
             {
-                logger = StoreServicesCustomEventLogger.GetDefault();
+                // logger = StoreServicesCustomEventLogger.GetDefault();
             }
             catch
             {
@@ -27,7 +30,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                logger.Log($"exception - {ex.Message} - {ex.StackTrace}");
+                // logger.Log($"exception - {ex.Message} - {ex.StackTrace}");
+                Debug.WriteLine($"exception - {ex.Message} - {ex.StackTrace}");
             }
             catch
             {
@@ -39,7 +43,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                logger.Log($"{category} - {action} - {label} - {value.ToString()}");
+                // logger.Log($"{category} - {action} - {label} - {value.ToString()}");
+                Debug.WriteLine($"{category} - {action} - {label} - {value.ToString()}");
             }
             catch
             {
@@ -51,7 +56,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                logger.Log($"pageView - {pageName}");
+                // logger.Log($"pageView - {pageName}");
+                Debug.WriteLine($"pageView - {pageName}");
             }
             catch
             {

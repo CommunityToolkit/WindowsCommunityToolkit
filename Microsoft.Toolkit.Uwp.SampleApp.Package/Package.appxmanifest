@@ -10,7 +10,7 @@
   <Identity
     Name="e89944d1-807e-4f30-a28a-3fe6952f5f71"
     Publisher="CN=alzollin"
-    Version="1.0.0.0" />
+    Version="8.0.0.0" />
 
   <Properties>
     <DisplayName>Microsoft.Toolkit.Uwp.SampleApp.Package</DisplayName>

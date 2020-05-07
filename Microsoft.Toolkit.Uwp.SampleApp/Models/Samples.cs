@@ -4,11 +4,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
+using Windows.ApplicationModel;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -48,16 +50,38 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 .ToArray();
         }
 
+        private static string _installedLocationPath = null;
+
+        public static async Task<MemoryStream> LoadLocalFile(string fileName)
+        {
+            if (_installedLocationPath == null)
+            {
+                var workingFolder = Package.Current.InstalledLocation;
+                _installedLocationPath = workingFolder.Path;
+            }
+
+            var fullFileName = Path.Combine(_installedLocationPath, "Microsoft.Toolkit.Uwp.SampleApp", fileName);
+
+            var stream = new MemoryStream();
+            await File.OpenRead(fullFileName).CopyToAsync(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
+        }
+
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
         {
             await _semaphore.WaitAsync();
             if (_samplesCategories == null)
             {
                 List<SampleCategory> allCategories;
-                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
+                using (var jsonStream = await LoadLocalFile("SamplePages/samples.json"))
                 {
-                    var jsonString = await jsonStream.ReadTextAsync();
-                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+                    using (var streamreader = new StreamReader(jsonStream))
+                    {
+                        var jsonString = await streamreader.ReadToEndAsync();
+                        allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+                    }
                 }
 
                 // Check API

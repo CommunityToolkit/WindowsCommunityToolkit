@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -200,19 +201,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         {
             if (LandingPageLinks == null)
             {
-                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("landingPageLinks.json"))
+                using (var jsonStream = await Samples.LoadLocalFile("landingPageLinks.json"))
                 {
-                    var jsonString = await jsonStream.ReadTextAsync();
-                    var links = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
-                    var packageVersion = Package.Current.Id.Version;
-
-                    var resource = links.Resources.FirstOrDefault(item => item.ID == "app");
-                    if (resource != null)
+                    using (var streamreader = new StreamReader(jsonStream))
                     {
-                        resource.Links[0].Title = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
-                    }
+                        var jsonString = await streamreader.ReadToEndAsync();
+                        var links = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
+                        var packageVersion = Package.Current.Id.Version;
 
-                    LandingPageLinks = links;
+                        var resource = links.Resources.FirstOrDefault(item => item.ID == "app");
+                        if (resource != null)
+                        {
+                            resource.Links[0].Title = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+                        }
+
+                        LandingPageLinks = links;
+                    }
                 }
 
                 var samples = new List<Sample>();

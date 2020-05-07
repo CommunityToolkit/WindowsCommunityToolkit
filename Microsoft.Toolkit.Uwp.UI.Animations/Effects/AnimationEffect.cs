@@ -107,6 +107,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
             if (EffectBrush == null || EffectBrush?.Comment != EffectName)
             {
                 _effectProperties = ApplyEffect();
+
+                // Temporary check until Win2D ports to WinUI3
+                if (EffectBrush == null)
+                {
+                    return animationSet;
+                }
+
                 EffectBrush.Comment = EffectName;
 
                 var sprite = Compositor.CreateSpriteVisual();

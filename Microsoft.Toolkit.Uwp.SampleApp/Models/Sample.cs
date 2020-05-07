@@ -180,9 +180,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetCSharpSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            using (var codeStream = await Samples.LoadLocalFile($"SamplePages/{Name}/{CodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                using (var streamreader = new StreamReader(codeStream))
                 {
                     return await streamreader.ReadToEndAsync();
                 }
@@ -191,9 +191,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetJavaScriptSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
+            using (var codeStream = await Samples.LoadLocalFile($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                using (var streamreader = new StreamReader(codeStream))
                 {
                     return await streamreader.ReadToEndAsync();
                 }
@@ -269,11 +269,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 try
                 {
-                    using (var localDocsStream = await StreamHelper.GetPackagedFileStreamAsync($"docs/{filepath}"))
+                    using (var localDocsStream = await Samples.LoadLocalFile($"docs/{filepath}"))
                     {
-                        var result = await localDocsStream.ReadTextAsync(Encoding.UTF8);
-                        _cachedDocumentation = ProcessDocs(result);
-                        _cachedPath = localPath;
+                        using (var streamreader = new StreamReader(localDocsStream))
+                        {
+                            var result = await streamreader.ReadToEndAsync();
+                            _cachedDocumentation = ProcessDocs(result);
+                            _cachedPath = localPath;
+                        }
                     }
                 }
                 catch (Exception)
@@ -306,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if !DEBUG
             try
             {
-                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+                imageStream = (await Samples.LoadSampleFile(localpath)).AsRandomAccessStream();
             }
             catch
             {
@@ -452,9 +455,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
-                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
+                using (var codeStream = await Samples.LoadLocalFile($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
-                    XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
+                    using (var streamreader = new StreamReader(codeStream))
+                    {
+                        XamlCode = await streamreader.ReadToEndAsync();
+                    }
 
                     // Look for @[] values and generate associated properties
                     var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
@@ -563,15 +569,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                         options = new PropertyOptions();
                                         var split = value.Split('.');
                                         var typeName = string.Join(".", split.Take(split.Length - 1));
+                                        Debug.WriteLine("AAA");
                                         var enumType = LookForTypeByName(typeName);
                                         options.DefaultValue = Enum.Parse(enumType, split.Last());
                                     }
                                     catch (Exception ex)
                                     {
+                                        Debug.WriteLine("BBB");
                                         Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
                                         TrackingManager.TrackException(ex);
                                         continue;
                                     }
+
+                                    Debug.WriteLine("CCC");
 
                                     break;
 
@@ -659,7 +669,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft
-            var wuxType = VerticalAlignment.Center;
+            var wuxType = Windows.UI.Input.RadialControllerMenuKnownIcon.InkColor;
             assembly = wuxType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
