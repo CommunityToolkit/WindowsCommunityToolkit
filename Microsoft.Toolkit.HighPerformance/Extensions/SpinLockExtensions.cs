@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public unsafe ref struct UnsafeLock
+        public readonly unsafe ref struct UnsafeLock
         {
             /// <summary>
             /// The <see cref="SpinLock"/>* pointer to the target <see cref="SpinLock"/> value to use.
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ref struct Lock
+        public readonly ref struct Lock
         {
             /// <summary>
             /// The <see cref="Ref{T}"/> instance pointing to the target <see cref="SpinLock"/> value to use.
