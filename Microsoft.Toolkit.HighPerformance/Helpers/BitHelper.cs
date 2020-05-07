@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Checks whether or not a given bit is set.
         /// </summary>
         /// <param name="value">The input <see cref="uint"/> value.</param>
-        /// <param name="n">The position of the bit to check.</param>
+        /// <param name="n">The position of the bit to check (in [0, 31] range).</param>
         /// <returns>Whether or not the n-th bit is set.</returns>
         /// <remarks>
         /// This method doesn't validate <paramref name="n"/> against the valid range.
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit to a specified value.
         /// </summary>
         /// <param name="value">The target <see cref="uint"/> value.</param>
-        /// <param name="n">The position of the bit to set or clear.</param>
+        /// <param name="n">The position of the bit to set or clear (in [0, 31] range).</param>
         /// <param name="flag">The value to assign to the target bit.</param>
         /// <remarks>
         /// Just like <see cref="HasFlag(uint,int)"/>, this method doesn't validate <paramref name="n"/>
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit to a specified value.
         /// </summary>
         /// <param name="value">The input <see cref="uint"/> value.</param>
-        /// <param name="n">The position of the bit to set or clear.</param>
+        /// <param name="n">The position of the bit to set or clear (in [0, 31] range).</param>
         /// <param name="flag">The value to assign to the target bit.</param>
         /// <returns>An <see cref="uint"/> value equal to <paramref name="value"/> except for the <paramref name="n"/>-th bit.</returns>
         /// <remarks>
@@ -168,12 +168,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Extracts a bit field range from a given value.
         /// </summary>
         /// <param name="value">The input <see cref="uint"/> value.</param>
-        /// <param name="start">The initial index of the range to extract.</param>
-        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="start">The initial index of the range to extract (in [0, 31] range).</param>
+        /// <param name="length">The length of the range to extract (depends on <paramref name="start"/>).</param>
         /// <returns>The value of the extracted range within <paramref name="value"/>.</returns>
         /// <remarks>
         /// This method doesn't validate <paramref name="start"/> and <paramref name="length"/>.
-        /// If either parameter is not valid, the result will just be inconsistent.
+        /// If either parameter is not valid, the result will just be inconsistent. The method
+        /// should not be used to set all the bits at once, and it is not guaranteed to work in
+        /// that case, which would just be equivalent to assigning the <see cref="uint"/> value.
         /// Additionally, no conditional branches are used to retrieve the range.
         /// </remarks>
         [Pure]
@@ -194,8 +196,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit field range within a target value.
         /// </summary>
         /// <param name="value">The target <see cref="uint"/> value.</param>
-        /// <param name="start">The initial index of the range to extract.</param>
-        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="start">The initial index of the range to extract (in [0, 31] range).</param>
+        /// <param name="length">The length of the range to extract (depends on <paramref name="start"/>).</param>
         /// <param name="flags">The input flags to insert in the target range.</param>
         /// <remarks>
         /// Just like <see cref="ExtractRange(uint,byte,byte)"/>, this method doesn't validate the parameters
@@ -211,8 +213,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit field range within a target value.
         /// </summary>
         /// <param name="value">The initial <see cref="uint"/> value.</param>
-        /// <param name="start">The initial index of the range to extract.</param>
-        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="start">The initial index of the range to extract (in [0, 31] range).</param>
+        /// <param name="length">The length of the range to extract (depends on <paramref name="start"/>).</param>
         /// <param name="flags">The input flags to insert in the target range.</param>
         /// <returns>The updated bit field value after setting the specified range.</returns>
         /// <remarks>
@@ -242,7 +244,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Checks whether or not a given bit is set.
         /// </summary>
         /// <param name="value">The input <see cref="ulong"/> value.</param>
-        /// <param name="n">The position of the bit to check.</param>
+        /// <param name="n">The position of the bit to check (in [0, 63] range).</param>
         /// <returns>Whether or not the n-th bit is set.</returns>
         /// <remarks>
         /// This method doesn't validate <paramref name="n"/> against the valid range.
@@ -294,7 +296,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit to a specified value.
         /// </summary>
         /// <param name="value">The target <see cref="ulong"/> value.</param>
-        /// <param name="n">The position of the bit to set or clear.</param>
+        /// <param name="n">The position of the bit to set or clear (in [0, 63] range).</param>
         /// <param name="flag">The value to assign to the target bit.</param>
         /// <remarks>
         /// Just like <see cref="HasFlag(ulong,int)"/>, this method doesn't validate <paramref name="n"/>
@@ -310,7 +312,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit to a specified value.
         /// </summary>
         /// <param name="value">The input <see cref="ulong"/> value.</param>
-        /// <param name="n">The position of the bit to set or clear.</param>
+        /// <param name="n">The position of the bit to set or clear (in [0, 63] range).</param>
         /// <param name="flag">The value to assign to the target bit.</param>
         /// <returns>An <see cref="ulong"/> value equal to <paramref name="value"/> except for the <paramref name="n"/>-th bit.</returns>
         /// <remarks>
@@ -339,12 +341,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Extracts a bit field range from a given value.
         /// </summary>
         /// <param name="value">The input <see cref="ulong"/> value.</param>
-        /// <param name="start">The initial index of the range to extract.</param>
-        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="start">The initial index of the range to extract (in [0, 63] range).</param>
+        /// <param name="length">The length of the range to extract (depends on <paramref name="start"/>).</param>
         /// <returns>The value of the extracted range within <paramref name="value"/>.</returns>
         /// <remarks>
         /// This method doesn't validate <paramref name="start"/> and <paramref name="length"/>.
-        /// If either parameter is not valid, the result will just be inconsistent.
+        /// If either parameter is not valid, the result will just be inconsistent. The method
+        /// should not be used to set all the bits at once, and it is not guaranteed to work in
+        /// that case, which would just be equivalent to assigning the <see cref="ulong"/> value.
         /// Additionally, no conditional branches are used to retrieve the range.
         /// </remarks>
         [Pure]
@@ -365,8 +369,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit field range within a target value.
         /// </summary>
         /// <param name="value">The target <see cref="ulong"/> value.</param>
-        /// <param name="start">The initial index of the range to extract.</param>
-        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="start">The initial index of the range to extract (in [0, 63] range).</param>
+        /// <param name="length">The length of the range to extract (depends on <paramref name="start"/>).</param>
         /// <param name="flags">The input flags to insert in the target range.</param>
         /// <remarks>
         /// Just like <see cref="ExtractRange(ulong,byte,byte)"/>, this method doesn't validate the parameters
@@ -382,8 +386,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Sets a bit field range within a target value.
         /// </summary>
         /// <param name="value">The initial <see cref="ulong"/> value.</param>
-        /// <param name="start">The initial index of the range to extract.</param>
-        /// <param name="length">The length of the range to extract.</param>
+        /// <param name="start">The initial index of the range to extract (in [0, 63] range).</param>
+        /// <param name="length">The length of the range to extract (depends on <paramref name="start"/>).</param>
         /// <param name="flags">The input flags to insert in the target range.</param>
         /// <returns>The updated bit field value after setting the specified range.</returns>
         /// <remarks>
