@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <typeparam name="T">The type of value to look for.</typeparam>
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count<T>(ref T r0, IntPtr length, T value)
             where T : IEquatable<T>
         {
