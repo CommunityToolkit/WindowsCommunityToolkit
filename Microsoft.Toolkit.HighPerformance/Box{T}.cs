@@ -14,6 +14,27 @@ namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// A <see langword="class"/> that represents a boxed <typeparamref name="T"/> value on the managed heap.
+    /// This is a "shadow" type that can be used in place of a non-generic <see cref="object"/> reference to a
+    /// boxed value type, to make the code more expressive and reduce the chances of errors.
+    /// Consider this example:
+    /// <code>
+    /// object obj = 42;
+    ///
+    /// // Manual, error prone unboxing
+    /// int sum = (int)obj + 1;
+    /// </code>
+    /// In this example, it is not possible to know in advance what type is actually being boxed in a given
+    /// <see cref="object"/> instance, making the code less robust at build time. The <see cref="Box{T}"/>
+    /// type can be used as a drop-in replacement in this case, like so:
+    /// <code>
+    /// Box&lt;int> box = 42;
+    ///
+    /// // Build-time validation, automatic unboxing
+    /// int sum = box.Value + 1;
+    /// </code>
+    /// This type can also be useful when dealing with large custom value types that are also boxed, as
+    /// it allows to retrieve a mutable reference to the boxing value. This means that a given boxed
+    /// value can be mutated in-place, instead of having to allocate a new updated boxed instance.
     /// </summary>
     /// <typeparam name="T">The type of value being boxed.</typeparam>
     [DebuggerDisplay("{ToString(),raw}")]
