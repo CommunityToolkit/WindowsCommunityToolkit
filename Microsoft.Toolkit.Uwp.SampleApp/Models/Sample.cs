@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetCSharpSourceAsync()
         {
-            using (var codeStream = await Samples.LoadLocalFile($"SamplePages/{Name}/{CodeFile}"))
+            using (var codeStream = await Samples.LoadLocalFile(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream))
                 {
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetJavaScriptSourceAsync()
         {
-            using (var codeStream = await Samples.LoadLocalFile($"SamplePages/{Name}/{JavaScriptCodeFile}"))
+            using (var codeStream = await Samples.LoadLocalFile(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream))
                 {
@@ -455,7 +455,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
-                using (var codeStream = await Samples.LoadLocalFile($"SamplePages/{Name}/{XamlCodeFile}"))
+                using (var codeStream = await Samples.LoadLocalFile(XamlCodeFile.StartsWith('/') ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
                 {
                     using (var streamreader = new StreamReader(codeStream))
                     {
