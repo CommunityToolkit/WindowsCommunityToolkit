@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -63,7 +64,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var fullFileName = Path.Combine(_installedLocationPath, "Microsoft.Toolkit.Uwp.SampleApp", fileName);
 
             var stream = new MemoryStream();
+            Debug.WriteLine($"LoadLocalFile{Thread.CurrentThread.ManagedThreadId}");
             await File.OpenRead(fullFileName).CopyToAsync(stream);
+            Debug.WriteLine($"LoadLocalFile{Thread.CurrentThread.ManagedThreadId} End");
             stream.Seek(0, SeekOrigin.Begin);
 
             return stream;

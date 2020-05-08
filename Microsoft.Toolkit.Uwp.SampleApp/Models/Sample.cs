@@ -569,19 +569,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                         options = new PropertyOptions();
                                         var split = value.Split('.');
                                         var typeName = string.Join(".", split.Take(split.Length - 1));
-                                        Debug.WriteLine("AAA");
                                         var enumType = LookForTypeByName(typeName);
                                         options.DefaultValue = Enum.Parse(enumType, split.Last());
                                     }
                                     catch (Exception ex)
                                     {
-                                        Debug.WriteLine("BBB");
                                         Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
                                         TrackingManager.TrackException(ex);
                                         continue;
                                     }
-
-                                    Debug.WriteLine("CCC");
 
                                     break;
 

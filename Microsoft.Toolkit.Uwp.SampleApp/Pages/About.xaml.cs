@@ -5,9 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -107,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            var t = Init();
+            _ = Init();
 
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
         }
@@ -129,34 +131,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private async Task Init()
         {
+            Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+
             var loadDataTask = UpdateSections();
             var recentSamplesTask = Samples.GetRecentSamples();
             var gitHubTask = Data.GitHub.GetPublishedReleases();
 
+            Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+
             await Task.WhenAll(loadDataTask, recentSamplesTask, gitHubTask);
 
-            RecentSamples = recentSamplesTask.Result;
-            GitHubReleases = gitHubTask.Result;
+            Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
-            var counter = 1;
-            var delay = 70;
-
-            foreach (var child in InnerGrid.Children)
+            // Workaround WinUI3 threading issue
+            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
-                if (child is ItemsControl itemsControl == false)
-                {
-                    Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
-                    {
-                        From = 0,
-                        To = 1,
-                        Duration = TimeSpan.FromMilliseconds(300),
-                        Delay = TimeSpan.FromMilliseconds(counter++ * delay),
-                        SetInitialValueBeforeDelay = true
-                    });
-                }
-            }
+                RecentSamples = recentSamplesTask.Result;
 
-            Root.Visibility = Visibility.Visible;
+                GitHubReleases = gitHubTask.Result;
+
+                var counter = 1;
+                var delay = 70;
+
+                foreach (var child in InnerGrid.Children)
+                {
+                    if (child is ItemsControl itemsControl == false)
+                    {
+                        Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
+                        {
+                            From = 0,
+                            To = 1,
+                            Duration = TimeSpan.FromMilliseconds(300),
+                            Delay = TimeSpan.FromMilliseconds(counter++ * delay),
+                            SetInitialValueBeforeDelay = true
+                        });
+                    }
+                }
+
+                Root.Visibility = Visibility.Visible;
+            });
         }
 
         private void RecentSample_Click(object sender, RoutedEventArgs e)
