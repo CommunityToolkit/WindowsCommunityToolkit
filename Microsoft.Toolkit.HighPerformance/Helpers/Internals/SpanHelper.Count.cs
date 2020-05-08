@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref sbyte r1 = ref Unsafe.As<T, sbyte>(ref r0);
                 sbyte target = Unsafe.As<T, sbyte>(ref value);
 
-                return CountSimd(ref r1, length, target, sbyte.MaxValue);
+                return CountSimd(ref r1, length, target, (IntPtr)sbyte.MaxValue);
             }
 
             if (typeof(T) == typeof(char) ||
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref short r1 = ref Unsafe.As<T, short>(ref r0);
                 short target = Unsafe.As<T, short>(ref value);
 
-                return CountSimd(ref r1, length, target, short.MaxValue);
+                return CountSimd(ref r1, length, target, (IntPtr)short.MaxValue);
             }
 
             if (typeof(T) == typeof(int) ||
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref int r1 = ref Unsafe.As<T, int>(ref r0);
                 int target = Unsafe.As<T, int>(ref value);
 
-                return CountSimd(ref r1, length, target, int.MaxValue);
+                return CountSimd(ref r1, length, target, (IntPtr)int.MaxValue);
             }
 
             if (typeof(T) == typeof(long) ||
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref long r1 = ref Unsafe.As<T, long>(ref r0);
                 long target = Unsafe.As<T, long>(ref value);
 
-                return CountSimd(ref r1, length, target, int.MaxValue);
+                return CountSimd(ref r1, length, target, (IntPtr)int.MaxValue);
             }
 
             return CountSequential(ref r0, length, value);
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 #if NETCOREAPP3_1
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
 #endif
-        private static unsafe int CountSimd<T>(ref T r0, IntPtr length, T value, int max)
+        private static unsafe int CountSimd<T>(ref T r0, IntPtr length, T value, IntPtr max)
             where T : unmanaged, IEquatable<T>
         {
             int result = 0;
@@ -145,31 +145,22 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // Skip the initialization overhead if there are not enough items
             if ((byte*)length >= (byte*)Vector<T>.Count)
             {
-                var partials = Vector<T>.Zero;
                 var vc = new Vector<T>(value);
 
-                // Run the fast path if the input span is short enough.
-                // There are two branches here because if the search space is large
-                // enough, the partial results could overflow if the target value
-                // is present too many times. This upper limit depends on the type
-                // being used, as the smaller the type is, the shorter the supported
-                // fast range will be. Therefore, if the input span is longer than that
-                // minimum threshold, additional checks need to be performed to avoid overflows.
-                // This value is equal to the maximum (signed) numerical value for the current
-                // type, divided by the number of value that can fit in a register, minus 1.
-                // This is because the partial results are accumulated with a dot product,
-                // which sums them horizontally while still working on the original type.
-                // The check is moved outside of the loop to enable a branchless version
-                // of this method if the input span is guaranteed not to cause overflows.
-                // Otherwise, the safe but slower variant is used.
-                // Note that even the slower vectorized version is still much
-                // faster than just doing a linear search without using vectorization.
-                IntPtr threshold = (IntPtr)((max / Vector<T>.Count) - 1);
-
-                if ((byte*)length <= (byte*)threshold)
+                do
                 {
-                    // There are always enough items for one iteration
-                    do
+                    // Calculate the maximum sequential area that can be processed in
+                    // one pass without the risk of numeric overflow in the dot product
+                    // to sum the partial results. We also backup the current offset to
+                    // be able to track how many items have been processed, which lets
+                    // us avoid updating a third counter (length) in the loop body.
+                    IntPtr
+                        chunkLength = Min(length, max),
+                        initialOffset = offset;
+
+                    var partials = Vector<T>.Zero;
+
+                    while ((byte*)chunkLength >= (byte*)Vector<T>.Count)
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
@@ -186,42 +177,15 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                         partials -= ve;
 
-                        length -= Vector<T>.Count;
+                        chunkLength -= Vector<T>.Count;
                         offset += Vector<T>.Count;
                     }
-                    while ((byte*)length >= (byte*)Vector<T>.Count);
+
+                    result += CastToInt(Vector.Dot(partials, Vector<T>.One));
+
+                    length = Subtract(length, Subtract(offset, initialOffset));
                 }
-                else
-                {
-                    IntPtr j = threshold;
-
-                    // Same as before, just with the added overflow check
-                    do
-                    {
-                        ref T ri = ref Unsafe.Add(ref r0, offset);
-
-                        var vi = Unsafe.As<T, Vector<T>>(ref ri);
-                        var ve = Vector.Equals(vi, vc);
-
-                        partials -= ve;
-
-                        if ((byte*)j == (byte*)0)
-                        {
-                            j = threshold;
-                            result += CastToInt(Vector.Dot(partials, Vector<T>.One));
-                            partials = Vector<T>.Zero;
-                        }
-
-                        length -= Vector<T>.Count;
-                        offset += Vector<T>.Count;
-
-                        j -= 1;
-                    }
-                    while ((byte*)length >= (byte*)Vector<T>.Count);
-                }
-
-                // Compute the horizontal sum of the partial results
-                result += CastToInt(Vector.Dot(partials, Vector<T>.One));
+                while ((byte*)length >= (byte*)Vector<T>.Count);
             }
 
             // Optional 8 unrolled iterations. This is only done when a single SIMD
@@ -269,6 +233,42 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         }
 
         /// <summary>
+        /// Returns the minimum between two <see cref="IntPtr"/> values.
+        /// </summary>
+        /// <param name="a">The first <see cref="IntPtr"/> value.</param>
+        /// <param name="b">The second <see cref="IntPtr"/> value</param>
+        /// <returns>The minimum between <paramref name="a"/> and <paramref name="b"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe IntPtr Min(IntPtr a, IntPtr b)
+        {
+            if (sizeof(IntPtr) == 4)
+            {
+                return (IntPtr)Math.Min((int)a, (int)b);
+            }
+
+            return (IntPtr)Math.Min((long)a, (long)b);
+        }
+
+        /// <summary>
+        /// Returns the difference between two <see cref="IntPtr"/> values.
+        /// </summary>
+        /// <param name="a">The first <see cref="IntPtr"/> value.</param>
+        /// <param name="b">The second <see cref="IntPtr"/> value</param>
+        /// <returns>The difference between <paramref name="a"/> and <paramref name="b"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe IntPtr Subtract(IntPtr a, IntPtr b)
+        {
+            if (sizeof(IntPtr) == 4)
+            {
+                return (IntPtr)((int)a - (int)b);
+            }
+
+            return (IntPtr)((long)a - (long)b);
+        }
+
+        /// <summary>
         /// Casts a value of a given type to <see cref="int"/>.
         /// </summary>
         /// <typeparam name="T">The input type to cast.</typeparam>
@@ -299,7 +299,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 return (int)Unsafe.As<T, long>(ref value);
             }
 
-            throw new ArgumentException($"Invalid input type {typeof(T)}", nameof(value));
+            throw new NotSupportedException($"Invalid input type {typeof(T)}");
         }
     }
 }
