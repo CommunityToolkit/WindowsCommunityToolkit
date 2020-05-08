@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 // fast range will be. Therefore, if the input span is longer than that
                 // minimum threshold, additional checks need to be performed to avoid overflows.
                 // This value is equal to the maximum (signed) numerical value for the current
-                // type, divided by the number of value that can fit in a register, minus 1.
+                // type, divided by the number of value that can fit in a register.
                 // This is because the partial results are accumulated with a dot product,
                 // which sums them horizontally while still working on the original type.
                 // The check is moved outside of the loop to enable a branchless version
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 // Otherwise, the safe but slower variant is used.
                 // Note that even the slower vectorized version is still much
                 // faster than just doing a linear search without using vectorization.
-                int threshold = (max / Vector<T>.Count) - 1;
+                IntPtr threshold = (IntPtr)(max / Vector<T>.Count);
 
                 if ((byte*)length <= (byte*)threshold)
                 {
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 }
                 else
                 {
-                    int j = 0;
+                    IntPtr j = threshold;
 
                     // Same as before, just with the added overflow check
                     do
@@ -205,9 +205,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                         partials -= ve;
 
-                        if (j == threshold)
+                        if ((byte*)j > (byte*)0)
                         {
-                            j = 0;
+                            j = threshold;
                             result += CastToInt(Vector.Dot(partials, Vector<T>.One));
                             partials = Vector<T>.Zero;
                         }
@@ -215,7 +215,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                         length -= Vector<T>.Count;
                         offset += Vector<T>.Count;
 
-                        j++;
+                        j -= 1;
                     }
                     while ((byte*)length >= (byte*)Vector<T>.Count);
                 }
