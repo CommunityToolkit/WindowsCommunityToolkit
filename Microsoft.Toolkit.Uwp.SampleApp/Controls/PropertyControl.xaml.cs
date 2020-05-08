@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             if (_colorNames == null)
             {
                 _colorNames = new Dictionary<Windows.UI.Color, string>();
-                foreach (var color in typeof(Colors).GetRuntimeProperties())
+                foreach (var color in typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static))
                 {
                     _colorNames[(Windows.UI.Color)color.GetValue(null)] = color.Name;
                 }
