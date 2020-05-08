@@ -65,16 +65,16 @@ namespace Microsoft.Toolkit.Diagnostics
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1114", Justification = "Comment for [NotNull] attribute")]
         public static void IsNotNull<T>(
 #if NETSTANDARD2_1
-            /* On .NET Standard 2.1, we can add the [NotNull] attribute for
-             * methods that throw if an argument of a nullable type is null.
-             * This will let the compiler know that after a call to such
-             * methods, the value of the variable passed as parameter will
-             * never be null (since if that's the case, the code would have
-             * thrown an exception instead of continuing the execution).
-             * This makes it easy for developers to keep track of the
-             * nullable state of variables, and to avoid having to use
-             * the '!' operator to explicitly ignore compiler warnings
-             * about variables possibly being null. */
+            // On .NET Standard 2.1, we can add the [NotNull] attribute for
+            // methods that throw if an argument of a nullable type is null.
+            // This will let the compiler know that after a call to such
+            // methods, the value of the variable passed as parameter will
+            // never be null (since if that's the case, the code would have
+            // thrown an exception instead of continuing the execution).
+            // This makes it easy for developers to keep track of the
+            // nullable state of variables, and to avoid having to use
+            // the '!' operator to explicitly ignore compiler warnings
+            // about variables possibly being null.
             [NotNull]
 #endif
             T? value, string name)
