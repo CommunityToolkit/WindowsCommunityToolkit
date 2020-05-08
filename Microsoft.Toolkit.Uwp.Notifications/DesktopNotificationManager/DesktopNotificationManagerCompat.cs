@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // We also wrap EXE path in quotes for extra security
             key.SetValue(null, '"' + exePath + '"' + " " + ToastActivatedLaunchArg);
         }
-        
+
         /*
         * RegisterActivator code and all internal dependencies is from FrecherxDachs.
         * See entry #2 in ThirdPartyNotices.txt in root repository directory for full license. */
