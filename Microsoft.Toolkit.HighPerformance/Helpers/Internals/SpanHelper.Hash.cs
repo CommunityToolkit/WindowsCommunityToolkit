@@ -22,6 +22,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <param name="length">The number of items to hash.</param>
         /// <returns>The Djb2 value for the input sequence of items.</returns>
         [Pure]
+#if NETCOREAPP3_1
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+#endif
         public static unsafe int GetDjb2HashCode<T>(ref T r0, IntPtr length)
             where T : notnull
         {
@@ -86,7 +89,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// faster than <see cref="GetDjb2HashCode{T}"/>, as it can parallelize much of the workload.
         /// </remarks>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+#if NETCOREAPP3_1
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+#endif
         public static unsafe int GetDjb2LikeByteHash(ref byte r0, IntPtr length)
         {
             int hash = 5381;

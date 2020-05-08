@@ -79,7 +79,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// Implements <see cref="Count{T}"/> with a sequential search.
         /// </summary>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+#if NETCOREAPP3_1
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+#endif
         private static unsafe int CountSequential<T>(ref T r0, IntPtr length, T value)
             where T : IEquatable<T>
         {
@@ -130,7 +132,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// Implements <see cref="Count{T}"/> with a vectorized search.
         /// </summary>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+#if NETCOREAPP3_1
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+#endif
         private static unsafe int CountSimd<T>(ref T r0, IntPtr length, T value, int max)
             where T : unmanaged, IEquatable<T>
         {
