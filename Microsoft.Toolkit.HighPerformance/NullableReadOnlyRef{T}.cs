@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="NullableReadOnlyRef{T}"/> instance.
         /// </summary>
-        /// <exception cref="NullReferenceException">Thrown if <see cref="HasValue"/> is <see langword="false"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="HasValue"/> is <see langword="false"/>.</exception>
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.HighPerformance
             {
                 if (!HasValue)
                 {
-                    ThrowNullReferenceException();
+                    ThrowInvalidOperationException();
                 }
 
                 return ref MemoryMarshal.GetReference(this.span);
@@ -67,12 +67,12 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Throws a <see cref="NullReferenceException"/> when trying to access <see cref="Value"/> for a default instance.
+        /// Throws a <see cref="InvalidOperationException"/> when trying to access <see cref="Value"/> for a default instance.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowNullReferenceException()
+        private static void ThrowInvalidOperationException()
         {
-            throw new NullReferenceException("The current instance doesn't have a value that can be accessed");
+            throw new InvalidOperationException("The current instance doesn't have a value that can be accessed");
         }
     }
 }

@@ -38,7 +38,7 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("NullableReadOnlyRefOfT")]
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_Null_Exception()
         {
             NullableReadOnlyRef<int> reference = default;
