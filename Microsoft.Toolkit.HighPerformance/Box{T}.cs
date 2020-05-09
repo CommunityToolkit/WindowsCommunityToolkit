@@ -60,8 +60,10 @@ namespace Microsoft.Toolkit.HighPerformance
         /// This constructor is never used, it is only declared in order to mark it with
         /// the <see langword="private"/> visibility modifier and prevent direct use.
         /// </remarks>
+        /// <exception cref="InvalidOperationException">Always thrown when this constructor is used (eg. from reflection).</exception>
         private Box()
         {
+            throw new InvalidOperationException("The Microsoft.Toolkit.HighPerformance.Box<T> constructor should never be used");
         }
 
         /// <summary>
