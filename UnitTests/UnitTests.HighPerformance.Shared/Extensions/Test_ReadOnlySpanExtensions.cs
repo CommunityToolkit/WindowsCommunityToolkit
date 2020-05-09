@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -91,24 +90,30 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "List<T> of value tuple")]
         public void Test_ReadOnlySpanExtensions_Enumerate()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            ReadOnlySpan<int> data = new[] { 1, 2, 3, 4, 5, 6, 7 };
 
-            List<(int Index, int Value)> values = new List<(int, int)>();
+            int i = 0;
 
             foreach (var item in data.Enumerate())
             {
-                values.Add(item);
+                Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(data[i]), ref Unsafe.AsRef(item.Value)));
+                Assert.AreEqual(i, item.Index);
+
+                i++;
             }
+        }
 
-            Assert.AreEqual(values.Count, data.Length);
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_Enumerate_Empty()
+        {
+            ReadOnlySpan<int> data = Array.Empty<int>();
 
-            for (int i = 0; i < data.Length; i++)
+            foreach (var item in data.Enumerate())
             {
-                Assert.AreEqual(data[i], values[i].Value);
-                Assert.AreEqual(i, values[i].Index);
+                Assert.Fail("Empty source sequence");
             }
         }
 

@@ -3,8 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -52,27 +50,30 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("SpanExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "List<T> of value tuple")]
         public void Test_SpanExtensions_Enumerate()
         {
             Span<int> data = new[] { 1, 2, 3, 4, 5, 6, 7 };
 
-            List<(int Index, int Value)> values = new List<(int, int)>();
+            int i = 0;
 
             foreach (var item in data.Enumerate())
             {
-                values.Add((item.Index, item.Value));
+                Assert.IsTrue(Unsafe.AreSame(ref data[i], ref item.Value));
+                Assert.AreEqual(i, item.Index);
 
-                item.Value = item.Index * 10;
+                i++;
             }
+        }
 
-            Assert.AreEqual(values.Count, data.Length);
+        [TestCategory("SpanExtensions")]
+        [TestMethod]
+        public void Test_SpanExtensions_Enumerate_Empty()
+        {
+            Span<int> data = Array.Empty<int>();
 
-            for (int i = 0; i < data.Length; i++)
+            foreach (var item in data.Enumerate())
             {
-                Assert.AreEqual(data[i], i * 10);
-                Assert.AreEqual(i, values[i].Index);
-                Assert.AreEqual(i + 1, values[i].Value);
+                Assert.Fail("Empty source sequence");
             }
         }
     }

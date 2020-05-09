@@ -88,15 +88,97 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <summary>
             /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
             /// </summary>
-            public (int Index, T Value) Current
+            public Item Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-                    int currentIndex = this.index;
-                    T value = Unsafe.Add(ref MemoryMarshal.GetReference(this.span), currentIndex);
+#if SPAN_RUNTIME_SUPPORT
+                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                    ref T ri = ref Unsafe.Add(ref r0, this.index);
 
-                    return (currentIndex, value);
+                    // See comment in SpanEnumerable<T> about this
+                    return new Item(ref ri, this.index);
+#else
+                    return new Item(this.span, this.index);
+#endif
+                }
+            }
+        }
+
+        /// <summary>
+        /// An item from a source <see cref="Span{T}"/> instance.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public readonly ref struct Item
+        {
+            /// <summary>
+            /// The source <see cref="ReadOnlySpan{T}"/> instance.
+            /// </summary>
+            private readonly ReadOnlySpan<T> span;
+
+#if SPAN_RUNTIME_SUPPORT
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Item"/> struct.
+            /// </summary>
+            /// <param name="value">A reference to the target value.</param>
+            /// <param name="index">The index of the target value.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public Item(ref T value, int index)
+            {
+                this.span = MemoryMarshal.CreateReadOnlySpan(ref value, index);
+            }
+#else
+            /// <summary>
+            /// The current index within <see cref="span"/>.
+            /// </summary>
+            private readonly int index;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Item"/> struct.
+            /// </summary>
+            /// <param name="span">The source <see cref="ReadOnlySpan{T}"/> instance.</param>
+            /// <param name="index">The current index within <paramref name="span"/>.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public Item(ReadOnlySpan<T> span, int index)
+            {
+                this.span = span;
+                this.index = index;
+            }
+#endif
+
+            /// <summary>
+            /// Gets the reference to the current value.
+            /// </summary>
+            public ref readonly T Value
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get
+                {
+#if SPAN_RUNTIME_SUPPORT
+                    return ref MemoryMarshal.GetReference(this.span);
+#else
+                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                    ref T ri = ref Unsafe.Add(ref r0, this.index);
+
+                    return ref ri;
+#endif
+                }
+            }
+
+            /// <summary>
+            /// Gets the current index.
+            /// </summary>
+            public int Index
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get
+                {
+#if SPAN_RUNTIME_SUPPORT
+                    return this.span.Length;
+#else
+                    return this.index;
+#endif
                 }
             }
         }
