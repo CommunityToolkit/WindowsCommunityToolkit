@@ -4,7 +4,9 @@
 
 using System;
 using System.Diagnostics;
+#if NETSTANDARD2_1_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -106,7 +108,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="box">The resulting <see cref="Box{T}"/> reference, if <paramref name="obj"/> was a boxed <typeparamref name="T"/> value.</param>
         /// <returns><see langword="true"/> if a <see cref="Box{T}"/> instance was retrieved correctly, <see langword="false"/> otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1115", Justification = "Comment for [NotNullWhen] attribute")]
         public static bool TryGetFrom(
             object obj,
 #if NETSTANDARD2_1_OR_GREATER
@@ -162,7 +163,6 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "Null forgiving operator")]
         public override string ToString()
         {
             // Here we're overriding the base object virtual methods to ensure
@@ -201,11 +201,12 @@ namespace Microsoft.Toolkit.HighPerformance
         }
     }
 
+#pragma warning disable SA1402 // Extensions being declared after the type they apply to
+#pragma warning disable SA1204 // Extension class to replace instance methods for Box<T>
+
     /// <summary>
     /// Helpers for working with the <see cref="Box{T}"/> type.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402", Justification = "Extension class to replace instance methods for Box<T>")]
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204", Justification = "Extensions being declared after the type they apply to")]
     public static class BoxExtensions
     {
         /// <summary>

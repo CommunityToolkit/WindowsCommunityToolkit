@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -56,7 +55,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <remarks>The returned hash code is not processed through <see cref="HashCode"/> APIs.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1515", Justification = "Compiler directive instead of whitespace")]
         internal static int CombineValues(ReadOnlySpan<T> span)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
@@ -70,6 +68,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 return SpanHelper.GetDjb2HashCode(ref r0, (IntPtr)span.Length);
             }
 #endif
+
             // Get the info for the target memory area to process
             ref byte rb = ref Unsafe.As<T, byte>(ref r0);
             IntPtr length = (IntPtr)((long)span.Length * Unsafe.SizeOf<T>());

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME
@@ -30,7 +29,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to perform checks in case the returned value is dereferenced.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1131", Justification = "JIT bounds check elimination")]
         public static ref T DangerousGetReference<T>(this T[] array)
         {
 #if NETCORE_RUNTIME
@@ -39,6 +37,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return ref r0;
 #else
+#pragma warning disable SA1131 // Inverted comparison to remove JIT bounds check
             // Checking the length of the array like so allows the JIT
             // to skip its own bounds check, which results in the element
             // access below to be executed without branches.
@@ -51,6 +50,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             {
                 return ref Unsafe.AsRef<T>(null);
             }
+#pragma warning restore SA1131
 #endif
         }
 

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -89,7 +88,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <summary>
             /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
             /// </summary>
-            [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> return type")]
             public (int Index, T Value) Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
