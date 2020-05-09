@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The 1-length <see cref="Span{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
-        private readonly Span<T> span;
+        internal readonly Span<T> Span;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Ref(ref T value)
         {
-            this.span = MemoryMarshal.CreateSpan(ref value, 1);
+            Span = MemoryMarshal.CreateSpan(ref value, 1);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(this.span);
+            get => ref MemoryMarshal.GetReference(Span);
         }
 #else
         /// <summary>

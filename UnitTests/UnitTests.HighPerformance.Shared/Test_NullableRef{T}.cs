@@ -18,7 +18,7 @@ namespace UnitTests.HighPerformance
     {
         [TestCategory("NullableRefOfT")]
         [TestMethod]
-        public void Test_RefOfT_CreateNullableRefOfT_Ok()
+        public void Test_NullableRefOfT_CreateNullableRefOfT_Ok()
         {
             int value = 1;
             var reference = new NullableRef<int>(ref value);
@@ -33,7 +33,7 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("NullableRefOfT")]
         [TestMethod]
-        public void Test_RefOfT_CreateNullableRefOfT_Null()
+        public void Test_NullableRefOfT_CreateNullableRefOfT_Null()
         {
             NullableRef<int> reference = default;
 
@@ -43,11 +43,31 @@ namespace UnitTests.HighPerformance
         [TestCategory("NullableRefOfT")]
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Test_RefOfT_CreateNullableRefOfT_Null_Exception()
+        public void Test_NullableRefOfT_CreateNullableRefOfT_Null_Exception()
         {
             NullableRef<int> reference = default;
 
             _ = reference.Value;
+        }
+
+        [TestCategory("NullableRefOfT")]
+        [TestMethod]
+        public void Test_NullableRefOfT_CreateNullableRefOfT_ExplicitCastOfT()
+        {
+            int value = 42;
+            var reference = new NullableRef<int>(ref value);
+
+            Assert.AreEqual(value, (int)reference);
+        }
+
+        [TestCategory("NullableRefOfT")]
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Test_NullableRefOfT_CreateNullableRefOfT_ExplicitCastOfT_Exception()
+        {
+            NullableRef<int> invalid = default;
+
+            _ = (int)invalid;
         }
     }
 }

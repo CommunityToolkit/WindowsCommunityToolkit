@@ -4,10 +4,10 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
-
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+#else
+using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The 1-length <see cref="ReadOnlySpan{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
-        private readonly ReadOnlySpan<T> span;
+        internal readonly ReadOnlySpan<T> Span;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             ref T r0 = ref Unsafe.AsRef(value);
 
-            this.span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
+            Span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(this.span);
+            get => ref MemoryMarshal.GetReference(Span);
         }
 
         /// <summary>

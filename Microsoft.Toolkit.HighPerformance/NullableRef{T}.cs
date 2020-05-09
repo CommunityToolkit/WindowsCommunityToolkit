@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The 1-length <see cref="Span{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
-        private readonly Span<T> span;
+        internal readonly Span<T> Span;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableRef{T}"/> struct.
@@ -28,7 +28,17 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public NullableRef(ref T value)
         {
-            this.span = MemoryMarshal.CreateSpan(ref value, 1);
+            Span = MemoryMarshal.CreateSpan(ref value, 1);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableRef{T}"/> struct.
+        /// </summary>
+        /// <param name="span">The <see cref="Span{T}"/> instance to track the target <typeparamref name="T"/> reference.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private NullableRef(Span<T> span)
+        {
+            Span = span;
         }
 
         /// <summary>
@@ -46,7 +56,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 // also account for the byte endianness of the current system),
                 // and then reinterpret that value to a bool flag.
                 // This results in a single movzx instruction on x86-64.
-                byte length = unchecked((byte)this.span.Length);
+                byte length = unchecked((byte)Span.Length);
 
                 return Unsafe.As<byte, bool>(ref length);
             }
@@ -66,8 +76,29 @@ namespace Microsoft.Toolkit.HighPerformance
                     ThrowInvalidOperationException();
                 }
 
-                return ref MemoryMarshal.GetReference(this.span);
+                return ref MemoryMarshal.GetReference(Span);
             }
+        }
+
+        /// <summary>
+        /// Implicitly converts a <see cref="Ref{T}"/> instance into a <see cref="NullableRef{T}"/> one.
+        /// </summary>
+        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator NullableRef<T>(Ref<T> reference)
+        {
+            return new NullableRef<T>(reference.Span);
+        }
+
+        /// <summary>
+        /// Explicitly gets the <typeparamref name="T"/> value from a given <see cref="NullableRef{T}"/> instance.
+        /// </summary>
+        /// <param name="reference">The input <see cref="NullableRef{T}"/> instance.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="HasValue"/> is <see langword="false"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator T(NullableRef<T> reference)
+        {
+            return reference.Value;
         }
 
         /// <summary>

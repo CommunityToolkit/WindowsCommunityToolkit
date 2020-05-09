@@ -34,6 +34,16 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="NullableReadOnlyRef{T}"/> struct.
+        /// </summary>
+        /// <param name="span">The <see cref="ReadOnlySpan{T}"/> instance to track the target <typeparamref name="T"/> reference.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private NullableReadOnlyRef(ReadOnlySpan<T> span)
+        {
+            this.span = span;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether or not the current <see cref="NullableReadOnlyRef{T}"/> instance wraps a valid reference that can be accessed.
         /// </summary>
         public bool HasValue
@@ -64,6 +74,47 @@ namespace Microsoft.Toolkit.HighPerformance
 
                 return ref MemoryMarshal.GetReference(this.span);
             }
+        }
+
+        /// <summary>
+        /// Implicitly converts a <see cref="Ref{T}"/> instance into a <see cref="NullableReadOnlyRef{T}"/> one.
+        /// </summary>
+        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator NullableReadOnlyRef<T>(Ref<T> reference)
+        {
+            return new NullableReadOnlyRef<T>(reference.Span);
+        }
+
+        /// <summary>
+        /// Implicitly converts a <see cref="ReadOnlyRef{T}"/> instance into a <see cref="NullableReadOnlyRef{T}"/> one.
+        /// </summary>
+        /// <param name="reference">The input <see cref="ReadOnlyRef{T}"/> instance.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator NullableReadOnlyRef<T>(ReadOnlyRef<T> reference)
+        {
+            return new NullableReadOnlyRef<T>(reference.Span);
+        }
+
+        /// <summary>
+        /// Implicitly converts a <see cref="NullableRef{T}"/> instance into a <see cref="NullableReadOnlyRef{T}"/> one.
+        /// </summary>
+        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator NullableReadOnlyRef<T>(NullableRef<T> reference)
+        {
+            return new NullableReadOnlyRef<T>(reference.Span);
+        }
+
+        /// <summary>
+        /// Explicitly gets the <typeparamref name="T"/> value from a given <see cref="NullableReadOnlyRef{T}"/> instance.
+        /// </summary>
+        /// <param name="reference">The input <see cref="NullableReadOnlyRef{T}"/> instance.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="HasValue"/> is <see langword="false"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator T(NullableReadOnlyRef<T> reference)
+        {
+            return reference.Value;
         }
 
         /// <summary>

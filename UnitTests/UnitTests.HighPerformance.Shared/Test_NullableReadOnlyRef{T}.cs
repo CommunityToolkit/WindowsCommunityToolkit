@@ -45,6 +45,26 @@ namespace UnitTests.HighPerformance
 
             _ = reference.Value;
         }
+
+        [TestCategory("NullableReadOnlyRefOfT")]
+        [TestMethod]
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_ExplicitCastOfT()
+        {
+            int value = 42;
+            var reference = new NullableRef<int>(ref value);
+
+            Assert.AreEqual(value, (int)reference);
+        }
+
+        [TestCategory("NullableReadOnlyRefOfT")]
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_ExplicitCastOfT_Exception()
+        {
+            NullableRef<int> invalid = default;
+
+            _ = (int)invalid;
+        }
     }
 }
 
