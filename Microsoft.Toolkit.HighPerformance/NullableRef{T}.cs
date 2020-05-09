@@ -5,7 +5,6 @@
 #if SPAN_RUNTIME_SUPPORT
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,7 +14,6 @@ namespace Microsoft.Toolkit.HighPerformance
     /// A <see langword="struct"/> that can store an optional reference to a value of a specified type.
     /// </summary>
     /// <typeparam name="T">The type of value to reference.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     public readonly ref struct NullableRef<T>
     {
         /// <summary>

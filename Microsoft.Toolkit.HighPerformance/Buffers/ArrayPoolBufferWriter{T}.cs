@@ -5,7 +5,6 @@
 using System;
 using System.Buffers;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -293,7 +292,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the initial capacity is invalid.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204", Justification = "Exception throwers at the end of class")]
         private static void ThrowArgumentOutOfRangeExceptionForInitialCapacity()
         {
             throw new ArgumentOutOfRangeException("initialCapacity", "The initial capacity must be a positive value");

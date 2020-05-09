@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -39,7 +38,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public readonly unsafe ref struct UnsafeLock
         {
@@ -132,7 +130,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public readonly ref struct Lock
         {

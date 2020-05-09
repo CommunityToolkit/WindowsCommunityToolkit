@@ -5,7 +5,6 @@
 using System;
 using System.Buffers;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
@@ -255,7 +254,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Throws an <see cref="ObjectDisposedException"/> when <see cref="array"/> is <see langword="null"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204", Justification = "Exception throwers at the end of class")]
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException(nameof(MemoryOwner<T>), "The current buffer has already been disposed");

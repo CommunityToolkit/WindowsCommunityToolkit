@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -91,8 +90,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when using an invalid seek mode.
         /// </summary>
+        /// <returns>Nothing, as this method throws unconditionally.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1615", Justification = "Throw method")]
         public static long ThrowArgumentExceptionForSeekOrigin()
         {
             throw new ArgumentException("The input seek mode is not valid.", "origin");

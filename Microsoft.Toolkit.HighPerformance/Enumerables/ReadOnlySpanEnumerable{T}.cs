@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that enumerates the items in a given <see cref="ReadOnlySpan{T}"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public readonly ref struct ReadOnlySpanEnumerable<T>
     {
