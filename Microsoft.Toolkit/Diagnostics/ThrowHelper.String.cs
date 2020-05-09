@@ -107,19 +107,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver(string text, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size over {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast(string text, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size of at least {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }

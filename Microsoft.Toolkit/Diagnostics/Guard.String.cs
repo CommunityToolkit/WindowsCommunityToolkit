@@ -185,11 +185,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver(string text, int size, string name)
+        public static void HasSizeGreaterThan(string text, int size, string name)
         {
             if (text.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(text, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(text, size, name);
             }
         }
 
@@ -201,11 +201,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast(string text, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo(string text, int size, string name)
         {
             if (text.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(text, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(text, size, name);
             }
         }
 

@@ -72,41 +72,41 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
-        public void Test_Guard_HasSizeOver_ArrayOk()
+        public void Test_Guard_HasSizeGreaterThan_ArrayOk()
         {
-            Guard.HasSizeOver(new int[5], 2, nameof(Test_Guard_HasSizeOver_ArrayOk));
+            Guard.HasSizeGreaterThan(new int[5], 2, nameof(Test_Guard_HasSizeGreaterThan_ArrayOk));
         }
 
         [TestCategory("Guard")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_Guard_HasSizeOver_ArrayEqualFail()
+        public void Test_Guard_HasSizeGreaterThan_ArrayEqualFail()
         {
-            Guard.HasSizeOver(new int[4], 4, nameof(Test_Guard_HasSizeOver_ArrayEqualFail));
+            Guard.HasSizeGreaterThan(new int[4], 4, nameof(Test_Guard_HasSizeGreaterThan_ArrayEqualFail));
         }
 
         [TestCategory("Guard")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_Guard_HasSizeOver_ArraSmallerFail()
+        public void Test_Guard_HasSizeGreaterThan_ArraSmallerFail()
         {
-            Guard.HasSizeOver(new int[1], 4, nameof(Test_Guard_HasSizeOver_ArraSmallerFail));
+            Guard.HasSizeGreaterThan(new int[1], 4, nameof(Test_Guard_HasSizeGreaterThan_ArraSmallerFail));
         }
 
         [TestCategory("Guard")]
         [TestMethod]
-        public void Test_Guard_HasSizeAtLeast_ArrayOk()
+        public void Test_Guard_HasSizeGreaterThanOrEqualTo_ArrayOk()
         {
-            Guard.HasSizeAtLeast(new int[5], 2, nameof(Test_Guard_HasSizeAtLeast_ArrayOk));
-            Guard.HasSizeAtLeast(new int[2], 2, nameof(Test_Guard_HasSizeAtLeast_ArrayOk));
+            Guard.HasSizeGreaterThanOrEqualTo(new int[5], 2, nameof(Test_Guard_HasSizeGreaterThanOrEqualTo_ArrayOk));
+            Guard.HasSizeGreaterThanOrEqualTo(new int[2], 2, nameof(Test_Guard_HasSizeGreaterThanOrEqualTo_ArrayOk));
         }
 
         [TestCategory("Guard")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_Guard_HasSizeAtLeast_ArrayFail()
+        public void Test_Guard_HasSizeGreaterThanOrEqualTo_ArrayFail()
         {
-            Guard.HasSizeOver(new int[1], 4, nameof(Test_Guard_HasSizeAtLeast_ArrayFail));
+            Guard.HasSizeGreaterThan(new int[1], 4, nameof(Test_Guard_HasSizeGreaterThanOrEqualTo_ArrayFail));
         }
 
         [TestCategory("Guard")]
