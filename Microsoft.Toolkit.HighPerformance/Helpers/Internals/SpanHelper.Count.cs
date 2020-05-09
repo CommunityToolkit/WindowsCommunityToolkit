@@ -55,8 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
 
             if (typeof(T) == typeof(int) ||
-                typeof(T) == typeof(uint) ||
-                typeof(T) == typeof(float))
+                typeof(T) == typeof(uint))
             {
                 ref int r1 = ref Unsafe.As<T, int>(ref r0);
                 int target = Unsafe.As<T, int>(ref value);
@@ -65,8 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
 
             if (typeof(T) == typeof(long) ||
-                typeof(T) == typeof(ulong) ||
-                typeof(T) == typeof(double))
+                typeof(T) == typeof(ulong))
             {
                 ref long r1 = ref Unsafe.As<T, long>(ref r0);
                 long target = Unsafe.As<T, long>(ref value);
