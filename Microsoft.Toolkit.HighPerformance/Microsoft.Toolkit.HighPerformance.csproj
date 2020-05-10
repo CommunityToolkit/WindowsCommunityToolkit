@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Title>Windows Community Toolkit High Performance .NET Standard</Title>
@@ -25,14 +25,29 @@
     <DebugType>Full</DebugType>
   </PropertyGroup>
   <Choose>
-    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
       <ItemGroup>
 
-        <!-- .NET Standard 2.0 doesn't have the Span<T>, HashCode and ValueTask types.
+        <!-- .NET Standard 1.4 lacks the [Pure] attribute, the Rectangle primitive,
+             the Span<T> and Memory<T> types, the Vector<T> primitive and related APIs,
+             ValueTask and ValueTask<T>, the Parallel class and the Unsafe class.
              We also need to reference the System.Runtime.CompilerServices.Unsafe package directly,
              even though System.Memory references it already, as we need a more recent version than
              the one bundled with it. This is so that we can use the Unsafe.Unbox<T> method,
-             which is used by the Box<T> type in the package.-->
+             which is used by the Box<T> type in the package. -->
+        <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
+        <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+        <PackageReference Include="System.Memory" Version="4.5.4" />
+        <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+        <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <ItemGroup>
+
+        <!-- .NET Standard 2.0 doesn't have the Span<T>, HashCode and ValueTask types -->
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
         <PackageReference Include="System.Memory" Version="4.5.4" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />

@@ -280,7 +280,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.LongLength;
+            IntPtr length = (IntPtr)array.Length;
 
             return SpanHelper.Count(ref r0, length, value);
         }
