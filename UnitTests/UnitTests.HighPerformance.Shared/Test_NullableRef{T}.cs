@@ -52,6 +52,18 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("NullableRefOfT")]
         [TestMethod]
+        public void Test_NullableRefOfT_CreateNullableRefOfT_ImplicitRefCast()
+        {
+            int value = 42;
+            var reference = new Ref<int>(ref value);
+            NullableRef<int> nullableRef = reference;
+
+            Assert.IsTrue(nullableRef.HasValue);
+            Assert.IsTrue(Unsafe.AreSame(ref reference.Value, ref nullableRef.Value));
+        }
+
+        [TestCategory("NullableRefOfT")]
+        [TestMethod]
         public void Test_NullableRefOfT_CreateNullableRefOfT_ExplicitCastOfT()
         {
             int value = 42;

@@ -48,6 +48,42 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("NullableReadOnlyRefOfT")]
         [TestMethod]
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_ImplicitRefCast()
+        {
+            int value = 42;
+            var reference = new Ref<int>(ref value);
+            NullableReadOnlyRef<int> nullableRef = reference;
+
+            Assert.IsTrue(nullableRef.HasValue);
+            Assert.IsTrue(Unsafe.AreSame(ref reference.Value, ref Unsafe.AsRef(nullableRef.Value)));
+        }
+
+        [TestCategory("NullableReadOnlyRefOfT")]
+        [TestMethod]
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_ImplicitReadOnlyRefCast()
+        {
+            int value = 42;
+            var reference = new ReadOnlyRef<int>(value);
+            NullableReadOnlyRef<int> nullableRef = reference;
+
+            Assert.IsTrue(nullableRef.HasValue);
+            Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(reference.Value), ref Unsafe.AsRef(nullableRef.Value)));
+        }
+
+        [TestCategory("NullableReadOnlyRefOfT")]
+        [TestMethod]
+        public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_ImplicitNullableRefCast()
+        {
+            int value = 42;
+            var reference = new NullableRef<int>(ref value);
+            NullableReadOnlyRef<int> nullableRef = reference;
+
+            Assert.IsTrue(nullableRef.HasValue);
+            Assert.IsTrue(Unsafe.AreSame(ref reference.Value, ref Unsafe.AsRef(nullableRef.Value)));
+        }
+
+        [TestCategory("NullableReadOnlyRefOfT")]
+        [TestMethod]
         public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_ExplicitCastOfT()
         {
             int value = 42;
