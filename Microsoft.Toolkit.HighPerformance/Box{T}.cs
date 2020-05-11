@@ -4,9 +4,7 @@
 
 using System;
 using System.Diagnostics;
-#if NETSTANDARD2_1_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -108,17 +106,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="box">The resulting <see cref="Box{T}"/> reference, if <paramref name="obj"/> was a boxed <typeparamref name="T"/> value.</param>
         /// <returns><see langword="true"/> if a <see cref="Box{T}"/> instance was retrieved correctly, <see langword="false"/> otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetFrom(
-            object obj,
-#if NETSTANDARD2_1_OR_GREATER
-            // On .NET Standard 2.1, we can add the [NotNullWhen] attribute
-            // to let the code analysis engine know that whenever this method
-            // returns true, box will always be assigned to a non-null value.
-            // This will eliminate the null warnings when in a branch that
-            // is only taken when this method returns true.
-            [NotNullWhen(true)]
-#endif
-            out Box<T>? box)
+        public static bool TryGetFrom(object obj, [NotNullWhen(true)] out Box<T>? box)
         {
             if (obj.GetType() == typeof(T))
             {
