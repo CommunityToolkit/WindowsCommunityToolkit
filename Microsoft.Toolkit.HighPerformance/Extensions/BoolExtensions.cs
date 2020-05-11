@@ -31,7 +31,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="flag">The input value to convert.</param>
         /// <returns>0xFFFFFFFF if <paramref name="flag"/> is <see langword="true"/>, 0x00000000 otherwise.</returns>
-        /// <remarks>This method does not contain branching instructions.</remarks>
+        /// <remarks>
+        /// This method does not contain branching instructions, and it is only guaranteed to work with
+        /// <see cref="bool"/> values being either 0 or 1. Operations producing a <see cref="bool"/> result,
+        /// such as numerical comparisons, always result in a valid value. If the <see cref="bool"/> value is
+        /// produced by fields with a custom <see cref="System.Runtime.InteropServices.FieldOffsetAttribute"/>,
+        /// or by using <see cref="Unsafe.As{T}"/> or other unsafe APIs to directly manipulate the underlying
+        /// data though, it is responsibility of the caller to ensure the validity of the provided value.
+        /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ToBitwiseMask32(this bool flag)
@@ -50,7 +57,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="flag">The input value to convert.</param>
         /// <returns>All 1s if <paramref name="flag"/> is <see langword="true"/>, all 0s otherwise.</returns>
-        /// <remarks>This method does not contain branching instructions.</remarks>
+        /// <remarks>This method does not contain branching instructions. See additional note in <see cref="ToBitwiseMask32"/>.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long ToBitwiseMask64(this bool flag)
