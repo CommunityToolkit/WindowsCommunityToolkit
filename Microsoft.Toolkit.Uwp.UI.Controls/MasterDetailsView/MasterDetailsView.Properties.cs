@@ -173,7 +173,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MasterDetailsView),
             new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
 
-
         /// <summary>
         /// Gets or sets the index of the current selection.
         /// </summary>
