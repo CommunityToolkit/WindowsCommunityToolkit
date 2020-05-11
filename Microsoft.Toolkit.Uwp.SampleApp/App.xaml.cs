@@ -167,6 +167,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var deferral = e.SuspendingOperation.GetDeferral();
 
             // TODO: Save application state and stop any background activity
+            try
+            {
+                // Here we flush the Clipboard to make sure content in clipboard to remain available
+                // after the application shuts down.
+                Clipboard.Flush();
+            }
+            catch (Exception ex)
+            {
+                // ignore
+            }
+            
             deferral.Complete();
         }
     }
