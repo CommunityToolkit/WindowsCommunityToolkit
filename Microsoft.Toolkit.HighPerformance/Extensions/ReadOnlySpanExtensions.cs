@@ -119,6 +119,46 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// Gets the index of an element of a given <see cref="ReadOnlySpan{T}"/> from its reference.
+        /// </summary>
+        /// <typeparam name="T">The type if items in the input <see cref="ReadOnlySpan{T}"/>.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> to calculate the index for.</param>
+        /// <param name="value">The reference to the target item to get the index for.</param>
+        /// <returns>The index of <paramref name="value"/> within <paramref name="span"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> does not belong to <paramref name="span"/>.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe int IndexOf<T>(this ReadOnlySpan<T> span, in T value)
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T r1 = ref Unsafe.AsRef(value);
+            IntPtr byteOffset = Unsafe.ByteOffset(ref r0, ref r1);
+
+            if (sizeof(IntPtr) == sizeof(long))
+            {
+                long elementOffset = (long)byteOffset / Unsafe.SizeOf<T>();
+
+                if ((ulong)elementOffset >= (ulong)span.Length)
+                {
+                    SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
+                }
+
+                return unchecked((int)elementOffset);
+            }
+            else
+            {
+                int elementOffset = (int)byteOffset / Unsafe.SizeOf<T>();
+
+                if ((uint)elementOffset >= (uint)span.Length)
+                {
+                    SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
+                }
+
+                return elementOffset;
+            }
+        }
+
+        /// <summary>
         /// Counts the number of occurrences of a given value into a target <see cref="ReadOnlySpan{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
@@ -140,7 +180,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlySpan{T}"/> of bytes.
         /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
-        /// <typeparam name="T">The type if items in the source <see cref="ReadOnlySpan{T}"/></typeparam>
+        /// <typeparam name="T">The type if items in the source <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <param name="span">The source slice, of type <typeparamref name="T"/>.</param>
         /// <returns>A <see cref="ReadOnlySpan{T}"/> of bytes.</returns>
         /// <exception cref="ArgumentException">
