@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     internal partial class MemoryStream
     {
         /// <inheritdoc/>
-        public override void CopyTo(Stream destination, int bufferSize)
+        public sealed override void CopyTo(Stream destination, int bufferSize)
         {
             ValidateDisposed();
 
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        public sealed override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+        public sealed override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override int Read(Span<byte> buffer)
+        public sealed override int Read(Span<byte> buffer)
         {
             ValidateDisposed();
 
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void Write(ReadOnlySpan<byte> buffer)
+        public sealed override void Write(ReadOnlySpan<byte> buffer)
         {
             ValidateDisposed();
             ValidateCanWrite();

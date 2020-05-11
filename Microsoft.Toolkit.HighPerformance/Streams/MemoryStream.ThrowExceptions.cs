@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Throws a <see cref="NotSupportedException"/> when trying to set the length of the stream.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowNotSupportedExceptionForSetLength()
+        private static void ThrowNotSupportedExceptionForSetLength()
         {
             throw new NotSupportedException("Setting the length is not supported for this stream.");
         }
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// </summary>
         /// <returns>Nothing, as this method throws unconditionally.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static long ThrowArgumentExceptionForSeekOrigin()
+        private static long ThrowArgumentExceptionForSeekOrigin()
         {
             throw new ArgumentException("The input seek mode is not valid.", "origin");
         }
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Throws an <see cref="ObjectDisposedException"/> when using a disposed <see cref="Stream"/> instance.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowObjectDisposedException()
+        private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException(nameof(memory), "The current stream has already been disposed");
         }
