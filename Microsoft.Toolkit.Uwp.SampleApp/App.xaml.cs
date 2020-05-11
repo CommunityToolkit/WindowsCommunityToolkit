@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // after the application shuts down.
                 Clipboard.Flush();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ignore
             }
