@@ -8,8 +8,6 @@ using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>

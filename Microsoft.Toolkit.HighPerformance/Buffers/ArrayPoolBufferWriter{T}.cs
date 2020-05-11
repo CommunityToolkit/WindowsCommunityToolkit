@@ -11,8 +11,6 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
     /// <summary>

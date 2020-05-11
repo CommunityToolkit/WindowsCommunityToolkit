@@ -11,8 +11,6 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>

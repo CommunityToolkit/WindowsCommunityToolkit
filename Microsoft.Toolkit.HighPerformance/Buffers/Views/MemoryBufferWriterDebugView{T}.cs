@@ -4,8 +4,6 @@
 
 using System.Diagnostics;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Views
 {
     /// <summary>

@@ -7,8 +7,6 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>

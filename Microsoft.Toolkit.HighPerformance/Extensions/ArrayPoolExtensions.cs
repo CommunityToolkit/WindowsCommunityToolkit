@@ -5,8 +5,6 @@
 using System;
 using System.Buffers;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
