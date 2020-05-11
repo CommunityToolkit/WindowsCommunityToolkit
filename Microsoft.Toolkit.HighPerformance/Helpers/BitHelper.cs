@@ -142,17 +142,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 not = ~bit,
                 and = value & not;
 
-            // Reinterpret the flag as 1 or 0, and cast to uint.
-            // The flag is first copied to a local variable as taking
-            // the address of an argument is slower than doing the same
-            // for a local variable. This is because when referencing
-            // the argument the JIT compiler will emit code to temporarily
-            // move the argument to the stack, and then copy it back.
-            // With a temporary variable instead, the JIT will be able to
-            // optimize the method to only use CPU registers.
-            bool localFlag = flag;
+            // Reinterpret the flag as 1 or 0, and cast to uint
             uint
-                flag32 = Unsafe.As<bool, byte>(ref localFlag),
+                flag32 = Unsafe.As<bool, byte>(ref flag),
 
                 // Finally, we left shift the uint flag to the right position
                 // and perform an OR with the resulting value of the previous
@@ -328,9 +320,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 bit = 1ul << n,
                 not = ~bit,
                 and = value & not;
-            bool localFlag = flag;
             ulong
-                flag64 = Unsafe.As<bool, byte>(ref localFlag),
+                flag64 = Unsafe.As<bool, byte>(ref flag),
                 shift = flag64 << n,
                 or = and | shift;
 
