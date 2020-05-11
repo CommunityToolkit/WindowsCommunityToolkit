@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Span{T}"/> of bytes.
         /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
-        /// <typeparam name="T">The type if items in the source <see cref="Span{T}"/></typeparam>
+        /// <typeparam name="T">The type if items in the source <see cref="Span{T}"/>.</typeparam>
         /// <param name="span">The source slice, of type <typeparamref name="T"/>.</param>
         /// <returns>A <see cref="Span{T}"/> of bytes.</returns>
         /// <exception cref="ArgumentException">
@@ -90,6 +90,45 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where TTo : struct
         {
             return MemoryMarshal.Cast<TFrom, TTo>(span);
+        }
+
+        /// <summary>
+        /// Gets the index of an element of a given <see cref="Span{T}"/> from its reference.
+        /// </summary>
+        /// <typeparam name="T">The type if items in the input <see cref="Span{T}"/>.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> to calculate the index for.</param>
+        /// <param name="value">The reference to the target item to get the index for.</param>
+        /// <returns>The index of <paramref name="value"/> within <paramref name="span"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> does not belong to <paramref name="span"/>.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe int IndexOf<T>(this Span<T> span, ref T value)
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            IntPtr byteOffset = Unsafe.ByteOffset(ref r0, ref value);
+
+            if (sizeof(IntPtr) == sizeof(long))
+            {
+                long elementOffset = (long)byteOffset / Unsafe.SizeOf<T>();
+
+                if ((ulong)elementOffset >= (ulong)span.Length)
+                {
+                    ThrowArgumentOutOfRangeExceptionForInvalidReference();
+                }
+
+                return unchecked((int)elementOffset);
+            }
+            else
+            {
+                int elementOffset = (int)byteOffset / Unsafe.SizeOf<T>();
+
+                if ((uint)elementOffset >= (uint)span.Length)
+                {
+                    ThrowArgumentOutOfRangeExceptionForInvalidReference();
+                }
+
+                return elementOffset;
+            }
         }
 
         /// <summary>
@@ -179,6 +218,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             IntPtr length = (IntPtr)span.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the given reference is out of range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        internal static void ThrowArgumentOutOfRangeExceptionForInvalidReference()
+        {
+            throw new ArgumentOutOfRangeException("value", "The input reference does not belong to an element of the input span");
         }
     }
 }
