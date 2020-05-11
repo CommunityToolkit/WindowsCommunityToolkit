@@ -7,7 +7,6 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 
 #nullable enable
 
