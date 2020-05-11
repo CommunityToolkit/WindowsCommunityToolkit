@@ -90,6 +90,97 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        public void Test_ReadOnlySpanExtensions_IndexOf_Empty()
+        {
+            static void Test<T>()
+            {
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    T a = default;
+
+                    default(ReadOnlySpan<T>).IndexOf(in a);
+                });
+
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    ReadOnlySpan<T> data = new T[] { default };
+
+                    data.Slice(1).IndexOf(in data[0]);
+                });
+            }
+
+            Test<byte>();
+            Test<int>();
+            Test<Guid>();
+            Test<string>();
+            Test<object>();
+            Test<IEnumerable<int>>();
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_IndexOf_NotEmpty()
+        {
+            static void Test<T>()
+            {
+                ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    Assert.AreEqual(i, data.IndexOf(in data[i]));
+                }
+            }
+
+            Test<byte>();
+            Test<int>();
+            Test<Guid>();
+            Test<string>();
+            Test<object>();
+            Test<IEnumerable<int>>();
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_IndexOf_NotEmpty_OutOfRange()
+        {
+            static void Test<T>()
+            {
+                // Before start
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                    data.Slice(1).IndexOf(in data[0]);
+                });
+
+                // After end
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                    data.Slice(0, 2).IndexOf(in data[2]);
+                });
+
+                // Local variable
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    var dummy = new T[] { default };
+                    ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                    data.IndexOf(in dummy[0]);
+                });
+            }
+
+            Test<byte>();
+            Test<int>();
+            Test<Guid>();
+            Test<string>();
+            Test<object>();
+            Test<IEnumerable<int>>();
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
         public void Test_ReadOnlySpanExtensions_Enumerate()
         {
             ReadOnlySpan<int> data = new[] { 1, 2, 3, 4, 5, 6, 7 };
