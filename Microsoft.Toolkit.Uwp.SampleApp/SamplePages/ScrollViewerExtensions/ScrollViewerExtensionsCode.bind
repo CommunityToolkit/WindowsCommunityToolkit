@@ -67,5 +67,48 @@
         </Style>
       </ListView.ItemContainerStyle>
     </ListView>
+    <StackPanel x:Name="shapesPanel"
+                HorizontalAlignment="Center"
+                Margin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
+                Padding="12"
+                Spacing="24">
+      <Border Height="100"
+              Width="100"
+              Background="#20000000">
+        <Polygon
+          Points="0,0 0,36 30,18.5"
+          Stroke="DarkGreen"
+          Fill="Green"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center"/>
+      </Border>
+      <Border Height="100"
+              Width="100"
+              Background="#20000000">
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Spacing="4">
+          <Polygon
+            Points="0,0 0,36 16,18.5"
+            Stroke="Blue"
+            Fill="DodgerBlue"/>
+          <Polygon
+            Points="0,0 0,36 16,18.5"
+            Stroke="Blue"
+            Fill="DodgerBlue"/>
+        </StackPanel>
+      </Border>
+      <Border Height="100"
+              Width="100"
+              Background="#20000000">
+        <Polygon
+          Points="0,0 0,36 36,36 36,0"
+          Stroke="DarkRed"
+          Fill="Crimson"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center"/>
+      </Border>
+    </StackPanel>
   </Grid>
 </Page>
