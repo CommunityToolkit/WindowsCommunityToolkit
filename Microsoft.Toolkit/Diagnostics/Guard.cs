@@ -25,7 +25,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1119", Justification = "Negated pattern match expression")]
         public static void IsNull<T>(T? value, string name)
             where T : class
         {
@@ -44,7 +43,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1119", Justification = "Negated pattern match expression")]
         public static void IsNull<T>(T? value, string name)
             where T : struct
         {
