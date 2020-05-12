@@ -216,6 +216,7 @@ namespace UnitTests.Diagnostics
         public void Test_Guard_IsTrue_Ok()
         {
             Guard.IsTrue(true, nameof(Test_Guard_IsTrue_Ok));
+            Guard.IsTrue(true, nameof(Test_Guard_IsTrue_Ok), "Hello world");
         }
 
         [TestCategory("Guard")]
@@ -228,9 +229,30 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
+        public void Test_Guard_IsTrue_Fail_WithMessage()
+        {
+            try
+            {
+                Guard.IsTrue(false, nameof(Test_Guard_IsTrue_Fail_WithMessage), "Hello world");
+            }
+            catch (ArgumentException e)
+            {
+                Assert.IsTrue(e.Message.Contains("\"Hello world\""));
+
+                return;
+            }
+
+            // Compiler detects this is unreachable from attribute,
+            // but we leave the assertion to double check that's valid
+            Assert.Fail();
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
         public void Test_Guard_IsFalse_Ok()
         {
             Guard.IsFalse(false, nameof(Test_Guard_IsFalse_Ok));
+            Guard.IsFalse(false, nameof(Test_Guard_IsFalse_Ok), "Hello world");
         }
 
         [TestCategory("Guard")]
@@ -239,6 +261,24 @@ namespace UnitTests.Diagnostics
         public void Test_Guard_IsFalse_Fail()
         {
             Guard.IsFalse(true, nameof(Test_Guard_IsFalse_Fail));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        public void Test_Guard_IsFalse_Fail_WithMessage()
+        {
+            try
+            {
+                Guard.IsFalse(true, nameof(Test_Guard_IsFalse_Fail_WithMessage), "Hello world");
+            }
+            catch (ArgumentException e)
+            {
+                Assert.IsTrue(e.Message.Contains("\"Hello world\""));
+
+                return;
+            }
+
+            Assert.Fail();
         }
 
         [TestCategory("Guard")]

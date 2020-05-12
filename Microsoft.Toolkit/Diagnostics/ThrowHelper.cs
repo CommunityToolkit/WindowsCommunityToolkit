@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsTrue"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsTrue(bool,string)"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsTrue(string name)
@@ -166,12 +166,30 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsFalse"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsTrue(bool,string,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsTrue(string name, string message)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be true, was false: {message.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsFalse(bool,string)"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsFalse(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsFalse(bool,string,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsFalse(string name, string message)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true: {message.ToAssertString()}");
         }
     }
 }

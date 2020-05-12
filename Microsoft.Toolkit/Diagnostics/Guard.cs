@@ -269,6 +269,22 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value must be <see langword="true"/>.
+        /// </summary>
+        /// <param name="value">The input <see cref="bool"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <param name="message">A message to display if <paramref name="value"/> is <see langword="false"/>.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsTrue([DoesNotReturnIf(false)] bool value, string name, string message)
+        {
+            if (!value)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsTrue(name, message);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value must be <see langword="false"/>.
         /// </summary>
         /// <param name="value">The input <see cref="bool"/> to test.</param>
@@ -280,6 +296,22 @@ namespace Microsoft.Toolkit.Diagnostics
             if (value)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsFalse(name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be <see langword="false"/>.
+        /// </summary>
+        /// <param name="value">The input <see cref="bool"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <param name="message">A message to display if <paramref name="value"/> is <see langword="true"/>.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsFalse([DoesNotReturnIf(true)] bool value, string name, string message)
+        {
+            if (value)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsFalse(name, message);
             }
         }
     }
