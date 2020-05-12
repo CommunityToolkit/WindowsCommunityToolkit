@@ -78,11 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNull<T>(
-#if NETSTANDARD2_1
-            [NotNull]
-#endif
-            T? value, string name)
+        public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : struct
         {
             if (value is null)
