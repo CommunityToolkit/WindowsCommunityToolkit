@@ -2,23 +2,21 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Composition;
-
-namespace Microsoft.Toolkit.Uwp.UI.Enums
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Indicates a property of a <see cref="Visual"/> object.
+    /// Indicates an axis in the 2D space
     /// </summary>
-    public enum VisualProperty
+    public enum Axis
     {
         /// <summary>
-        /// The offset property of a <see cref="Visual"/> object.
+        /// The X axis (horizontal)
         /// </summary>
-        Offset,
+        X,
 
         /// <summary>
-        /// The translation property of a <see cref="Visual"/> object.
+        /// The Y axis (vertical)
         /// </summary>
-        Translation
+        Y
     }
 }

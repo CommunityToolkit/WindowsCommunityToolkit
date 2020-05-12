@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Enums;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
