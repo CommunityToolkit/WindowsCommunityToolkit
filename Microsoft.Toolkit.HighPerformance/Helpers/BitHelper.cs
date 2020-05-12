@@ -142,14 +142,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 not = ~bit,
                 and = value & not;
 
-            // Reinterpret the flag as 1 or 0, and cast to uint
+            // Reinterpret the flag as 1 or 0, and cast to uint,
+            // then we left shift the uint flag to the right position
+            // and perform an OR with the resulting value of the previous
+            // operation. This will always guaranteed to work, thanks to the
+            // initial code clearing that bit before setting it again.
             uint
                 flag32 = Unsafe.As<bool, byte>(ref flag),
-
-                // Finally, we left shift the uint flag to the right position
-                // and perform an OR with the resulting value of the previous
-                // operation. This will always guaranteed to work, thanks to the
-                // initial code clearing that bit before setting it again.
                 shift = flag32 << n,
                 or = and | shift;
 
@@ -269,7 +268,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasLookupFlag(ulong table, int x, int min = 0)
         {
-            // Same logic as the uint overload above
             int i = x - min;
             bool isInRange = (uint)i < 64u;
             byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
@@ -315,12 +313,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong SetFlag(ulong value, int n, bool flag)
         {
-            // As with the method above, reuse the same logic as the uint version
             ulong
                 bit = 1ul << n,
                 not = ~bit,
-                and = value & not;
-            ulong
+                and = value & not,
                 flag64 = Unsafe.As<bool, byte>(ref flag),
                 shift = flag64 << n,
                 or = and | shift;
