@@ -31,9 +31,11 @@ namespace UnitTests.HighPerformance
         [TestMethod]
         public void Test_NullableReadOnlyRefOfT_CreateNullableReadOnlyRefOfT_Null()
         {
-            NullableReadOnlyRef<int> reference = default;
+            Assert.IsFalse(default(NullableReadOnlyRef<int>).HasValue);
+            Assert.IsFalse(NullableReadOnlyRef<int>.Null.HasValue);
 
-            Assert.IsFalse(reference.HasValue);
+            Assert.IsFalse(default(NullableReadOnlyRef<string>).HasValue);
+            Assert.IsFalse(NullableReadOnlyRef<string>.Null.HasValue);
         }
 
         [TestCategory("NullableReadOnlyRefOfT")]

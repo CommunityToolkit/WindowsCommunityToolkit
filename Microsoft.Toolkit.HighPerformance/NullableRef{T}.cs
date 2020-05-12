@@ -42,6 +42,15 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
+        /// Gets a <see cref="NullableRef{T}"/> instance representing a <see langword="null"/> reference.
+        /// </summary>
+        public static NullableRef<T> Null
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => default;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether or not the current <see cref="NullableRef{T}"/> instance wraps a valid reference that can be accessed.
         /// </summary>
         public bool HasValue
