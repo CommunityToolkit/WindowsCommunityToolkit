@@ -544,9 +544,6 @@
     <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
       <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Triggers\InputTypeStateTriggerPage.xaml.cs">
-      <DependentUpon>InputTypeStateTriggerPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml.cs">
       <DependentUpon>IsNullOrEmptyStateTriggerPage.xaml</DependentUpon>
     </Compile>
@@ -579,7 +576,6 @@
     <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\EqualsStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />
-    <Content Include="SamplePages\Triggers\InputTypeStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\IsNullOrEmptyStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\NetworkConnectionStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\NotEqualStateTrigger.bind" />
@@ -1052,10 +1048,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\InputTypeStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
