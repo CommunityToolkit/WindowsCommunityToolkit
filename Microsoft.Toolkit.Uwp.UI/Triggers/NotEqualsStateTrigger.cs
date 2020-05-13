@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// <summary>
     /// Enables a state if the value is not equal to another value
     /// </summary>
-    public class NotEqualStateTrigger : StateTriggerBase
+    public class NotEqualsStateTrigger : StateTriggerBase
     {
         private void UpdateTrigger() => SetActive(!EqualsStateTrigger.AreValuesEqual(Value, To, true));
 
@@ -26,11 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="Value"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(NotEqualStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(NotEqualsStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var obj = (NotEqualStateTrigger)d;
+            var obj = (NotEqualsStateTrigger)d;
             obj.UpdateTrigger();
         }
 
@@ -47,6 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="To"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ToProperty =
-                    DependencyProperty.Register(nameof(To), typeof(object), typeof(NotEqualStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+                    DependencyProperty.Register(nameof(To), typeof(object), typeof(NotEqualsStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
     }
 }

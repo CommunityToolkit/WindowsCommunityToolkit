@@ -968,12 +968,12 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },
       {
-        "Name": "NotEqualStateTrigger",
-        "Type": "NotEqualStateTriggerPage",
+        "Name": "NotEqualsStateTrigger",
+        "Type": "NotEqualsStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is not equal to another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
-        "XamlCodeFile": "/SamplePages/Triggers/NotEqualStateTrigger.bind",
+        "XamlCodeFile": "/SamplePages/Triggers/NotEqualsStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },

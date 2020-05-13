@@ -550,8 +550,8 @@
     <Compile Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml.cs">
       <DependentUpon>NetworkConnectionStateTriggerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Triggers\NotEqualStateTriggerPage.xaml.cs">
-      <DependentUpon>NotEqualStateTriggerPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Triggers\NotEqualsStateTriggerPage.xaml.cs">
+      <DependentUpon>NotEqualsStateTriggerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Triggers\RegexStateTriggerPage.xaml.cs">
       <DependentUpon>RegexStateTriggerPage.xaml</DependentUpon>
@@ -578,7 +578,7 @@
     <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\IsNullOrEmptyStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\NetworkConnectionStateTrigger.bind" />
-    <Content Include="SamplePages\Triggers\NotEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\NotEqualsStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
@@ -1059,7 +1059,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Triggers\NotEqualStateTriggerPage.xaml">
+    <Page Include="SamplePages\Triggers\NotEqualsStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
