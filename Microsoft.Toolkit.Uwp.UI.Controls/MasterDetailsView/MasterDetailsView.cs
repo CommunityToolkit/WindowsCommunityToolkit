@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var view = (MasterDetailsView)d;
 
-            var newValue = (int)e.NewValue == -1 ? null : view.Items[(int)e.NewValue];
+            var newValue = (int)e.NewValue < 0 ? null : view.Items[(int)e.NewValue];
             var oldValue = e.OldValue == null ? null : view.Items.ElementAtOrDefault((int)e.OldValue);
 
             // check if selection actually changed

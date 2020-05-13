@@ -49,6 +49,30 @@ namespace UnitTests.UI.Controls
 
         [TestCategory("MasterDetailsView")]
         [UITestMethod]
+        public void Test_UnselectUsingIndex()
+        {
+            var items = Enumerable.Range(1, 10).ToArray();
+            var masterDetailsView = new MasterDetailsView();
+            masterDetailsView.ItemsSource = items;
+            masterDetailsView.SelectedIndex = 5;            
+            masterDetailsView.SelectedIndex = -1;
+            Assert.IsNull(masterDetailsView.SelectedItem);
+        }
+
+        [TestCategory("MasterDetailsView")]
+        [UITestMethod]
+        public void Test_UnselectUsingItem()
+        {
+            var items = Enumerable.Range(1, 10).ToArray();
+            var masterDetailsView = new MasterDetailsView();
+            masterDetailsView.ItemsSource = items;
+            masterDetailsView.SelectedItem = items[5];
+            masterDetailsView.SelectedItem = null;
+            Assert.AreEqual(-1, masterDetailsView.SelectedIndex);
+        }
+
+        [TestCategory("MasterDetailsView")]
+        [UITestMethod]
         public void Test_SelectedItem_Syncs_SelectedIndex()
         {
             var items = Enumerable.Range(0, 10).ToArray();
