@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -39,9 +38,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public unsafe ref struct UnsafeLock
+        public readonly unsafe ref struct UnsafeLock
         {
             /// <summary>
             /// The <see cref="SpinLock"/>* pointer to the target <see cref="SpinLock"/> value to use.
@@ -79,7 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
         }
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
         /// This extension should be used though a <see langword="using"/> block or statement:
@@ -132,9 +130,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ref struct Lock
+        public readonly ref struct Lock
         {
             /// <summary>
             /// The <see cref="Ref{T}"/> instance pointing to the target <see cref="SpinLock"/> value to use.
@@ -146,7 +143,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             /// </summary>
             private readonly bool lockTaken;
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             /// <summary>
             /// Initializes a new instance of the <see cref="Lock"/> struct.
             /// </summary>

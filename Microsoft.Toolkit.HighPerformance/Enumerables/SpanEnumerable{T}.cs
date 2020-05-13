@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,7 +14,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that enumerates the items in a given <see cref="Span{T}"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public readonly ref struct SpanEnumerable<T>
     {
@@ -95,16 +93,16 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
                     ref T ri = ref Unsafe.Add(ref r0, this.index);
 
-                    /* On .NET Standard 2.1 we can save 4 bytes by piggybacking
-                     * the current index in the length of the wrapped span.
-                     * We're going to use the first item as the target reference,
-                     * and the length as a host for the current original offset.
-                     * This is not possible on .NET Standard 2.1 as we lack
-                     * the API to create spans from arbitrary references. */
+                    // On .NET Standard 2.1 we can save 4 bytes by piggybacking
+                    // the current index in the length of the wrapped span.
+                    // We're going to use the first item as the target reference,
+                    // and the length as a host for the current original offset.
+                    // This is not possible on .NET Standard 2.1 as we lack
+                    // the API to create spans from arbitrary references.
                     return new Item(ref ri, this.index);
 #else
                     return new Item(this.span, this.index);
@@ -124,7 +122,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// </summary>
             private readonly Span<T> span;
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             /// <summary>
             /// Initializes a new instance of the <see cref="Item"/> struct.
             /// </summary>
@@ -162,7 +160,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
                     return ref MemoryMarshal.GetReference(this.span);
 #else
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
@@ -181,7 +179,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
                     return this.span.Length;
 #else
                     return this.index;

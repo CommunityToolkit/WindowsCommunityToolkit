@@ -9,8 +9,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
     /// <summary>
@@ -68,28 +66,28 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override bool CanRead
+        public sealed override bool CanRead
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => !this.disposed;
         }
 
         /// <inheritdoc/>
-        public override bool CanSeek
+        public sealed override bool CanSeek
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => !this.disposed;
         }
 
         /// <inheritdoc/>
-        public override bool CanWrite
+        public sealed override bool CanWrite
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => !this.isReadOnly && !this.disposed;
         }
 
         /// <inheritdoc/>
-        public override long Length
+        public sealed override long Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -101,7 +99,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override long Position
+        public sealed override long Position
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -122,7 +120,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+        public sealed override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -146,12 +144,12 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void Flush()
+        public sealed override void Flush()
         {
         }
 
         /// <inheritdoc/>
-        public override Task FlushAsync(CancellationToken cancellationToken)
+        public sealed override Task FlushAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -162,7 +160,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override Task<int> ReadAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
+        public sealed override Task<int> ReadAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -186,7 +184,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override Task WriteAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
+        public sealed override Task WriteAsync(byte[]? buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -210,7 +208,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override long Seek(long offset, SeekOrigin origin)
+        public sealed override long Seek(long offset, SeekOrigin origin)
         {
             ValidateDisposed();
 
@@ -230,13 +228,13 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void SetLength(long value)
+        public sealed override void SetLength(long value)
         {
             ThrowNotSupportedExceptionForSetLength();
         }
 
         /// <inheritdoc/>
-        public override int Read(byte[]? buffer, int offset, int count)
+        public sealed override int Read(byte[]? buffer, int offset, int count)
         {
             ValidateDisposed();
             ValidateBuffer(buffer, offset, count);
@@ -257,7 +255,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override int ReadByte()
+        public sealed override int ReadByte()
         {
             ValidateDisposed();
 
@@ -270,7 +268,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void Write(byte[]? buffer, int offset, int count)
+        public sealed override void Write(byte[]? buffer, int offset, int count)
         {
             ValidateDisposed();
             ValidateCanWrite();
@@ -289,7 +287,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <inheritdoc/>
-        public override void WriteByte(byte value)
+        public sealed override void WriteByte(byte value)
         {
             ValidateDisposed();
             ValidateCanWrite();
