@@ -181,14 +181,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     if (map.Count == 0)
                     {
-                        /* Maps here are really of type Mapping<,> and with unknown type arguments.
-                         * If after removing the current recipient a given map becomes empty, it means
-                         * that there are no registered recipients at all for a given pair of message
-                         * and token types. In that case, we also remove the map from the types map.
-                         * The reason for keeping a key in each mapping is that removing items from a
-                         * dictionary (a hashed collection) only costs O(1) in the best case, while
-                         * if we had tried to iterate the whole dictionary every time we would have
-                         * paid an O(n) minimum cost for each single remove operation. */
+                        // Maps here are really of type Mapping<,> and with unknown type arguments.
+                        // If after removing the current recipient a given map becomes empty, it means
+                        // that there are no registered recipients at all for a given pair of message
+                        // and token types. In that case, we also remove the map from the types map.
+                        // The reason for keeping a key in each mapping is that removing items from a
+                        // dictionary (a hashed collection) only costs O(1) in the best case, while
+                        // if we had tried to iterate the whole dictionary every time we would have
+                        // paid an O(n) minimum cost for each single remove operation.
                         this.typesMap.Remove(map.TypeArguments);
                     }
                 }
@@ -219,10 +219,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return;
                 }
 
-                /* Copy the candidate mappings for the target recipient to a local
-                 * array, as we can't modify the contents of the set while iterating it.
-                 * The rented buffer is oversized and will also include mappings for
-                 * handlers of messages that are registered through a different token. */
+                // Copy the candidate mappings for the target recipient to a local
+                // array, as we can't modify the contents of the set while iterating it.
+                // The rented buffer is oversized and will also include mappings for
+                // handlers of messages that are registered through a different token.
                 var maps = ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Rent(set.Count);
                 int i = 0;
 
@@ -237,22 +237,22 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         }
                     }
 
-                    /* Iterate through all the local maps. These are all the currently
-                     * existing maps of handlers for messages of any given type, with a token
-                     * of the current type, for the target recipient. We heavily rely on
-                     * interfaces here to be able to iterate through all the available mappings
-                     * without having to know the concrete type in advance, and without having
-                     * to deal with reflection: we can just check if the type of the closed interface
-                     * matches with the token type currently in use, and operate on those instances. */
+                    // Iterate through all the local maps. These are all the currently
+                    // existing maps of handlers for messages of any given type, with a token
+                    // of the current type, for the target recipient. We heavily rely on
+                    // interfaces here to be able to iterate through all the available mappings
+                    // without having to know the concrete type in advance, and without having
+                    // to deal with reflection: we can just check if the type of the closed interface
+                    // matches with the token type currently in use, and operate on those instances.
                     foreach (IDictionarySlim<Recipient, IDictionarySlim<TToken>> map in maps.AsSpan(0, i))
                     {
-                        /* We don't need whether or not the map contains the recipient, as the
-                         * sequence of maps has already been copied from the set containing all
-                         * the mappings for the target recipiets: it is guaranteed to be here. */
+                        // We don't need whether or not the map contains the recipient, as the
+                        // sequence of maps has already been copied from the set containing all
+                        // the mappings for the target recipiets: it is guaranteed to be here.
                         IDictionarySlim<TToken> holder = map[key];
 
-                        /* Remove the registered handler for the input token,
-                         * for the current message type (unknown from here). */
+                        // Remove the registered handler for the input token,
+                        // for the current message type (unknown from here).
                         holder.Remove(token);
 
                         if (holder.Count == 0)
@@ -262,11 +262,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                             if (map.Count == 0)
                             {
-                                /* If no handlers are left at all for the recipient, across all
-                                 * message types and token types, remove the set of mappings
-                                 * entirely for the current recipient, and lost the strong
-                                 * reference to it as well. This is the same situation that
-                                 * would've been achieved by just calling Unregister(recipient). */
+                                // If no handlers are left at all for the recipient, across all
+                                // message types and token types, remove the set of mappings
+                                // entirely for the current recipient, and lost the strong
+                                // reference to it as well. This is the same situation that
+                                // would've been achieved by just calling Unregister(recipient).
                                 set.Remove(Unsafe.As<IMapping>(map));
 
                                 if (set.Count == 0)
@@ -309,11 +309,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove the target handler
                 map.Remove(token);
 
-                /* If the map is empty, it means that the current recipient has no remaining
-                 * registered handlers for the current <TMessage, TToken> combination, regardless,
-                 * of the specific token value (ie. the channel used to receive messages of that type).
-                 * We can remove the map entirely from this container, and remove the link to the map itself
-                 * to the static mapping between existing registered recipients. */
+                // If the map is empty, it means that the current recipient has no remaining
+                // registered handlers for the current <TMessage, TToken> combination, regardless,
+                // of the specific token value (ie. the channel used to receive messages of that type).
+                // We can remove the map entirely from this container, and remove the link to the map itself
+                // to the static mapping between existing registered recipients.
                 if (map.Count == 0)
                 {
                     mapping.Remove(key);
@@ -362,11 +362,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             lock (this.recipientsMap)
             {
-                /* We need to make a local copy of the currently registered handlers,
-                 * since users might try to unregister (or register) new handlers from
-                 * inside one of the currently existing handlers. We can use memory pooling
-                 * to reuse arrays, to minimize the average memory usage. In practice,
-                 * we usually just need to pay the small overhead of copying the items. */
+                // We need to make a local copy of the currently registered handlers,
+                // since users might try to unregister (or register) new handlers from
+                // inside one of the currently existing handlers. We can use memory pooling
+                // to reuse arrays, to minimize the average memory usage. In practice,
+                // we usually just need to pay the small overhead of copying the items.
                 if (!TryGetMapping(out Mapping<TMessage, TToken>? mapping))
                 {
                     return;
@@ -381,13 +381,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Rent the array to copy handlers to
                 entries = ArrayPool<Action<TMessage>>.Shared.Rent(i);
 
-                /* Copy the handlers to the local collection.
-                 * Both types being enumerate expose a struct enumerator,
-                 * so we're not actually allocating the enumerator here.
-                 * The array is oversized at this point, since it also includes
-                 * handlers for different tokens. We can reuse the same variable
-                 * to count the number of matching handlers to invoke later on.
-                 * This will be the array slice with valid actions in the rented buffer. */
+                // Copy the handlers to the local collection.
+                // Both types being enumerate expose a struct enumerator,
+                // so we're not actually allocating the enumerator here.
+                // The array is oversized at this point, since it also includes
+                // handlers for different tokens. We can reuse the same variable
+                // to count the number of matching handlers to invoke later on.
+                // This will be the array slice with valid actions in the rented buffer.
                 i = 0;
                 foreach (var pair in mapping)
                 {
@@ -456,9 +456,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             if (this.typesMap.TryGetValue(key, out IMapping target))
             {
-                /* This method and the ones above are the only ones handling values in the types map,
-                 * and here we are sure that the object reference we have points to an instance of the
-                 * right type. Using an unsafe cast skips two conditional branches and is faster. */
+                // This method and the ones above are the only ones handling values in the types map,
+                // and here we are sure that the object reference we have points to an instance of the
+                // right type. Using an unsafe cast skips two conditional branches and is faster.
                 mapping = Unsafe.As<Mapping<TMessage, TToken>>(target);
 
                 return true;
@@ -630,9 +630,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             {
                 unchecked
                 {
-                    /* To combine the two hashes, we can simply use the fast djb2 hash algorithm.
-                     * This is not a problem in this case since we already know that the base
-                     * RuntimeHelpers.GetHashCode method is providing hashes with a good enough distribution. */
+                    // To combine the two hashes, we can simply use the fast djb2 hash algorithm.
+                    // This is not a problem in this case since we already know that the base
+                    // RuntimeHelpers.GetHashCode method is providing hashes with a good enough distribution.
                     int hash = RuntimeHelpers.GetHashCode(this.tMessage);
 
                     hash = (hash << 5) + hash;

@@ -214,10 +214,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            /* Check the status of the new task before assigning it to the
-             * target field. This is so that in case the task is either
-             * null or already completed, we can avoid the overhead of
-             * scheduling the method to monitor its completion. */
+            // Check the status of the new task before assigning it to the
+            // target field. This is so that in case the task is either
+            // null or already completed, we can avoid the overhead of
+            // scheduling the method to monitor its completion.
             bool isAlreadyCompletedOrNull = newValue?.IsCompleted ?? true;
 
             this.OnPropertyChanging(propertyName);
@@ -231,8 +231,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return true;
             }
 
-            /* Get the target field to set. This is needed because we can't
-             * capture the ref field in a closure (for the async method). */
+            // Get the target field to set. This is needed because we can't
+            // capture the ref field in a closure (for the async method).
             if (!((fieldExpression.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
             {
                 ThrowArgumentExceptionForInvalidFieldExpression();
@@ -241,14 +241,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            /* We use a local async function here so that the main method can
-             * remain synchronous and return a value that can be immediately
-             * used by the caller. This mirrors Set<T>(ref T, T, string).
-             * We use an async void function instead of a Task-returning function
-             * so that if a binding update caused by the property change notification
-             * causes a crash, it is immediately reported in the application instead of
-             * the exception being ignored (as the returned task wouldn't be awaited),
-             * which would result in a confusing behavior for users. */
+            // We use a local async function here so that the main method can
+            // remain synchronous and return a value that can be immediately
+            // used by the caller. This mirrors Set<T>(ref T, T, string).
+            // We use an async void function instead of a Task-returning function
+            // so that if a binding update caused by the property change notification
+            // causes a crash, it is immediately reported in the application instead of
+            // the exception being ignored (as the returned task wouldn't be awaited),
+            // which would result in a confusing behavior for users.
             async void MonitorTask()
             {
                 try
