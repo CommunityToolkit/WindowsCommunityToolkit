@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class FullScreenModeStateTriggerPage : Page, IXamlRenderListener
+    public sealed partial class FullScreenModeStateTriggerPage : Page
     {
         private Button _addButton;
         private Button _removeButton;
@@ -27,60 +27,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SampleController.Current.RegisterNewCommand("Toggle Full Screen", ToggleFullScreenMode);
         }
 
-        public void OnXamlRendered(FrameworkElement control)
-        {
-            if (control.FindDescendantByName("AddButton") is Button btn)
-            {
-                if (_addButton != null)
-                {
-                    _addButton.Click -= this.AddButton_Click;
-                }
-
-                _addButton = btn;
-
-                _addButton.Click += this.AddButton_Click;
-            }
-
-            if (control.FindDescendantByName("RemoveButton") is Button btn2)
-            {
-                if (_removeButton != null)
-                {
-                    _removeButton.Click -= this.RemoveButton_Click;
-                }
-
-                _removeButton = btn2;
-
-                _removeButton.Click += this.RemoveButton_Click;
-            }
-
-            _listBox = control.FindDescendantByName("OurList") as ListBox;
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_listBox != null)
-            {
-                _listBox.Items.Add("Item");
-            }
-        }
-
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_listBox != null)
-            {
-                _listBox.Items.RemoveAt(0);
-            }
-        }
-
         private void ToggleFullScreenMode(object sender, RoutedEventArgs e)
-		{
-			var view = ApplicationView.GetForCurrentView();
-			var isFullScreenMode = view.IsFullScreenMode;
+        {
+            var view = ApplicationView.GetForCurrentView();
+            var isFullScreenMode = view.IsFullScreenMode;
 
-			if (isFullScreenMode)
-				view.ExitFullScreenMode();
-			else
-				view.TryEnterFullScreenMode();
-		}
+            if (isFullScreenMode)
+            {
+                view.ExitFullScreenMode();
+            }
+            else
+            {
+                view.TryEnterFullScreenMode();
+            }
+        }
     }
 }

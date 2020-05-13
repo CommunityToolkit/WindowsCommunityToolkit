@@ -10,36 +10,36 @@
 		<VisualStateManager.VisualStateGroups>
 
 			<VisualStateGroup >
-				<VisualState x:Name="less">
+				<VisualState x:Name="Less">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" CompareTo="3" Comparison="LessThan" />
+						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=Slider, Mode=OneWay}" To="3" Comparison="LessThan" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="sliderStatus.Text" Value="Slider value is less than 3" />
+						<Setter Target="SliderStatus.Text" Value="Slider value is less than 3" />
 					</VisualState.Setters>
 				</VisualState>
-				<VisualState x:Name="equal">
+				<VisualState x:Name="Equal">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" CompareTo="3" Comparison="Equal" />
+						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=Slider, Mode=OneWay}" To="3" Comparison="Equal" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="sliderStatus.Text" Value="Slider value is 3" />
+						<Setter Target="SliderStatus.Text" Value="Slider value is 3" />
 					</VisualState.Setters>
 				</VisualState>
-				<VisualState x:Name="greater">
+				<VisualState x:Name="Greater">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" CompareTo="3" Comparison="GreaterThan" />
+						<triggers:CompareStateTrigger Value="{Binding Value, ElementName=Slider, Mode=OneWay}" To="3" Comparison="GreaterThan" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="sliderStatus.Text" Value="Slider value is greater than 3" />
+						<Setter Target="SliderStatus.Text" Value="Slider value is greater than 3" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 
 		<StackPanel VerticalAlignment="Center" MaxWidth="400">
-			<Slider x:Name="slider" Minimum="0" Maximum="5" />
-			<TextBlock x:Name="sliderStatus" Text="If you see this, trigger isn't working" />
+			<Slider x:Name="Slider" Minimum="0" Maximum="5" />
+			<TextBlock x:Name="SliderStatus" Text="If you see this, trigger isn't working" />
 		</StackPanel>
 
   </Grid>

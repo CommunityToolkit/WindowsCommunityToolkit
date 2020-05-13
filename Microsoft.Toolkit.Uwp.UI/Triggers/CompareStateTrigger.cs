@@ -21,7 +21,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// </remarks>
     public class CompareStateTrigger : StateTriggerBase
     {
-        private void UpdateTrigger() => SetActive(CompareValues() == Comparison);
+        private void UpdateTrigger()
+        {
+            var evaluation = CompareValues();
+            SetActive(evaluation == Comparison || (evaluation == Comparison.Equal && (Comparison == Comparison.LessThanOrEqual || Comparison == Comparison.GreaterThanOrEqual)));
+        }
 
         /// <summary>
         /// Gets or sets the value for comparison.
@@ -47,17 +51,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// <summary>
         /// Gets or sets the value to compare to.
         /// </summary>
-        public object CompareTo
+        public object To
         {
-            get { return (object)GetValue(CompareToProperty); }
-            set { SetValue(CompareToProperty, value); }
+            get { return (object)GetValue(ToProperty); }
+            set { SetValue(ToProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="CompareTo"/> DependencyProperty
+        /// Identifies the <see cref="To"/> DependencyProperty
         /// </summary>
-        public static readonly DependencyProperty CompareToProperty =
-                    DependencyProperty.Register(nameof(CompareTo), typeof(object), typeof(CompareStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+        public static readonly DependencyProperty ToProperty =
+                    DependencyProperty.Register(nameof(To), typeof(object), typeof(CompareStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         /// <summary>
         /// Gets or sets the comparison type
@@ -77,13 +81,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         internal Comparison CompareValues()
         {
             var v1 = Value;
-            var v2 = CompareTo;
-            if (v1 == v2)
+            var v2 = To;
+            if (Comparison == Comparison.Equal && v1 == v2)
             {
-                if (Comparison == Comparison.Equal)
-                {
-                    return Comparison.Equal;
-                }
+                return Comparison.Equal;
             }
 
             if (v1 != null && v2 != null)
@@ -130,19 +131,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                 }
             }
 
-            return Comparison.NotComparable;
+            return (Comparison)(-1);
         }
     }
 
     /// <summary>
     /// Comparison types
     /// </summary>
-    public enum Comparison
+    public enum Comparison : int
     {
         /// <summary>
-        /// Not comparable
+        /// Less than
         /// </summary>
-        NotComparable,
+        LessThan,
+
+        /// <summary>
+        /// Less than or equal
+        /// </summary>
+        LessThanOrEqual,
 
         /// <summary>
         /// Equals
@@ -150,9 +156,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         Equal,
 
         /// <summary>
-        /// Less than
+        /// Greater than or equal
         /// </summary>
-        LessThan,
+        GreaterThanOrEqual,
 
         /// <summary>
         /// Greater than

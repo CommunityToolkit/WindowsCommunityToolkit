@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// </summary>
     public class NotEqualStateTrigger : StateTriggerBase
     {
-        private void UpdateTrigger() => SetActive(!EqualsStateTrigger.AreValuesEqual(Value, NotEqualTo, true));
+        private void UpdateTrigger() => SetActive(!EqualsStateTrigger.AreValuesEqual(Value, To, true));
 
         /// <summary>
         /// Gets or sets the value for comparison.
@@ -37,16 +37,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// <summary>
         /// Gets or sets the value to compare inequality to.
         /// </summary>
-        public object NotEqualTo
+        public object To
         {
-            get { return (object)GetValue(NotEqualToProperty); }
-            set { SetValue(NotEqualToProperty, value); }
+            get { return (object)GetValue(ToProperty); }
+            set { SetValue(ToProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="NotEqualTo"/> DependencyProperty
+        /// Identifies the <see cref="To"/> DependencyProperty
         /// </summary>
-        public static readonly DependencyProperty NotEqualToProperty =
-                    DependencyProperty.Register(nameof(NotEqualTo), typeof(object), typeof(NotEqualStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+        public static readonly DependencyProperty ToProperty =
+                    DependencyProperty.Register(nameof(To), typeof(object), typeof(NotEqualStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
     }
 }

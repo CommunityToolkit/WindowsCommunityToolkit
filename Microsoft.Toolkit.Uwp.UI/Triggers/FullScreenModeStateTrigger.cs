@@ -32,17 +32,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         private void FullScreenModeTrigger_VisibleBoundsChanged(ApplicationView sender, object args) => UpdateTrigger(sender.IsFullScreenMode);
 
-        private bool isFullScreen;
+        private bool _isFullScreen;
 
         /// <summary>
         /// Gets or sets a value indicating whether to trigger on full screen or not.
         /// </summary>
         public bool IsFullScreen
         {
-            get => isFullScreen;
+            get => _isFullScreen;
             set
             {
-                isFullScreen = value;
+                _isFullScreen = value;
                 if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 {
                     var isFullScreenMode = ApplicationView.GetForCurrentView().IsFullScreenMode;

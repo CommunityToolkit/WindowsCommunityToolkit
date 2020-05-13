@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// </remarks>
     public class EqualsStateTrigger : StateTriggerBase
     {
-        private void UpdateTrigger() => SetActive(EqualsStateTrigger.AreValuesEqual(Value, EqualTo, true));
+        private void UpdateTrigger() => SetActive(EqualsStateTrigger.AreValuesEqual(Value, To, true));
 
         /// <summary>
         /// Gets or sets the value for comparison.
@@ -47,17 +47,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// <summary>
         /// Gets or sets the value to compare equality to.
         /// </summary>
-        public object EqualTo
+        public object To
         {
-            get { return (object)GetValue(EqualToProperty); }
-            set { SetValue(EqualToProperty, value); }
+            get { return (object)GetValue(ToProperty); }
+            set { SetValue(ToProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="EqualTo"/> DependencyProperty
+        /// Identifies the <see cref="To"/> DependencyProperty
         /// </summary>
-        public static readonly DependencyProperty EqualToProperty =
-                    DependencyProperty.Register(nameof(EqualTo), typeof(object), typeof(EqualsStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+        public static readonly DependencyProperty ToProperty =
+                    DependencyProperty.Register(nameof(To), typeof(object), typeof(EqualsStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         internal static bool AreValuesEqual(object value1, object value2, bool convertType)
         {

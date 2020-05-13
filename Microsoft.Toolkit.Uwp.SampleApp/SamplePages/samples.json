@@ -941,7 +941,7 @@
         "Name": "FullScreenModeStateTrigger",
         "Type": "FullScreenModeStateTriggerPage",
         "Subcategory": "State Triggers",
-        "About": "",
+        "About": "Trigger for switching when in full screen mode",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
         "XamlCodeFile": "/SamplePages/Triggers/FullScreenModeStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
