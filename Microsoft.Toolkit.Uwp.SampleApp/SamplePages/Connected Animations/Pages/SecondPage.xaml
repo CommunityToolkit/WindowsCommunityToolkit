@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
     mc:Ignorable="d">
 
     <Grid Padding="40">
@@ -37,11 +37,13 @@
                   animations:Connected.ListItemElementName="ItemThumbnail"
                   animations:Connected.ListItemKey="listItem">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="data:Item">
-                    <StackPanel>
-                        <Border x:Name="ItemThumbnail" Background="Purple" Height="200" Width="200"></Border>
-                        <TextBlock Text="{x:Bind Title}"></TextBlock>
-                    </StackPanel>
+                <DataTemplate x:DataType="data:PhotoDataItem">
+                    <Grid Height="200" Width="200">
+                        <Image x:Name="ItemThumbnail" Source="{x:Bind Thumbnail}" Stretch="UniformToFill"/>
+                        <Border Background="#99FFFFFF" VerticalAlignment="Bottom" Padding="5">
+                            <TextBlock Text="{x:Bind Title}" FontSize="14"/>
+                        </Border>
+                    </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
