@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Microsoft.Toolkit.Services.Weibo;
 using Microsoft.UI.Xaml;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 
@@ -136,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
             openPicker.FileTypeFilter.Add(".jpg");
             openPicker.FileTypeFilter.Add(".png");
-            StorageFile picture = await openPicker.PickSingleFileAsync();
+            var picture = await openPicker.PickSingleFileAsync();
             if (picture != null)
             {
                 using (var stream = await picture.OpenReadAsync())

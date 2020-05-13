@@ -5,8 +5,11 @@
         <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="0.1.0-prerelease.200506.1" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinrtVersion)" />
         <!--<PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />-->
+      </ItemGroup>
+      <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
+        <PackageReference Include="Microsoft.WinUI" Version="$(MicrosoftWinUIVersion)"/>
       </ItemGroup>
       <ItemGroup>
         <Page Update="**\*.xaml">

@@ -12,8 +12,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
-using Windows.ApplicationModel;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Popups;
 

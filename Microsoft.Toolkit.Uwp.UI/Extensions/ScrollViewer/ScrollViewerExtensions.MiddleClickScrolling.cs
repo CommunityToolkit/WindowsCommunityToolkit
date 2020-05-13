@@ -105,11 +105,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _timer?.Dispose();
             _timer = new Timer(Scroll, dispatcherQueue, 5, 5);
 
-            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
-            Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
+                Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
 
-            Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
-            Window.Current.CoreWindow.PointerReleased += CoreWindow_PointerReleased;
+                Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+                Window.Current.CoreWindow.PointerReleased += CoreWindow_PointerReleased;
+            }
         }
 
         /// <summary>
@@ -125,10 +128,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _oldCursorID = 100;
             _timer?.Dispose();
 
-            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
-            Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
+                Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
 
-            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+            }
         }
 
         /// <summary>
@@ -200,8 +206,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     SubscribeMiddleClickScrolling(DispatcherQueue.GetForCurrentThread());
 
-                    _startPosition = Window.Current.CoreWindow.PointerPosition;
-                    _currentPosition = Window.Current.CoreWindow.PointerPosition;
+                    if (Window.Current != null)
+                    {
+                        _startPosition = Window.Current.CoreWindow.PointerPosition;
+                        _currentPosition = Window.Current.CoreWindow.PointerPosition;
+                    }
                 }
             }
         }
@@ -215,15 +224,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (pointerPoint.Properties.IsMiddleButtonPressed)
                 {
-                    _currentPosition = Window.Current.CoreWindow.PointerPosition;
-
-                    var offsetX = _currentPosition.X - _startPosition.X;
-                    var offsetY = _currentPosition.Y - _startPosition.Y;
-
-                    // Settign _isMoved if pointer goes out of threshold value
-                    if (Math.Abs(offsetX) > _threshold || Math.Abs(offsetY) > _threshold)
+                    if (Window.Current != null)
                     {
-                        _isMoved = true;
+                        _currentPosition = Window.Current.CoreWindow.PointerPosition;
+
+                        var offsetX = _currentPosition.X - _startPosition.X;
+                        var offsetY = _currentPosition.Y - _startPosition.Y;
+
+                        // Settign _isMoved if pointer goes out of threshold value
+                        if (Math.Abs(offsetX) > _threshold || Math.Abs(offsetY) > _threshold)
+                        {
+                            _isMoved = true;
+                        }
                     }
                 }
             }
@@ -231,7 +243,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // Update current position of the pointer if scrolling started
             if (CanScroll())
             {
-                _currentPosition = Window.Current.CoreWindow.PointerPosition;
+                if (Window.Current != null)
+                {
+                    _currentPosition = Window.Current.CoreWindow.PointerPosition;
+                }
             }
         }
 
@@ -242,13 +257,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 _isDeferredMovingStarted = true;
 
-                // Event to stop deferred scrolling if pointer exited
-                Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
-                Window.Current.CoreWindow.PointerExited += CoreWindow_PointerExited;
+                if (Window.Current != null)
+                {
+                    // Event to stop deferred scrolling if pointer exited
+                    Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
+                    Window.Current.CoreWindow.PointerExited += CoreWindow_PointerExited;
 
-                // Event to stop deferred scrolling if pointer pressed
-                Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
-                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                    // Event to stop deferred scrolling if pointer pressed
+                    Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                }
 
                 SetCursorType(DispatcherQueue.GetForCurrentThread(), 0, 0);
             }
@@ -266,15 +284,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
-            Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+                Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
+            }
+
             UnsubscribeMiddleClickScrolling();
         }
 
         private static void CoreWindow_PointerExited(CoreWindow sender, PointerEventArgs args)
         {
-            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
-            Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+                Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
+            }
+
             UnsubscribeMiddleClickScrolling();
         }
 
@@ -326,10 +352,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (_oldCursorID != cursorID)
             {
-                RunInUIThread(dispatcherQueue, () =>
+                if (Window.Current != null)
                 {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID);
-                });
+                    RunInUIThread(dispatcherQueue, () =>
+                    {
+                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID);
+                    });
+                }
 
                 _oldCursorID = cursorID;
             }
@@ -345,15 +374,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             try
             {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 101);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 102);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 103);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 104);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 105);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 106);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 107);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 108);
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 109);
+                if (Window.Current != null)
+                {
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 101);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 102);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 103);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 104);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 105);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 106);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 107);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 108);
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 109);
+                }
             }
             catch (Exception)
             {
@@ -361,7 +393,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
             finally
             {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                if (Window.Current != null)
+                {
+                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                }
             }
 
             return isCursorAvailable;

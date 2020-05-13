@@ -35,21 +35,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             UpdateMenuItemsFlyoutPlacement();
 
-            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             LostFocus -= Menu_LostFocus;
             LostFocus += Menu_LostFocus;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-            Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
+                Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+
+                Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            }
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
+                Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            }
 
             // Clear Cache
             foreach (MenuItem menuItem in Items)

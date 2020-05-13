@@ -64,12 +64,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private bool IsCtrlDown()
+        {
+            if (Window.Current == null)
+            {
+                return false;
+            }
+
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            return ctrl.HasFlag(CoreVirtualKeyStates.Down);
+        }
+
         /// <inheritdoc />
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
             var step = 1;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            if (IsCtrlDown())
             {
                 step = 5;
             }
@@ -117,18 +127,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
-            // saving the previous state
-            PreviousCursor = Window.Current.CoreWindow.PointerCursor;
+            if (Window.Current != null)
+            {
+                // saving the previous state
+                PreviousCursor = Window.Current.CoreWindow.PointerCursor;
+            }
+
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
-            if (_resizeDirection == GridResizeDirection.Columns)
+            if (Window.Current != null)
             {
-                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
+                if (_resizeDirection == GridResizeDirection.Columns)
+                {
+                    Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
+                }
+                else if (_resizeDirection == GridResizeDirection.Rows)
+                {
+                    Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
+                }
             }
 
             base.OnManipulationStarted(e);
@@ -137,7 +154,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerCursor = PreviousCursor;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerCursor = PreviousCursor;
+            }
 
             base.OnManipulationCompleted(e);
         }

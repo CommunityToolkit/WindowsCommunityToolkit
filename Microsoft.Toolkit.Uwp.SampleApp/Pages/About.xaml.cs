@@ -111,13 +111,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             _ = Init();
 
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            }
         }
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
@@ -131,45 +137,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private async Task Init()
         {
-            Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
-
             var loadDataTask = UpdateSections();
             var recentSamplesTask = Samples.GetRecentSamples();
             var gitHubTask = Data.GitHub.GetPublishedReleases();
 
-            Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
-
             await Task.WhenAll(loadDataTask, recentSamplesTask, gitHubTask);
 
-            Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            RecentSamples = recentSamplesTask.Result;
 
-            // Workaround WinUI3 threading issue
-            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            GitHubReleases = gitHubTask.Result;
+
+            var counter = 1;
+            var delay = 70;
+
+            foreach (var child in InnerGrid.Children)
             {
-                RecentSamples = recentSamplesTask.Result;
-
-                GitHubReleases = gitHubTask.Result;
-
-                var counter = 1;
-                var delay = 70;
-
-                foreach (var child in InnerGrid.Children)
+                if (child is ItemsControl itemsControl == false)
                 {
-                    if (child is ItemsControl itemsControl == false)
+                    Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
                     {
-                        Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
-                        {
-                            From = 0,
-                            To = 1,
-                            Duration = TimeSpan.FromMilliseconds(300),
-                            Delay = TimeSpan.FromMilliseconds(counter++ * delay),
-                            SetInitialValueBeforeDelay = true
-                        });
-                    }
+                        From = 0,
+                        To = 1,
+                        Duration = TimeSpan.FromMilliseconds(300),
+                        Delay = TimeSpan.FromMilliseconds(counter++ * delay),
+                        SetInitialValueBeforeDelay = true
+                    });
                 }
+            }
 
-                Root.Visibility = Visibility.Visible;
-            });
+            Root.Visibility = Visibility.Visible;
         }
 
         private void RecentSample_Click(object sender, RoutedEventArgs e)

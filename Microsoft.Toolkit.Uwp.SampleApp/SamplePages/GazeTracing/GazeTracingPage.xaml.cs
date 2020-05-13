@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class GazeTracingPage : IXamlRenderListener
     {
         private GazeInputSourcePreview gazeInputSourcePreview;
-        private Frame rootFrame;
 
         public ObservableCollection<Point> GazeHistory { get; set; } = new ObservableCollection<Point>();
 
@@ -35,7 +34,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ShowIntermediatePoints = false;
             MaxGazeHistorySize = 100;
 
-            rootFrame = Window.Current.Content as Frame;
             gazeInputSourcePreview = GazeInputSourcePreview.GetForCurrentView();
             gazeInputSourcePreview.GazeMoved += GazeInputSourcePreview_GazeMoved;
         }
@@ -55,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            var transform = rootFrame.TransformToVisual(this);
+            var transform = (base.XamlRoot.Content as Frame).TransformToVisual(this);
             var point = transform.TransformPoint(pt.EyeGazePosition.Value);
             GazeHistory.Add(point);
             if (GazeHistory.Count > MaxGazeHistorySize)

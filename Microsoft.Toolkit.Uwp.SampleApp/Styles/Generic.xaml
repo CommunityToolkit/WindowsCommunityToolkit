@@ -5,6 +5,8 @@
     xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
+    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls">
 
     <ResourceDictionary.MergedDictionaries>
@@ -994,17 +996,12 @@
                                 <VisualState x:Name="ListSizeFull" />
                                 <VisualState x:Name="ListSizeCompact">
                                     <VisualState.Setters>
-                                        <Setter Target="MenuItemsHost.HorizontalAlignment" Value="Left" />
-                                        <!-- This is essentially a TemplateBinding: -->
-                                        <Setter Target="MenuItemsHost.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CompactPaneLength}" />
+                                        <Setter Target="PaneContentGrid.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CompactPaneLength}"/>
                                         <Setter Target="SettingsNavPaneItem.HorizontalAlignment" Value="Left" />
-                                        <Setter Target="SettingsNavPaneItem.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CompactPaneLength}" />
                                         <Setter Target="PaneTitleTextBlock.Visibility" Value="Collapsed" />
                                         <Setter Target="PaneHeaderContentBorder.Visibility" Value="Collapsed" />
                                         <Setter Target="PaneCustomContentBorder.HorizontalAlignment" Value="Left" />
-                                        <Setter Target="PaneCustomContentBorder.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CompactPaneLength}" />
                                         <Setter Target="FooterContentBorder.HorizontalAlignment" Value="Left" />
-                                        <Setter Target="FooterContentBorder.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CompactPaneLength}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
@@ -1066,20 +1063,21 @@
                                 <Button
                                     x:Name="TogglePaneButton"
                                     Style="{TemplateBinding PaneToggleButtonStyle}"
-                                    AutomationProperties.LandmarkType="Navigation"
+                                    AutomationProperties.LandmarkType="Navigation" HorizontalAlignment="Center"
                                     Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneToggleButtonVisibility}"
                                     VerticalAlignment="Center"/>
                             </Grid>
 
                         </Grid>
 
+                        <!-- Content layouts -->
                         <Grid>
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
+                            <!-- DisplayMode top -->
                             <StackPanel
                                 x:Name="TopNavArea"
                                 Background="{ThemeResource Background-NavigationBar}"
@@ -1150,7 +1148,10 @@
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OverflowButtonVisibility}">
 
                                         <Button.Flyout>
-                                            <Flyout Placement="Bottom">
+                                            <Flyout
+                                                contract7NotPresent:Placement="Bottom"
+                                                contract7Present:Placement="BottomEdgeAlignedRight"
+                                                ElementSoundMode="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ElementSoundMode}">
                                                 <Flyout.FlyoutPresenterStyle>
                                                     <Style TargetType="FlyoutPresenter">
                                                         <Setter Property="Padding" Value="0,8" />
@@ -1212,6 +1213,7 @@
                                     Child="{TemplateBinding ContentOverlay}" />
                             </StackPanel>
 
+                            <!-- Displaymode (compact/minimal/normal) left -->
                             <SplitView
                                 x:Name="RootSplitView"
                                 Background="{TemplateBinding Background}"
@@ -1227,6 +1229,7 @@
                                 <SplitView.Pane>
                                     <Grid 
                                         x:Name="PaneContentGrid"
+                                        HorizontalAlignment="Left"
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.LeftPaneVisibility}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -1302,8 +1305,9 @@
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Top">
                                             <ScrollViewer
+                                                TabNavigation="Once"
                                                 VerticalScrollBarVisibility="Auto">
-                                                <winui:ItemsRepeater 
+                                                <winui:ItemsRepeater
                                                     x:Name="MenuItemsHost"
                                                     AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
                                                         AutomationProperties.AccessibilityView = "Content">

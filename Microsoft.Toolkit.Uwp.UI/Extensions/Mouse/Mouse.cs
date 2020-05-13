@@ -77,12 +77,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
+            if (Window.Current == null)
+            {
+                return;
+            }
+
             CoreCursorType cursor = GetCursor((FrameworkElement)sender);
             Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
         }
 
         private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
         {
+            if (Window.Current == null)
+            {
+                return;
+            }
+
             // when exiting change the cursor to the target Mouse.Cursor value of the new element
             CoreCursor cursor;
             if (sender != e.OriginalSource && e.OriginalSource is FrameworkElement newElement)
@@ -99,6 +109,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void ElementOnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            if (Window.Current == null)
+            {
+                return;
+            }
+
             // when the element is programatically unloaded, reset the cursor back to default
             // this is necessary when click triggers immediate change in layout and PointerExited is not called
             Window.Current.CoreWindow.PointerCursor = _defaultCursor;

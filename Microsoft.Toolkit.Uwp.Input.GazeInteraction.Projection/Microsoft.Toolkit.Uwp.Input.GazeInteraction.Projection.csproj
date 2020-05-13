@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>8</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1402;1013;1015;1701;1702;0436;1658</NoWarn>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <AssetTargetFallback>uap10.0.17134</AssetTargetFallback>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WinUI" Version="$(MicrosoftWinUIVersion)" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinrtVersion)" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CsWinRTExe>$(PkgMicrosoft_Windows_CsWinRT)\cswinrt.exe</CsWinRTExe>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <Content Include="$(ProjectDir)..\$(Platform)\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll;
+                      $(ProjectDir)..\$(Platform)\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pdb" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>-->
+  
+  <Target Name="_GatherWinMDReference" AfterTargets="ResolveProjectReferences" Returns="@(_ResolvedNativeProjectReferencePaths);@(_ResolvedProjectReferencePaths);@(_WinMdProjectReferences)">
+    <ItemGroup>
+      <_WinMdProjectReferences Include="@(_ResolvedProjectReferencePaths)" Condition="'%(FileType)'=='winmd'" />
+      <_ResolvedProjectReferencePaths Remove="@(_WinMdProjectReferences)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="GenerateProjection" BeforeTargets="Build">
+    <PropertyGroup>
+      <PkgMicrosoft_WinUI Condition="'$(PkgMicrosoft_WinUI)'==''">$([MSBuild]::NormalizeDirectory('$(NuGetPackageRoot)', 'microsoft.winui', '$(MicrosoftWinUIVersion)'))</PkgMicrosoft_WinUI>
+    </PropertyGroup>
+    <ItemGroup>
+      <GazeWinMDs Include="$(ProjectDir)..\x64\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd" />
+      <WinUIWinMDs Include="$(PkgMicrosoft_WinUI)/**/*.winmd" />
+    </ItemGroup>
+    <PropertyGroup>
+      <CsWinRTVerbosity>high</CsWinRTVerbosity>
+      <CsWinRTResponseFile>$(IntermediateOutputPath)cswinrt_gaze.rsp</CsWinRTResponseFile>
+      <CsWinRTCommand>$(CsWinrtExe) %40"$(CsWinRTResponseFile)"</CsWinRTCommand>
+    </PropertyGroup>
+    <PropertyGroup>
+      <CsWinRTParams>
+-verbose
+-in 10.0.18362.0
+-exclude Windows
+-in @(WinUIWinMDs->'"%(FullPath)"', ' ')
+-exclude Microsoft
+-in @(GazeWinMDs->'"%(FullPath)"', ' ')
+-include Microsoft.Toolkit.Uwp.Input.GazeInteraction
+-out "$(ProjectDir)Generated Files"
+      </CsWinRTParams>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(CsWinRTResponseFile)" Lines="$(CsWinRTParams)" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <Message Text="$(CsWinRTCommand)" Importance="$(CsWinRTVerbosity)" />
+    <Exec Command="$(CsWinRTCommand)" />
+  </Target>
+
+  <Target Name="IncludeProjection" BeforeTargets="CoreCompile" AfterTargets="GenerateProjection">
+    <ItemGroup>
+      <Compile Include="$(ProjectDir)Generated Files/*.cs" Exclude="@(Compile)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

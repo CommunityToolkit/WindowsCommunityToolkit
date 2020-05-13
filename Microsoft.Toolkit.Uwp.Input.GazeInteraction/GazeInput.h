@@ -247,7 +247,7 @@ namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
         /// <summary>
         /// Sets the Boolean indicating whether gaze plus switch is enabled.
         /// </summary>
-        static void SetSettIsSwitchEnabled(UIElement const& element, bool value);
+        static void SetIsSwitchEnabled(UIElement const& element, bool value);
 
         /// <summary>
         /// Gets the GazePointer object.

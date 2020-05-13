@@ -5,13 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.Graphics.Imaging;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -38,8 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _imageCropper = control.FindChildByName("ImageCropper") as ImageCropper;
             if (_imageCropper != null)
             {
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Photos/Owl.jpg"));
-                await _imageCropper.LoadImageFromFile(file);
+                await _imageCropper.LoadImageFromFile(Path.Combine(Package.Current.InstalledLocation.Path, "Microsoft.Toolkit.Uwp.SampleApp/Assets/Photos/Owl.jpg"));
             }
         }
 

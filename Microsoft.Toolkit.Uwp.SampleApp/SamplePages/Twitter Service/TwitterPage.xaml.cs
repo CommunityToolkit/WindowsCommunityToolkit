@@ -11,7 +11,6 @@ using Microsoft.Toolkit.Services.Twitter;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Devices.Geolocation;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -163,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
             openPicker.FileTypeFilter.Add(".jpg");
             openPicker.FileTypeFilter.Add(".png");
-            StorageFile picture = await openPicker.PickSingleFileAsync();
+            var picture = await openPicker.PickSingleFileAsync();
             if (picture != null)
             {
                 using (var stream = await picture.OpenReadAsync())

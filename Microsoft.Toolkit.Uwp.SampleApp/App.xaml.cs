@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Microsoft.Toolkit.Uwp.SampleApp.Styles;
-using Microsoft.UI.Threading;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -51,7 +50,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
         {
-            DispatcherQueueSyncContext.SetForCurrentThread();
             base.OnLaunched(e);
 
             IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();

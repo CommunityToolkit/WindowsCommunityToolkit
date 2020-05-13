@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -43,12 +44,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 ThemeChanged?.Invoke(this, new ThemeChangedArgs { Theme = GetCurrentTheme() });
             };
 
-            // Prevent Pop in on wider screens.
-            if (((FrameworkElement)Window.Current.Content).ActualWidth > 700)
-            {
-                SidePaneState = PaneState.Normal;
-            }
-
             ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
@@ -56,6 +51,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
+
+            Loaded += SampleController_Loaded;
+        }
+
+        private void SampleController_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= SampleController_Loaded;
+
+            // Prevent Pop in on wider screens.
+            if (((FrameworkElement)SampleContent.XamlRoot.Content).ActualWidth > 700)
+            {
+                SidePaneState = PaneState.Normal;
+            }
         }
 
         /// <summary>

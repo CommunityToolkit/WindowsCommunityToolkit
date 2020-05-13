@@ -141,7 +141,7 @@ namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
     void GazeInput::SetDwellRepeatDuration(UIElement const& element, TimeSpan const& span) { element.SetValue(s_dwellRepeatDurationProperty, winrt::box_value(span)); }
     void GazeInput::SetThresholdDuration(UIElement const& element, TimeSpan const& span) { element.SetValue(s_thresholdDurationProperty, winrt::box_value(span)); }
     void GazeInput::SetMaxDwellRepeatCount(UIElement const& element, int value) { element.SetValue(s_maxRepeatCountProperty, winrt::box_value(value)); }
-    void GazeInput::SetSettIsSwitchEnabled(UIElement const& element, bool value) { element.SetValue(s_isSwitchEnabledProperty, winrt::box_value(value)); }
+    void GazeInput::SetIsSwitchEnabled(UIElement const& element, bool value) { element.SetValue(s_isSwitchEnabledProperty, winrt::box_value(value)); }
 
     void GazeInput::Invoke(UIElement element)
     {

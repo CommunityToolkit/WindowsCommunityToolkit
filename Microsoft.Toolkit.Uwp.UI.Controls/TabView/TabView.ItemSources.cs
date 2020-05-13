@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Foundation.Collections;
+using WinRT;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -20,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void OnItemsChanged(object e)
         {
-            IVectorChangedEventArgs args = (IVectorChangedEventArgs)e;
+            var args = e.As<IVectorChangedEventArgs>();
 
             base.OnItemsChanged(e);
 

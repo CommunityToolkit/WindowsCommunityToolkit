@@ -10,9 +10,6 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Grid.Background>
-                            <SolidColorBrush Color="{Binding Color}"/>
-                        </Grid.Background>
                         <Image Source="{Binding Item.Thumbnail}" Stretch="Uniform"/>
                         <Border Background="#44000000" VerticalAlignment="Top">
                             <TextBlock Foreground="White" Margin="3,1">

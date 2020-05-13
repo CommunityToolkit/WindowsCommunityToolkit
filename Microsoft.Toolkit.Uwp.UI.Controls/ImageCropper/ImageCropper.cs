@@ -3,17 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Path = Microsoft.UI.Xaml.Shapes.Path;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -377,6 +377,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             using (var stream = await imageFile.OpenReadAsync())
             {
                 await writeableBitmap.SetSourceAsync(stream);
+            }
+
+            Source = writeableBitmap;
+        }
+
+        /// <summary>
+        /// Load an image from a file.
+        /// </summary>
+        /// <param name="imagePath">The path of the image file.</param>
+        /// <returns>Task</returns>
+        public async Task LoadImageFromFile(string imagePath)
+        {
+            var writeableBitmap = new WriteableBitmap(1, 1);
+            using (var stream = new MemoryStream(await File.ReadAllBytesAsync(imagePath)))
+            {
+                await writeableBitmap.SetSourceAsync(stream.AsRandomAccessStream());
             }
 
             Source = writeableBitmap;

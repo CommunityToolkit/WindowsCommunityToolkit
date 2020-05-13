@@ -64,9 +64,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var fullFileName = Path.Combine(_installedLocationPath, "Microsoft.Toolkit.Uwp.SampleApp", fileName);
 
             var stream = new MemoryStream();
-            Debug.WriteLine($"LoadLocalFile{Thread.CurrentThread.ManagedThreadId}");
+            if (!File.Exists(fullFileName))
+            {
+                throw new FileNotFoundException("File not found.", fullFileName);
+            }
+
             await File.OpenRead(fullFileName).CopyToAsync(stream);
-            Debug.WriteLine($"LoadLocalFile{Thread.CurrentThread.ManagedThreadId} End");
             stream.Seek(0, SeekOrigin.Begin);
 
             return stream;

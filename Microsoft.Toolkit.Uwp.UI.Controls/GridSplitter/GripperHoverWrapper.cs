@@ -81,7 +81,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                Window.Current.CoreWindow.PointerCursor = _previousCursor;
+                if (Window.Current != null)
+                {
+                    Window.Current.CoreWindow.PointerCursor = _previousCursor;
+                }
             }
         }
 
@@ -90,7 +93,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // if not dragging
             if (!_isDragging)
             {
-                _previousCursor = _splitterPreviousPointer = Window.Current.CoreWindow.PointerCursor;
+                if (Window.Current != null)
+                {
+                    _previousCursor = _splitterPreviousPointer = Window.Current.CoreWindow.PointerCursor;
+                }
+
                 UpdateDisplayCursor();
             }
 
@@ -103,6 +110,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateDisplayCursor()
         {
+            if (Window.Current == null)
+            {
+                return;
+            }
+
             if (_gripperCursor == GridSplitter.GripperCursorType.Default)
             {
                 if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
@@ -151,7 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            Window.Current.CoreWindow.PointerCursor = splitter.PreviousCursor = _splitterPreviousPointer;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.PointerCursor = splitter.PreviousCursor = _splitterPreviousPointer;
+            }
+
             _isDragging = false;
         }
 

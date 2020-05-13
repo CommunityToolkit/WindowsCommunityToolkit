@@ -6,11 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
-    mc:Ignorable="d">
-    <!--g:GazeInput.Interaction="Enabled"
+    g:GazeInput.Interaction="Enabled"
     g:GazeInput.IsCursorVisible="True"
     g:GazeInput.CursorRadius="20"
-    g:GazeInput.IsSwitchEnabled="False"-->
+    g:GazeInput.IsSwitchEnabled="False"
+    mc:Ignorable="d">
     <Page.Resources>
         <local:TimeSpanConverter x:Key="ConvertTimeToMilliSecs"/>
     </Page.Resources>

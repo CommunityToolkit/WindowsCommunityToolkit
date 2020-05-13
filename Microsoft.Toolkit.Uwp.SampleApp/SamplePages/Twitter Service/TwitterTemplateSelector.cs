@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Services.Twitter;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -18,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Twitter_Service
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            var currentFrame = Window.Current.Content as Frame;
+            var currentFrame = container.FindAscendant<Frame>();
 
             if (currentFrame != null)
             {

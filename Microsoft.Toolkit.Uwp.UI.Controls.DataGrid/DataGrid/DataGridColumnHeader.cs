@@ -1065,7 +1065,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 Debug.Assert(interactionInfo.OriginalCursor != null, "Expected non-null interactionInfo.OriginalCursor.");
 
-                Window.Current.CoreWindow.PointerCursor = interactionInfo.OriginalCursor;
+                if (Window.Current != null)
+                {
+                    Window.Current.CoreWindow.PointerCursor = interactionInfo.OriginalCursor;
+                }
+
                 interactionInfo.ResizePointerId = 0;
             }
         }
@@ -1099,11 +1103,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (this.OwningGrid.IsEnabled && (nearCurrentResizableColumnRightEdge || nearPreviousResizableColumnLeftEdge))
             {
-                if (Window.Current.CoreWindow.PointerCursor != null && Window.Current.CoreWindow.PointerCursor.Type != CoreCursorType.SizeWestEast)
+                if (Window.Current != null)
                 {
-                    interactionInfo.OriginalCursor = Window.Current.CoreWindow.PointerCursor;
-                    interactionInfo.ResizePointerId = pointer.PointerId;
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    if (Window.Current.CoreWindow.PointerCursor != null && Window.Current.CoreWindow.PointerCursor.Type != CoreCursorType.SizeWestEast)
+                    {
+                        interactionInfo.OriginalCursor = Window.Current.CoreWindow.PointerCursor;
+                        interactionInfo.ResizePointerId = pointer.PointerId;
+                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    }
                 }
             }
             else if (interactionInfo.ResizePointerId == pointer.PointerId)
