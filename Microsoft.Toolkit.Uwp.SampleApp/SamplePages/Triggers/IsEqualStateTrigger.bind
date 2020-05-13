@@ -6,38 +6,37 @@
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d">
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+		
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup >
 				<VisualState x:Name="checkstate">
 					<VisualState.StateTriggers>
 						<!--Checkbox is null when indeterminate-->
-						<triggers:NotEqualsStateTrigger Value="{Binding IsChecked, ElementName=checkbox, Mode=OneWay}" To="{x:Null}" />
+						<triggers:IsEqualStateTrigger Value="{Binding IsChecked, ElementName=checkbox, Mode=OneWay}" To="{x:Null}" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="checkStatus.Text" Value="Checkbox value is not indeterminate" />
+						<Setter Target="checkStatus.Text" Value="Checkbox value is indeterminate" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 			<VisualStateGroup >
 					<VisualState x:Name="sliderstate">
 					<VisualState.StateTriggers>
-						<triggers:NotEqualsStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" To="0" />
+						<triggers:IsEqualStateTrigger Value="{Binding Value, ElementName=slider, Mode=OneWay}" To="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="sliderStatus.Text" Value="Slider value is not 0" />
+						<Setter Target="sliderStatus.Text" Value="Slider value is 0" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 
 		<StackPanel VerticalAlignment="Center" MaxWidth="400">
-			<TextBlock x:Name="checkStatus" Opacity=".25" Text="Checkbox value is indeterminate" HorizontalAlignment="Center"  />
+			<TextBlock x:Name="checkStatus" Text="Checkbox value is not indeterminate" HorizontalAlignment="Center"  />
 			<CheckBox HorizontalAlignment="Left" Content="Check me" x:Name="checkbox" IsChecked="True" IsThreeState="True" />
 			<Slider x:Name="slider" Minimum="0" Maximum="5" />
-			<TextBlock x:Name="sliderStatus" Text="Slider value is 0" />
+			<TextBlock x:Name="sliderStatus" Text="Slider value is not 0" />
 		</StackPanel>
-    
 
   </Grid>
 </Page>

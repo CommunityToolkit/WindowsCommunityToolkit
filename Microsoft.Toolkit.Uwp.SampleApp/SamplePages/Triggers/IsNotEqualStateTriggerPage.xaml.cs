@@ -11,16 +11,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class EqualsStateTriggerPage : Page
+    public sealed partial class IsNotEqualStateTriggerPage : Page
     {
         private Button _addButton;
         private Button _removeButton;
         private ListBox _listBox;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EqualsStateTriggerPage"/> class.
+        /// Initializes a new instance of the <see cref="IsNotEqualStateTriggerPage"/> class.
         /// </summary>
-        public EqualsStateTriggerPage()
+        public IsNotEqualStateTriggerPage()
         {
             InitializeComponent();
         }

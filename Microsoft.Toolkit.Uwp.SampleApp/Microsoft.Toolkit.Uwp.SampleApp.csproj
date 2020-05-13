@@ -538,8 +538,8 @@
     <Compile Include="SamplePages\Triggers\CompareStateTriggerPage.xaml.cs">
       <DependentUpon>CompareStateTriggerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Triggers\EqualsStateTriggerPage.xaml.cs">
-      <DependentUpon>EqualsStateTriggerPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsEqualStateTriggerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
       <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
@@ -550,8 +550,8 @@
     <Compile Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml.cs">
       <DependentUpon>NetworkConnectionStateTriggerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Triggers\NotEqualsStateTriggerPage.xaml.cs">
-      <DependentUpon>NotEqualsStateTriggerPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNotEqualStateTriggerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Triggers\RegexStateTriggerPage.xaml.cs">
       <DependentUpon>RegexStateTriggerPage.xaml</DependentUpon>
@@ -574,11 +574,11 @@
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
     <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
-    <Content Include="SamplePages\Triggers\EqualsStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsEqualStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\IsNullOrEmptyStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\NetworkConnectionStateTrigger.bind" />
-    <Content Include="SamplePages\Triggers\NotEqualsStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNotEqualStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
@@ -1043,7 +1043,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Triggers\EqualsStateTriggerPage.xaml">
+    <Page Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1059,7 +1059,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Triggers\NotEqualsStateTriggerPage.xaml">
+    <Page Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

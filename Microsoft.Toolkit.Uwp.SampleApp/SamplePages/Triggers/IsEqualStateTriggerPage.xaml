@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.EqualsStateTriggerPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.IsEqualStateTriggerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
@@ -10,6 +10,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <!-- Dummy Resource for Optimization Protection -->
-        <triggers:EqualsStateTrigger x:Key="EqualsStateTrigger"/>
+        <triggers:IsEqualStateTrigger x:Key="IsEqualStateTrigger"/>
     </Page.Resources>
 </Page>

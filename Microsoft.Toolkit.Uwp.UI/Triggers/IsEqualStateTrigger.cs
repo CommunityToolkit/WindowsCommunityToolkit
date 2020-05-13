@@ -19,9 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// </code>
     /// </para>
     /// </remarks>
-    public class EqualsStateTrigger : StateTriggerBase
+    public class IsEqualStateTrigger : StateTriggerBase
     {
-        private void UpdateTrigger() => SetActive(EqualsStateTrigger.AreValuesEqual(Value, To, true));
+        private void UpdateTrigger() => SetActive(IsEqualStateTrigger.AreValuesEqual(Value, To, true));
 
         /// <summary>
         /// Gets or sets the value for comparison.
@@ -36,11 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="Value"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(EqualsStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsEqualStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var obj = (EqualsStateTrigger)d;
+            var obj = (IsEqualStateTrigger)d;
             obj.UpdateTrigger();
         }
 
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="To"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ToProperty =
-                    DependencyProperty.Register(nameof(To), typeof(object), typeof(EqualsStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+                    DependencyProperty.Register(nameof(To), typeof(object), typeof(IsEqualStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         internal static bool AreValuesEqual(object value1, object value2, bool convertType)
         {
