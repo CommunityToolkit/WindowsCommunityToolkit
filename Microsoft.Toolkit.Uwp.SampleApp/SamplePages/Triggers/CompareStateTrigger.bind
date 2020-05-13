@@ -34,12 +34,32 @@
 						<Setter Target="SliderStatus.Text" Value="Slider value is greater than 3" />
 					</VisualState.Setters>
 				</VisualState>
+      </VisualStateGroup>
+      <VisualStateGroup>
+        <VisualState x:Name="GreaterThanOrEqual">
+          <VisualState.StateTriggers>
+            <triggers:CompareStateTrigger Value="{Binding Value, ElementName=Slider2, Mode=OneWay}" To="4" Comparison="GreaterThanOrEqual" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="SliderStatus2.Text" Value="Slider value is 4 or greater" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="LessThanOrEqual">
+          <VisualState.StateTriggers>
+            <triggers:CompareStateTrigger Value="{Binding Value, ElementName=Slider2, Mode=OneWay}" To="2" Comparison="LessThanOrEqual" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="SliderStatus2.Text" Value="Slider value is 2 or less" />
+          </VisualState.Setters>
+        </VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 
 		<StackPanel VerticalAlignment="Center" MaxWidth="400">
 			<Slider x:Name="Slider" Minimum="0" Maximum="5" />
 			<TextBlock x:Name="SliderStatus" Text="If you see this, trigger isn't working" />
+      <Slider x:Name="Slider2" Minimum="0" Maximum="5" />
+      <TextBlock x:Name="SliderStatus2" Text="Slider value is 3" />
 		</StackPanel>
 
   </Grid>

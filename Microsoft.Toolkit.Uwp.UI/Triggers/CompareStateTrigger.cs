@@ -24,7 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         private void UpdateTrigger()
         {
             var evaluation = CompareValues();
-            SetActive(evaluation == Comparison || (evaluation == Comparison.Equal && (Comparison == Comparison.LessThanOrEqual || Comparison == Comparison.GreaterThanOrEqual)));
+            SetActive(evaluation == Comparison ||
+                (Comparison == Comparison.LessThanOrEqual && (evaluation == Comparison.LessThan || evaluation == Comparison.Equal)) ||
+                (Comparison == Comparison.GreaterThanOrEqual && (evaluation == Comparison.GreaterThan || evaluation == Comparison.Equal)));
         }
 
         /// <summary>
