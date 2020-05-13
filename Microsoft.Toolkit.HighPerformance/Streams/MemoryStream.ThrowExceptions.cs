@@ -3,11 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
-
-#nullable enable
 
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
@@ -71,19 +68,19 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when trying to write too many bytes to the target stream.
+        /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target stream.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForEndOfStreamOnWrite()
         {
-            throw new InvalidOperationException("The current stream can't contain the requested input data.");
+            throw new ArgumentException("The current stream can't contain the requested input data.");
         }
 
         /// <summary>
         /// Throws a <see cref="NotSupportedException"/> when trying to set the length of the stream.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowNotSupportedExceptionForSetLength()
+        private static void ThrowNotSupportedExceptionForSetLength()
         {
             throw new NotSupportedException("Setting the length is not supported for this stream.");
         }
@@ -91,9 +88,9 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when using an invalid seek mode.
         /// </summary>
+        /// <returns>Nothing, as this method throws unconditionally.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1615", Justification = "Throw method")]
-        public static long ThrowArgumentExceptionForSeekOrigin()
+        private static long ThrowArgumentExceptionForSeekOrigin()
         {
             throw new ArgumentException("The input seek mode is not valid.", "origin");
         }
@@ -102,7 +99,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Throws an <see cref="ObjectDisposedException"/> when using a disposed <see cref="Stream"/> instance.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowObjectDisposedException()
+        private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException(nameof(memory), "The current stream has already been disposed");
         }

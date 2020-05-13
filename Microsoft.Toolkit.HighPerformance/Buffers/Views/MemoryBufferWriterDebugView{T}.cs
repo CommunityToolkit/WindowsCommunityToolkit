@@ -7,18 +7,18 @@ using System.Diagnostics;
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Views
 {
     /// <summary>
-    /// A debug proxy used to display items for the <see cref="ArrayPoolBufferWriter{T}"/> type.
+    /// A debug proxy used to display items for the <see cref="MemoryBufferWriter{T}"/> type.
     /// </summary>
     /// <typeparam name="T">The type of items stored in the input <see cref="ArrayPoolBufferWriter{T}"/> instances.</typeparam>
-    internal sealed class ArrayPoolBufferWriterDebugView<T>
+    internal sealed class MemoryBufferWriterDebugView<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ArrayPoolBufferWriterDebugView{T}"/> class with the specified parameters.
+        /// Initializes a new instance of the <see cref="MemoryBufferWriterDebugView{T}"/> class with the specified parameters.
         /// </summary>
-        /// <param name="arrayPoolBufferWriter">The input <see cref="ArrayPoolBufferWriter{T}"/> instance with the items to display.</param>
-        public ArrayPoolBufferWriterDebugView(ArrayPoolBufferWriter<T>? arrayPoolBufferWriter)
+        /// <param name="memoryBufferWriter">The input <see cref="MemoryBufferWriter{T}"/> instance with the items to display.</param>
+        public MemoryBufferWriterDebugView(MemoryBufferWriter<T>? memoryBufferWriter)
         {
-            this.Items = arrayPoolBufferWriter?.WrittenSpan.ToArray();
+            this.Items = memoryBufferWriter?.WrittenSpan.ToArray();
         }
 
         /// <summary>
