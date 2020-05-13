@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,6 +12,40 @@ namespace UnitTests.HighPerformance.Extensions
     [TestClass]
     public class Test_ObjectExtensions
     {
+        [TestCategory("ObjectExtensions")]
+        [TestMethod]
+        public void Test_DangerousGetObjectDataByteOffset()
+        {
+            var a = new TestClass { Number = 42, Character = 'a', Text = "Hello" };
+
+            IntPtr ptr = a.DangerousGetObjectDataByteOffset(ref a.Number);
+
+            ref int number = ref a.DangerousGetObjectDataReferenceAt<int>(ptr);
+
+            Assert.IsTrue(Unsafe.AreSame(ref a.Number, ref number));
+
+            ptr = a.DangerousGetObjectDataByteOffset(ref a.Character);
+
+            ref char character = ref a.DangerousGetObjectDataReferenceAt<char>(ptr);
+
+            Assert.IsTrue(Unsafe.AreSame(ref a.Character, ref character));
+
+            ptr = a.DangerousGetObjectDataByteOffset(ref a.Text);
+
+            ref string text = ref a.DangerousGetObjectDataReferenceAt<string>(ptr);
+
+            Assert.IsTrue(Unsafe.AreSame(ref a.Text, ref text));
+        }
+
+        internal class TestClass
+        {
+#pragma warning disable SA1401 // Fields should be private
+            public int Number;
+            public char Character;
+            public string Text;
+#pragma warning restore SA1401
+        }
+
         [TestCategory("ObjectExtensions")]
         [TestMethod]
         public void Test_BoxOfT_PrimitiveTypes()

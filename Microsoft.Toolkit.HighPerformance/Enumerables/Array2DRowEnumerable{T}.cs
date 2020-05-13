@@ -2,12 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_0
+#if !SPAN_RUNTIME_SUPPORT
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -18,7 +17,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that iterates a row in a given 2D <typeparamref name="T"/> array instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public readonly ref struct Array2DRowEnumerable<T>
     {
@@ -149,7 +147,13 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             public ref T Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => ref this.array.DangerousGetReferenceAt(this.row, this.column);
+                get
+                {
+                    // This type is never used on .NET Core runtimes, where
+                    // the fast indexer is available. Therefore, we can just
+                    // use the built-in indexer for 2D arrays to access the value.
+                    return ref this.array[this.row, this.column];
+                }
             }
         }
 
