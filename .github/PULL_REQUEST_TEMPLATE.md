@@ -1,10 +1,10 @@
-## Fixes #<!-- Link to relevant issue (for ex: #1234) which will automatically close the issue once the PR is merged -->
+## Fixes #<!-- Link to relevant issue (for ex: #1234) which will automatically close the issue once the PR is merged. -->
 
-<!-- Add a brief overview here of the feature/bug & fix -->
+<!-- Add a brief overview here of the feature/bug & fix. -->
 
 ## PR Type
 What kind of change does this PR introduce?
-<!-- Please uncomment one ore more that apply to this PR -->
+<!-- Please uncomment one or more that apply to this PR. -->
 
 <!-- - Bugfix -->
 <!-- - Feature -->
@@ -38,7 +38,7 @@ Please check if your PR fulfills the following requirements:
 - [ ] Contains **NO** breaking changes
 
 <!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
-     Please note that breaking changes are likely to be rejected -->
+     Please note that breaking changes are likely to be rejected. -->
 
 
 ## Other information
