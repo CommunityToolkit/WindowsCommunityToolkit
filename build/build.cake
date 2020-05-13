@@ -59,7 +59,7 @@ void VerifyHeaders(bool Replace)
     var files = GetFiles(baseDir + "/**/*.cs", new GlobberSettings { Predicate = exclude_objDir }).Where(file =>
     {
         var path = file.ToString();
-        return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile"));
+        return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile") || System.IO.Path.GetFullPath(path).Contains("Generated Files"));
     });
 
     Information("\nChecking " + files.Count() + " file header(s)");
