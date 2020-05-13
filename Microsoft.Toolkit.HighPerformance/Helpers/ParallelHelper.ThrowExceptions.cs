@@ -18,10 +18,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeExceptionForInvalidMinimumActionsPerThread()
         {
-            /* Having the argument name here manually typed is
-             * not ideal, but this way we save passing that string as
-             * a parameter, since it's always the same anyway.
-             * Same goes for the other helper methods below. */
+            // Having the argument name here manually typed is
+            // not ideal, but this way we save passing that string as
+            // a parameter, since it's always the same anyway.
+            // Same goes for the other helper methods below.
             throw new ArgumentOutOfRangeException(
                 "minimumActionsPerThread",
                 "Each thread needs to perform at least one action");
