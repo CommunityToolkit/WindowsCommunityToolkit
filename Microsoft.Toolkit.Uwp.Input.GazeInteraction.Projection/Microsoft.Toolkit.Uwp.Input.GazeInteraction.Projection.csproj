@@ -7,6 +7,7 @@
     <NoWarn>1402;1013;1015;1701;1702;0436;1658</NoWarn>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
     <AssetTargetFallback>uap10.0.17134</AssetTargetFallback>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
   
   <ItemGroup>
@@ -19,8 +20,8 @@
   </PropertyGroup>
 
   <!--<ItemGroup>
-    <Content Include="$(ProjectDir)..\$(Platform)\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll;
-                      $(ProjectDir)..\$(Platform)\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pdb" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(ProjectDir)..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\$(Platform)\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll;
+                      $(ProjectDir)..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\$(Platform)\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pdb" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>-->
   
   <Target Name="_GatherWinMDReference" AfterTargets="ResolveProjectReferences" Returns="@(_ResolvedNativeProjectReferencePaths);@(_ResolvedProjectReferencePaths);@(_WinMdProjectReferences)">
@@ -35,7 +36,7 @@
       <PkgMicrosoft_WinUI Condition="'$(PkgMicrosoft_WinUI)'==''">$([MSBuild]::NormalizeDirectory('$(NuGetPackageRoot)', 'microsoft.winui', '$(MicrosoftWinUIVersion)'))</PkgMicrosoft_WinUI>
     </PropertyGroup>
     <ItemGroup>
-      <GazeWinMDs Include="$(ProjectDir)..\x64\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd" />
+      <GazeWinMDs Include="$(ProjectDir)..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\x64\$(Configuration)\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd" />
       <WinUIWinMDs Include="$(PkgMicrosoft_WinUI)/**/*.winmd" />
     </ItemGroup>
     <PropertyGroup>

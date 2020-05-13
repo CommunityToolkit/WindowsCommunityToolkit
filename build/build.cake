@@ -167,7 +167,33 @@ Task("BuildProjects")
     .Does(() =>
 {
     Information("\nBuilding Solution");
+
+    EnsureDirectoryExists(nupkgDir);
+
+    // Build C++ packages
     var buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Native");
+
+    UpdateToolsPath(buildSettings);
+
+    // Ignored for now since WinUI3 alpha does not support ARM
+    // buildSettings.SetPlatformTarget(PlatformTarget.ARM);
+    // MSBuild(Solution, buildSettings);
+	
+    // Ignored for now since WinUI3 alpha does not support ARM64
+    // buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
+    // MSBuild(Solution, buildSettings);
+
+    buildSettings.SetPlatformTarget(PlatformTarget.x64);
+    MSBuild(Solution, buildSettings);
+
+    buildSettings.SetPlatformTarget(PlatformTarget.x86);
+    MSBuild(Solution, buildSettings);
+
+    buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
@@ -178,9 +204,7 @@ Task("BuildProjects")
 
     MSBuild(Solution, buildSettings);
 
-    EnsureDirectoryExists(nupkgDir);
-
-	// Build once with normal dependency ordering
+    // Build once with normal dependency ordering
     buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
@@ -191,7 +215,7 @@ Task("BuildProjects")
 
     UpdateToolsPath(buildSettings);
 
-	MSBuild(Solution, buildSettings);
+    MSBuild(Solution, buildSettings);
 });
 
 Task("InheritDoc")
@@ -199,14 +223,14 @@ Task("InheritDoc")
     .IsDependentOn("BuildProjects")
     .Does(() =>
 {
-	Information("\nDownloading InheritDoc...");
-	var installSettings = new NuGetInstallSettings {
-		ExcludeVersion = true,
+    Information("\nDownloading InheritDoc...");
+    var installSettings = new NuGetInstallSettings {
+        ExcludeVersion = true,
         Version = inheritDocVersion,
-		OutputDirectory = toolsDir
-	};
+        OutputDirectory = toolsDir
+    };
 
-	NuGetInstall(new []{"InheritDoc"}, installSettings);
+    NuGetInstall(new []{"InheritDoc"}, installSettings);
     
     var args = new ProcessArgumentBuilder()
                 .AppendSwitchQuoted("-b", baseDir)
@@ -232,49 +256,27 @@ Task("Package")
 	.Description("Pack the NuPkg")
 	.Does(() =>
 {
-	// Invoke the pack target in the end
+    // Invoke the pack target in the end
     var buildSettings = new MSBuildSettings {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
     .WithTarget("Pack")
     .WithProperty("GenerateLibraryLayout", "true")
-	.WithProperty("PackageOutputPath", nupkgDir);
+    .WithProperty("PackageOutputPath", nupkgDir);
 
     UpdateToolsPath(buildSettings);
 
     MSBuild(Solution, buildSettings);
 
-	// Build and pack C++ packages
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Native");
-
-    UpdateToolsPath(buildSettings);
-
-	// Ignored for now since WinUI3 alpha does not support ARM
-    // buildSettings.SetPlatformTarget(PlatformTarget.ARM);
-    // MSBuild(Solution, buildSettings);
-	
-	// Ignored for now since WinUI3 alpha does not support ARM64
-	// buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
-    // MSBuild(Solution, buildSettings);
-
-    buildSettings.SetPlatformTarget(PlatformTarget.x64);
-    MSBuild(Solution, buildSettings);
-
-    buildSettings.SetPlatformTarget(PlatformTarget.x86);
-    MSBuild(Solution, buildSettings);
-
+    // Pack C++ packages
     RetrieveVersion();
 	
     var nuGetPackSettings = new NuGetPackSettings
-	{
-		OutputDirectory = nupkgDir,
+    {
+        OutputDirectory = nupkgDir,
         Version = Version
-	};
+    };
 	
     var nuspecs = GetFiles("./*.nuspec");
     foreach (var nuspec in nuspecs)
@@ -297,7 +299,7 @@ public string getMSTestAdapterPath(){
 }
 
 Task("Test")
-	.Description("Runs all Tests")
+    .Description("Runs all Tests")
     .Does(() =>
 {
 	var vswhere = VSWhereLatest(new VSWhereLatestSettings
