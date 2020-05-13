@@ -43,6 +43,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             TestForType((int)37438941, CreateRandomData);
             TestForType((uint)37438941, CreateRandomData);
+            TestForType(MathF.PI, CreateRandomData);
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
@@ -52,6 +53,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             TestForType((long)47128480128401, CreateRandomData);
             TestForType((ulong)47128480128401, CreateRandomData);
+            TestForType(Math.PI, CreateRandomData);
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
