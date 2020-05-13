@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         {
             var v1 = Value;
             var v2 = To;
-            if (Comparison == Comparison.Equal && v1 == v2)
+            if ((Comparison == Comparison.Equal || Comparison == Comparison.LessThanOrEqual || Comparison == Comparison.GreaterThanOrEqual) && v1 == v2)
             {
                 return Comparison.Equal;
             }
