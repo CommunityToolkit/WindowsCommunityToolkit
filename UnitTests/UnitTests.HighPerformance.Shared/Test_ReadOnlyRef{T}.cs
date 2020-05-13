@@ -15,7 +15,7 @@ namespace UnitTests.HighPerformance
     {
         [TestCategory("ReadOnlyRefOfT")]
         [TestMethod]
-#if NETCOREAPP2_1 || WINDOWS_UWP
+#if WINDOWS_UWP
         public void Test_RefOfT_CreateRefOfT()
         {
             var model = new ReadOnlyFieldOwner();
