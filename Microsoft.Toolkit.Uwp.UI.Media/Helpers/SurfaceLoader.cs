@@ -98,63 +98,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
             var displayInformation = DisplayInformation.GetForCurrentView();
             float dpi = displayInformation.LogicalDpi;
 
-            // Explicit try/finally block to emulate the using block from C# 8 on switch assignment
-            CanvasBitmap bitmap = null;
-            try
+            // Load the bitmap with the appropriate settings
+            using CanvasBitmap bitmap = dpiMode switch
             {
-                // Load the bitmap with the appropriate settings
-                switch (dpiMode)
-                {
-                    case DpiMode.UseSourceDpi: bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri); break;
-                    case DpiMode.Default96Dpi: bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri, 96); break;
-                    case DpiMode.DisplayDpi: bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri, dpi); break;
-                    case DpiMode.DisplayDpiWith96AsLowerBound: bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri, dpi >= 96 ? dpi : 96); break;
-                    default: throw new ArgumentOutOfRangeException(nameof(dpiMode), dpiMode, $"Invalid DPI mode: {dpiMode}");
-                }
+                DpiMode.UseSourceDpi => await CanvasBitmap.LoadAsync(canvasDevice, uri),
+                DpiMode.Default96Dpi => await CanvasBitmap.LoadAsync(canvasDevice, uri, 96),
+                DpiMode.DisplayDpi => await CanvasBitmap.LoadAsync(canvasDevice, uri, dpi),
+                DpiMode.DisplayDpiWith96AsLowerBound => await CanvasBitmap.LoadAsync(canvasDevice, uri, dpi >= 96 ? dpi : 96),
+                _ => throw new ArgumentOutOfRangeException(nameof(dpiMode), dpiMode, $"Invalid DPI mode: {dpiMode}")
+            };
 
-                // Get the device and the target surface
-                using (var graphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(compositor, canvasDevice))
-                {
-                    // Calculate the surface size
-                    Size
-                        size = bitmap.Size,
-                        sizeInPixels = new Size(bitmap.SizeInPixels.Width, bitmap.SizeInPixels.Height);
+            // Calculate the surface size
+            Size
+                size = bitmap.Size,
+                sizeInPixels = new Size(bitmap.SizeInPixels.Width, bitmap.SizeInPixels.Height);
 
-                    // Create the drawing surface
-                    var drawingSurface = graphicsDevice.CreateDrawingSurface(
-                        sizeInPixels,
-                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
-                        DirectXAlphaMode.Premultiplied);
+            // Get the device and the target surface
+            using CompositionGraphicsDevice graphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(compositor, canvasDevice);
 
-                    // Create a drawing session for the target surface
-                    using (var drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, new Rect(0, 0, sizeInPixels.Width, sizeInPixels.Height), dpi))
-                    {
-                        // Fill the target surface
-                        drawingSession.Clear(Color.FromArgb(0, 0, 0, 0));
-                        drawingSession.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(0, 0, size.Width, size.Height));
-                        drawingSession.EffectTileSize = new BitmapSize { Width = (uint)size.Width, Height = (uint)size.Height };
-                    }
+            // Create the drawing surface
+            var drawingSurface = graphicsDevice.CreateDrawingSurface(
+                sizeInPixels,
+                DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                DirectXAlphaMode.Premultiplied);
 
-                    // Setup the effect brush to use
-                    var surfaceBrush = compositor.CreateSurfaceBrush(drawingSurface);
-                    surfaceBrush.Stretch = CompositionStretch.None;
-
-                    double pixels = displayInformation.RawPixelsPerViewPixel;
-
-                    // Adjust the scale if the DPI scaling is greater than 100%
-                    if (pixels > 1)
-                    {
-                        surfaceBrush.Scale = new Vector2((float)(1 / pixels));
-                        surfaceBrush.BitmapInterpolationMode = CompositionBitmapInterpolationMode.NearestNeighbor;
-                    }
-
-                    return surfaceBrush;
-                }
-            }
-            finally
+            // Create a drawing session for the target surface
+            using (var drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, new Rect(0, 0, sizeInPixels.Width, sizeInPixels.Height), dpi))
             {
-                bitmap?.Dispose();
+                // Fill the target surface
+                drawingSession.Clear(Color.FromArgb(0, 0, 0, 0));
+                drawingSession.DrawImage(bitmap, new Rect(0, 0, size.Width, size.Height), new Rect(0, 0, size.Width, size.Height));
+                drawingSession.EffectTileSize = new BitmapSize { Width = (uint)size.Width, Height = (uint)size.Height };
             }
+
+            // Setup the effect brush to use
+            var surfaceBrush = compositor.CreateSurfaceBrush(drawingSurface);
+            surfaceBrush.Stretch = CompositionStretch.None;
+
+            double pixels = displayInformation.RawPixelsPerViewPixel;
+
+            // Adjust the scale if the DPI scaling is greater than 100%
+            if (pixels > 1)
+            {
+                surfaceBrush.Scale = new Vector2((float)(1 / pixels));
+                surfaceBrush.BitmapInterpolationMode = CompositionBitmapInterpolationMode.NearestNeighbor;
+            }
+
+            return surfaceBrush;
         }
     }
 }
