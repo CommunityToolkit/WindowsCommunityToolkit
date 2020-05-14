@@ -85,20 +85,14 @@
     </When>
   </Choose>
   
-  <!--
   <Choose>
-    <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
-      <ItemGroup>
-        <EmbeddedResource Include="**\*.rd.xml" />
-        <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
-        <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
-      </ItemGroup>
-      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'net5.0' and '$(Configuration)' == 'Release'">
+      <PropertyGroup>
+        <!--<DisableEmbeddedXbf>false</DisableEmbeddedXbf>-->
+        <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
       </PropertyGroup>
     </When>
   </Choose>
-  -->
   
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
