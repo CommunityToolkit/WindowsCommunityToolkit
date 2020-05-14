@@ -223,6 +223,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Always measure elements that are within the bounds
                     item.Element = context.GetOrCreateElementAt(i);
                     item.Element.Measure(availableSize);
+
+                    currentMeasure = new UvMeasure(Orientation, item.Element.DesiredSize.Width, item.Element.DesiredSize.Height);
+                    if (item.Measure.Value.U != currentMeasure.U)
+                    {
+                        // this item changed size; we need to recalculate layout for everything after this
+                        state.RemoveFromIndex(i + 1);
+                        item.Measure = currentMeasure;
+                    }
                 }
 
                 position.U += currentMeasure.U + spacingMeasure.U;
