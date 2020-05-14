@@ -67,14 +67,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         }
 
         /// <summary>
-        /// The <see cref="CanvasDevice"/> instance in use
+        /// The <see cref="Compositor"/> instance in use.
         /// </summary>
-        private readonly CanvasDevice canvasDevice;
+        private readonly Compositor compositor;
 
         /// <summary>
-        /// The <see cref="CompositionGraphicsDevice"/> instance to determinde which GPU is handling the request
+        /// The <see cref="CanvasDevice"/> instance in use.
         /// </summary>
-        private readonly CompositionGraphicsDevice compositionDevice;
+        private CanvasDevice canvasDevice;
+
+        /// <summary>
+        /// The <see cref="CompositionGraphicsDevice"/> instance to determinde which GPU is handling the request.
+        /// </summary>
+        private CompositionGraphicsDevice compositionDevice;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceLoader"/> class.
@@ -82,8 +87,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         /// <param name="compositor">The <see cref="Compositor"/> instance to use</param>
         private SurfaceLoader(Compositor compositor)
         {
+            this.compositor = compositor;
+
+            this.InitializeDevices();
+        }
+
+        /// <summary>
+        /// Reloads the <see cref="canvasDevice"/> and <see cref="compositionDevice"/> fields.
+        /// </summary>
+        private void InitializeDevices()
+        {
+            if (!(this.canvasDevice is null))
+            {
+                this.canvasDevice.DeviceLost -= CanvasDevice_DeviceLost;
+            }
+
+            if (!(this.compositionDevice is null))
+            {
+                this.compositionDevice.RenderingDeviceReplaced -= CompositionDevice_RenderingDeviceReplaced;
+            }
+
             this.canvasDevice = new CanvasDevice();
-            this.compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(compositor, this.canvasDevice);
+            this.compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(this.compositor, this.canvasDevice);
+
+            this.canvasDevice.DeviceLost += CanvasDevice_DeviceLost;
+            this.compositionDevice.RenderingDeviceReplaced += CompositionDevice_RenderingDeviceReplaced;
+        }
+
+        /// <summary>
+        /// Invokes <see cref="InitializeDevices"/> when the current <see cref="CanvasDevice"/> is lost.
+        /// </summary>
+        private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
+        {
+            InitializeDevices();
+        }
+
+        /// <summary>
+        /// Invokes <see cref="InitializeDevices"/> when the current <see cref="CompositionGraphicsDevice"/> changes rendering device.
+        /// </summary>
+        private void CompositionDevice_RenderingDeviceReplaced(CompositionGraphicsDevice sender, RenderingDeviceReplacedEventArgs args)
+        {
+            InitializeDevices();
         }
 
         /// <summary>
