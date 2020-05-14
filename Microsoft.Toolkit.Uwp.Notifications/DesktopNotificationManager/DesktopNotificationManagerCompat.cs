@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
+using static Microsoft.Toolkit.Uwp.Notifications.NotificationActivator;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -23,12 +21,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public const string ToastActivatedLaunchArg = "-ToastActivated";
 
+        private const int CLASS_E_NOAGGREGATION = -2147221232;
+        private const int E_NOINTERFACE = -2147467262;
+        private const int CLSCTX_LOCAL_SERVER = 4;
+        private const int REGCLS_MULTIPLEUSE = 1;
+        private const int S_OK = 0;
+        private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
+
         private static bool _registeredAumidAndComServer;
         private static string _aumid;
         private static bool _registeredActivator;
 
         /// <summary>
-        /// If not running under the Desktop Bridge, you must call this method to register your AUMID with the Compat library and to
+        /// If you're not using MSIX or sparse packages, you must call this method to register your AUMID with the Compat library and to
         /// register your COM CLSID and EXE in LocalServer32 registry. Feel free to call this regardless, and we will no-op if running
         /// under Desktop Bridge. Call this upon application startup, before calling any other APIs.
         /// </summary>
@@ -73,23 +78,84 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             key.SetValue(null, '"' + exePath + '"' + " " + ToastActivatedLaunchArg);
         }
 
+        /*
+        * RegisterActivator code and all internal dependencies is from FrecherxDachs.
+        * See entry #2 in ThirdPartyNotices.txt in root repository directory for full license. */
+
         /// <summary>
         /// Registers the activator type as a COM server client so that Windows can launch your activator.
         /// </summary>
         /// <typeparam name="T">Your implementation of NotificationActivator. Must have GUID and ComVisible attributes on class.</typeparam>
         public static void RegisterActivator<T>()
-            where T : NotificationActivator
+            where T : NotificationActivator, new()
         {
-            // Register type
-            var regService = new RegistrationServices();
-
-            regService.RegisterTypeForComClients(
-                typeof(T),
-                RegistrationClassContext.LocalServer,
-                RegistrationConnectionType.MultipleUse);
+            // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
+            var uuid = typeof(T).GUID;
+            uint cookie;
+            CoRegisterClassObject(
+                uuid,
+                new NotificationActivatorClassFactory<T>(),
+                CLSCTX_LOCAL_SERVER,
+                REGCLS_MULTIPLEUSE,
+                out cookie);
 
             _registeredActivator = true;
         }
+
+        [ComImport]
+        [Guid("00000001-0000-0000-C000-000000000046")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        private interface IClassFactory
+        {
+            [PreserveSig]
+            int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject);
+
+            [PreserveSig]
+            int LockServer(bool fLock);
+        }
+
+        private class NotificationActivatorClassFactory<T> : IClassFactory
+            where T : NotificationActivator, new()
+        {
+            public int CreateInstance(IntPtr pUnkOuter, ref Guid riid, out IntPtr ppvObject)
+            {
+                ppvObject = IntPtr.Zero;
+
+                if (pUnkOuter != IntPtr.Zero)
+                {
+                    Marshal.ThrowExceptionForHR(CLASS_E_NOAGGREGATION);
+                }
+
+                if (riid == typeof(T).GUID || riid == IUnknownGuid)
+                {
+                    // Create the instance of the .NET object
+                    ppvObject = Marshal.GetComInterfaceForObject(
+                        new T(),
+                        typeof(INotificationActivationCallback));
+                }
+                else
+                {
+                    // The object that ppvObject points to does not support the
+                    // interface identified by riid.
+                    Marshal.ThrowExceptionForHR(E_NOINTERFACE);
+                }
+
+                return S_OK;
+            }
+
+            public int LockServer(bool fLock)
+            {
+                return S_OK;
+            }
+        }
+
+        [DllImport("ole32.dll")]
+        private static extern int CoRegisterClassObject(
+            [MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
+            [MarshalAs(UnmanagedType.IUnknown)] object pUnk,
+            uint dwClsContext,
+            uint flags,
+            out uint lpdwRegister);
 
         /// <summary>
         /// Creates a toast notifier. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer(string)"/> if you're a classic Win32 app), or this will throw an exception.
@@ -151,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Gets a value indicating whether http images can be used within toasts. This is true if running under Desktop Bridge.
+        /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (MSIX or sparse package).
         /// </summary>
         public static bool CanUseHttpImages
         {
