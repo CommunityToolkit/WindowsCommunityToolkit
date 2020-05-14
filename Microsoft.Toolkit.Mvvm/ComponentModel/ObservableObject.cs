@@ -1,24 +1,8 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
-#pragma warning disable SA1512
-
-// Original file header:
-// ****************************************************************************
-// <copyright file="ObservableObject.cs" company="GalaSoft Laurent Bugnion">
-// Copyright © GalaSoft Laurent Bugnion 2011-2016
-// </copyright>
-// ****************************************************************************
-// <author>Laurent Bugnion</author>
-// <email>laurent@galasoft.ch</email>
-// <date>10.4.2011</date>
-// <project>GalaSoft.MvvmLight.Messaging</project>
-// <web>http://www.mvvmlight.net</web>
-// <license>
-// See license.txt in this project or http://www.galasoft.ch/license_MIT.txt
-// </license>
-// ****************************************************************************
+// This file is inspired from the MvvmLight libray (lbugnion/mvvmlight),
+// more info in ThirdPartyNotices.txt in the root of the project.
 
 using System;
 using System.Collections.Generic;
