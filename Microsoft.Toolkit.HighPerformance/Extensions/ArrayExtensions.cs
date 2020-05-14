@@ -5,10 +5,11 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCORE_RUNTIME
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
-
-#nullable enable
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -28,10 +29,27 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReference<T>(this T[] array)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArrayData>(array);
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 
             return ref r0;
+#else
+#pragma warning disable SA1131 // Inverted comparison to remove JIT bounds check
+            // Checking the length of the array like so allows the JIT
+            // to skip its own bounds check, which results in the element
+            // access below to be executed without branches.
+            if (0u < (uint)array.Length)
+            {
+                return ref array[0];
+            }
+
+            unsafe
+            {
+                return ref Unsafe.AsRef<T>(null);
+            }
+#pragma warning restore SA1131
+#endif
         }
 
         /// <summary>
@@ -46,13 +64,26 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArrayData>(array);
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
             ref T ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
+#else
+            if ((uint)i < (uint)array.Length)
+            {
+                return ref array[i];
+            }
+
+            unsafe
+            {
+                return ref Unsafe.AsRef<T>(null);
+            }
+#endif
         }
 
+#if NETCORE_RUNTIME
         // Description taken from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
         // CLR arrays are laid out in memory as follows (multidimensional array bounds are optional):
         // [ sync block || pMethodTable || num components || MD array bounds || array data .. ]
@@ -72,6 +103,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #pragma warning restore CS0649
 #pragma warning restore SA1401
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given value into a target <typeparamref name="T"/> array instance.
@@ -85,7 +117,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this T[] array, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(array, value);
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>
@@ -142,6 +177,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Gets a content hash from the input <typeparamref name="T"/> array instance using the Djb2 algorithm.
+        /// For more info, see the documentation for <see cref="ReadOnlySpanExtensions.GetDjb2HashCode{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
@@ -152,7 +188,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this T[] array)
             where T : notnull
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(array);
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
     }
 }
