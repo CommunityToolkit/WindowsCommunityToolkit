@@ -230,6 +230,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // this item changed size; we need to recalculate layout for everything after this
                         state.RemoveFromIndex(i + 1);
                         item.Measure = currentMeasure;
+
+                        // did the change make it go into the new row?
+                        if (parentMeasure.U < position.U + currentMeasure.U)
+                        {
+                            // New Row
+                            position.U = 0;
+                            position.V += currentV + spacingMeasure.V;
+                            currentV = 0;
+                        }
+
+                        item.Position = position;
                     }
                 }
 
