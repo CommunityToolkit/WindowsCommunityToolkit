@@ -5,7 +5,6 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
 
@@ -103,7 +102,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        [Pure]
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>
@@ -446,7 +444,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
         /// <param name="mapping">The resulting <see cref="Mapping{TMessage,TToken}"/> instance, if found.</param>
         /// <returns>Whether or not the required <see cref="Mapping{TMessage,TToken}"/> instance was found.</returns>
-        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool TryGetMapping<TMessage, TToken>(out Mapping<TMessage, TToken>? mapping)
             where TMessage : class
@@ -585,7 +582,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <see cref="tMessage"/> and <see cref="tToken"/> fields provide additional clarity reading
         /// the code compared to <see cref="ValueTuple{T1,T2}.Item1"/> and <see cref="ValueTuple{T1,T2}.Item2"/>.
         /// </remarks>
-        public readonly struct Type2 : IEquatable<Type2>
+        private readonly struct Type2 : IEquatable<Type2>
         {
             /// <summary>
             /// The type of registered message.
