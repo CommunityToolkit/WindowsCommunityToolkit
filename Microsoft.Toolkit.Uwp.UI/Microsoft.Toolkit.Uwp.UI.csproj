@@ -46,7 +46,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
