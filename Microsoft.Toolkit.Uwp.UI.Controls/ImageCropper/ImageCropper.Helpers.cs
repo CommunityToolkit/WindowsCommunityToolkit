@@ -51,45 +51,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static async Task CropImageWithShapeAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, CropShape cropShape)
         {
-            var device = CanvasDevice.GetSharedDevice();
-            var clipGeometry = CreateClipGeometry(device, cropShape, new Size(croppedRect.Width, croppedRect.Height));
-            if (clipGeometry == null)
+            using (CanvasDevice device = CanvasDevice.GetSharedDevice())
             {
-                return;
-            }
-
-            CanvasBitmap sourceBitmap = null;
-            using (var randomAccessStream = new InMemoryRandomAccessStream())
-            {
-                await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
-                sourceBitmap = await CanvasBitmap.LoadAsync(device, randomAccessStream);
-            }
-
-            using (var offScreen = new CanvasRenderTarget(device, (float)croppedRect.Width, (float)croppedRect.Height, 96f))
-            {
-                using (var drawingSession = offScreen.CreateDrawingSession())
-                using (var markCommandList = new CanvasCommandList(device))
+                var clipGeometry = CreateClipGeometry(device, cropShape, new Size(croppedRect.Width, croppedRect.Height));
+                if (clipGeometry == null)
                 {
-                    using (var markDrawingSession = markCommandList.CreateDrawingSession())
-                    {
-                        markDrawingSession.FillGeometry(clipGeometry, Colors.Black);
-                    }
-
-                    var alphaMaskEffect = new AlphaMaskEffect
-                    {
-                        Source = sourceBitmap,
-                        AlphaMask = markCommandList
-                    };
-                    drawingSession.DrawImage(alphaMaskEffect);
-                    alphaMaskEffect.Dispose();
+                    return;
                 }
 
-                clipGeometry.Dispose();
-                sourceBitmap.Dispose();
-                var pixelBytes = offScreen.GetPixelBytes();
-                var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-                bitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
-                await bitmapEncoder.FlushAsync();
+                CanvasBitmap sourceBitmap = null;
+                using (var randomAccessStream = new InMemoryRandomAccessStream())
+                {
+                    await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
+                    sourceBitmap = await CanvasBitmap.LoadAsync(device, randomAccessStream);
+                }
+
+                using (var offScreen = new CanvasRenderTarget(device, (float)croppedRect.Width, (float)croppedRect.Height, 96f))
+                {
+                    using (var drawingSession = offScreen.CreateDrawingSession())
+                    using (var markCommandList = new CanvasCommandList(device))
+                    {
+                        using (var markDrawingSession = markCommandList.CreateDrawingSession())
+                        {
+                            markDrawingSession.FillGeometry(clipGeometry, Colors.Black);
+                        }
+
+                        var alphaMaskEffect = new AlphaMaskEffect
+                        {
+                            Source = sourceBitmap,
+                            AlphaMask = markCommandList
+                        };
+                        drawingSession.DrawImage(alphaMaskEffect);
+                        alphaMaskEffect.Dispose();
+                    }
+
+                    clipGeometry.Dispose();
+                    sourceBitmap.Dispose();
+                    var pixelBytes = offScreen.GetPixelBytes();
+                    var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+                    bitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
+                    await bitmapEncoder.FlushAsync();
+                }
             }
         }
 
