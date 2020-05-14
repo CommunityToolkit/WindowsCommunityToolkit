@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     item.Element.Measure(availableSize);
 
                     currentMeasure = new UvMeasure(Orientation, item.Element.DesiredSize.Width, item.Element.DesiredSize.Height);
-                    if (item.Measure.Value.U != currentMeasure.U)
+                    if ((item.Measure.Value.U != currentMeasure.U) || (item.Measure.Value.V != currentMeasure.V))
                     {
                         // this item changed size; we need to recalculate layout for everything after this
                         state.RemoveFromIndex(i + 1);
