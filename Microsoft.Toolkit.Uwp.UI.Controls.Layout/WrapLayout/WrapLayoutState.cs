@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void RemoveFromIndex(int index)
         {
-            if (index > _items.Count)
+            if (index >= _items.Count)
             {
                 // Item was added/removed but we haven't realized that far yet
                 return;
