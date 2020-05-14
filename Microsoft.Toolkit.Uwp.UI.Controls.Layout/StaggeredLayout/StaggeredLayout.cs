@@ -234,6 +234,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // We ALWAYS want to measure an item that will be in the bounds
                     item.Element = context.GetOrCreateElementAt(i);
                     item.Element.Measure(new Size(state.ColumnWidth, availableHeight));
+                    if (item.Height != item.Element.DesiredSize.Height)
+                    {
+                        // this item changed size; we need to recalculate layout for everything after this
+                        state.RemoveFromIndex(i + 1);
+                        item.Height = item.Element.DesiredSize.Height;
+                        columnHeights[columnIndex] = item.Top + item.Height;
+                    }
                 }
 
                 if (deadColumns.Count == numColumns)
