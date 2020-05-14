@@ -232,7 +232,7 @@
       {
         "Name": "WrapLayout",
         "Type": "WrapLayoutPage",
-        "Subcategory": "Layout",
+        "Subcategory": "Layout - ItemsRepeater",
         "About": "The WrapLayout virtualizes child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/WrapLayout",
         "XamlCodeFile": "WrapLayout.bind",
@@ -315,7 +315,7 @@
       {
         "Name": "StaggeredLayout",
         "Type": "StaggeredLayoutPage",
-        "Subcategory": "Layout",
+        "Subcategory": "Layout - ItemsRepeater",
         "About": "The StaggeredLayout virtualizes items in a column approach where an item will be added to whichever column has used the least amount of space.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/StaggeredLayout",
         "XamlCodeFile": "StaggeredLayout.bind",
