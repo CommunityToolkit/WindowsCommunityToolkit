@@ -11,6 +11,7 @@
 			<VisualStateGroup >
 				<VisualState x:Name="validEmail">
 					<VisualState.StateTriggers>
+						<!-- Note: Simple example RegEx, see our IsEmail string extension using emailregex.com for official RFC 5322 support -->
 						<triggers:RegexStateTrigger Value="{Binding Text, ElementName=emailTextBox, Mode=OneWay}"
 													Expression="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$"
 													Options="IgnoreCase" />

@@ -13,10 +13,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class RegexStateTriggerPage : Page
     {
-        private Button _addButton;
-        private Button _removeButton;
-        private ListBox _listBox;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RegexStateTriggerPage"/> class.
         /// </summary>

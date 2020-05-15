@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class IsNullOrEmptyStateTriggerPage : Page
+    public sealed partial class IsNullOrEmptyStateTriggerPage : Page, IXamlRenderListener
     {
         private Button _addButton;
         private Button _removeButton;
@@ -23,6 +23,51 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public IsNullOrEmptyStateTriggerPage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            if (_addButton != null)
+            {
+                _addButton.Click -= this.AddButton_Click;
+            }
+
+            if (control.FindDescendantByName("AddButton") is Button btn)
+            {
+                _addButton = btn;
+
+                _addButton.Click += this.AddButton_Click;
+            }
+
+            if (_removeButton != null)
+            {
+                _removeButton.Click -= this.RemoveButton_Click;
+            }
+
+            if (control.FindDescendantByName("RemoveButton") is Button btn2)
+            {
+                _removeButton = btn2;
+
+                _removeButton.Click += this.RemoveButton_Click;
+            }
+
+            _listBox = control.FindDescendantByName("OurList") as ListBox;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_listBox != null)
+            {
+                _listBox.Items.Add("Item");
+            }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_listBox != null)
+            {
+                _listBox.Items.RemoveAt(0);
+            }
         }
     }
 }
