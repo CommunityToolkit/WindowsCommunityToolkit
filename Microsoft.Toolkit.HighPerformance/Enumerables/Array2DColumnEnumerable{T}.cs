@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -16,7 +15,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that iterates a column in a given 2D <typeparamref name="T"/> array instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public readonly ref struct Array2DColumnEnumerable<T>
     {
@@ -69,9 +67,13 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             T[] array = new T[height];
 
-            for (int i = 0; i < height; i++)
+            ref T r0 = ref array.DangerousGetReference();
+            int i = 0;
+
+            // Leverage the enumerator to traverse the column
+            foreach (T item in this)
             {
-                array.DangerousGetReferenceAt(i) = this.array.DangerousGetReferenceAt(i, this.column);
+                Unsafe.Add(ref r0, i++) = item;
             }
 
             return array;
@@ -83,6 +85,31 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [EditorBrowsable(EditorBrowsableState.Never)]
         public ref struct Enumerator
         {
+#if SPAN_RUNTIME_SUPPORT
+            /// <summary>
+            /// The <see cref="Span{T}"/> instance mapping the target 2D array.
+            /// </summary>
+            /// <remarks>
+            /// In runtimes where we have support for the <see cref="Span{T}"/> type, we can
+            /// create one from the input 2D array and use that to traverse the target column.
+            /// This reduces the number of operations to perform for the offsetting to the right
+            /// column element (we simply need to add <see cref="width"/> to the offset at each
+            /// iteration to move down by one row), and allows us to use the fast <see cref="Span{T}"/>
+            /// accessor instead of the slower indexer for 2D arrays, as we can then access each
+            /// individual item linearly, since we know the absolute offset from the base location.
+            /// </remarks>
+            private readonly Span<T> span;
+
+            /// <summary>
+            /// The width of the target 2D array.
+            /// </summary>
+            private readonly int width;
+
+            /// <summary>
+            /// The current absolute offset within <see cref="span"/>.
+            /// </summary>
+            private int offset;
+#else
             /// <summary>
             /// The source 2D array instance.
             /// </summary>
@@ -102,6 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// The current row.
             /// </summary>
             private int row;
+#endif
 
             /// <summary>
             /// Initializes a new instance of the <see cref="Enumerator"/> struct.
@@ -116,10 +144,16 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                     ThrowArgumentOutOfRangeExceptionForInvalidColumn();
                 }
 
+#if SPAN_RUNTIME_SUPPORT
+                this.span = array.AsSpan();
+                this.width = array.GetLength(1);
+                this.offset = column - this.width;
+#else
                 this.array = array;
                 this.column = column;
                 this.height = array.GetLength(0);
                 this.row = -1;
+#endif
             }
 
             /// <summary>
@@ -129,6 +163,16 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext()
             {
+#if SPAN_RUNTIME_SUPPORT
+                int offset = this.offset + this.width;
+
+                if ((uint)offset < (uint)this.span.Length)
+                {
+                    this.offset = offset;
+
+                    return true;
+                }
+#else
                 int row = this.row + 1;
 
                 if (row < this.height)
@@ -137,7 +181,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
                     return true;
                 }
-
+#endif
                 return false;
             }
 
@@ -147,7 +191,14 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             public ref T Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => ref this.array.DangerousGetReferenceAt(this.row, this.column);
+                get
+                {
+#if SPAN_RUNTIME_SUPPORT
+                    return ref this.span.DangerousGetReferenceAt(this.offset);
+#else
+                    return ref this.array[this.row, this.column];
+#endif
+                }
             }
         }
 

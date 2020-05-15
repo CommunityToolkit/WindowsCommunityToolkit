@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -25,9 +26,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReference(this string text)
         {
+#if NETCOREAPP3_1
+            return ref Unsafe.AsRef(text.GetPinnableReference());
+#elif NETCOREAPP2_1
             var stringData = Unsafe.As<RawStringData>(text);
 
             return ref stringData.Data;
+#else
+            return ref MemoryMarshal.GetReference(text.AsSpan());
+#endif
         }
 
         /// <summary>
@@ -41,12 +48,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReferenceAt(this string text, int i)
         {
-            var stringData = Unsafe.As<RawStringData>(text);
-            ref var ri = ref Unsafe.Add(ref stringData.Data, i);
+#if NETCOREAPP3_1
+            ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
+#elif NETCOREAPP2_1
+            ref char r0 = ref Unsafe.As<RawStringData>(text).Data;
+#else
+            ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
+#endif
+            ref char ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
         }
 
+#if NETCOREAPP2_1
         // Description adapted from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
         // CLR strings are laid out in memory as follows:
         // [ sync block || pMethodTable || length || string data .. ]
@@ -65,6 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #pragma warning restore CS0649
 #pragma warning restore SA1401
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given character into a target <see cref="string"/> instance.
@@ -76,7 +91,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(this string text, char c)
         {
-            return text.AsSpan().Count(c);
+            ref char r0 = ref text.DangerousGetReference();
+            IntPtr length = (IntPtr)text.Length;
+
+            return SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>
@@ -130,6 +148,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Gets a content hash from the input <see cref="string"/> instance using the Djb2 algorithm.
+        /// For more info, see the documentation for <see cref="ReadOnlySpanExtensions.GetDjb2HashCode{T}"/>.
         /// </summary>
         /// <param name="text">The source <see cref="string"/> to enumerate.</param>
         /// <returns>The Djb2 value for the input <see cref="string"/> instance.</returns>
@@ -138,7 +157,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetDjb2HashCode(this string text)
         {
-            return text.AsSpan().GetDjb2HashCode();
+            ref char r0 = ref text.DangerousGetReference();
+            IntPtr length = (IntPtr)text.Length;
+
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
     }
 }
