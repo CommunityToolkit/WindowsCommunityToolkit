@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Toolkit.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Extensions
 {
@@ -174,9 +174,9 @@ namespace UnitTests.Extensions
         {
             int[][] array =
             {
-                new int[] { 5, 2, 4 }, 
-                new int[] { 6, 3 }, 
-                new int[] { 7 } 
+                new int[] { 5, 2, 4 },
+                new int[] { 6, 3 },
+                new int[] { 7 }
             };
 
             var col = array.GetColumn(1).ToArray();
@@ -188,7 +188,7 @@ namespace UnitTests.Extensions
         [TestMethod]
         public void Test_ArrayExtensions_Jagged_GetColumn_Exception()
         {
-            int[][] array = 
+            int[][] array =
             {
                 new int[] { 5, 2, 4 },
                 new int[] { 6, 3 },

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
@@ -14,13 +13,12 @@ namespace Microsoft.Toolkit.Diagnostics
     /// <summary>
     /// Helper methods to throw exceptions
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1618", Justification = "Internal helper methods")]
     internal static partial class ThrowHelper
     {
-#pragma warning disable CS0419
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}(T,string)"/> (where <typeparamref name="T"/> is <see langword="class"/>) fails.
         /// </summary>
+        /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNull<T>(T value, string name)
             where T : class
@@ -29,8 +27,9 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}(T,string)"/> (where <typeparamref name="T"/> is <see langword="struct"/>) fails.
         /// </summary>
+        /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNull<T>(T? value, string name)
             where T : struct
@@ -39,18 +38,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> when <see cref="Guard.IsNotNull{T}"/> fails.
+        /// Throws an <see cref="ArgumentNullException"/> when <see cref="Guard.IsNotNull{T}(T,string)"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentNullExceptionForIsNotNull<T>(string name)
         {
             ThrowArgumentNullException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be not null)");
         }
-#pragma warning restore CS0419
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsOfType{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsOfType<T>(object value, string name)
         {
@@ -60,6 +60,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotOfType{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNotOfType<T>(object value, string name)
         {
@@ -87,6 +88,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsAssignableToType{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type being checked against.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAssignableToType<T>(object value, string name)
         {
@@ -96,6 +98,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotAssignableToType{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type being checked against.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNotAssignableToType<T>(object value, string name)
         {
@@ -123,6 +126,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsBitwiseEqualTo{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type of input values being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
@@ -133,6 +137,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsReferenceEqualTo{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type of input value being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsReferenceEqualTo<T>(string name)
             where T : class
@@ -143,6 +148,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsReferenceNotEqualTo{T}"/> fails.
         /// </summary>
+        /// <typeparam name="T">The type of input value being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(string name)
             where T : class
@@ -151,7 +157,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsTrue"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsTrue(bool,string)"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsTrue(string name)
@@ -160,12 +166,30 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsFalse"/> fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsTrue(bool,string,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsTrue(string name, string message)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be true, was false: {message.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsFalse(bool,string)"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsFalse(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsFalse(bool,string,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsFalse(string name, string message)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true: {message.ToAssertString()}");
         }
     }
 }
