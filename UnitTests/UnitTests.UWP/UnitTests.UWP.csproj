@@ -131,9 +131,6 @@
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
     <Compile Include="Extensions\Test_BitmapIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconSourceExtensionMarkupExtension.cs" />
-    <Compile Include="Extensions\Test_TypeExtensions.cs" />
-    <Compile Include="Extensions\Test_ValueTypeExtensions.cs" />
-    <Compile Include="Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="Extensions\Test_FontIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
