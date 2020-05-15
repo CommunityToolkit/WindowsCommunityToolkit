@@ -1040,7 +1040,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropBlurBrush.cs",
         "XamlCodeFile": "BackdropBlurBrushXaml.bind",
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
       },
@@ -1051,7 +1050,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropInvertBrush.cs",
         "XamlCodeFile": "BackdropInvertBrushXaml.bind",
         "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropInvertBrush.md"
       },
@@ -1062,7 +1060,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropGammaTransferBrush.cs",
         "XamlCodeFile": "BackdropGammaTransferBrushXaml.bind",
         "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropGammaTransferBrush.md"
       },
@@ -1073,7 +1070,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSaturationBrush.cs",
         "XamlCodeFile": "BackdropSaturationBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSaturationBrush.md"
       },
@@ -1084,7 +1080,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
         "XamlCodeFile": "BackdropSepiaBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       },
@@ -1095,7 +1090,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/ImageBlendBrush.cs",
         "XamlCodeFile": "ImageBlendBrushXaml.bind",
         "Icon": "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/ImageBlendBrush.md"
       },
@@ -1106,7 +1100,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/RadialGradientBrush.cs",
         "XamlCodeFile": "RadialGradientBrushXaml.bind",
         "Icon": "/SamplePages/RadialGradientBrush/RadialGradientBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/RadialGradientBrush.md"
       },
@@ -1118,7 +1111,6 @@
         "CodeFile": "PipelineBrushCode.bind",
         "XamlCodeFile": "PipelineBrushXaml.bind",
         "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       },
@@ -1129,7 +1121,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
         "XamlCodeFile": "AcrylicBrushXaml.bind",
         "Icon": "/SamplePages/AcrylicBrush/AcrylicBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       },
@@ -1140,7 +1131,6 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
         "XamlCodeFile": "TilesBrushXaml.bind",
         "Icon": "/SamplePages/TilesBrush/TilesBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       }
