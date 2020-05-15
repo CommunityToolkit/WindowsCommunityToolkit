@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI;
@@ -12,11 +13,13 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TokenizingTextBoxPage : Page, IXamlRenderListener
     {
+        //// TODO: We should use images here.
         private readonly List<SampleEmailDataType> _emailSamples = new List<SampleEmailDataType>()
         {
             new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman", Icon = Symbol.Account },
@@ -46,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers", Icon = Symbol.ZoomOut },
         };
 
+        // TODO: Setup ACV for this collection as well.
         private readonly List<SampleDataType> _samples = new List<SampleDataType>()
         {
             new SampleDataType() { Text = "Account", Icon = Symbol.Account },
@@ -80,8 +84,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private ListView _ttbEmailSuggestions;
         private Button _ttbEmailClear;
 
-        private readonly AdvancedCollectionView _acv;
-        private readonly AdvancedCollectionView _acvEmail;
+        private AdvancedCollectionView _acv;
+        private AdvancedCollectionView _acvEmail;
+
+        private ObservableCollection<SampleEmailDataType> _selectedEmails;
 
         public TokenizingTextBoxPage()
         {
@@ -98,6 +104,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
+            _selectedEmails = new ObservableCollection<SampleEmailDataType>();
+
             if (_ttb != null)
             {
                 _ttb.TokenItemAdded -= TokenItemAdded;
@@ -109,6 +117,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
             {
                 _ttb = ttb;
+
+                ////_ttb.ItemsSource = new ObservableCollection<SampleDataType>(); // TODO: This shouldn't be required, we should initialize in control constructor???
 
                 _ttb.TokenItemAdded += TokenItemAdded;
                 _ttb.TokenItemRemoving += TokenItemRemoved;
@@ -128,17 +138,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail.TokenItemAdded -= EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved -= EmailTokenItemRemoved;
                 _ttbEmail.TextChanged -= EmailTextChanged;
+                _ttbEmail.PreviewKeyDown -= EmailPreviewKeyDown;
             }
 
             if (control.FindChildByName("TokenBoxEmail") is TokenizingTextBox ttbEmail)
             {
                 _ttbEmail = ttbEmail;
 
-                _ttbEmail.ItemClick += EmailTokenItemClick;
+                _ttbEmail.ItemsSource = _selectedEmails;
+
+                // _ttbEmail.ItemClick += EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
                 _ttbEmail.TextChanged += EmailTextChanged;
+                _ttbEmail.PreviewKeyDown += EmailPreviewKeyDown;
 
                 _acvEmail.Filter = item => !_ttbEmail.Items.Contains(item) && (item as SampleEmailDataType).DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase);
             }
@@ -146,6 +160,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_ttbEmailSuggestions != null)
             {
                 _ttbEmailSuggestions.ItemClick -= EmailList_ItemClick;
+                _ttbEmailSuggestions.PreviewKeyDown -= EmailList_PreviewKeyDown;
             }
 
             if (control.FindChildByName("EmailList") is ListView ttbList)
@@ -153,6 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmailSuggestions = ttbList;
 
                 _ttbEmailSuggestions.ItemClick += EmailList_ItemClick;
+                _ttbEmailSuggestions.PreviewKeyDown += EmailList_PreviewKeyDown;
 
                 _ttbEmailSuggestions.ItemsSource = _acvEmail;
             }
@@ -187,17 +203,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void TokenItemCreating(object sender, TokenItemAddingEventArgs e)
         {
             // Take the user's text and convert it to our data type (if we have a matching one).
-            e.Item = this._samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase)) ??
-                     // Otherwise, create a new version of our data type
-                     new SampleDataType()
-                        {
-                            Text = e.TokenText,
-                            Icon = Symbol.OutlineStar
-                        };
+            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+
+            // Otherwise, create a new version of our data type
+            if (e.Item == null)
+            {
+                e.Item = new SampleDataType()
+                {
+                    Text = e.TokenText,
+                    Icon = Symbol.OutlineStar
+                };
+            }
         }
 
         private void TokenItemAdded(TokenizingTextBox sender, object data)
         {
+            // TODO: Add InApp Notification?
             if (data is SampleDataType sample)
             {
                 Debug.WriteLine("Added Token: " + sample.Text);
@@ -275,18 +296,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.ClickedItem != null)
+            // TODO: not sure how this is getting to be null, need to make simple repro and file platform issue?
+            if (e.ClickedItem != null && e.ClickedItem is SampleEmailDataType email)
             {
-                _ttbEmail.Items.Add(e.ClickedItem);
-                _ttbEmail.Text = string.Empty;
+                _ttbEmail.Text = string.Empty; // Clear current text
+
+                _ttbEmail.AddTokenItem(email); // Insert new token with picked item to current text location
+
                 _acvEmail.RefreshFilter();
+
+                _ttbEmail.Focus(FocusState.Programmatic); // Give focus back to type another filter
             }
         }
 
         private void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            _ttbEmail.Items.Clear();
+            _selectedEmails.Clear();
+
             _acvEmail.RefreshFilter();
+        }
+
+        // Move to Email Suggest ListView list when we keydown from the TTB
+        private void EmailPreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Down && _ttbEmailSuggestions != null)
+            {
+                e.Handled = true;
+
+                _ttbEmailSuggestions.SelectedIndex = 0;
+
+                _ttbEmailSuggestions.Focus(FocusState.Programmatic);
+            }
+        }
+
+        private void EmailList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Up &&
+                _ttbEmailSuggestions != null && _ttbEmail != null &&
+                _ttbEmailSuggestions.SelectedIndex == 0)
+            {
+                e.Handled = true;
+
+                _ttbEmail.Focus(FocusState.Programmatic); // Give focus back to type another filter
+            }
         }
     }
 }

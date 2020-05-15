@@ -60,15 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="TokenItemStyle"/> property.
-        /// </summary>
-        public static readonly DependencyProperty TokenItemStyleProperty = DependencyProperty.Register(
-            nameof(TokenItemStyle),
-            typeof(Style),
-            typeof(TokenizingTextBox),
-            new PropertyMetadata(null));
-
-        /// <summary>
         /// Identifies the <see cref="TokenDelimiter"/> property.
         /// </summary>
         public static readonly DependencyProperty TokenDelimiterProperty = DependencyProperty.Register(
@@ -111,7 +102,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Text),
             typeof(string),
             typeof(TokenizingTextBox),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(string.Empty, TextPropertyChanged));
+
+        private static void TextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TokenizingTextBox ttb && ttb._currentTextEdit != null)
+            {
+                ttb._currentTextEdit.Text = e.NewValue as string;
+            }
+        }
 
         /// <summary>
         /// Identifies the <see cref="SuggestedItemsSource"/> property.
@@ -204,15 +203,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the style for token items.
-        /// </summary>
-        public Style TokenItemStyle
-        {
-            get => (Style)GetValue(TokenItemStyleProperty);
-            set => SetValue(TokenItemStyleProperty, value);
-        }
-
-        /// <summary>
         /// Gets or sets delimiter used to determine when to process text input as a new token item.
         /// </summary>
         public string TokenDelimiter
@@ -249,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the input text of the AutoSuggestBox template part.
+        /// Gets or sets the input text of the currently active text edit.
         /// </summary>
         public string Text
         {

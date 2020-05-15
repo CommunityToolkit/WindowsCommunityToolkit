@@ -15,24 +15,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A control that manages as the item logic for the <see cref="TokenizingTextBox"/> control.
     /// </summary>
-    [TemplatePart(Name = PART_ClearButton, Type = typeof(ButtonBase))]
-    public class TokenizingTextBoxItem : ListViewItem
+    [TemplatePart(Name = PART_ClearButton, Type = typeof(ButtonBase))] //// Token case
+    public partial class TokenizingTextBoxItem : ListViewItem
     {
         private const string PART_ClearButton = "PART_ClearButton";
 
         private Button _clearButton;
-        private ContentPresenter _contentPresenter;
-        private bool IsClick = false;
 
         /// <summary>
         /// Event raised when the 'Clear' Button is clicked.
         /// </summary>
         public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ClearClicked;
-
-        /// <summary>
-        /// Event raised when the content is clicked.
-        /// </summary>
-        public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ContentClicked;
 
         /// <summary>
         /// Event raised when the delete key or a backspace is pressed.
@@ -57,6 +50,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set => SetValue(ClearButtonStyleProperty, value);
         }
 
+        internal TokenizingTextBox Owner
+        {
+            get { return (TokenizingTextBox)GetValue(OwnerProperty); }
+            set { SetValue(OwnerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Owner.  This enables animation, styling, binding, etc...
+        internal static readonly DependencyProperty OwnerProperty =
+            DependencyProperty.Register(nameof(Owner), typeof(TokenizingTextBox), typeof(TokenizingTextBoxItem), new PropertyMetadata(null));
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBoxItem"/> class.
         /// </summary>
@@ -64,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(TokenizingTextBoxItem);
 
+            // TODO: only add these if token?
             RightTapped += TokenizingTextBoxItem_RightTapped;
             KeyDown += TokenizingTextBoxItem_KeyDown;
         }
@@ -73,54 +77,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
+            OnApplyTemplateAutoSuggestBox(GetTemplateChild(PART_AutoSuggestBox) as AutoSuggestBox);
+
             if (_clearButton != null)
             {
                 _clearButton.Click -= ClearButton_Click;
             }
 
-            if (_contentPresenter != null)
-            {
-                _contentPresenter.PointerPressed -= ContentPresenter_PointerPressed;
-                _contentPresenter.PointerReleased -= ContentPresenter_PointerReleased;
-                _contentPresenter.PointerCanceled -= ContentPresenter_PointerCancel;
-                _contentPresenter.PointerExited -= ContentPresenter_PointerCancel;
-            }
-
             _clearButton = (Button)GetTemplateChild(PART_ClearButton);
-            _contentPresenter = (ContentPresenter)GetTemplateChild("ContentPresenter");
 
             if (_clearButton != null)
             {
                 _clearButton.Click += ClearButton_Click;
             }
-
-            if (_contentPresenter != null)
-            {
-                _contentPresenter.PointerPressed += ContentPresenter_PointerPressed;
-                _contentPresenter.PointerReleased += ContentPresenter_PointerReleased;
-                _contentPresenter.PointerCanceled += ContentPresenter_PointerCancel;
-                _contentPresenter.PointerExited += ContentPresenter_PointerCancel;
-            }
-        }
-
-        private void ContentPresenter_PointerCancel(object sender, PointerRoutedEventArgs e)
-        {
-            IsClick = false;
-        }
-
-        private void ContentPresenter_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            IsClick = true;
-        }
-
-        private void ContentPresenter_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (IsClick)
-            {
-                ContentClicked?.Invoke(this, e);
-            }
-
-            IsClick = false;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -135,14 +104,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TokenizingTextBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            switch (e.Key)
+            if (!(Content is PretokenStringContainer))
             {
-                case VirtualKey.Back:
-                case VirtualKey.Delete:
-                    {
-                        ClearAllAction?.Invoke(this, e);
-                        break;
-                    }
+                // We only want to 'remove' our token if we're not a textbox.
+                switch (e.Key)
+                {
+                    case VirtualKey.Back:
+                    case VirtualKey.Delete:
+                        {
+                            ClearAllAction?.Invoke(this, e);
+                            break;
+                        }
+                }
             }
         }
     }

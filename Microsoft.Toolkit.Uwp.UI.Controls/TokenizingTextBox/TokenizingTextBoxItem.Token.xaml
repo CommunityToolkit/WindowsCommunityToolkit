@@ -16,8 +16,7 @@
         <Setter Property="BorderThickness" Value="0" />
     </Style>
 
-    <!--  Default style for TokenizingTextBoxItem  -->
-    <Style TargetType="controls:TokenizingTextBoxItem">
+    <Style x:Key="TokenizingTextBoxItemTokenStyle" TargetType="controls:TokenizingTextBoxItem">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource TokenizingTextBoxItemBorderThickness}" />
@@ -119,5 +118,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--  Default style for TokenizingTextBoxItem  -->
+    <Style TargetType="controls:TokenizingTextBoxItem" BasedOn="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
 </ResourceDictionary>
 

@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -20,84 +20,111 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A text input control that auto-suggests and displays token items.
     /// </summary>
-    [TemplatePart(Name = PART_AutoSuggestBox, Type = typeof(AutoSuggestBox))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:Do not use regions", Justification = "Organization")]
     [TemplatePart(Name = PART_NormalState, Type = typeof(VisualState))]
     [TemplatePart(Name = PART_PointerOverState, Type = typeof(VisualState))]
     [TemplatePart(Name = PART_FocusedState, Type = typeof(VisualState))]
     [TemplatePart(Name = PART_UnfocusedState, Type = typeof(VisualState))]
     public partial class TokenizingTextBox : ListViewBase
     {
-        private const string PART_AutoSuggestBox = "PART_AutoSuggestBox";
-        private const string PART_NormalState = "Normal";
-        private const string PART_PointerOverState = "PointerOver";
-        private const string PART_FocusedState = "Focused";
-        private const string PART_UnfocusedState = "Unfocused";
-
-        private AutoSuggestBox _autoSuggestBox;
-        private TextBox _autoSuggestTextBox;
-        private bool _pauseTokenClearOnFocus = false;
-        private bool _isSelectedFocusOnFirstCharacter = false;
-        private bool _isClearingForClick = false;
-
-        /// <summary>
-        /// Gets a value indicating whether the textbox caret is in the first position. False otherwise
-        /// </summary>
-        private bool IsCaretAtStart => _autoSuggestTextBox?.SelectionStart == 0;
-
-        /// <summary>
-        /// Gets a value indicating whether all text in the text box is currently selected. False otherwise.
-        /// </summary>
-        private bool IsAllSelected => _autoSuggestTextBox?.SelectedText == _autoSuggestTextBox?.Text && !string.IsNullOrEmpty(_autoSuggestTextBox?.Text);
-
-        /// <summary>
-        /// Gets a value indicating whether the control key is currently in a pressed state
-        /// </summary>
-        private bool IsControlPressed => CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+        internal const string PART_NormalState = "Normal";
+        internal const string PART_PointerOverState = "PointerOver";
+        internal const string PART_FocusedState = "Focused";
+        internal const string PART_UnfocusedState = "Unfocused";
 
         /// <summary>
         /// Gets a value indicating whether the shift key is currently in a pressed state
         /// </summary>
-        private bool IsShiftPressed => CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+        internal static bool IsShiftPressed => CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+        /// <summary>
+        /// Gets a value indicating whether the control key is currently in a pressed state
+        /// </summary>
+        internal bool IsControlPressed => CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+
+        internal bool PauseTokenClearOnFocus { get; set; }
+
+        internal bool IsClearingForClick { get; set; }
+
+        private InterspersedObservableCollection _innerItemsSource;
+        private PretokenStringContainer _currentTextEdit; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
+        private PretokenStringContainer _lastTextEdit;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
         /// </summary>
         public TokenizingTextBox()
         {
+            // Setup our base state of our collection
+            _innerItemsSource = new InterspersedObservableCollection(new ObservableCollection<object>()); // TODO: Test this still will let us bind to ItemsSource in XAML?
+            _currentTextEdit = _lastTextEdit = new PretokenStringContainer();
+            _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
+            ItemsSource = _innerItemsSource;
+            //// TODO: Consolidate with callback below for ItemsSourceProperty changed?
+
             DefaultStyleKey = typeof(TokenizingTextBox);
 
+            // TODO: Do we want to support ItemsSource better? Need to investigate how that works with adding...
+            RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
             PreviewKeyDown += TokenizingTextBox_PreviewKeyDown;
             PreviewKeyUp += TokenizingTextBox_PreviewKeyUp;
             CharacterReceived += TokenizingTextBox_CharacterReceived;
+            ItemClick += TokenizingTextBox_ItemClick;
+
+            PointerMoved += TokenizingTextBox_PointerMoved;
+        }
+
+        private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            // If we're given a different ItemsSource, we need to wrap that collection in our helper class.
+            if (ItemsSource != null && ItemsSource.GetType() != typeof(InterspersedObservableCollection))
+            {
+                _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
+                _currentTextEdit = _lastTextEdit = new PretokenStringContainer();
+                _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
+                ItemsSource = _innerItemsSource;
+            }
+        }
+
+        private void TokenizingTextBox_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            // If the user taps an item in the list, make sure to clear any text selection as required
+            // Note, token selection is cleared by the listview default behaviour
+            if (!IsControlPressed)
+            {
+                // Set class state flag to prevent click item being immediately deselected
+                IsClearingForClick = true;
+                ClearAllTextSelections(null);
+            }
+        }
+
+        private void TokenizingTextBox_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
         }
 
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            // Global handlers on control regardless if focused on item or in textbox.
             switch (e.Key)
             {
                 case VirtualKey.Escape:
                     {
                         // Clear any selection and place the focus back into the text box
-                        this.DeselectAll();
-
-                        // Clear any selection in the text box
-                        if (IsAllSelected)
-                        {
-                            _autoSuggestTextBox.SelectionLength = 0;
-                        }
-
-                        // Ensure the focus is in the text box part.
-                        _autoSuggestBox?.Focus(FocusState.Programmatic);
+                        DeselectAllTokensAndText();
+                        FocusPrimaryAutoSuggestBox();
                         break;
                     }
             }
         }
 
-        private enum MoveDirection
+        /// <summary>
+        /// Set the focus to the last item in the collection
+        /// </summary>
+        private void FocusPrimaryAutoSuggestBox()
         {
-            Next,
-            Previous
+            if (Items?.Count > 0)
+            {
+                (ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem).Focus(FocusState.Programmatic);
+            }
         }
 
         private async void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -120,33 +147,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         CopySelectedToClipboard();
 
                         // now clear all selected tokens and text, or all if none are selected
-                        if (IsAllSelected)
-                        {
-                            // Clear the lot
-                            _autoSuggestTextBox.Text = string.Empty;
-                            await ClearAllTokens();
-                        }
-                        else
-                        {
-                            // Clear just the selected tokens
-                            _autoSuggestTextBox.SelectedText = string.Empty;
-                            await ClearAllSelected();
-                        }
+                        await RemoveAllSelectedTokens();
                     }
 
                     break;
 
+                // For moving between tokens
                 case Windows.System.VirtualKey.Left:
                     e.Handled = MoveFocusAndSelection(MoveDirection.Previous);
                     break;
 
                 case Windows.System.VirtualKey.Right:
                     e.Handled = MoveFocusAndSelection(MoveDirection.Next);
-                    break;
-
-                case Windows.System.VirtualKey.Up:
-                case Windows.System.VirtualKey.Down:
-                    e.Handled = !FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox);
                     break;
 
                 case VirtualKey.A:
@@ -161,189 +173,123 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <summary>
-        /// Adjust the selected item and range based on keyboard input.
-        /// This is used to override the listview behavious for up/down arrow manipulation vs left/right for a horizontal control
-        /// </summary>
-        /// <param name="direction">direction to move the selection</param>
-        /// <returns>True if the focus was moved, false otherwise</returns>
-        private bool MoveFocusAndSelection(MoveDirection direction)
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
         {
-            bool retVal = false;
-            var currentContainerItem = FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
+            base.OnApplyTemplate();
 
-            if (currentContainerItem != null && !FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox))
+            var selectAllMenuItem = new MenuFlyoutItem
             {
-                var currentItem = ItemFromContainer(currentContainerItem);
-                var previousIndex = Items.IndexOf(currentItem);
-                var index = previousIndex;
+                Text = "WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+            };
+            selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
+            var menuFlyout = new MenuFlyout();
+            menuFlyout.Items.Add(selectAllMenuItem);
+            ContextFlyout = menuFlyout;
+        }
 
-                if (direction == MoveDirection.Previous)
+        internal void RaiseQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            QuerySubmitted?.Invoke(sender, args);
+        }
+
+        internal void RaiseSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            SuggestionChosen?.Invoke(sender, args);
+        }
+
+        internal void RaiseTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            TextChanged?.Invoke(sender, args);
+        }
+
+        private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+        {
+            // TODO: check to see if the character came from one of the tokens, and its not a control character
+            var container = ContainerFromItem(_currentTextEdit) as TokenizingTextBoxItem;
+
+            if (container != null && !(FocusManager.GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
+            {
+                if (SelectedItems.Count > 0)
                 {
-                    if (previousIndex > 0)
+                    var index = _innerItemsSource.IndexOf(SelectedItems.First());
+
+                    await RemoveAllSelectedTokens();
+
+                    // Wait for removal of old items
+                    _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        index -= 1;
-                    }
-                    else
-                    {
-                        if (TabNavigateBackOnArrow)
+                        // If we're before the last textbox and it's empty, redirect focus to that one instead
+                        if (index == _innerItemsSource.Count - 1 && string.IsNullOrWhiteSpace(_lastTextEdit.Text))
                         {
-                            FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                            var lastContainer = ContainerFromItem(_lastTextEdit) as TokenizingTextBoxItem;
+
+                            lastContainer.UseCharacterAsUser = true; // Make sure we trigger a refresh of suggested items.
+
+                            _lastTextEdit.Text = string.Empty + args.Character;
+
+                            UpdateCurrentTextEdit(_lastTextEdit);
+
+                            lastContainer._autoSuggestTextBox.SelectionStart = 1; // Set position to after our new character inserted
+
+                            lastContainer._autoSuggestTextBox.Focus(FocusState.Keyboard);
                         }
-
-                        retVal = true;
-                    }
-                }
-                else if (direction == MoveDirection.Next)
-                {
-                    if (previousIndex < Items.Count - 1)
-                    {
-                        index += 1;
-                    }
-                    else
-                    {
-                        if (IsShiftPressed)
+                        else
                         {
-                            // Remove the current item from the selection list if its the only one
-                            // but don't clear selection text in the text box
-                            if (SelectedItems.Count == 1 && _autoSuggestTextBox.SelectionLength != 0)
+                            //// Otherwise, create a new textbox for this text.
+
+                            UpdateCurrentTextEdit(new PretokenStringContainer((string.Empty + args.Character).Trim())); // Trim so that 'space' isn't inserted and can be used to insert a new box.
+
+                            _innerItemsSource.Insert(index, _currentTextEdit);
+
+                            // Need to wait for containerization
+                            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                SelectedItems.Remove(Items[previousIndex]);
-                            }
-                        }
-                        else
-                        {
-                            // Clear any selection in the text and in the items
-                            _autoSuggestTextBox.SelectionLength = 0;
-                            _autoSuggestTextBox.SelectionStart = 0;
-                        }
+                                var newContainer = ContainerFromIndex(index) as TokenizingTextBoxItem; // Should be our last text box
 
-                        _autoSuggestTextBox.Focus(FocusState.Keyboard);
-                        retVal = true;
-                    }
+                                newContainer.UseCharacterAsUser = true; // Make sure we trigger a refresh of suggested items.
+
+                                void WaitForLoad(object s, RoutedEventArgs eargs)
+                                {
+                                    if (newContainer._autoSuggestTextBox != null)
+                                    {
+                                        newContainer._autoSuggestTextBox.SelectionStart = 1; // Set position to after our new character inserted
+
+                                        newContainer._autoSuggestTextBox.Focus(FocusState.Keyboard);
+                                    }
+
+                                    newContainer.Loaded -= WaitForLoad;
+                                }
+
+                                newContainer.AutoSuggestTextBoxLoaded += WaitForLoad;
+                            });
+                        }
+                    });
                 }
-
-                // Only do stuff if the index is actually changing
-                if (index != previousIndex)
+                else
                 {
-                    var newItem = ContainerFromIndex(index) as TokenizingTextBoxItem;
-                    newItem.Focus(FocusState.Keyboard);
+                    // TODO: It looks like we're setting selection and focus together on items? Not sure if that's what we want...
+                    // If that's the case, don't think this code will ever be called?
 
-                    // if no control keys are selected then the selection also becomes just this item
-                    if (IsShiftPressed)
+                    //// TODO: Behavior question: if no items selected (just focus) does it just go to our last active textbox?
+                    //// Community voted that typing in the end box made sense
+
+                    if (_innerItemsSource[_innerItemsSource.Count - 1] is PretokenStringContainer textToken)
                     {
-                        // What we do here depends on where the selection started
-                        // if the previous item is between the start and new position then we add the new item to the selected range
-                        // if the new item is between the start and the previous position then we remove the previous position
-                        int newDistance = Math.Abs(SelectedIndex - index);
-                        int oldDistance = Math.Abs(SelectedIndex - previousIndex);
+                        var last = ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem; // Should be our last text box
+                        var position = last._autoSuggestTextBox.SelectionStart;
+                        textToken.Text = last._autoSuggestTextBox.Text.Substring(0, position) + args.Character +
+                                         last._autoSuggestTextBox.Text.Substring(position);
 
-                        if (newDistance > oldDistance)
-                        {
-                            SelectedItems.Add(Items[index]);
-                        }
-                        else
-                        {
-                            SelectedItems.Remove(Items[previousIndex]);
-                        }
-                    }
-                    else if (!IsControlPressed)
-                    {
-                        SelectedIndex = index;
-                    }
+                        last._autoSuggestTextBox.SelectionStart = position + 1; // Set position to after our new character inserted
 
-                    retVal = true;
-                }
-            }
-
-            return retVal;
-        }
-
-        private void OnASBLoaded(object sender, RoutedEventArgs e)
-        {
-            // Local function for Selection changed
-            void AutoSuggestTextBox_SelectionChanged(object box, RoutedEventArgs args)
-            {
-                if (!(IsAllSelected || IsShiftPressed || _isClearingForClick))
-                {
-                    this.DeselectAll();
-                }
-
-                // Ensure flag is always reset
-                _isClearingForClick = false;
-            }
-
-            // local function for clearing selection on interaction with text box
-            async void AutoSuggestTextBox_TextChangingAsync(TextBox o, TextBoxTextChangingEventArgs args)
-            {
-                // remove any selected tokens.
-                if (this.SelectedItems.Count > 0)
-                {
-                    await this.ClearAllSelected();
-                }
-            }
-
-            if (_autoSuggestTextBox != null)
-            {
-                _autoSuggestTextBox.PreviewKeyDown -= this.AutoSuggestTextBox_PreviewKeyDown;
-                _autoSuggestTextBox.TextChanging -= AutoSuggestTextBox_TextChangingAsync;
-                _autoSuggestTextBox.SelectionChanged -= AutoSuggestTextBox_SelectionChanged;
-                _autoSuggestTextBox.SelectionChanging -= AutoSuggestTextBox_SelectionChanging;
-            }
-
-            _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
-
-            if (_autoSuggestTextBox != null)
-            {
-                _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
-                _autoSuggestTextBox.TextChanging += AutoSuggestTextBox_TextChangingAsync;
-                _autoSuggestTextBox.SelectionChanged += AutoSuggestTextBox_SelectionChanged;
-                _autoSuggestTextBox.SelectionChanging += AutoSuggestTextBox_SelectionChanging;
-            }
-        }
-
-        private void AutoSuggestTextBox_SelectionChanging(TextBox sender, TextBoxSelectionChangingEventArgs args)
-        {
-            _isSelectedFocusOnFirstCharacter = args.SelectionLength > 0 && args.SelectionStart == 0 && _autoSuggestTextBox.SelectionStart > 0;
-        }
-
-        private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (IsCaretAtStart &&
-                (e.Key == VirtualKey.Back ||
-                 e.Key == VirtualKey.Left))
-            {
-                // if the back key is pressed and there is any selection in the text box then the text box can handle it
-                if ((e.Key == VirtualKey.Left && _isSelectedFocusOnFirstCharacter) ||
-                    _autoSuggestTextBox.SelectionLength == 0)
-                {
-                    // Select last token item (if there is one)
-                    if (Items.Count > 0)
-                    {
-                        var item = ContainerFromItem(Items[Items.Count - 1]);
-                        if (!IsShiftPressed)
-                        {
-                            // Clear any text box selection
-                            _autoSuggestTextBox.SelectionLength = 0;
-                        }
-
-                        _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                        {
-                            // Defer this selection to prevent the token being cleared on selection change for the text box
-                            SelectedItems.Add(Items[Items.Count - 1]);
-                        });
-
-                        (item as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
-                        e.Handled = true;
+                        last._autoSuggestTextBox.Focus(FocusState.Keyboard);
                     }
                 }
             }
-            else if (e.Key == VirtualKey.A && IsControlPressed)
-            {
-                // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
-                this.SelectAllTokensAndText();
-            }
         }
+
+        #region ItemsControl Container Methods
 
         /// <inheritdoc/>
         protected override DependencyObject GetContainerForItemOverride() => new TokenizingTextBoxItem();
@@ -355,194 +301,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            if (_autoSuggestBox != null)
-            {
-                _autoSuggestBox.Loaded -= OnASBLoaded;
-
-                _autoSuggestBox.QuerySubmitted -= AutoSuggestBox_QuerySubmitted;
-                _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
-                _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
-                _autoSuggestBox.PointerEntered -= AutoSuggestBox_PointerEntered;
-                _autoSuggestBox.PointerExited -= AutoSuggestBox_PointerExited;
-                _autoSuggestBox.PointerCanceled -= AutoSuggestBox_PointerExited;
-                _autoSuggestBox.PointerCaptureLost -= AutoSuggestBox_PointerExited;
-                _autoSuggestBox.GotFocus -= AutoSuggestBox_GotFocus;
-                _autoSuggestBox.LostFocus -= AutoSuggestBox_LostFocus;
-            }
-
-            _autoSuggestBox = (AutoSuggestBox)GetTemplateChild(PART_AutoSuggestBox);
-
-            if (_autoSuggestBox != null)
-            {
-                _autoSuggestBox.Loaded += OnASBLoaded;
-
-                _autoSuggestBox.QuerySubmitted += AutoSuggestBox_QuerySubmitted;
-                _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
-                _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
-                _autoSuggestBox.PointerEntered += AutoSuggestBox_PointerEntered;
-                _autoSuggestBox.PointerExited += AutoSuggestBox_PointerExited;
-                _autoSuggestBox.PointerCanceled += AutoSuggestBox_PointerExited;
-                _autoSuggestBox.PointerCaptureLost += AutoSuggestBox_PointerExited;
-                _autoSuggestBox.GotFocus += AutoSuggestBox_GotFocus;
-                _autoSuggestBox.LostFocus += AutoSuggestBox_LostFocus;
-            }
-
-            var selectAllMenuItem = new MenuFlyoutItem
-            {
-                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
-            };
-            selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
-            var menuFlyout = new MenuFlyout();
-            menuFlyout.Items.Add(selectAllMenuItem);
-            ContextFlyout = menuFlyout;
-        }
-
-        private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-        {
-            // check to see if the character came from one of the tokens, and its not a control character
-            if (!(FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox) || char.IsControl(args.Character)))
-            {
-                // If so, send it to the text box and set the focus to the text box
-                await ClearAllSelected();
-                var position = _autoSuggestTextBox.SelectionStart;
-                this.Text = _autoSuggestTextBox.Text.Substring(0, position) + args.Character +
-                            _autoSuggestTextBox.Text.Substring(position);
-                _autoSuggestTextBox.SelectionStart = position + 1;
-
-                _autoSuggestTextBox.Focus(FocusState.Keyboard);
-            }
-        }
-
-        private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(this, PART_PointerOverState, true);
-        }
-
-        private void AutoSuggestBox_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(this, PART_NormalState, true);
-        }
-
-        private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(this, PART_UnfocusedState, true);
-        }
-
-        private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            // Verify if the usual behaviour of clearing token selection is required
-            if (_pauseTokenClearOnFocus == false && !IsShiftPressed)
-            {
-                // Clear any selected tokens
-                this.DeselectAll();
-            }
-
-            _pauseTokenClearOnFocus = false;
-
-            VisualStateManager.GoToState(this, PART_FocusedState, true);
-        }
-
-        private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            QuerySubmitted?.Invoke(sender, args);
-
-            object chosenItem = null;
-            if (args.ChosenSuggestion != null)
-            {
-                chosenItem = args.ChosenSuggestion;
-            }
-            else if (!string.IsNullOrWhiteSpace(args.QueryText))
-            {
-                chosenItem = args.QueryText;
-            }
-
-            if (chosenItem != null)
-            {
-                await AddToken(chosenItem);
-                sender.Text = string.Empty;
-                sender.Focus(FocusState.Programmatic);
-            }
-        }
-
-        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            SuggestionChosen?.Invoke(sender, args);
-        }
-
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            var t = sender.Text.Trim();
-
-            TextChanged?.Invoke(sender, args);
-
-            // Look for Token Delimiters to create new tokens when text changes.
-            if (!string.IsNullOrEmpty(TokenDelimiter) && t.Contains(TokenDelimiter))
-            {
-                bool lastDelimited = t[t.Length - 1] == TokenDelimiter[0];
-
-                string[] tokens = t.Split(TokenDelimiter);
-                int numberToProcess = lastDelimited ? tokens.Length : tokens.Length - 1;
-                for (int position = 0; position < numberToProcess; position++)
-                {
-                    string token = tokens[position];
-                    token = token.Trim();
-                    if (token.Length > 0)
-                    {
-                        _ = AddToken(token);
-                    }
-                }
-
-                if (lastDelimited)
-                {
-                    sender.Text = string.Empty;
-                }
-                else
-                {
-                    sender.Text = tokens[tokens.Length - 1];
-                }
-            }
-        }
-
-        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
-            void Tokenitem_ContentClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
-            {
-                // If the user taps an item in the list, make sure to clear any text selection as required
-                if (!IsControlPressed)
-                {
-                    // Set class state flag to prevent click item being immediately deselected
-                    _isClearingForClick = true;
-                    _autoSuggestTextBox.SelectionLength = 0;
-                }
-            }
-
             base.PrepareContainerForItemOverride(element, item);
 
             var tokenitem = element as TokenizingTextBoxItem;
 
+            tokenitem.Owner = this;
+
             tokenitem.ContentTemplateSelector = TokenItemTemplateSelector;
             tokenitem.ContentTemplate = TokenItemTemplate;
-            tokenitem.Style = TokenItemStyle;
 
             tokenitem.ClearClicked -= TokenizingTextBoxItem_ClearClicked;
             tokenitem.ClearClicked += TokenizingTextBoxItem_ClearClicked;
 
-            tokenitem.ClearAllAction -= Tokenitem_ClearAllAction;
-            tokenitem.ClearAllAction += Tokenitem_ClearAllAction;
+            tokenitem.ClearAllAction -= TokenizingTextBoxItem_ClearAllAction;
+            tokenitem.ClearAllAction += TokenizingTextBoxItem_ClearAllAction;
 
-            tokenitem.ContentClicked -= Tokenitem_ContentClicked;
-            tokenitem.ContentClicked += Tokenitem_ContentClicked;
+            tokenitem.GotFocus -= TokenizingTextBoxItem_GotFocus;
+            tokenitem.GotFocus += TokenizingTextBoxItem_GotFocus;
+
+            tokenitem.LostFocus -= TokenizingTextBoxItem_LostFocus;
+            tokenitem.LostFocus += TokenizingTextBoxItem_LostFocus;
 
             var menuFlyout = new MenuFlyout();
 
             var removeMenuItem = new MenuFlyoutItem
             {
-                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                Text = "WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
@@ -550,7 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                Text = "WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
 
@@ -558,70 +344,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             tokenitem.ContextFlyout = menuFlyout;
         }
+        #endregion
 
-        private void SelectAllTokensAndText()
+        private void TokenizingTextBoxItem_GotFocus(object sender, RoutedEventArgs e)
         {
-            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            // Keep track of our currently focused textbox
+            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is PretokenStringContainer text)
             {
-                this.SelectAllSafe();
-
-                // need to synchronize the select all and the focus behaviour on the text box
-                // because there is no way to identify that the focus has been set from this point
-                // to avoid instantly clearing the selection of tokens
-                _pauseTokenClearOnFocus = true;
-                this._autoSuggestTextBox.Focus(FocusState.Programmatic);
-                this._autoSuggestTextBox.SelectAll();
-            });
-        }
-
-        private async void Tokenitem_ClearAllAction(TokenizingTextBoxItem sender, RoutedEventArgs args)
-        {
-            // find the first item selected
-            int newSelectedIndex = -1;
-
-            if (SelectedRanges.Count > 0)
-            {
-                newSelectedIndex = SelectedRanges[0].FirstIndex - 1;
-            }
-
-            await ClearAllSelected();
-
-            SelectedIndex = newSelectedIndex;
-
-            if (newSelectedIndex == -1)
-            {
-                // Focus the text box
-                _autoSuggestTextBox.Focus(FocusState.Keyboard);
-            }
-            else
-            {
-                // focus the item prior to the first selected item
-                (ContainerFromIndex(newSelectedIndex) as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
+                UpdateCurrentTextEdit(text);
             }
         }
 
-        private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
+        private void TokenizingTextBoxItem_LostFocus(object sender, RoutedEventArgs e)
         {
-            await RemoveToken(sender);
-        }
-
-        private async Task ClearAllSelected()
-        {
-            for (int i = SelectedItems.Count - 1; i >= 0; i--)
+            // Keep track of our currently focused textbox
+            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is PretokenStringContainer text &&
+                string.IsNullOrWhiteSpace(text.Text) && text != _lastTextEdit)
             {
-                await RemoveToken(ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem);
+                // We're leaving an inner textbox that's blank, so we'll remove it
+                _innerItemsSource.Remove(text);
+
+                UpdateCurrentTextEdit(_lastTextEdit);
             }
         }
 
-        private async Task ClearAllTokens()
+        /// <summary>
+        /// Adds the specified data item as a new token to the collection, will raise the <see cref="TokenItemAdding"/> event asynchronously still for confirmation.
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="TokenizingTextBox"/> will automatically handle adding items for you, or you can add items to your backing <see cref="ItemsControl.ItemsSource"/> collection. This method is provide for other cases where you may need to drive inserting a new token item to where the user is currently inserting text between tokens.
+        /// </remarks>
+        /// <param name="data">Item to add as a token.</param>
+        /// <param name="atEnd">Flag to indicate if the item should be inserted in the last used textbox (inserted) or placed at end of the token list.</param>
+        public void AddTokenItem(object data, bool atEnd = false)
         {
-            foreach (var token in Items)
-            {
-                await RemoveToken(ContainerFromItem(token) as TokenizingTextBoxItem);
-            }
+            _ = AddTokenAsync(data, atEnd);
         }
 
-        private async Task AddToken(object data)
+        internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
             if (data is string str && TokenItemAdding != null)
             {
@@ -639,54 +399,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            Items.Add(data);
+            // If we've been typing in the last box, just add this to the end of our collection
+            if (atEnd == true || _currentTextEdit == _lastTextEdit)
+            {
+                _innerItemsSource.InsertAt(_innerItemsSource.Count - 1, data);
+            }
+            else
+            {
+                // Otherwise, we'll insert before our current box
+                var edit = _currentTextEdit;
+                var index = _innerItemsSource.IndexOf(edit);
+
+                // Insert our new data item at the location of our textbox
+                _innerItemsSource.InsertAt(index, data);
+
+                // Remove our textbox
+                _innerItemsSource.Remove(edit);
+            }
+
+            // Focus back to our end box as Outlook does.
+            var last = ContainerFromItem(_lastTextEdit) as TokenizingTextBoxItem;
+            last._autoSuggestTextBox.Focus(FocusState.Keyboard);
 
             TokenItemAdded?.Invoke(this, data);
         }
 
-        private void CopySelectedToClipboard()
+        private void UpdateCurrentTextEdit(PretokenStringContainer edit)
         {
-            DataPackage dataPackage = new DataPackage();
-            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            _currentTextEdit = edit;
 
-            string tokenString = string.Empty;
-            bool addSeparator = false;
-
-            if (Items.Count > 0 || _autoSuggestTextBox?.SelectionLength == 0)
-            {
-                // Copy all items if none selected (and no text selected)
-                foreach (var item in SelectedItems.Count > 0 ? SelectedItems : Items)
-                {
-                    if (addSeparator)
-                    {
-                        tokenString += TokenDelimiter;
-                    }
-                    else
-                    {
-                        addSeparator = true;
-                    }
-
-                    tokenString += item.ToString();
-                }
-            }
-
-            if (_autoSuggestTextBox?.SelectionLength > 0 || Items.Count == 0)
-            {
-                if (addSeparator)
-                {
-                    tokenString += TokenDelimiter;
-                }
-
-                tokenString += _autoSuggestTextBox?.SelectionLength > 0
-                    ? _autoSuggestTextBox?.SelectedText
-                    : _autoSuggestTextBox?.Text;
-            }
-
-            if (!string.IsNullOrEmpty(tokenString))
-            {
-                dataPackage.SetText(tokenString);
-                Clipboard.SetContent(dataPackage);
-            }
+            Text = edit.Text; // Update our text property.
         }
 
         private async Task RemoveToken(TokenizingTextBoxItem item)
@@ -704,7 +446,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            Items.Remove(data);
+            _innerItemsSource.Remove(data);
 
             TokenItemRemoved?.Invoke(this, data);
         }

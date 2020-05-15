@@ -37,7 +37,11 @@
           </DataTemplate>
         </controls:TokenizingTextBox.TokenItemTemplate>
       </controls:TokenizingTextBox>
-      <TextBlock Text="{Binding Text, ElementName=TokenBox}"/>
+      <TextBlock>
+        <Run>Current Edit: </Run>
+        <Run Text="{Binding Text, ElementName=TokenBox}"/>
+      </TextBlock>
+      <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=TokenBox}"/>
     </StackPanel>
 
     <StackPanel Grid.Row="1">
@@ -76,6 +80,5 @@
 
       <Button x:Name="ClearButton" Content="Clear All Tokens"/>
     </StackPanel>
-
   </Grid>
 </Page>

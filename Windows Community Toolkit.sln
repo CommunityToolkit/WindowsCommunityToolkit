@@ -100,6 +100,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HighPerformance", "HighPerf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.HighPerformance.UWP", "UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.csproj", "{5524523E-DB0F-41F7-A0D4-43128422A342}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{88C6FFBE-322D-4CEA-842B-B2CB281D357D}"
+	ProjectSection(SolutionItems) = preProject
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		contributing.md = contributing.md
+		license.md = license.md
+		readme.md = readme.md
+		ThirdPartyNotices.txt = ThirdPartyNotices.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{5524523e-db0f-41f7-a0d4-43128422a342}*SharedItemsImports = 4
@@ -923,6 +932,7 @@ Global
 		{9B3A94A6-0D29-4523-880B-6938E2EFEEF7} = {262CDB74-CF21-47AC-8DD9-CBC33C73B7CF}
 		{262CDB74-CF21-47AC-8DD9-CBC33C73B7CF} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{5524523E-DB0F-41F7-A0D4-43128422A342} = {262CDB74-CF21-47AC-8DD9-CBC33C73B7CF}
+		{88C6FFBE-322D-4CEA-842B-B2CB281D357D} = {CFA75BE0-5A44-45DE-8114-426A605B062B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
