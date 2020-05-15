@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
@@ -14,7 +13,6 @@ namespace Microsoft.Toolkit.Diagnostics
     /// <summary>
     /// Helper methods to throw exceptions
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1618", Justification = "Internal helper methods")]
     internal static partial class ThrowHelper
     {
         /// <summary>
