@@ -115,7 +115,7 @@
       <Version>6.1.0-build.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.2.190917002</Version>
+      <Version>2.3.200213001</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
@@ -273,6 +273,7 @@
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
@@ -367,6 +368,7 @@
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
     <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
+    <Content Include="SamplePages\WrapLayout\WrapLayout.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="landingPageLinks.json" />
     <Content Include="Assets\mtns.csv">
@@ -531,10 +533,43 @@
     <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
       <DependentUpon>ImageCropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml.cs">
+      <DependentUpon>StaggeredLayoutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TokenizingTextBox\SampleDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\SampleEmailDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\CompareStateTriggerPage.xaml.cs">
+      <DependentUpon>CompareStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsEqualStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
+      <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNullOrEmptyStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml.cs">
+      <DependentUpon>NetworkConnectionStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNotEqualStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\RegexStateTriggerPage.xaml.cs">
+      <DependentUpon>RegexStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml.cs">
+      <DependentUpon>UserHandPreferenceStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml.cs">
+      <DependentUpon>UserInteractionModeStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\WrapLayout\WrapLayoutPage.xaml.cs">
+      <DependentUpon>WrapLayoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
@@ -546,7 +581,18 @@
     <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
+    <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
+    <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNullOrEmptyStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\NetworkConnectionStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNotEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -960,6 +1006,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\TabView\TabViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1004,6 +1054,42 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
+    <Page Include="SamplePages\Triggers\CompareStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\RegexStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1336,6 +1422,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\WrapLayout\WrapLayoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\WrapPanel\WrapPanelPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1408,6 +1498,10 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
+      <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
