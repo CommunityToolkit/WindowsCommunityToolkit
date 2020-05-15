@@ -540,6 +540,33 @@
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Triggers\CompareStateTriggerPage.xaml.cs">
+      <DependentUpon>CompareStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsEqualStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
+      <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNullOrEmptyStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml.cs">
+      <DependentUpon>NetworkConnectionStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNotEqualStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\RegexStateTriggerPage.xaml.cs">
+      <DependentUpon>RegexStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml.cs">
+      <DependentUpon>UserHandPreferenceStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml.cs">
+      <DependentUpon>UserInteractionModeStateTriggerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\WrapLayout\WrapLayoutPage.xaml.cs">
       <DependentUpon>WrapLayoutPage.xaml</DependentUpon>
     </Compile>
@@ -556,6 +583,15 @@
     <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
+    <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNullOrEmptyStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\NetworkConnectionStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNotEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1017,6 +1053,42 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
+    <Page Include="SamplePages\Triggers\CompareStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\RegexStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
