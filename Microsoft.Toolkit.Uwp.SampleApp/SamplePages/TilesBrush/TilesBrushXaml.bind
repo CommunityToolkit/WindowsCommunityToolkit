@@ -8,22 +8,25 @@
     mc:Ignorable="d">
 
   <Grid>
-    <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"/>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <ProgressRing IsActive="True" Grid.ColumnSpan="2"
-                    VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
-      <Border BorderBrush="Black" BorderThickness="1"
-              Grid.Column="2"
-              Opacity="0.9"
-              Height="400">
-        <Border.Background>
-          <brushes:TilesBrush TextureUri="ms-appx:///Assets/BrushAssets/TileTexture.png"/>
-        </Border.Background>
-      </Border>
-    </Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    
+    <Image Source="ms-appx:///Assets/BrushAssets/TileTexture.png"
+           Grid.RowSpan="3"/>
+
+    <ProgressRing IsActive="True" Grid.RowSpan="2"
+                  VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
+
+    <Border BorderBrush="Black" BorderThickness="1"
+            Grid.Row="1"
+            Opacity="0.85"
+            Height="400">
+      <Border.Background>
+        <brushes:TilesBrush TextureUri="ms-appx:///Assets/BrushAssets/TileTexture.png"/>
+      </Border.Background>
+    </Border>
   </Grid>
 </Page>
