@@ -25,21 +25,28 @@
                 <Border.Background>
                     <brushes:PipelineBrush>
                         <brushes:PipelineBrush.Effects>
+                            <effects:AcrylicEffect/>
                             <effects:BackdropEffect Source="Backdrop"/>
+                            <effects:BlendEffect Mode="Multiply"/>
+                            <effects:BlurEffect/>
+                            <effects:ExposureEffect/>
+                            <effects:GrayscaleEffect/>
+                            <effects:HueRotationEffect/>
+                            <effects:ImageEffect/>
+                            <effects:InvertEffect/>
                             <effects:LuminanceToAlphaEffect/>
                             <effects:OpacityEffect Value="0.4"/>
-                            <effects:BlendEffect Mode="Multiply">
-                                <effects:BlendEffect.Input>
-                                    <effects:BackdropEffect Source="Backdrop"/>
-                                </effects:BlendEffect.Input>
-                            </effects:BlendEffect>
-                            <effects:BlurEffect Value="16"/>
+                            <effects:SaturationEffect/>
+                            <effects:SepiaEffect/>
                             <effects:ShadeEffect Color="#FF222222" Intensity="0.2"/>
+                            <effects:SolidColorEffect/>
+                            <effects:TemperatureAndTintEffect/>
                             <effects:BlendEffect Mode="Overlay" Placement="Background">
                                 <effects:BlendEffect.Input>
                                     <effects:TileEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
                                 </effects:BlendEffect.Input>
                             </effects:BlendEffect>
+                            <effects:TintEffect/>
                         </brushes:PipelineBrush.Effects>
                     </brushes:PipelineBrush>
                 </Border.Background>
