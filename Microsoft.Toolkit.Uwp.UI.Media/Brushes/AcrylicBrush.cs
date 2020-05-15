@@ -93,6 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         private static void OnBlurAmountPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
+                brush.Source != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
                 brush.CompositionBrush is CompositionBrush target)
             {
                 brush.blurAmountSetter?.Invoke(target, (float)(double)e.NewValue);
