@@ -18,6 +18,7 @@
                     VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
       <Border BorderBrush="Black" BorderThickness="1"
               Grid.Column="2"
+              Opacity="0.9"
               Height="400">
         <Border.Background>
           <brushes:TilesBrush TextureUri="ms-appx:///Assets/BrushAssets/TileTexture.png"/>
