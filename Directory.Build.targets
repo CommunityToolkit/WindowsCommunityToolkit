@@ -1,7 +1,7 @@
 <Project>
   <Choose>
-    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'net5.0'">
-      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'net5.0'">
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
+      <PropertyGroup Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0'">
         <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
       </PropertyGroup>
       <ItemGroup>
@@ -24,7 +24,7 @@
         </Resource>
       </ItemGroup>
       <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName).pri')">
-        <None Include="$(SolutionDir)\build\CopyPri.targets" Pack="True" PackagePath="buildTransitive\net5.0\$(AssemblyName).targets" />
+        <None Include="$(SolutionDir)\build\CopyPri.targets" Pack="True" PackagePath="buildTransitive\netcoreapp5.0\$(AssemblyName).targets" />
       </ItemGroup>
     </When>
   </Choose>

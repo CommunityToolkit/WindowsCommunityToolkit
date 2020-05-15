@@ -86,7 +86,7 @@
   </Choose>
   
   <Choose>
-    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'net5.0' and '$(Configuration)' == 'Release'">
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0' and '$(Configuration)' == 'Release'">
       <PropertyGroup>
         <!--<DisableEmbeddedXbf>false</DisableEmbeddedXbf>-->
         <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
