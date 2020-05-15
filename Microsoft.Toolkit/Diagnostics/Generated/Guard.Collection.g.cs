@@ -1,10 +1,9 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
-/* ========================
- * Auto generated file
- * ===================== */
+// =====================
+// Auto generated file
+// =====================
 
 using System;
 using System.Collections.Generic;
@@ -94,11 +93,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(Span<T> span, int size, string name)
+        public static void HasSizeGreaterThan<T>(Span<T> span, int size, string name)
         {
             if (span.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(span, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(span, size, name);
             }
         }
 
@@ -111,11 +110,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(Span<T> span, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(Span<T> span, int size, string name)
         {
             if (span.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(span, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(span, size, name);
             }
         }
 
@@ -296,11 +295,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(ReadOnlySpan<T> span, int size, string name)
+        public static void HasSizeGreaterThan<T>(ReadOnlySpan<T> span, int size, string name)
         {
             if (span.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(span, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(span, size, name);
             }
         }
 
@@ -313,11 +312,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(ReadOnlySpan<T> span, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
         {
             if (span.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(span, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(span, size, name);
             }
         }
 
@@ -498,11 +497,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(Memory<T> memory, int size, string name)
+        public static void HasSizeGreaterThan<T>(Memory<T> memory, int size, string name)
         {
             if (memory.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(memory, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(memory, size, name);
             }
         }
 
@@ -515,11 +514,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(Memory<T> memory, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(Memory<T> memory, int size, string name)
         {
             if (memory.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(memory, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(memory, size, name);
             }
         }
 
@@ -700,11 +699,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(ReadOnlyMemory<T> memory, int size, string name)
+        public static void HasSizeGreaterThan<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
             if (memory.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(memory, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(memory, size, name);
             }
         }
 
@@ -717,11 +716,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(ReadOnlyMemory<T> memory, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
             if (memory.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(memory, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(memory, size, name);
             }
         }
 
@@ -902,11 +901,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(T[] array, int size, string name)
+        public static void HasSizeGreaterThan<T>(T[] array, int size, string name)
         {
             if (array.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(array, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(array, size, name);
             }
         }
 
@@ -919,11 +918,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(T[] array, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(T[] array, int size, string name)
         {
             if (array.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(array, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(array, size, name);
             }
         }
 
@@ -1104,11 +1103,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="list"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(List<T> list, int size, string name)
+        public static void HasSizeGreaterThan<T>(List<T> list, int size, string name)
         {
             if (list.Count <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver((ICollection<T>)list, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan((ICollection<T>)list, size, name);
             }
         }
 
@@ -1121,11 +1120,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="list"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(List<T> list, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(List<T> list, int size, string name)
         {
             if (list.Count < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast((ICollection<T>)list, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo((ICollection<T>)list, size, name);
             }
         }
 
@@ -1306,11 +1305,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(ICollection<T> collection, int size, string name)
+        public static void HasSizeGreaterThan<T>(ICollection<T> collection, int size, string name)
         {
             if (collection.Count <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(collection, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(collection, size, name);
             }
         }
 
@@ -1323,11 +1322,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(ICollection<T> collection, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(ICollection<T> collection, int size, string name)
         {
             if (collection.Count < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(collection, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(collection, size, name);
             }
         }
 
@@ -1508,11 +1507,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(IReadOnlyCollection<T> collection, int size, string name)
+        public static void HasSizeGreaterThan<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
             if (collection.Count <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(collection, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(collection, size, name);
             }
         }
 
@@ -1525,11 +1524,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(IReadOnlyCollection<T> collection, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
             if (collection.Count < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(collection, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(collection, size, name);
             }
         }
 

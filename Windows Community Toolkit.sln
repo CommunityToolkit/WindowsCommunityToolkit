@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Sampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.UWP", "UnitTests\UnitTests.UWP\UnitTests.UWP.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI", "Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj", "{3DD8AA7C-3569-4E51-992F-0C2257E8878E}"
 EndProject
@@ -90,7 +90,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Media", "Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Shared", "UnitTests\UnitTests.Shared\UnitTests.Shared.shproj", "{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.NetCore", "UnitTests\UnitTests.NetCore\UnitTests.NetCore.csproj", "{7878CD00-85E8-4D02-9757-8A43DB4C6510}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Layout", "Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj", "{CB444381-18BA-4A51-BB32-3A498BCC1E99}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.HighPerformance", "Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.HighPerformance.NetCore", "UnitTests\UnitTests.HighPerformance.NetCore\UnitTests.HighPerformance.NetCore.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
@@ -112,6 +117,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{88C6FFBE-3
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{4e9466d1-d5aa-46ac-801b-c8fdab79f0d4}*SharedItemsImports = 13
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{7878cd00-85e8-4d02-9757-8a43db4c6510}*SharedItemsImports = 5
+		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 4
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{5524523e-db0f-41f7-a0d4-43128422a342}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{9b3a94a6-0d29-4523-880b-6938e2efeef7}*SharedItemsImports = 13
@@ -823,6 +832,31 @@ Global
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}.Release|x64.Build.0 = Release|Any CPU
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}.Release|x86.Build.0 = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x64.Build.0 = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Debug|x86.Build.0 = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Native|Any CPU.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Native|ARM.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Native|ARM64.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Native|x64.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Native|x86.ActiveCfg = Debug|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM.Build.0 = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|ARM64.Build.0 = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|x64.ActiveCfg = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|x64.Build.0 = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|x86.ActiveCfg = Release|Any CPU
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510}.Release|x86.Build.0 = Release|Any CPU
 		{CB444381-18BA-4A51-BB32-3A498BCC1E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB444381-18BA-4A51-BB32-3A498BCC1E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB444381-18BA-4A51-BB32-3A498BCC1E99}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -959,6 +993,8 @@ Global
 		{262BB7CE-EF42-4BF7-B90C-107E6CBB57FF} = {096ECFD7-7035-4487-9C87-81DCE9389620}
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4} = {B30036C4-D514-4E5B-A323-587A061772CE}
+		{7878CD00-85E8-4D02-9757-8A43DB4C6510} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{CB444381-18BA-4A51-BB32-3A498BCC1E99} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644} = {262CDB74-CF21-47AC-8DD9-CBC33C73B7CF}
 		{9B3A94A6-0D29-4523-880B-6938E2EFEEF7} = {262CDB74-CF21-47AC-8DD9-CBC33C73B7CF}
