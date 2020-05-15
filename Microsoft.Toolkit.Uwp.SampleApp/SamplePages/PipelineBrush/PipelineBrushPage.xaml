@@ -3,9 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media.Brushes"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
     mc:Ignorable="d">
 
@@ -23,8 +22,8 @@
                     Grid.Column="2"
                     Height="400">
                 <Border.Background>
-                    <brushes:PipelineBrush>
-                        <brushes:PipelineBrush.Effects>
+                    <media:PipelineBrush>
+                        <media:PipelineBrush.Effects>
                             <effects:AcrylicEffect/>
                             <effects:BackdropEffect Source="Backdrop"/>
                             <effects:BlendEffect Mode="Multiply"/>
@@ -47,8 +46,8 @@
                                 </effects:BlendEffect.Input>
                             </effects:BlendEffect>
                             <effects:TintEffect/>
-                        </brushes:PipelineBrush.Effects>
-                    </brushes:PipelineBrush>
+                        </media:PipelineBrush.Effects>
+                    </media:PipelineBrush>
                 </Border.Background>
             </Border>
         </Grid>
