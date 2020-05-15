@@ -2,13 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 <#@include file="TypeInfo.ttinclude" #>
-/* ========================
- * Auto generated file
- * ===================== */
-
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
@@ -19,7 +14,6 @@ namespace Microsoft.Toolkit.Diagnostics
     /// <summary>
     /// Helper methods to throw exceptions
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1618", Justification = "Internal helper methods")]
     internal static partial class ThrowHelper
     {
 <#
@@ -54,19 +48,19 @@ GenerateTextForItems(EnumerableTypes, item =>
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size over {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size of at least {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}");
         }

@@ -1,0 +1,6 @@
+<FileList>
+  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Layout.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+    </ToolboxItems>
+  </File>
+</FileList>
