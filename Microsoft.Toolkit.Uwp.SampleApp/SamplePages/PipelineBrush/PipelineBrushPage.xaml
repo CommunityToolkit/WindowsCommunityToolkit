@@ -5,14 +5,45 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media.Brushes"
+    xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
     mc:Ignorable="d">
 
-    <!-- Shallow Copy -->
+    <!--Shallow copy-->
     <Grid>
-        <Rectangle>
-            <Rectangle.Fill>
-                <media:BackdropSaturationBrush />
-            </Rectangle.Fill>
-        </Rectangle>
+        <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ProgressRing IsActive="True" Grid.ColumnSpan="2"
+                          VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
+            <Border BorderBrush="Black" BorderThickness="1"
+                    Grid.Column="2"
+                    Height="400">
+                <Border.Background>
+                    <brushes:PipelineBrush>
+                        <brushes:PipelineBrush.Effects>
+                            <effects:BackdropEffect Source="Backdrop"/>
+                            <effects:LuminanceToAlphaEffect/>
+                            <effects:OpacityEffect Value="0.4"/>
+                            <effects:BlendEffect Mode="Multiply">
+                                <effects:BlendEffect.Input>
+                                    <effects:BackdropEffect Source="Backdrop"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
+                            <effects:BlurEffect Value="16"/>
+                            <effects:ShadeEffect Color="#FF222222" Intensity="0.2"/>
+                            <effects:BlendEffect Mode="Overlay" Placement="Background">
+                                <effects:BlendEffect.Input>
+                                    <effects:TileEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
+                        </brushes:PipelineBrush.Effects>
+                    </brushes:PipelineBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
