@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public override string ToString()
         {
-            return "Sample Data: " + Text;
+            return Text;
         }
     }
 }

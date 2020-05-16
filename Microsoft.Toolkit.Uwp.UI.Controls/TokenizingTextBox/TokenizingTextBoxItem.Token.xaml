@@ -16,8 +16,7 @@
         <Setter Property="BorderThickness" Value="0" />
     </Style>
 
-    <!--  Default style for TokenizingTextBoxItem  -->
-    <Style TargetType="controls:TokenizingTextBoxItem">
+    <Style x:Key="TokenizingTextBoxItemTokenStyle" TargetType="controls:TokenizingTextBoxItem">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource TokenizingTextBoxItemBorderThickness}" />
@@ -31,13 +30,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TokenizingTextBoxItem">
-                    <Grid Name="RootPanel"
+                    <Grid Name="Root"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
-                        <Rectangle Name="SelectedState"
-                                   Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"
-                                   Visibility="Collapsed" />
+
+                        <Rectangle
+                            Name="SelectedState"
+                            Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+                            Opacity="0.1"/>
 
                         <StackPanel Padding="{TemplateBinding Padding}"
                                     Orientation="Horizontal">
@@ -61,34 +62,53 @@
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-
                                 <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="Disabled">
+                                <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                        <Setter Target="SelectedState.Opacity" Value="1.0" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
+                                        <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                        <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="Unselected" />
-                                <VisualState x:Name="Selected">
+                                <VisualState x:Name="PointerOverSelected">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectedState.Visibility" Value="Visible" />
+                                        <Setter Target="SelectedState.Opacity" Value="1.0" />
+                                        <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOverPressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PressedSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="SelectedState.Opacity" Value="1.0" />
+                                        <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DisabledStates">
+                                <VisualState x:Name="Enabled"/>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -98,5 +118,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--  Default style for TokenizingTextBoxItem  -->
+    <Style TargetType="controls:TokenizingTextBoxItem" BasedOn="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
 </ResourceDictionary>
 
