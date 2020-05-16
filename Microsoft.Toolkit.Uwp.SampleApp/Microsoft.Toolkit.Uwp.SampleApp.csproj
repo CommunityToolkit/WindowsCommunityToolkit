@@ -540,6 +540,7 @@
       <DependentUpon>StaggeredLayoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TokenizingTextBox\SampleDataType.cs" />
+    <Compile Include="SamplePages\TokenizingTextBox\SampleEmailDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
