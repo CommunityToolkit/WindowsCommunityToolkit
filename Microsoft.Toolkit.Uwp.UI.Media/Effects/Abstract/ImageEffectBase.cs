@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
         public Uri Uri { get; set; }
 
         /// <summary>
-        /// Gets or sets the DPI mode used to render the image (the default is <see cref="DpiMode.DisplayDpiWith96AsLowerBound"/>)
+        /// Gets or sets the DPI mode used to render the image (the default is <see cref="Media.DpiMode.DisplayDpiWith96AsLowerBound"/>)
         /// </summary>
-        public DpiMode DPIMode { get; set; } = DpiMode.DisplayDpiWith96AsLowerBound;
+        public DpiMode DpiMode { get; set; } = DpiMode.DisplayDpiWith96AsLowerBound;
 
         /// <summary>
         /// Gets or sets the cache mode to use when loading the image (the default is <see cref="Media.CacheMode.Default"/>)

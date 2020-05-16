@@ -65,9 +65,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 case SolidColorEffect color:
                     return PipelineBuilder.FromColor(color.Color);
                 case ImageEffect image:
-                    return PipelineBuilder.FromImage(image.Uri, image.DPIMode, image.CacheMode);
+                    return PipelineBuilder.FromImage(image.Uri, image.DpiMode, image.CacheMode);
                 case TileEffect tile:
-                    return PipelineBuilder.FromTiles(tile.Uri, tile.DPIMode, tile.CacheMode);
+                    return PipelineBuilder.FromTiles(tile.Uri, tile.DpiMode, tile.CacheMode);
                 case AcrylicEffect acrylic when acrylic.Source == AcrylicBackgroundSource.Backdrop:
                     return PipelineBuilder.FromBackdropAcrylic(acrylic.Tint, (float)acrylic.TintMix, (float)acrylic.BlurAmount, acrylic.TextureUri);
                 case AcrylicEffect acrylic when acrylic.Source == AcrylicBackgroundSource.HostBackdrop:
