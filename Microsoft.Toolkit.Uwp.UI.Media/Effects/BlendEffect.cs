@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
@@ -20,12 +19,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public IList<IPipelineEffect> Input { get; set; } = new List<IPipelineEffect>();
 
         /// <summary>
-        /// Gets or sets the blending mode to use (the default mode is <see cref="BlendEffectMode.Multiply"/>)
+        /// Gets or sets the blending mode to use (the default mode is <see cref="ImageBlendMode.Multiply"/>)
         /// </summary>
-        public BlendEffectMode Mode { get; set; }
+        public ImageBlendMode Mode { get; set; }
 
         /// <summary>
-        /// Gets or sets the placement of the input pipeline with respect to the current one (the default is <see cref="Media.Placement.Foreground"/>)
+        /// Gets or sets the placement of the input pipeline with respect to the current one (the default is <see cref="Placement.Foreground"/>)
         /// </summary>
         public Placement Placement { get; set; } = Placement.Foreground;
     }

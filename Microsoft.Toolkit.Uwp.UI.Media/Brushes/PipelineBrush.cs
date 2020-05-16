@@ -6,16 +6,24 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using BlendEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.BlendEffect;
+using ExposureEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.ExposureEffect;
+using GrayscaleEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.GrayscaleEffect;
+using HueRotationEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.HueRotationEffect;
+using InvertEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.InvertEffect;
 using LuminanceToAlphaEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.LuminanceToAlphaEffect;
 using OpacityEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.OpacityEffect;
 using SaturationEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.SaturationEffect;
+using SepiaEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.SepiaEffect;
+using TemperatureAndTintEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TemperatureAndTintEffect;
 using TileEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TileEffect;
+using TintEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TintEffect;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -104,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 case SaturationEffect saturation:
                     return builder.Saturation((float)saturation.Value);
                 case BlendEffect blend:
-                    return builder.Blend(Build(blend.Input), blend.Mode, blend.Placement);
+                    return builder.Blend(Build(blend.Input), (BlendEffectMode)blend.Mode, blend.Placement);
                 default:
                     throw new ArgumentException($"Invalid pipeline effect: {effect.GetType()}");
             }
