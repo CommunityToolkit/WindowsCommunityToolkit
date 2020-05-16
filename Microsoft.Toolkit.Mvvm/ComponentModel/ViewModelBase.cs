@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             get => this.isActive;
             set
             {
-                if (Set(ref this.isActive, value))
+                if (Set(ref this.isActive, value, true))
                 {
                     if (value)
                     {
