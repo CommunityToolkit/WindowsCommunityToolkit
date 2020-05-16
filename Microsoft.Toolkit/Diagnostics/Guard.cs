@@ -25,7 +25,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1119", Justification = "Negated pattern match expression")]
         public static void IsNull<T>(T? value, string name)
             where T : class
         {
@@ -44,7 +43,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1119", Justification = "Negated pattern match expression")]
         public static void IsNull<T>(T? value, string name)
             where T : struct
         {
@@ -62,7 +60,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNull<T>(T? value, string name)
+        public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : class
         {
             if (value is null)
@@ -80,7 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNull<T>(T? value, string name)
+        public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : struct
         {
             if (value is null)
@@ -262,11 +260,27 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsTrue(bool value, string name)
+        public static void IsTrue([DoesNotReturnIf(false)] bool value, string name)
         {
             if (!value)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsTrue(name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be <see langword="true"/>.
+        /// </summary>
+        /// <param name="value">The input <see cref="bool"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <param name="message">A message to display if <paramref name="value"/> is <see langword="false"/>.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsTrue([DoesNotReturnIf(false)] bool value, string name, string message)
+        {
+            if (!value)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsTrue(name, message);
             }
         }
 
@@ -277,11 +291,27 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsFalse(bool value, string name)
+        public static void IsFalse([DoesNotReturnIf(true)] bool value, string name)
         {
             if (value)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsFalse(name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be <see langword="false"/>.
+        /// </summary>
+        /// <param name="value">The input <see cref="bool"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <param name="message">A message to display if <paramref name="value"/> is <see langword="true"/>.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsFalse([DoesNotReturnIf(true)] bool value, string name, string message)
+        {
+            if (value)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsFalse(name, message);
             }
         }
     }

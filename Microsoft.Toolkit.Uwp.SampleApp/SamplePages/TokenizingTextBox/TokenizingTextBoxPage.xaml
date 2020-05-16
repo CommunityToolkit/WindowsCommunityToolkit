@@ -9,5 +9,6 @@
     <Grid Visibility="Collapsed">
         <SymbolIcon Symbol="Accept"/>
         <controls:TokenizingTextBox />
+        <controls:TokenizingTextBoxItem />
     </Grid>
 </Page>
