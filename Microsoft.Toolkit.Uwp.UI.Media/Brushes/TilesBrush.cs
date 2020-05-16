@@ -30,14 +30,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             nameof(TextureUri),
             typeof(Uri),
             typeof(TilesBrush),
-            new PropertyMetadata(default, OnTextureUriPropertyChanged));
+            new PropertyMetadata(default, OnDependencyPropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="TextureUri"/> changes
+        /// Gets or sets the DPI mode used to render the texture (the default is <see cref="Media.DpiMode.DisplayDpiWith96AsLowerBound"/>)
         /// </summary>
-        /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="TextureUriProperty"/></param>
-        private static void OnTextureUriPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public DpiMode DpiMode
+        {
+            get => (DpiMode)GetValue(DpiModeProperty);
+            set => SetValue(DpiModeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DpiMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DpiModeProperty = DependencyProperty.Register(
+            nameof(DpiMode),
+            typeof(DpiMode),
+            typeof(TilesBrush),
+            new PropertyMetadata(DpiMode.DisplayDpiWith96AsLowerBound, OnDependencyPropertyChanged));
+
+        /// <summary>
+        /// Updates the UI when either <see cref="TextureUri"/> or <see cref="DpiMode"/> changes
+        /// </summary>
+        /// <param name="d">The current <see cref="TilesBrush"/> instance</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="TextureUriProperty"/> or <see cref="DpiModeProperty"/></param>
+        private static void OnDependencyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is TilesBrush brush &&
                 brush.CompositionBrush != null)
@@ -52,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             if (TextureUri is Uri uri)
             {
-                return PipelineBuilder.FromTiles(uri);
+                return PipelineBuilder.FromTiles(uri, DpiMode);
             }
 
             return PipelineBuilder.FromColor(default);
