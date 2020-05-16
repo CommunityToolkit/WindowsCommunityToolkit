@@ -4,58 +4,59 @@
 
 //// Composition supported version of http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm.
 
+using Microsoft.Graphics.Canvas.Effects;
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member - see http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm.
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Blend mode to use when compositing effects.  See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm for details.
+    /// Blend mode to use when compositing effects.
+    /// See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm for details.
     /// Dissolve is not supported.
     /// </summary>
     public enum ImageBlendMode
     {
-        Multiply = 0,
-        Screen = 1,
-        Darken = 2,
-        Lighten = 3,
-
-        // Dissolve = 4, // Not Supported
-        ColorBurn = 5,
-        LinearBurn = 6,
-        DarkerColor = 7,
-        LighterColor = 8,
-        ColorDodge = 9,
-        LinearDodge = 10,
-        Overlay = 11,
-        SoftLight = 12,
-        HardLight = 13,
-        VividLight = 14,
-        LinearLight = 15,
-        PinLight = 16,
-        HardMix = 17,
-        Difference = 18,
-        Exclusion = 19,
+        Multiply = BlendEffectMode.Multiply,
+        Screen = BlendEffectMode.Screen,
+        Darken = BlendEffectMode.Darken,
+        Lighten = BlendEffectMode.Lighten,
+        ColorBurn = BlendEffectMode.ColorBurn,
+        LinearBurn = BlendEffectMode.LinearBurn,
+        DarkerColor = BlendEffectMode.DarkerColor,
+        LighterColor = BlendEffectMode.LighterColor,
+        ColorDodge = BlendEffectMode.ColorDodge,
+        LinearDodge = BlendEffectMode.LinearDodge,
+        Overlay = BlendEffectMode.Overlay,
+        SoftLight = BlendEffectMode.SoftLight,
+        HardLight = BlendEffectMode.HardLight,
+        VividLight = BlendEffectMode.VividLight,
+        LinearLight = BlendEffectMode.LinearLight,
+        PinLight = BlendEffectMode.PinLight,
+        HardMix = BlendEffectMode.HardMix,
+        Difference = BlendEffectMode.Difference,
+        Exclusion = BlendEffectMode.Exclusion,
 
         /// <summary>
-        /// Hue blend mode.  Requires 16299 or higher.
+        /// Hue blend mode.
         /// </summary>
-        Hue = 20,
+        Hue = BlendEffectMode.Hue,
 
         /// <summary>
-        /// Saturation blend mode.  Requires 16299 or higher.
+        /// Saturation blend mode.
         /// </summary>
-        Saturation = 21,
+        Saturation = BlendEffectMode.Saturation,
 
         /// <summary>
-        /// Color blend mode.  Requires 16299 or higher.
+        /// Color blend mode.
         /// </summary>
-        Color = 22,
+        Color = BlendEffectMode.Color,
 
         /// <summary>
-        /// Luminosity blend mode.  Requires 16299 or higher.
+        /// Luminosity blend mode.
         /// </summary>
-        Luminosity = 23,
-        Subtract = 24,
-        Division = 25,
+        Luminosity = BlendEffectMode.Luminosity,
+        Subtract = BlendEffectMode.Subtract,
+        Division = BlendEffectMode.Division,
     }
 }
