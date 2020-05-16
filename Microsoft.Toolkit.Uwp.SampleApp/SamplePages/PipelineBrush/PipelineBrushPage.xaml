@@ -18,29 +18,58 @@
             </Grid.ColumnDefinitions>
             <ProgressRing IsActive="True" Grid.ColumnSpan="2"
                           VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
-            <Border BorderBrush="Black" BorderThickness="1"
-                    Grid.Column="2"
-                    Height="400">
+            <Border>
                 <Border.Background>
                     <media:PipelineBrush>
                         <media:PipelineBrush.Effects>
                             <effects:AcrylicEffect/>
-                            <effects:BackdropEffect Source="Backdrop"/>
-                            <effects:BlendEffect Mode="Multiply"/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:BackdropEffect Source="Backdrop"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
                             <effects:BlurEffect/>
                             <effects:ExposureEffect/>
                             <effects:GrayscaleEffect/>
                             <effects:HueRotationEffect/>
-                            <effects:ImageEffect/>
+                        </media:PipelineBrush.Effects>
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush>
+                        <media:PipelineBrush.Effects>
+                            <effects:AcrylicEffect/>
+                            <effects:HueRotationEffect/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:ImageEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
                             <effects:InvertEffect/>
                             <effects:LuminanceToAlphaEffect/>
-                            <effects:OpacityEffect Value="0.4"/>
+                            <effects:OpacityEffect/>
                             <effects:SaturationEffect/>
                             <effects:SepiaEffect/>
-                            <effects:ShadeEffect Color="#FF222222" Intensity="0.2"/>
-                            <effects:SolidColorEffect/>
+                        </media:PipelineBrush.Effects>
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush>
+                        <media:PipelineBrush.Effects>
+                            <effects:AcrylicEffect/>
+                            <effects:SepiaEffect/>
+                            <effects:ShadeEffect/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:SolidColorEffect/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
                             <effects:TemperatureAndTintEffect/>
-                            <effects:BlendEffect Mode="Overlay" Placement="Background">
+                            <effects:BlendEffect>
                                 <effects:BlendEffect.Input>
                                     <effects:TileEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
                                 </effects:BlendEffect.Input>
