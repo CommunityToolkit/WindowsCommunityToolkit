@@ -37,6 +37,11 @@
                   <effects:TileEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
                 </effects:BlendEffect.Input>
               </effects:BlendEffect>
+              <effects:BlendEffect Mode="Overlay" Placement="Background">
+                <effects:BlendEffect.Input>
+                  <effects:ImageEffect Uri="ms-appx:///SamplePages/DropShadowPanel/Unicorn.png"/>
+                </effects:BlendEffect.Input>
+              </effects:BlendEffect>
             </brushes:PipelineBrush.Effects>
           </brushes:PipelineBrush>
         </Border.Background>
