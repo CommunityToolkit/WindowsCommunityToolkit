@@ -528,6 +528,9 @@
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\IconExtensions\IconExtensionsPage.xaml.cs">
+      <DependentUpon>IconExtensionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml.cs">
       <DependentUpon>ObservableGroupPage.xaml</DependentUpon>
     </Compile>
@@ -599,6 +602,7 @@
     <Content Include="SamplePages\PipelineBrush\PipelineBrushCode.bind" />
     <Content Include="SamplePages\AcrylicBrush\AcrylicBrushXaml.bind" />
     <Content Include="SamplePages\TilesBrush\TilesBrushXaml.bind" />
+    <Content Include="SamplePages\IconExtensions\IconExtensionsXaml.bind" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
     <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
@@ -1010,6 +1014,10 @@
     <Page Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\IconExtensions\IconExtensionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml">
       <SubType>Designer</SubType>

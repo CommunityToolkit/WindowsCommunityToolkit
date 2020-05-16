@@ -1247,7 +1247,16 @@
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
-      }
+      },
+	  {
+	    "Name": "IconExtensions",
+	    "Type": "IconExtensionsPage",
+	    "About": "Markup extensions to easily create various types of icons.",
+	    "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/FontIconExtension",
+	    "XamlCodeFile": "IconExtensionsXaml.bind",
+	    "Icon": "/Assets/Helpers.png", 
+	    "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/IconExtensions.md"
+	  }
     ]
   },
   {
