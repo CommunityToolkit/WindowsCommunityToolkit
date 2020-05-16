@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <summary>
     /// Extensions for the <see cref="IMessenger"/> type.
     /// </summary>
-    public static class IMessengerExtensions
+    public static class MessengerExtensions
     {
         /// <summary>
         /// Sends a request of the specified type to all registered recipients, and returns the received response.
