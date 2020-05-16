@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <summary>
     /// Extensions for the <see cref="IMessenger"/> type.
     /// </summary>
-    public static class MessengerExtensions
+    public static partial class MessengerExtensions
     {
         /// <summary>
         /// Sends a request of the specified type to all registered recipients, and returns the received response.
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static TResult Request<TMessage, TResult>(this IMessenger messenger)
             where TMessage : RequestMessage<TResult>, new()
         {
-            return Request<TMessage, TResult, Messenger.Unit>(messenger, new TMessage(), default);
+            return Request<TMessage, TResult, Unit>(messenger, new TMessage(), default);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static TResult Request<TMessage, TResult>(this IMessenger messenger, TMessage message)
             where TMessage : RequestMessage<TResult>
         {
-            return Request<TMessage, TResult, Messenger.Unit>(messenger, message, default);
+            return Request<TMessage, TResult, Unit>(messenger, message, default);
         }
 
         /// <summary>
