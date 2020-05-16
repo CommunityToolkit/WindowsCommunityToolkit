@@ -7,15 +7,15 @@ using Microsoft.Toolkit.Uwp.Deferred;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event arguments for <see cref="TokenizingTextBox.TokenItemCreating"/> event.
+    /// Event arguments for <see cref="TokenizingTextBox.TokenItemAdding"/> event.
     /// </summary>
-    public class TokenItemCreatingEventArgs : DeferredCancelEventArgs
+    public class TokenItemAddingEventArgs : DeferredCancelEventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TokenItemCreatingEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="TokenItemAddingEventArgs"/> class.
         /// </summary>
         /// <param name="token">User entered string.</param>
-        public TokenItemCreatingEventArgs(string token)
+        public TokenItemAddingEventArgs(string token)
         {
             TokenText = token;
         }
