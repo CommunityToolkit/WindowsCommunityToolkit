@@ -99,8 +99,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
         /// <summary>
         /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property with
-        /// the new value, then raises the <see cref="ObservableObject.PropertyChanged"/> event.
+        /// raises the <see cref="PropertyChanging"/> event, updates the property with
+        /// the new value, then raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="field">The field storing the property's value.</param>
@@ -109,9 +109,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// This method is just like <see cref="ObservableObject.Set{T}(ref T, T, string)"/>, just with the addition
-        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method, the
-        /// <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
+        /// This method is just like <see cref="Set{T}(ref T, T, string)"/>, just with the addition
+        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
+        /// the <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool Set<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string propertyName = null!)
