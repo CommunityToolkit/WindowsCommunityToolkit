@@ -95,13 +95,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static Messenger Default { get; } = new Messenger();
 
         /// <inheritdoc/>
-        public bool IsRegistered<TMessage>(object recipient)
-            where TMessage : class
-        {
-            return IsRegistered<TMessage, Unit>(recipient, default);
-        }
-
-        /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>
@@ -117,13 +110,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 return mapping!.ContainsKey(key);
             }
-        }
-
-        /// <inheritdoc/>
-        public void Register<TMessage>(object recipient, Action<TMessage> action)
-            where TMessage : class
-        {
-            Register(recipient, default(Unit), action);
         }
 
         /// <inheritdoc/>
@@ -194,13 +180,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove the associated set in the recipients map
                 this.recipientsMap.Remove(key);
             }
-        }
-
-        /// <inheritdoc/>
-        public void Unregister<TMessage>(object recipient)
-            where TMessage : class
-        {
-            Unregister<TMessage, Unit>(recipient, default);
         }
 
         /// <inheritdoc/>
@@ -326,28 +305,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     }
                 }
             }
-        }
-
-        /// <inheritdoc/>
-        public void Send<TMessage>()
-            where TMessage : class, new()
-        {
-            Send(new TMessage(), default(Unit));
-        }
-
-        /// <inheritdoc/>
-        public void Send<TMessage>(TMessage message)
-            where TMessage : class
-        {
-            Send(message, default(Unit));
-        }
-
-        /// <inheritdoc/>
-        public void Send<TMessage, TToken>(TToken token)
-            where TMessage : class, new()
-            where TToken : IEquatable<TToken>
-        {
-            Send(new TMessage(), token);
         }
 
         /// <inheritdoc/>

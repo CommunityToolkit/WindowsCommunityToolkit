@@ -16,24 +16,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Checks whether or not a given recipient has already been registered for a message.
         /// </summary>
         /// <typeparam name="TMessage">The type of message to check for the given recipient.</typeparam>
-        /// <param name="recipient">The target recipient to check the registration for.</param>
-        /// <returns>Whether or not <paramref name="recipient"/> has already been registered for the specified message.</returns>
-        /// <remarks>This method will use the default channel to check for the requested registration.</remarks>
-        [Pure]
-        bool IsRegistered<TMessage>(object recipient)
-            where TMessage : class
-#if NETSTANDARD2_1
-        {
-            return IsRegistered<TMessage, Messenger.Unit>(recipient, default);
-        }
-#else
-        ;
-#endif
-
-        /// <summary>
-        /// Checks whether or not a given recipient has already been registered for a message.
-        /// </summary>
-        /// <typeparam name="TMessage">The type of message to check for the given recipient.</typeparam>
         /// <typeparam name="TToken">The type of token to check the channel for.</typeparam>
         /// <param name="recipient">The target recipient to check the registration for.</param>
         /// <param name="token">The token used to identify the target channel to check.</param>
@@ -42,24 +24,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>;
-
-        /// <summary>
-        /// Registers a recipient for a given type of message.
-        /// </summary>
-        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
-        /// <param name="recipient">The recipient that will receive the messages.</param>
-        /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
-        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
-        /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
-        void Register<TMessage>(object recipient, Action<TMessage> action)
-            where TMessage : class
-#if NETSTANDARD2_1
-        {
-            Register(recipient, default(Messenger.Unit), action);
-        }
-#else
-        ;
-#endif
 
         /// <summary>
         /// Registers a recipient for a given type of message.
@@ -86,25 +50,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         void Unregister(object recipient);
 
         /// <summary>
-        /// Unregisters a recipient from messages of a given type.
-        /// </summary>
-        /// <typeparam name="TMessage">The type of message to stop receiving.</typeparam>
-        /// <param name="recipient">The recipient to unregister.</param>
-        /// <remarks>
-        /// This method will unregister the target recipient only from the default channel.
-        /// If the recipient has no registered handler, this method does nothing.
-        /// </remarks>
-        void Unregister<TMessage>(object recipient)
-            where TMessage : class
-#if NETSTANDARD2_1
-        {
-            Unregister<TMessage, Messenger.Unit>(recipient, default);
-        }
-#else
-        ;
-#endif
-
-        /// <summary>
         /// Unregisters a recipient from all messages on a specific channel.
         /// </summary>
         /// <typeparam name="TToken">The type of token to identify what channel to unregister from.</typeparam>
@@ -125,61 +70,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         void Unregister<TMessage, TToken>(object recipient, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>;
-
-        /// <summary>
-        /// Sends a message of the specified type to all registered recipients.
-        /// </summary>
-        /// <typeparam name="TMessage">The type of message to send.</typeparam>
-        /// <remarks>
-        /// This method is a shorthand for <see cref="Send{TMessage}(TMessage)"/> when the
-        /// message type exposes a parameterless constructor: it will automatically create
-        /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
-        /// </remarks>
-        void Send<TMessage>()
-            where TMessage : class, new()
-#if NETSTANDARD2_1
-        {
-            Send(new TMessage(), default(Messenger.Unit));
-        }
-#else
-        ;
-#endif
-
-        /// <summary>
-        /// Sends a message of the specified type to all registered recipients.
-        /// </summary>
-        /// <typeparam name="TMessage">The type of message to send.</typeparam>
-        /// <param name="message">The message to send.</param>
-        void Send<TMessage>(TMessage message)
-            where TMessage : class
-#if NETSTANDARD2_1
-        {
-            Send(message, default(Messenger.Unit));
-        }
-#else
-        ;
-#endif
-
-        /// <summary>
-        /// Sends a message of the specified type to all registered recipients.
-        /// </summary>
-        /// <typeparam name="TMessage">The type of message to send.</typeparam>
-        /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
-        /// <param name="token">The token indicating what channel to use.</param>
-        /// <remarks>
-        /// This method will automatically create a new <typeparamref name="TMessage"/> instance
-        /// just like <see cref="Send{TMessage}()"/>, and then send it to the right recipients.
-        /// </remarks>
-        void Send<TMessage, TToken>(TToken token)
-            where TMessage : class, new()
-            where TToken : IEquatable<TToken>
-#if NETSTANDARD2_1
-        {
-            Send(new TMessage(), token);
-        }
-#else
-        ;
-#endif
 
         /// <summary>
         /// Sends a message of the specified type to all registered recipients.
