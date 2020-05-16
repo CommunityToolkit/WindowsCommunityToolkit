@@ -2,22 +2,21 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.ComponentModel;
+using Microsoft.Toolkit.Uwp.Deferred;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event arguments for <see cref="TokenizingTextBox.TokenItemRemoved"/> event.
+    /// Event arguments for <see cref="TokenizingTextBox.TokenItemRemoving"/> event.
     /// </summary>
-    public class TokenItemRemovedEventArgs : CancelEventArgs
+    public class TokenItemRemovingEventArgs : DeferredCancelEventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TokenItemRemovedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="TokenItemRemovingEventArgs"/> class.
         /// </summary>
         /// <param name="item">Item being removed.</param>
         /// <param name="token"><see cref="TokenizingTextBoxItem"/> container being closed.</param>
-        public TokenItemRemovedEventArgs(object item, TokenizingTextBoxItem token)
+        public TokenItemRemovingEventArgs(object item, TokenizingTextBoxItem token)
         {
             Item = item;
             Token = token;
