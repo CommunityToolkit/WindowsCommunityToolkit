@@ -21,7 +21,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <remarks>This method will use the default channel to check for the requested registration.</remarks>
         [Pure]
         bool IsRegistered<TMessage>(object recipient)
-            where TMessage : class;
+            where TMessage : class
+#if NETSTANDARD2_1
+        {
+            return IsRegistered<TMessage, Messenger.Unit>(recipient, default);
+        }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Checks whether or not a given recipient has already been registered for a message.
@@ -45,7 +52,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
         void Register<TMessage>(object recipient, Action<TMessage> action)
-            where TMessage : class;
+            where TMessage : class
+#if NETSTANDARD2_1
+        {
+            Register(recipient, default(Messenger.Unit), action);
+        }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Registers a recipient for a given type of message.
@@ -81,7 +95,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// If the recipient has no registered handler, this method does nothing.
         /// </remarks>
         void Unregister<TMessage>(object recipient)
-            where TMessage : class;
+            where TMessage : class
+#if NETSTANDARD2_1
+        {
+            Unregister<TMessage, Messenger.Unit>(recipient, default);
+        }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Unregisters a recipient from all messages on a specific channel.
@@ -115,7 +136,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
         /// </remarks>
         void Send<TMessage>()
-            where TMessage : class, new();
+            where TMessage : class, new()
+#if NETSTANDARD2_1
+        {
+            Send(new TMessage(), default(Messenger.Unit));
+        }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Sends a message of the specified type to all registered recipients.
@@ -123,7 +151,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to send.</typeparam>
         /// <param name="message">The message to send.</param>
         void Send<TMessage>(TMessage message)
-            where TMessage : class;
+            where TMessage : class
+#if NETSTANDARD2_1
+        {
+            Send(message, default(Messenger.Unit));
+        }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Sends a message of the specified type to all registered recipients.
@@ -137,7 +172,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </remarks>
         void Send<TMessage, TToken>(TToken token)
             where TMessage : class, new()
-            where TToken : IEquatable<TToken>;
+            where TToken : IEquatable<TToken>
+#if NETSTANDARD2_1
+        {
+            Send(new TMessage(), token);
+        }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Sends a message of the specified type to all registered recipients.
