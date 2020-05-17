@@ -1,0 +1,170 @@
+<!--
+  Copyright (c) Microsoft Corporation. Licensed under the MIT License
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    
+    <!-- Replaces AppxManifest WinRT registrations for Microsoft.UI.Xaml.dll, post-GenerateAppxManifest. -->
+    <!-- Target runs before manifest validation occurs. Requires output file to support incremental builds. -->
+    <Target Name="_ReplaceMUXWinRTRegistrations" Condition="'$(Platform)' != 'ARM64' AND '$(Platform)' != 'ARM'" BeforeTargets="_CreateFinalAppxManifestItem" AfterTargets="_GenerateCurrentProjectAppxManifest" Inputs="$(MSBuildAllProjects);@(_GenerateCurrentProjectAppxManifestInput)" Outputs="$(FinalAppxManifestName).incremental" >
+        <PropertyGroup Condition="'$(MUXClassRegistrationsDir)' == ''">
+            <MUXClassRegistrationsDir>$(MSBuildThisFileDirectory)</MUXClassRegistrationsDir>
+        </PropertyGroup>
+        
+        <ReplaceMUXWinRTRegistrations
+            FullPathToAppxManifest="$(FinalAppxManifestName)"
+            FullPathToLiftedXAMLWinRTRegistrations="$(MUXClassRegistrationsDir)LiftedWinRTClassRegistrations.xml"
+            PathToXAMLWinRTImplementations="$(PathToXAMLWinRTImplementations)"
+         />
+
+         <Touch 
+            Files="$(FinalAppxManifestName).incremental"
+            AlwaysCreate="true"
+         />
+    </Target>
+
+    <UsingTask TaskName="ReplaceMUXWinRTRegistrations" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <FullPathToAppxManifest ParameterType="System.String" Required="true" />
+            <FullPathToLiftedXAMLWinRTRegistrations ParameterType="System.String" Required="true" />
+            <PathToXAMLWinRTImplementations ParameterType="System.String" />
+        </ParameterGroup>
+        <Task>
+            <Reference Include="System.Xml" />
+            <Using Namespace="System.Xml" />
+            <Using Namespace="System.Reflection" />
+            <Using Namespace="System.Runtime.InteropServices.WindowsRuntime" />
+            <Using Namespace="System.Collections.Generic" />
+            <Code Type="Fragment" Language="cs"><![CDATA[
+                // Load AppxManifest.xml 
+                XmlDocument appxManifest = new XmlDocument();
+                appxManifest.Load(FullPathToAppxManifest);
+
+                XmlNamespaceManager namespaceManager = new XmlNamespaceManager(appxManifest.NameTable);
+                namespaceManager.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+
+                // If there exists an existing Extensions node, we'll remove a Microsoft.UI.Xaml.dll entry in it
+                // and add the correct DLL mapping. Otherwise, if there doesn't, we'll create one and add it.
+                XmlNode extensionsNode = null;
+
+                foreach (XmlNode node in appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions", namespaceManager))
+                {
+                    extensionsNode = node;
+                    break;
+                }
+      
+                if (extensionsNode != null)
+                {
+                    XmlNodeList xmlNodeList = appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions/w:Extension", namespaceManager);
+
+                    // Remove only "Microsoft.UI.Xaml.dll" registrations from the AppxManifest file
+                    foreach (XmlNode node in xmlNodeList)
+                    {
+                        XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
+                        if (pathNode.InnerText.Equals("Microsoft.UI.Xaml.dll", StringComparison.InvariantCultureIgnoreCase))
+                        { 
+                            extensionsNode.RemoveChild(node);
+                        }
+                    }
+                }
+                else
+                {
+                    extensionsNode = appxManifest.CreateElement("Extensions", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+                    appxManifest.DocumentElement.AppendChild(extensionsNode);
+                }
+
+                // Load correct WinRT registration file created during build.  These entries have the correct implemetation DLLs.
+                XmlDocument newRegistrations = new XmlDocument();
+                newRegistrations.Load(FullPathToLiftedXAMLWinRTRegistrations);
+                XmlNamespaceManager namespaceManager2 = new XmlNamespaceManager(newRegistrations.NameTable);
+                namespaceManager2.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+                XmlNodeList newRegistrationNodes = newRegistrations.DocumentElement.SelectNodes("/w:Data/w:Extension", namespaceManager2);
+
+                // Add entries for all Microsoft.UI.Xaml types in the AppxManifest
+                foreach (XmlNode node in newRegistrationNodes)
+                {
+                    // If we have a path to our implementation DLLs, we'll add that here.
+                    if (!string.IsNullOrWhiteSpace(PathToXAMLWinRTImplementations))
+                    {
+                        XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
+                        pathNode.InnerText = PathToXAMLWinRTImplementations + pathNode.InnerText;
+                    }
+                
+                    XmlNode importNode = extensionsNode.OwnerDocument.ImportNode(node, true);
+                    extensionsNode.AppendChild(importNode);
+                }
+
+                // Save the updated AppxManifest.xml file 
+                appxManifest.Save(FullPathToAppxManifest);
+
+            ]]></Code>
+        </Task>
+    </UsingTask>
+
+    <!-- We don't provide an implementation for Microsoft.winmd, but that's OK, since we're constructing
+         our own Extensions entries in AppxManifest.xml. As such, we'll suppress the warning that that would otherwise raise. -->
+  <PropertyGroup>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);APPX1707</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
+  <!--
+    Setting default project properties for .NET SDK-style projects
+  -->
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <SDKIdentifier>Windows</SDKIdentifier>
+    <SDKVersion>10.0</SDKVersion>
+
+    <AppxPackage Condition="'$(OutputType)' == 'AppContainerExe'">true</AppxPackage>
+    <AppxPackage Condition="'$(OutputType)' == 'WinExe'">false</AppxPackage>
+    <DefaultLanguage Condition="'$(DefaultLanguage)'==''">en-US</DefaultLanguage>
+  </PropertyGroup>
+
+  <!-- In the case of a WinUI Desktop project, we want to include the AppxPackage targets file to get a PRI file generated,
+        but since we aren't actually packaging ourselves in an AppX file, we'll empty out our AppX recipe file properties. -->
+  <Import Project="$(MsAppxPackageTargets)" Condition="'$(WindowsAppContainer)' != 'true' and '$(MSBuildProjectExtension)'!='.wapproj'" />
+  <PropertyGroup Condition="'$(WindowsAppContainer)' != 'true'">
+    <AppxUploadPackageRecipe />
+    <AppxPackageRecipe />
+  </PropertyGroup>
+  
+  <!--
+    By default, the Nuget targets for .NET Native UWP projects copy MUI files to the root of the AppX.
+    However, we need them in language-specific locations, so we'll move them there after resolving our
+    assembly references, which is what places them in ReferenceCopyLocalPaths. 
+    
+    Note: This isn't needed for native projects or projects that are using the Microsoft.NET.Sdk, since
+    we manually add them to ReferenceCopyLocalPaths. Once we are fully onto .NET5, we can remove this target.
+  -->
+  <Target Name="_UpdateMuiFilesCopyLocalPath"
+          BeforeTargets="_CopyFilesMarkedCopyLocal"
+          AfterTargets="ResolveAssemblyReferences"
+          Condition="'$(_AddWinUIAssembliesToReferenceCopyLocalPaths)' != 'true'">
+    <PropertyGroup Condition="'$(_MuxRuntimeIdentifier)' == ''">
+      <_MuxRuntimeIdentifier Condition="'$(Platform)' == 'Win32'">win10-x86</_MuxRuntimeIdentifier>
+      <_MuxRuntimeIdentifier Condition="'$(Platform)' != 'Win32'">win10-$(Platform)</_MuxRuntimeIdentifier>
+    </PropertyGroup>
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Update="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'Microsoft.WinUI' and '%(Extension)' == '.mui'">
+        <DestinationSubDirectory>$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory)..\runtimes\$(_MuxRuntimeIdentifier)\native\, %(RootDir)%(Directory)))</DestinationSubDirectory>
+      </ReferenceCopyLocalPaths>
+    </ItemGroup>
+  </Target>
+  
+  <!-- In the case of native projects, the TargetPath gets overwritten to remove the language-specific subfolders
+       in the _ConvertItems target, so in the case where that's happened, we'll restore it from the
+       DestinationSubDirectory item metadata. -->
+  <Target Name="_UpdateMuiWapProjectPackageFiles"
+          BeforeTargets="_CopyPackageFiles;_CopyUploadPackageFiles"
+          AfterTargets="_ConvertItems"
+          Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
+    <ItemGroup>
+      <WapProjPackageFile Update="@(WapProjPackageFile)" Condition="'%(WapProjPackageFile.DestinationSubDirectory)' != '' and '%(TargetPath)' == '%(Filename)%(Extension)'">
+        <TargetPath>%(WapProjPackageFile.DestinationSubDirectory)%(TargetPath)</TargetPath>
+      </WapProjPackageFile>
+      <UploadWapProjPackageFile Update="@(UploadWapProjPackageFile)" Condition="'%(UploadWapProjPackageFile.DestinationSubDirectory)' != '' and '%(TargetPath)' == '%(Filename)%(Extension)'">
+        <TargetPath>%(UploadWapProjPackageFile.DestinationSubDirectory)%(TargetPath)</TargetPath>
+      </UploadWapProjPackageFile>
+    </ItemGroup>
+  </Target>
+</Project>
+
