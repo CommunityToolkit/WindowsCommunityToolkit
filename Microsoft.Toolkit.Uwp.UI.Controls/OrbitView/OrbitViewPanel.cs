@@ -120,12 +120,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     orbitViewDataItem = ((FrameworkElement)element).DataContext as OrbitViewDataItem;
                 }
 
-                var d = orbitViewDataItem != null && orbitViewDataItem.Distance >= 0 ? orbitViewDataItem.Distance : 0.5;
-                d = Math.Min(d, 1d);
+                var d = orbitViewDataItem != null && orbitViewDataItem.Distance >= 0 ? orbitViewDataItem.Distance : 0.5f;
+                d = Math.Min(d, 1f);
 
                 var distance = (d * (maxDistance - minDistance)) + minDistance;
-                var x = distance * Math.Cos((angle * i) + (angle / 2));
-                var y = distance * Math.Sin((angle * i) + (angle / 2));
+                var x = (float)(distance * Math.Cos((angle * i) + (angle / 2)));
+                var y = (float)(distance * Math.Sin((angle * i) + (angle / 2)));
 
                 var x_normalized = (finalSize.Width / 2) + x - (element.DesiredSize.Width / 2);
                 var y_normalized = (finalSize.Height / 2) - y - (element.DesiredSize.Height / 2);

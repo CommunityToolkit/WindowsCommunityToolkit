@@ -70,22 +70,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AspectRatioConfig
                 {
                     Name = "Landscape(16:9)",
-                    AspectRatio = 16d / 9d
+                    AspectRatio = 16f / 9f
                 },
                 new AspectRatioConfig
                 {
                     Name = "Portrait(9:16)",
-                    AspectRatio = 9d / 16d
+                    AspectRatio = 9f / 16f
                 },
                 new AspectRatioConfig
                 {
                     Name = "4:3",
-                    AspectRatio = 4d / 3d
+                    AspectRatio = 4f / 3f
                 },
                 new AspectRatioConfig
                 {
                     Name = "3:2",
-                    AspectRatio = 3d / 2d
+                    AspectRatio = 3f / 2f
                 }
             };
             AspectRatioComboBox.ItemsSource = itemsSource;
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void AspectRatioComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var aspectRatio = AspectRatioComboBox.SelectedValue as double?;
+            var aspectRatio = AspectRatioComboBox.SelectedValue as float?;
             if (_imageCropper != null)
             {
                 _imageCropper.AspectRatio = aspectRatio;

@@ -157,8 +157,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         private void ParentScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             var associatedElementRect = AssociatedObject.TransformToVisual(_hostScrollViewer)
-                .TransformBounds(new Rect(0, 0, AssociatedObject.ActualWidth, AssociatedObject.ActualHeight));
-            var hostScrollViewerRect = new Rect(0, 0, _hostScrollViewer.ActualWidth, _hostScrollViewer.ActualHeight);
+                .TransformBounds(new Rect(0, 0, (float)AssociatedObject.ActualWidth, (float)AssociatedObject.ActualHeight));
+            var hostScrollViewerRect = new Rect(0, 0, (float)_hostScrollViewer.ActualWidth, (float)_hostScrollViewer.ActualHeight);
 
             if (hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Top)) ||
                 hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Top)) ||

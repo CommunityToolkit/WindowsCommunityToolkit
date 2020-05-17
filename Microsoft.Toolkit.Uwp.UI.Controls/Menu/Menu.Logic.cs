@@ -307,8 +307,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
             _bounds.X = screenCoords.X;
             _bounds.Y = screenCoords.Y;
-            _bounds.Width = ActualWidth;
-            _bounds.Height = ActualHeight;
+            _bounds.Width = (float)ActualWidth;
+            _bounds.Height = (float)ActualHeight;
 
             foreach (MenuItem item in Items)
             {

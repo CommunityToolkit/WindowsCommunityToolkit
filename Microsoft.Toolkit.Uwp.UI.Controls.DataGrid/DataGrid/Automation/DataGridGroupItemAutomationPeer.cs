@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>A Point that represents the clickable space that is on the UIElement that is associated with this DataGridGroupItemAutomationPeer.</returns>
         protected override Point GetClickablePointCore()
         {
-            return this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.GetClickablePoint() : new Point(double.NaN, double.NaN);
+            return this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.GetClickablePoint() : new Point(float.NaN, float.NaN);
         }
 
         /// <summary>

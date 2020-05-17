@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             targetVisual.StartAnimation(nameof(Visual.Offset), offsetAnimation);
         }
 
-        private static void AnimateUIElementScale(double to, TimeSpan duration, UIElement target)
+        private static void AnimateUIElementScale(float to, TimeSpan duration, UIElement target)
         {
             var targetVisual = ElementCompositionPreview.GetElementVisual(target);
             var compositor = targetVisual.Compositor;
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
             scaleAnimation.Duration = duration;
             scaleAnimation.Target = nameof(Visual.Scale);
-            scaleAnimation.InsertKeyFrame(1.0f, new Vector3((float)to), linear);
+            scaleAnimation.InsertKeyFrame(1.0f, new Vector3(to), linear);
             targetVisual.StartAnimation(nameof(Visual.Scale), scaleAnimation);
         }
 
@@ -106,13 +106,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var progress = time.TotalMilliseconds / duration.TotalMilliseconds;
                 var startPoint = new Point
                 {
-                    X = startPointFrom.X + (progress * (startPointTo.X - startPointFrom.X)),
-                    Y = startPointFrom.Y + (progress * (startPointTo.Y - startPointFrom.Y)),
+                    X = (float)(startPointFrom.X + (progress * (startPointTo.X - startPointFrom.X))),
+                    Y = (float)(startPointFrom.Y + (progress * (startPointTo.Y - startPointFrom.Y))),
                 };
                 var endPoint = new Point
                 {
-                    X = endPointFrom.X + (progress * (endPointTo.X - endPointFrom.X)),
-                    Y = endPointFrom.Y + (progress * (endPointTo.Y - endPointFrom.Y)),
+                    X = (float)(endPointFrom.X + (progress * (endPointTo.X - endPointFrom.X))),
+                    Y = (float)(endPointFrom.Y + (progress * (endPointTo.Y - endPointFrom.Y))),
                 };
                 rectKeyframes.Add(new DiscreteObjectKeyFrame
                 {

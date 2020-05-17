@@ -16,11 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             internal static readonly UvMeasure Zero = default(UvMeasure);
 
-            internal double U { get; set; }
+            internal float U { get; set; }
 
-            internal double V { get; set; }
+            internal float V { get; set; }
 
-            public UvMeasure(Orientation orientation, double width, double height)
+            public UvMeasure(Orientation orientation, float width, float height)
             {
                 if (orientation == Orientation.Horizontal)
                 {

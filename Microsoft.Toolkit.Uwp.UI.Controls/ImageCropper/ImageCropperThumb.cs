@@ -46,9 +46,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the X coordinate of the ImageCropperThumb.
         /// </summary>
-        public double X
+        public float X
         {
-            get { return (double)GetValue(XProperty); }
+            get { return (float)GetValue(XProperty); }
             set { SetValue(XProperty, value); }
         }
 
@@ -62,9 +62,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the Y coordinate of the ImageCropperThumb.
         /// </summary>
-        public double Y
+        public float Y
         {
-            get { return (double)GetValue(YProperty); }
+            get { return (float)GetValue(YProperty); }
             set { SetValue(YProperty, value); }
         }
 
@@ -79,12 +79,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="X"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty XProperty =
-            DependencyProperty.Register(nameof(X), typeof(double), typeof(ImageCropperThumb), new PropertyMetadata(0d, OnXChanged));
+            DependencyProperty.Register(nameof(X), typeof(float), typeof(ImageCropperThumb), new PropertyMetadata(0f, OnXChanged));
 
         /// <summary>
         /// Identifies the <see cref="Y"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty YProperty =
-            DependencyProperty.Register(nameof(Y), typeof(double), typeof(ImageCropperThumb), new PropertyMetadata(0d, OnYChanged));
+            DependencyProperty.Register(nameof(Y), typeof(float), typeof(ImageCropperThumb), new PropertyMetadata(0f, OnYChanged));
     }
 }

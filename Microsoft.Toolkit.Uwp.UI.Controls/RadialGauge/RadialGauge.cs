@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ScaleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(26.0, OnScaleChanged));
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(float), typeof(RadialGauge), new PropertyMetadata(26.0f, OnScaleChanged));
 
         /// <summary>
         /// Identifies the NeedleBrush dependency property.
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ScalePadding dependency property.
         /// </summary>
         public static readonly DependencyProperty ScalePaddingProperty =
-            DependencyProperty.Register(nameof(ScalePadding), typeof(double), typeof(RadialGauge), new PropertyMetadata(23d, OnFaceChanged));
+            DependencyProperty.Register(nameof(ScalePadding), typeof(float), typeof(RadialGauge), new PropertyMetadata(23f, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ScaleTickWidth dependency property.
@@ -246,9 +246,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the width of the scale, in percentage of the gauge radius.
         /// </summary>
-        public double ScaleWidth
+        public float ScaleWidth
         {
-            get { return (double)GetValue(ScaleWidthProperty); }
+            get { return (float)GetValue(ScaleWidthProperty); }
             set { SetValue(ScaleWidthProperty, value); }
         }
 
@@ -345,9 +345,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the distance of the scale from the outside of the control, in percentage of the gauge radius.
         /// </summary>
-        public double ScalePadding
+        public float ScalePadding
         {
-            get { return (double)GetValue(ScalePaddingProperty); }
+            get { return (float)GetValue(ScalePaddingProperty); }
             set { SetValue(ScalePaddingProperty, value); }
         }
 
@@ -754,7 +754,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetGaugeValueFromPoint(Point p)
         {
-            var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
+            var pt = new Point((float)(p.X - (ActualWidth / 2)), (float)(-p.Y + (ActualHeight / 2)));
 
             var angle = Math.Atan2(pt.X, pt.Y) / Degrees2Radians;
             var divider = Mod(NormalizedMaxAngle - NormalizedMinAngle, 360);
@@ -775,7 +775,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Point ScalePoint(double angle, double middleOfScale)
         {
-            return new Point(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
+            return new Point((float)(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale)), (float)(100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale)));
         }
 
         private double ValueToAngle(double value)

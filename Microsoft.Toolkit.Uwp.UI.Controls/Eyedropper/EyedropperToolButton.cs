@@ -217,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 var transform = TargetElement.TransformToVisual(content);
                 var position = transform.TransformPoint(default(Point));
-                _eyedropper.WorkArea = new Rect(position, new Size(TargetElement.ActualWidth, TargetElement.ActualHeight));
+                _eyedropper.WorkArea = new Rect(position, new Size((float)TargetElement.ActualWidth, (float)TargetElement.ActualHeight));
                 if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
                 {
                     _eyedropper.XamlRoot = XamlRoot;

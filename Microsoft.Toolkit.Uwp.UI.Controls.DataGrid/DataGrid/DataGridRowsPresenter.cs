@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     // Visibility for all filler cells needs to be set in one place.  Setting it individually in
                     // each CellsPresenter causes an NxN layout cycle (see DevDiv Bugs 211557)
                     row.EnsureFillerVisibility();
-                    row.Arrange(new Rect(-this.OwningGrid.HorizontalOffset, topEdge, rowDesiredWidth, element.DesiredSize.Height));
+                    row.Arrange(new Rect((float)-this.OwningGrid.HorizontalOffset, (float)topEdge, (float)rowDesiredWidth, element.DesiredSize.Height));
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     if (groupHeader != null)
                     {
                         double leftEdge = this.OwningGrid.AreRowGroupHeadersFrozen ? 0 : -this.OwningGrid.HorizontalOffset;
-                        groupHeader.Arrange(new Rect(leftEdge, topEdge, rowDesiredWidth - leftEdge, element.DesiredSize.Height));
+                        groupHeader.Arrange(new Rect((float)leftEdge, (float)topEdge, (float)(rowDesiredWidth - leftEdge), element.DesiredSize.Height));
                     }
                 }
 
@@ -88,10 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             // Clip the RowsPresenter so rows cannot overlap other elements in certain styling scenarios
             RectangleGeometry rg = new RectangleGeometry();
-            rg.Rect = new Rect(0, 0, finalSize.Width, finalHeight);
+            rg.Rect = new Rect(0, 0, finalSize.Width, (float)finalHeight);
             this.Clip = rg;
 
-            return new Size(finalSize.Width, finalHeight);
+            return new Size(finalSize.Width, (float)finalHeight);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     }
                 }
 
-                element.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                element.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
 
                 if (row != null && row.HeaderCell != null)
                 {
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             // the real fix is to correct NegVerticalOffset.
             totalHeight = Math.Max(0, totalHeight);
 
-            return new Size(totalCellsWidth + headerWidth, totalHeight);
+            return new Size((float)(totalCellsWidth + headerWidth), (float)totalHeight);
         }
 
         /// <summary>

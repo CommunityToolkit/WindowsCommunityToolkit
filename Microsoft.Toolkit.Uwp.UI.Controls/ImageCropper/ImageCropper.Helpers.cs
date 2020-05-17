@@ -315,12 +315,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="targetRect">The rectangle.</param>
         /// <param name="aspectRatio">The aspect ratio.</param>
         /// <returns>The right rectangle.</returns>
-        private static Rect GetUniformRect(Rect targetRect, double aspectRatio)
+        private static Rect GetUniformRect(Rect targetRect, float aspectRatio)
         {
             var ratio = targetRect.Width / targetRect.Height;
             var cx = targetRect.X + (targetRect.Width / 2);
             var cy = targetRect.Y + (targetRect.Height / 2);
-            double width, height;
+            float width, height;
             if (aspectRatio > ratio)
             {
                 width = targetRect.Width;
@@ -340,12 +340,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return !targetRect.IsEmpty && targetRect.Width > 0 && targetRect.Height > 0;
         }
 
-        private static Point GetSafeSizeChangeWhenKeepAspectRatio(Rect targetRect, ThumbPosition thumbPosition, Rect selectedRect, Point originSizeChange, double aspectRatio)
+        private static Point GetSafeSizeChangeWhenKeepAspectRatio(Rect targetRect, ThumbPosition thumbPosition, Rect selectedRect, Point originSizeChange, float aspectRatio)
         {
             var safeWidthChange = originSizeChange.X;
             var safeHeightChange = originSizeChange.Y;
-            var maxWidthChange = 0d;
-            var maxHeightChange = 0d;
+            var maxWidthChange = 0f;
+            var maxHeightChange = 0f;
             switch (thumbPosition)
             {
                 case ThumbPosition.Top:

@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static bool _isMoved = false;
         private static Point _startPosition;
         private static bool _isDeferredMovingStarted = false;
-        private static double _factor = 50;
+        private static float _factor = 50;
         private static Point _currentPosition;
         private static Timer _timer;
         private static ScrollViewer _scrollViewer;
@@ -162,8 +162,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 offsetX /= _factor;
                 offsetY /= _factor;
 
-                offsetX = offsetX > 0 ? Math.Pow(offsetX, 2) : -Math.Pow(offsetX, 2);
-                offsetY = offsetY > 0 ? Math.Pow(offsetY, 2) : -Math.Pow(offsetY, 2);
+                offsetX = (float)(offsetX > 0 ? Math.Pow(offsetX, 2) : -Math.Pow(offsetX, 2));
+                offsetY = (float)(offsetY > 0 ? Math.Pow(offsetY, 2) : -Math.Pow(offsetY, 2));
 
                 offsetX = offsetX > _maxSpeed ? _maxSpeed : offsetX;
                 offsetY = offsetY > _maxSpeed ? _maxSpeed : offsetY;

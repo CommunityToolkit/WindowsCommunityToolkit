@@ -20,11 +20,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     {
         private readonly int _columnCount;
         private readonly int _rowCount;
-        private readonly double _borderThickness;
-        private double[] _columnWidths;
-        private double[] _rowHeights;
+        private readonly float _borderThickness;
+        private float[] _columnWidths;
+        private float[] _rowHeights;
 
-        public MarkdownTable(int columnCount, int rowCount, double borderThickness, Brush borderBrush)
+        public MarkdownTable(int columnCount, int rowCount, float borderThickness, Brush borderBrush)
         {
             _columnCount = columnCount;
             _rowCount = rowCount;
@@ -79,22 +79,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         protected override Size MeasureOverride(Size availableSize)
         {
             // Measure the width of each column, with no horizontal width restrictions.
-            var naturalColumnWidths = new double[_columnCount];
+            var naturalColumnWidths = new float[_columnCount];
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);
-                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                child.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
                 naturalColumnWidths[columnIndex] = Math.Max(naturalColumnWidths[columnIndex], child.DesiredSize.Width);
             }
 
             // Now figure out the actual column widths.
             var remainingContentWidth = availableSize.Width - ((_columnCount + 1) * _borderThickness);
-            _columnWidths = new double[_columnCount];
+            _columnWidths = new float[_columnCount];
             int remainingColumnCount = _columnCount;
             while (remainingColumnCount > 0)
             {
                 // Calculate the fair width of all columns.
-                double fairWidth = Math.Max(0, remainingContentWidth / remainingColumnCount);
+                float fairWidth = Math.Max(0, remainingContentWidth / remainingColumnCount);
 
                 // Are there any columns less than that?  If so, they get what they are asking for.
                 bool recalculationNeeded = false;
@@ -128,12 +128,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // the row heights we obtained earlier.
 
             // Now measure row heights.
-            _rowHeights = new double[_rowCount];
+            _rowHeights = new float[_rowCount];
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);
                 var rowIndex = Grid.GetRow(child);
-                child.Measure(new Size(_columnWidths[columnIndex], double.PositiveInfinity));
+                child.Measure(new Size(_columnWidths[columnIndex], float.PositiveInfinity));
                 _rowHeights[rowIndex] = Math.Max(_rowHeights[rowIndex], child.DesiredSize.Height);
             }
 
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // Arrange vertical border elements.
             {
                 int colIndex = 0;
-                double x = 0;
+                float x = 0;
                 foreach (var borderLine in VerticalLines)
                 {
                     borderLine.Arrange(new Rect(x, 0, _borderThickness, finalSize.Height));
@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // Arrange horizontal border elements.
             {
                 int rowIndex = 0;
-                double y = 0;
+                float y = 0;
                 foreach (var borderLine in HorizontalLines)
                 {
                     borderLine.Arrange(new Rect(0, y, finalSize.Width, _borderThickness));

@@ -61,9 +61,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var items = new List<OrbitViewDataItem>
                 {
-                    new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" },
-                    new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" },
-                    new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" }
+                    new OrbitViewDataItem() { Distance = 0.1f, Diameter = 0.5f, Label = "test" },
+                    new OrbitViewDataItem() { Distance = 0.1f, Diameter = 0.5f, Label = "test" },
+                    new OrbitViewDataItem() { Distance = 0.1f, Diameter = 0.5f, Label = "test" }
                 };
                 ItemsSource = items;
             }
@@ -135,9 +135,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Note: for this property to work, Data Context must be derived from OrbitViewItems
         /// and Diameter must be between 0 and 1
         /// </summary>
-        public double MinItemSize
+        public float MinItemSize
         {
-            get { return (double)GetValue(MinItemSizeProperty); }
+            get { return (float)GetValue(MinItemSizeProperty); }
             set { SetValue(MinItemSizeProperty, value); }
         }
 
@@ -145,16 +145,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MinItemSize"/> property
         /// </summary>
         public static readonly DependencyProperty MinItemSizeProperty =
-            DependencyProperty.Register(nameof(MinItemSize), typeof(double), typeof(OrbitView), new PropertyMetadata(20d, OnItemSizePropertyChanged));
+            DependencyProperty.Register(nameof(MinItemSize), typeof(float), typeof(OrbitView), new PropertyMetadata(20f, OnItemSizePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the maximum size of items
         /// Note: for this property to work, Data Context must be derived from OrbitViewItems
         /// and Diameter must be between 0 and 1
         /// </summary>
-        public double MaxItemSize
+        public float MaxItemSize
         {
-            get { return (double)GetValue(MaxItemSizeProperty); }
+            get { return (float)GetValue(MaxItemSizeProperty); }
             set { SetValue(MaxItemSizeProperty, value); }
         }
 
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MaxItemSize"/> property
         /// </summary>
         public static readonly DependencyProperty MaxItemSizeProperty =
-            DependencyProperty.Register(nameof(MaxItemSize), typeof(double), typeof(OrbitView), new PropertyMetadata(50d, OnItemSizePropertyChanged));
+            DependencyProperty.Register(nameof(MaxItemSize), typeof(float), typeof(OrbitView), new PropertyMetadata(50f, OnItemSizePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the color of anchors
@@ -317,7 +317,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 element.SetValue(AutomationProperties.NameProperty, orbitViewDataItem.Label);
                 if (orbitViewDataItem.Diameter >= 0)
                 {
-                    double diameter = Math.Min(orbitViewDataItem.Diameter, 1d);
+                    var diameter = Math.Min(orbitViewDataItem.Diameter, 1f);
                     orbitViewElement.Width = orbitViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
                 }
             }
@@ -410,7 +410,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var item = (OrbitViewDataItem)control.DataContext;
                         if (item.Diameter >= 0)
                         {
-                            double diameter = Math.Min(item.Diameter, 1d);
+                            float diameter = Math.Min(item.Diameter, 1f);
                             var content = (FrameworkElement)control.Content;
                             content.Width = content.Height = (diameter * (orbitView.MaxItemSize - orbitView.MinItemSize)) + orbitView.MinItemSize;
                         }

@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             foreach (UIElement child in this.Children)
             {
-                child.Arrange(new Rect(leftEdge, 0, width, height));
+                child.Arrange(new Rect((float)leftEdge, 0, (float)width, (float)height));
             }
 
             if (this.OwningGrid.AreRowDetailsFrozen)
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 // Clip so Details doesn't obstruct elements to the left (the RowHeader by default) as we scroll to the right
                 RectangleGeometry rg = new RectangleGeometry();
-                rg.Rect = new Rect(xClip, 0, Math.Max(0, width - xClip + rowGroupSpacerWidth), height);
+                rg.Rect = new Rect((float)xClip, 0, (float)Math.Max(0, width - xClip + rowGroupSpacerWidth), (float)height);
                 this.Clip = rg;
             }
 
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         {
             if (this.OwningGrid == null || this.Children.Count == 0)
             {
-                return new Size(0.0, 0.0);
+                return new Size(0.0f, 0.0f);
             }
 
             double desiredWidth = this.OwningGrid.AreRowDetailsFrozen ?
@@ -151,12 +151,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             foreach (UIElement child in this.Children)
             {
-                child.Measure(new Size(desiredWidth, double.PositiveInfinity));
+                child.Measure(new Size((float)desiredWidth, float.PositiveInfinity));
             }
 
             double desiredHeight = Math.Max(0, double.IsNaN(this.ContentHeight) ? 0 : this.ContentHeight);
 
-            return new Size(desiredWidth, desiredHeight);
+            return new Size((float)desiredWidth, (float)desiredHeight);
         }
 
         /// <summary>

@@ -169,8 +169,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
             _bounds.X = screenCoords.X;
             _bounds.Y = screenCoords.Y;
-            _bounds.Width = ActualWidth;
-            _bounds.Height = ActualHeight;
+            _bounds.Width = (float)ActualWidth;
+            _bounds.Height = (float)ActualHeight;
         }
 
         internal IEnumerable<MenuFlyoutItemBase> GetMenuFlyoutItems()
@@ -387,11 +387,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Point location;
             if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
             {
-                location = new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight);
+                location = new Point((float)(FlyoutButton.ActualWidth - menuWidth), (float)FlyoutButton.ActualHeight);
             }
             else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
             {
-                location = new Point(FlyoutButton.ActualWidth, FlyoutButton.ActualHeight - menuHeight);
+                location = new Point((float)FlyoutButton.ActualWidth, (float)(FlyoutButton.ActualHeight - menuHeight));
             }
             else
             {
@@ -416,11 +416,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Point location;
             if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
             {
-                location = new Point(0, FlyoutButton.ActualHeight);
+                location = new Point(0, (float)FlyoutButton.ActualHeight);
             }
             else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
             {
-                location = new Point(FlyoutButton.ActualWidth, 0);
+                location = new Point((float)FlyoutButton.ActualWidth, 0);
             }
             else
             {

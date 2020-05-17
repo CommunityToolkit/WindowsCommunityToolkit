@@ -822,22 +822,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             Debug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
 
             scrollAmount = 0;
-            double leftEdge = 0;
+            float leftEdge = 0;
 
             if (this.OwningGrid.ColumnsInternal.RowGroupSpacerColumn.IsRepresented)
             {
-                leftEdge = this.OwningGrid.ColumnsInternal.RowGroupSpacerColumn.ActualWidth;
+                leftEdge = (float)this.OwningGrid.ColumnsInternal.RowGroupSpacerColumn.ActualWidth;
             }
 
             DataGridColumnHeaderInteractionInfo interactionInfo = this.OwningGrid.ColumnHeaderInteractionInfo;
-            double rightEdge = this.OwningGrid.CellsWidth;
+            float rightEdge = (float)this.OwningGrid.CellsWidth;
             if (this.OwningColumn.IsFrozen)
             {
-                rightEdge = Math.Min(rightEdge, interactionInfo.FrozenColumnsWidth);
+                rightEdge = (float)Math.Min(rightEdge, interactionInfo.FrozenColumnsWidth);
             }
             else if (this.OwningGrid.FrozenColumnCount > 0)
             {
-                leftEdge = interactionInfo.FrozenColumnsWidth;
+                leftEdge = (float)interactionInfo.FrozenColumnsWidth;
             }
 
             if (pointerPositionHeaders.X < leftEdge)
@@ -1018,7 +1018,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     {
                         targetColumn = this.OwningGrid.ColumnsInternal.GetLastColumn(true /*isVisible*/, this.OwningColumn.IsFrozen /*isFrozen*/, null /*isReadOnly*/);
                         targetPosition = targetColumn.HeaderCell.Translate(this.OwningGrid.ColumnHeaders, targetPosition);
-                        targetPosition.X += targetColumn.ActualWidth;
+                        targetPosition.X += (float)targetColumn.ActualWidth;
                     }
                     else
                     {

@@ -771,7 +771,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double value = (double)e.NewValue;
+                var value = (double)e.NewValue;
                 if (value < DATAGRID_minimumColumnHeaderHeight)
                 {
                     dataGrid.SetValueNoCallback(e.Property, e.OldValue);
@@ -897,8 +897,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double oldValue = (double)e.OldValue;
-                double newValue = (double)e.NewValue;
+                var oldValue = (double)e.OldValue;
+                var newValue = (double)e.NewValue;
 
                 if (double.IsNaN(newValue))
                 {
@@ -1083,7 +1083,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     dataGrid.EnsureColumnHeadersVisibility();
                     if (!newValueCols)
                     {
-                        dataGrid._columnHeadersPresenter.Measure(new Size(0.0, 0.0));
+                        dataGrid._columnHeadersPresenter.Measure(new Size(0.0f, 0.0f));
                     }
                     else
                     {
@@ -1130,7 +1130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 dataGrid._topLeftCornerHeader.Visibility = (newValueRows && newValueCols) ? Visibility.Visible : Visibility.Collapsed;
                 if (dataGrid._topLeftCornerHeader.Visibility == Visibility.Collapsed)
                 {
-                    dataGrid._topLeftCornerHeader.Measure(new Size(0.0, 0.0));
+                    dataGrid._topLeftCornerHeader.Measure(new Size(0.0f, 0.0f));
                 }
             }
         }
@@ -1347,8 +1347,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double oldValue = (double)e.OldValue;
-                double newValue = (double)e.NewValue;
+                var oldValue = (double)e.OldValue;
+                var newValue = (double)e.NewValue;
 
                 if (double.IsNaN(newValue))
                 {
@@ -1527,8 +1527,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double oldValue = (double)e.OldValue;
-                double newValue = (double)e.NewValue;
+                var oldValue = (double)e.OldValue;
+                var newValue = (double)e.NewValue;
 
                 if (double.IsNaN(newValue))
                 {
@@ -1584,8 +1584,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double oldValue = (double)e.OldValue;
-                double newValue = (double)e.NewValue;
+                var oldValue = (double)e.OldValue;
+                var newValue = (double)e.NewValue;
 
                 if (double.IsNaN(newValue))
                 {
@@ -1778,7 +1778,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double value = (double)e.NewValue;
+                var value = (double)e.NewValue;
 
                 if (value < DataGridRow.DATAGRIDROW_minimumHeight)
                 {
@@ -1831,7 +1831,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double value = (double)e.NewValue;
+                var value = (double)e.NewValue;
 
                 if (value < DATAGRID_minimumRowHeaderWidth)
                 {
@@ -2456,7 +2456,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                double rowsWidth = double.PositiveInfinity;
+                var rowsWidth = double.PositiveInfinity;
                 if (this.RowsPresenterAvailableSize.HasValue)
                 {
                     rowsWidth = Math.Max(0, this.RowsPresenterAvailableSize.Value.Width - this.ActualRowHeaderWidth);
@@ -2742,7 +2742,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // We only auto grow
                 if (_rowHeaderDesiredWidth < value)
                 {
-                    double oldActualRowHeaderWidth = this.ActualRowHeaderWidth;
+                    var oldActualRowHeaderWidth = this.ActualRowHeaderWidth;
                     _rowHeaderDesiredWidth = value;
                     if (oldActualRowHeaderWidth != this.ActualRowHeaderWidth)
                     {
@@ -8439,7 +8439,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (!this.IsHorizontalScrollBarOverCells && _hScrollBar.DesiredSize.Height == 0)
                         {
                             // We need to know the height for the rest of layout to work correctly so measure it now
-                            _hScrollBar.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                            _hScrollBar.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
                         }
                     }
                 }
@@ -8873,7 +8873,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (!this.IsVerticalScrollBarOverCells && _vScrollBar.DesiredSize.Width == 0)
                         {
                             // We need to know the width for the rest of layout to work correctly so measure it now.
-                            _vScrollBar.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                            _vScrollBar.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
                         }
                     }
                 }

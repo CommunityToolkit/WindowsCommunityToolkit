@@ -491,7 +491,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var carouselItem = (CarouselItem)element;
             carouselItem.Selected += OnCarouselItemSelected;
 
-            carouselItem.RenderTransformOrigin = new Point(0.5, 0.5);
+            carouselItem.RenderTransformOrigin = new Point(0.5f, 0.5f);
 
             carouselItem.IsTabStop = Items.IndexOf(item) == SelectedIndex;
             carouselItem.UseSystemFocusVisuals = true;

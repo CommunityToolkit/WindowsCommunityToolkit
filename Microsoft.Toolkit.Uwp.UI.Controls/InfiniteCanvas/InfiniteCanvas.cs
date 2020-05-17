@@ -184,13 +184,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(InfiniteCanvas),
                 new PropertyMetadata(DefaultMinZoomFactor, MinMaxZoomChangedPropertyChanged));
 
-        private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, ViewPortWidth, ViewPortHeight);
+        private Rect ViewPort => new Rect((float)_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, (float)_infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, ViewPortWidth, ViewPortHeight);
 
-        private double ViewPortHeight
+        private float ViewPortHeight
         {
             get
             {
-                double height;
+                float height;
                 if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
                 {
                     if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
@@ -204,18 +204,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    height = _infiniteCanvasScrollViewer.ViewportHeight;
+                    height = (float)_infiniteCanvasScrollViewer.ViewportHeight;
                 }
 
                 return height / _infiniteCanvasScrollViewer.ZoomFactor;
             }
         }
 
-        private double ViewPortWidth
+        private float ViewPortWidth
         {
             get
             {
-                double width;
+                float width;
                 if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
                 {
                     if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
@@ -229,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    width = _infiniteCanvasScrollViewer.ViewportWidth;
+                    width = (float)_infiniteCanvasScrollViewer.ViewportWidth;
                 }
 
                 return width / _infiniteCanvasScrollViewer.ZoomFactor;

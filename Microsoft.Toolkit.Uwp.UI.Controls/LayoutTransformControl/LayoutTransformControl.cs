@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Value used to work around double arithmetic rounding issues.
         /// </summary>
-        private const double AcceptableDelta = 0.0001;
+        private const float AcceptableDelta = 0.0001f;
 
         /// <summary>
         /// Value used to work around double arithmetic rounding issues.
@@ -291,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Unfortunately, all the work so far is invalid because the wrong DesiredSize was used
                 // Make a note of the actual DesiredSize
-                _childActualSize = new Size(child.ActualWidth, child.ActualHeight);
+                _childActualSize = new Size((float)child.ActualWidth, (float)child.ActualHeight);
 
                 // Force a new measure/arrange pass
                 InvalidateMeasure();
@@ -318,14 +318,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Size computedSize = Size.Empty;
 
             // Detect infinite bounds and constrain the scenario
-            bool infiniteWidth = double.IsInfinity(arrangeBounds.Width);
+            bool infiniteWidth = float.IsInfinity(arrangeBounds.Width);
 
             if (infiniteWidth)
             {
                 arrangeBounds.Width = arrangeBounds.Height;
             }
 
-            bool infiniteHeight = double.IsInfinity(arrangeBounds.Height);
+            bool infiniteHeight = float.IsInfinity(arrangeBounds.Height);
 
             if (infiniteHeight)
             {
@@ -333,28 +333,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Capture the matrix parameters
-            double a = _transformation.M11;
-            double b = _transformation.M12;
-            double c = _transformation.M21;
-            double d = _transformation.M22;
+            float a = (float)_transformation.M11;
+            float b = (float)_transformation.M12;
+            float c = (float)_transformation.M21;
+            float d = (float)_transformation.M22;
 
             // Compute maximum possible transformed width/height based on starting width/height
             // These constraints define two lines in the positive x/y quadrant
-            double maxWidthFromWidth = Math.Abs(arrangeBounds.Width / a);
-            double maxHeightFromWidth = Math.Abs(arrangeBounds.Width / c);
-            double maxWidthFromHeight = Math.Abs(arrangeBounds.Height / b);
-            double maxHeightFromHeight = Math.Abs(arrangeBounds.Height / d);
+            float maxWidthFromWidth = Math.Abs(arrangeBounds.Width / a);
+            float maxHeightFromWidth = Math.Abs(arrangeBounds.Width / c);
+            float maxWidthFromHeight = Math.Abs(arrangeBounds.Height / b);
+            float maxHeightFromHeight = Math.Abs(arrangeBounds.Height / d);
 
             // The transformed width/height that maximize the area under each segment is its midpoint
             // At most one of the two midpoints will satisfy both constraints
-            double idealWidthFromWidth = maxWidthFromWidth / 2;
-            double idealHeightFromWidth = maxHeightFromWidth / 2;
-            double idealWidthFromHeight = maxWidthFromHeight / 2;
-            double idealHeightFromHeight = maxHeightFromHeight / 2;
+            float idealWidthFromWidth = maxWidthFromWidth / 2;
+            float idealHeightFromWidth = maxHeightFromWidth / 2;
+            float idealWidthFromHeight = maxWidthFromHeight / 2;
+            float idealHeightFromHeight = maxHeightFromHeight / 2;
 
             // Compute slope of both constraint lines
-            double slopeFromWidth = -(maxHeightFromWidth / maxWidthFromWidth);
-            double slopeFromHeight = -(maxHeightFromHeight / maxWidthFromHeight);
+            float slopeFromWidth = -(maxHeightFromWidth / maxWidthFromWidth);
+            float slopeFromHeight = -(maxHeightFromHeight / maxWidthFromHeight);
 
             if (arrangeBounds.Width == 0 || arrangeBounds.Height == 0)
             {
@@ -364,7 +364,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (infiniteWidth && infiniteHeight)
             {
                 // Check for completely unbound scenario
-                computedSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+                computedSize = new Size(float.PositiveInfinity, float.PositiveInfinity);
             }
             else if (!_transformation.HasInverse())
             {
@@ -374,8 +374,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (b == 0 || c == 0)
             {
                 // Check for 0/180 degree special cases
-                double maxHeight = infiniteHeight ? double.PositiveInfinity : maxHeightFromHeight;
-                double maxWidth = infiniteWidth ? double.PositiveInfinity : maxWidthFromWidth;
+                float maxHeight = infiniteHeight ? float.PositiveInfinity : maxHeightFromHeight;
+                float maxWidth = infiniteWidth ? float.PositiveInfinity : maxWidthFromWidth;
 
                 if (b == 0 && c == 0)
                 {
@@ -385,7 +385,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (b == 0)
                 {
                     // Constrained by width
-                    double computedHeight = Math.Min(idealHeightFromWidth, maxHeight);
+                    float computedHeight = Math.Min(idealHeightFromWidth, maxHeight);
                     computedSize = new Size(
                         maxWidth - Math.Abs((c * computedHeight) / a),
                         computedHeight);
@@ -393,7 +393,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (c == 0)
                 {
                     // Constrained by height
-                    double computedWidth = Math.Min(idealWidthFromHeight, maxWidth);
+                    float computedWidth = Math.Min(idealWidthFromHeight, maxWidth);
                     computedSize = new Size(
                         computedWidth,
                         maxHeight - Math.Abs((b * computedWidth) / d));
@@ -402,8 +402,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (a == 0 || d == 0)
             {
                 // Check for 90/270 degree special cases
-                double maxWidth = infiniteHeight ? double.PositiveInfinity : maxWidthFromHeight;
-                double maxHeight = infiniteWidth ? double.PositiveInfinity : maxHeightFromWidth;
+                float maxWidth = infiniteHeight ? float.PositiveInfinity : maxWidthFromHeight;
+                float maxHeight = infiniteWidth ? float.PositiveInfinity : maxHeightFromWidth;
 
                 if (a == 0 && d == 0)
                 {
@@ -413,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (a == 0)
                 {
                     // Constrained by width
-                    double computedHeight = Math.Min(idealHeightFromHeight, maxHeight);
+                    float computedHeight = Math.Min(idealHeightFromHeight, maxHeight);
                     computedSize = new Size(
                         maxWidth - Math.Abs((d * computedHeight) / b),
                         computedHeight);
@@ -421,7 +421,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (d == 0)
                 {
                     // Constrained by height.
-                    double computedWidth = Math.Min(idealWidthFromWidth, maxWidth);
+                    float computedWidth = Math.Min(idealWidthFromWidth, maxWidth);
                     computedSize = new Size(
                         computedWidth,
                         maxHeight - Math.Abs((a * computedWidth) / c));
@@ -442,7 +442,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Neither midpoint is viable; use the intersection of the two constraint lines instead.
 
                 // Compute width by setting heights equal (m1*x+c1=m2*x+c2).
-                double computedWidth = (maxHeightFromHeight - maxHeightFromWidth) / (slopeFromWidth - slopeFromHeight);
+                float computedWidth = (maxHeightFromHeight - maxHeightFromWidth) / (slopeFromWidth - slopeFromHeight);
 
                 // Compute height from width constraint line (y=m*x+c; using height would give same result).
                 computedSize = new Size(

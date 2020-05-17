@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Strokes = strokes;
 
             var first = strokes.First();
-            double top = first.BoundingRect.Top, bottom = first.BoundingRect.Bottom, left = first.BoundingRect.Left, right = first.BoundingRect.Right;
+            float top = first.BoundingRect.Top, bottom = first.BoundingRect.Bottom, left = first.BoundingRect.Left, right = first.BoundingRect.Right;
 
             for (var index = 1; index < strokes.Count; index++)
             {

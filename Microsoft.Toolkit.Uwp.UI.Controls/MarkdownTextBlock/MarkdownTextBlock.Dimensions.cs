@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty YamlBorderThicknessProperty = DependencyProperty.Register(
             nameof(YamlBorderThickness),
-            typeof(double),
+            typeof(float),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -290,7 +290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty TableBorderThicknessProperty = DependencyProperty.Register(
             nameof(TableBorderThickness),
-            typeof(double),
+            typeof(float),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -621,18 +621,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the thickness of any yaml header borders.
         /// </summary>
-        public double YamlBorderThickness
+        public float YamlBorderThickness
         {
-            get { return (double)GetValue(YamlBorderThicknessProperty); }
+            get { return (float)GetValue(YamlBorderThicknessProperty); }
             set { SetValue(YamlBorderThicknessProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the thickness of any table borders.
         /// </summary>
-        public double TableBorderThickness
+        public float TableBorderThickness
         {
-            get { return (double)GetValue(TableBorderThicknessProperty); }
+            get { return (float)GetValue(TableBorderThicknessProperty); }
             set { SetValue(TableBorderThicknessProperty, value); }
         }
 
