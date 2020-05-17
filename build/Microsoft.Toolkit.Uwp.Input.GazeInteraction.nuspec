@@ -21,9 +21,9 @@
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd" target="lib\uap10.0.17134"/>
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.xml" target="lib\uap10.0.17134"/>
 
-      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\net5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.dll" target="lib\net5.0"/>
-      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\net5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pri" target="lib\net5.0"/>
-      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\net5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pdb" target="lib\net5.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\netcoreapp5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.dll" target="lib\netcoreapp5.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\netcoreapp5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pri" target="lib\netcoreapp5.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\netcoreapp5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pdb" target="lib\netcoreapp5.0"/>
 
       <!-- DLLs and resources -->
 	  <!-- Not Available on preview versions of WinUI3.

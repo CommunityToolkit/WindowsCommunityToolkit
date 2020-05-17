@@ -105,7 +105,7 @@ void RetrieveVersion()
 void UpdateToolsPath(MSBuildSettings buildSettings)
 {
     // Workaround for https://github.com/cake-build/cake/issues/2128
-	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = true });
+	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = false });
 
 	if (vsInstallation != null)
 	{
@@ -304,7 +304,7 @@ Task("Test")
 {
 	var vswhere = VSWhereLatest(new VSWhereLatestSettings
 	{
-		IncludePrerelease = true
+		IncludePrerelease = false
 	});
 
 	var testSettings = new VSTestSettings

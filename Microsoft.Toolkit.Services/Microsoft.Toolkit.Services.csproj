@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp5.0;netstandard2.0</TargetFrameworks> <!-- Removed  NET462/WPF -->
+    <TargetFramework>netcoreapp5.0</TargetFramework><!-- Removed  NET462/WPF/netstandard2.0 -->
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>
       This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.
@@ -13,7 +13,7 @@
 
     <NoWarn>CS8002;CS0618</NoWarn>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp5.0'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>

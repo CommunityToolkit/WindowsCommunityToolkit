@@ -15,7 +15,7 @@
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
     <ShouldAddWinUI>False</ShouldAddWinUI>
-    <ShouldAddWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">True</ShouldAddWinUI>
+    <ShouldAddWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</ShouldAddWinUI>
     <DefaultTargetPlatformVersion>18362</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
     <MicrosoftWinUIVersion>3.0.0-preview1.200515.1-CI</MicrosoftWinUIVersion>
@@ -82,15 +82,6 @@
       <ItemGroup>
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
       </ItemGroup>
-    </When>
-  </Choose>
-  
-  <Choose>
-    <When Condition="'$(ShouldAddWinUI)' == 'true' and $(TargetFramework) == 'netcoreapp5.0' and '$(Configuration)' == 'Release'">
-      <PropertyGroup>
-        <!--<DisableEmbeddedXbf>false</DisableEmbeddedXbf>-->
-        <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
-      </PropertyGroup>
     </When>
   </Choose>
   
