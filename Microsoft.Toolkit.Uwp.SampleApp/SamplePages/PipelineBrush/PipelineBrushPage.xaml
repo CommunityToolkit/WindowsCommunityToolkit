@@ -1,0 +1,84 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PipelineBrushPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
+    mc:Ignorable="d">
+
+    <!--Shallow copy-->
+    <Grid>
+        <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ProgressRing IsActive="True" Grid.ColumnSpan="2"
+                          VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush>
+                        <media:PipelineBrush.Effects>
+                            <effects:AcrylicEffect/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:BackdropEffect Source="Backdrop"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
+                            <effects:BlurEffect/>
+                            <effects:ExposureEffect/>
+                            <effects:GrayscaleEffect/>
+                            <effects:HueRotationEffect/>
+                        </media:PipelineBrush.Effects>
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush>
+                        <media:PipelineBrush.Effects>
+                            <effects:AcrylicEffect/>
+                            <effects:HueRotationEffect/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:ImageEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
+                            <effects:InvertEffect/>
+                            <effects:LuminanceToAlphaEffect/>
+                            <effects:OpacityEffect/>
+                            <effects:SaturationEffect/>
+                            <effects:SepiaEffect/>
+                        </media:PipelineBrush.Effects>
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <media:PipelineBrush>
+                        <media:PipelineBrush.Effects>
+                            <effects:AcrylicEffect/>
+                            <effects:SepiaEffect/>
+                            <effects:ShadeEffect/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:SolidColorEffect/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
+                            <effects:TemperatureAndTintEffect/>
+                            <effects:BlendEffect>
+                                <effects:BlendEffect.Input>
+                                    <effects:TileEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
+                                </effects:BlendEffect.Input>
+                            </effects:BlendEffect>
+                            <effects:TintEffect/>
+                        </media:PipelineBrush.Effects>
+                    </media:PipelineBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
