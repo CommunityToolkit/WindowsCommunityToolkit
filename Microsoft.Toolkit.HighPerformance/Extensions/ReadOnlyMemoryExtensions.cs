@@ -8,8 +8,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
