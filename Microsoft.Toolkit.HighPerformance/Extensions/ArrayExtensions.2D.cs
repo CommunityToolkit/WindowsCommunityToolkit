@@ -6,10 +6,11 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+#if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
-
-#nullable enable
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -29,10 +30,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReference<T>(this T[,] array)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 
             return ref r0;
+#else
+#pragma warning disable SA1131 // Inverted comparison to remove JIT bounds check
+            if (0u < (uint)array.Length)
+            {
+                return ref array[0, 0];
+            }
+
+            unsafe
+            {
+                return ref Unsafe.AsRef<T>(null);
+            }
+#pragma warning restore SA1131
+#endif
         }
 
         /// <summary>
@@ -53,14 +68,28 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this T[,] array, int i, int j)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
             int offset = (i * arrayData.Width) + j;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
             ref T ri = ref Unsafe.Add(ref r0, offset);
 
             return ref ri;
+#else
+            if ((uint)i < (uint)array.GetLength(0) &&
+                (uint)j < (uint)array.GetLength(1))
+            {
+                return ref array[i, j];
+            }
+
+            unsafe
+            {
+                return ref Unsafe.AsRef<T>(null);
+            }
+#endif
         }
 
+#if NETCORE_RUNTIME
         // Description adapted from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
         // CLR 2D arrays are laid out in memory as follows:
         // [ sync block || pMethodTable || Length (padded to IntPtr) || HxW || HxW bounds || array data .. ]
@@ -83,6 +112,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #pragma warning restore CS0649
 #pragma warning restore SA1401
         }
+#endif
 
         /// <summary>
         /// Fills an area in a given 2D <typeparamref name="T"/> array instance with a specified value.
@@ -105,20 +135,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             for (int i = bounds.Top; i < bounds.Bottom; i++)
             {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
+#if NETCORE_RUNTIME
+                ref T r0 = ref array.DangerousGetReferenceAt(i, bounds.Left);
+#else
                 ref T r0 = ref array[i, bounds.Left];
+#endif
 
                 // Span<T>.Fill will use vectorized instructions when possible
                 MemoryMarshal.CreateSpan(ref r0, bounds.Width).Fill(value);
 #else
-                ref T r0 = ref array.DangerousGetReferenceAt(i, bounds.Left);
+                ref T r0 = ref array[i, bounds.Left];
 
                 for (int j = 0; j < bounds.Width; j++)
                 {
-                    /* Storing the initial reference and only incrementing
-                     * that one in each iteration saves one additional indirect
-                     * dereference for every loop iteration compared to using
-                     * the DangerousGetReferenceAt<T> extension on the array. */
+                    // Storing the initial reference and only incrementing
+                    // that one in each iteration saves one additional indirect
+                    // dereference for every loop iteration compared to using
+                    // the DangerousGetReferenceAt<T> extension on the array.
                     Unsafe.Add(ref r0, j) = value;
                 }
 #endif
@@ -135,21 +169,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             Span<T>
 #else
-            /* .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
-             * which is necessary to create arbitrary Span<T>-s over a 2D array.
-             * To work around this, we use a custom ref struct enumerator,
-             * which makes the lack of that API completely transparent to the user.
-             * If a user then moves from .NET Standard 2.0 to 2.1, all the previous
-             * features will be perfectly supported, and in addition to that it will
-             * also gain the ability to use the Span<T> value elsewhere.
-             * The only case where this would be a breaking change for a user upgrading
-             * the target framework is when the returned enumerator type is used directly,
-             * but since that's specifically discouraged from the docs, we don't
-             * need to worry about that scenario in particular, as users doing that
-             * would be willingly go against the recommended usage of this API. */
+            // .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
+            // which is necessary to create arbitrary Span<T>-s over a 2D array.
+            // To work around this, we use a custom ref struct enumerator,
+            // which makes the lack of that API completely transparent to the user.
+            // If a user then moves from .NET Standard 2.0 to 2.1, all the previous
+            // features will be perfectly supported, and in addition to that it will
+            // also gain the ability to use the Span<T> value elsewhere.
+            // The only case where this would be a breaking change for a user upgrading
+            // the target framework is when the returned enumerator type is used directly,
+            // but since that's specifically discouraged from the docs, we don't
+            // need to worry about that scenario in particular, as users doing that
+            // would be willingly go against the recommended usage of this API.
             Array2DRowEnumerable<T>
 #endif
             GetRow<T>(this T[,] array, int row)
@@ -159,7 +193,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 throw new ArgumentOutOfRangeException(nameof(row));
             }
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
 
             return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
@@ -198,7 +232,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return new Array2DColumnEnumerable<T>(array, column);
         }
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Cretes a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
         /// </summary>
@@ -209,22 +243,27 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<T> AsSpan<T>(this T[,] array)
         {
+#if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
 
-            /* On x64, the length is padded to x64, but it is represented in memory
-             * as two sequential uint fields (one of which is padding).
-             * So we can just reinterpret a reference to the IntPtr as one of type
-             * uint, to access the first 4 bytes of that field, regardless of whether
-             * we're running in a 32 or 64 bit process. This will work when on little
-             * endian systems as well, as the memory layout for fields is the same,
-             * the only difference is the order of bytes within each field of a given type.
-             * We use checked here to follow suit with the CoreCLR source, where an
-             * invalid value here should fail to perform the cast and throw an exception. */
+            // On x64, the length is padded to x64, but it is represented in memory
+            // as two sequential uint fields (one of which is padding).
+            // So we can just reinterpret a reference to the IntPtr as one of type
+            // uint, to access the first 4 bytes of that field, regardless of whether
+            // we're running in a 32 or 64 bit process. This will work when on little
+            // endian systems as well, as the memory layout for fields is the same,
+            // the only difference is the order of bytes within each field of a given type.
+            // We use checked here to follow suit with the CoreCLR source, where an
+            // invalid value here should fail to perform the cast and throw an exception.
             int length = checked((int)Unsafe.As<IntPtr, uint>(ref arrayData.Length));
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-
+#else
+            int length = array.Length;
+            ref T r0 = ref array[0, 0];
+#endif
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
+#endif
 
         /// <summary>
         /// Counts the number of occurrences of a given value into a target 2D <typeparamref name="T"/> array instance.
@@ -238,11 +277,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this T[,] array, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(array.AsSpan(), value);
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>
         /// Gets a content hash from the input 2D <typeparamref name="T"/> array instance using the Djb2 algorithm.
+        /// For more info, see the documentation for <see cref="ReadOnlySpanExtensions.GetDjb2HashCode{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of items in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
@@ -253,8 +296,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this T[,] array)
             where T : notnull
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(array.AsSpan());
+            ref T r0 = ref array.DangerousGetReference();
+            IntPtr length = (IntPtr)array.Length;
+
+            return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
-#endif
     }
 }

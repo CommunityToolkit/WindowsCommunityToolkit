@@ -64,6 +64,10 @@ namespace UnitTests.HighPerformance.Buffers
             buffer.Dispose();
             buffer.Dispose();
             buffer.Dispose();
+
+            // This test consists in just getting here without crashes.
+            // We're validating that calling Dispose multiple times
+            // by accident doesn't cause issues, and just does nothing.
         }
 
         [TestCategory("HashCodeOfT")]
