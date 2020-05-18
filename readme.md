@@ -52,7 +52,6 @@ Once you do a search, you should see a list similar to the one below (versions m
 ## <a name="supported"></a> Features
 The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/toc.md#controls) refers to all the currently available features that can be found in the Windows Community Toolkit. Most features should work with the Falls Creator Update SDK 16299 and above; however, refer to specific documentation on each feature for more information.
 
-
 ## Feedback and Requests
 Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
@@ -63,7 +62,7 @@ The following dependencies are required for building the Windows Community Toolk
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) with UWP and .NET workloads
   * You'll also need to check the `C++ (v142) Universal Windows Platform tools` option under the UWP workload
 * [Windows SDK October 2018 Update 17763](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
-* [Sample App - Windows SDK May 2019 Update 18362](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
+* [Sample App - Windows SDK May 2019 Update 18362](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) - **Important:** If you're building the Sample App on 2004, you must install the 19041 SDK and re-target the app [ref](https://github.com/microsoft/microsoft-ui-xaml/issues/1286).
 * [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/visual-studio-sdks)
 * [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
 

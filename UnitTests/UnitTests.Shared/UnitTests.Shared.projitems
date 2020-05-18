@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4e9466d1-d5aa-46ac-801b-c8fdab79f0d4</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UnitTests.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IntGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableGroupedCollectionExtensionsTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableGroupedCollectionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableGroupTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ReadOnlyObservableGroupedCollectionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ReadOnlyObservableGroupTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Array.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Comparable.Numeric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
+  </ItemGroup>
+</Project>
