@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="type">The input type.</param>
         /// <returns>An array of types representing the generic arguments.</returns>
-        public static Type[] GetGenericArguments(this Type type)
+        private static Type[] GetGenericArguments(this Type type)
         {
             return type.GetTypeInfo().GenericTypeParameters;
         }
