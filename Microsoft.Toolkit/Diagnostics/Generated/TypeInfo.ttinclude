@@ -2,6 +2,9 @@
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".g.cs"#>
+// =====================
+// Auto generated file
+// =====================
 <#+
     /// <summary>
     /// A model representing the info on an enumerable type

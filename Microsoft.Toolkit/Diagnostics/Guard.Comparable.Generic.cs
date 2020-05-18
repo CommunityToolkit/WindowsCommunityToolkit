@@ -98,11 +98,11 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            /* Include some fast paths if the input type is of size 1, 2, 4 or 8.
-             * In those cases, just reinterpret the bytes as values of an integer type,
-             * and compare them directly, which is much faster than having a loop over each byte.
-             * The conditional branches below are known at compile time by the JIT compiler,
-             * so that only the right one will actually be translated into native code. */
+            // Include some fast paths if the input type is of size 1, 2, 4 or 8.
+            // In those cases, just reinterpret the bytes as values of an integer type,
+            // and compare them directly, which is much faster than having a loop over each byte.
+            // The conditional branches below are known at compile time by the JIT compiler,
+            // so that only the right one will actually be translated into native code.
             if (typeof(T) == typeof(byte) ||
                 typeof(T) == typeof(sbyte) ||
                 typeof(T) == typeof(bool))
