@@ -166,12 +166,36 @@ Task("BuildProjects")
     .IsDependentOn("Version")
     .Does(() =>
 {
-    Information("\nBuilding Solution");
-
     EnsureDirectoryExists(nupkgDir);
 
-    // Build C++ packages
+    Information("\nRestoring Solution Dependencies");
+
     var buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Release")
+    .WithTarget("Restore");
+	
+    UpdateToolsPath(buildSettings);
+
+    MSBuild(Solution, buildSettings);
+
+    Information("\nRestoring Native Solution Dependencies");
+
+    var nugetRestoreSettings = new NuGetRestoreSettings
+    {
+        PackagesDirectory = baseDir + "/packages",
+        ConfigFile = baseDir + "/nuget.config",
+        NonInteractive = true
+    };
+
+    NuGetRestore(baseDir + "/Microsoft.Toolkit.Uwp.Input.GazeInteraction/packages.config", nugetRestoreSettings);
+
+    Information("\nBuilding Solution");
+
+    // Build C++ packages
+    buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
@@ -191,17 +215,6 @@ Task("BuildProjects")
     MSBuild(Solution, buildSettings);
 
     buildSettings.SetPlatformTarget(PlatformTarget.x86);
-    MSBuild(Solution, buildSettings);
-
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Release")
-    .WithTarget("Restore");
-	
-    UpdateToolsPath(buildSettings);
-
     MSBuild(Solution, buildSettings);
 
     // Build once with normal dependency ordering
