@@ -16,7 +16,7 @@
     <DebugType>Full</DebugType>
   </PropertyGroup>
 
-  <!-- .NET Standard 1.4 doesn't have the Span<T> type, ValueTuple or System.Diagnostics.Contracts-->
+  <!-- .NET Standard 1.4 doesn't have the Span<T> type, ValueTuple or the [Pure] attribute -->
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
