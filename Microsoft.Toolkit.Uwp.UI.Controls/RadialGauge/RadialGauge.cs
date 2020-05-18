@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ScaleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register(nameof(ScaleWidth), typeof(float), typeof(RadialGauge), new PropertyMetadata(26.0f, OnScaleChanged));
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(26.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the NeedleBrush dependency property.
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ScalePadding dependency property.
         /// </summary>
         public static readonly DependencyProperty ScalePaddingProperty =
-            DependencyProperty.Register(nameof(ScalePadding), typeof(float), typeof(RadialGauge), new PropertyMetadata(23f, OnFaceChanged));
+            DependencyProperty.Register(nameof(ScalePadding), typeof(double), typeof(RadialGauge), new PropertyMetadata(23d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ScaleTickWidth dependency property.
@@ -246,9 +246,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the width of the scale, in percentage of the gauge radius.
         /// </summary>
-        public float ScaleWidth
+        public double ScaleWidth
         {
-            get { return (float)GetValue(ScaleWidthProperty); }
+            get { return (double)GetValue(ScaleWidthProperty); }
             set { SetValue(ScaleWidthProperty, value); }
         }
 
@@ -345,9 +345,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the distance of the scale from the outside of the control, in percentage of the gauge radius.
         /// </summary>
-        public float ScalePadding
+        public double ScalePadding
         {
-            get { return (float)GetValue(ScalePaddingProperty); }
+            get { return (double)GetValue(ScalePaddingProperty); }
             set { SetValue(ScalePaddingProperty, value); }
         }
 
@@ -517,7 +517,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             var seg = new ArcSegment();
                             seg.SweepDirection = SweepDirection.Clockwise;
                             seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.NormalizedMinAngle);
-                            seg.Size = new Size(middleOfScale, middleOfScale);
+                            seg.Size = new Size((float)middleOfScale, (float)middleOfScale);
                             seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.NormalizedMaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
                             pf.Segments.Add(seg);
                             pg.Figures.Add(pf);
@@ -590,7 +590,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var seg = new ArcSegment();
                     seg.SweepDirection = SweepDirection.Clockwise;
                     seg.IsLargeArc = radialGauge.NormalizedMaxAngle > (radialGauge.NormalizedMinAngle + 180);
-                    seg.Size = new Size(middleOfScale, middleOfScale);
+                    seg.Size = new Size((float)middleOfScale, (float)middleOfScale);
                     seg.Point = radialGauge.ScalePoint(radialGauge.NormalizedMaxAngle, middleOfScale);
                     pf.Segments.Add(seg);
                     pg.Figures.Add(pf);

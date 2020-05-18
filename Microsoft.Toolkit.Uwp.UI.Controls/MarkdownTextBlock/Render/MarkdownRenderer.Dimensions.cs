@@ -166,12 +166,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// <summary>
         /// Gets or sets the thickness of any table borders.
         /// </summary>
-        public float TableBorderThickness { get; set; }
+        public double TableBorderThickness { get; set; }
 
         /// <summary>
         /// Gets or sets the thickness of any yaml header borders.
         /// </summary>
-        public float YamlBorderThickness { get; set; }
+        public double YamlBorderThickness { get; set; }
 
         /// <summary>
         /// Gets or sets the padding inside each cell.

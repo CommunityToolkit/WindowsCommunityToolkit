@@ -20,11 +20,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     {
         private readonly int _columnCount;
         private readonly int _rowCount;
-        private readonly float _borderThickness;
-        private float[] _columnWidths;
-        private float[] _rowHeights;
+        private readonly double _borderThickness;
+        private double[] _columnWidths;
+        private double[] _rowHeights;
 
-        public MarkdownTable(int columnCount, int rowCount, float borderThickness, Brush borderBrush)
+        public MarkdownTable(int columnCount, int rowCount, double borderThickness, Brush borderBrush)
         {
             _columnCount = columnCount;
             _rowCount = rowCount;
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         protected override Size MeasureOverride(Size availableSize)
         {
             // Measure the width of each column, with no horizontal width restrictions.
-            var naturalColumnWidths = new float[_columnCount];
+            var naturalColumnWidths = new double[_columnCount];
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);
@@ -89,12 +89,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             // Now figure out the actual column widths.
             var remainingContentWidth = availableSize.Width - ((_columnCount + 1) * _borderThickness);
-            _columnWidths = new float[_columnCount];
+            _columnWidths = new double[_columnCount];
             int remainingColumnCount = _columnCount;
             while (remainingColumnCount > 0)
             {
                 // Calculate the fair width of all columns.
-                float fairWidth = Math.Max(0, remainingContentWidth / remainingColumnCount);
+                double fairWidth = Math.Max(0, remainingContentWidth / remainingColumnCount);
 
                 // Are there any columns less than that?  If so, they get what they are asking for.
                 bool recalculationNeeded = false;
@@ -128,18 +128,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // the row heights we obtained earlier.
 
             // Now measure row heights.
-            _rowHeights = new float[_rowCount];
+            _rowHeights = new double[_rowCount];
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);
                 var rowIndex = Grid.GetRow(child);
-                child.Measure(new Size(_columnWidths[columnIndex], float.PositiveInfinity));
+                child.Measure(new Size((float)_columnWidths[columnIndex], float.PositiveInfinity));
                 _rowHeights[rowIndex] = Math.Max(_rowHeights[rowIndex], child.DesiredSize.Height);
             }
 
             return new Size(
-                _columnWidths.Sum() + (_borderThickness * (_columnCount + 1)),
-                _rowHeights.Sum() + ((_rowCount + 1) * _borderThickness));
+                (float)(_columnWidths.Sum() + (_borderThickness * (_columnCount + 1))),
+                (float)(_rowHeights.Sum() + ((_rowCount + 1) * _borderThickness)));
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -157,22 +157,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
                 var rect = new Rect(0, 0, 0, 0)
                 {
-                    X = _borderThickness
+                    X = (float)_borderThickness
                 };
 
                 for (int col = 0; col < columnIndex; col++)
                 {
-                    rect.X += _borderThickness + _columnWidths[col];
+                    rect.X += (float)(_borderThickness + _columnWidths[col]);
                 }
 
-                rect.Y = _borderThickness;
+                rect.Y = (float)_borderThickness;
                 for (int row = 0; row < rowIndex; row++)
                 {
-                    rect.Y += _borderThickness + _rowHeights[row];
+                    rect.Y += (float)(_borderThickness + _rowHeights[row]);
                 }
 
-                rect.Width = _columnWidths[columnIndex];
-                rect.Height = _rowHeights[rowIndex];
+                rect.Width = (float)_columnWidths[columnIndex];
+                rect.Height = (float)_rowHeights[rowIndex];
                 child.Arrange(rect);
             }
 
@@ -182,13 +182,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 float x = 0;
                 foreach (var borderLine in VerticalLines)
                 {
-                    borderLine.Arrange(new Rect(x, 0, _borderThickness, finalSize.Height));
+                    borderLine.Arrange(new Rect(x, 0, (float)_borderThickness, finalSize.Height));
                     if (colIndex >= _columnWidths.Length)
                     {
                         break;
                     }
 
-                    x += _borderThickness + _columnWidths[colIndex];
+                    x += (float)(_borderThickness + _columnWidths[colIndex]);
                     colIndex++;
                 }
             }
@@ -199,13 +199,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 float y = 0;
                 foreach (var borderLine in HorizontalLines)
                 {
-                    borderLine.Arrange(new Rect(0, y, finalSize.Width, _borderThickness));
+                    borderLine.Arrange(new Rect(0, y, finalSize.Width, (float)_borderThickness));
                     if (rowIndex >= _rowHeights.Length)
                     {
                         break;
                     }
 
-                    y += _borderThickness + _rowHeights[rowIndex];
+                    y += (float)(_borderThickness + _rowHeights[rowIndex]);
                     rowIndex++;
                 }
             }

@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     orbitViewDataItem = ((FrameworkElement)element).DataContext as OrbitViewDataItem;
                 }
 
-                var d = orbitViewDataItem != null && orbitViewDataItem.Distance >= 0 ? orbitViewDataItem.Distance : 0.5f;
+                var d = orbitViewDataItem != null && orbitViewDataItem.Distance >= 0 ? orbitViewDataItem.Distance : 0.5;
                 d = Math.Min(d, 1f);
 
                 var distance = (d * (maxDistance - minDistance)) + minDistance;

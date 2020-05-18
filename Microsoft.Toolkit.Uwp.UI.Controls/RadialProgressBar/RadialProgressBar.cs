@@ -86,16 +86,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the thickness of the circular ouline and segment
         /// </summary>
-        public float Thickness
+        public double Thickness
         {
-            get { return (float)GetValue(ThicknessProperty); }
+            get { return (double)GetValue(ThicknessProperty); }
             set { SetValue(ThicknessProperty, value); }
         }
 
         /// <summary>
         /// Identifies the Thickness dependency property
         /// </summary>
-        public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register(nameof(Thickness), typeof(float), typeof(RadialProgressBar), new PropertyMetadata(0.0f, ThicknessChangedHandler));
+        public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(RadialProgressBar), new PropertyMetadata(0.0, ThicknessChangedHandler));
 
         /// <summary>
         /// Gets or sets the color of the circular ouline on which the segment is drawn
@@ -147,10 +147,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Compute size of ellipse so that the outer edge touches the bounding rectangle
         private Size ComputeEllipseSize()
         {
-            var safeThickness = Math.Max(Thickness, 0.0f);
-            var width = Math.Max(((float)ActualWidth - safeThickness) / 2.0f, 0.0f);
-            var height = Math.Max(((float)ActualHeight - safeThickness) / 2.0f, 0.0f);
-            return new Size(width, height);
+            var safeThickness = Math.Max(Thickness, 0.0);
+            var width = Math.Max((ActualWidth - safeThickness) / 2.0, 0.0);
+            var height = Math.Max((ActualHeight - safeThickness) / 2.0, 0.0);
+            return new Size((float)width, (float)height);
         }
 
         // Render the segment representing progress ratio.
@@ -184,11 +184,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var size = ComputeEllipseSize();
             var segmentWidth = size.Width;
-            var translationFactor = Math.Max(Thickness / 2.0f, 0.0f);
+            var translationFactor = Math.Max(Thickness / 2.0, 0.0);
 
-            outlineFigure.StartPoint = barFigure.StartPoint = new Point(segmentWidth + translationFactor, translationFactor);
+            outlineFigure.StartPoint = barFigure.StartPoint = new Point((float)(segmentWidth + translationFactor), (float)translationFactor);
             outlineArc.Size = barArc.Size = new Size(segmentWidth, size.Height);
-            outlineArc.Point = new Point(segmentWidth + translationFactor - 0.05f, translationFactor);
+            outlineArc.Point = new Point((float)(segmentWidth + translationFactor - 0.05), (float)translationFactor);
 
             RenderSegment();
         }

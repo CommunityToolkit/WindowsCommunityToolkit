@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a uniform Horizontal distance (in pixels) between items when <see cref="Orientation"/> is set to Horizontal,
         /// or between columns of items when <see cref="Orientation"/> is set to Vertical.
         /// </summary>
-        public float HorizontalSpacing
+        public double HorizontalSpacing
         {
-            get { return (float)GetValue(HorizontalSpacingProperty); }
+            get { return (double)GetValue(HorizontalSpacingProperty); }
             set { SetValue(HorizontalSpacingProperty, value); }
         }
 
@@ -30,17 +30,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty HorizontalSpacingProperty =
             DependencyProperty.Register(
                 nameof(HorizontalSpacing),
-                typeof(float),
+                typeof(double),
                 typeof(WrapPanel),
-                new PropertyMetadata(0f, LayoutPropertyChanged));
+                new PropertyMetadata(0d, LayoutPropertyChanged));
 
         /// <summary>
         /// Gets or sets a uniform Vertical distance (in pixels) between items when <see cref="Orientation"/> is set to Vertical,
         /// or between rows of items when <see cref="Orientation"/> is set to Horizontal.
         /// </summary>
-        public float VerticalSpacing
+        public double VerticalSpacing
         {
-            get { return (float)GetValue(VerticalSpacingProperty); }
+            get { return (double)GetValue(VerticalSpacingProperty); }
             set { SetValue(VerticalSpacingProperty, value); }
         }
 
@@ -50,9 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty VerticalSpacingProperty =
             DependencyProperty.Register(
                 nameof(VerticalSpacing),
-                typeof(float),
+                typeof(double),
                 typeof(WrapPanel),
-                new PropertyMetadata(0f, LayoutPropertyChanged));
+                new PropertyMetadata(0d, LayoutPropertyChanged));
 
         /// <summary>
         /// Gets or sets the orientation of the WrapPanel.
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             availableSize.Height = (float)(availableSize.Height - Padding.Top - Padding.Bottom);
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
-            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+            var spacingMeasure = new UvMeasure(Orientation, (float)HorizontalSpacing, (float)VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
 
             foreach (var child in Children)
@@ -202,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (Children.Count > 0)
             {
                 var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-                var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+                var spacingMeasure = new UvMeasure(Orientation, (float)HorizontalSpacing, (float)VerticalSpacing);
                 var paddingStart = new UvMeasure(Orientation, (float)Padding.Left, (float)Padding.Top);
                 var paddingEnd = new UvMeasure(Orientation, (float)Padding.Right, (float)Padding.Bottom);
                 var position = new UvMeasure(Orientation, (float)Padding.Left, (float)Padding.Top);

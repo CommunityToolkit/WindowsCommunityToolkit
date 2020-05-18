@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
 
-            DeviceList.Add(new DeviceItem() { Distance = 0.1f, Label = "My Phone", Symbol = Symbol.CellPhone });
+            DeviceList.Add(new DeviceItem() { Distance = 0.1, Label = "My Phone", Symbol = Symbol.CellPhone });
             Load();
         }
 

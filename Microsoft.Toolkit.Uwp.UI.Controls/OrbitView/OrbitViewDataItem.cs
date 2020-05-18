@@ -17,9 +17,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a value indicating the distance from the center.
         /// Expected value betweeen 0 and 1
         /// </summary>
-        public float Distance
+        public double Distance
         {
-            get { return (float)GetValue(DistanceProperty); }
+            get { return (double)GetValue(DistanceProperty); }
             set { SetValue(DistanceProperty, value); }
         }
 
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Distance"/> property
         /// </summary>
         public static readonly DependencyProperty DistanceProperty =
-            DependencyProperty.Register(nameof(Distance), typeof(float), typeof(OrbitViewDataItem), new PropertyMetadata(0.5f));
+            DependencyProperty.Register(nameof(Distance), typeof(double), typeof(OrbitViewDataItem), new PropertyMetadata(0.5));
 
         /// <summary>
         /// Gets or sets a value indicating the name of the item.
@@ -49,9 +49,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a value indicating the diameter of the item.
         /// Expected value betweeen 0 and 1
         /// </summary>
-        public float Diameter
+        public double Diameter
         {
-            get { return (float)GetValue(DiameterProperty); }
+            get { return (double)GetValue(DiameterProperty); }
             set { SetValue(DiameterProperty, value); }
         }
 
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Diameter"/> property
         /// </summary>
         public static readonly DependencyProperty DiameterProperty =
-            DependencyProperty.Register(nameof(Diameter), typeof(float), typeof(OrbitViewDataItem), new PropertyMetadata(-1f));
+            DependencyProperty.Register(nameof(Diameter), typeof(double), typeof(OrbitViewDataItem), new PropertyMetadata(-1d));
 
         /// <summary>
         /// Gets or sets a value indicating the image of the item.
