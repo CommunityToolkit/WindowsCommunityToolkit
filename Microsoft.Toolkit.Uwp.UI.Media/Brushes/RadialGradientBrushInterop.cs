@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             int x = 0;
             foreach (var stop in stops)
             {
-                canvasStops[x++] = new CanvasGradientStop() { Color = stop.Color, Position = (float)stop.Offset };
+                canvasStops[x++] = new CanvasGradientStop { Color = stop.Color, Position = (float)stop.Offset };
             }
 
             return canvasStops;

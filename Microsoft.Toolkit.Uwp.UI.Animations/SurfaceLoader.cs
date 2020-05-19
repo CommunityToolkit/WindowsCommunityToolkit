@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.DirectX;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -29,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// The SurfaceLoader is responsible to loading images into Composition Objects.
     /// </summary>
+    [Deprecated("This class is deprecated, please use the SurfaceLoader class from the Microsoft.Toolkit.Uwp.UI.Media package.", DeprecationType.Deprecate, 6)]
     public class SurfaceLoader
     {
         /// <summary>

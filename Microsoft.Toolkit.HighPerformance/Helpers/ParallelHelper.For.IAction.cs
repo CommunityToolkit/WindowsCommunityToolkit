@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
     /// </summary>
     public static partial class ParallelHelper
     {
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Executes a specified action in an optimized parallel loop.
         /// </summary>
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         /// <remarks>None of the bounds of <paramref name="range"/> can start from an end.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void For<TAction>(Range range, TAction action)
+        public static void For<TAction>(Range range, in TAction action)
             where TAction : struct, IAction
         {
             For(range, action, 1);
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </param>
         /// <remarks>None of the bounds of <paramref name="range"/> can start from an end.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void For<TAction>(Range range, TAction action, int minimumActionsPerThread)
+        public static void For<TAction>(Range range, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IAction
         {
             if (range.Start.IsFromEnd || range.End.IsFromEnd)

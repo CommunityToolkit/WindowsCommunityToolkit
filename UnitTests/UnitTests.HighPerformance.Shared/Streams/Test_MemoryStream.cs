@@ -174,14 +174,13 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(stream.Position, data.Length);
             Assert.IsTrue(data.SequenceEqual(result));
 
-            Assert.ThrowsException<InvalidOperationException>(() => stream.WriteByte(128));
+            Assert.ThrowsException<ArgumentException>(() => stream.WriteByte(128));
 
             int exitCode = stream.ReadByte();
 
             Assert.AreEqual(exitCode, -1);
         }
 
-#if NETCOREAPP2_1 || NETCOREAPP3_0
         [TestCategory("MemoryStream")]
         [TestMethod]
         public void Test_MemoryStream_ReadWrite_Span()
@@ -190,6 +189,9 @@ namespace UnitTests.HighPerformance.Streams
 
             Memory<byte> data = CreateRandomData(64);
 
+            // This will use the extension when on .NET Standard 2.0,
+            // as the Stream class doesn't have Spam<T> or Memory<T>
+            // public APIs there. This is the case eg. on UWP as well.
             stream.Write(data.Span);
 
             Assert.AreEqual(stream.Position, data.Length);
@@ -227,7 +229,6 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(stream.Position, data.Length);
             Assert.IsTrue(data.Span.SequenceEqual(result.Span));
         }
-#endif
 
         /// <summary>
         /// Creates a random <see cref="byte"/> array filled with random data.

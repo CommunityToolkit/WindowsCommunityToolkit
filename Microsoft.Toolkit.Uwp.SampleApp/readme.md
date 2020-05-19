@@ -111,7 +111,7 @@ protected override async void OnNavigatedTo(NavigationEventArgs e)
 {
     base.OnNavigatedTo(e);
 
-    Shell.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
+    SampleController.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
     {
         AddImage(false, true);
     });

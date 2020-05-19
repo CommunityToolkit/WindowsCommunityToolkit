@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
-    public static class ListViewExtensions
+    public static partial class ListViewExtensions
     {
         private static Dictionary<IObservableVector<object>, Microsoft.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Microsoft.UI.Xaml.Controls.ListViewBase>();
 

@@ -2,18 +2,32 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-// using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Base;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Brush which applies a SaturationEffect to the Backdrop. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SaturationEffect.htm
     /// </summary>
-    public class BackdropSaturationBrush : XamlCompositionBrushBase
+    public class BackdropSaturationBrush : XamlCompositionEffectBrushBase
     {
+        /// <summary>
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
+        /// </summary>
+        private EffectSetter<float> setter;
+
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Saturation
+        {
+            get => (double)GetValue(SaturationProperty);
+            set => SetValue(SaturationProperty, value);
+        }
+
         /// <summary>
         /// Identifies the <see cref="Saturation"/> dependency property.
         /// </summary>
@@ -24,14 +38,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.5, new PropertyChangedCallback(OnSaturationChanged)));
 
         /// <summary>
-        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// Updates the UI when <see cref="Saturation"/> changes
         /// </summary>
-        public double Saturation
-        {
-            get { return (double)GetValue(SaturationProperty); }
-            set { SetValue(SaturationProperty, value); }
-        }
-
+        /// <param name="d">The current <see cref="BackdropSaturationBrush"/> instance</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="SaturationProperty"/></param>
         private static void OnSaturationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (BackdropSaturationBrush)d;
@@ -47,63 +57,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 brush.Saturation = 0.0;
             }
 
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Saturation.Saturation", (float)brush.Saturation);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropSaturationBrush"/> class.
-        /// </summary>
-        public BackdropSaturationBrush()
-        {
-        }
-
-        /// <summary>
-        /// Initializes the Composition Brush.
-        /// </summary>
-        protected override void OnConnected()
-        {
-            // Delay creating composition resources until they're required.
-            if (CompositionBrush == null)
+            // Unbox and set a new blur amount if the CompositionBrush exists
+            if (brush.CompositionBrush is CompositionBrush target)
             {
-                // Abort if effects aren't supported.
-                if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
-                {
-                    return;
-                }
-
-                var backdrop = Window.Current.Compositor.CreateBackdropBrush();
-
-                // Use a Win2D blur affect applied to a CompositionBackdropBrush.
-                /*
-                var graphicsEffect = new SaturationEffect
-                {
-                    Name = "Saturation",
-                    Saturation = (float)Saturation,
-                    Source = new CompositionEffectSourceParameter("backdrop")
-                };
-
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Saturation.Saturation" });
-                var effectBrush = effectFactory.CreateBrush();
-
-                effectBrush.SetSourceParameter("backdrop", backdrop);
-
-                CompositionBrush = effectBrush;
-                */
+                brush.setter?.Invoke(target, (float)brush.Saturation);
             }
         }
 
-        /// <summary>
-        /// Deconstructs the Composition Brush.
-        /// </summary>
-        protected override void OnDisconnected()
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
         {
-            // Dispose of composition resources when no longer in use.
-            if (CompositionBrush != null)
-            {
-                CompositionBrush.Dispose();
-                CompositionBrush = null;
-            }
+            //return PipelineBuilder.FromBackdrop().Saturation((float)Saturation, out setter);
+            return null;
         }
     }
 }

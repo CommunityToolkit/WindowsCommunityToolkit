@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Windows Community Toolkit Sample App"
+        DisplayName="[Debug] Windows Community Toolkit Sample App"
         Description="This app demonstrates the controls, services and APIs available in the Windows Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub."
         BackgroundColor="#3750D1"
         Square150x150Logo="Images\UWPCommunityToolkitSampleAppMedTile.png"
