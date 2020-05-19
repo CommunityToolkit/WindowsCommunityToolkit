@@ -28,7 +28,6 @@ steps:
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
   inputs:
-    nuGetServiceConnections: WinUI.Dependencies,VS
     forceReinstallCredentialProvider: true
 
 - task: DotNetCoreCLI@2
