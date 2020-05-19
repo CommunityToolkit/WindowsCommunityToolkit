@@ -5,14 +5,11 @@
 using System;
 using System.Buffers;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
-
-#nullable enable
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
@@ -29,7 +26,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// </remarks>
     [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
-    public sealed class ArrayPoolBufferWriter<T> : IBufferWriter<T>, IMemoryOwner<T>
+    public sealed class ArrayPoolBufferWriter<T> : IBuffer<T>, IMemoryOwner<T>
     {
         /// <summary>
         /// The default buffer size to use to expand empty arrays.
@@ -41,7 +38,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         private T[]? array;
 
-#pragma warning disable IDE0032
+#pragma warning disable IDE0032 // Use field over auto-property (clearer and faster)
         /// <summary>
         /// The starting offset within <see cref="array"/>.
         /// </summary>
@@ -53,9 +50,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         public ArrayPoolBufferWriter()
         {
-            /* Since we're using pooled arrays, we can rent the buffer with the
-             * default size immediately, we don't need to use lazy initialization
-             * to save unnecessary memory allocations in this case. */
+            // Since we're using pooled arrays, we can rent the buffer with the
+            // default size immediately, we don't need to use lazy initialization
+            // to save unnecessary memory allocations in this case.
             this.array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize);
             this.index = 0;
         }
@@ -86,22 +83,20 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         Memory<T> IMemoryOwner<T>.Memory
         {
-            /* This property is explicitly implemented so that it's hidden
-             * under normal usage, as the name could be confusing when
-             * displayed besides WrittenMemory and GetMemory().
-             * The IMemoryOwner<T> interface is implemented primarily
-             * so that the AsStream() extension can be used on this type,
-             * allowing users to first create a ArrayPoolBufferWriter<byte>
-             * instance to write data to, then get a stream through the
-             * extension and let it take care of returning the underlying
-             * buffer to the shared pool when it's no longer necessary.
-             * Inlining is not needed here since this will always be a callvirt. */
+            // This property is explicitly implemented so that it's hidden
+            // under normal usage, as the name could be confusing when
+            // displayed besides WrittenMemory and GetMemory().
+            // The IMemoryOwner<T> interface is implemented primarily
+            // so that the AsStream() extension can be used on this type,
+            // allowing users to first create a ArrayPoolBufferWriter<byte>
+            // instance to write data to, then get a stream through the
+            // extension and let it take care of returning the underlying
+            // buffer to the shared pool when it's no longer necessary.
+            // Inlining is not needed here since this will always be a callvirt.
             get => MemoryMarshal.AsMemory(WrittenMemory);
         }
 
-        /// <summary>
-        /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlyMemory{T}"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public ReadOnlyMemory<T> WrittenMemory
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -118,9 +113,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Gets the data written to the underlying buffer so far, as a <see cref="ReadOnlySpan{T}"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public ReadOnlySpan<T> WrittenSpan
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -137,18 +130,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Gets the amount of data written to the underlying buffer so far.
-        /// </summary>
+        /// <inheritdoc/>
         public int WrittenCount
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.index;
         }
 
-        /// <summary>
-        /// Gets the total amount of space within the underlying buffer.
-        /// </summary>
+        /// <inheritdoc/>
         public int Capacity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,9 +154,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Gets the amount of space available that can still be written into without forcing the underlying buffer to grow.
-        /// </summary>
+        /// <inheritdoc/>
         public int FreeCapacity
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -184,12 +171,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
         }
 
-        /// <summary>
-        /// Clears the data written to the underlying buffer.
-        /// </summary>
-        /// <remarks>
-        /// You must clear the <see cref="ArrayPoolBufferWriter{T}"/> before trying to re-use it.
-        /// </remarks>
+        /// <inheritdoc/>
         public void Clear()
         {
             T[]? array = this.array;
@@ -308,7 +290,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the initial capacity is invalid.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204", Justification = "Exception throwers at the end of class")]
         private static void ThrowArgumentOutOfRangeExceptionForInitialCapacity()
         {
             throw new ArgumentOutOfRangeException("initialCapacity", "The initial capacity must be a positive value");

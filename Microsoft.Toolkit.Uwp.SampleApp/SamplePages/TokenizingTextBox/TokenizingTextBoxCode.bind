@@ -1,25 +1,118 @@
+private async void EmailTokenItemClick(object sender, ItemClickEventArgs e)
+{
+    MessageDialog md = new MessageDialog($"email address {(e.ClickedItem as SampleEmailDataType)?.EmailAddress} clicked", "Clicked Item");
+    await md.ShowAsync();
+}
+
 private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
 {
     if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
     {
-        if (string.IsNullOrWhiteSpace(sender.Text))
-        {
-            _ttb.SuggestedItemsSource = Array.Empty<object>();
-        }
-        else
-        {
-            _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
-        }
+        _acv.RefreshFilter();
     }
 }
 
-private async void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
+private void TokenItemCreating(object sender, TokenItemAddingEventArgs e)
 {
-    // Take the user's text and convert it to our data type.
-    using (e.GetDeferral())
-    {
-		// Can do an async lookup here as well.
+    // Take the user's text and convert it to our data type (if we have a matching one).
+    e.Item = this._samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase)) ??
+             // Otherwise, create a new version of our data type
+             new SampleDataType()
+                {
+                    Text = e.TokenText,
+                    Icon = Symbol.OutlineStar
+                };
+}
 
-        e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+private void TokenItemAdded(TokenizingTextBox sender, object data)
+{
+    if (data is SampleDataType sample)
+    {
+        Debug.WriteLine("Added Token: " + sample.Text);
     }
+    else
+    {
+        Debug.WriteLine("Added Token: " + data);
+    }
+}
+
+private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovingEventArgs args)
+{
+    if (args.Item is SampleDataType sample)
+    {
+        Debug.WriteLine("Removed Token: " + sample.Text);
+    }
+    else
+    {
+        Debug.WriteLine("Removed Token: " + args.Item);
+    }
+}
+
+private void EmailTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+{
+    if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+    {
+        _acvEmail.RefreshFilter();
+    }
+}
+
+private void EmailTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+{
+    // Search our list for a matching person
+    foreach (var person in _emailSamples)
+    {
+        if (args.TokenText.Contains(person.EmailAddress) ||
+            args.TokenText.Contains(person.DisplayName, StringComparison.CurrentCultureIgnoreCase))
+        {
+            args.Item = person;
+            return;
+        }
+    }
+
+    // Otherwise don't create a token.
+    args.Cancel = true;
+}
+
+private void EmailTokenItemAdded(TokenizingTextBox sender, object args)
+{
+    if (args is SampleEmailDataType sample)
+    {
+        Debug.WriteLine("Added Email: " + sample.DisplayName);
+    }
+    else
+    {
+        Debug.WriteLine("Added Token: " + args);
+    }
+
+    _acvEmail.RefreshFilter();
+}
+
+private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
+{
+    if (args is SampleEmailDataType sample)
+    {
+        Debug.WriteLine("Removed Email: " + sample.DisplayName);
+    }
+    else
+    {
+        Debug.WriteLine("Removed Token: " + args);
+    }
+
+    _acvEmail.RefreshFilter();
+}
+
+private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
+{
+    if (e.ClickedItem != null)
+    {
+        _ttbEmail.Items.Add(e.ClickedItem);
+        _ttbEmail.Text = string.Empty;
+        _acvEmail.RefreshFilter();
+    }
+}
+
+private void ClearButtonClick(object sender, RoutedEventArgs e)
+{
+    _ttbEmail.Items.Clear();
+    _acvEmail.RefreshFilter();
 }

@@ -277,7 +277,7 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(0).ToArray());
         }
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
         [TestCategory("ArrayExtensions")]
         [TestMethod]
         public void Test_ArrayExtensions_2D_AsSpan_Empty()

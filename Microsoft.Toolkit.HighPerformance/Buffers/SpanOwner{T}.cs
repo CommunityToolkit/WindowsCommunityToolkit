@@ -5,13 +5,10 @@
 using System;
 using System.Buffers;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
-
-#nullable enable
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
@@ -36,7 +33,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
     [DebuggerTypeProxy(typeof(SpanOwnerDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     public readonly ref struct SpanOwner<T>
     {
 #pragma warning disable IDE0032
