@@ -10,10 +10,10 @@ using System.Linq;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttb.TextChanged += TextChanged;
                 _ttb.TokenItemAdding += TokenItemCreating;
 
-                _acv.Filter = item => !_ttb.Items.Contains(item) && (item as SampleDataType).Text.Contains(_ttb.Text, System.StringComparison.CurrentCultureIgnoreCase);
+                _acv.Filter = item => !_ttb.Items.Contains(item) && (item as SampleDataType).Text.Contains(_ttb.Text, StringComparison.CurrentCultureIgnoreCase);
 
                 _ttb.SuggestedItemsSource = _acv;
             }
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail.TextChanged += EmailTextChanged;
                 _ttbEmail.PreviewKeyDown += EmailPreviewKeyDown;
 
-                _acvEmail.Filter = item => !_ttbEmail.Items.Contains(item) && (item as SampleEmailDataType).DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase);
+                _acvEmail.Filter = item => !_ttbEmail.Items.Contains(item) && (item as SampleEmailDataType).DisplayName.Contains(_ttbEmail.Text, StringComparison.CurrentCultureIgnoreCase);
             }
 
             if (_ttbEmailSuggestions != null)
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void TokenItemCreating(object sender, TokenItemAddingEventArgs e)
         {
             // Take the user's text and convert it to our data type (if we have a matching one).
-            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
 
             // Otherwise, create a new version of our data type
             if (e.Item == null)
