@@ -614,6 +614,7 @@
     <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
