@@ -7,12 +7,11 @@
 namespace System.Diagnostics.CodeAnalysis
 {
     /// <summary>
-    /// Specifies that an output will not be <see langword="null"/> even if the corresponding type allows it.
-    /// Specifies that an input argument was not <see langword="null"/> when the call returns.
+    /// Applied to a method that will never return under any circumstance.
     /// </summary>
     /// <remarks>Internal copy of the .NET Standard 2.1 attribute.</remarks>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue)]
-    internal sealed class NotNullAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    internal sealed class DoesNotReturnAttribute : Attribute
     {
     }
 }
