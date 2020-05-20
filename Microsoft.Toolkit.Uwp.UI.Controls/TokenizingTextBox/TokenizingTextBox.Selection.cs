@@ -101,8 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             SelectedItems.Remove(Items[previousIndex]);
                         }
                     }
-                    else
-                    if (!IsControlPressed)
+                    else if (!IsControlPressed)
                     {
                         SelectedIndex = index;
 
