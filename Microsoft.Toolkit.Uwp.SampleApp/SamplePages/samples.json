@@ -230,6 +230,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/WrapPanel.md"
       },
       {
+        "Name": "WrapLayout",
+        "Type": "WrapLayoutPage",
+        "Subcategory": "Layout - ItemsRepeater",
+        "About": "The WrapLayout virtualizes child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/WrapLayout",
+        "XamlCodeFile": "WrapLayout.bind",
+        "Icon": "/SamplePages/WrapLayout/WrapLayout.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/layout/WrapLayout.md"
+      },
+      {
         "Name": "OrbitView",
         "Type": "OrbitViewPage",
         "Subcategory": "Layout",
@@ -301,6 +311,16 @@
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/StaggeredPanel.md"
+      },
+      {
+        "Name": "StaggeredLayout",
+        "Type": "StaggeredLayoutPage",
+        "Subcategory": "Layout - ItemsRepeater",
+        "About": "The StaggeredLayout virtualizes items in a column approach where an item will be added to whichever column has used the least amount of space.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/StaggeredLayout",
+        "XamlCodeFile": "StaggeredLayout.bind",
+        "Icon": "/SamplePages/StaggeredLayout/StaggeredLayout.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/layout/StaggeredLayout.md"
       },
       {
         "Name": "LayoutTransformControl",
@@ -424,18 +444,18 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
-      }//,
-      //{
-      //  "Name": "TokenizingTextBox",
-      //  "Type": "TokenizingTextBoxPage",
-      //  "Subcategory": "Input",
-      //  "About": "A text input control that makes suggestions and keeps track of data token items",
-      //  "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
-      //  "CodeFile": "TokenizingTextBoxCode.bind",
-      //  "XamlCodeFile": "TokenizingTextBoxXaml.bind",
-      //  "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
-      //  "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
-      //}
+      },
+      {
+        "Name": "TokenizingTextBox",
+        "Type": "TokenizingTextBoxPage",
+        "Subcategory": "Input",
+        "About": "A text input control that makes suggestions and keeps track of data token items",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
+        "CodeFile": "TokenizingTextBoxCode.bind",
+        "XamlCodeFile": "TokenizingTextBoxXaml.bind",
+        "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
+      }
     ]
   },
   {
@@ -834,7 +854,7 @@
       {
         "Name": "ThemeListener",
         "Type": "ThemeListenerPage",
-        "Subcategory": "Developer",
+        "Subcategory": "Systems",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
@@ -852,6 +872,7 @@
       {
         "Name": "ViewportBehavior",
         "Type": "ViewportBehaviorPage",
+        "Subcategory": "Systems",
         "About": "Behavior for listening element enter or exit viewport",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ViewportBehavior",
         "CodeFile": "ViewportBehaviorCode.bind",
@@ -915,6 +936,96 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
+      },
+      {
+        "Name": "CompareStateTrigger",
+        "Type": "CompareStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the value is equal to, greater than, or less than another value",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/CompareStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "IsEqualStateTrigger",
+        "Type": "IsEqualStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the value is equal to another value",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/IsEqualStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "FullScreenModeStateTrigger",
+        "Type": "FullScreenModeStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching when in full screen mode",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/FullScreenModeStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "IsNullOrEmptyStateTriggers",
+        "Type": "IsNullOrEmptyStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if an Object is null or a String/IEnumerable is empty",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/IsNullOrEmptyStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "NetworkConnectionStateTrigger",
+        "Type": "NetworkConnectionStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching when the network availability changes",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/NetworkConnectionStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "IsNotEqualStateTrigger",
+        "Type": "IsNotEqualStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the value is not equal to another value",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/IsNotEqualStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "RegexStateTrigger",
+        "Type": "RegexStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the regex expression is true for a given string value",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/RegexStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "UserHandPreferenceStateTrigger",
+        "Type": "UserHandPreferenceStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching UI based on whether the user favours their left or right hand.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/UserHandPreferenceStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "UserInteractionModeStateTrigger",
+        "Type": "UserInteractionModeStateTriggerPage",
+        "Subcategory": "State Triggers",
+        "About": "Trigger for switching when the User interaction mode changes (tablet mode)",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "XamlCodeFile": "/SamplePages/Triggers/UserInteractionModeStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       }
     ]
   },
@@ -926,10 +1037,9 @@
         "Name": "BackdropBlurBrush",
         "Type": "BackdropBlurBrushPage",
         "About": "Brush which fills the contents with a blurred version of whatever's behind it.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropBlurBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/BackdropBlurBrush.cs",
         "XamlCodeFile": "BackdropBlurBrushXaml.bind",
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
       },
@@ -937,10 +1047,9 @@
         "Name": "BackdropInvertBrush",
         "Type": "BackdropInvertBrushPage",
         "About": "Brush which fills the contents with an inverted version of whatever's behind it.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropInvertBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/BackdropInvertBrush.cs",
         "XamlCodeFile": "BackdropInvertBrushXaml.bind",
         "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropInvertBrush.md"
       },
@@ -948,10 +1057,9 @@
         "Name": "BackdropGammaTransferBrush",
         "Type": "BackdropGammaTransferBrushPage",
         "About": "Brush which fills the contents with a gamma modified version of whatever's behind it.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropGammaTransferBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/BackdropGammaTransferBrush.cs",
         "XamlCodeFile": "BackdropGammaTransferBrushXaml.bind",
         "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropGammaTransferBrush.md"
       },
@@ -959,10 +1067,9 @@
         "Name": "BackdropSaturationBrush",
         "Type": "BackdropSaturationBrushPage",
         "About": "Brush which applies a Saturation effect to whatever's behind it.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSaturationBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/BackdropSaturationBrush.cs",
         "XamlCodeFile": "BackdropSaturationBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSaturationBrush.md"
       },
@@ -970,10 +1077,9 @@
         "Name": "BackdropSepiaBrush",
         "Type": "BackdropSepiaBrushPage",
         "About": "Brush which applies a Sepia effect to whatever's behind it.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/BackdropSepiaBrush.cs",
         "XamlCodeFile": "BackdropSepiaBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       },
@@ -981,10 +1087,9 @@
         "Name": "ImageBlendBrush",
         "Type": "ImageBlendBrushPage",
         "About": "Brush which applies a blending effect a given image from whatever's behind it.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/ImageBlendBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/ImageBlendBrush.cs",
         "XamlCodeFile": "ImageBlendBrushXaml.bind",
         "Icon": "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/ImageBlendBrush.md"
       },
@@ -992,12 +1097,42 @@
         "Name": "RadialGradientBrush",
         "Type": "RadialGradientBrushPage",
         "About": "A composition brush which creates a radial gradient effect.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/RadialGradientBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/RadialGradientBrush.cs",
         "XamlCodeFile": "RadialGradientBrushXaml.bind",
         "Icon": "/SamplePages/RadialGradientBrush/RadialGradientBrush.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/RadialGradientBrush.md"
+      },
+      {
+        "Name": "PipelineBrush",
+        "Type": "PipelineBrushPage",
+        "About": "A composition brush which can render any custom Win2D/Composition effects chain.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/PipelineBrush.cs",
+        "CodeFile": "PipelineBrushCode.bind",
+        "XamlCodeFile": "PipelineBrushXaml.bind",
+        "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineBrush.md"
+      },
+      {
+        "Name": "AcrylicBrush",
+        "Type": "AcrylicBrushPage",
+        "About": "A composition brush that provides a custom implementation of the official acrylic brush.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/AcrylicBrush.cs",
+        "XamlCodeFile": "AcrylicBrushXaml.bind",
+        "Icon": "/SamplePages/AcrylicBrush/AcrylicBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/AcrylicBrush.md"
+      },
+      {
+        "Name": "TilesBrush",
+        "Type": "TilesBrushPage",
+        "About": "A composition brush that provides the ability to display a repeated image on its render surface.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/TilesBrush.cs",
+        "XamlCodeFile": "TilesBrushXaml.bind",
+        "Icon": "/SamplePages/TilesBrush/TilesBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/TilesBrush.md"
       }
     ]
   },
@@ -1112,7 +1247,16 @@
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
-      }
+      },
+	  {
+	    "Name": "IconExtensions",
+	    "Type": "IconExtensionsPage",
+	    "About": "Markup extensions to easily create various types of icons.",
+	    "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/FontIconExtension",
+	    "XamlCodeFile": "IconExtensionsXaml.bind",
+	    "Icon": "/Assets/Helpers.png", 
+	    "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/IconExtensions.md"
+	  }
     ]
   },
   {

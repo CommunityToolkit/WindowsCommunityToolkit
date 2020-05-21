@@ -8,6 +8,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.DirectX;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -26,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// The SurfaceLoader is responsible to loading images into Composition Objects.
     /// </summary>
+    [Deprecated("This class is deprecated, please use the SurfaceLoader class from the Microsoft.Toolkit.Uwp.UI.Media package.", DeprecationType.Deprecate, 6)]
     public class SurfaceLoader
     {
         /// <summary>

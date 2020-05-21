@@ -6,7 +6,6 @@
 
 using System;
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -23,21 +22,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private CompositionSurfaceBrush _surfaceBrush;
 
         /// <summary>
+        /// Gets or sets the <see cref="BitmapImage"/> source of the image to composite.
+        /// </summary>
+        public ImageSource Source
+        {
+            get => (ImageSource)GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
+        }
+
+        /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source),
             typeof(ImageSource), // We use ImageSource type so XAML engine will automatically construct proper object from String.
             typeof(ImageBlendBrush),
-            new PropertyMetadata(null, new PropertyChangedCallback(OnImageSourceChanged)));
+            new PropertyMetadata(null, OnImageSourceChanged));
 
         /// <summary>
-        /// Gets or sets the <see cref="BitmapImage"/> source of the image to composite.
+        /// Gets or sets how to stretch the image within the brush.
         /// </summary>
-        public ImageSource Source
+        public Stretch Stretch
         {
-            get { return (ImageSource)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            get => (Stretch)GetValue(StretchProperty);
+            set => SetValue(StretchProperty, value);
         }
 
         /// <summary>
@@ -48,15 +56,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             nameof(Stretch),
             typeof(Stretch),
             typeof(ImageBlendBrush),
-            new PropertyMetadata(Stretch.None, new PropertyChangedCallback(OnStretchChanged)));
+            new PropertyMetadata(Stretch.None, OnStretchChanged));
 
         /// <summary>
-        /// Gets or sets how to stretch the image within the brush.
+        /// Gets or sets how to blend the image with the backdrop.
         /// </summary>
-        public Stretch Stretch
+        public ImageBlendMode Mode
         {
-            get { return (Stretch)GetValue(StretchProperty); }
-            set { SetValue(StretchProperty, value); }
+            get => (ImageBlendMode)GetValue(ModeProperty);
+            set => SetValue(ModeProperty, value);
         }
 
         /// <summary>
@@ -66,16 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             nameof(Mode),
             typeof(ImageBlendMode),
             typeof(ImageBlendBrush),
-            new PropertyMetadata(ImageBlendMode.Multiply, new PropertyChangedCallback(OnModeChanged)));
-
-        /// <summary>
-        /// Gets or sets how to blend the image with the backdrop.
-        /// </summary>
-        public ImageBlendMode Mode
-        {
-            get { return (ImageBlendMode)GetValue(ModeProperty); }
-            set { SetValue(ModeProperty, value); }
-        }
+            new PropertyMetadata(ImageBlendMode.Multiply, OnModeChanged));
 
         private static void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -120,16 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             brush.OnConnected();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImageBlendBrush"/> class.
-        /// </summary>
-        public ImageBlendBrush()
-        {
-        }
-
-        /// <summary>
-        /// Initializes the Composition Brush.
-        /// </summary>
+        /// <inheritdoc/>
         protected override void OnConnected()
         {
             // Delay creating composition resources until they're required.
@@ -172,9 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Deconstructs the Composition Brush.
-        /// </summary>
+        /// <inheritdoc/>
         protected override void OnDisconnected()
         {
             // Dispose of composition resources when no longer in use.

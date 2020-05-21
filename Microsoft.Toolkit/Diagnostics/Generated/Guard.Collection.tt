@@ -2,10 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 <#@include file="TypeInfo.ttinclude" #>
-/* ========================
- * Auto generated file
- * ===================== */
-
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -117,11 +113,11 @@ GenerateTextForItems(EnumerableTypes, item =>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeOver<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        public static void HasSizeGreaterThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
             if (<#=item.Name#>.<#=item.Size#> <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(<#=item.Cast#><#=item.Name#>, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(<#=item.Cast#><#=item.Name#>, size, name);
             }
         }
 
@@ -134,11 +130,11 @@ GenerateTextForItems(EnumerableTypes, item =>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="<#=item.Name#>"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
+        public static void HasSizeGreaterThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
             if (<#=item.Name#>.<#=item.Size#> < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(<#=item.Cast#><#=item.Name#>, size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
             }
         }
 
@@ -248,11 +244,11 @@ GenerateTextForItems(EnumerableTypes, item =>
         public static void IsInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
 <#
-    /* Here we're leveraging the fact that signed integers are represented
-     * in 2-complement to perform the bounds check with a single compare operation.
-     * This is the same trick used throughout CoreCLR as well.
-     * For more info and code sample, see the original conversation here:
-     * https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3131#discussion_r390682835 */
+    // Here we're leveraging the fact that signed integers are represented
+    // in 2-complement to perform the bounds check with a single compare operation.
+    // This is the same trick used throughout CoreCLR as well.
+    // For more info and code sample, see the original conversation here:
+    // https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3131#discussion_r390682835
 #>
             if ((uint)index >= (uint)<#=item.Name#>.<#=item.Size#>)
             {
