@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <summary>
         /// Gets or sets the effects to apply to the input to merge with the current instance
         /// </summary>
-        public List<IPipelineEffect> InputEffects { get; set; } = new List<IPipelineEffect>();
+        public List<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
 
         /// <summary>
         /// Gets or sets the blending mode to use (the default mode is <see cref="ImageBlendMode.Multiply"/>)
@@ -37,14 +37,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            PipelineBuilder inputPipeline = Input.StartPipeline();
+            PipelineBuilder inputBuilder = Input.StartPipeline();
 
-            foreach (IPipelineEffect effect in InputEffects)
+            foreach (IPipelineEffect effect in this.Effects)
             {
-                inputPipeline = effect.AppendToPipeline(inputPipeline);
+                inputBuilder = effect.AppendToPipeline(inputBuilder);
             }
 
-            return builder.Blend(inputPipeline, (BlendEffectMode)Mode, Placement);
+            return builder.Blend(inputBuilder, (BlendEffectMode)Mode, Placement);
         }
     }
 }
