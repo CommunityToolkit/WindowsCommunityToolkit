@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A luminance to alpha effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.LuminanceToAlphaEffect"/> effect</remarks>
-    public sealed class LuminanceToAlphaEffect : IPipelineEffect
+    public sealed class LuminanceToAlphaEffect : IPipelineNode
     {
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)

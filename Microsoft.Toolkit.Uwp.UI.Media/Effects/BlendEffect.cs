@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A blend effect that merges the current builder with an input one
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.BlendEffect"/> effect</remarks>
-    public sealed class BlendEffect : IPipelineEffect
+    public sealed class BlendEffect : IPipelineNode
     {
         /// <summary>
         /// Gets or sets the input to merge with the current instance
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <summary>
         /// Gets or sets the effects to apply to the input to merge with the current instance
         /// </summary>
-        public List<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
+        public List<IPipelineNode> Effects { get; set; } = new List<IPipelineNode>();
 
         /// <summary>
         /// Gets or sets the blending mode to use (the default mode is <see cref="ImageBlendMode.Multiply"/>)
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         {
             PipelineBuilder inputBuilder = Input.StartPipeline();
 
-            foreach (IPipelineEffect effect in this.Effects)
+            foreach (IPipelineNode effect in this.Effects)
             {
                 inputBuilder = effect.AppendToPipeline(inputBuilder);
             }

@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A tint effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
-    public sealed class TintEffect : IPipelineEffect
+    public sealed class TintEffect : IPipelineNode
     {
         /// <summary>
         /// Gets or sets the int color to use

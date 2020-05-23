@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A hue rotation effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.HueRotationEffect"/> effect</remarks>
-    public sealed class HueRotationEffect : IPipelineEffect
+    public sealed class HueRotationEffect : IPipelineNode
     {
         /// <summary>
         /// Gets or sets the angle to rotate the hue, in radians

@@ -23,14 +23,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the collection of effects to use in the current pipeline
         /// </summary>
-        public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
+        public IList<IPipelineNode> Effects { get; set; } = new List<IPipelineNode>();
 
         /// <inheritdoc/>
         protected override PipelineBuilder OnBrushRequested()
         {
             PipelineBuilder builder = Input.StartPipeline();
 
-            foreach (IPipelineEffect effect in Effects)
+            foreach (IPipelineNode effect in Effects)
             {
                 builder = effect.AppendToPipeline(builder);
             }
