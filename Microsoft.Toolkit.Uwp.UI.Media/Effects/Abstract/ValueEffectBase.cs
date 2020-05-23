@@ -4,7 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// A base <see langword="class"/> for an effect that exposes a single <see cref="float"/> parameter
