@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 

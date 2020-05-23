@@ -9,7 +9,6 @@ using System.Linq;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Xaml.Media;
 using BlendEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.BlendEffect;
