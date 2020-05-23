@@ -21,8 +21,10 @@
             <Border>
                 <Border.Background>
                     <media:PipelineBrush>
-                        <media:PipelineBrush.Effects>
+                        <media:PipelineBrush.Input>
                             <effects:AcrylicEffect/>
+                        </media:PipelineBrush.Input>
+                        <media:PipelineBrush.Effects>
                             <effects:BlendEffect>
                                 <effects:BlendEffect.Input>
                                     <effects:BackdropEffect Source="Backdrop"/>
@@ -39,8 +41,10 @@
             <Border>
                 <Border.Background>
                     <media:PipelineBrush>
-                        <media:PipelineBrush.Effects>
+                        <media:PipelineBrush.Input>
                             <effects:AcrylicEffect/>
+                        </media:PipelineBrush.Input>
+                        <media:PipelineBrush.Effects>
                             <effects:HueRotationEffect/>
                             <effects:BlendEffect>
                                 <effects:BlendEffect.Input>
@@ -59,8 +63,10 @@
             <Border>
                 <Border.Background>
                     <media:PipelineBrush>
-                        <media:PipelineBrush.Effects>
+                        <media:PipelineBrush.Input>
                             <effects:AcrylicEffect/>
+                        </media:PipelineBrush.Input>
+                        <media:PipelineBrush.Effects>
                             <effects:SepiaEffect/>
                             <effects:ShadeEffect/>
                             <effects:BlendEffect>

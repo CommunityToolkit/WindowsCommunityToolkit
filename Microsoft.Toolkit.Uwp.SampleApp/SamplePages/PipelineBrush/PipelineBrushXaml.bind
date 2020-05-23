@@ -21,8 +21,10 @@
               Height="400">
         <Border.Background>
           <brushes:PipelineBrush>
-            <brushes:PipelineBrush.Effects>
+            <brushes:PipelineBrush.Input>
               <effects:BackdropEffect Source="Backdrop"/>
+            </brushes:PipelineBrush.Input>
+            <brushes:PipelineBrush.Effects>
               <effects:LuminanceToAlphaEffect/>
               <effects:OpacityEffect Value="0.4"/>
               <effects:BlendEffect Mode="Multiply">
