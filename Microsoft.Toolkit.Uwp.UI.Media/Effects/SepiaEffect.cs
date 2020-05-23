@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -12,5 +13,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SepiaEffect"/> effect</remarks>
     public sealed class SepiaEffect : ValueEffectBase
     {
+        /// <inheritdoc/>
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        {
+            return builder.Sepia((float)Value);
+        }
     }
 }

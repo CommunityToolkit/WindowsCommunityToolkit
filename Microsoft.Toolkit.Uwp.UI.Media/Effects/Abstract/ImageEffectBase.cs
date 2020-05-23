@@ -3,13 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
 {
     /// <summary>
     /// An image based effect that loads an image at the specified location
     /// </summary>
-    public abstract class ImageEffectBase : IPipelineEffect
+    public abstract class ImageEffectBase : IPipelineInput
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Uri"/> for the image to load
@@ -25,5 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
         /// Gets or sets the cache mode to use when loading the image (the default is <see cref="Media.CacheMode.Default"/>)
         /// </summary>
         public CacheMode CacheMode { get; set; } = CacheMode.Default;
+
+        /// <inheritdoc/>
+        public abstract PipelineBuilder StartPipeline();
     }
 }

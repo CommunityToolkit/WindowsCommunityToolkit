@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
 {
     /// <summary>
@@ -13,5 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
         /// Gets or sets the value of the parameter for the current effect
         /// </summary>
         public double Value { get; set; }
+
+        /// <inheritdoc/>
+        public abstract PipelineBuilder AppendToPipeline(PipelineBuilder builder);
     }
 }

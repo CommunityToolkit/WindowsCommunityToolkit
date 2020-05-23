@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -21,5 +22,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// Gets or sets the value of the tint for the current effect
         /// </summary>
         public double Tint { get; set; }
+
+        /// <inheritdoc/>
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        {
+            return builder.TemperatureAndTint((float)Temperature, (float)Tint);
+        }
     }
 }

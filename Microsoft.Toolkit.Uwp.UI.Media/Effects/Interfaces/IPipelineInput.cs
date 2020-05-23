@@ -3,24 +3,18 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
-using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// An effect that renders a standard 8bit SDR color on the available surface
+    /// The base <see langword="interface"/> for all the pipeline inputs to be used in a <see cref="PipelineBrush"/>.
     /// </summary>
-    public sealed class SolidColorEffect : IPipelineInput
+    public interface IPipelineInput
     {
         /// <summary>
-        /// Gets or sets the color to display
+        /// Creates a new <see cref="PipelineBuilder"/> instance from the current input.
         /// </summary>
-        public Color Color { get; set; }
-
-        /// <inheritdoc/>
-        public PipelineBuilder StartPipeline()
-        {
-            return PipelineBuilder.FromColor(Color);
-        }
+        /// <returns>A new <see cref="PipelineBuilder"/> starting from the current input.</returns>
+        PipelineBuilder StartPipeline();
     }
 }

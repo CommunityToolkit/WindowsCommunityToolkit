@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
@@ -12,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A custom acrylic effect that can be inserted into a pipeline
     /// </summary>
     /// <remarks>This effect mirrors the look of the default <see cref="AcrylicBrush"/> implementation</remarks>
-    public sealed class AcrylicEffect : IPipelineEffect
+    public sealed class AcrylicEffect : IPipelineInput
     {
         /// <summary>
         /// Gets or sets the source mode for the effect
@@ -39,5 +40,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// Gets or sets the <see cref="Uri"/> to the texture to use
         /// </summary>
         public Uri TextureUri { get; set; }
+
+        /// <inheritdoc/>
+        public PipelineBuilder StartPipeline()
+        {
+            return Source switch
+            {
+                AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(Tint, (float)TintMix, (float)BlurAmount, TextureUri),
+                AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(Tint, (float)TintMix, TextureUri),
+                _ => throw new ArgumentException($"Invalid source mode for acrylic effect: {Source}")
+            };
+        }
     }
 }
