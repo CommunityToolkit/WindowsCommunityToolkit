@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// An effect that renders a standard 8bit SDR color on the available surface
     /// </summary>
-    public sealed class SolidColorEffect : IPipelineSource
+    public sealed class SolidColorSource : IPipelineSource
     {
         /// <summary>
         /// Gets or sets the color to display

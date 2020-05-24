@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// An effect that loads an image and replicates it to cover all the available surface area
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.BorderEffect"/> effect</remarks>
-    public sealed class TileEffect : ImageEffectBase
+    public sealed class TileSource : ImageSourceBase
     {
         /// <inheritdoc/>
         public override PipelineBuilder StartPipeline()

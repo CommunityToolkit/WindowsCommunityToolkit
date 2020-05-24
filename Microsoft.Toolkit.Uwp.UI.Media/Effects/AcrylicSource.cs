@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A custom acrylic effect that can be inserted into a pipeline
     /// </summary>
     /// <remarks>This effect mirrors the look of the default <see cref="AcrylicBrush"/> implementation</remarks>
-    public sealed class AcrylicEffect : IPipelineSource
+    public sealed class AcrylicSource : IPipelineSource
     {
         /// <summary>
         /// Gets or sets the source mode for the effect

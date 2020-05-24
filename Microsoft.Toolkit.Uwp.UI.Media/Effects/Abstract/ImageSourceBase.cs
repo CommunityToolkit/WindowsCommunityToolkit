@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// An image based effect that loads an image at the specified location
     /// </summary>
-    public abstract class ImageEffectBase : IPipelineSource
+    public abstract class ImageSourceBase : IPipelineSource
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Uri"/> for the image to load
