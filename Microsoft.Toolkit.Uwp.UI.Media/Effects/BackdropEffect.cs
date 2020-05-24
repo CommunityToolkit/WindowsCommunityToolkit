@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A backdrop effect that can sample from a specified source
     /// </summary>
-    public sealed class BackdropEffect : IPipelineInput
+    public sealed class BackdropEffect : IPipelineSource
     {
         /// <summary>
         /// Gets or sets the backdrop source to use to render the effect

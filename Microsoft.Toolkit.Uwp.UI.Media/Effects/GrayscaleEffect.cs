@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A grayscale effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GrayscaleEffect"/> effect</remarks>
-    public sealed class GrayscaleEffect : IPipelineNode
+    public sealed class GrayscaleEffect : IPipelineEffect
     {
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)

@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// An effect that overlays a color layer over the current builder, with a specified intensity
     /// </summary>
-    public sealed class ShadeEffect : IPipelineNode
+    public sealed class ShadeEffect : IPipelineEffect
     {
         /// <summary>
         /// Gets or sets the color to use

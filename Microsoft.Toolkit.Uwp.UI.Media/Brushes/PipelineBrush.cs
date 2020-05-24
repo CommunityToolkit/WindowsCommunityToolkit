@@ -18,19 +18,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the input for the current pipeline
         /// </summary>
-        public IPipelineInput Input { get; set; }
+        public IPipelineSource Input { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of effects to use in the current pipeline
         /// </summary>
-        public IList<IPipelineNode> Effects { get; set; } = new List<IPipelineNode>();
+        public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
 
         /// <inheritdoc/>
         protected override PipelineBuilder OnBrushRequested()
         {
             PipelineBuilder builder = Input.StartPipeline();
 
-            foreach (IPipelineNode effect in Effects)
+            foreach (IPipelineEffect effect in Effects)
             {
                 builder = effect.AppendToPipeline(builder);
             }

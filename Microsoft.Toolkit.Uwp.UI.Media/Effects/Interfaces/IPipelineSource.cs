@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// The base <see langword="interface"/> for all the pipeline inputs to be used in a <see cref="PipelineBrush"/>.
     /// </summary>
-    public interface IPipelineInput
+    public interface IPipelineSource
     {
         /// <summary>
         /// Creates a new <see cref="PipelineBuilder"/> instance from the current input.

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// The base <see langword="interface"/> for all the builder effects to be used in a <see cref="PipelineBrush"/>
     /// </summary>
-    public interface IPipelineNode
+    public interface IPipelineEffect
     {
         /// <summary>
         /// Appends the current effect to the input <see cref="PipelineBuilder"/> instance.

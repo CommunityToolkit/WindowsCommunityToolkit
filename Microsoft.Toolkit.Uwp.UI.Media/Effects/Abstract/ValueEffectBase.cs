@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A base <see langword="class"/> for an effect that exposes a single <see cref="float"/> parameter
     /// </summary>
-    public abstract class ValueEffectBase : IPipelineNode
+    public abstract class ValueEffectBase : IPipelineEffect
     {
         /// <summary>
         /// Gets or sets the value of the parameter for the current effect

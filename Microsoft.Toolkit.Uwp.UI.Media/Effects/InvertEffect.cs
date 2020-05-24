@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// An color inversion effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.InvertEffect"/> effect</remarks>
-    public sealed class InvertEffect : IPipelineNode
+    public sealed class InvertEffect : IPipelineEffect
     {
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
