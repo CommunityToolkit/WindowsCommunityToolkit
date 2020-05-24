@@ -18,8 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(nameof(Text), typeof(string), typeof(PretokenStringContainer), new PropertyMetadata(string.Empty));
 
-        public PretokenStringContainer()
+        public bool IsLast { get; private set; }
+
+        public PretokenStringContainer(bool isLast = false)
         {
+            IsLast = isLast;
         }
 
         public PretokenStringContainer(string text)
