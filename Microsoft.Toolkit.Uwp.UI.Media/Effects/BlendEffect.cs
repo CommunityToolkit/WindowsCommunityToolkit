@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public ImageBlendMode Mode { get; set; }
 
         /// <summary>
-        /// Gets or sets the placement of the input builder with respect to the current one (the default is <see cref="Placement.Foreground"/>)
+        /// Gets or sets the placement of the input builder with respect to the current one (the default is <see cref="Media.Placement.Foreground"/>)
         /// </summary>
         public Placement Placement { get; set; } = Placement.Foreground;
 
