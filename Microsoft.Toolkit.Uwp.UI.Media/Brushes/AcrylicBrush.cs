@@ -135,7 +135,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the tint mix factor for the effect
         /// </summary>
-        public double TintMix { get; set; }
+        public double TintMix
+        {
+            get => (double)GetValue(TintMixProperty);
+            set => SetValue(TintMixProperty, value);
+        }
 
         /// <summary>
         /// Identifies the <see cref="TintMix"/> dependency property.
