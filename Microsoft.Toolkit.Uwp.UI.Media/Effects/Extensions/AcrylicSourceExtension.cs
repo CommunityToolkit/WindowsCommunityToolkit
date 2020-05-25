@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class AcrylicSourceExtension : MarkupExtension
     {
         /// <summary>
-        /// Gets or sets the background source mode for the effect
+        /// Gets or sets the background source mode for the effect (the default is <see cref="AcrylicBackgroundSource.Backdrop"/>).
         /// </summary>
-        public AcrylicBackgroundSource BackgroundSource { get; set; }
+        public AcrylicBackgroundSource BackgroundSource { get; set; } = AcrylicBackgroundSource.Backdrop;
 
         /// <summary>
         /// Gets or sets the blur amount for the effect

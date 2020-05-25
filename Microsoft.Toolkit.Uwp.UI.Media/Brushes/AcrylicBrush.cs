@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private EffectSetter<float> tintMixSetter;
 
         /// <summary>
-        /// Gets or sets the source mode for the effect
+        /// Gets or sets the background source mode for the effect (the default is <see cref="AcrylicBackgroundSource.Backdrop"/>).
         /// </summary>
         public AcrylicBackgroundSource BackgroundSource
         {

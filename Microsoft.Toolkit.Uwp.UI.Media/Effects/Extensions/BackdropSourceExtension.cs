@@ -16,9 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class BackdropSourceExtension : MarkupExtension
     {
         /// <summary>
-        /// Gets or sets the backdrop source to use to render the effect
+        /// Gets or sets the background source mode for the effect (the default is <see cref="AcrylicBackgroundSource.Backdrop"/>).
         /// </summary>
-        public AcrylicBackgroundSource BackgroundSource { get; set; }
+        public AcrylicBackgroundSource BackgroundSource { get; set; } = AcrylicBackgroundSource.Backdrop;
 
         /// <inheritdoc/>
         protected override object ProvideValue()
