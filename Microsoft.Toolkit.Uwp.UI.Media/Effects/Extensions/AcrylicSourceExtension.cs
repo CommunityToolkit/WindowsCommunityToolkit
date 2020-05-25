@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class AcrylicSourceExtension : MarkupExtension
     {
         /// <summary>
-        /// Gets or sets the source mode for the effect
+        /// Gets or sets the background source mode for the effect
         /// </summary>
-        public AcrylicBackgroundSource Source { get; set; }
+        public AcrylicBackgroundSource BackgroundSource { get; set; }
 
         /// <summary>
         /// Gets or sets the blur amount for the effect
@@ -46,11 +46,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <inheritdoc/>
         protected override object ProvideValue()
         {
-            return Source switch
+            return BackgroundSource switch
             {
                 AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(Tint, (float)TintMix, (float)BlurAmount, TextureUri),
                 AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(Tint, (float)TintMix, TextureUri),
-                _ => throw new ArgumentException($"Invalid source mode for acrylic effect: {Source}")
+                _ => throw new ArgumentException($"Invalid source mode for acrylic effect: {BackgroundSource}")
             };
         }
     }

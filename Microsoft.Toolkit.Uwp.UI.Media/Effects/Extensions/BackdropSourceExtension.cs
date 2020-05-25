@@ -18,16 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <summary>
         /// Gets or sets the backdrop source to use to render the effect
         /// </summary>
-        public AcrylicBackgroundSource Source { get; set; }
+        public AcrylicBackgroundSource BackgroundSource { get; set; }
 
         /// <inheritdoc/>
         protected override object ProvideValue()
         {
-            return Source switch
+            return BackgroundSource switch
             {
                 AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdrop(),
                 AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdrop(),
-                _ => throw new ArgumentException($"Invalid source for backdrop effect: {Source}")
+                _ => throw new ArgumentException($"Invalid source for backdrop effect: {BackgroundSource}")
             };
         }
     }

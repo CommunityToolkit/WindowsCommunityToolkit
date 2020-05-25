@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// The <see cref="EffectSetter{T}"/> instance in use to set the blur amount
         /// </summary>
-        /// <remarks>This is only set when <see cref="Source"/> is <see cref="AcrylicBackgroundSource.Backdrop"/></remarks>
+        /// <remarks>This is only set when <see cref="BackgroundSource"/> is <see cref="AcrylicBackgroundSource.Backdrop"/></remarks>
         private EffectSetter<float> blurAmountSetter;
 
         /// <summary>
@@ -36,26 +36,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the source mode for the effect
         /// </summary>
-        public AcrylicBackgroundSource Source
+        public AcrylicBackgroundSource BackgroundSource
         {
-            get => (AcrylicBackgroundSource)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get => (AcrylicBackgroundSource)GetValue(BackgroundSourceProperty);
+            set => SetValue(BackgroundSourceProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="Source"/> dependency property.
+        /// Identifies the <see cref="BackgroundSource"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            nameof(Source),
+        public static readonly DependencyProperty BackgroundSourceProperty = DependencyProperty.Register(
+            nameof(BackgroundSource),
             typeof(AcrylicBackgroundSource),
             typeof(AcrylicBrush),
             new PropertyMetadata(AcrylicBackgroundSource.Backdrop, OnSourcePropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="Source"/> changes
+        /// Updates the UI when <see cref="BackgroundSource"/> changes
         /// </summary>
         /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="SourceProperty"/></param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="BackgroundSourceProperty"/></param>
         private static void OnSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
@@ -86,14 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.0, OnBlurAmountPropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="Source"/> changes
+        /// Updates the UI when <see cref="BackgroundSource"/> changes
         /// </summary>
         /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="SourceProperty"/></param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="BackgroundSourceProperty"/></param>
         private static void OnBlurAmountPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
-                brush.Source != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
+                brush.BackgroundSource != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
                 brush.CompositionBrush is CompositionBrush target)
             {
                 brush.blurAmountSetter?.Invoke(target, (float)(double)e.NewValue);
@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnBrushRequested()
         {
-            switch (this.Source)
+            switch (BackgroundSource)
             {
                 case AcrylicBackgroundSource.Backdrop:
                     return PipelineBuilder.FromBackdropAcrylic(
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                         (float)TintMix,
                         out tintMixSetter,
                         TextureUri);
-                default: throw new ArgumentOutOfRangeException(nameof(this.Source), $"Invalid acrylic source: {this.Source}");
+                default: throw new ArgumentOutOfRangeException(nameof(BackgroundSource), $"Invalid acrylic source: {BackgroundSource}");
             }
         }
     }
