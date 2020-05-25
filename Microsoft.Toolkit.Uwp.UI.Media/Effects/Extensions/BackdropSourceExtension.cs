@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
@@ -11,7 +12,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A backdrop effect that can sample from a specified source
     /// </summary>
-    public sealed class BackdropSource : IPipelineSource
+    [MarkupExtensionReturnType(ReturnType = typeof(PipelineBuilder))]
+    public sealed class BackdropSourceExtension : MarkupExtension
     {
         /// <summary>
         /// Gets or sets the backdrop source to use to render the effect
@@ -19,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public AcrylicBackgroundSource Source { get; set; }
 
         /// <inheritdoc/>
-        public PipelineBuilder StartPipeline()
+        protected override object ProvideValue()
         {
             return Source switch
             {

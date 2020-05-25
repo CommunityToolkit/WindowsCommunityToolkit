@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <summary>
         /// Gets or sets the input to merge with the current instance
         /// </summary>
-        public IPipelineSource Input { get; set; }
+        public PipelineBuilder Source { get; set; }
 
         /// <summary>
         /// Gets or sets the effects to apply to the input to merge with the current instance
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            PipelineBuilder inputBuilder = Input.StartPipeline();
+            PipelineBuilder inputBuilder = Source;
 
             foreach (IPipelineEffect effect in this.Effects)
             {

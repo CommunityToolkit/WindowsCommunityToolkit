@@ -4,13 +4,15 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// An effect that renders a standard 8bit SDR color on the available surface
     /// </summary>
-    public sealed class SolidColorSource : IPipelineSource
+    [MarkupExtensionReturnType(ReturnType = typeof(PipelineBuilder))]
+    public sealed class SolidColorSourceExtension : MarkupExtension
     {
         /// <summary>
         /// Gets or sets the color to display
@@ -18,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public Color Color { get; set; }
 
         /// <inheritdoc/>
-        public PipelineBuilder StartPipeline()
+        protected override object ProvideValue()
         {
             return PipelineBuilder.FromColor(Color);
         }

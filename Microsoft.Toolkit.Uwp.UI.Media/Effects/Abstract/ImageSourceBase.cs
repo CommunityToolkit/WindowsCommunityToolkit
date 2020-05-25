@@ -4,13 +4,15 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// An image based effect that loads an image at the specified location
     /// </summary>
-    public abstract class ImageSourceBase : IPipelineSource
+    [MarkupExtensionReturnType(ReturnType = typeof(PipelineBuilder))]
+    public abstract class ImageSourceBase : MarkupExtension
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Uri"/> for the image to load
@@ -26,8 +28,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// Gets or sets the cache mode to use when loading the image (the default is <see cref="Media.CacheMode.Default"/>)
         /// </summary>
         public CacheMode CacheMode { get; set; } = CacheMode.Default;
-
-        /// <inheritdoc/>
-        public abstract PipelineBuilder StartPipeline();
     }
 }

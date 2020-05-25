@@ -20,31 +20,14 @@
               Grid.Column="2"
               Height="400">
         <Border.Background>
-          <brushes:PipelineBrush>
-            <brushes:PipelineBrush.Input>
-              <effects:BackdropSource Source="Backdrop"/>
-            </brushes:PipelineBrush.Input>
-            <brushes:PipelineBrush.Effects>
-              <effects:LuminanceToAlphaEffect/>
-              <effects:OpacityEffect Value="0.4"/>
-              <effects:BlendEffect Mode="Multiply">
-                <effects:BlendEffect.Input>
-                  <effects:BackdropSource Source="Backdrop"/>
-                </effects:BlendEffect.Input>
-              </effects:BlendEffect>
-              <effects:BlurEffect Value="16"/>
-              <effects:ShadeEffect Color="#FF222222" Intensity="0.2"/>
-              <effects:BlendEffect Mode="Overlay" Placement="Background">
-                <effects:BlendEffect.Input>
-                  <effects:TileSource Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
-                </effects:BlendEffect.Input>
-              </effects:BlendEffect>
-              <effects:BlendEffect Mode="Overlay" Placement="Background">
-                <effects:BlendEffect.Input>
-                  <effects:ImageSource Uri="ms-appx:///SamplePages/DropShadowPanel/Unicorn.png"/>
-                </effects:BlendEffect.Input>
-              </effects:BlendEffect>
-            </brushes:PipelineBrush.Effects>
+          <brushes:PipelineBrush Source="{effects:BackdropSource Source=Backdrop}">
+            <effects:LuminanceToAlphaEffect/>
+            <effects:OpacityEffect Value="0.4"/>
+            <effects:BlendEffect Mode="Multiply" Source="{effects:BackdropSource Source=Backdrop}"/>
+            <effects:BlurEffect Value="16"/>
+            <effects:ShadeEffect Color="#FF222222" Intensity="0.2"/>
+            <effects:BlendEffect Mode="Overlay" Placement="Background" Source="{effects:TileSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}"/>
+            <effects:BlendEffect Mode="Overlay" Placement="Background" Source="{effects:ImageSource Uri=ms-appx:///SamplePages/DropShadowPanel/Unicorn.png}"/>
           </brushes:PipelineBrush>
         </Border.Background>
       </Border>

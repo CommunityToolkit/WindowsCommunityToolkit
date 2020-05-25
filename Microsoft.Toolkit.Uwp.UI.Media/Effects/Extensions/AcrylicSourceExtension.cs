@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
@@ -13,7 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A custom acrylic effect that can be inserted into a pipeline
     /// </summary>
     /// <remarks>This effect mirrors the look of the default <see cref="AcrylicBrush"/> implementation</remarks>
-    public sealed class AcrylicSource : IPipelineSource
+    [MarkupExtensionReturnType(ReturnType = typeof(PipelineBuilder))]
+    public sealed class AcrylicSourceExtension : MarkupExtension
     {
         /// <summary>
         /// Gets or sets the source mode for the effect
@@ -42,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public Uri TextureUri { get; set; }
 
         /// <inheritdoc/>
-        public PipelineBuilder StartPipeline()
+        protected override object ProvideValue()
         {
             return Source switch
             {

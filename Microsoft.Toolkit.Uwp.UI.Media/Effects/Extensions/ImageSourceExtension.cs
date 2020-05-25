@@ -9,10 +9,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// An image effect, which displays an image loaded as a Win2D surface
     /// </summary>
-    public sealed class ImageSource : ImageSourceBase
+    public sealed class ImageSourceExtension : ImageSourceBase
     {
         /// <inheritdoc/>
-        public override PipelineBuilder StartPipeline()
+        protected override object ProvideValue()
         {
             return PipelineBuilder.FromImage(Uri, DpiMode, CacheMode);
         }
