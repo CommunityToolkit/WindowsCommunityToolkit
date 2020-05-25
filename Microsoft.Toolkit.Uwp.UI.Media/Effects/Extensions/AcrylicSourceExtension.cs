@@ -31,12 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <summary>
         /// Gets or sets the tint for the effect
         /// </summary>
-        public Color Tint { get; set; }
+        public Color TintColor { get; set; }
 
         /// <summary>
         /// Gets or sets the color for the tint effect
         /// </summary>
-        public double TintMix { get; set; }
+        public double TintOpacity { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Uri"/> to the texture to use
@@ -48,8 +48,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         {
             return BackgroundSource switch
             {
-                AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(Tint, (float)TintMix, (float)BlurAmount, TextureUri),
-                AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(Tint, (float)TintMix, TextureUri),
+                AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(this.TintColor, (float)this.TintOpacity, (float)BlurAmount, TextureUri),
+                AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(this.TintColor, (float)this.TintOpacity, TextureUri),
                 _ => throw new ArgumentException($"Invalid source mode for acrylic effect: {BackgroundSource}")
             };
         }

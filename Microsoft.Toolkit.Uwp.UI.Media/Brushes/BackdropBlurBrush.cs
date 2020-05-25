@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// The <see cref="EffectSetter{T}"/> instance currently in use
         /// </summary>
-        private EffectSetter<float> setter;
+        private EffectSetter<float> amountSetter;
 
         /// <summary>
         /// Gets or sets the amount of gaussian blur to apply to the background.
@@ -50,14 +50,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             if (d is BackdropBlurBrush brush &&
                 brush.CompositionBrush is CompositionBrush target)
             {
-                brush.setter?.Invoke(target, (float)brush.Amount);
+                brush.amountSetter?.Invoke(target, (float)brush.Amount);
             }
         }
 
         /// <inheritdoc/>
         protected override PipelineBuilder OnBrushRequested()
         {
-            return PipelineBuilder.FromBackdrop().Blur((float)Amount, out setter);
+            return PipelineBuilder.FromBackdrop().Blur((float)Amount, out this.amountSetter);
         }
     }
 }
