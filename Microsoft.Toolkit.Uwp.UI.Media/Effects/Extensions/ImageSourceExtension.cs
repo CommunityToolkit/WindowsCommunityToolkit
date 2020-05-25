@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// An image effect, which displays an image loaded as a Win2D surface
     /// </summary>
-    public sealed class ImageSourceExtension : ImageSourceBase
+    public sealed class ImageSourceExtension : ImageSourceBaseExtension
     {
         /// <inheritdoc/>
         protected override object ProvideValue()
