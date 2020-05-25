@@ -10,10 +10,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// An opacity effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
-    public sealed class OpacityEffect : ValueEffectBase
+    public sealed class OpacityEffect : IPipelineEffect
     {
+        /// <summary>
+        /// Gets or sets the opacity value to apply to the background (defaults to 1, should be in the [0, 1] range).
+        /// </summary>
+        public double Value { get; set; } = 1;
+
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Opacity((float)Value);
         }

@@ -10,10 +10,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A saturation effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SaturationEffect"/> effect</remarks>
-    public sealed class SaturationEffect : ValueEffectBase
+    public sealed class SaturationEffect : IPipelineEffect
     {
+        /// <summary>
+        /// Gets or sets the saturation amount to apply to the background (defaults to 1, should be in the [0, 1] range).
+        /// </summary>
+        public double Value { get; set; } = 1;
+
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Saturation((float)Value);
         }

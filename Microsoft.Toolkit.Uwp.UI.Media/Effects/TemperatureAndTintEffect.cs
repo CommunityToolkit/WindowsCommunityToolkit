@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A temperature and tint effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TemperatureAndTintEffect"/> effect</remarks>
-    public sealed class TemperatureAndTintEffect : ValueEffectBase
+    public sealed class TemperatureAndTintEffect : IPipelineEffect
     {
         /// <summary>
         /// Gets or sets the value of the temperature for the current effect
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public double Tint { get; set; }
 
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.TemperatureAndTint((float)Temperature, (float)Tint);
         }

@@ -10,12 +10,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// An exposure effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.ExposureEffect"/> effect</remarks>
-    public sealed class ExposureEffect : ValueEffectBase
+    public sealed class ExposureEffect : IPipelineEffect
     {
+        /// <summary>
+        /// Gets or sets the amount of exposure to apply to the background (defaults to 0, should be in the [-2, 2] range).
+        /// </summary>
+        public double Amount { get; set; }
+
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            return builder.Exposure((float)Value);
+            return builder.Exposure((float)Amount);
         }
     }
 }

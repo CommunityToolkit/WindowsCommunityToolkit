@@ -10,12 +10,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A gaussian blur effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GaussianBlurEffect"/> effect</remarks>
-    public sealed class BlurEffect : ValueEffectBase
+    public sealed class BlurEffect : IPipelineEffect
     {
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Amount { get; set; }
+
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            return builder.Blur((float)Value);
+            return builder.Blur((float)Amount);
         }
     }
 }
