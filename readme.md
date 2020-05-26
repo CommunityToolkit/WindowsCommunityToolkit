@@ -59,7 +59,7 @@ For general questions and support, please use [Stack Overflow](https://stackover
 ## <a name="dependencies"></a> Required Dependencies
 The following dependencies are required for building the Windows Community Toolkit repo and sample app:
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) with UWP and .NET workloads
+* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) with UWP, .NET, and Desktop C++ workloads
   * You'll also need to check the `C++ (v142) Universal Windows Platform tools` option under the UWP workload
 * [Windows SDK October 2018 Update 17763](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
 * [Sample App - Windows SDK May 2019 Update 18362](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) - **Important:** If you're building the Sample App on 2004, you must install the 19041 SDK and re-target the app [ref](https://github.com/microsoft/microsoft-ui-xaml/issues/1286).
