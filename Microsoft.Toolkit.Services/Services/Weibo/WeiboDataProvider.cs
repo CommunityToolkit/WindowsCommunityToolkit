@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             if (credential != null)
             {
                 _passwordManager.Remove(PasswordKey);
-               await _storageManager.SetAsync(StorageKey, null);
+                await _storageManager.SetAsync(StorageKey, null);
             }
 
             Uid = null;

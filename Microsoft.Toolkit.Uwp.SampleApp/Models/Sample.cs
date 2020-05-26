@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetCSharpSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetJavaScriptSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
+            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -452,12 +452,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_propertyDescriptor == null)
             {
                 // Get Xaml code
-                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
+                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(XamlCodeFile.StartsWith('/') ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
                 {
                     XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
+                    var regularExpression = new Regex("(?<=\\\")@\\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\\]@?(?=\\\")");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;

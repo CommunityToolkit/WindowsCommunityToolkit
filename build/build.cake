@@ -3,6 +3,9 @@
 #addin nuget:?package=Cake.FileHelpers&version=3.2.1
 #addin nuget:?package=Cake.Powershell&version=0.4.8
 
+#tool nuget:?package=MSTest.TestAdapter&version=2.1.0
+#tool nuget:?package=vswhere&version=2.8.4
+
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -91,6 +94,14 @@ void VerifyHeaders(bool Replace)
     }
 }
 
+void RetrieveVersion()
+{
+	Information("\nRetrieving version...");
+    var results = StartPowershellFile(versionClient);
+    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
+    Information("\nBuild Version: " + Version);
+}
+
 //////////////////////////////////////////////////////////////////////
 // DEFAULT TASK
 //////////////////////////////////////////////////////////////////////
@@ -134,14 +145,11 @@ Task("Version")
 
     NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
 
-    Information("\nRetrieving version...");
-    var results = StartPowershellFile(versionClient);
-    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
-    Information("\nBuild Version: " + Version);
+	RetrieveVersion();
 });
 
-Task("Build")
-    .Description("Build all projects and get the assemblies")
+Task("BuildProjects")
+    .Description("Build all projects")
     .IsDependentOn("Version")
     .Does(() =>
 {
@@ -170,9 +178,9 @@ Task("Build")
 });
 
 Task("InheritDoc")
-	.Description("Updates <inheritdoc /> tags from base classes, interfaces, and similar methods")
-	.IsDependentOn("Build")
-	.Does(() =>
+    .Description("Updates <inheritdoc /> tags from base classes, interfaces, and similar methods")
+    .IsDependentOn("BuildProjects")
+    .Does(() =>
 {
 	Information("\nDownloading InheritDoc...");
 	var installSettings = new NuGetInstallSettings {
@@ -198,9 +206,13 @@ Task("InheritDoc")
     Information("\nFinished generating documentation with InheritDoc");
 });
 
+Task("Build")
+    .Description("Build all projects runs InheritDoc")
+    .IsDependentOn("BuildProjects")
+    .IsDependentOn("InheritDoc");
+
 Task("Package")
 	.Description("Pack the NuPkg")
-	.IsDependentOn("InheritDoc")
 	.Does(() =>
 {
 	// Invoke the pack target in the end
@@ -233,18 +245,63 @@ Task("Package")
     buildSettings.SetPlatformTarget(PlatformTarget.x86);
     MSBuild(Solution, buildSettings);
 
+    RetrieveVersion();
+
     var nuGetPackSettings = new NuGetPackSettings
 	{
 		OutputDirectory = nupkgDir,
         Version = Version
 	};
-
+	
     var nuspecs = GetFiles("./*.nuspec");
     foreach (var nuspec in nuspecs)
     {
         NuGetPack(nuspec, nuGetPackSettings);
     }
 });
+
+public string getMSTestAdapterPath(){
+    var nugetPaths = GetDirectories("./tools/MSTest.TestAdapter*/build/_common");
+
+    if(nugetPaths.Count == 0){
+        throw new Exception(
+            "Cannot locate the MSTest test adapter. " +
+            "You might need to add '#tool nuget:?package=MSTest.TestAdapter&version=2.1.0' " + 
+            "to the top of your build.cake file.");
+    }
+
+    return nugetPaths.Last().ToString();
+}
+
+Task("Test")
+	.Description("Runs all Tests")
+    .Does(() =>
+{
+	var vswhere = VSWhereLatest(new VSWhereLatestSettings
+	{
+		IncludePrerelease = false
+	});
+
+	var testSettings = new VSTestSettings
+	{
+	    ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
+		TestAdapterPath = getMSTestAdapterPath(),
+        ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10"),
+	};
+
+	VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
+}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*.NetCore.csproj"), (file) => 
+{
+    var testSettings = new DotNetCoreTestSettings
+	{
+		Configuration = "Release",
+		NoBuild = true,
+		Logger = "trx;LogFilePrefix=VsTestResults",
+		Verbosity = DotNetCoreVerbosity.Normal,
+		ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
+	};
+    DotNetCoreTest(file.FullPath, testSettings);
+}).DeferOnError();
 
 
 
@@ -253,6 +310,8 @@ Task("Package")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
+    .IsDependentOn("Build")
+    .IsDependentOn("Test")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")
