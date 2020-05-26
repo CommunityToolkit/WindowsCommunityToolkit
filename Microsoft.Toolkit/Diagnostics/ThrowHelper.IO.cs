@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
@@ -20,6 +21,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanRead"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support reading");
@@ -29,6 +31,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanWrite"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support writing");
@@ -38,6 +41,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanSeek"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support seeking");
@@ -47,6 +51,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsAtStartPosition"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) must be at position {0.ToAssertString()}, was at {stream.Position.ToAssertString()}");
