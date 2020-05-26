@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
@@ -20,6 +21,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of <see langword="struct"/> value type being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForIsDefault<T>(T value, string name)
             where T : struct
         {
@@ -31,6 +33,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of <see langword="struct"/> value type being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForIsNotDefault<T>(string name)
             where T : struct
         {
@@ -42,6 +45,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForIsEqualTo<T>(T value, T target, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be equal to {target.ToAssertString()}, was {value.ToAssertString()}");
@@ -52,6 +56,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentExceptionForIsNotEqualTo<T>(T value, T target, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be equal to {target.ToAssertString()}, was {value.ToAssertString()}");
@@ -62,6 +67,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsLessThan<T>(T value, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be less than {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -72,6 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo<T>(T value, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be less than or equal to {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -82,6 +89,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsGreaterThan<T>(T value, T minimum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be greater than {minimum.ToAssertString()}, was {value.ToAssertString()}");
@@ -92,6 +100,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo<T>(T value, T minimum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be greater than or equal to {minimum.ToAssertString()}, was {value.ToAssertString()}");
@@ -102,6 +111,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsInRange<T>(T value, T minimum, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be in the range given by {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -112,6 +122,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsNotInRange<T>(T value, T minimum, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be in the range given by {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -122,6 +133,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsBetween<T>(T value, T minimum, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be between {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -132,6 +144,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsNotBetween<T>(T value, T minimum, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be between {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -142,6 +155,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be between or equal to {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
@@ -152,6 +166,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be between or equal to {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
