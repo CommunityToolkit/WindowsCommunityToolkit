@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class BlendEffect : IPipelineEffect
     {
         /// <summary>
-        /// Gets or sets the input to merge with the current instance
+        /// Gets or sets the input to merge with the current instance (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="Windows.UI.Xaml.Media.AcrylicBackgroundSource.Backdrop"/> source).
         /// </summary>
         public PipelineBuilder Source { get; set; }
 
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            PipelineBuilder inputBuilder = Source;
+            PipelineBuilder inputBuilder = Source ?? PipelineBuilder.FromBackdrop();
 
             foreach (IPipelineEffect effect in this.Effects)
             {
