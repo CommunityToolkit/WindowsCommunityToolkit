@@ -37,8 +37,6 @@
       PipelineBuilder: A class that allows to build custom effects pipelines and create CompositionBrush instances from them.
     </Description>
     <PackageTags>UWP Toolkit Windows UI XAML brushes blur</PackageTags>
-    
-    <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
 
   <ItemGroup>

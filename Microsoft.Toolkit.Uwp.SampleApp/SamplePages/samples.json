@@ -658,7 +658,6 @@
     "Samples": [
       {
         "Name": "Facebook Service",
-        "Type": "FacebookPage",
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",

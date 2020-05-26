@@ -18,7 +18,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
@@ -807,7 +807,6 @@
     <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
       <DependentUpon>ExpanderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
     <Compile Include="Controls\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
@@ -912,9 +911,6 @@
     </Compile>
     <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
       <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
-      <DependentUpon>FacebookPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
       <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
@@ -1415,10 +1411,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Facebook Service\FacebookPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1528,10 +1520,6 @@
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
-      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
@@ -1587,6 +1575,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
