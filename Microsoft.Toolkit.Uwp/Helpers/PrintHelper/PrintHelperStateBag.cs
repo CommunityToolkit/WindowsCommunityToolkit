@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Windows.System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -11,6 +12,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     internal class PrintHelperStateBag
     {
+        private readonly DispatcherQueue _dispatcherQueue;
+
+        internal PrintHelperStateBag(DispatcherQueue dispatcherQueue)
+        {
+            _dispatcherQueue = dispatcherQueue;
+        }
+
         /// <summary>
         /// Gets or sets the stored horizontal alignment.
         /// </summary>
@@ -55,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="element">Element to restore state to</param>
         public void Restore(FrameworkElement element)
         {
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
             {
                 element.HorizontalAlignment = HorizontalAlignment;
                 element.VerticalAlignment = VerticalAlignment;

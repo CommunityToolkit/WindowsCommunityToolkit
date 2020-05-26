@@ -17,8 +17,9 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         internal const char PropertyNameSeparator = '.';
         internal const char RightIndexerToken = ']';
 
-        private static bool isAPIContractAvailableInitialized = false;
+        private static bool isAPIsAvailableInitialized = false;
         private static bool isRS3OrHigher = false;
+        private static bool isXamlRootAvailable = false;
 
         // Methods
         private static Type FindGenericType(Type definition, Type type)
@@ -412,19 +413,33 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         {
             get
             {
-                if (!isAPIContractAvailableInitialized)
+                if (!isAPIsAvailableInitialized)
                 {
-                    InitializeAPIContractAvailable();
+                    InitializeAPIsAvailable();
                 }
 
                 return isRS3OrHigher;
             }
         }
 
-        internal static void InitializeAPIContractAvailable()
+        internal static bool IsXamlRootAvailable
+        {
+            get
+            {
+                if (!isAPIsAvailableInitialized)
+                {
+                    InitializeAPIsAvailable();
+                }
+
+                return isXamlRootAvailable;
+            }
+        }
+
+        internal static void InitializeAPIsAvailable()
         {
             isRS3OrHigher = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
-            isAPIContractAvailableInitialized = true;
+            isXamlRootAvailable = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
+            isAPIsAvailableInitialized = true;
         }
     }
 }

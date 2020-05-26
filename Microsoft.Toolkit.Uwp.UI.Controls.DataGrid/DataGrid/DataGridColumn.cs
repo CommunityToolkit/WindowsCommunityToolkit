@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
 using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
+using Microsoft.Toolkit.Uwp.Utilities;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -1059,7 +1060,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (this.OwningGrid != null && this.OwningGrid.UseLayoutRounding)
             {
-                double scale = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                double scale;
+                if (TypeHelper.IsXamlRootAvailable && OwningGrid.XamlRoot != null)
+                {
+                    scale = OwningGrid.XamlRoot.RasterizationScale;
+                }
+                else
+                {
+                    scale = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                }
+
                 double roundedLeftEdge = Math.Floor((scale * leftEdge) + 0.5) / scale;
                 double roundedRightEdge = Math.Floor((scale * (leftEdge + this.ActualWidth)) + 0.5) / scale;
                 this.LayoutRoundedWidth = roundedRightEdge - roundedLeftEdge;
