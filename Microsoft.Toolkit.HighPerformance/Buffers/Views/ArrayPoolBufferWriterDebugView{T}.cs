@@ -4,14 +4,12 @@
 
 using System.Diagnostics;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Views
 {
     /// <summary>
     /// A debug proxy used to display items for the <see cref="ArrayPoolBufferWriter{T}"/> type.
     /// </summary>
-    /// <typeparam name="T">The type of items stored in the input <see cref="ArrayPoolBufferWriter{T}"/> instances..</typeparam>
+    /// <typeparam name="T">The type of items stored in the input <see cref="ArrayPoolBufferWriter{T}"/> instances.</typeparam>
     internal sealed class ArrayPoolBufferWriterDebugView<T>
     {
         /// <summary>
