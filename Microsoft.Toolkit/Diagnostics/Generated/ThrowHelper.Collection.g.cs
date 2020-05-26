@@ -1,14 +1,12 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
-/* ========================
- * Auto generated file
- * ===================== */
+// =====================
+// Auto generated file
+// =====================
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
@@ -19,7 +17,6 @@ namespace Microsoft.Toolkit.Diagnostics
     /// <summary>
     /// Helper methods to throw exceptions
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1618", Justification = "Internal helper methods")]
     internal static partial class ThrowHelper
     {
         /// <summary>
@@ -50,19 +47,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(Span<T> span, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(Span<T> span, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(Span<T>).ToTypeString()}) must have a size over {size}, had a size of {span.Length.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(Span<T> span, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(Span<T> span, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(Span<T>).ToTypeString()}) must have a size of at least {size}, had a size of {span.Length.ToAssertString()}");
         }
@@ -149,19 +146,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(ReadOnlySpan<T> span, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(ReadOnlySpan<T> span, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ReadOnlySpan<T>).ToTypeString()}) must have a size over {size}, had a size of {span.Length.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(ReadOnlySpan<T> span, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ReadOnlySpan<T>).ToTypeString()}) must have a size of at least {size}, had a size of {span.Length.ToAssertString()}");
         }
@@ -248,19 +245,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(Memory<T> memory, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(Memory<T> memory, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(Memory<T>).ToTypeString()}) must have a size over {size}, had a size of {memory.Length.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(Memory<T> memory, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(Memory<T> memory, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(Memory<T>).ToTypeString()}) must have a size of at least {size}, had a size of {memory.Length.ToAssertString()}");
         }
@@ -347,19 +344,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(ReadOnlyMemory<T> memory, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ReadOnlyMemory<T>).ToTypeString()}) must have a size over {size}, had a size of {memory.Length.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(ReadOnlyMemory<T> memory, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ReadOnlyMemory<T>).ToTypeString()}) must have a size of at least {size}, had a size of {memory.Length.ToAssertString()}");
         }
@@ -446,19 +443,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(T[] array, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(T[] array, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T[]).ToTypeString()}) must have a size over {size}, had a size of {array.Length.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(T[] array, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(T[] array, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T[]).ToTypeString()}) must have a size of at least {size}, had a size of {array.Length.ToAssertString()}");
         }
@@ -545,19 +542,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(List<T> list, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(List<T> list, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(List<T>).ToTypeString()}) must have a size over {size}, had a size of {list.Count.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(List<T> list, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(List<T> list, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(List<T>).ToTypeString()}) must have a size of at least {size}, had a size of {list.Count.ToAssertString()}");
         }
@@ -644,19 +641,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(ICollection<T> collection, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(ICollection<T> collection, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ICollection<T>).ToTypeString()}) must have a size over {size}, had a size of {collection.Count.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(ICollection<T> collection, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(ICollection<T> collection, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ICollection<T>).ToTypeString()}) must have a size of at least {size}, had a size of {collection.Count.ToAssertString()}");
         }
@@ -743,19 +740,19 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeOver{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeOver<T>(IReadOnlyCollection<T> collection, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size over {size}, had a size of {collection.Count.ToAssertString()}");
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeAtLeast{T}(T[],int,string)"/> (or an overload) fails.
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(IReadOnlyCollection<T> collection, int size, string name)
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size of at least {size}, had a size of {collection.Count.ToAssertString()}");
         }
