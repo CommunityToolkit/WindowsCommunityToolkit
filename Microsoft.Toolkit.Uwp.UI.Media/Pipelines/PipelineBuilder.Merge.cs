@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,47 +20,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
     public sealed partial class PipelineBuilder
     {
         /// <summary>
-        /// Gets the aligned pipelines to merge for a given operation
-        /// </summary>
-        /// <param name="left">The left pipeline to merge</param>
-        /// <param name="right">The right pipeline to merge</param>
-        /// <param name="placement">The placemeht to use with the two input pipelines</param>
-        /// <returns>A <see cref="ValueTuple{T1,T2}"/> instance with the aligned pipelines</returns>
-        [Pure]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> return type")]
-        private static (PipelineBuilder Foreground, PipelineBuilder Background) GetMergePipeline(
-            PipelineBuilder left,
-            PipelineBuilder right,
-            Placement placement)
-        {
-            return placement switch
-            {
-                Placement.Foreground => (left, right),
-                Placement.Background => (right, left),
-                _ => throw new ArgumentException($"Invalid placement value: {placement}")
-            };
-        }
-
-        /// <summary>
         /// Blends two pipelines using a <see cref="BlendEffect"/> instance with the specified mode
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to blend</param>
         /// <param name="mode">The desired <see cref="BlendEffectMode"/> to use to blend the input pipelines</param>
-        /// <param name="placement">The placemeht to use with the two input pipelines</param>
+        /// <param name="placement">The placemeht to use with the two input pipelines (the default is <see cref="Placement.Foreground"/>)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Blend(PipelineBuilder pipeline, BlendEffectMode mode, Placement placement = Placement.Foreground)
         {
-            var pipelines = GetMergePipeline(this, pipeline, placement);
+            var (foreground, background) = placement switch
+            {
+                Placement.Foreground => (pipeline, this),
+                Placement.Background => (this, pipeline),
+                _ => throw new ArgumentException($"Invalid placement value: {placement}")
+            };
 
             async ValueTask<IGraphicsEffectSource> Factory() => new BlendEffect
             {
-                Foreground = await pipelines.Foreground.sourceProducer(),
-                Background = await pipelines.Background.sourceProducer(),
+                Foreground = await foreground.sourceProducer(),
+                Background = await background.sourceProducer(),
                 Mode = mode
             };
 
-            return new PipelineBuilder(Factory, pipelines.Foreground, pipelines.Background);
+            return new PipelineBuilder(Factory, foreground, background);
         }
 
         /// <summary>
