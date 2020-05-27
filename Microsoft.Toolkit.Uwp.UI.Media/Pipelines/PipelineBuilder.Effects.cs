@@ -476,8 +476,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies a temperature and tint effect on the current pipeline
         /// </summary>
-        /// <param name="temperature">The temperature value to use</param>
-        /// <param name="tint">The tint value to use</param>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder TemperatureAndTint(float temperature, float tint)
@@ -495,9 +495,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies a temperature and tint effect on the current pipeline
         /// </summary>
-        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
         /// <param name="temperatureSetter">The optional temperature setter for the effect</param>
-        /// <param name="tint">The tint value to use</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
         /// <param name="tintSetter">The optional tint setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -527,9 +527,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies a temperature and tint effect on the current pipeline
         /// </summary>
-        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
         /// <param name="temperatureAnimation">The optional temperature animation for the effect</param>
-        /// <param name="tint">The tint value to use</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
         /// <param name="tintAnimation">The optional tint animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]

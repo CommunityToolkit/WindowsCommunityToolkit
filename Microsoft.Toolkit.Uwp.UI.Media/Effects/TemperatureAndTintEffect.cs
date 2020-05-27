@@ -13,12 +13,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class TemperatureAndTintEffect : IPipelineEffect
     {
         /// <summary>
-        /// Gets or sets the value of the temperature for the current effect
+        /// Gets or sets the value of the temperature for the current effect (defaults to 0, should be in the [-1, 1] range)
         /// </summary>
         public double Temperature { get; set; }
 
         /// <summary>
-        /// Gets or sets the value of the tint for the current effect
+        /// Gets or sets the value of the tint for the current effect (defaults to 0, should be in the [-1, 1] range)
         /// </summary>
         public double Tint { get; set; }
 
