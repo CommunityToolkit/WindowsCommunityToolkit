@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -20,42 +19,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// The <see cref="EffectSetter{T}"/> instance in use to set the blur amount
         /// </summary>
-        /// <remarks>This is only set when <see cref="Source"/> is <see cref="AcrylicBackgroundSource.Backdrop"/></remarks>
+        /// <remarks>This is only set when <see cref="BackgroundSource"/> is <see cref="AcrylicBackgroundSource.Backdrop"/></remarks>
         private EffectSetter<float> blurAmountSetter;
 
         /// <summary>
         /// The <see cref="EffectSetter{T}"/> instance in use to set the tint color
         /// </summary>
-        private EffectSetter<Color> tintSetter;
+        private EffectSetter<Color> tintColorSetter;
 
         /// <summary>
         /// The <see cref="EffectSetter{T}"/> instance in use to set the tint mix amount
         /// </summary>
-        private EffectSetter<float> tintMixSetter;
+        private EffectSetter<float> tintOpacitySetter;
 
         /// <summary>
-        /// Gets or sets the source mode for the effect
+        /// Gets or sets the background source mode for the effect (the default is <see cref="AcrylicBackgroundSource.Backdrop"/>).
         /// </summary>
-        public AcrylicBackgroundSource Source
+        public AcrylicBackgroundSource BackgroundSource
         {
-            get => (AcrylicBackgroundSource)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get => (AcrylicBackgroundSource)GetValue(BackgroundSourceProperty);
+            set => SetValue(BackgroundSourceProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="Source"/> dependency property.
+        /// Identifies the <see cref="BackgroundSource"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            nameof(Source),
+        public static readonly DependencyProperty BackgroundSourceProperty = DependencyProperty.Register(
+            nameof(BackgroundSource),
             typeof(AcrylicBackgroundSource),
             typeof(AcrylicBrush),
             new PropertyMetadata(AcrylicBackgroundSource.Backdrop, OnSourcePropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="Source"/> changes
+        /// Updates the UI when <see cref="BackgroundSource"/> changes
         /// </summary>
         /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="SourceProperty"/></param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="BackgroundSourceProperty"/></param>
         private static void OnSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
@@ -86,14 +85,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.0, OnBlurAmountPropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="Source"/> changes
+        /// Updates the UI when <see cref="BackgroundSource"/> changes
         /// </summary>
         /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="SourceProperty"/></param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="BackgroundSourceProperty"/></param>
         private static void OnBlurAmountPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
-                brush.Source != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
+                brush.BackgroundSource != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
                 brush.CompositionBrush is CompositionBrush target)
             {
                 brush.blurAmountSetter?.Invoke(target, (float)(double)e.NewValue);
@@ -103,60 +102,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the tint for the effect
         /// </summary>
-        public Color Tint
+        public Color TintColor
         {
-            get => (Color)GetValue(TintProperty);
-            set => SetValue(TintProperty, value);
+            get => (Color)GetValue(TintColorProperty);
+            set => SetValue(TintColorProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="Tint"/> dependency property.
+        /// Identifies the <see cref="TintColor"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TintProperty = DependencyProperty.Register(
-            nameof(Tint),
+        public static readonly DependencyProperty TintColorProperty = DependencyProperty.Register(
+            nameof(TintColor),
             typeof(Color),
             typeof(AcrylicBrush),
-            new PropertyMetadata(default(Color), OnTintPropertyChanged));
+            new PropertyMetadata(default(Color), OnTintColorPropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="Tint"/> changes
+        /// Updates the UI when <see cref="TintColor"/> changes
         /// </summary>
         /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="TintProperty"/></param>
-        private static void OnTintPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="TintColorProperty"/></param>
+        private static void OnTintColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
                 brush.CompositionBrush is CompositionBrush target)
             {
-                brush.tintSetter?.Invoke(target, (Color)e.NewValue);
+                brush.tintColorSetter?.Invoke(target, (Color)e.NewValue);
             }
         }
 
         /// <summary>
-        /// Gets or sets the tint mix factor for the effect
+        /// Gets or sets the tint opacity factor for the effect
         /// </summary>
-        public double TintMix { get; set; }
+        public double TintOpacity
+        {
+            get => (double)GetValue(TintOpacityProperty);
+            set => SetValue(TintOpacityProperty, value);
+        }
 
         /// <summary>
-        /// Identifies the <see cref="TintMix"/> dependency property.
+        /// Identifies the <see cref="TintOpacity"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TintMixProperty = DependencyProperty.Register(
-            nameof(TintMix),
+        public static readonly DependencyProperty TintOpacityProperty = DependencyProperty.Register(
+            nameof(TintOpacity),
             typeof(double),
             typeof(AcrylicBrush),
-            new PropertyMetadata(0.0, OnTintMixPropertyChanged));
+            new PropertyMetadata(0.0, OnTintOpacityPropertyChanged));
 
         /// <summary>
-        /// Updates the UI when <see cref="TintMix"/> changes
+        /// Updates the UI when <see cref="TintOpacity"/> changes
         /// </summary>
         /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="TintMixProperty"/></param>
-        private static void OnTintMixPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="TintOpacityProperty"/></param>
+        private static void OnTintOpacityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
                 brush.CompositionBrush is CompositionBrush target)
             {
-                brush.tintMixSetter?.Invoke(target, (float)(double)e.NewValue);
+                brush.tintOpacitySetter?.Invoke(target, (float)(double)e.NewValue);
             }
         }
 
@@ -196,25 +199,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnBrushRequested()
         {
-            switch (this.Source)
+            switch (BackgroundSource)
             {
                 case AcrylicBackgroundSource.Backdrop:
                     return PipelineBuilder.FromBackdropAcrylic(
-                        Tint,
-                        out tintSetter,
-                        (float)TintMix,
-                        out tintMixSetter,
+                        TintColor,
+                        out this.tintColorSetter,
+                        (float)TintOpacity,
+                        out this.tintOpacitySetter,
                         (float)BlurAmount,
-                        out this.blurAmountSetter,
+                        out blurAmountSetter,
                         TextureUri);
                 case AcrylicBackgroundSource.HostBackdrop:
                     return PipelineBuilder.FromHostBackdropAcrylic(
-                        Tint,
-                        out tintSetter,
-                        (float)TintMix,
-                        out tintMixSetter,
+                        TintColor,
+                        out this.tintColorSetter,
+                        (float)TintOpacity,
+                        out this.tintOpacitySetter,
                         TextureUri);
-                default: throw new ArgumentOutOfRangeException(nameof(this.Source), $"Invalid acrylic source: {this.Source}");
+                default: throw new ArgumentOutOfRangeException(nameof(BackgroundSource), $"Invalid acrylic source: {BackgroundSource}");
             }
         }
     }
