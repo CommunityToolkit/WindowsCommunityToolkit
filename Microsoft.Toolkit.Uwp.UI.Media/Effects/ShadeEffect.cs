@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public Color Color { get; set; }
 
         /// <summary>
-        /// Gets or sets the intensity of the color layer
+        /// Gets or sets the intensity of the color layer (default to 0.5, should be in the [0, 1] range)
         /// </summary>
-        public double Intensity { get; set; }
+        public double Intensity { get; set; } = 0.5;
 
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
