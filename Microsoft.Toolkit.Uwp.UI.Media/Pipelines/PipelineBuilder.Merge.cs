@@ -68,78 +68,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
-        /// <param name="factor">The cross fade factor to blend the input effects</param>
-        /// <param name="placement">The placement to use with the two input pipelines</param>
+        /// <param name="factor">The cross fade factor to blend the input effects (default is 0.5, must be in the [0, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor = 0.5f, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor = 0.5f)
         {
-            var pipelines = GetMergePipeline(this, pipeline, placement);
-
             async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
             {
                 CrossFade = factor,
-                Source1 = await pipelines.Foreground.sourceProducer(),
-                Source2 = await pipelines.Background.sourceProducer()
+                Source1 = await this.sourceProducer(),
+                Source2 = await pipeline.sourceProducer()
             };
 
-            return new PipelineBuilder(Factory, pipelines.Foreground, pipelines.Background);
+            return new PipelineBuilder(Factory, this, pipeline);
         }
 
         /// <summary>
         /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
-        /// <param name="factor">The cross fade factor to blend the input effects</param>
+        /// <param name="factor">The cross fade factor to blend the input effects (should be in the [0, 1] range)</param>
         /// <param name="setter">The optional blur setter for the effect</param>
-        /// <param name="placement">The placement to use with the two input pipelines</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectSetter<float> setter, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectSetter<float> setter)
         {
-            var pipelines = GetMergePipeline(this, pipeline, placement);
-
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
             {
                 CrossFade = factor,
-                Source1 = await pipelines.Foreground.sourceProducer(),
-                Source2 = await pipelines.Background.sourceProducer(),
+                Source1 = await this.sourceProducer(),
+                Source2 = await pipeline.sourceProducer(),
                 Name = id
             };
 
             setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(CrossFadeEffect.CrossFade)}", value);
 
-            return new PipelineBuilder(Factory, pipelines.Foreground, pipelines.Background, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
+            return new PipelineBuilder(Factory, this, pipeline, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
         }
 
         /// <summary>
         /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
-        /// <param name="factor">The cross fade factor to blend the input effects</param>
+        /// <param name="factor">The cross fade factor to blend the input effects (should be in the [0, 1] range)</param>
         /// <param name="animation">The optional blur animation for the effect</param>
-        /// <param name="placement">The placement to use with the two input pipelines</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation<float> animation, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation<float> animation)
         {
-            var pipelines = GetMergePipeline(this, pipeline, placement);
-
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
             {
                 CrossFade = factor,
-                Source1 = await pipelines.Foreground.sourceProducer(),
-                Source2 = await pipelines.Background.sourceProducer(),
+                Source1 = await this.sourceProducer(),
+                Source2 = await pipeline.sourceProducer(),
                 Name = id
             };
 
             animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(CrossFadeEffect.CrossFade)}", value, duration);
 
-            return new PipelineBuilder(Factory, pipelines.Foreground, pipelines.Background, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
+            return new PipelineBuilder(Factory, this, pipeline, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
         }
 
         /// <summary>
