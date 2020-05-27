@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
         /// </summary>
-        /// <param name="saturation">The saturation amount for the new effect</param>
+        /// <param name="saturation">The saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Saturation(float saturation)
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
         /// </summary>
-        /// <param name="saturation">The initial saturation amount for the new effect</param>
+        /// <param name="saturation">The initial saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <param name="setter">The optional saturation setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
         /// </summary>
-        /// <param name="saturation">The initial saturation amount for the new effect</param>
+        /// <param name="saturation">The initial saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <param name="animation">The optional saturation animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -560,7 +560,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Applies a shade effect on the current pipeline
         /// </summary>
         /// <param name="color">The color to use</param>
-        /// <param name="mix">The amount of mix to apply over the current effect</param>
+        /// <param name="mix">The amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Shade(Color color, float mix)
@@ -573,7 +573,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="color">The color to use</param>
         /// <param name="colorSetter">The optional color setter for the effect</param>
-        /// <param name="mix">The initial amount of mix to apply over the current effect</param>
+        /// <param name="mix">The initial amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
         /// <param name="mixSetter">The optional mix setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -591,7 +591,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="color">The color to use</param>
         /// <param name="colorAnimation">The optional color animation for the effect</param>
-        /// <param name="mix">The initial amount of mix to apply over the current effect</param>
+        /// <param name="mix">The initial amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
         /// <param name="mixAnimation">The optional mix animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]

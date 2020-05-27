@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Xaml.Markup;
@@ -25,10 +26,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// </summary>
         public List<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
 
+        private double factor = 0.5;
+
         /// <summary>
         /// Gets or sets the The cross fade factor to blend the input effects (default to 0.5, should be in the [0, 1] range)
         /// </summary>
-        public double Factor { get; set; } = 0.5;
+        public double Factor
+        {
+            get => this.factor;
+            set => this.factor = Math.Clamp(value, 0, 1);
+        }
 
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)

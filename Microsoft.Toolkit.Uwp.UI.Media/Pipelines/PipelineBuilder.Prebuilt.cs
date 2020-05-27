@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the in-app backdrop acrylic effect
         /// </summary>
         /// <param name="tintColor">The tint color to use</param>
-        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect (must be in the [0, 1] range)</param>
         /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
@@ -129,10 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            var pipeline =
-                FromBackdrop()
-                .Shade(tintColor, tintOpacity)
-                .Blur(blurAmount);
+            var pipeline = FromBackdrop().Shade(tintColor, tintOpacity).Blur(blurAmount);
 
             if (noiseUri != null)
             {
