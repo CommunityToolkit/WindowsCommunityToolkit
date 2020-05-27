@@ -271,7 +271,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromImage(Uri uri, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
         {
-            return new PipelineBuilder(async () => await SurfaceLoader.LoadImageAsync(uri, dpiMode, cacheMode));
+            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(SurfaceLoader.LoadImageAsync(uri, dpiMode, cacheMode)));
         }
 
         /// <summary>

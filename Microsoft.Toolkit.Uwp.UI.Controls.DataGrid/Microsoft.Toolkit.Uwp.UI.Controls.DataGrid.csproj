@@ -8,7 +8,8 @@
     </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
-    <UseUwpMetaPackage>true</UseUwpMetaPackage>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
   <ItemGroup>
