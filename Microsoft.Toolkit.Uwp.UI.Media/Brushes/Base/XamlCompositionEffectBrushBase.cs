@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Base
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A custom <see cref="XamlCompositionBrushBase"/> <see langword="class"/> that's ready to be used with a custom <see cref="PipelineBuilder"/> pipeline
