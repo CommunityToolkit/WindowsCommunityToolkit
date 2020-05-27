@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -12,6 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A blend effect that merges the current builder with an input one
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.BlendEffect"/> effect</remarks>
+    [ContentProperty(Name = nameof(Effects))]
     public sealed class BlendEffect : IPipelineEffect
     {
         /// <summary>
