@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 themeListener = null;
             }
 
-            // Register for property callbacks that are owned by our parent class.
+            // Unregister property callbacks
             UnregisterPropertyChangedCallback(FontSizeProperty, _fontSizePropertyToken);
             UnregisterPropertyChangedCallback(FlowDirectionProperty, _flowDirectionPropertyToken);
             UnregisterPropertyChangedCallback(BackgroundProperty, _backgroundPropertyToken);
@@ -83,7 +83,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UnregisterPropertyChangedCallback(BorderThicknessProperty, _borderThicknessPropertyToken);
             UnregisterPropertyChangedCallback(CharacterSpacingProperty, _characterSpacingPropertyToken);
             UnregisterPropertyChangedCallback(FontFamilyProperty, _fontFamilyPropertyToken);
-            UnregisterPropertyChangedCallback(FontStretchProperty, _fontStylePropertyToken);
+            UnregisterPropertyChangedCallback(FontStretchProperty, _fontStretchPropertyToken);
+            UnregisterPropertyChangedCallback(FontStyleProperty, _fontStylePropertyToken);
             UnregisterPropertyChangedCallback(FontWeightProperty, _fontWeightPropertyToken);
             UnregisterPropertyChangedCallback(ForegroundProperty, _foregroundPropertyToken);
             UnregisterPropertyChangedCallback(PaddingProperty, _paddingPropertyToken);

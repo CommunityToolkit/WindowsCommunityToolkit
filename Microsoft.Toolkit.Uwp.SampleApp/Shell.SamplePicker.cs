@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -137,6 +138,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     _selectedCategory = category;
                     ShowSamplePicker(category.Samples, true);
+
+                    // Then Focus on Picker
+                    DispatcherHelper.ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
             }
             else if (args.IsSettingsInvoked)

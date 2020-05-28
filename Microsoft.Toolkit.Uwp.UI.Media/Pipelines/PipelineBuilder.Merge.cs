@@ -34,15 +34,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             PipelineBuilder right,
             Placement placement)
         {
-            switch (placement)
+            return placement switch
             {
-                case Placement.Foreground:
-                    return (left, right);
-                case Placement.Background:
-                    return (right, left);
-                default:
-                    throw new ArgumentException($"Invalid placement value: {placement}");
-            }
+                Placement.Foreground => (left, right),
+                Placement.Background => (right, left),
+                _ => throw new ArgumentException($"Invalid placement value: {placement}")
+            };
         }
 
         /// <summary>

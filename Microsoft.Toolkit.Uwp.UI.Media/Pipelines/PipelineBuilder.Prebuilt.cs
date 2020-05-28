@@ -17,15 +17,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the host backdrop acrylic effect
         /// </summary>
-        /// <param name="tint">The tint color to use</param>
-        /// <param name="mix">The amount of tint to apply over the current effect</param>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromHostBackdropAcrylic(
-            Color tint,
-            float mix,
+            Color tintColor,
+            float tintOpacity,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Shade(tint, mix);
+                .Shade(tintColor, tintOpacity);
 
             if (noiseUri != null)
             {
@@ -47,19 +47,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the host backdrop acrylic effect
         /// </summary>
-        /// <param name="tint">The tint color to use</param>
-        /// <param name="tintSetter">The optional tint color setter for the effect</param>
-        /// <param name="mix">The amount of tint to apply over the current effect</param>
-        /// <param name="mixSetter">The optional tint mix setter for the effect</param>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintColorSetter">The optional tint color setter for the effect</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="tintOpacitySetter">The optional tint mix setter for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromHostBackdropAcrylic(
-            Color tint,
-            out EffectSetter<Color> tintSetter,
-            float mix,
-            out EffectSetter<float> mixSetter,
+            Color tintColor,
+            out EffectSetter<Color> tintColorSetter,
+            float tintOpacity,
+            out EffectSetter<float> tintOpacitySetter,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Shade(tint, out tintSetter, mix, out mixSetter);
+                .Shade(tintColor, out tintColorSetter, tintOpacity, out tintOpacitySetter);
 
             if (noiseUri != null)
             {
@@ -81,19 +81,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the host backdrop acrylic effect
         /// </summary>
-        /// <param name="tint">The tint color to use</param>
-        /// <param name="tintAnimation">The optional tint color animation for the effect</param>
-        /// <param name="mix">The amount of tint to apply over the current effect</param>
-        /// <param name="mixAnimation">The optional tint mix animation for the effect</param>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintColorAnimation">The optional tint color animation for the effect</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="tintOpacityAnimation">The optional tint mix animation for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromHostBackdropAcrylic(
-            Color tint,
-            out EffectAnimation<Color> tintAnimation,
-            float mix,
-            out EffectAnimation<float> mixAnimation,
+            Color tintColor,
+            out EffectAnimation<Color> tintColorAnimation,
+            float tintOpacity,
+            out EffectAnimation<float> tintOpacityAnimation,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Shade(tint, out tintAnimation, mix, out mixAnimation);
+                .Shade(tintColor, out tintColorAnimation, tintOpacity, out tintOpacityAnimation);
 
             if (noiseUri != null)
             {
@@ -115,24 +115,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the in-app backdrop acrylic effect
         /// </summary>
-        /// <param name="tint">The tint color to use</param>
-        /// <param name="mix">The amount of tint to apply over the current effect</param>
-        /// <param name="blur">The amount of blur to apply to the acrylic brush</param>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromBackdropAcrylic(
-            Color tint,
-            float mix,
-            float blur,
+            Color tintColor,
+            float tintOpacity,
+            float blurAmount,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
                 FromBackdrop()
-                .Shade(tint, mix)
-                .Blur(blur);
+                .Shade(tintColor, tintOpacity)
+                .Blur(blurAmount);
 
             if (noiseUri != null)
             {
@@ -145,30 +145,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the in-app backdrop acrylic effect
         /// </summary>
-        /// <param name="tint">The tint color to use</param>
-        /// <param name="tintSetter">The optional tint color setter for the effect</param>
-        /// <param name="mix">The amount of tint to apply over the current effect</param>
-        /// <param name="mixSetter">The optional tint mix setter for the effect</param>
-        /// <param name="blur">The amount of blur to apply to the acrylic brush</param>
-        /// <param name="blurSetter">The optional blur setter for the effect</param>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintColorSetter">The optional tint color setter for the effect</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="tintOpacitySetter">The optional tint mix setter for the effect</param>
+        /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
+        /// <param name="blurAmountSetter">The optional blur setter for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromBackdropAcrylic(
-            Color tint,
-            out EffectSetter<Color> tintSetter,
-            float mix,
-            out EffectSetter<float> mixSetter,
-            float blur,
-            out EffectSetter<float> blurSetter,
+            Color tintColor,
+            out EffectSetter<Color> tintColorSetter,
+            float tintOpacity,
+            out EffectSetter<float> tintOpacitySetter,
+            float blurAmount,
+            out EffectSetter<float> blurAmountSetter,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
                 FromBackdrop()
-                .Shade(tint, out tintSetter, mix, out mixSetter)
-                .Blur(blur, out blurSetter);
+                .Shade(tintColor, out tintColorSetter, tintOpacity, out tintOpacitySetter)
+                .Blur(blurAmount, out blurAmountSetter);
 
             if (noiseUri != null)
             {
@@ -181,30 +181,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the in-app backdrop acrylic effect
         /// </summary>
-        /// <param name="tint">The tint color to use</param>
+        /// <param name="tintColor">The tint color to use</param>
         /// <param name="tintAnimation">The optional tint color animation for the effect</param>
-        /// <param name="mix">The amount of tint to apply over the current effect</param>
-        /// <param name="mixAnimation">The optional tint mix animation for the effect</param>
-        /// <param name="blur">The amount of blur to apply to the acrylic brush</param>
-        /// <param name="blurAnimation">The optional blur animation for the effect</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="tintOpacityAnimation">The optional tint mix animation for the effect</param>
+        /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
+        /// <param name="blurAmountAnimation">The optional blur animation for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromBackdropAcrylic(
-            Color tint,
+            Color tintColor,
             out EffectAnimation<Color> tintAnimation,
-            float mix,
-            out EffectAnimation<float> mixAnimation,
-            float blur,
-            out EffectAnimation<float> blurAnimation,
+            float tintOpacity,
+            out EffectAnimation<float> tintOpacityAnimation,
+            float blurAmount,
+            out EffectAnimation<float> blurAmountAnimation,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
                 FromBackdrop()
-                .Shade(tint, out tintAnimation, mix, out mixAnimation)
-                .Blur(blur, out blurAnimation);
+                .Shade(tintColor, out tintAnimation, tintOpacity, out tintOpacityAnimation)
+                .Blur(blurAmount, out blurAmountAnimation);
 
             if (noiseUri != null)
             {

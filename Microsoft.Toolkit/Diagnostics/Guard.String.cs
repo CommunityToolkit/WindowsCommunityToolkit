@@ -43,7 +43,9 @@ namespace Microsoft.Toolkit.Diagnostics
             {
                 ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
             }
+#pragma warning disable CS8777 // Does not return when text is null (.NET Standard 2.0 string.IsNullOrEmpty lacks flow attribute)
         }
+#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must be <see langword="null"/> or whitespace.
@@ -73,7 +75,9 @@ namespace Microsoft.Toolkit.Diagnostics
             {
                 ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhitespace(text, name);
             }
+#pragma warning disable CS8777 // Does not return when text is null
         }
+#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must be empty.
