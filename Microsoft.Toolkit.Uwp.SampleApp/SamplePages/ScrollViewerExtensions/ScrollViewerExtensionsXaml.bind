@@ -67,6 +67,11 @@
         </Style>
       </ListView.ItemContainerStyle>
     </ListView>
+
+    <!--This is the panel that will be animated in sync with the main ScrollViewer control inside
+        the ListView in the page, using the ScrollViewerExtensions leveraging composition ExpressionAnimations.
+        We use x:Name here to be able to reference the panel from code behind and start the animation.
+        To inspect the C# code beind used, switch to the "Code" tab in this sample page.-->
     <StackPanel x:Name="shapesPanel"
                 HorizontalAlignment="Center"
                 Margin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
@@ -74,6 +79,7 @@
                 Spacing="24">
       <Border Height="100"
               Width="100"
+              Margin="0,56,0,0"
               Background="#20000000">
         <Polygon
           Points="0,0 0,36 30,18.5"
