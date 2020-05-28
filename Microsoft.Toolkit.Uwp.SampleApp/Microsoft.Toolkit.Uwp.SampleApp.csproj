@@ -130,7 +130,7 @@
       <Version>1.0.5</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
-      <Version>4.4.0</Version>
+      <Version>4.5.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -615,6 +615,7 @@
     <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
