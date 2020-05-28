@@ -12,6 +12,7 @@
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
 
     <NoWarn>CS8002;CS0618</NoWarn>
+    <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
