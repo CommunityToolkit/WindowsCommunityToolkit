@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="type">The input type.</param>
         /// <param name="value">The type to check against.</param>
-        /// <returns>Returns <see langword="true"/> if <paramref name="type"/> is an instance of <paramref name="value"/>, <see langword="false"/> otherwise.</returns>
+        /// <returns><see langword="true"/> if <paramref name="type"/> is an instance of <paramref name="value"/>, <see langword="false"/> otherwise.</returns>
         internal static bool IsInstanceOfType(this Type type, object value)
         {
             return type.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo());
