@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class PretokenStringContainer : DependencyObject
+    internal class PretokenStringContainer : DependencyObject, ITokenStringContainer
     {
         public string Text
         {
@@ -28,6 +28,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public PretokenStringContainer(string text)
         {
             Text = text;
+        }
+
+        /// <summary>
+        /// Override and provide the content of the container on ToString() so the calling app can access the token string
+        /// </summary>
+        /// <returns>The content of the string token</returns>
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }
