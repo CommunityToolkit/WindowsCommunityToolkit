@@ -158,6 +158,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false));
 
         /// <summary>
+        /// Identifies the <see cref="ItemsPresenterMargin"/> property.
+        /// Note: this has been added to work around an issue with internal layout conflicts between panel and ListView that manifests as a bad margin.
+        /// </summary>
+        public static readonly DependencyProperty ItemsPresenterMarginProperty = DependencyProperty.Register(
+            nameof(ItemsPresenterMargin),
+            typeof(Thickness),
+            typeof(TokenizingTextBox),
+            new PropertyMetadata(default(Thickness)));
+
+        /// <summary>
         /// Gets or sets the Style for the contained AutoSuggestBox template part.
         /// </summary>
         public Style AutoSuggestBoxStyle
@@ -245,6 +255,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the margin value for the items presenter component.
+        /// </summary>
+        public Thickness ItemsPresenterMargin
+        {
+            get => (Thickness)GetValue(ItemsPresenterMarginProperty);
+            set => SetValue(ItemsPresenterMarginProperty, value);
         }
 
         /// <summary>
