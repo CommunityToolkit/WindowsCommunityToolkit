@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Setup our base state of our collection
             _innerItemsSource = new InterspersedObservableCollection(new ObservableCollection<object>()); // TODO: Test this still will let us bind to ItemsSource in XAML?
-            _currentTextEdit = _lastTextEdit = new PretokenStringContainer();
+            _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
             _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
             ItemsSource = _innerItemsSource;
             //// TODO: Consolidate with callback below for ItemsSourceProperty changed?
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ItemsSource != null && ItemsSource.GetType() != typeof(InterspersedObservableCollection))
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
-                _currentTextEdit = _lastTextEdit = new PretokenStringContainer();
+                _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
                 _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
                 ItemsSource = _innerItemsSource;
             }
