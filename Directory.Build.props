@@ -45,7 +45,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="'$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
       <PropertyGroup>
         <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
