@@ -370,7 +370,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="action">Action to be run on UIThread</param>
         private static async void RunInUIThread(Action action)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (_scrollViewer == null)
+            {
+                return;
+            }
+
+            await _scrollViewer.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 action();
             });
