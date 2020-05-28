@@ -66,13 +66,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Gets or sets the blur amount for the effect
+        /// Gets or sets the blur amount for the effect (must be a positive value)
         /// </summary>
         /// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
         public double BlurAmount
         {
             get => (double)GetValue(BlurAmountProperty);
-            set => SetValue(BlurAmountProperty, value);
+            set => SetValue(BlurAmountProperty, Math.Max(value, 0));
         }
 
         /// <summary>
