@@ -28,7 +28,6 @@
         <Setter Property="TabNavigation" Value="Once" />
         <Setter Property="IsSwipeEnabled" Value="False" />
         <Setter Property="Padding" Value="{StaticResource TokenizingTextBoxPadding}" />
-        <Setter Property="ItemsPresenterMargin" Value="{StaticResource TokenizingTextBoxPresenterMargin}"/>
         <Setter Property="SelectionMode" Value="Extended" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -91,7 +90,7 @@
                           ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
 
                 <ItemsPresenter Padding="{TemplateBinding Padding}"
-                                Margin="{TemplateBinding ItemsPresenterMargin}"
+                                Margin="{StaticResource TokenizingTextBoxPresenterMargin}"
                                 Footer="{TemplateBinding Footer}"
                                 FooterTemplate="{TemplateBinding FooterTemplate}"
                                 FooterTransitions="{TemplateBinding FooterTransitions}"
