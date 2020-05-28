@@ -68,45 +68,43 @@
         <StackPanel x:Name="shapesPanel"
                     HorizontalAlignment="Center"
                     Margin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
-                    Padding="12"
-                    Spacing="24">
-            <Border Height="100"
-                    Width="100"
-                    Background="#20000000">
-                <Polygon            
-                    Points="0,0 0,36 30,18.5" 
-                    Stroke="DarkGreen" 
-                    Fill="Green" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
-            </Border>
-            <Border Height="100"
-                    Width="100"
-                    Background="#20000000">
-                <StackPanel Orientation="Horizontal"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                    <Polygon 
-                        Points="0,0 0,36 16,18.5"
-                        Stroke="Blue"
-                        Fill="DodgerBlue"/>
-                    <Polygon
-                        Points="0,0 0,36 16,18.5"
-                        Stroke="Blue"
-                        Fill="DodgerBlue"/>
-                </StackPanel>
-            </Border>
-            <Border Height="100"
-                    Width="100"
-                    Background="#20000000">
-                <Polygon            
-                    Points="0,0 0,36 36,36 36,0" 
-                    Stroke="DarkRed" 
-                    Fill="Crimson" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
-            </Border>
+                    Padding="88"
+                    Spacing="32">
+            <Polygon Height="100"
+                     Width="100"
+                     Points="0,0 0,72 44,36"
+                     Stroke="DarkGreen"
+                     Fill="Green"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="4"
+                        Height="84"
+                        Width="100">
+                <Polygon Points="0,0 0,56 32,28"
+                         Stroke="Blue"
+                         Fill="DodgerBlue"/>
+                <Polygon Points="0,0 0,56 32,28"
+                         Stroke="Blue"
+                         Fill="DodgerBlue"/>
+            </StackPanel>
+            <TextBlock
+                Height="100"
+                FontSize="24"
+                TextAlignment="Center">
+                <Run Text="Look at me, I'm floating between"/>
+                <LineBreak/>
+                <Run Text="two different ListView items!"/>
+            </TextBlock>
+            <Polygon Height="100"
+                     Width="100"
+                     Points="0,0 0,60 60,60 60,0"
+                     Stroke="DarkRed"
+                     Fill="Crimson"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Page>
