@@ -105,6 +105,15 @@
             Fill="DodgerBlue"/>
         </StackPanel>
       </Border>
+      <TextBlock
+        Margin="0,20,0,0"
+        Height="100"
+        FontSize="24"
+        TextAlignment="Center">
+        <Run Text="Look at me, I'm floating between"/>
+        <LineBreak/>
+        <Run Text="two different ListView items!"/>
+      </TextBlock>
       <Border Height="100"
               Width="100"
               Background="#20000000">
