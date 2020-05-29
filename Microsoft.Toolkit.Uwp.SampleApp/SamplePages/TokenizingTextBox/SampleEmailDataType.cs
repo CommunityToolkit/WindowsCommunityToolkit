@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// Sample of strongly-typed email address simulated data for <see cref="TokenizingTextBox"/>.
+    /// Sample of strongly-typed email address simulated data for <see cref="Microsoft.Toolkit.Uwp.UI.Controls.TokenizingTextBox"/>.
     /// </summary>
     public class SampleEmailDataType
     {

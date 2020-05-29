@@ -10,6 +10,7 @@
     <!--  Resources for TokenizingTextBox  -->
     <Thickness x:Key="TokenizingTextBoxBorderThickness">2</Thickness>
     <Thickness x:Key="TokenizingTextBoxPadding">4</Thickness>
+    <Thickness x:Key="TokenizingTextBoxPresenterMargin">0,0,6,0</Thickness>
     <x:Double x:Key="TokenizingTextBoxTokenSpacing">2</x:Double>
 
     <controls:TokenizingTextBoxStyleSelector x:Key="TokenizingTextBoxStyleSelector"
@@ -89,6 +90,7 @@
                           ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
 
                 <ItemsPresenter Padding="{TemplateBinding Padding}"
+                                Margin="{StaticResource TokenizingTextBoxPresenterMargin}"
                                 Footer="{TemplateBinding Footer}"
                                 FooterTemplate="{TemplateBinding FooterTemplate}"
                                 FooterTransitions="{TemplateBinding FooterTransitions}"
