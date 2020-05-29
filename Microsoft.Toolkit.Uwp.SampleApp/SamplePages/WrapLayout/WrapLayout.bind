@@ -18,16 +18,18 @@
   </Page.Resources>
 
   <Grid Padding="48">
-    <ScrollViewer >
-      <winui:ItemsRepeater x:Name="WrapRepeater" 
-                           Background="{ThemeResource Brush-Grey-04}"
-                           ItemTemplate="{StaticResource WrapTemplate}">
-        <winui:ItemsRepeater.Layout>
-          <controls:WrapLayout x:Name="Wrap"
-                               VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
-                               HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
-        </winui:ItemsRepeater.Layout>
-      </winui:ItemsRepeater>
-    </ScrollViewer>
+    <winui:ItemsRepeaterScrollHost> <!-- Needed for 1803 and below -->
+      <ScrollViewer>
+        <winui:ItemsRepeater x:Name="WrapRepeater"
+                             Background="{ThemeResource Brush-Grey-04}"
+                             ItemTemplate="{StaticResource WrapTemplate}">
+          <winui:ItemsRepeater.Layout>
+            <controls:WrapLayout x:Name="Wrap"
+                                 VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
+                                 HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
+          </winui:ItemsRepeater.Layout>
+        </winui:ItemsRepeater>
+      </ScrollViewer>
+    </winui:ItemsRepeaterScrollHost>
   </Grid>
 </Page>

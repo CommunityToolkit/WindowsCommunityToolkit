@@ -3,14 +3,16 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// An image based effect that loads an image at the specified location
     /// </summary>
-    public abstract class ImageEffectBase : IPipelineEffect
+    [MarkupExtensionReturnType(ReturnType = typeof(PipelineBuilder))]
+    public abstract class ImageSourceBaseExtension : MarkupExtension
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Uri"/> for the image to load

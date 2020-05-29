@@ -118,7 +118,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as Control;
-
             SetItemContainerBackground(sender, itemContainer, args.ItemIndex);
         }
 

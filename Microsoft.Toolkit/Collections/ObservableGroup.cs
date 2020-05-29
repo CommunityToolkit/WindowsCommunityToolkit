@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Microsoft.Toolkit.Collections
@@ -14,6 +15,7 @@ namespace Microsoft.Toolkit.Collections
     /// </summary>
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
+    [DebuggerDisplay("Key = {Key}, Count = {Count}")]
     public sealed class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
         /// <summary>
