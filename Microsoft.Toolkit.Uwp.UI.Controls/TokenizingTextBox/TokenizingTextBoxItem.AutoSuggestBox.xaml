@@ -305,9 +305,73 @@
                                     ItemTemplate="{Binding Path=Owner.SuggestedItemTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     ItemsSource="{Binding Path=Owner.SuggestedItemsSource, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     PlaceholderText="{Binding Path=Owner.PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    Style="{StaticResource SystemAutoSuggestBoxStyle}"
                                     Text="{Binding Text, Mode=TwoWay}"
                                     TextBoxStyle="{StaticResource TokenizingTextBoxTextBoxStyle}"/>
                     <!-- TODO: Visual State to style autosuggestbox based on focus? -->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Copy of System Style from 18362 to try and workaround WinUI Styles -->
+    <Style TargetType="AutoSuggestBox" x:Key="SystemAutoSuggestBoxStyle">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}" />
+        <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="AutoSuggestBox">
+                    <Grid x:Name="LayoutRoot">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="Orientation">
+                                <VisualState x:Name="Landscape" />
+                                <VisualState x:Name="Portrait" />
+
+                            </VisualStateGroup>
+
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBox x:Name="TextBox"
+                            Style="{TemplateBinding TextBoxStyle}"
+                            PlaceholderText="{TemplateBinding PlaceholderText}"
+                            Header="{TemplateBinding Header}"
+                            Width="{TemplateBinding Width}"
+                            ScrollViewer.BringIntoViewOnFocusChange="False"
+                            Canvas.ZIndex="0"
+                            Margin="0"
+                            DesiredCandidateWindowAlignment="BottomEdge"
+                            UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
+
+                        <Popup x:Name="SuggestionsPopup">
+                            <Border x:Name="SuggestionsContainer">
+                                <ListView x:Name="SuggestionsList"
+                                    Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
+                                    BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+                                    BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
+                                    DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                    IsItemClickEnabled="True"
+                                    ItemTemplate="{TemplateBinding ItemTemplate}"
+                                    ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                    MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                    Margin="{ThemeResource AutoSuggestListMargin}"
+                                    Padding="{ThemeResource AutoSuggestListPadding}" />
+                            </Border>
+                        </Popup>
+
+                    </Grid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
