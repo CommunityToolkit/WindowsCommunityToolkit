@@ -108,7 +108,6 @@ private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
 
 private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
 {
-    // TODO: not sure how this is getting to be null, need to make simple repro and file platform issue?
     if (e.ClickedItem != null && e.ClickedItem is SampleEmailDataType email)
     {
         _ttbEmail.Text = string.Empty; // Clear current text
