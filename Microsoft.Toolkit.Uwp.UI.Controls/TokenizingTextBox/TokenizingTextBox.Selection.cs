@@ -296,6 +296,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
 
+            var tokenString = PrepareSelectionForClipboard();
+
+            if (!string.IsNullOrEmpty(tokenString))
+            {
+                dataPackage.SetText(tokenString);
+                Clipboard.SetContent(dataPackage);
+            }
+        }
+
+        private string PrepareSelectionForClipboard()
+        {
             string tokenString = string.Empty;
             bool addSeparator = false;
 
@@ -325,11 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (!string.IsNullOrEmpty(tokenString))
-            {
-                dataPackage.SetText(tokenString);
-                Clipboard.SetContent(dataPackage);
-            }
+            return tokenString;
         }
     }
 }

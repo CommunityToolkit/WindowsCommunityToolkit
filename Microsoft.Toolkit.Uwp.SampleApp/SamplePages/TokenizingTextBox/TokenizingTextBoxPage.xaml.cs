@@ -82,8 +82,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private TokenizingTextBox _ttb;
         private TokenizingTextBox _ttbEmail;
         private ListView _ttbEmailSuggestions;
-        private Button _ttbEmailClear;
-        private Button _ttbEmailShowItems;
 
         private AdvancedCollectionView _acv;
         private AdvancedCollectionView _acvEmail;
@@ -101,6 +99,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _acvEmail.SortDescriptions.Add(new SortDescription(nameof(SampleEmailDataType.DisplayName), SortDirection.Ascending));
 
             Loaded += (sender, e) => { this.OnXamlRendered(this); };
+
+            // Add the buttons
+            SampleController.Current.RegisterNewCommand("Clear Tokens", ClearButtonClick);
+            SampleController.Current.RegisterNewCommand("Show Email Items", ShowEmailSelectedClick);
+            SampleController.Current.RegisterNewCommand("Show Email Selection", ShowSelectedTextClick);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -168,28 +171,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmailSuggestions.PreviewKeyDown += EmailList_PreviewKeyDown;
 
                 _ttbEmailSuggestions.ItemsSource = _acvEmail;
-            }
-
-            if (_ttbEmailClear != null)
-            {
-                _ttbEmailClear.Click -= ClearButtonClick;
-            }
-
-            if (control.FindChildByName("ClearButton") is Button btn)
-            {
-                _ttbEmailClear = btn;
-                _ttbEmailClear.Click += ClearButtonClick;
-            }
-
-            if (_ttbEmailShowItems != null)
-            {
-                _ttbEmailShowItems.Click -= ShowButtonClick;
-            }
-
-            if (control.FindChildByName("ShowSelectedEmails") is Button showBtn)
-            {
-                _ttbEmailShowItems = showBtn;
-                _ttbEmailShowItems.Click += ShowButtonClick;
             }
         }
 
@@ -316,14 +297,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        private async void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            _selectedEmails.Clear();
-
+            await _ttbEmail.Clear();
             _acvEmail.RefreshFilter();
+
+            await _ttb.Clear();
         }
 
-        private async void ShowButtonClick(object sender, RoutedEventArgs e)
+        private async void ShowEmailSelectedClick(object sender, RoutedEventArgs e)
         {
             // Grab the list of items and identify which ones are free text, which ones are tokens
             string message = string.Empty;
@@ -342,6 +324,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             MessageDialog md = new MessageDialog(message, "Item List with type");
+            await md.ShowAsync();
+        }
+
+        private async void ShowSelectedTextClick(object sender, RoutedEventArgs e)
+        {
+            // Grab the list of items and identify which ones are free text, which ones are tokens
+            string message = _ttbEmail.SelectedTokenText;
+
+            if (_ttbEmail.SelectedItems.Count == 0)
+            {
+                message = "<Nothing Selected>";
+            }
+
+            MessageDialog md = new MessageDialog(message, "Selected Tokens as Text");
             await md.ShowAsync();
         }
 

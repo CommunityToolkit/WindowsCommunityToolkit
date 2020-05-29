@@ -70,8 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PreviewKeyUp += TokenizingTextBox_PreviewKeyUp;
             CharacterReceived += TokenizingTextBox_CharacterReceived;
             ItemClick += TokenizingTextBox_ItemClick;
-
-            PointerMoved += TokenizingTextBox_PointerMoved;
         }
 
         private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
@@ -96,10 +94,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 IsClearingForClick = true;
                 ClearAllTextSelections(null);
             }
-        }
-
-        private void TokenizingTextBox_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
         }
 
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
@@ -205,7 +199,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
-            // TODO: check to see if the character came from one of the tokens, and its not a control character
             var container = ContainerFromItem(_currentTextEdit) as TokenizingTextBoxItem;
 
             if (container != null && !(FocusManager.GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
@@ -381,6 +374,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _ = AddTokenAsync(data, atEnd);
         }
 
+        /// <summary>
+        /// Clears the whole collection, will raise the <see cref="TokenItemRemoving"/> event asynchronously for each item.
+        /// </summary>
+        /// <returns>async task</returns>
+        public async Task Clear()
+        {
+            while (_innerItemsSource.Count > 1)
+            {
+                var container = ContainerFromItem(_innerItemsSource[0]) as TokenizingTextBoxItem;
+                await RemoveToken(container);
+            }
+
+            (_innerItemsSource[0] as PretokenStringContainer).Text = string.Empty;
+        }
+
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
             if (data is string str && TokenItemAdding != null)
@@ -449,21 +457,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _innerItemsSource.Remove(data);
 
             TokenItemRemoved?.Invoke(this, data);
-        }
-
-        /// <summary>
-        /// Returns the string representation of each token item, concatenated and delimeted.
-        /// </summary>
-        /// <returns>Untokenized text string</returns>
-        public string GetUntokenizedText(string tokenDelimiter = ", ")
-        {
-            var tokenStrings = new List<string>();
-            foreach (var item in Items)
-            {
-                tokenStrings.Add(item.ToString());
-            }
-
-            return string.Join(tokenDelimiter, tokenStrings);
         }
     }
 }
