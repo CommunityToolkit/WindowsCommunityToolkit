@@ -135,13 +135,8 @@
 
                 <VisualStateGroup x:Name="FocusStates">
                     <VisualState x:Name="Focused">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="BorderThickness">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderThemeThicknessFocused}" />
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                        
                         <VisualState.Setters>
+                            <Setter Target="FocusVisual.BorderThickness" Value="{ThemeResource TextControlBorderThemeThicknessFocused}" />
                             <Setter Target="FocusVisual.Opacity" Value="1" />
                         </VisualState.Setters>
                     </VisualState>
@@ -151,4 +146,3 @@
         </Grid>
     </ControlTemplate>
 </ResourceDictionary>
-
