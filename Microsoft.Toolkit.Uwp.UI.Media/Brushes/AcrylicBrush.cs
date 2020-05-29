@@ -66,13 +66,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Gets or sets the blur amount for the effect
+        /// Gets or sets the blur amount for the effect (must be a positive value)
         /// </summary>
         /// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
         public double BlurAmount
         {
             get => (double)GetValue(BlurAmountProperty);
-            set => SetValue(BlurAmountProperty, value);
+            set => SetValue(BlurAmountProperty, Math.Max(value, 0));
         }
 
         /// <summary>
@@ -132,12 +132,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Gets or sets the tint opacity factor for the effect
+        /// Gets or sets the tint opacity factor for the effect (default is 0.5, must be in the [0, 1] range)
         /// </summary>
         public double TintOpacity
         {
             get => (double)GetValue(TintOpacityProperty);
-            set => SetValue(TintOpacityProperty, value);
+            set => SetValue(TintOpacityProperty, Math.Clamp(value, 0, 1));
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             nameof(TintOpacity),
             typeof(double),
             typeof(AcrylicBrush),
-            new PropertyMetadata(0.0, OnTintOpacityPropertyChanged));
+            new PropertyMetadata(0.5, OnTintOpacityPropertyChanged));
 
         /// <summary>
         /// Updates the UI when <see cref="TintOpacity"/> changes

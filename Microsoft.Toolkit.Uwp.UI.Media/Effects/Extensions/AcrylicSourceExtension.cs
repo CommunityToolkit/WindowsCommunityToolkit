@@ -22,21 +22,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// </summary>
         public AcrylicBackgroundSource BackgroundSource { get; set; } = AcrylicBackgroundSource.Backdrop;
 
+        private double blurAmount;
+
         /// <summary>
-        /// Gets or sets the blur amount for the effect
+        /// Gets or sets the blur amount for the effect (must be a positive value)
         /// </summary>
         /// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
-        public double BlurAmount { get; set; }
+        public double BlurAmount
+        {
+            get => this.blurAmount;
+            set => this.blurAmount = Math.Max(value, 0);
+        }
 
         /// <summary>
         /// Gets or sets the tint for the effect
         /// </summary>
         public Color TintColor { get; set; }
 
+        private double tintOpacity = 0.5f;
+
         /// <summary>
-        /// Gets or sets the color for the tint effect
+        /// Gets or sets the color for the tint effect (default is 0.5, must be in the [0, 1] range)
         /// </summary>
-        public double TintOpacity { get; set; }
+        public double TintOpacity
+        {
+            get => this.tintOpacity;
+            set => this.tintOpacity = Math.Clamp(value, 0, 1);
+        }
 
         /// <summary>
         /// Gets or sets the <see cref="Uri"/> to the texture to use
