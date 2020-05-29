@@ -287,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies an exposure effect on the current pipeline
         /// </summary>
-        /// <param name="amount">The amount of exposure to apply over the current effect</param>
+        /// <param name="amount">The amount of exposure to apply over the current effect (should be in the [-2, 2] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Exposure(float amount)
@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies an exposure effect on the current pipeline
         /// </summary>
-        /// <param name="amount">The initial exposure of tint to apply over the current effect</param>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect (should be in the [-2, 2] range)</param>
         /// <param name="setter">The optional amount setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -327,7 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies an exposure effect on the current pipeline
         /// </summary>
-        /// <param name="amount">The initial exposure of tint to apply over the current effect</param>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect (should be in the [-2, 2] range)</param>
         /// <param name="animation">The optional amount animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
