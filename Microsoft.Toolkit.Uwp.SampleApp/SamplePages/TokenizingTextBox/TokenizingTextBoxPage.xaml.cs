@@ -83,6 +83,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private TokenizingTextBox _ttbEmail;
         private ListView _ttbEmailSuggestions;
         private Button _ttbEmailClear;
+        private Button _ttbEmailShowItems;
 
         private AdvancedCollectionView _acv;
         private AdvancedCollectionView _acvEmail;
@@ -117,9 +118,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
             {
                 _ttb = ttb;
-
-                ////_ttb.ItemsSource = new ObservableCollection<SampleDataType>(); // TODO: This shouldn't be required, we should initialize in control constructor???
-
                 _ttb.TokenItemAdded += TokenItemAdded;
                 _ttb.TokenItemRemoving += TokenItemRemoved;
                 _ttb.TextChanged += TextChanged;
@@ -146,8 +144,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail = ttbEmail;
 
                 _ttbEmail.ItemsSource = _selectedEmails;
-
-                // _ttbEmail.ItemClick += EmailTokenItemClick;
+                _ttbEmail.ItemClick += EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
@@ -181,8 +178,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("ClearButton") is Button btn)
             {
                 _ttbEmailClear = btn;
-
                 _ttbEmailClear.Click += ClearButtonClick;
+            }
+
+            if (_ttbEmailShowItems != null)
+            {
+                _ttbEmailShowItems.Click -= ShowButtonClick;
+            }
+
+            if (control.FindChildByName("ShowSelectedEmails") is Button showBtn)
+            {
+                _ttbEmailShowItems = showBtn;
+                _ttbEmailShowItems.Click += ShowButtonClick;
             }
         }
 
@@ -314,6 +321,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _selectedEmails.Clear();
 
             _acvEmail.RefreshFilter();
+        }
+
+        private async void ShowButtonClick(object sender, RoutedEventArgs e)
+        {
+            // Grab the list of items and identify which ones are free text, which ones are tokens
+            string message = string.Empty;
+
+            foreach (var item in _ttbEmail.Items)
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    message += "\r\n";
+                }
+
+                message += item is ITokenStringContainer ? "Unrslvd: " : "Token  : ";
+                var textVal = item.ToString();
+
+                message += string.IsNullOrEmpty(textVal) ? "<empty>" : textVal;
+            }
+
+            MessageDialog md = new MessageDialog(message, "Item List with type");
+            await md.ShowAsync();
         }
 
         // Move to Email Suggest ListView list when we keydown from the TTB
