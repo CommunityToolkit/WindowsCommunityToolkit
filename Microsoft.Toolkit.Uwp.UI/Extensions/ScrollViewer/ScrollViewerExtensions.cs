@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ListViewBase"/>
+    /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
     /// </summary>
     public static partial class ScrollViewerExtensions
     {

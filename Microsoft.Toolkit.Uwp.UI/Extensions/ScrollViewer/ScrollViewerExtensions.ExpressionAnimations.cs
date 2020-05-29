@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Hosting;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ScrollViewer"/> control.
+    /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
     /// </summary>
     public static partial class ScrollViewerExtensions
     {
