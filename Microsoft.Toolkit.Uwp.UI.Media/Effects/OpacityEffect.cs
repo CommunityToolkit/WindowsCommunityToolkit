@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
     public sealed class OpacityEffect : IPipelineEffect
     {
-        private double value;
+        private double value = 1;
 
         /// <summary>
         /// Gets or sets the opacity value to apply to the background (defaults to 1, should be in the [0, 1] range).
