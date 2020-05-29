@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
@@ -126,7 +127,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem is SampleCategory category)
+            //// Temp Workaround for WinUI Bug https://github.com/microsoft/microsoft-ui-xaml/issues/2520
+            var invokedItem = args.InvokedItem;
+            if (invokedItem is FrameworkElement fe && fe.DataContext is SampleCategory cat2)
+            {
+                invokedItem = cat2;
+            }
+            //// End Workaround - args.InvokedItem
+
+            if (invokedItem is SampleCategory category)
             {
                 if (SamplePickerGrid.Visibility != Visibility.Collapsed && _selectedCategory == category)
                 {

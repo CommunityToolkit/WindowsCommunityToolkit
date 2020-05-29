@@ -69,6 +69,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (index != previousIndex)
                 {
                     var newItem = ContainerFromIndex(index) as TokenizingTextBoxItem;
+
+                    // Check for the new item being a text control.
+                    // this must happen before focus is set to avoid seeing the caret
+                    // jump in come cases
+                    if (Items[index] is PretokenStringContainer && !IsShiftPressed)
+                    {
+                        newItem._autoSuggestTextBox.SelectionLength = 0;
+                        newItem._autoSuggestTextBox.SelectionStart = direction == MoveDirection.Next
+                            ? 0
+                            : newItem._autoSuggestTextBox.Text.Length;
+                    }
+
                     newItem.Focus(FocusState.Keyboard);
 
                     // if no control keys are selected then the selection also becomes just this item

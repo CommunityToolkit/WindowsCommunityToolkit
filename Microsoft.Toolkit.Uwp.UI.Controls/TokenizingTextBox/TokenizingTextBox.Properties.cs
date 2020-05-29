@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty QueryIconProperty = DependencyProperty.Register(
             nameof(QueryIcon),
-            typeof(IconElement),
+            typeof(IconSource),
             typeof(TokenizingTextBox),
             new PropertyMetadata(null));
 
@@ -232,9 +232,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the icon to display in the AutoSuggestBox template part.
         /// </summary>
-        public IconElement QueryIcon
+        public IconSource QueryIcon
         {
-            get => (IconElement)GetValue(QueryIconProperty);
+            get => (IconSource)GetValue(QueryIconProperty);
             set => SetValue(QueryIconProperty, value);
         }
 
