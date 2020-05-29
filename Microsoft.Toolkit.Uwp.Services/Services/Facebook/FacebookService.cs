@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
     /// <summary>
     /// Class for connecting to Facebook.
     /// </summary>
+    [Obsolete("The underlying library these helpers rely on is not currently maintained.")]
     public class FacebookService
     {
         /// <summary>
