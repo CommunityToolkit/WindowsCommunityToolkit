@@ -5,7 +5,10 @@
       <PropertyGroup>
         <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
         <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
-        <DebugType>Full</DebugType>
+      </PropertyGroup>
+
+      <PropertyGroup Condition="'$(DebugType)' == ''">
+        <DebugType>Portable</DebugType>
       </PropertyGroup>
 
       <ItemGroup>

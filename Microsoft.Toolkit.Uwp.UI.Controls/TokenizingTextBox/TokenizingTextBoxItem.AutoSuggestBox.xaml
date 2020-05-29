@@ -307,9 +307,7 @@
                                     PlaceholderText="{Binding Path=Owner.PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     Text="{Binding Text, Mode=TwoWay}"
                                     TextBoxStyle="{StaticResource TokenizingTextBoxTextBoxStyle}"/>
-                    <!-- TODO: We need to only do this for our last one OR create an instance per item - QueryIcon="{Binding Path=Owner.QueryIcon, RelativeSource={RelativeSource Mode=TemplatedParent}}" -->
-                    
-                    <!-- TODO: Visual State to style autosuggestbox based on focus -->
+                    <!-- TODO: Visual State to style autosuggestbox based on focus? -->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
