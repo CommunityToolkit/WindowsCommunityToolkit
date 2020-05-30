@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public BladeViewMetadata()
             : base()
         {
-            AddCallback(typeof(BladeView),
+            AddCallback(ControlTypes.BladeView,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(BladeView.ActiveBlades),
@@ -37,9 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                         new CategoryAttribute(Resources.CategoryCommon),
                         //The following is necessary because this is a collection of an abstract type, so we help
                         //the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(BladeItem),
-                        }),
+                        new NewItemTypesAttribute(ControlTypes.BladeItem),
                         new AlternateContentPropertyAttribute()
                     );
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));

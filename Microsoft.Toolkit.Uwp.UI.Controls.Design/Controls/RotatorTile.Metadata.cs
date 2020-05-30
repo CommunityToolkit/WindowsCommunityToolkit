@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RotatorTileMetadata()
             : base()
         {
-            AddCallback(typeof(RotatorTile),
+            AddCallback(ControlTypes.RotatorTile,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(RotatorTile.ExtraRandomDuration), new CategoryAttribute(Resources.CategoryCommon));

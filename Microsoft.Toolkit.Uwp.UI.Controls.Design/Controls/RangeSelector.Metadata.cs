@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RangeSelectorMetadata()
             : base()
         {
-            AddCallback(typeof(RangeSelector),
+            AddCallback(ControlTypes.RangeSelector,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(RangeSelector.Minimum), new CategoryAttribute(Resources.CategoryCommon));

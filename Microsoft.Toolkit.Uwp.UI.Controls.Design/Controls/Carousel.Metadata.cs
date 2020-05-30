@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public CarouselMetadata()
             : base()
         {
-            AddCallback(typeof(Carousel),
+            AddCallback(ControlTypes.Carousel,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(Carousel.SelectedItem), new CategoryAttribute(Resources.CategoryCommon));

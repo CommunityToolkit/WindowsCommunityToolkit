@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RadialProgressBarMetadata()
             : base()
         {
-            AddCallback(typeof(RadialProgressBar),
+            AddCallback(ControlTypes.RadialProgressBar,
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBarDefaults)));

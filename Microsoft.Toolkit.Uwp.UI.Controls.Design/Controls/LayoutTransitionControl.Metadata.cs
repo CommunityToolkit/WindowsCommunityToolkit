@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public LayoutTransformControlMetadata()
             : base()
         {
-            AddCallback(typeof(LayoutTransformControl),
+            AddCallback(ControlTypes.LayoutTransformControl,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(LayoutTransformControl.Child), new CategoryAttribute(Resources.CategoryCommon));

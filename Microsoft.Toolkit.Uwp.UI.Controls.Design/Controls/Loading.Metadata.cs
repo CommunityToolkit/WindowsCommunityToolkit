@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public LoadingMetadata()
             : base()
         {
-            AddCallback(typeof(Loading),
+            AddCallback(ControlTypes.Loading,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(Loading.IsLoading), new CategoryAttribute(Resources.CategoryCommon));

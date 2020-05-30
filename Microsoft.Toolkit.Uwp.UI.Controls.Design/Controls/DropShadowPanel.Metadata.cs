@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public DropShadowPanelMetadata()
             : base()
         {
-            AddCallback(typeof(DropShadowPanel),
+            AddCallback(ControlTypes.DropShadowPanel,
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(DropShadowPanelDefaults)));

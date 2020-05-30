@@ -83,32 +83,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
     <Compile Include="Common\PlatformTypes.cs" />
-    <Compile Include="Common\ToolboxCategoryPaths.cs" />
     <Compile Include="Controls\AdaptiveGridView.Metadata.cs" />
+    <Compile Include="Controls\AdaptiveGridView.Typedata.cs" />
     <Compile Include="Controls\BladeItem.Metadata.cs" />
+    <Compile Include="Controls\BladeItem.Typedata.cs" />
     <Compile Include="Controls\BladeView.Metadata.cs" />
+    <Compile Include="Controls\BladeView.Typedata.cs" />
     <Compile Include="Controls\Carousel.Metadata.cs" />
+    <Compile Include="Controls\Carousel.Typedata.cs" />
     <Compile Include="Controls\DropShadowPanel.Metadata.cs" />
+    <Compile Include="Controls\DropShadowPanel.Typedata.cs" />
     <Compile Include="Controls\Expander.Metadata.cs" />
+    <Compile Include="Controls\Expander.Typedata.cs" />
     <Compile Include="Controls\GridSplitter.Metadata.cs" />
+    <Compile Include="Controls\GridSplitter.Typedata.cs" />
     <Compile Include="Controls\ImageEx.Metadata.cs" />
+    <Compile Include="Controls\ImageEx.Typedata.cs" />
     <Compile Include="Controls\InAppNotification.Metadata.cs" />
+    <Compile Include="Controls\InAppNotification.Typedata.cs" />
     <Compile Include="Controls\LayoutTransitionControl.Metadata.cs" />
+    <Compile Include="Controls\LayoutTransitionControl.Typedata.cs" />
     <Compile Include="Controls\Loading.Metadata.cs" />
+    <Compile Include="Controls\Loading.Typedata.cs" />
     <Compile Include="Controls\MasterDetailsView.Metadata.cs" />
+    <Compile Include="Controls\MasterDetailsView.Typedata.cs" />
     <Compile Include="Controls\Menu.Metadata.cs" />
+    <Compile Include="Controls\Menu.Typedata.cs" />
     <Compile Include="Controls\MenuItem.Metadata.cs" />
+    <Compile Include="Controls\MenuItem.Typedata.cs" />
     <Compile Include="Controls\OrbitView.Metadata.cs" />
+    <Compile Include="Controls\OrbitView.Typedata.cs" />
     <Compile Include="Controls\RadialGauge.Metadata.cs" />
+    <Compile Include="Controls\RadialGauge.Typedata.cs" />
     <Compile Include="Controls\RadialProgressBar.Metadata.cs" />
+    <Compile Include="Controls\RadialProgressBar.Typedata.cs" />
     <Compile Include="Controls\RangeSelector.Metadata.cs" />
+    <Compile Include="Controls\RangeSelector.Typedata.cs" />
     <Compile Include="Controls\RotatorTile.Metadata.cs" />
+    <Compile Include="Controls\RotatorTile.Typedata.cs" />
     <Compile Include="Controls\ScrollHeader.Metadata.cs" />
+    <Compile Include="Controls\ScrollHeader.Typedata.cs" />
     <Compile Include="Controls\TextToolbar.Metadata.cs" />
+    <Compile Include="Controls\TextToolbar.Typedata.cs" />
     <Compile Include="Controls\TileControl.Metadata.cs" />
+    <Compile Include="Controls\TileControl.Typedata.cs" />
     <Compile Include="Controls\WrapPanel.Metadata.cs" />
+    <Compile Include="Controls\WrapPanel.Typedata.cs" />
     <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

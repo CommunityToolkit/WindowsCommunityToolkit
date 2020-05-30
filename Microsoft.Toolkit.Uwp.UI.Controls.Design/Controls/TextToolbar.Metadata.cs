@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public TextToolbarMetadata()
             : base()
         {
-            AddCallback(typeof(TextToolbar),
+            AddCallback(ControlTypes.TextToolbar,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(TextToolbar.Editor), new CategoryAttribute(Resources.CategoryCommon));

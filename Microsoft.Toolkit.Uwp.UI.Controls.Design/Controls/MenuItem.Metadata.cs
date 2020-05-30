@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MenuItemMetadata()
             : base()
         {
-            AddCallback(typeof(MenuItem),
+            AddCallback(ControlTypes.MenuItem,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(MenuItem.Header),
@@ -38,9 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                         new CategoryAttribute(Resources.CategoryCommon),
                         //The following is necessary because this is a collection of an abstract type, so we help
                         //the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(MenuItem),
-                        }),
+                        new NewItemTypesAttribute(ControlTypes.MenuItem),
                         new AlternateContentPropertyAttribute()
                     );
 

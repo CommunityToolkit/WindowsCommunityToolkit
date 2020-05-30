@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public WrapPanelMetadata()
             : base()
         {
-            AddCallback(typeof(WrapPanel),
+            AddCallback(ControlTypes.WrapPanel,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(WrapPanel.Orientation),

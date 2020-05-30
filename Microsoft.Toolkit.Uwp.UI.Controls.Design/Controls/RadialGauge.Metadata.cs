@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RadialGaugeMetadata()
             : base()
         {
-            AddCallback(typeof(RadialGauge),
+            AddCallback(ControlTypes.RadialGauge,
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(RadialGaugeDefaults)));

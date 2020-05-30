@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public InAppNotificationMetadata()
             : base()
         {
-            AddCallback(typeof(InAppNotification),
+            AddCallback(ControlTypes.InAppNotification,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(InAppNotification.ShowDismissButton), new CategoryAttribute(Resources.CategoryAppearance));

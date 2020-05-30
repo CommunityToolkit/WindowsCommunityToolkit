@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MasterDetailsViewMetadata()
             : base()
         {
-            AddCallback(typeof(MasterDetailsView),
+            AddCallback(ControlTypes.MasterDetailsView,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(MasterDetailsView.SelectedItem), new CategoryAttribute(Resources.CategoryCommon));

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MarkdownTextBlockMetadata()
             : base()
         {
-            AddCallback(typeof(MarkdownTextBlock),
+            AddCallback(ControlTypes.MarkdownTextBlock,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(MarkdownTextBlock.ImageStretch), new CategoryAttribute(Resources.CategoryMarkdownStyle));

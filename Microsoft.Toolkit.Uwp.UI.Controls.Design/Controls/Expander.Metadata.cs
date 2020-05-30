@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ExpanderMetadata()
             : base()
         {
-            AddCallback(typeof(Expander),
+            AddCallback(ControlTypes.Expander,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(Expander.Header), new CategoryAttribute(Resources.CategoryCommon));

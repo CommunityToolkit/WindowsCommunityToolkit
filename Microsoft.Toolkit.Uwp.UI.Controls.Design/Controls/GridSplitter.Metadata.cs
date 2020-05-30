@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public GridSplitterMetadata()
             : base()
         {
-            AddCallback(typeof(GridSplitter),
+            AddCallback(ControlTypes.GridSplitter,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(GridSplitter.Element), new CategoryAttribute(Resources.CategoryCommon));

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ImageExMetadata()
             : base()
         {
-            AddCallback(typeof(ImageEx),
+            AddCallback(ControlTypes.ImageEx,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(ImageEx.NineGrid), new CategoryAttribute(Resources.CategoryAppearance));

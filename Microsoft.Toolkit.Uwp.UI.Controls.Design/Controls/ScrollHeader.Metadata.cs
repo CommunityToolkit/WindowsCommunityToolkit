@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ScrollHeaderMetadata()
             : base()
         {
-            AddCallback(typeof(ScrollHeader),
+            AddCallback(ControlTypes.ScrollHeader,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(ScrollHeader.Mode), new CategoryAttribute(Resources.CategoryCommon));

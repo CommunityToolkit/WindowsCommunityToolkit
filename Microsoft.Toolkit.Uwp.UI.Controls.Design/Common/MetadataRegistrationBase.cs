@@ -139,7 +139,9 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                         }
 
                         var type = Type.GetType(typeName + ", " + AssemblyFullName);
-
+#if VS_DESIGNER_PROCESS_ISOLATION
+                        var typeID = type;
+#endif
                         if (type != null && type.IsPublic && type.IsClass && type.IsSubclassOf(PlatformTypes.DependencyObject))
                         {
                             string desc = ParseDescription(member);
@@ -152,11 +154,11 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                             {
                                 if (IsBrowsable(type))
                                 {
-                                    builder.AddCustomAttributes(type, new DescriptionAttribute(desc));
+                                    builder.AddCustomAttributes(typeID, new DescriptionAttribute(desc));
                                 }
                                 else //Hide from intellisense
                                 {
-                                    builder.AddCustomAttributes(type,
+                                    builder.AddCustomAttributes(typeID,
                                         new BrowsableAttribute(false),
                                         new ToolboxBrowsableAttribute(false),
                                         new ToolboxItemAttribute(false));
@@ -170,11 +172,11 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                                 {
                                     if (IsBrowsable(type))
                                     {
-                                        builder.AddCustomAttributes(type, propertyName, new DescriptionAttribute(desc));
+                                        builder.AddCustomAttributes(typeID, propertyName, new DescriptionAttribute(desc));
                                     }
                                     else //Hide from intellisense
                                     {
-                                        builder.AddCustomAttributes(type, new BrowsableAttribute(false));
+                                        builder.AddCustomAttributes(typeID, new BrowsableAttribute(false));
                                     }
                                 }
                             }

@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         public DataGridMetadata() : base()
         {
-            AddCallback(typeof(DataGrid),
+            AddCallback(ControlTypes.DataGrid,
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(DataGridDefaults)));
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 });
 
-            AddCallback(typeof(DataGridColumn),
+            AddCallback(ControlTypes.DataGridColumn,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(DataGridColumn.CanUserResize), new CategoryAttribute(Resources.CategoryLayout));
@@ -89,13 +89,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(DataGridColumn.Width), new CategoryAttribute(Resources.CategoryLayout));
                 });
 
-            AddCallback(typeof(DataGridBoundColumn),
+            AddCallback(ControlTypes.DataGridBoundColumn,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(DataGridBoundColumn.Binding), new CategoryAttribute(Resources.CategoryCellBinding));
                 });
 
-            AddCallback(typeof(DataGridTextColumn),
+            AddCallback(ControlTypes.DataGridTextColumn,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(DataGridTextColumn.FontFamily), new CategoryAttribute(Resources.CategoryText));
@@ -105,13 +105,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(DataGridTextColumn.Foreground), new CategoryAttribute(Resources.CategoryText));
                 });
 
-            AddCallback(typeof(DataGridCheckBoxColumn),
+            AddCallback(ControlTypes.DataGridCheckBoxColumn,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(DataGridCheckBoxColumn.IsThreeState), new CategoryAttribute(Resources.CategoryCommon));
                 });
 
-            AddCallback(typeof(DataGridTemplateColumn),
+            AddCallback(ControlTypes.DataGridTemplateColumn,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(DataGridTemplateColumn.CellEditingTemplate), new CategoryAttribute(Resources.CategoryCellTemplate));

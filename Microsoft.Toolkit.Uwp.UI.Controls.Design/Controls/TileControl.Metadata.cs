@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public TileControlMetadata()
             : base()
         {
-            AddCallback(typeof(TileControl),
+            AddCallback(ControlTypes.TileControl,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(TileControl.ScrollViewerContainer), new CategoryAttribute(Resources.CategoryCommon));

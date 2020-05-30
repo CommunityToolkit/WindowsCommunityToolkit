@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public CustomDialogMetadata()
             : base()
         {
-            AddCallback(typeof(AdaptiveGridView),
+            AddCallback(ControlTypes.AdaptiveGridView,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(AdaptiveGridView.DesiredWidth),

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public OrbitViewMetadata()
             : base()
         {
-            AddCallback(typeof(OrbitView),
+            AddCallback(ControlTypes.OrbitView,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(OrbitView.OrbitsEnabled), new CategoryAttribute(Resources.CategoryCommon));

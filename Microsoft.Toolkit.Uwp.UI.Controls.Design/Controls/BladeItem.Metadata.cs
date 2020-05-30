@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public BladeItemMetadata()
             : base()
         {
-            AddCallback(typeof(BladeItem),
+            AddCallback(ControlTypes.BladeItem,
                 b =>
                 {
                     b.AddCustomAttributes(nameof(BladeItem.TitleBarVisibility),
