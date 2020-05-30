@@ -18,6 +18,8 @@
         "Name": "TabView",
         "Type": "TabViewPage",
         "Subcategory": "Layout",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the TabView control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
         "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
         "XamlCodeFile": "TabViewXaml.bind",
@@ -663,7 +665,7 @@
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "These helpers will be removed in the next release.",
+        "DeprecatedWarning": "The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
       },
       {
@@ -1095,6 +1097,8 @@
       {
         "Name": "RadialGradientBrush",
         "Type": "RadialGradientBrushPage",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the RadialGradientBrush control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
         "About": "A composition brush which creates a radial gradient effect.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/RadialGradientBrush.cs",
         "XamlCodeFile": "RadialGradientBrushXaml.bind",
