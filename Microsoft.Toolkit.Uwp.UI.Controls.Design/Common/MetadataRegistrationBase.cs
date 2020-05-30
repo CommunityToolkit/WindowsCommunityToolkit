@@ -16,6 +16,9 @@ using Microsoft.Toolkit.Uwp.Design.Types;
 #if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#else
+using Microsoft.VisualStudio.DesignTools.Extensibility;
+using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 #endif
 
 namespace Microsoft.Toolkit.Uwp.Design.Common
@@ -141,6 +144,8 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                         var type = Type.GetType(typeName + ", " + AssemblyFullName);
 #if VS_DESIGNER_PROCESS_ISOLATION
                         var typeID = type;
+#else
+                        var typeID = typeName;
 #endif
                         if (type != null && type.IsPublic && type.IsClass && type.IsSubclassOf(PlatformTypes.DependencyObject))
                         {

@@ -11,5 +11,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type BladeItem = typeof(BladeItem);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string BladeItem = RootNamespace + "." + nameof(BladeItem);
+    }
+
+    internal static class BladeItem
+    {
+        internal const string CloseButtonBackground = nameof(CloseButtonBackground);
+        internal const string CloseButtonForeground = nameof(CloseButtonForeground);
+        internal const string IsOpen = nameof(IsOpen);
+        internal const string TitleBarBackground = nameof(TitleBarBackground);
+        internal const string TitleBarVisibility = nameof(TitleBarVisibility);
+    }
 #endif
 }

@@ -11,5 +11,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type BladeView = typeof(BladeView);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string BladeView = RootNamespace + "." + nameof(BladeView);
+    }
+
+    internal static class BladeView
+    {
+        internal const string ActiveBlades = nameof(ActiveBlades);
+        internal const string AutoCollapseCountThreshold = nameof(AutoCollapseCountThreshold);
+        internal const string BladeMode = nameof(BladeMode);
+        internal const string Items = nameof(Items);
+    }
 #endif
 }

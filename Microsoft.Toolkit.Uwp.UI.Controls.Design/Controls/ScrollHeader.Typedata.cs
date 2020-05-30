@@ -11,5 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type ScrollHeader = typeof(ScrollHeader);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string ScrollHeader = RootNamespace + "." + nameof(ScrollHeader);
+    }
+
+    internal static class ScrollHeader
+    {
+        internal const string Mode = nameof(Mode);
+    }
 #endif
 }

@@ -11,5 +11,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type TileControl = typeof(TileControl);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string TileControl = RootNamespace + "." + nameof(TileControl);
+    }
+
+    internal static class TileControl
+    {
+        internal const string AnimationDuration = nameof(AnimationDuration);
+        internal const string AnimationStepX = nameof(AnimationStepX);
+        internal const string AnimationStepY = nameof(AnimationStepY);
+        internal const string ImageAlignment = nameof(ImageAlignment);
+        internal const string ImageSource = nameof(ImageSource);
+        internal const string IsAnimated = nameof(IsAnimated);
+        internal const string OffsetX = nameof(OffsetX);
+        internal const string OffsetY = nameof(OffsetY);
+        internal const string ParallaxSpeedRatio = nameof(ParallaxSpeedRatio);
+        internal const string ScrollOrientation = nameof(ScrollOrientation);
+        internal const string ScrollViewerContainer = nameof(ScrollViewerContainer);
+    }
 #endif
 }

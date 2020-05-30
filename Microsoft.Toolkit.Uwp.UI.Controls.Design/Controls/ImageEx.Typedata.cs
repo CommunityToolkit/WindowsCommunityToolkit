@@ -11,5 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type ImageEx = typeof(ImageEx);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string ImageEx = RootNamespace + "." + nameof(ImageEx);
+    }
+
+    internal static class ImageEx
+    {
+        internal const string NineGrid = nameof(NineGrid);
+    }
 #endif
 }

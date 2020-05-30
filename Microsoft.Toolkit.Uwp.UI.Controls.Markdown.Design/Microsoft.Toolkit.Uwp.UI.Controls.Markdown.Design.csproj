@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{67FE47A0-CA93-4680-B770-A0A48C1DBC40}</ProjectGuid>
+    <ProjectGuid>{6E8F0CAF-7B4D-4FFB-A50A-252CA7C75402}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>

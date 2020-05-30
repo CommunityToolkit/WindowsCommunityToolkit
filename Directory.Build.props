@@ -104,4 +104,6 @@
     </AdditionalFiles>
   </ItemGroup>
 
+  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.VisualStudio.Design.props" Condition="'$(IsDesignProject)' == 'true'"/>
+
 </Project>

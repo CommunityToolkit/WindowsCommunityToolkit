@@ -11,5 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type InAppNotification = typeof(InAppNotification);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string InAppNotification = RootNamespace + "." + nameof(InAppNotification);
+    }
+
+    internal static class InAppNotification
+    {
+        internal const string ShowDismissButton = nameof(ShowDismissButton);
+    }
 #endif
 }

@@ -11,5 +11,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type WrapPanel = typeof(WrapPanel);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string WrapPanel = RootNamespace + "." + nameof(WrapPanel);
+    }
+
+    internal static class WrapPanel
+    {
+        internal const string HorizontalSpacing = nameof(HorizontalSpacing);
+        internal const string Orientation = nameof(Orientation);
+        internal const string VerticalSpacing = nameof(VerticalSpacing);
+    }
 #endif
 }

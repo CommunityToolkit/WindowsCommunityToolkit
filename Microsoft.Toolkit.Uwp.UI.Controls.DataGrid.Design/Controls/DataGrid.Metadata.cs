@@ -10,6 +10,11 @@ using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Features;
 using Microsoft.Windows.Design.Metadata;
 using Microsoft.Windows.Design.Model;
+#else
+using Microsoft.VisualStudio.DesignTools.Extensibility;
+using Microsoft.VisualStudio.DesignTools.Extensibility.Features;
+using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
+using Microsoft.VisualStudio.DesignTools.Extensibility.Model;
 #endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
@@ -18,8 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         public override void InitializeDefaults(ModelItem item)
         {
-            item.Properties[nameof(DataGrid.Height)].SetValue(50);
-            item.Properties[nameof(DataGrid.Width)].SetValue(100);
+            item.Properties[nameof(DataGrid.Height)].SetValue(50d);
+            item.Properties[nameof(DataGrid.Width)].SetValue(100d);
         }
     }
 

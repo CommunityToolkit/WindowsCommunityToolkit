@@ -9,6 +9,8 @@ using Microsoft.Toolkit.Uwp.UI.Controls.Design;
 
 #if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design.Metadata;
+#else
+using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 #endif
 
 [assembly: ProvideMetadata(typeof(MetadataRegistration))]
@@ -31,6 +33,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
             AssemblyName an = t.Assembly.GetName();
             AssemblyFullName = an.FullName;
             XmlResourceName = t.Namespace + ".Design." + an.Name + ".xml";
+#else
+            var AssemblyName = ControlTypes.RootNamespace + ".DataGrid";
+            AssemblyFullName = $"{AssemblyName}, Version=6.1.0.0, Culture=neutral, PublicKeyToken=null";
+            XmlResourceName = $"{AssemblyName}.Design.{AssemblyName}.xml";
 #endif
         }
     }

@@ -11,5 +11,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type TextToolbar = typeof(TextToolbar);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string TextToolbar = RootNamespace + "." + nameof(TextToolbar);
+    }
+
+    internal static class TextToolbar
+    {
+        internal const string ButtonModifications = nameof(ButtonModifications);
+        internal const string CustomButtons = nameof(CustomButtons);
+        internal const string DefaultButtons = nameof(DefaultButtons);
+        internal const string Editor = nameof(Editor);
+        internal const string Format = nameof(Format);
+        internal const string Formatter = nameof(Formatter);
+    }
 #endif
 }

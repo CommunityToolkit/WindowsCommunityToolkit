@@ -11,5 +11,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type LayoutTransformControl = typeof(LayoutTransformControl);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string LayoutTransformControl = RootNamespace + "." + nameof(LayoutTransformControl);
+    }
+
+    internal static class LayoutTransformControl
+    {
+        internal const string Child = nameof(Child);
+        internal const string Transform = nameof(Transform);
+    }
 #endif
 }

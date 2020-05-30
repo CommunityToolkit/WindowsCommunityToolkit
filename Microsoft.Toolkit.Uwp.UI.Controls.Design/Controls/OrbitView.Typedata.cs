@@ -11,5 +11,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type OrbitView = typeof(OrbitView);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string OrbitView = RootNamespace + "." + nameof(OrbitView);
+    }
+
+    internal static class OrbitView
+    {
+        internal const string AnchorColor = nameof(AnchorColor);
+        internal const string AnchorsEnabled = nameof(AnchorsEnabled);
+        internal const string AnchorThickness = nameof(AnchorThickness);
+        internal const string CenterContent = nameof(CenterContent);
+        internal const string IsItemClickEnabled = nameof(IsItemClickEnabled);
+        internal const string MaxItemSize = nameof(MaxItemSize);
+        internal const string MinItemSize = nameof(MinItemSize);
+        internal const string OrbitColor = nameof(OrbitColor);
+        internal const string OrbitDashArray = nameof(OrbitDashArray);
+        internal const string OrbitsEnabled = nameof(OrbitsEnabled);
+        internal const string OrbitThickness = nameof(OrbitThickness);
+    }
 #endif
 }

@@ -11,5 +11,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type MenuItem = typeof(MenuItem);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string MenuItem = RootNamespace + "." + nameof(MenuItem);
+    }
+
+    internal static class MenuItem
+    {
+        internal const string Header = nameof(Header);
+        internal const string HeaderTemplate = nameof(HeaderTemplate);
+        internal const string IsOpened = nameof(IsOpened);
+        internal const string Items = nameof(Items);
+    }
 #endif
 }

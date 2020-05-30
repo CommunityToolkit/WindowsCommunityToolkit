@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{749E4D01-D6C1-4B19-903B-712D63925FEB}</ProjectGuid>
+    <ProjectGuid>{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.Design</AssemblyName>
+    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.DesignTools</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,18 +32,17 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);0618</NoWarn>
     <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17763</AssetTargetFallback>
-    <DefineConstants>$(DefineConstants);VS_DESIGNER_PROCESS_ISOLATION</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime" />
     <Reference Include="System.ObjectModel" />
     <Reference Include="System.Runtime.WindowsRuntime" />
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
-    <Reference Include="Microsoft.Windows.Design.Extensibility">
+    <Reference Include="Microsoft.VisualStudio.DesignTools.Extensibility">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Windows.Design.Interaction">
+    <Reference Include="Microsoft.VisualStudio.DesignTools.Interaction">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
@@ -61,12 +60,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" Condition="'$(ExcludeRestorePackageImports)' != 'true'">
-      <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
-      <Private>False</Private>
-      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup Label="WinRT References">
     <Reference Include="System.Xaml" />

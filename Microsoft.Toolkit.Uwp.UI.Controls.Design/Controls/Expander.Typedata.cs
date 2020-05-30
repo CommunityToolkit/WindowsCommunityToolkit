@@ -11,5 +11,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type Expander = typeof(Expander);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string Expander = RootNamespace + "." + nameof(Expander);
+    }
+
+    internal static class Expander
+    {
+        internal const string ExpandDirection = nameof(ExpandDirection);
+        internal const string Header = nameof(Header);
+        internal const string HeaderTemplate = nameof(HeaderTemplate);
+        internal const string IsExpanded = nameof(IsExpanded);
+    }
 #endif
 }

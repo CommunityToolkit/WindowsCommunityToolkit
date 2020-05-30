@@ -11,5 +11,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type RotatorTile = typeof(RotatorTile);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string RotatorTile = RootNamespace + "." + nameof(RotatorTile);
+    }
+
+    internal static class RotatorTile
+    {
+        internal const string CurrentItem = nameof(CurrentItem);
+        internal const string ExtraRandomDuration = nameof(ExtraRandomDuration);
+        internal const string ItemsSource = nameof(ItemsSource);
+        internal const string ItemTemplate = nameof(ItemTemplate);
+        internal const string RotateDirection = nameof(RotateDirection);
+        internal const string RotationDelay = nameof(RotationDelay);
+    }
 #endif
 }

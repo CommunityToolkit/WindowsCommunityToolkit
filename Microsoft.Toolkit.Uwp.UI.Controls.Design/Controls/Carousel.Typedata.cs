@@ -11,5 +11,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type Carousel = typeof(Carousel);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string Carousel = RootNamespace + "." + nameof(Carousel);
+    }
+
+    internal static class Carousel
+    {
+        internal const string EasingFunction = nameof(EasingFunction);
+        internal const string InvertPositive = nameof(InvertPositive);
+        internal const string ItemDepth = nameof(ItemDepth);
+        internal const string ItemMargin = nameof(ItemMargin);
+        internal const string ItemRotationX = nameof(ItemRotationX);
+        internal const string ItemRotationY = nameof(ItemRotationY);
+        internal const string ItemRotationZ = nameof(ItemRotationZ);
+        internal const string Orientation = nameof(Orientation);
+        internal const string SelectedIndex = nameof(SelectedIndex);
+        internal const string SelectedItem = nameof(SelectedItem);
+        internal const string TransitionDuration = nameof(TransitionDuration);
+    }
 #endif
 }

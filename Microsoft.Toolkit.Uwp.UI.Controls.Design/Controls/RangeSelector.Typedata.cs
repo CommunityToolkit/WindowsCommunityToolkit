@@ -11,5 +11,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal static readonly Type RangeSelector = typeof(RangeSelector);
     }
+#else
+    internal static partial class ControlTypes
+    {
+        internal const string RangeSelector = RootNamespace + "." + nameof(RangeSelector);
+    }
+
+    internal static class RangeSelector
+    {
+        internal const string Maximum = nameof(Maximum);
+        internal const string Minimum = nameof(Minimum);
+        internal const string RangeMax = nameof(RangeMax);
+        internal const string RangeMin = nameof(RangeMin);
+    }
 #endif
 }
