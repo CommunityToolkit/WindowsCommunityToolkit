@@ -85,24 +85,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BladeItemMetadata.cs" />
-    <Compile Include="BladeViewMetadata.cs" />
-    <Compile Include="CarouselMetadata.cs" />
-    <Compile Include="DropShadowPanelMetadata.cs" />
-    <Compile Include="AdaptiveGridViewMetadata.cs" />
-    <Compile Include="ExpanderMetadata.cs" />
-    <Compile Include="GridSplitterMetadata.cs" />
-    <Compile Include="ImageExMetadata.cs" />
-    <Compile Include="InAppNotificationMetadata.cs" />
-    <Compile Include="LayoutTransitionControlMetadata.cs" />
-    <Compile Include="LoadingMetadata.cs" />
-    <Compile Include="MasterDetailsViewMetadata.cs" />
-    <Compile Include="MenuItemMetadata.cs" />
-    <Compile Include="MenuMetadata.cs" />
-    <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
     <Compile Include="Common\PlatformTypes.cs" />
-    <Compile Include="OrbitViewMetadata.cs" />
+    <Compile Include="Common\ToolboxCategoryPaths.cs" />
+    <Compile Include="Controls\AdaptiveGridView.Metadata.cs" />
+    <Compile Include="Controls\BladeItem.Metadata.cs" />
+    <Compile Include="Controls\BladeView.Metadata.cs" />
+    <Compile Include="Controls\Carousel.Metadata.cs" />
+    <Compile Include="Controls\DropShadowPanel.Metadata.cs" />
+    <Compile Include="Controls\Expander.Metadata.cs" />
+    <Compile Include="Controls\GridSplitter.Metadata.cs" />
+    <Compile Include="Controls\ImageEx.Metadata.cs" />
+    <Compile Include="Controls\InAppNotification.Metadata.cs" />
+    <Compile Include="Controls\LayoutTransitionControl.Metadata.cs" />
+    <Compile Include="Controls\Loading.Metadata.cs" />
+    <Compile Include="Controls\MasterDetailsView.Metadata.cs" />
+    <Compile Include="Controls\Menu.Metadata.cs" />
+    <Compile Include="Controls\MenuItem.Metadata.cs" />
+    <Compile Include="Controls\OrbitView.Metadata.cs" />
+    <Compile Include="Controls\RadialGauge.Metadata.cs" />
+    <Compile Include="Controls\RadialProgressBar.Metadata.cs" />
+    <Compile Include="Controls\RangeSelector.Metadata.cs" />
+    <Compile Include="Controls\RotatorTile.Metadata.cs" />
+    <Compile Include="Controls\ScrollHeader.Metadata.cs" />
+    <Compile Include="Controls\TextToolbar.Metadata.cs" />
+    <Compile Include="Controls\TileControl.Metadata.cs" />
+    <Compile Include="Controls\WrapPanel.Metadata.cs" />
+    <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,15 +120,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Common\ToolboxCategoryPaths.cs" />
-    <Compile Include="RadialGaugeMetadata.cs" />
-    <Compile Include="RadialProgressBarMetadata.cs" />
-    <Compile Include="RangeSelectorMetadata.cs" />
-    <Compile Include="RotatorTileMetadata.cs" />
-    <Compile Include="ScrollHeaderMetadata.cs" />
-    <Compile Include="TextToolbarMetadata.cs" />
-    <Compile Include="TileControlMetadata.cs" />
-    <Compile Include="WrapPanelMetadata.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

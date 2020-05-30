@@ -85,10 +85,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MarkdownTextBlockMetadata.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\Common\ToolboxCategoryPaths.cs" Link="Common\ToolboxCategoryPaths.cs" />
+    <Compile Include="Controls\MarkdownTextBlock.Metadata.cs" />
     <Compile Include="MetadataRegistration.cs" />
-    <Compile Include="Common\MetadataRegistrationBase.cs" />
-    <Compile Include="Common\PlatformTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,7 +98,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Common\ToolboxCategoryPaths.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
