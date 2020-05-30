@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,17 +18,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public WrapPanelMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel),
+            AddCallback(typeof(WrapPanel),
                 b =>
                 {
                     b.AddCustomAttributes(nameof(WrapPanel.Orientation),
-                        new CategoryAttribute(Properties.Resources.CategoryLayout)
+                        new CategoryAttribute(Resources.CategoryLayout)
                     );
                     b.AddCustomAttributes(nameof(WrapPanel.HorizontalSpacing),
-                        new CategoryAttribute(Properties.Resources.CategoryLayout)
+                        new CategoryAttribute(Resources.CategoryLayout)
                     );
                     b.AddCustomAttributes(nameof(WrapPanel.VerticalSpacing),
-                        new CategoryAttribute(Properties.Resources.CategoryLayout)
+                        new CategoryAttribute(Resources.CategoryLayout)
                     );
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }

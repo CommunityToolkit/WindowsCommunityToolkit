@@ -4,12 +4,15 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Features;
 using Microsoft.Windows.Design.Metadata;
 using Microsoft.Windows.Design.Model;
 using Microsoft.Windows.Design.PropertyEditing;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 
@@ -34,26 +37,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 
                     b.AddCustomAttributes(nameof(DropShadowPanel.BlurRadius),
                         new PropertyOrderAttribute(PropertyOrder.Early),
-                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                        new CategoryAttribute(Resources.CategoryDropShadow)
                         );
                     b.AddCustomAttributes(nameof(DropShadowPanel.ShadowOpacity),
                        new PropertyOrderAttribute(PropertyOrder.Early),
-                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                       new CategoryAttribute(Resources.CategoryDropShadow)
                        );
                     b.AddCustomAttributes(nameof(DropShadowPanel.Color),
-                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                        new CategoryAttribute(Resources.CategoryDropShadow)
                         );
                     b.AddCustomAttributes(nameof(DropShadowPanel.OffsetX),
                        new PropertyOrderAttribute(PropertyOrder.Late),
-                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                        new CategoryAttribute(Resources.CategoryDropShadow)
                         );
                     b.AddCustomAttributes(nameof(DropShadowPanel.OffsetY),
                        new PropertyOrderAttribute(PropertyOrder.Late),
-                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                       new CategoryAttribute(Resources.CategoryDropShadow)
                        );
                     b.AddCustomAttributes(nameof(DropShadowPanel.OffsetZ),
                        new PropertyOrderAttribute(PropertyOrder.Late),
-                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                       new CategoryAttribute(Resources.CategoryDropShadow)
                        );
 
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));

@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,20 +18,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public CarouselMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Carousel),
+            AddCallback(typeof(Carousel),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(Carousel.SelectedItem), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.SelectedIndex), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.TransitionDuration), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.ItemDepth), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.EasingFunction), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.ItemMargin), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.InvertPositive), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.ItemRotationX), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.ItemRotationY), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.ItemRotationZ), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Carousel.Orientation), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.SelectedItem), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.SelectedIndex), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.TransitionDuration), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.ItemDepth), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.EasingFunction), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.ItemMargin), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.InvertPositive), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.ItemRotationX), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.ItemRotationY), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.ItemRotationZ), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Carousel.Orientation), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

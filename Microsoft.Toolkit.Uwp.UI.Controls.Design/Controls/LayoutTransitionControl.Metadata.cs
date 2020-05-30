@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,11 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public LayoutTransformControlMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.LayoutTransformControl),
+            AddCallback(typeof(LayoutTransformControl),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(LayoutTransformControl.Child), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(LayoutTransformControl.Transform), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(LayoutTransformControl.Child), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(LayoutTransformControl.Transform), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

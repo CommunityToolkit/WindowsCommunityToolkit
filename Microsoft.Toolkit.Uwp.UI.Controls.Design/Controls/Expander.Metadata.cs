@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,16 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ExpanderMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Expander),
+            AddCallback(typeof(Expander),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(Expander.Header), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Expander.Header), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(Expander.HeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
+                        new CategoryAttribute(Resources.CategoryCommon),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                         );
-                    b.AddCustomAttributes(nameof(Expander.IsExpanded), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Expander.ExpandDirection), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Expander.IsExpanded), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Expander.ExpandDirection), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

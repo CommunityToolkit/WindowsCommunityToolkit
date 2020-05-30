@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,10 +18,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public LoadingMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Loading),
+            AddCallback(typeof(Loading),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(Loading.IsLoading), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(Loading.IsLoading), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

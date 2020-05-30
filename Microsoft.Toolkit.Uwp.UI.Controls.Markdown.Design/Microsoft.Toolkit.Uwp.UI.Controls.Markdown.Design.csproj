@@ -31,6 +31,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17763</AssetTargetFallback>
+    <DefineConstants>$(DefineConstants);VS_DESIGNER_PROCESS_ISOLATION</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime" />

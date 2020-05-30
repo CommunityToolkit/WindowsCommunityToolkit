@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -19,20 +22,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                 b =>
                 {
                     b.AddCustomAttributes(nameof(AdaptiveGridView.DesiredWidth),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Resources.CategoryCommon)
                         );
                     b.AddCustomAttributes(nameof(AdaptiveGridView.ItemHeight),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Resources.CategoryCommon)
                         );
                     b.AddCustomAttributes(nameof(AdaptiveGridView.OneRowModeEnabled),
-                       new CategoryAttribute(Properties.Resources.CategoryCommon)
+                       new CategoryAttribute(Resources.CategoryCommon)
                        );
                     b.AddCustomAttributes(nameof(AdaptiveGridView.StretchContentForSingleRow),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Resources.CategoryCommon)
                         );
                     b.AddCustomAttributes(nameof(AdaptiveGridView.ItemClickCommand),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Resources.CategoryCommon)
                         );
 
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));

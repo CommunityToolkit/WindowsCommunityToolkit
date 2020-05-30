@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,29 +18,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MasterDetailsViewMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.MasterDetailsView),
+            AddCallback(typeof(MasterDetailsView),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(MasterDetailsView.SelectedItem), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.SelectedItem), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(MasterDetailsView.DetailsTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryAppearance),
+                        new CategoryAttribute(Resources.CategoryAppearance),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
-                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterPaneBackground), new CategoryAttribute(Properties.Resources.CategoryBrush));
-                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterPaneBackground), new CategoryAttribute(Resources.CategoryBrush));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterHeader), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(MasterDetailsView.MasterHeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryAppearance),
+                        new CategoryAttribute(Resources.CategoryAppearance),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
-                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterPaneWidth), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(MasterDetailsView.NoSelectionContent), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterPaneWidth), new CategoryAttribute(Resources.CategoryAppearance));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.NoSelectionContent), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(MasterDetailsView.NoSelectionContentTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
+                        new CategoryAttribute(Resources.CategoryCommon),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
-                    b.AddCustomAttributes(nameof(MasterDetailsView.ViewState), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterCommandBar), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(MasterDetailsView.DetailsCommandBar), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.ViewState), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.MasterCommandBar), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(MasterDetailsView.DetailsCommandBar), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

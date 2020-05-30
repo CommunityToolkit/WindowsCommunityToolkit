@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,18 +18,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RotatorTileMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile),
+            AddCallback(typeof(RotatorTile),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(RotatorTile.ExtraRandomDuration), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(RotatorTile.RotationDelay), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(RotatorTile.ItemsSource), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RotatorTile.ExtraRandomDuration), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RotatorTile.RotationDelay), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RotatorTile.ItemsSource), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(RotatorTile.ItemTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryAppearance),
+                        new CategoryAttribute(Resources.CategoryAppearance),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                         );
-                    b.AddCustomAttributes(nameof(RotatorTile.RotateDirection), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(RotatorTile.CurrentItem), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RotatorTile.RotateDirection), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RotatorTile.CurrentItem), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

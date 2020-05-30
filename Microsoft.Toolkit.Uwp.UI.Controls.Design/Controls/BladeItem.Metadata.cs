@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -20,19 +23,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                 b =>
                 {
                     b.AddCustomAttributes(nameof(BladeItem.TitleBarVisibility),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Resources.CategoryCommon)
                         );
                     b.AddCustomAttributes(nameof(BladeItem.IsOpen),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Resources.CategoryCommon)
                         );
                     b.AddCustomAttributes(nameof(BladeItem.TitleBarBackground),
-                        new CategoryAttribute(Properties.Resources.CategoryBrush)
+                        new CategoryAttribute(Resources.CategoryBrush)
                         );
                     b.AddCustomAttributes(nameof(BladeItem.CloseButtonBackground),
-                        new CategoryAttribute(Properties.Resources.CategoryBrush)
+                        new CategoryAttribute(Resources.CategoryBrush)
                         );
                     b.AddCustomAttributes(nameof(BladeItem.CloseButtonForeground),
-                        new CategoryAttribute(Properties.Resources.CategoryBrush)
+                        new CategoryAttribute(Resources.CategoryBrush)
                         );
 
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));

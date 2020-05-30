@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,20 +18,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public TileControlMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TileControl),
+            AddCallback(typeof(TileControl),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(TileControl.ScrollViewerContainer), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.ImageAlignment), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.ImageSource), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.ScrollOrientation), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.OffsetX), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.OffsetY), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.ParallaxSpeedRatio), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.IsAnimated), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.AnimationStepX), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.AnimationStepY), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TileControl.AnimationDuration), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ScrollViewerContainer), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ImageAlignment), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ImageSource), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ScrollOrientation), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.OffsetX), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.OffsetY), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ParallaxSpeedRatio), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.IsAnimated), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.AnimationStepX), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.AnimationStepY), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.AnimationDuration), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

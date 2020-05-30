@@ -4,11 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Features;
 using Microsoft.Windows.Design.Metadata;
 using Microsoft.Windows.Design.Model;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RadialGaugeMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge),
+            AddCallback(typeof(RadialGauge),
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(RadialGaugeDefaults)));

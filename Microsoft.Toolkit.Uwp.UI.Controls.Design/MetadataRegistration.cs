@@ -4,15 +4,18 @@
 
 using System;
 using System.Reflection;
-
 using Microsoft.Toolkit.Uwp.Design.Common;
-using Microsoft.Windows.Design.Metadata;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design;
 
-[assembly: ProvideMetadata(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Design.MetadataRegistration))]
+#if VS_DESIGNER_PROCESS_ISOLATION
+using Microsoft.Windows.Design.Metadata;
+#endif
+
+[assembly: ProvideMetadata(typeof(MetadataRegistration))]
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-    public class MetadataRegistration : MetadataRegistrationBase, IProvideAttributeTable
+    public class MetadataRegistration : MetadataRegistrationBase
     {
         public MetadataRegistration() : base()
         {
@@ -23,25 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
             // (or Default namespace in Project -> Properties -> Application tab)
             // must be the same as runtime assembly's main namespace (t.Namespace)
             // plus .Design.
-            Type t = typeof(Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter);
+#if VS_DESIGNER_PROCESS_ISOLATION
+            Type t = typeof(GridSplitter);
             AssemblyName an = t.Assembly.GetName();
-            AssemblyFullName = ", " + an.FullName;
+            AssemblyFullName = an.FullName;
             XmlResourceName = t.Namespace + ".Design." + an.Name + ".xml";
+#endif
         }
-
-        #region IProvideAttributeTable Members
-
-        /// <summary>
-        /// Gets the AttributeTable for design time metadata.
-        /// </summary>
-        public AttributeTable AttributeTable
-        {
-            get
-            {
-                return BuildAttributeTable();
-            }
-        }
-
-        #endregion
     }
 }

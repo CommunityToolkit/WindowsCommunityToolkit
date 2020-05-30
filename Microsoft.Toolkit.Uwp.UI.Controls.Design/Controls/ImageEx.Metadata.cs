@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,10 +18,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ImageExMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.ImageEx),
+            AddCallback(typeof(ImageEx),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(ImageEx.NineGrid), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+                    b.AddCustomAttributes(nameof(ImageEx.NineGrid), new CategoryAttribute(Resources.CategoryAppearance));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

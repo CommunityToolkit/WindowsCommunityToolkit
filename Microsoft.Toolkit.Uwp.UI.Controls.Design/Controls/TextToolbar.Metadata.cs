@@ -4,9 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -15,14 +18,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public TextToolbarMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar),
+            AddCallback(typeof(TextToolbar),
                 b =>
                 {
-                    b.AddCustomAttributes(nameof(TextToolbar.Editor), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.Formatter), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.DefaultButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.CustomButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.ButtonModifications), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TextToolbar.Editor), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TextToolbar.Formatter), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TextToolbar.DefaultButtons), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TextToolbar.CustomButtons), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TextToolbar.ButtonModifications), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

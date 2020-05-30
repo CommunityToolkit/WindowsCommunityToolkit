@@ -4,11 +4,12 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+#if VS_DESIGNER_PROCESS_ISOLATION
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Features;
 using Microsoft.Windows.Design.Metadata;
 using Microsoft.Windows.Design.Model;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RadialProgressBarMetadata()
             : base()
         {
-            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar),
+            AddCallback(typeof(RadialProgressBar),
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBarDefaults)));
