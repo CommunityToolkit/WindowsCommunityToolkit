@@ -665,7 +665,7 @@
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "These helpers will be removed in the next release.",
+        "DeprecatedWarning": "The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
       },
       {
