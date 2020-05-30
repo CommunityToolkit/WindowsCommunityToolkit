@@ -8,23 +8,20 @@ using System.Collections.Concurrent;
 namespace Microsoft.Toolkit.Helpers
 {
     /// <summary>
-    /// Provides an easy-to-use thread-safe Singleton Pattern via <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}">ConcurrentDictionary</see>.
+    /// Obsolete see https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3134.
     /// </summary>
     /// <typeparam name="T">The type to be used for creating the Singleton instance.</typeparam>
     /// <example>
-    /// Use by adding a static property to your class for a traditional access pattern:
+    /// Instead of this helper, migrate your code to this pattern instead:
     /// <code>
     /// // Setup Singleton
-    /// public static class MyClass {
-    ///     public static MyClass Instance => Singleton&lt;MyClass&gt;.Instance;
-    ///
-    ///     public void MyMethod() { }
+    /// public class MyClass
+    /// {
+    ///     public static MyClass Instance { get; } = new MyClass();
     /// }
-    ///
-    /// // Use Singleton Instance
-    /// MyClass.Instance.MyMethod();
     /// </code>
     /// </example>
+    [Obsolete("This helper will be removed in a future release, see example tag for code replacement. https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3134")]
     public static class Singleton<T>
         where T : new()
     {
