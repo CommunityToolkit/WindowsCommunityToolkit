@@ -4,8 +4,9 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Windows.Design.Metadata;
+
 using Microsoft.Toolkit.Uwp.Design.Common;
+using Microsoft.Windows.Design.Metadata;
 
 [assembly: ProvideMetadata(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Design.MetadataRegistration))]
 
@@ -16,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MetadataRegistration() : base()
         {
             // Note:
-            // The default constructor sets value of AssemblyFullName and 
+            // The default constructor sets value of AssemblyFullName and
             // XmlResourceName used by MetadataRegistrationBase.AddDescriptions().
             // The convention here is that the <RootNamespace> in .design.csproj
             // (or Default namespace in Project -> Properties -> Application tab)

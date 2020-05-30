@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.ComponentModel;
+
 using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Features;
 using Microsoft.Windows.Design.Metadata;
 using Microsoft.Windows.Design.Model;
-using Microsoft.Windows.Design.PropertyEditing;
-using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
@@ -21,12 +21,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     }
 
     internal class RadialGaugeMetadata : AttributeTableBuilder
-	{
+    {
         public RadialGaugeMetadata()
-			: base()
-		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge),
-				b =>
+            : base()
+        {
+            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge),
+                b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(RadialGaugeDefaults)));
                     b.AddCustomAttributes(nameof(RadialGauge.Minimum), new CategoryAttribute(Properties.Resources.CategoryCommon));
@@ -51,8 +51,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(RadialGauge.MinAngle), new CategoryAttribute(Properties.Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(RadialGauge.MaxAngle), new CategoryAttribute(Properties.Resources.CategoryAppearance));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
-		}
-	}
+                }
+            );
+        }
+    }
 }

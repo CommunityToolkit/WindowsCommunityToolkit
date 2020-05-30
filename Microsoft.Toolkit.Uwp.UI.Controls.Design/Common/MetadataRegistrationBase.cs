@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Windows.Design.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +12,8 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 
+using Microsoft.Windows.Design.Metadata;
+
 namespace Microsoft.Toolkit.Uwp.Design.Common
 {
     public class MetadataRegistrationBase
@@ -22,10 +23,10 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
         internal MetadataRegistrationBase() { }
 
         /// <summary>
-		/// Build design time metadata attribute table.
-		/// </summary>
-		/// <returns>Custom attribute table.</returns>
-		protected virtual AttributeTable BuildAttributeTable()
+        /// Build design time metadata attribute table.
+        /// </summary>
+        /// <returns>Custom attribute table.</returns>
+        protected virtual AttributeTable BuildAttributeTable()
         {
             AttributeTableBuilder builder = new AttributeTableBuilder();
 
@@ -37,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
         }
 
         /// <summary>
-        /// Find all AttributeTableBuilder subclasses in the assembly 
+        /// Find all AttributeTableBuilder subclasses in the assembly
         /// and add their attributes to the assembly attribute table.
         /// </summary>
         /// <param name="builder">The assembly attribute table builder.</param>

@@ -2,22 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.ComponentModel;
+
 using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
 using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
-using Microsoft.Windows.Design.PropertyEditing;
-using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-	internal class MarkdownTextBlockMetadata : AttributeTableBuilder
-	{
+    internal class MarkdownTextBlockMetadata : AttributeTableBuilder
+    {
         public MarkdownTextBlockMetadata()
-			: base()
-		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.MarkdownTextBlock),
-				b =>
-				{
+            : base()
+        {
+            AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.MarkdownTextBlock),
+                b =>
+                {
                     b.AddCustomAttributes(nameof(MarkdownTextBlock.ImageStretch), new CategoryAttribute(Properties.Resources.CategoryMarkdownStyle));
                     b.AddCustomAttributes(nameof(MarkdownTextBlock.Text), new CategoryAttribute(Properties.Resources.CategoryMarkdownStyle));
                     b.AddCustomAttributes(nameof(MarkdownTextBlock.IsTextSelectionEnabled), new CategoryAttribute(Properties.Resources.CategoryMarkdownStyle));
@@ -62,8 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(MarkdownTextBlock.TableMargin), new CategoryAttribute(Properties.Resources.CategoryMarkdownTableStyle));
 
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
-		}
-	}
+                }
+            );
+        }
+    }
 }
