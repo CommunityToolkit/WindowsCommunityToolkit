@@ -382,7 +382,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             while (_innerItemsSource.Count > 1)
             {
                 var container = ContainerFromItem(_innerItemsSource[0]) as TokenizingTextBoxItem;
-                if (!await RemoveToken(container, _innerItemsSource[0]))
+                if (!await RemoveTokenAsync(container, _innerItemsSource[0]))
                 {
                     // if a removal operation fails then stop the clear process
                     break;
@@ -453,7 +453,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// the data parameter is passed in optionally to support UX UTs. When running in the UT the Container items are not manifest.
         /// </remarks>
         /// <returns><b>true</b> if the item was removed successfully, <b>false</b> otherwise</returns>
-        private async Task<bool> RemoveToken(TokenizingTextBoxItem item, object data = null)
+        private async Task<bool> RemoveTokenAsync(TokenizingTextBoxItem item, object data = null)
         {
             if (data == null)
             {
