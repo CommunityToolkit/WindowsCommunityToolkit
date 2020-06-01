@@ -292,5 +292,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get => (bool)GetValue(TabNavigateBackOnArrowProperty);
             set => SetValue(TabNavigateBackOnArrowProperty, value);
         }
+
+        /// <summary>
+        /// Gets the complete text value of any selection in the control. The result is the same text as would be copied to the clipboard.
+        /// </summary>
+        public string SelectedTokenText
+        {
+            get
+            {
+                return PrepareSelectionForClipboard();
+            }
+        }
     }
 }

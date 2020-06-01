@@ -78,11 +78,6 @@
           </ListView.ItemTemplate>
         </ListView>
       </Border>
-
-      <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-        <Button x:Name="ClearButton" Content="Clear All Tokens"/>
-        <Button x:Name="ShowSelectedEmails" Content="Show Selected Emails" Margin="10,0,0,0"/>
-      </StackPanel>
     </StackPanel>
   </Grid>
 </Page>

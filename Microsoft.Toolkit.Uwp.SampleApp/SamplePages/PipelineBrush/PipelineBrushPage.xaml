@@ -26,6 +26,7 @@
                         <effects:ExposureEffect/>
                         <effects:GrayscaleEffect/>
                         <effects:HueRotationEffect/>
+                        <effects:CrossFadeEffect/>
                     </media:PipelineBrush>
                 </Border.Background>
             </Border>

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ScrollViewer"/> to scroll with middle click
+    /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
     /// </summary>
     public static partial class ScrollViewerExtensions
     {

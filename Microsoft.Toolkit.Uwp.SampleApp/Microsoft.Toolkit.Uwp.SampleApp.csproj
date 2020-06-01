@@ -605,6 +605,7 @@
     <Content Include="SamplePages\IconExtensions\IconExtensionsXaml.bind" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
+    <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsXaml.bind" />
     <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\IsEqualStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />

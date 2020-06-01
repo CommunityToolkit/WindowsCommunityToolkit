@@ -21,6 +21,15 @@
       </ItemGroup>
     </When>
   </Choose>
+  
+  <Choose>
+    <When Condition="$(TargetFramework.Contains('uap10.0')) == false and '$(TargetFramework)' != 'native' and '$(IsTestSampleProject)' != 'true'">
+      <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
   <Target Name="AddCommitHashToAssemblyAttributes" BeforeTargets="GetAssemblyAttributes">
     <ItemGroup>

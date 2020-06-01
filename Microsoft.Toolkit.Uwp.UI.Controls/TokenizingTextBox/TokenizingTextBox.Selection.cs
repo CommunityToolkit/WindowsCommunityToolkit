@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            await RemoveToken(sender);
+            await RemoveTokenAsync(sender);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (tempStr.Length == 0)
                         {
                             // Need to be careful not to remove the last item in the list
-                            await RemoveToken(container);
+                            await RemoveTokenAsync(container);
                         }
                         else
                         {
@@ -285,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else
                     {
                         // if the item is a token just remove it.
-                        await RemoveToken(container);
+                        await RemoveTokenAsync(container);
                     }
                 }
             }
@@ -296,6 +296,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
 
+            var tokenString = PrepareSelectionForClipboard();
+
+            if (!string.IsNullOrEmpty(tokenString))
+            {
+                dataPackage.SetText(tokenString);
+                Clipboard.SetContent(dataPackage);
+            }
+        }
+
+        private string PrepareSelectionForClipboard()
+        {
             string tokenString = string.Empty;
             bool addSeparator = false;
 
@@ -325,11 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (!string.IsNullOrEmpty(tokenString))
-            {
-                dataPackage.SetText(tokenString);
-                Clipboard.SetContent(dataPackage);
-            }
+            return tokenString;
         }
     }
 }
