@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -383,10 +382,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             while (_innerItemsSource.Count > 1)
             {
                 var container = ContainerFromItem(_innerItemsSource[0]) as TokenizingTextBoxItem;
-                await RemoveToken(container);
+                if (!await RemoveToken(container, _innerItemsSource[0]))
+                {
+                    // if a removal operation fails then stop the clear process
+                    break;
+                }
             }
 
-            (_innerItemsSource[0] as PretokenStringContainer).Text = string.Empty;
+            (_innerItemsSource[_innerItemsSource.Count - 1] as PretokenStringContainer).Text = string.Empty;
         }
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
@@ -427,7 +430,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Focus back to our end box as Outlook does.
             var last = ContainerFromItem(_lastTextEdit) as TokenizingTextBoxItem;
-            last._autoSuggestTextBox.Focus(FocusState.Keyboard);
+            last?._autoSuggestTextBox.Focus(FocusState.Keyboard);
 
             TokenItemAdded?.Invoke(this, data);
         }
@@ -439,9 +442,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Text = edit.Text; // Update our text property.
         }
 
-        private async Task RemoveToken(TokenizingTextBoxItem item)
+        private async Task<bool> RemoveToken(TokenizingTextBoxItem item, object data = null)
         {
-            var data = ItemFromContainer(item);
+            if (data == null)
+            {
+                data = ItemFromContainer(item);
+            }
 
             if (TokenItemRemoving != null)
             {
@@ -450,13 +456,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (tirea.Cancel)
                 {
-                    return;
+                    return false;
                 }
             }
 
             _innerItemsSource.Remove(data);
 
             TokenItemRemoved?.Invoke(this, data);
+
+            return true;
         }
     }
 }
