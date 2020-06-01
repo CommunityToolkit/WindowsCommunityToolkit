@@ -45,7 +45,7 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(tokenBox.Items.Count, 5, "Token Add count failed");
 
             // now test clear
-            Assert.IsTrue(tokenBox.Clear().Wait(200), "Failed to wait for Clear() to finish");
+            Assert.IsTrue(tokenBox.ClearAsync().Wait(200), "Failed to wait for Clear() to finish");
 
             Assert.AreEqual(tokenBox.Items.Count, 1, "Clear Failed to clear");
 
@@ -59,7 +59,7 @@ namespace UnitTests.UI.Controls
 
             tokenBox.TokenItemRemoving += (sender, args) => { args.Cancel = true; };
 
-            Assert.IsTrue(tokenBox.Clear().Wait(200), "Failed to wait for Clear() to finish");
+            Assert.IsTrue(tokenBox.ClearAsync().Wait(200), "Failed to wait for Clear() to finish");
 
             Assert.AreEqual(tokenBox.Items.Count, 5, "Cancelled Clear Failed ");
         }

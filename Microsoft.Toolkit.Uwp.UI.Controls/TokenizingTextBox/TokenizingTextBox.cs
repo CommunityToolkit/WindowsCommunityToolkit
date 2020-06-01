@@ -377,7 +377,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Clears the whole collection, will raise the <see cref="TokenItemRemoving"/> event asynchronously for each item.
         /// </summary>
         /// <returns>async task</returns>
-        public async Task Clear()
+        public async Task ClearAsync()
         {
             while (_innerItemsSource.Count > 1)
             {
@@ -444,6 +444,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Text = edit.Text; // Update our text property.
         }
 
+        /// <summary>
+        /// Remove the specified token from the list.
+        /// </summary>
+        /// <param name="item">Item in the list to delete</param>
+        /// <param name="data">data </param>
+        /// <remarks>
+        /// the data parameter is passed in optionally to support UX UTs. When running in the UT the Container items are not manifest.
+        /// </remarks>
+        /// <returns><b>true</b> if the item was removed successfully, <b>false</b> otherwise</returns>
         private async Task<bool> RemoveToken(TokenizingTextBoxItem item, object data = null)
         {
             if (data == null)

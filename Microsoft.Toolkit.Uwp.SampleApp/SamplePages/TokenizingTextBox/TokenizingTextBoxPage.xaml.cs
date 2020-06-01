@@ -299,10 +299,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            await _ttbEmail.Clear();
+            await _ttbEmail.ClearAsync();
             _acvEmail.RefreshFilter();
 
-            await _ttb.Clear();
+            await _ttb.ClearAsync();
         }
 
         private async void ShowEmailSelectedClick(object sender, RoutedEventArgs e)
