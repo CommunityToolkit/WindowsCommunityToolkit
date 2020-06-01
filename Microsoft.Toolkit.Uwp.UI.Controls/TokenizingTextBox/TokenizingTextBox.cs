@@ -389,7 +389,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            (_innerItemsSource[_innerItemsSource.Count - 1] as PretokenStringContainer).Text = string.Empty;
+            // Clear the active pretoken string. 
+            // Setting the text property directly avoids a delay when setting the text in the autosuggest box.
+            Text = string.Empty;
         }
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
