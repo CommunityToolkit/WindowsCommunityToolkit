@@ -1,71 +1,10 @@
-﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+﻿// C# - Scale can be applied to any UIElement. In this case it is an image called ToolkitLogo.
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
-  <Page.Resources>
-    <common:DoubleTopThicknessConverter x:Key="DoubleTopThicknessConverter" />
-  </Page.Resources>
+// Binds the Y scroll axis of the ScrollViewer to the Y translation axis of the target
+listScrollViewer.StartExpressionAnimation(shapesPanel, Axis.Y);
 
-  <Grid>
-    <ListView Name="listView"
-              extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
-              extensions:ScrollViewerExtensions.EnableMiddleClickScrolling="@[EnableMiddleClickScrolling:Bool:True]">
-      <ListView.Header>
-        <controls:ScrollHeader Mode="Sticky">
-          <Grid x:Name="MyHeaderGrid"
-                MinHeight="@[Header MinHeight:DoubleSlider:250:150-500]"
-                Background="{ThemeResource Brush-Sample-TransparentHeader}">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-              <TextBlock Margin="12"
-                         FontSize="48"
-                         FontWeight="Bold"
-                         Foreground="{ThemeResource Brush-Main}"
-                         Text="Scroll Header"
-                         TextAlignment="Center"
-                         TextWrapping="WrapWholeWords" />
-              <TextBlock Margin="12,0,12,12"
-                         VerticalAlignment="Center"
-                         Foreground="{ThemeResource Brush-Main}"
-                         Text="The attached property allows you to assign a Thickness to both vertical and horizontal ScrollBar inside any container. In this example, VerticalScrollBarMargin is bound to StickyHeader's MinHeight. Moving MinHeight's Slider will move the vertical ScrollBar accordingly."
-                         TextAlignment="Center"
-                         TextWrapping="WrapWholeWords" />
-            </StackPanel>
-          </Grid>
-        </controls:ScrollHeader>
-      </ListView.Header>
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <Grid MinHeight="100"
-                Background="{ThemeResource Brush-Grey-03}">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Image x:Name="ToolkitLogo"
-                   Grid.Column="0"
-                   Width="100"
-                   Height="100"
-                   Margin="0,0,24,0"
-                   Source="ms-appx:///Assets/ToolkitLogo.png" />
-            <TextBlock Grid.Column="1"
-                       VerticalAlignment="Center"
-                       Text="{Binding Title}"
-                       TextTrimming="CharacterEllipsis" />
-          </Grid>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-      <ListView.ItemContainerStyle>
-        <Style TargetType="ListViewItem">
-          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-          <Setter Property="Padding" Value="12,12,24,12" />
-        </Style>
-      </ListView.ItemContainerStyle>
-    </ListView>
-  </Grid>
-</Page>
+// It is also possible to synchronize different axes, as well as targeting
+// different Visual properties. By default, the expression works with the
+// Visual.Translate property, but Visual.Offset can be used as well.
+listScrollViewer.StartExpressionAnimation(shapesPanel, Axis.X, Axis.Y, VisualProperty.Offset);
