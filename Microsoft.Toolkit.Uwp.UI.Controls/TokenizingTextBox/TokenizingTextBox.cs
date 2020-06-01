@@ -389,7 +389,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // Clear the active pretoken string. 
+            // Clear the active pretoken string.
             // Setting the text property directly avoids a delay when setting the text in the autosuggest box.
             Text = string.Empty;
         }
