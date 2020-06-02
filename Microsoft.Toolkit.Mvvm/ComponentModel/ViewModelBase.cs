@@ -7,7 +7,6 @@
 // This file is inspired from the MvvmLight libray (lbugnion/mvvmlight),
 // more info in ThirdPartyNotices.txt in the root of the project.
 
-using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
