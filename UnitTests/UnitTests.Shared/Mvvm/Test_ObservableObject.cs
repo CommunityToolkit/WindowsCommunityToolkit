@@ -56,9 +56,9 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ObservableObject_ProxyCrud()
+        public void Test_ObservableObject_ProxyCrudWithProperty()
         {
-            var model = new WrappingModel { Person = new Person { Name = "Alice" } };
+            var model = new WrappingModelWithProperty { Person = new Person { Name = "Alice" } };
 
             (PropertyChangingEventArgs, string) changing = default;
             (PropertyChangedEventArgs, string) changed = default;
@@ -79,9 +79,9 @@ namespace UnitTests.Mvvm
 
             model.Name = "Bob";
 
-            Assert.AreEqual(changing.Item1?.PropertyName, nameof(WrappingModel.Name));
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(WrappingModelWithProperty.Name));
             Assert.AreEqual(changing.Item2, "Alice");
-            Assert.AreEqual(changed.Item1?.PropertyName, nameof(WrappingModel.Name));
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(WrappingModelWithProperty.Name));
             Assert.AreEqual(changed.Item2, "Bob");
             Assert.AreEqual(model.Person.Name, "Bob");
         }
@@ -91,9 +91,54 @@ namespace UnitTests.Mvvm
             public string Name { get; set; }
         }
 
-        public class WrappingModel : ObservableObject
+        public class WrappingModelWithProperty : ObservableObject
         {
             public Person Person { get; set; }
+
+            public string Name
+            {
+                get => Person.Name;
+                set => Set(() => Person.Name, value);
+            }
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableObject_ProxyCrudWithField()
+        {
+            var model = new WrappingModelWithField { Person = new Person { Name = "Alice" } };
+
+            (PropertyChangingEventArgs, string) changing = default;
+            (PropertyChangedEventArgs, string) changed = default;
+
+            model.PropertyChanging += (s, e) =>
+            {
+                Assert.AreSame(model, s);
+
+                changing = (e, model.Name);
+            };
+
+            model.PropertyChanged += (s, e) =>
+            {
+                Assert.AreSame(model, s);
+
+                changed = (e, model.Name);
+            };
+
+            model.Name = "Bob";
+
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(WrappingModelWithField.Name));
+            Assert.AreEqual(changing.Item2, "Alice");
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(WrappingModelWithField.Name));
+            Assert.AreEqual(changed.Item2, "Bob");
+            Assert.AreEqual(model.Person.Name, "Bob");
+        }
+
+        public class WrappingModelWithField : ObservableObject
+        {
+#pragma warning disable SA1401 // Fields should be private
+            public Person Person;
+#pragma warning restore SA1401
 
             public string Name
             {

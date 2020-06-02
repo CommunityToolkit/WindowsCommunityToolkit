@@ -187,11 +187,15 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool Set<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string propertyName = null!)
         {
+            PropertyInfo? parentPropertyInfo;
+            FieldInfo? parentFieldInfo = null;
+
             // Get the target property info
             if (!(propertyExpression.Body is MemberExpression targetExpression &&
                   targetExpression.Member is PropertyInfo targetPropertyInfo &&
                   targetExpression.Expression is MemberExpression parentExpression &&
-                  parentExpression.Member is PropertyInfo parentPropertyInfo &&
+                  (!((parentPropertyInfo = parentExpression.Member as PropertyInfo) is null) ||
+                   !((parentFieldInfo = parentExpression.Member as FieldInfo) is null)) &&
                   parentExpression.Expression is ConstantExpression instanceExpression &&
                   instanceExpression.Value is object instance))
             {
@@ -201,7 +205,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            object parent = parentPropertyInfo.GetValue(instance);
+            object parent = parentPropertyInfo is null
+                ? parentFieldInfo!.GetValue(instance)
+                : parentPropertyInfo.GetValue(instance);
             T oldValue = (T)targetPropertyInfo.GetValue(parent);
 
             if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
