@@ -9,6 +9,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -76,6 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.PointerCaptureLost -= AutoSuggestBox_PointerExited;
                 _autoSuggestBox.GotFocus -= AutoSuggestBox_GotFocus;
                 _autoSuggestBox.LostFocus -= AutoSuggestBox_LostFocus;
+
+                // Remove any previous QueryIcon
+                _autoSuggestBox.QueryIcon = null;
             }
 
             _autoSuggestBox = auto;
@@ -93,6 +97,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.PointerCaptureLost += AutoSuggestBox_PointerExited;
                 _autoSuggestBox.GotFocus += AutoSuggestBox_GotFocus;
                 _autoSuggestBox.LostFocus += AutoSuggestBox_LostFocus;
+
+                // Setup a binding to the QueryIcon of the Parent if we're the last box.
+                if (Content is PretokenStringContainer str && str.IsLast)
+                {
+                    var iconBinding = new Binding()
+                    {
+                        Source = Owner,
+                        Path = new PropertyPath(nameof(Owner.QueryIcon)),
+                        RelativeSource = new RelativeSource() { Mode = RelativeSourceMode.TemplatedParent }
+                    };
+
+                    var iconSourceElement = new IconSourceElement();
+
+                    iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
+
+                    _autoSuggestBox.QueryIcon = iconSourceElement;
+                }
             }
         }
 

@@ -121,16 +121,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             HideSamplePicker();
             NavigateToSample(e.ClickedItem as Sample);
         }
-
-        private void SamplePickerGridView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            SamplePickerGrid.RegisterPropertyChangedCallback(UIElement.VisibilityProperty, (s, args) =>
-            {
-                if (s is UIElement samplePicker && samplePicker.Visibility == Visibility.Visible)
-                {
-                    DispatcherQueue.GetForCurrentThread().ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
-                }
-            });
-        }
     }
 }
