@@ -33,13 +33,13 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     /// <code>
     /// Ioc.Default.ConfigureServices(collection =>
     /// {
-    ///     collection.AddSingleton&lt;ILogger, Logger>();
+    ///     collection.AddSingleton&lt;ILogger, Logger&gt;();
     /// });
     /// </code>
     /// Finally, you can use the <see cref="Ioc"/> instance (which implements <see cref="IServiceProvider"/>)
     /// to retrieve the service instances from anywhere in your application, by doing as follows:
     /// <code>
-    /// Ioc.Default.GetService&lt;ILogger>().Log("Hello world!");
+    /// Ioc.Default.GetService&lt;ILogger&gt;().Log("Hello world!");
     /// </code>
     /// </summary>
     public sealed class Ioc : IServiceProvider

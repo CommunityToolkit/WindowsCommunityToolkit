@@ -21,14 +21,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// </code>
     /// Then, register your a recipient for this message:
     /// <code>
-    /// Messenger.Default.Register&lt;LoginCompletedMessage>(this, m =>
+    /// Messenger.Default.Register&lt;LoginCompletedMessage&gt;(this, m =>
     /// {
     ///     // Handle the message here...
     /// });
     /// </code>
     /// Finally, send a message when needed, like so:
     /// <code>
-    /// Messenger.Default.Send&lt;LoginCompletedMessage>();
+    /// Messenger.Default.Send&lt;LoginCompletedMessage&gt;();
     /// </code>
     /// For info on the other available features, check the <see cref="IMessenger"/> interface.
     /// </summary>
