@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 // ignore
             }
-            
+
             deferral.Complete();
         }
     }
