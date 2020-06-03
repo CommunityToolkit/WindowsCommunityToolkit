@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -16,5 +16,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// Gets or sets the angle to rotate the hue, in radians
         /// </summary>
         public double Angle { get; set; }
+
+        /// <inheritdoc/>
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        {
+            //return builder.HueRotation((float)Angle);
+            return null;
+        }
     }
 }

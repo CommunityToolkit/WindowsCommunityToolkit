@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Microsoft.UI.Xaml.Controls.ScrollViewer"/>
+    /// Provides attached dependency properties and methods for the <see cref="Microsoft.UI.Xaml.Controls.ScrollViewer"/> control.
     /// </summary>
     public partial class ScrollViewerExtensions
     {

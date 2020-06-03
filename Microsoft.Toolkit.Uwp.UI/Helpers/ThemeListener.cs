@@ -13,8 +13,8 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 
-[assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
-
+// TODO: Fix tests for WinUI3
+// [assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>

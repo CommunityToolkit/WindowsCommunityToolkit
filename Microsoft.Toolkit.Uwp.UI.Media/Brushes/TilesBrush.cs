@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Microsoft.UI.Xaml;
 

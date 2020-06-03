@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media

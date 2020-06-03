@@ -1117,18 +1117,25 @@
                                         HorizontalContentAlignment="Stretch"
                                         Grid.Column="2"/>
 
-                                    <!-- Top nav ItemsRepeater -->
-                                    <winui:ItemsRepeaterScrollHost Grid.Column="3">
+                                    <!-- Top nav list -->
+                                    <winui:ItemsRepeaterScrollHost
+                                            AutomationProperties.LandmarkType="Navigation"
+                                            Grid.Column="3"
+                                            ScrollViewer.HorizontalScrollMode="Disabled"
+                                            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                            ScrollViewer.VerticalScrollMode="Disabled"
+                                            ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                         <ScrollViewer
                                             HorizontalScrollMode="Disabled"
                                             HorizontalScrollBarVisibility="Hidden"
                                             VerticalScrollMode="Disabled"
                                             VerticalScrollBarVisibility="Hidden">
                                             <winui:ItemsRepeater 
+                                                x:Name="TopNavMenuItemsHost"
+                                                ItemTemplate="{TemplateBinding MenuItemTemplateSelector}"
                                                 AutomationProperties.LandmarkType="Navigation"
                                                 AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
-                                                AutomationProperties.AccessibilityView = "Content"
-                                                x:Name="TopNavMenuItemsHost">
+                                                AutomationProperties.AccessibilityView = "Content">
                                                 <winui:ItemsRepeater.Layout>
                                                     <winui:StackLayout Orientation="Horizontal"/>
                                                 </winui:ItemsRepeater.Layout>
@@ -1162,8 +1169,9 @@
                                                 <winui:ItemsRepeaterScrollHost>
                                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                                         <winui:ItemsRepeater
-                                                            AutomationProperties.AccessibilityView = "Content"
-                                                            x:Name="TopNavMenuItemsOverflowHost">
+                                                                    x:Name="TopNavMenuItemsOverflowHost"
+                                                                    ItemTemplate="{TemplateBinding MenuItemTemplateSelector}"
+                                                                    AutomationProperties.AccessibilityView = "Content">
                                                             <winui:ItemsRepeater.Layout>
                                                                 <winui:StackLayout Orientation="Vertical"/>
                                                             </winui:ItemsRepeater.Layout>
@@ -1298,7 +1306,7 @@
                                             HorizontalContentAlignment="Stretch"
                                             Grid.Row="4" />
 
-                                        <!-- Left nav ItemsRepeater -->
+                                        <!-- Left nav list -->
                                         <winui:ItemsRepeaterScrollHost
                                             Grid.Row="6"
                                             Margin="0,0,0,20"
@@ -1308,8 +1316,9 @@
                                                 TabNavigation="Once"
                                                 VerticalScrollBarVisibility="Auto">
                                                 <winui:ItemsRepeater
-                                                    x:Name="MenuItemsHost"
-                                                    AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
+                                                        x:Name="MenuItemsHost"
+                                                        ItemTemplate="{TemplateBinding MenuItemTemplateSelector}"
+                                                        AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
                                                         AutomationProperties.AccessibilityView = "Content">
                                                     <winui:ItemsRepeater.Layout>
                                                         <winui:StackLayout Orientation="Vertical"/>

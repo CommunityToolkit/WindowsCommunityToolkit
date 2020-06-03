@@ -4,7 +4,6 @@
 
 //// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
 
-using Microsoft.Toolkit.Uwp.UI.Media.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Microsoft.UI.Xaml.Media;
 

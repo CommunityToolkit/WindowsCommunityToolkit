@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
         /// </summary>
-        /// <param name="saturation">The saturation amount for the new effect</param>
+        /// <param name="saturation">The saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Saturation(float saturation)
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
         /// </summary>
-        /// <param name="saturation">The initial saturation amount for the new effect</param>
+        /// <param name="saturation">The initial saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <param name="setter">The optional saturation setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
         /// </summary>
-        /// <param name="saturation">The initial saturation amount for the new effect</param>
+        /// <param name="saturation">The initial saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <param name="animation">The optional saturation animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -289,7 +289,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies an exposure effect on the current pipeline
         /// </summary>
-        /// <param name="amount">The amount of exposure to apply over the current effect</param>
+        /// <param name="amount">The amount of exposure to apply over the current effect (should be in the [-2, 2] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Exposure(float amount)
@@ -306,7 +306,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies an exposure effect on the current pipeline
         /// </summary>
-        /// <param name="amount">The initial exposure of tint to apply over the current effect</param>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect (should be in the [-2, 2] range)</param>
         /// <param name="setter">The optional amount setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -329,7 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies an exposure effect on the current pipeline
         /// </summary>
-        /// <param name="amount">The initial exposure of tint to apply over the current effect</param>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect (should be in the [-2, 2] range)</param>
         /// <param name="animation">The optional amount animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -478,8 +478,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies a temperature and tint effect on the current pipeline
         /// </summary>
-        /// <param name="temperature">The temperature value to use</param>
-        /// <param name="tint">The tint value to use</param>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder TemperatureAndTint(float temperature, float tint)
@@ -497,9 +497,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies a temperature and tint effect on the current pipeline
         /// </summary>
-        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
         /// <param name="temperatureSetter">The optional temperature setter for the effect</param>
-        /// <param name="tint">The tint value to use</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
         /// <param name="tintSetter">The optional tint setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -529,9 +529,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Applies a temperature and tint effect on the current pipeline
         /// </summary>
-        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="temperature">The temperature value to use (should be in the [-1, 1] range)</param>
         /// <param name="temperatureAnimation">The optional temperature animation for the effect</param>
-        /// <param name="tint">The tint value to use</param>
+        /// <param name="tint">The tint value to use (should be in the [-1, 1] range)</param>
         /// <param name="tintAnimation">The optional tint animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -562,7 +562,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Applies a shade effect on the current pipeline
         /// </summary>
         /// <param name="color">The color to use</param>
-        /// <param name="mix">The amount of mix to apply over the current effect</param>
+        /// <param name="mix">The amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Shade(Color color, float mix)
@@ -575,7 +575,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="color">The color to use</param>
         /// <param name="colorSetter">The optional color setter for the effect</param>
-        /// <param name="mix">The initial amount of mix to apply over the current effect</param>
+        /// <param name="mix">The initial amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
         /// <param name="mixSetter">The optional mix setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -593,7 +593,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="color">The color to use</param>
         /// <param name="colorAnimation">The optional color animation for the effect</param>
-        /// <param name="mix">The initial amount of mix to apply over the current effect</param>
+        /// <param name="mix">The initial amount of mix to apply over the current effect (must be in the [0, 1] range)</param>
         /// <param name="mixAnimation">The optional mix animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]

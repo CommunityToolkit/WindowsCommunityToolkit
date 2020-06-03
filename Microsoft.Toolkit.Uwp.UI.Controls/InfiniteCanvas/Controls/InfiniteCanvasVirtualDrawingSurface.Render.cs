@@ -32,18 +32,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             /*
             var toDraw = GetDrawingBoundaries(viewPort);
-
             var scale = _screenScale * zoom;
+            var rect = ScaleRect(toDraw, scale);
+            var dpi = BaseCanvasDPI * (float)scale;
 
-            using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, ScaleRect(toDraw, scale), BaseCanvasDPI * (float)scale))
+            try
             {
-               drawingSession.Clear(Colors.White);
-               foreach (var drawable in _visibleList)
-               {
-                   drawable.Draw(drawingSession, toDraw);
-               }
+                using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, rect, dpi))
+                {
+                    drawingSession.Clear(Colors.White);
+                    foreach (var drawable in _visibleList)
+                    {
+                        drawable.Draw(drawingSession, toDraw);
+                    }
+                }
             }
-            */
+            catch (ArgumentException)
+            {
+                /* CanvasComposition.CreateDrawingSession has an internal
+                 * limit on the size of the updateRectInPixels parameter,
+                 * which we dont know, so we can get an ArgumentException
+                 * if there is a lot of extreme zooming and panning
+                 * Therefore, the only solution is to silently catch the
+                 * exception and allow the app to continue
+                 */
+            // }
         }
 
         private Rect ScaleRect(Rect rect, float scale)

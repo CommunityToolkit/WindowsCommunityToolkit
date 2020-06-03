@@ -31,6 +31,10 @@
       </PropertyGroup>
     </When>
   </Choose>
+
+  <PropertyGroup Condition="'$(DebugType)' == ''">
+    <DebugType>Portable</DebugType>
+  </PropertyGroup>
   
   <Choose>
     <!-- Small fix for wrong TFM in final nuget -->
@@ -43,6 +47,15 @@
       </ItemGroup>
       <PropertyGroup>
         <IncludeBuildOutput>false</IncludeBuildOutput>
+      </PropertyGroup>
+    </When>
+  </Choose>
+  
+  <Choose>
+    <When Condition="$(TargetFramework.Contains('uap10.0')) == false and '$(TargetFramework)' != 'native' and '$(IsTestSampleProject)' != 'true'">
+      <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
       </PropertyGroup>
     </When>
   </Choose>

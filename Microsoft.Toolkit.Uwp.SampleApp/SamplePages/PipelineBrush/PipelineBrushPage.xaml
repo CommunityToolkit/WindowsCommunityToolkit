@@ -20,62 +20,38 @@
                           VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
             <Border>
                 <Border.Background>
-                    <media:PipelineBrush>
-                        <media:PipelineBrush.Effects>
-                            <effects:AcrylicEffect/>
-                            <effects:BlendEffect>
-                                <effects:BlendEffect.Input>
-                                    <effects:BackdropEffect Source="Backdrop"/>
-                                </effects:BlendEffect.Input>
-                            </effects:BlendEffect>
-                            <effects:BlurEffect/>
-                            <effects:ExposureEffect/>
-                            <effects:GrayscaleEffect/>
-                            <effects:HueRotationEffect/>
-                        </media:PipelineBrush.Effects>
+                    <media:PipelineBrush Source="{effects:AcrylicSource}">
+                        <effects:BlendEffect Source="{effects:BackdropSource BackgroundSource=Backdrop}"/>
+                        <effects:BlurEffect/>
+                        <effects:ExposureEffect/>
+                        <effects:GrayscaleEffect/>
+                        <effects:HueRotationEffect/>
+                        <effects:CrossFadeEffect/>
                     </media:PipelineBrush>
                 </Border.Background>
             </Border>
             <Border>
                 <Border.Background>
-                    <media:PipelineBrush>
-                        <media:PipelineBrush.Effects>
-                            <effects:AcrylicEffect/>
-                            <effects:HueRotationEffect/>
-                            <effects:BlendEffect>
-                                <effects:BlendEffect.Input>
-                                    <effects:ImageEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
-                                </effects:BlendEffect.Input>
-                            </effects:BlendEffect>
-                            <effects:InvertEffect/>
-                            <effects:LuminanceToAlphaEffect/>
-                            <effects:OpacityEffect/>
-                            <effects:SaturationEffect/>
-                            <effects:SepiaEffect/>
-                        </media:PipelineBrush.Effects>
+                    <media:PipelineBrush Source="{effects:AcrylicSource}">
+                        <effects:HueRotationEffect/>
+                        <effects:BlendEffect Source="{effects:ImageSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}"/>
+                        <effects:InvertEffect/>
+                        <effects:LuminanceToAlphaEffect/>
+                        <effects:OpacityEffect/>
+                        <effects:SaturationEffect/>
+                        <effects:SepiaEffect/>
                     </media:PipelineBrush>
                 </Border.Background>
             </Border>
             <Border>
                 <Border.Background>
-                    <media:PipelineBrush>
-                        <media:PipelineBrush.Effects>
-                            <effects:AcrylicEffect/>
-                            <effects:SepiaEffect/>
-                            <effects:ShadeEffect/>
-                            <effects:BlendEffect>
-                                <effects:BlendEffect.Input>
-                                    <effects:SolidColorEffect/>
-                                </effects:BlendEffect.Input>
-                            </effects:BlendEffect>
-                            <effects:TemperatureAndTintEffect/>
-                            <effects:BlendEffect>
-                                <effects:BlendEffect.Input>
-                                    <effects:TileEffect Uri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
-                                </effects:BlendEffect.Input>
-                            </effects:BlendEffect>
-                            <effects:TintEffect/>
-                        </media:PipelineBrush.Effects>
+                    <media:PipelineBrush Source="{effects:AcrylicSource}">
+                        <effects:SepiaEffect/>
+                        <effects:ShadeEffect/>
+                        <effects:BlendEffect Source="{effects:SolidColorSource}"/>
+                        <effects:TemperatureAndTintEffect/>
+                        <effects:BlendEffect Source="{effects:TileSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}"/>
+                        <effects:TintEffect/>
                     </media:PipelineBrush>
                 </Border.Background>
             </Border>

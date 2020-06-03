@@ -18,6 +18,8 @@
         "Name": "TabView",
         "Type": "TabViewPage",
         "Subcategory": "Layout",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the TabView control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
         "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
         "XamlCodeFile": "TabViewXaml.bind",
@@ -1072,6 +1074,8 @@
       {
         "Name": "RadialGradientBrush",
         "Type": "RadialGradientBrushPage",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the RadialGradientBrush control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
         "About": "A composition brush which creates a radial gradient effect.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/RadialGradientBrush.cs",
         "XamlCodeFile": "RadialGradientBrushXaml.bind",
@@ -1087,7 +1091,7 @@
         "CodeFile": "PipelineBrushCode.bind",
         "XamlCodeFile": "PipelineBrushXaml.bind",
         "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineBrush.md"
       },
       {
@@ -1097,7 +1101,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/AcrylicBrush.cs",
         "XamlCodeFile": "AcrylicBrushXaml.bind",
         "Icon": "/SamplePages/AcrylicBrush/AcrylicBrush.png",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/AcrylicBrush.md"
       },
       {
@@ -1107,7 +1111,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/TilesBrush.cs",
         "XamlCodeFile": "TilesBrushXaml.bind",
         "Icon": "/SamplePages/TilesBrush/TilesBrush.png",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/TilesBrush.md"
       }
     ]
@@ -1212,7 +1216,8 @@
         "Type": "ScrollViewerExtensionsPage",
         "About": "Extensions for all controls that contain a ScrollViewer like ListView.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ScrollViewer",
-        "XamlCodeFile": "ScrollViewerExtensionsCode.bind",
+        "XamlCodeFile": "ScrollViewerExtensionsXaml.bind",
+        "CodeFile": "ScrollViewerExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ScrollViewerExtensions.md"
       },

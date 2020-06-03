@@ -33,16 +33,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         /// <summary>
         /// Gets the local cache mapping for previously loaded Win2D images
         /// </summary>
-        private static readonly CompositionObjectCache<Uri, CompositionSurfaceBrush> Cache = new CompositionObjectCache<Uri, CompositionSurfaceBrush>();
+        private static readonly CompositionObjectCache<Uri, CompositionBrush> Cache = new CompositionObjectCache<Uri, CompositionBrush>();
 
         /// <summary>
-        /// Loads a <see cref="CompositionSurfaceBrush"/> instance with the target image from the shared <see cref="CanvasDevice"/> instance
+        /// Loads a <see cref="CompositionBrush"/> instance with the target image from the shared <see cref="CanvasDevice"/> instance
         /// </summary>
         /// <param name="uri">The path to the image to load</param>
         /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
         /// <param name="cacheMode">Indicates the cache option to use to load the image</param>
-        /// <returns>A <see cref="Task{T}"/> that returns the loaded <see cref="CompositionSurfaceBrush"/> instance</returns>
-        public static async Task<CompositionSurfaceBrush> LoadImageAsync(Uri uri, DpiMode dpiMode, CacheMode cacheMode = CacheMode.Default)
+        /// <returns>A <see cref="Task{T}"/> that returns the loaded <see cref="CompositionBrush"/> instance</returns>
+        public static async Task<CompositionBrush> LoadImageAsync(Uri uri, DpiMode dpiMode, CacheMode cacheMode = CacheMode.Default)
         {
             /*
             var compositor = Window.Current.Compositor;
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
                 }
 
                 // Load the image
-                CompositionSurfaceBrush brush;
+                CompositionBrush brush;
                 try
                 {
                     // This will throw and the canvas will re-initialize the Win2D device if needed
@@ -86,14 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         }
 
         /// <summary>
-        /// Loads a <see cref="CompositionSurfaceBrush"/> from the input <see cref="global::System.Uri"/>, and prepares it to be used in a tile effect
+        /// Loads a <see cref="CompositionBrush"/> from the input <see cref="global::System.Uri"/>, and prepares it to be used in a tile effect
         /// </summary>
         /// <param name="canvasDevice">The device to use to process the Win2D image</param>
         /// <param name="compositor">The compositor instance to use to create the final brush</param>
         /// <param name="uri">The path to the image to load</param>
         /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
-        /// <returns>A <see cref="Task{T}"/> that returns the loaded <see cref="CompositionSurfaceBrush"/> instance</returns>
-        //private static async Task<CompositionSurfaceBrush> LoadSurfaceBrushAsync(
+        /// <returns>A <see cref="Task{T}"/> that returns the loaded <see cref="CompositionBrush"/> instance</returns>
+        //private static async Task<CompositionBrush> LoadSurfaceBrushAsync(
         //    CanvasDevice canvasDevice,
         //    Compositor compositor,
         //    Uri uri,

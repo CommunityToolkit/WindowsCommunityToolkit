@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async void UpdateSearchSuggestions(bool focus = false)
+        private async void UpdateSearchSuggestions()
         {
             if (string.IsNullOrWhiteSpace(SearchBox.Text))
             {
@@ -48,10 +49,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (samples.Count() > 0)
             {
                 ShowSamplePicker(samples);
-                if (focus)
-                {
-                    SamplePickerGridView.Focus(FocusState.Keyboard);
-                }
             }
             else
             {
@@ -64,11 +61,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             UpdateSearchSuggestions();
         }
 
-        private void SearchBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void SearchBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Down)
+            if (e.Key == Windows.System.VirtualKey.Down && SamplePickerGrid.Visibility == Visibility.Visible)
             {
-                UpdateSearchSuggestions(true);
+                // If we try and navigate down out of the textbox (and there's search results), go to the search results.
+                DispatcherQueue.ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
             }
         }
 

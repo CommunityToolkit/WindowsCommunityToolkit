@@ -82,7 +82,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private TokenizingTextBox _ttb;
         private TokenizingTextBox _ttbEmail;
         private ListView _ttbEmailSuggestions;
-        private Button _ttbEmailClear;
 
         private AdvancedCollectionView _acv;
         private AdvancedCollectionView _acvEmail;
@@ -100,6 +99,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _acvEmail.SortDescriptions.Add(new SortDescription(nameof(SampleEmailDataType.DisplayName), SortDirection.Ascending));
 
             Loaded += (sender, e) => { this.OnXamlRendered(this); };
+
+            // Add the buttons
+            SampleController.Current.RegisterNewCommand("Clear Tokens", ClearButtonClick);
+            SampleController.Current.RegisterNewCommand("Show Email Items", ShowEmailSelectedClick);
+            SampleController.Current.RegisterNewCommand("Show Email Selection", ShowSelectedTextClick);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -117,9 +121,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
             {
                 _ttb = ttb;
-
-                ////_ttb.ItemsSource = new ObservableCollection<SampleDataType>(); // TODO: This shouldn't be required, we should initialize in control constructor???
-
                 _ttb.TokenItemAdded += TokenItemAdded;
                 _ttb.TokenItemRemoving += TokenItemRemoved;
                 _ttb.TextChanged += TextChanged;
@@ -146,8 +147,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail = ttbEmail;
 
                 _ttbEmail.ItemsSource = _selectedEmails;
-
-                // _ttbEmail.ItemClick += EmailTokenItemClick;
+                _ttbEmail.ItemClick += EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
@@ -171,18 +171,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmailSuggestions.PreviewKeyDown += EmailList_PreviewKeyDown;
 
                 _ttbEmailSuggestions.ItemsSource = _acvEmail;
-            }
-
-            if (_ttbEmailClear != null)
-            {
-                _ttbEmailClear.Click -= ClearButtonClick;
-            }
-
-            if (control.FindChildByName("ClearButton") is Button btn)
-            {
-                _ttbEmailClear = btn;
-
-                _ttbEmailClear.Click += ClearButtonClick;
             }
         }
 
@@ -309,11 +297,48 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        private async void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            _selectedEmails.Clear();
-
+            await _ttbEmail.ClearAsync();
             _acvEmail.RefreshFilter();
+
+            await _ttb.ClearAsync();
+        }
+
+        private async void ShowEmailSelectedClick(object sender, RoutedEventArgs e)
+        {
+            // Grab the list of items and identify which ones are free text, which ones are tokens
+            string message = string.Empty;
+
+            foreach (var item in _ttbEmail.Items)
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    message += "\r\n";
+                }
+
+                message += item is ITokenStringContainer ? "Unrslvd: " : "Token  : ";
+                var textVal = item.ToString();
+
+                message += string.IsNullOrEmpty(textVal) ? "<empty>" : textVal;
+            }
+
+            MessageDialog md = new MessageDialog(message, "Item List with type");
+            await md.ShowAsync();
+        }
+
+        private async void ShowSelectedTextClick(object sender, RoutedEventArgs e)
+        {
+            // Grab the list of items and identify which ones are free text, which ones are tokens
+            string message = _ttbEmail.SelectedTokenText;
+
+            if (_ttbEmail.SelectedItems.Count == 0)
+            {
+                message = "<Nothing Selected>";
+            }
+
+            MessageDialog md = new MessageDialog(message, "Selected Tokens as Text");
+            await md.ShowAsync();
         }
 
         // Move to Email Suggest ListView list when we keydown from the TTB

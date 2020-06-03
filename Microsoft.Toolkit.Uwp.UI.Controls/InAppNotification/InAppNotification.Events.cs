@@ -35,8 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event InAppNotificationClosedEventHandler Closed;
 
-        private AutomationPeer peer;
-
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
             Dismiss(InAppNotificationDismissKind.User);
@@ -54,15 +52,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _openAnimationTimer.Stop();
                 Opened?.Invoke(this, EventArgs.Empty);
                 SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
-                peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
-                if (Content?.GetType() == typeof(string))
+                if (ContentTemplateRoot != null)
                 {
-                    AutomateTextNotification(Content.ToString());
+                    var peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
+                    if (Content?.GetType() == typeof(string))
+                    {
+                        AutomateTextNotification(peer, Content.ToString());
+                    }
                 }
             }
         }
 
-        private void AutomateTextNotification(string message)
+        private void AutomateTextNotification(AutomationPeer peer, string message)
         {
             if (peer != null)
             {

@@ -4,7 +4,6 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -35,6 +34,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (listView != null)
             {
                 listView.ItemsSource = _items;
+
+                var shapesPanel = control.FindChildByName("shapesPanel") as StackPanel;
+                if (shapesPanel != null)
+                {
+                    var listScrollViewer = listView.FindDescendant<ScrollViewer>();
+
+                    listScrollViewer?.StartExpressionAnimation(shapesPanel, Axis.Y);
+                }
             }
         }
     }
