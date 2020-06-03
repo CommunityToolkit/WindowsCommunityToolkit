@@ -497,7 +497,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //   We toggle the visibility of the Placeholder ContentControl in order to force it's layout to update properly
             var placeholder = ContainerFromItem(_lastTextEdit).FindDescendantByName("PlaceholderTextContentPresenter");
 
-            if (placeholder.Visibility == Visibility.Visible)
+            if (placeholder?.Visibility == Visibility.Visible)
             {
                 placeholder.Visibility = Visibility.Collapsed;
 
