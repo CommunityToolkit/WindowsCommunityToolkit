@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Title>Windows Community Toolkit .NET Standard</Title>
@@ -11,13 +11,16 @@
       - String extensions and array extensions: These extensions make working with string and arrays easier.
     </Description>
     <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
-
-    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
-    <DebugType>Full</DebugType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.3" />
+  <!-- .NET Standard 2.0 doesn't have the Span<T> type -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+  </ItemGroup>
+
+  <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
