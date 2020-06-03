@@ -12,8 +12,7 @@
     <Thickness x:Key="TokenizingTextBoxPresenterMargin">0,0,6,0</Thickness>
     <x:Double x:Key="TokenizingTextBoxTokenSpacing">2</x:Double>
     <Thickness x:Key="TextControlBorderThemeThicknessFocused">2</Thickness>
-    <x:Double x:Key="TokenizingTextBoxIconFontSize">16</x:Double> <!-- 'Example' hard-coded currently in link:TokenizingTextBoxItem.AutoSuggestBox.cs#L110, but can be overwritten in developer's resources as 'normal' -->
-
+    
     <controls:TokenizingTextBoxStyleSelector x:Key="TokenizingTextBoxStyleSelector"
                                              TextStyle="{StaticResource TokenizingTextBoxItemTextStyle}"
                                              TokenStyle="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
