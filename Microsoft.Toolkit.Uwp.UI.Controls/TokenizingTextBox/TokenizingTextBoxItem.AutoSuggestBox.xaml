@@ -15,12 +15,14 @@
                           Background="{ThemeResource TextControlButtonBackground}"
                           BorderBrush="{ThemeResource TextControlButtonBorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
+                        <!-- FontSize is ignored here, see https://github.com/microsoft/microsoft-ui-xaml/issues/2568 -->
+                        <!-- Set in code-behind link:TokenizingTextBoxItem.AutoSuggestBox.cs#L104 -->
                         <TextBlock x:Name="GlyphElement"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    AutomationProperties.AccessibilityView="Raw"
                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   FontSize="{ThemeResource AutoSuggestBoxIconFontSize}"
+                                   FontSize="{ThemeResource TokenizingTextBoxIconFontSize}"
                                    FontStyle="Normal"
                                    Foreground="{ThemeResource TextControlButtonForeground}"
                                    Text="&#xE10A;" />
