@@ -76,6 +76,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanExecute(object? parameter)
         {
+            if (typeof(T).IsValueType &&
+                parameter is null &&
+                this.canExecute is null)
+            {
+                return true;
+            }
+
             return CanExecute((T)parameter!);
         }
 
