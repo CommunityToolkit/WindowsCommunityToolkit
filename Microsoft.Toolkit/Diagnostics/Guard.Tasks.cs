@@ -24,10 +24,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsCompleted(Task task, string name)
         {
-            if (!task.IsCompleted)
+            if (task.IsCompleted)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCompleted(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCompleted(task, name);
         }
 
         /// <summary>
@@ -39,10 +41,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotCompleted(Task task, string name)
         {
-            if (task.IsCompleted)
+            if (!task.IsCompleted)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCompleted(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCompleted(task, name);
         }
 
         /// <summary>
@@ -54,10 +58,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsCompletedSuccessfully(Task task, string name)
         {
-            if (task.Status != TaskStatus.RanToCompletion)
+            if (task.Status == TaskStatus.RanToCompletion)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCompletedSuccessfully(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCompletedSuccessfully(task, name);
         }
 
         /// <summary>
@@ -69,10 +75,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotCompletedSuccessfully(Task task, string name)
         {
-            if (task.Status == TaskStatus.RanToCompletion)
+            if (task.Status != TaskStatus.RanToCompletion)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCompletedSuccessfully(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCompletedSuccessfully(task, name);
         }
 
         /// <summary>
@@ -84,10 +92,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsFaulted(Task task, string name)
         {
-            if (!task.IsFaulted)
+            if (task.IsFaulted)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsFaulted(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsFaulted(task, name);
         }
 
         /// <summary>
@@ -99,10 +109,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotFaulted(Task task, string name)
         {
-            if (task.IsFaulted)
+            if (!task.IsFaulted)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotFaulted(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotFaulted(task, name);
         }
 
         /// <summary>
@@ -114,10 +126,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsCanceled(Task task, string name)
         {
-            if (!task.IsCanceled)
+            if (task.IsCanceled)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCanceled(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCanceled(task, name);
         }
 
         /// <summary>
@@ -129,10 +143,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotCanceled(Task task, string name)
         {
-            if (task.IsCanceled)
+            if (!task.IsCanceled)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCanceled(task, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCanceled(task, name);
         }
 
         /// <summary>
@@ -145,10 +161,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasStatusEqualTo(Task task, TaskStatus status, string name)
         {
-            if (task.Status != status)
+            if (task.Status == status)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasStatusEqualTo(task, status, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasStatusEqualTo(task, status, name);
         }
 
         /// <summary>
@@ -161,10 +179,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasStatusNotEqualTo(Task task, TaskStatus status, string name)
         {
-            if (task.Status == status)
+            if (task.Status != status)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasStatusNotEqualTo(task, status, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasStatusNotEqualTo(task, status, name);
         }
     }
 }
