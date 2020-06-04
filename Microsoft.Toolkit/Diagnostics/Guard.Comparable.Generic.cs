@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static unsafe void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            // Include some fast paths if the input type is of size 1, 2, 4 or 8.
+            // Include some fast paths if the input type is of size 1, 2, 4, 8, or 16.
             // In those cases, just reinterpret the bytes as values of an integer type,
             // and compare them directly, which is much faster than having a loop over each byte.
             // The conditional branches below are known at compile time by the JIT compiler,
@@ -178,8 +178,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else
             {
-                Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>());
-                Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), Unsafe.SizeOf<T>());
+                Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), sizeof(T));
+                Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), sizeof(T));
 
                 if (valueBytes.SequenceEqual(targetBytes))
                 {
