@@ -66,7 +66,7 @@
         </controls:TokenizingTextBox.TokenItemTemplate>
       </controls:TokenizingTextBox>
 
-      <Grid BorderThickness="1" BorderBrush="Black">
+      <Border BorderThickness="1" BorderBrush="Black">
         <ListView x:Name="EmailList" Height="200" IsItemClickEnabled="True">
           <ListView.ItemTemplate>
             <DataTemplate>
@@ -77,7 +77,7 @@
             </DataTemplate>
           </ListView.ItemTemplate>
         </ListView>
-      </Grid>
+      </Border>
     </StackPanel>
   </Grid>
 </Page>
