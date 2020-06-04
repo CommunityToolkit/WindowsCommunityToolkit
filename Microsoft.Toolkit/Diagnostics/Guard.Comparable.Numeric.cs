@@ -36,10 +36,12 @@ namespace Microsoft.Toolkit.Diagnostics
             // The difference is then cast to uint as that's the maximum possible
             // value it can have, and comparing two 32 bit integer values
             // results in shorter and slightly faster code than using doubles.
-            if ((uint)Math.Abs((double)((long)value - target)) > delta)
+            if ((uint)Math.Abs((double)((long)value - target)) <= delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -53,10 +55,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotCloseTo(int value, int target, uint delta, string name)
         {
-            if ((uint)Math.Abs((double)((long)value - target)) <= delta)
+            if ((uint)Math.Abs((double)((long)value - target)) > delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -72,10 +76,12 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             // This method and the one below are not inlined because
             // using the decimal type results in quite a bit of code.
-            if ((ulong)Math.Abs((decimal)value - target) > delta)
+            if ((ulong)Math.Abs((decimal)value - target) <= delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -89,10 +95,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void IsNotCloseTo(long value, long target, ulong delta, string name)
         {
-            if ((ulong)Math.Abs((decimal)value - target) <= delta)
+            if ((ulong)Math.Abs((decimal)value - target) > delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -106,10 +114,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsCloseTo(float value, float target, float delta, string name)
         {
-            if (Math.Abs(value - target) > delta)
+            if (Math.Abs(value - target) <= delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -123,10 +133,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotCloseTo(float value, float target, float delta, string name)
         {
-            if (Math.Abs(value - target) <= delta)
+            if (Math.Abs(value - target) > delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -140,10 +152,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsCloseTo(double value, double target, double delta, string name)
         {
-            if (Math.Abs(value - target) > delta)
+            if (Math.Abs(value - target) <= delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
         }
 
         /// <summary>
@@ -157,10 +171,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotCloseTo(double value, double target, double delta, string name)
         {
-            if (Math.Abs(value - target) <= delta)
+            if (Math.Abs(value - target) > delta)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
         }
     }
 }
