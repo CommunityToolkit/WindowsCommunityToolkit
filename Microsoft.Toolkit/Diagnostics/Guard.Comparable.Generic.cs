@@ -4,6 +4,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 #nullable enable
 
@@ -95,7 +96,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsBitwiseEqualTo<T>(T value, T target, string name)
+        public static unsafe void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
             // Include some fast paths if the input type is of size 1, 2, 4 or 8.
@@ -103,70 +104,92 @@ namespace Microsoft.Toolkit.Diagnostics
             // and compare them directly, which is much faster than having a loop over each byte.
             // The conditional branches below are known at compile time by the JIT compiler,
             // so that only the right one will actually be translated into native code.
-            if (typeof(T) == typeof(byte) ||
-                typeof(T) == typeof(sbyte) ||
-                typeof(T) == typeof(bool))
+            if (sizeof(T) == 1)
             {
                 byte valueByte = Unsafe.As<T, byte>(ref value);
                 byte targetByte = Unsafe.As<T, byte>(ref target);
 
-                if (valueByte != targetByte)
+                if (valueByte == targetByte)
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
             }
-            else if (typeof(T) == typeof(ushort) ||
-                     typeof(T) == typeof(short) ||
-                     typeof(T) == typeof(char))
+            else if (sizeof(T) == 2)
             {
                 ushort valueUShort = Unsafe.As<T, ushort>(ref value);
                 ushort targetUShort = Unsafe.As<T, ushort>(ref target);
 
-                if (valueUShort != targetUShort)
+                if (valueUShort == targetUShort)
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
             }
-            else if (typeof(T) == typeof(uint) ||
-                     typeof(T) == typeof(int) ||
-                     typeof(T) == typeof(float))
+            else if (sizeof(T) == 4)
             {
                 uint valueUInt = Unsafe.As<T, uint>(ref value);
                 uint targetUInt = Unsafe.As<T, uint>(ref target);
 
-                if (valueUInt != targetUInt)
+                if (valueUInt == targetUInt)
+                {
+                    return;
+                }
+
+                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+            }
+            else if (sizeof(T) == 8)
+            {
+                if (!Bit64Compare(&value, &target))
                 {
                     ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
                 }
             }
-            else if (typeof(T) == typeof(ulong) ||
-                     typeof(T) == typeof(long) ||
-                     typeof(T) == typeof(double))
+            else if (sizeof(T) == 16)
             {
-                ulong valueULong = Unsafe.As<T, ulong>(ref value);
-                ulong targetULong = Unsafe.As<T, ulong>(ref target);
+                ulong valueULong0 = Unsafe.As<T, ulong>(ref value);
+                ulong targetULong0 = Unsafe.As<T, ulong>(ref target);
 
-                if (valueULong != targetULong)
+                if (Bit64Compare(&valueULong0, &targetULong0))
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    ulong valueULong1 = Unsafe.As<T, ulong>(ref Unsafe.Add(ref value, 1));
+                    ulong targetULong1 = Unsafe.As<T, ulong>(ref Unsafe.Add(ref value, 1));
+
+                    if (Bit64Compare(&valueULong1, &targetULong1))
+                    {
+                        return;
+                    }
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
             }
             else
             {
-                ref byte valueRef = ref Unsafe.As<T, byte>(ref value);
-                ref byte targetRef = ref Unsafe.As<T, byte>(ref target);
-                int bytesCount = Unsafe.SizeOf<T>();
+                Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>());
+                Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), Unsafe.SizeOf<T>());
 
-                for (int i = 0; i < bytesCount; i++)
+                if (!valueBytes.SequenceEqual(targetBytes))
                 {
-                    byte valueByte = Unsafe.Add(ref valueRef, i);
-                    byte targetByte = Unsafe.Add(ref targetRef, i);
-
-                    if (valueByte != targetByte)
-                    {
-                        ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
-                    }
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+            }
+
+            // Handles 32 bit case, because using ulong is inefficient
+            static bool Bit64Compare(void* left, void* right)
+            {
+                if (sizeof(void*) == 4)
+                {
+                    int* pLeft = (int*)left;
+                    int* pRight = (int*)right;
+
+                    return pLeft[0] == pRight[0] && pLeft[1] == pRight[1];
+                }
+
+                return *(ulong*)left == *(ulong*)right;
             }
         }
 
