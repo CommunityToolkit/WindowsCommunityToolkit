@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsLessThanOrEqualTo<T>(T value, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(maximum) >= 0)
+            if (value.CompareTo(maximum) <= 0)
             {
                 return;
             }
