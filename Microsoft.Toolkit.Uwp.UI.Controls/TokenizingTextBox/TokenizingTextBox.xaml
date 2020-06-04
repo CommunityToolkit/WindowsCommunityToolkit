@@ -12,7 +12,7 @@
     <Thickness x:Key="TokenizingTextBoxPresenterMargin">0,0,6,0</Thickness>
     <x:Double x:Key="TokenizingTextBoxTokenSpacing">2</x:Double>
     <Thickness x:Key="TextControlBorderThemeThicknessFocused">2</Thickness>
-
+    
     <controls:TokenizingTextBoxStyleSelector x:Key="TokenizingTextBoxStyleSelector"
                                              TextStyle="{StaticResource TokenizingTextBoxItemTextStyle}"
                                              TokenStyle="{StaticResource TokenizingTextBoxItemTokenStyle}"/>

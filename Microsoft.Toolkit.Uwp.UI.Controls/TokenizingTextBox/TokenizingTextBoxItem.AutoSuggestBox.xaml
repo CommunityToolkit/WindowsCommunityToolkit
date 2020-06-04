@@ -4,7 +4,8 @@
 
     <!--<Thickness x:Key="ButtonPadding">8,4,8,5</Thickness> Not sure if we'll also need this later-->
     <Thickness x:Key="TextControlThemePadding">10,3,6,6</Thickness><!-- Need local copy of this, as including WinUI overrides this to something that adds too much padding for our inner box -->
-    
+    <x:Double x:Key="TokenizingTextBoxIconFontSize">16</x:Double><!-- 'Example' hard-coded currently in link:TokenizingTextBoxItem.AutoSuggestBox.cs#L110, but can be overwritten in developer's resources as 'normal' -->
+
     <!--#region Button Styles -->
     <Style x:Key="TokenizingTextBoxDeleteButtonStyle"
            TargetType="Button">
@@ -15,12 +16,14 @@
                           Background="{ThemeResource TextControlButtonBackground}"
                           BorderBrush="{ThemeResource TextControlButtonBorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
+                        <!-- FontSize is ignored here, see https://github.com/microsoft/microsoft-ui-xaml/issues/2568 -->
+                        <!-- Set in code-behind link:TokenizingTextBoxItem.AutoSuggestBox.cs#L104 -->
                         <TextBlock x:Name="GlyphElement"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    AutomationProperties.AccessibilityView="Raw"
                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   FontSize="{ThemeResource AutoSuggestBoxIconFontSize}"
+                                   FontSize="{ThemeResource TokenizingTextBoxIconFontSize}"
                                    FontStyle="Normal"
                                    Foreground="{ThemeResource TextControlButtonForeground}"
                                    Text="&#xE10A;" />
@@ -290,17 +293,12 @@
     <Style x:Key="TokenizingTextBoxItemTextStyle" TargetType="controls:TokenizingTextBoxItem">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
-        <!-- <Setter Property="BorderThickness" Value="{StaticResource TokenizingTextBoxItemBorderThickness}" />
-        <Setter Property="HorizontalContentAlignment" Value="{StaticResource TokenizingTextBoxItemHorizontalContentAlignment}" />
-        <Setter Property="Padding" Value="{StaticResource TokenizingTextBoxItemPadding}" />
-        <Setter Property="VerticalContentAlignment" Value="{StaticResource TokenizingTextBoxItemVerticalContentAlignment}" />-->
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="UseSystemFocusVisuals" Value="False" />
         <Setter Property="MinWidth" Value="128" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TokenizingTextBoxItem">
-                    <!-- TODO: Thinking we should just give a reference to the parent for each item when we construct the container? -->
                     <AutoSuggestBox Name="PART_AutoSuggestBox"
                                     UpdateTextOnSelect="False"
                                     DisplayMemberPath="{Binding Path=Owner.DisplayMemberPath, RelativeSource={RelativeSource Mode=TemplatedParent}}"
@@ -311,7 +309,6 @@
                                     Style="{StaticResource SystemAutoSuggestBoxStyle}"
                                     Text="{Binding Text, Mode=TwoWay}"
                                     TextBoxStyle="{StaticResource TokenizingTextBoxTextBoxStyle}"/>
-                    <!-- TODO: Visual State to style autosuggestbox based on focus? -->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
