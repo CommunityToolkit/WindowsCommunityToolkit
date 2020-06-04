@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 8)
             {
-                if (!Bit64Compare(&value, &target))
+                if (Bit64Compare(&value, &target))
                 {
                     return;
                 }
