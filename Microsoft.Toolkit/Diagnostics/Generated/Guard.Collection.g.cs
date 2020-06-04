@@ -28,10 +28,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(Span<T> span, string name)
         {
-            if (span.Length != 0)
+            if (span.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(span, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(span, name);
         }
 
         /// <summary>
@@ -44,10 +46,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(Span<T> span, string name)
         {
-            if (span.Length == 0)
+            if (span.Length != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(name);
         }
 
         /// <summary>
@@ -61,10 +65,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(Span<T> span, int size, string name)
         {
-            if (span.Length != size)
+            if (span.Length == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -78,10 +84,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(Span<T> span, int size, string name)
         {
-            if (span.Length == size)
+            if (span.Length != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -95,10 +103,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(Span<T> span, int size, string name)
         {
-            if (span.Length <= size)
+            if (span.Length > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(span, size, name);
         }
 
         /// <summary>
@@ -112,10 +122,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(Span<T> span, int size, string name)
         {
-            if (span.Length < size)
+            if (span.Length >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -129,10 +141,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(Span<T> span, int size, string name)
         {
-            if (span.Length >= size)
+            if (span.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(span, size, name);
         }
 
         /// <summary>
@@ -146,10 +160,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(Span<T> span, int size, string name)
         {
-            if (span.Length > size)
+            if (span.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -163,10 +179,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(Span<T> source, Span<T> destination, string name)
         {
-            if (source.Length != destination.Length)
+            if (source.Length == destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -180,10 +198,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(Span<T> source, Span<T> destination, string name)
         {
-            if (source.Length > destination.Length)
+            if (source.Length <= destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -197,10 +217,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, Span<T> span, string name)
         {
-            if ((uint)index >= (uint)span.Length)
+            if ((uint)index < (uint)span.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, span, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, span, name);
         }
 
         /// <summary>
@@ -214,10 +236,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, Span<T> span, string name)
         {
-            if ((uint)index < (uint)span.Length)
+            if ((uint)index >= (uint)span.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, span, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, span, name);
         }
 
         /// <summary>
@@ -230,10 +254,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(ReadOnlySpan<T> span, string name)
         {
-            if (span.Length != 0)
+            if (span.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(span, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(span, name);
         }
 
         /// <summary>
@@ -246,10 +272,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(ReadOnlySpan<T> span, string name)
         {
-            if (span.Length == 0)
+            if (span.Length != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(name);
         }
 
         /// <summary>
@@ -263,10 +291,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
         {
-            if (span.Length != size)
+            if (span.Length == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -280,10 +310,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
         {
-            if (span.Length == size)
+            if (span.Length != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -297,10 +329,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(ReadOnlySpan<T> span, int size, string name)
         {
-            if (span.Length <= size)
+            if (span.Length > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(span, size, name);
         }
 
         /// <summary>
@@ -314,10 +348,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
         {
-            if (span.Length < size)
+            if (span.Length >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -331,10 +367,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(ReadOnlySpan<T> span, int size, string name)
         {
-            if (span.Length >= size)
+            if (span.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(span, size, name);
         }
 
         /// <summary>
@@ -348,10 +386,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
         {
-            if (span.Length > size)
+            if (span.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(span, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(span, size, name);
         }
 
         /// <summary>
@@ -365,10 +405,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(ReadOnlySpan<T> source, Span<T> destination, string name)
         {
-            if (source.Length != destination.Length)
+            if (source.Length == destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -382,10 +424,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ReadOnlySpan<T> source, Span<T> destination, string name)
         {
-            if (source.Length > destination.Length)
+            if (source.Length <= destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -399,10 +443,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, ReadOnlySpan<T> span, string name)
         {
-            if ((uint)index >= (uint)span.Length)
+            if ((uint)index < (uint)span.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, span, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, span, name);
         }
 
         /// <summary>
@@ -416,10 +462,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, ReadOnlySpan<T> span, string name)
         {
-            if ((uint)index < (uint)span.Length)
+            if ((uint)index >= (uint)span.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, span, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, span, name);
         }
 
         /// <summary>
@@ -432,10 +480,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(Memory<T> memory, string name)
         {
-            if (memory.Length != 0)
+            if (memory.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(memory, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(memory, name);
         }
 
         /// <summary>
@@ -448,10 +498,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(Memory<T> memory, string name)
         {
-            if (memory.Length == 0)
+            if (memory.Length != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<Memory<T>>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<Memory<T>>(name);
         }
 
         /// <summary>
@@ -465,10 +517,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(Memory<T> memory, int size, string name)
         {
-            if (memory.Length != size)
+            if (memory.Length == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -482,10 +536,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(Memory<T> memory, int size, string name)
         {
-            if (memory.Length == size)
+            if (memory.Length != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -499,10 +555,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(Memory<T> memory, int size, string name)
         {
-            if (memory.Length <= size)
+            if (memory.Length > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(memory, size, name);
         }
 
         /// <summary>
@@ -516,10 +574,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(Memory<T> memory, int size, string name)
         {
-            if (memory.Length < size)
+            if (memory.Length >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -533,10 +593,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(Memory<T> memory, int size, string name)
         {
-            if (memory.Length >= size)
+            if (memory.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(memory, size, name);
         }
 
         /// <summary>
@@ -550,10 +612,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(Memory<T> memory, int size, string name)
         {
-            if (memory.Length > size)
+            if (memory.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -567,10 +631,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(Memory<T> source, Memory<T> destination, string name)
         {
-            if (source.Length != destination.Length)
+            if (source.Length == destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -584,10 +650,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(Memory<T> source, Memory<T> destination, string name)
         {
-            if (source.Length > destination.Length)
+            if (source.Length <= destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -601,10 +669,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, Memory<T> memory, string name)
         {
-            if ((uint)index >= (uint)memory.Length)
+            if ((uint)index < (uint)memory.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, memory, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, memory, name);
         }
 
         /// <summary>
@@ -618,10 +688,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, Memory<T> memory, string name)
         {
-            if ((uint)index < (uint)memory.Length)
+            if ((uint)index >= (uint)memory.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, memory, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, memory, name);
         }
 
         /// <summary>
@@ -634,10 +706,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(ReadOnlyMemory<T> memory, string name)
         {
-            if (memory.Length != 0)
+            if (memory.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(memory, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(memory, name);
         }
 
         /// <summary>
@@ -650,10 +724,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(ReadOnlyMemory<T> memory, string name)
         {
-            if (memory.Length == 0)
+            if (memory.Length != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<ReadOnlyMemory<T>>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<ReadOnlyMemory<T>>(name);
         }
 
         /// <summary>
@@ -667,10 +743,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
-            if (memory.Length != size)
+            if (memory.Length == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -684,10 +762,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
-            if (memory.Length == size)
+            if (memory.Length != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -701,10 +781,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
-            if (memory.Length <= size)
+            if (memory.Length > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(memory, size, name);
         }
 
         /// <summary>
@@ -718,10 +800,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
-            if (memory.Length < size)
+            if (memory.Length >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -735,10 +819,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
-            if (memory.Length >= size)
+            if (memory.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(memory, size, name);
         }
 
         /// <summary>
@@ -752,10 +838,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
-            if (memory.Length > size)
+            if (memory.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(memory, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(memory, size, name);
         }
 
         /// <summary>
@@ -769,10 +857,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(ReadOnlyMemory<T> source, Memory<T> destination, string name)
         {
-            if (source.Length != destination.Length)
+            if (source.Length == destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -786,10 +876,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ReadOnlyMemory<T> source, Memory<T> destination, string name)
         {
-            if (source.Length > destination.Length)
+            if (source.Length <= destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -803,10 +895,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, ReadOnlyMemory<T> memory, string name)
         {
-            if ((uint)index >= (uint)memory.Length)
+            if ((uint)index < (uint)memory.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, memory, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, memory, name);
         }
 
         /// <summary>
@@ -820,10 +914,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, ReadOnlyMemory<T> memory, string name)
         {
-            if ((uint)index < (uint)memory.Length)
+            if ((uint)index >= (uint)memory.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, memory, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, memory, name);
         }
 
         /// <summary>
@@ -836,10 +932,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(T[] array, string name)
         {
-            if (array.Length != 0)
+            if (array.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(array, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(array, name);
         }
 
         /// <summary>
@@ -852,10 +950,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(T[] array, string name)
         {
-            if (array.Length == 0)
+            if (array.Length != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<T[]>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<T[]>(name);
         }
 
         /// <summary>
@@ -869,10 +969,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(T[] array, int size, string name)
         {
-            if (array.Length != size)
+            if (array.Length == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(array, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(array, size, name);
         }
 
         /// <summary>
@@ -886,10 +988,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(T[] array, int size, string name)
         {
-            if (array.Length == size)
+            if (array.Length != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(array, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(array, size, name);
         }
 
         /// <summary>
@@ -903,10 +1007,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(T[] array, int size, string name)
         {
-            if (array.Length <= size)
+            if (array.Length > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(array, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(array, size, name);
         }
 
         /// <summary>
@@ -920,10 +1026,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(T[] array, int size, string name)
         {
-            if (array.Length < size)
+            if (array.Length >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(array, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(array, size, name);
         }
 
         /// <summary>
@@ -937,10 +1045,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(T[] array, int size, string name)
         {
-            if (array.Length >= size)
+            if (array.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(array, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(array, size, name);
         }
 
         /// <summary>
@@ -954,10 +1064,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(T[] array, int size, string name)
         {
-            if (array.Length > size)
+            if (array.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(array, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(array, size, name);
         }
 
         /// <summary>
@@ -971,10 +1083,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(T[] source, T[] destination, string name)
         {
-            if (source.Length != destination.Length)
+            if (source.Length == destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -988,10 +1102,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(T[] source, T[] destination, string name)
         {
-            if (source.Length > destination.Length)
+            if (source.Length <= destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -1005,10 +1121,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, T[] array, string name)
         {
-            if ((uint)index >= (uint)array.Length)
+            if ((uint)index < (uint)array.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, array, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, array, name);
         }
 
         /// <summary>
@@ -1022,10 +1140,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, T[] array, string name)
         {
-            if ((uint)index < (uint)array.Length)
+            if ((uint)index >= (uint)array.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, array, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, array, name);
         }
 
         /// <summary>
@@ -1038,10 +1158,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(List<T> list, string name)
         {
-            if (list.Count != 0)
+            if (list.Count == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty((ICollection<T>)list, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty((ICollection<T>)list, name);
         }
 
         /// <summary>
@@ -1054,10 +1176,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(List<T> list, string name)
         {
-            if (list.Count == 0)
+            if (list.Count != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<List<T>>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<List<T>>(name);
         }
 
         /// <summary>
@@ -1071,10 +1195,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(List<T> list, int size, string name)
         {
-            if (list.Count != size)
+            if (list.Count == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo((ICollection<T>)list, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo((ICollection<T>)list, size, name);
         }
 
         /// <summary>
@@ -1088,10 +1214,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(List<T> list, int size, string name)
         {
-            if (list.Count == size)
+            if (list.Count != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo((ICollection<T>)list, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo((ICollection<T>)list, size, name);
         }
 
         /// <summary>
@@ -1105,10 +1233,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(List<T> list, int size, string name)
         {
-            if (list.Count <= size)
+            if (list.Count > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan((ICollection<T>)list, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan((ICollection<T>)list, size, name);
         }
 
         /// <summary>
@@ -1122,10 +1252,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(List<T> list, int size, string name)
         {
-            if (list.Count < size)
+            if (list.Count >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo((ICollection<T>)list, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo((ICollection<T>)list, size, name);
         }
 
         /// <summary>
@@ -1139,10 +1271,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(List<T> list, int size, string name)
         {
-            if (list.Count >= size)
+            if (list.Count < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan((ICollection<T>)list, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan((ICollection<T>)list, size, name);
         }
 
         /// <summary>
@@ -1156,10 +1290,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(List<T> list, int size, string name)
         {
-            if (list.Count > size)
+            if (list.Count <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo((ICollection<T>)list, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo((ICollection<T>)list, size, name);
         }
 
         /// <summary>
@@ -1173,10 +1309,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(List<T> source, List<T> destination, string name)
         {
-            if (source.Count != destination.Count)
+            if (source.Count == destination.Count)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo((ICollection<T>)source, destination.Count, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo((ICollection<T>)source, destination.Count, name);
         }
 
         /// <summary>
@@ -1190,10 +1328,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(List<T> source, List<T> destination, string name)
         {
-            if (source.Count > destination.Count)
+            if (source.Count <= destination.Count)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo((ICollection<T>)source, destination.Count, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo((ICollection<T>)source, destination.Count, name);
         }
 
         /// <summary>
@@ -1207,10 +1347,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, List<T> list, string name)
         {
-            if ((uint)index >= (uint)list.Count)
+            if ((uint)index < (uint)list.Count)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, (ICollection<T>)list, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, (ICollection<T>)list, name);
         }
 
         /// <summary>
@@ -1224,10 +1366,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, List<T> list, string name)
         {
-            if ((uint)index < (uint)list.Count)
+            if ((uint)index >= (uint)list.Count)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, (ICollection<T>)list, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, (ICollection<T>)list, name);
         }
 
         /// <summary>
@@ -1240,10 +1384,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(ICollection<T> collection, string name)
         {
-            if (collection.Count != 0)
+            if (collection.Count == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(collection, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(collection, name);
         }
 
         /// <summary>
@@ -1256,10 +1402,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(ICollection<T> collection, string name)
         {
-            if (collection.Count == 0)
+            if (collection.Count != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<ICollection<T>>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<ICollection<T>>(name);
         }
 
         /// <summary>
@@ -1273,10 +1421,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(ICollection<T> collection, int size, string name)
         {
-            if (collection.Count != size)
+            if (collection.Count == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1290,10 +1440,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(ICollection<T> collection, int size, string name)
         {
-            if (collection.Count == size)
+            if (collection.Count != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1307,10 +1459,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(ICollection<T> collection, int size, string name)
         {
-            if (collection.Count <= size)
+            if (collection.Count > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(collection, size, name);
         }
 
         /// <summary>
@@ -1324,10 +1478,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(ICollection<T> collection, int size, string name)
         {
-            if (collection.Count < size)
+            if (collection.Count >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1341,10 +1497,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(ICollection<T> collection, int size, string name)
         {
-            if (collection.Count >= size)
+            if (collection.Count < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(collection, size, name);
         }
 
         /// <summary>
@@ -1358,10 +1516,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ICollection<T> collection, int size, string name)
         {
-            if (collection.Count > size)
+            if (collection.Count <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1375,10 +1535,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(ICollection<T> source, ICollection<T> destination, string name)
         {
-            if (source.Count != destination.Count)
+            if (source.Count == destination.Count)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
         }
 
         /// <summary>
@@ -1392,10 +1554,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ICollection<T> source, ICollection<T> destination, string name)
         {
-            if (source.Count > destination.Count)
+            if (source.Count <= destination.Count)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
         }
 
         /// <summary>
@@ -1409,10 +1573,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, ICollection<T> collection, string name)
         {
-            if ((uint)index >= (uint)collection.Count)
+            if ((uint)index < (uint)collection.Count)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, collection, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, collection, name);
         }
 
         /// <summary>
@@ -1426,10 +1592,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, ICollection<T> collection, string name)
         {
-            if ((uint)index < (uint)collection.Count)
+            if ((uint)index >= (uint)collection.Count)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, collection, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, collection, name);
         }
 
         /// <summary>
@@ -1442,10 +1610,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(IReadOnlyCollection<T> collection, string name)
         {
-            if (collection.Count != 0)
+            if (collection.Count == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(collection, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(collection, name);
         }
 
         /// <summary>
@@ -1458,10 +1628,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(IReadOnlyCollection<T> collection, string name)
         {
-            if (collection.Count == 0)
+            if (collection.Count != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<IReadOnlyCollection<T>>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<IReadOnlyCollection<T>>(name);
         }
 
         /// <summary>
@@ -1475,10 +1647,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
-            if (collection.Count != size)
+            if (collection.Count == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1492,10 +1666,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
-            if (collection.Count == size)
+            if (collection.Count != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1509,10 +1685,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
-            if (collection.Count <= size)
+            if (collection.Count > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(collection, size, name);
         }
 
         /// <summary>
@@ -1526,10 +1704,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
-            if (collection.Count < size)
+            if (collection.Count >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1543,10 +1723,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
-            if (collection.Count >= size)
+            if (collection.Count < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(collection, size, name);
         }
 
         /// <summary>
@@ -1560,10 +1742,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
-            if (collection.Count > size)
+            if (collection.Count <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(collection, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(collection, size, name);
         }
 
         /// <summary>
@@ -1577,10 +1761,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(IReadOnlyCollection<T> source, ICollection<T> destination, string name)
         {
-            if (source.Count != destination.Count)
+            if (source.Count == destination.Count)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
         }
 
         /// <summary>
@@ -1594,10 +1780,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(IReadOnlyCollection<T> source, ICollection<T> destination, string name)
         {
-            if (source.Count > destination.Count)
+            if (source.Count <= destination.Count)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination.Count, name);
         }
 
         /// <summary>
@@ -1611,10 +1799,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
         {
-            if ((uint)index >= (uint)collection.Count)
+            if ((uint)index < (uint)collection.Count)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, collection, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, collection, name);
         }
 
         /// <summary>
@@ -1628,10 +1818,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
         {
-            if ((uint)index < (uint)collection.Count)
+            if ((uint)index >= (uint)collection.Count)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, collection, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, collection, name);
         }
     }
 }
