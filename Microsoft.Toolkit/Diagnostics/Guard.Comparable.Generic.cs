@@ -189,6 +189,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
         }
 
+        // Compares 64 bits of data from two given memory locations for bitwise equality
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe bool Bit64Compare(void* left, void* right)
         {
