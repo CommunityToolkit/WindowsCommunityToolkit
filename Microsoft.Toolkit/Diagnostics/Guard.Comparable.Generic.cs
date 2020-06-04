@@ -170,27 +170,28 @@ namespace Microsoft.Toolkit.Diagnostics
                 Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>());
                 Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), Unsafe.SizeOf<T>());
 
-                if (!valueBytes.SequenceEqual(targetBytes))
+                if (valueBytes.SequenceEqual(targetBytes))
                 {
                     return;
                 }
 
                 ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
             }
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe bool Bit64Compare(void* left, void* right)
+        {
             // Handles 32 bit case, because using ulong is inefficient
-            static bool Bit64Compare(void* left, void* right)
+            if (sizeof(void*) == 4)
             {
-                if (sizeof(void*) == 4)
-                {
-                    int* pLeft = (int*)left;
-                    int* pRight = (int*)right;
+                int* pLeft = (int*)left;
+                int* pRight = (int*)right;
 
-                    return pLeft[0] == pRight[0] && pLeft[1] == pRight[1];
-                }
-
-                return *(ulong*)left == *(ulong*)right;
+                return pLeft[0] == pRight[0] && pLeft[1] == pRight[1];
             }
+
+            return *(ulong*)left == *(ulong*)right;
         }
 
         /// <summary>
