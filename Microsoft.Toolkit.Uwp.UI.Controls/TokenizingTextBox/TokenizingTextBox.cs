@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -435,6 +437,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             last?._autoSuggestTextBox.Focus(FocusState.Keyboard);
 
             TokenItemAdded?.Invoke(this, data);
+
+            GuardAgainstPlaceholderTextLayoutIssue();
         }
 
         private void UpdateCurrentTextEdit(PretokenStringContainer edit)
@@ -475,7 +479,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             TokenItemRemoved?.Invoke(this, data);
 
+            GuardAgainstPlaceholderTextLayoutIssue();
+
             return true;
+        }
+
+        private void GuardAgainstPlaceholderTextLayoutIssue()
+        {
+            // If the *PlaceholderText is visible* on the last AutoSuggestBox, it can incorrectly layout itself
+            // when the *ASB has focus*. We think this is an optimization in the platform, but haven't been able to
+            // isolate a straight-reproduction of this issue outside of this control (though we have eliminated
+            // most Toolkit influences like ASB/TextBox Style, the InterspersedObservableCollection, etc...).
+            // The only Toolkit component involved here should be WrapPanel (which is a straight-forward Panel).
+            // We also know the ASB itself is adjusting it's size correctly, it's the inner component.
+            //
+            // To combat this issue:
+            //   We toggle the visibility of the Placeholder ContentControl in order to force it's layout to update properly
+            var placeholder = ContainerFromItem(_lastTextEdit).FindDescendantByName("PlaceholderTextContentPresenter");
+
+            if (placeholder?.Visibility == Visibility.Visible)
+            {
+                placeholder.Visibility = Visibility.Collapsed;
+
+                // After we ensure we've hid the control, make it visible again (this is inperceptable to the user).
+                _ = CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
+                {
+                    placeholder.Visibility = Visibility.Visible;
+                });
+            }
         }
     }
 }
