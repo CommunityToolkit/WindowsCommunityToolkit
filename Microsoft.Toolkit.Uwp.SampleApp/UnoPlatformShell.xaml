@@ -282,8 +282,7 @@
 									<!-- About Button -->
 									<Button x:Name="openAboutButton"
 											Content="ABOUT"
-											Style="{StaticResource PrimaryButtonStyle}"
-											Click="OnAbout" />
+											Style="{StaticResource PrimaryButtonStyle}" />
 
 									<!-- GitHub Button -->
 									<Button x:Name="GithubButton"
@@ -323,8 +322,7 @@
 
 								<!-- Soft Dismiss Button -->
 								<Button x:Name="softDismissAboutButton"
-										Style="{StaticResource BasicEmptyButtonStyle}"
-										Click="OnCloseAbout" />
+										Style="{StaticResource BasicEmptyButtonStyle}" />
 
 								<!-- Popup -->
 								<Grid Background="{StaticResource Color01Brush}"
@@ -337,7 +335,6 @@
 									<!-- Close Button -->
 									<Button x:Name="closeAboutButton"
 											Style="{StaticResource BasicEmptyButtonStyle}"
-											Click="OnCloseAbout"
 											VerticalAlignment="Top"
 											HorizontalAlignment="Right"
 											Padding="0">
@@ -399,7 +396,6 @@
 									<!-- Uno website Button -->
 									<Button x:Name="visitUnoWebsiteButton"
 											Style="{StaticResource BasicEmptyButtonStyle}"
-											Click="OnVisitUnoPlatformWebsite"
 											VerticalAlignment="Bottom"
 											HorizontalAlignment="Right"
 											Margin="0,0,16,26"
