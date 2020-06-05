@@ -63,15 +63,20 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         /// <typeparam name="TMessage">The type of message to send.</typeparam>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send the message.</param>
+        /// <returns>The message that has been sent.</returns>
         /// <remarks>
         /// This method is a shorthand for <see cref="Send{TMessage}(IMessenger,TMessage)"/> when the
         /// message type exposes a parameterless constructor: it will automatically create
         /// a new <typeparamref name="TMessage"/> instance and send that to its recipients.
         /// </remarks>
-        public static void Send<TMessage>(this IMessenger messenger)
+        public static TMessage Send<TMessage>(this IMessenger messenger)
             where TMessage : class, new()
         {
-            messenger.Send(new TMessage(), default(Unit));
+            var message = new TMessage();
+
+            messenger.Send(message, default(Unit));
+
+            return message;
         }
 
         /// <summary>
@@ -93,15 +98,20 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send the message.</param>
         /// <param name="token">The token indicating what channel to use.</param>
+        /// <returns>The message that has been sen.</returns>
         /// <remarks>
         /// This method will automatically create a new <typeparamref name="TMessage"/> instance
         /// just like <see cref="Send{TMessage}(IMessenger)"/>, and then send it to the right recipients.
         /// </remarks>
-        public static void Send<TMessage, TToken>(this IMessenger messenger, TToken token)
+        public static TMessage Send<TMessage, TToken>(this IMessenger messenger, TToken token)
             where TMessage : class, new()
             where TToken : IEquatable<TToken>
         {
+            var message = new TMessage();
+
             messenger.Send(new TMessage(), token);
+
+            return message;
         }
     }
 }

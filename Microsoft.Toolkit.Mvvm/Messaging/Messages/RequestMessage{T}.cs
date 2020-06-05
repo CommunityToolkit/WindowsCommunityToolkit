@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 
 #pragma warning disable CS8618
 
@@ -25,6 +24,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Gets the message response.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when <see cref="IsResponseReceived"/> is <see langword="false"/>.</exception>
         public T Result
         {
             get
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
                 {
                     if (!this.IsResponseReceived)
                     {
-                        ThrowInvalidOperationExceptionForDuplicateReporResult();
+                        ThrowInvalidOperationExceptionForNoResponseReceived();
                     }
 
                     return this.result;
@@ -50,6 +50,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// Reports a result for the current request message.
         /// </summary>
         /// <param name="result">The result to report for the message.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="Result"/> has already been set.</exception>
         public void ReportResult(T result)
         {
             lock (this.dummy)
@@ -65,9 +66,26 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         }
 
         /// <summary>
+        /// Implicitly gets the response from a given <see cref="RequestMessage{T}"/> instance
+        /// </summary>
+        /// <param name="message">The input <see cref="RequestMessage{T}"/> instance</param>
+        /// <exception cref="InvalidOperationException">Thrown when <see cref="IsResponseReceived"/> is <see langword="false"/>.</exception>
+        public static implicit operator T(RequestMessage<T> message)
+        {
+            return message.Result;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when a response is not available.
+        /// </summary>
+        private static void ThrowInvalidOperationExceptionForNoResponseReceived()
+        {
+            throw new InvalidOperationException("No response was received for the given request message");
+        }
+
+        /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when <see cref="ReportResult"/> is called twice.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationExceptionForDuplicateReporResult()
         {
             throw new InvalidOperationException("A result has already been reported for the current message");
