@@ -26,9 +26,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="SelectedItemCountTextBlock"
+                   Grid.ColumnSpan="2"
                    Margin="0,12"
                    HorizontalAlignment="Center"
                    FontFamily="Segoe UI Light"
@@ -36,6 +42,20 @@
                    Text="You haven't selected any items"
                    Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <Grid x:Name="XamlRoot" Grid.Row="1" />
+        <Grid x:Name="XamlRoot"
+              Grid.Row="1"
+              Grid.ColumnSpan="2" />
+
+        <TextBlock Grid.Row="2"
+                   Margin="4"
+                   FontFamily="Segoe UI Light"
+                   FontSize="21"
+                   Text="Number of Photos" />
+
+        <Slider x:Name="NumberSlider"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="32,4"
+                StepFrequency="1" />
     </Grid>
 </Page>
