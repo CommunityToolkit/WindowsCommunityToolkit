@@ -114,8 +114,8 @@ namespace Microsoft.Toolkit.Diagnostics
             // so that only the right one will actually be translated into native code.
             if (sizeof(T) == 1)
             {
-                byte valueByte = *(byte*)&value;
-                byte targetByte = *(byte*)&target;
+                byte valueByte = Unsafe.As<T, byte>(ref value);
+                byte targetByte = Unsafe.As<T, byte>(ref target);
 
                 if (valueByte == targetByte)
                 {
@@ -126,8 +126,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 2)
             {
-                ushort valueUShort = *(ushort*)&value;
-                ushort targetUShort = *(ushort*)&target;
+                ushort valueUShort = Unsafe.As<T, ushort>(ref value);
+                ushort targetUShort = Unsafe.As<T, ushort>(ref target);
 
                 if (valueUShort == targetUShort)
                 {
@@ -138,8 +138,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 4)
             {
-                uint valueUInt = *(uint*)&value;
-                uint targetUInt = *(uint*)&target;
+                uint valueUInt = Unsafe.As<T, uint>(ref value);
+                uint targetUInt = Unsafe.As<T, uint>(ref target);
 
                 if (valueUInt == targetUInt)
                 {
@@ -150,7 +150,10 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 8)
             {
-                if (Bit64Compare(&value, &target))
+                ulong valueULong = Unsafe.As<T, ulong>(ref value);
+                ulong targetULong = Unsafe.As<T, ulong>(ref target);
+
+                if (Bit64Compare(ref valueULong, ref targetULong))
                 {
                     return;
                 }
@@ -159,15 +162,15 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 16)
             {
-                ulong valueULong0 = *(ulong*)&value;
-                ulong targetULong0 = *(ulong*)&target;
+                ulong valueULong0 = Unsafe.As<T, ulong>(ref value);
+                ulong targetULong0 = Unsafe.As<T, ulong>(ref target);
 
-                if (Bit64Compare(&valueULong0, &targetULong0))
+                if (Bit64Compare(ref valueULong0, ref targetULong0))
                 {
-                    ulong valueULong1 = *(((ulong*)&value) + 1);
-                    ulong targetULong1 = *(((ulong*)&target) + 1);
+                    ulong valueULong1 = Unsafe.Add(ref Unsafe.As<T, ulong>(ref value), 1);
+                    ulong targetULong1 = Unsafe.Add(ref Unsafe.As<T, ulong>(ref target), 1);
 
-                    if (Bit64Compare(&valueULong1, &targetULong1))
+                    if (Bit64Compare(ref valueULong1, ref targetULong1))
                     {
                         return;
                     }
@@ -177,8 +180,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else
             {
-                Span<byte> valueBytes = new Span<byte>(&value, sizeof(T));
-                Span<byte> targetBytes = new Span<byte>(&target, sizeof(T));
+                Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), sizeof(T));
+                Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), sizeof(T));
 
                 if (valueBytes.SequenceEqual(targetBytes))
                 {
@@ -192,18 +195,19 @@ namespace Microsoft.Toolkit.Diagnostics
         // Compares 64 bits of data from two given memory locations for bitwise equality
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe bool Bit64Compare(void* left, void* right)
+        private static unsafe bool Bit64Compare(ref ulong left, ref ulong right)
         {
             // Handles 32 bit case, because using ulong is inefficient
-            if (sizeof(void*) == 4)
+            if (sizeof(IntPtr) == 4)
             {
-                int* pLeft = (int*)left;
-                int* pRight = (int*)right;
+                ref int r0 = ref Unsafe.As<ulong, int>(ref left);
+                ref int r1 = ref Unsafe.As<ulong, int>(ref right);
 
-                return pLeft[0] == pRight[0] && pLeft[1] == pRight[1];
+                return r0 == r1 &&
+                       Unsafe.Add(ref r0, 1) == Unsafe.Add(ref r1, 1);
             }
 
-            return *(ulong*)left == *(ulong*)right;
+            return left == right;
         }
 
         /// <summary>
