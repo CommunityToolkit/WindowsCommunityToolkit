@@ -194,7 +194,14 @@ namespace UnitTests.Diagnostics
                 C = c;
                 D = d;
             }
-            public ulong A, B, C, D;
+
+            public ulong A;
+
+            public ulong  B;
+
+            public ulong  C;
+
+            public ulong  D;
         }
 
         [TestCategory("Guard")]
