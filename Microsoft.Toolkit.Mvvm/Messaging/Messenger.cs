@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public void Send<TMessage, TToken>(TMessage message, TToken token)
+        public TMessage Send<TMessage, TToken>(TMessage message, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
@@ -317,14 +317,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             lock (this.recipientsMap)
             {
-                // We need to make a local copy of the currently registered handlers,
-                // since users might try to unregister (or register) new handlers from
-                // inside one of the currently existing handlers. We can use memory pooling
-                // to reuse arrays, to minimize the average memory usage. In practice,
-                // we usually just need to pay the small overhead of copying the items.
+                // Check whether there are any registered recipients
                 if (!TryGetMapping(out Mapping<TMessage, TToken>? mapping))
                 {
-                    return;
+                    return message;
                 }
 
                 // Count the total number of recipients (including with different tokens)
@@ -333,7 +329,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     i += pair.Value.Count;
                 }
 
-                // Rent the array to copy handlers to
+                // We need to make a local copy of the currently registered handlers,
+                // since users might try to unregister (or register) new handlers from
+                // inside one of the currently existing handlers. We can use memory pooling
+                // to reuse arrays, to minimize the average memory usage. In practice,
+                // we usually just need to pay the small overhead of copying the items.
                 entries = ArrayPool<Action<TMessage>>.Shared.Rent(i);
 
                 // Copy the handlers to the local collection.
@@ -367,11 +367,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
             finally
             {
-                // Remove references to avoid leaks coming from the shader memory pool
+                // Remove references to avoid leaks coming from the shader memory pool.
+                // We manually create a span and clear it as a small optimization, as
+                // arrays rented from the pool can be larger than the requested size.
                 entries.AsSpan(0, i).Clear();
 
                 ArrayPool<Action<TMessage>>.Shared.Return(entries);
             }
+
+            return message;
         }
 
         /// <inheritdoc/>

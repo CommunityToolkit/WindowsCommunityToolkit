@@ -78,7 +78,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TToken">The type of token to identify what channel to use to send the message.</typeparam>
         /// <param name="message">The message to send.</param>
         /// <param name="token">The token indicating what channel to use.</param>
-        void Send<TMessage, TToken>(TMessage message, TToken token)
+        /// <returns>The message that was sent (ie. <paramref name="message"/>).</returns>
+        TMessage Send<TMessage, TToken>(TMessage message, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>;
 

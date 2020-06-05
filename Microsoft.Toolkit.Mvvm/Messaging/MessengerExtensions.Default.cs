@@ -85,10 +85,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to send.</typeparam>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send the message.</param>
         /// <param name="message">The message to send.</param>
-        public static void Send<TMessage>(this IMessenger messenger, TMessage message)
+        /// <returns>The message that was sent (ie. <paramref name="message"/>).</returns>
+        public static TMessage Send<TMessage>(this IMessenger messenger, TMessage message)
             where TMessage : class
         {
-            messenger.Send(message, default(Unit));
+            return messenger.Send(message, default(Unit));
         }
 
         /// <summary>
