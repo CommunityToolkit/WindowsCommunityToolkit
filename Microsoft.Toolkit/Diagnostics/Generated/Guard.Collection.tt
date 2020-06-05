@@ -29,10 +29,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> != 0)
+            if (<#=item.Name#>.<#=item.Size#> == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(<#=item.Cast#><#=item.Name#>, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(<#=item.Cast#><#=item.Name#>, name);
         }
 
         /// <summary>
@@ -45,29 +47,31 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> == 0)
+            if (<#=item.Name#>.<#=item.Size#> != 0)
             {
+                return;
+            }
+
 <#
     if (item.Type == "Span<T>")
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(name);
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(name);
 <#
     }
     else if (item.Type == "ReadOnlySpan<T>")
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(name);
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(name);
 <#
     }
     else
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<<#=item.Type#>>(name);
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<<#=item.Type#>>(name);
 <#
     }
 #>
-            }
         }
 
         /// <summary>
@@ -81,10 +85,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> != size)
+            if (<#=item.Name#>.<#=item.Size#> == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
         }
 
         /// <summary>
@@ -98,10 +104,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> == size)
+            if (<#=item.Name#>.<#=item.Size#> != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
         }
 
         /// <summary>
@@ -115,10 +123,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> <= size)
+            if (<#=item.Name#>.<#=item.Size#> > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(<#=item.Cast#><#=item.Name#>, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(<#=item.Cast#><#=item.Name#>, size, name);
         }
 
         /// <summary>
@@ -132,10 +142,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> < size)
+            if (<#=item.Name#>.<#=item.Size#> >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
         }
 
         /// <summary>
@@ -149,10 +161,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> >= size)
+            if (<#=item.Name#>.<#=item.Size#> < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(<#=item.Cast#><#=item.Name#>, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(<#=item.Cast#><#=item.Name#>, size, name);
         }
 
         /// <summary>
@@ -166,10 +180,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Size#> > size)
+            if (<#=item.Name#>.<#=item.Size#> <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
         }
 
         /// <summary>
@@ -183,23 +199,25 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
         {
-            if (source.<#=item.Size#> != destination.<#=item.Size#>)
+            if (source.<#=item.Size#> == destination.<#=item.Size#>)
             {
+                return;
+            }
+
 <#
     if (item.HasCountProperty)
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
 <#
     }
     else
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, <#=item.Cast#>destination, name);
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, <#=item.Cast#>destination, name);
 <#
     }
 #>
-            }
         }
 
         /// <summary>
@@ -213,23 +231,25 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
         {
-            if (source.<#=item.Size#> > destination.<#=item.Size#>)
+            if (source.<#=item.Size#> <= destination.<#=item.Size#>)
             {
+                return;
+            }
+
 <#
     if (item.HasCountProperty)
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
 <#
     }
     else
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, <#=item.Cast#>destination, name);
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, <#=item.Cast#>destination, name);
 <#
     }
 #>
-            }
         }
 
         /// <summary>
@@ -250,10 +270,12 @@ GenerateTextForItems(EnumerableTypes, item =>
     // For more info and code sample, see the original conversation here:
     // https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3131#discussion_r390682835
 #>
-            if ((uint)index >= (uint)<#=item.Name#>.<#=item.Size#>)
+            if ((uint)index < (uint)<#=item.Name#>.<#=item.Size#>)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
         }
 
         /// <summary>
@@ -267,10 +289,12 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
-            if ((uint)index < (uint)<#=item.Name#>.<#=item.Size#>)
+            if ((uint)index >= (uint)<#=item.Name#>.<#=item.Size#>)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
         }
 <#
 });

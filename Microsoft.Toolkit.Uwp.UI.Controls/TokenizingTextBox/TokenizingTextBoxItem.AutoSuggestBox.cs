@@ -99,6 +99,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Setup a binding to the QueryIcon of the Parent if we're the last box.
                 if (Content is PretokenStringContainer str && str.IsLast)
                 {
+                    // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
+                    if (Owner.QueryIcon is FontIconSource fis &&
+                        fis.ReadLocalValue(FontIconSource.FontSizeProperty) == DependencyProperty.UnsetValue)
+                    {
+                        // This can be expensive, could we optimize?
+                        // Also, this is changing the FontSize on the IconSource (which could be shared?)
+                        fis.FontSize = Owner.TryFindResource("TokenizingTextBoxIconFontSize") as double? ?? 16;
+                    }
+
                     var iconBinding = new Binding()
                     {
                         Source = Owner,

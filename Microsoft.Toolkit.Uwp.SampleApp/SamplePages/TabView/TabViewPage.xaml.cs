@@ -71,5 +71,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             TabViewNotification.Show("Tore Tab '" + str + "' Outside of TabView.", 2000);
         }
         #pragma warning restore CS0618 // Type or member is obsolete
-    }    
+    }
 }

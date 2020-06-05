@@ -286,5 +286,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             return ContentPropertySearch(type.GetTypeInfo().BaseType);
         }
+
+        /// <summary>
+        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
+        /// If the key is not found in the current element's resources, the logical tree is then searched element-by-element to look for the resource in each element's resources.
+        /// If none of the elements contain the resource, the Application's resources are then searched.
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.windows.frameworkelement.tryfindresource"/>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>
+        /// </summary>
+        /// <param name="start"><see cref="FrameworkElement"/> to start searching for Resource.</param>
+        /// <param name="resourceKey">Key to search for.</param>
+        /// <returns>Requested resource or null.</returns>
+        public static object TryFindResource(this FrameworkElement start, object resourceKey)
+        {
+            object value = null;
+            var current = start;
+
+            // Look in our dictionary and then walk-up parents
+            while (current != null)
+            {
+                if (current.Resources?.TryGetValue(resourceKey, out value) == true)
+                {
+                    return value;
+                }
+
+                current = current.Parent as FrameworkElement;
+            }
+
+            // Finally try application resources.
+            Application.Current?.Resources?.TryGetValue(resourceKey, out value);
+
+            return value;
+        }
     }
 }

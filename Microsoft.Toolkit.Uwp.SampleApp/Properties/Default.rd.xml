@@ -25,7 +25,7 @@
     
     
     <!-- Add your application specific runtime directives here. -->
-
+    <Type Name="Windows.UI.Xaml.Controls.Border" Dynamic="Required Public" />
 
   </Application>
 </Directives>
