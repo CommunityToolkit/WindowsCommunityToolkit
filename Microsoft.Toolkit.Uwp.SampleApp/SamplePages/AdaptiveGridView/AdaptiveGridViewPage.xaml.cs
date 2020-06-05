@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 for (var i = currentCount; i > newCount; i--)
                 {
-                    _boundPhotos.Remove(_originalPhotos[i-1]);
+                    _boundPhotos.Remove(_originalPhotos[i - 1]);
                 }
             }
         }
