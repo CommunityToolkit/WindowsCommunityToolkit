@@ -23,7 +23,7 @@
   </Choose>
   
   <Choose>
-    <When Condition="$(TargetFramework.Contains('uap10.0')) == false and '$(TargetFramework)' != 'native' and '$(IsTestSampleProject)' != 'true'">
+    <When Condition="'$(TargetFramework.Contains(`uap10.0`))' == 'false' and '$(TargetFramework)' != 'native' and '$(IsSampleProject)' != 'true'">
       <PropertyGroup>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
