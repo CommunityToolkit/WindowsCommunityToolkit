@@ -115,8 +115,8 @@ namespace Microsoft.Toolkit.Diagnostics
             // so that only the right one will actually be translated into native code.
             if (sizeof(T) == 1)
             {
-                byte valueByte = Unsafe.As<T, byte>(ref value);
-                byte targetByte = Unsafe.As<T, byte>(ref target);
+                byte valueByte = *(byte*)&value;
+                byte targetByte = *(byte*)&target;
 
                 if (valueByte == targetByte)
                 {
@@ -127,8 +127,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 2)
             {
-                ushort valueUShort = Unsafe.As<T, ushort>(ref value);
-                ushort targetUShort = Unsafe.As<T, ushort>(ref target);
+                ushort valueUShort = *(ushort*)&value;
+                ushort targetUShort = *(ushort*)&target;
 
                 if (valueUShort == targetUShort)
                 {
@@ -139,8 +139,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 4)
             {
-                uint valueUInt = Unsafe.As<T, uint>(ref value);
-                uint targetUInt = Unsafe.As<T, uint>(ref target);
+                uint valueUInt = *(uint*)&value;
+                uint targetUInt = *(uint*)&target;
 
                 if (valueUInt == targetUInt)
                 {
@@ -160,13 +160,13 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else if (sizeof(T) == 16)
             {
-                ulong valueULong0 = Unsafe.As<T, ulong>(ref value);
-                ulong targetULong0 = Unsafe.As<T, ulong>(ref target);
+                ulong valueULong0 = *(ulong*)&value;
+                ulong targetULong0 = *(ulong*)&target;
 
                 if (Bit64Compare(&valueULong0, &targetULong0))
                 {
-                    ulong valueULong1 = Unsafe.As<T, ulong>(ref Unsafe.Add(ref value, 1));
-                    ulong targetULong1 = Unsafe.As<T, ulong>(ref Unsafe.Add(ref value, 1));
+                    ulong valueULong1 = *(((ulong*)&value) + 1);
+                    ulong targetULong1 = *(((ulong*)&target) + 1);
 
                     if (Bit64Compare(&valueULong1, &targetULong1))
                     {
@@ -178,8 +178,8 @@ namespace Microsoft.Toolkit.Diagnostics
             }
             else
             {
-                Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), sizeof(T));
-                Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), sizeof(T));
+                Span<byte> valueBytes = new Span<byte>(&value, sizeof(T));
+                Span<byte> targetBytes = new Span<byte>(&target, sizeof(T));
 
                 if (valueBytes.SequenceEqual(targetBytes))
                 {
