@@ -155,26 +155,58 @@ namespace UnitTests.Diagnostics
         [TestMethod]
         public void Test_Guard_IsBitwiseEqualTo_Ok()
         {
+            // tests the >16 byte case where the loop is called
+            var biggerThanLimit = new BiggerThanLimit(0, 3, ulong.MaxValue, ulong.MinValue);
+
             Guard.IsBitwiseEqualTo(byte.MaxValue, byte.MaxValue, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
-            Guard.IsBitwiseEqualTo(DateTime.MaxValue, DateTime.MaxValue, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+            Guard.IsBitwiseEqualTo(biggerThanLimit, biggerThanLimit, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             Guard.IsBitwiseEqualTo(double.Epsilon, double.Epsilon, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+            var guid = Guid.NewGuid();
+            Guard.IsBitwiseEqual(guid, guid, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             Guard.IsBitwiseEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
         }
 
         [TestCategory("Guard")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_Guard_IsBitwiseEqualTo_SingleFail()
+        public void Test_Guard_IsBitwiseEqualTo_Size8Fail()
         {
-            Guard.IsBitwiseEqualTo(double.PositiveInfinity, double.Epsilon, nameof(Test_Guard_IsBitwiseEqualTo_SingleFail));
+            Guard.IsBitwiseEqualTo(double.PositiveInfinity, double.Epsilon, nameof(Test_Guard_IsBitwiseEqualTo_Size8Fail));
+            Guard.IsBitwiseEqualTo(DateTime.Now, DateTime.Today, nameof(Test_Guard_IsBitwiseEqualTo_Size8Fail));
         }
 
         [TestCategory("Guard")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_Guard_IsBitwiseEqualTo_LoopFail()
+        public void Test_Guard_IsBitwiseEqualTo_Size16Fail()
         {
-            Guard.IsBitwiseEqualTo(DateTime.Now, DateTime.Today, nameof(Test_Guard_IsBitwiseEqualTo_LoopFail));
+            Guard.IsBitwiseEqualTo(decimal.MaxValue, decimal.MinusOne, nameof(Test_Guard_IsBitwiseEqualTo_Size16Fail));
+            Guard.IsBitwiseEqualTo(Guid.NewGuid(), Guid.NewGuid(), nameof(Test_Guard_IsBitwiseEqualTo_Size16Fail));
+        }
+
+        // a >16 byte struct for testing IsBitwiseEqual's pathway for >16 byte types
+        private struct BiggerThanLimit
+        {
+            public BiggerThanLimit(ulong a, ulong b, ulong c, ulong d)
+            {
+                A = a;
+                B = b;
+                C = c;
+                D = d;
+            }
+            public ulong A, B, C, D;
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Test_Guard_IsBitwiseEqualTo_SequenceEqualFail()
+        {
+            // tests the >16 byte case where the loop is called
+            var biggerThanLimit0 = new BiggerThanLimit(0, 3, ulong.MaxValue, ulong.MinValue);
+            var biggerThanLimit1 = new BiggerThanLimit(-1, 99, ulong.MaxValue ^ 0xF7UL, ulong.MinValue ^ 5555UL);
+
+            Guard.IsBitwiseEqualTo(biggerThanLimit0, biggerThanLimit1, nameof(Test_Guard_IsBitwiseEqualTo_SequenceEqualFail));
         }
 
         [TestCategory("Guard")]
