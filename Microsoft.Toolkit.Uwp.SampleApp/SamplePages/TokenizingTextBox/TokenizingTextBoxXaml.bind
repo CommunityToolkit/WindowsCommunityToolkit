@@ -16,7 +16,7 @@
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
-          QueryIcon="{ex:SymbolIconSource Glyph=Setting, FontSize=16}"
+          QueryIcon="{ex:SymbolIconSource Glyph=Setting}"
           MaxHeight="104"
           HorizontalAlignment="Stretch"
           TextMemberPath="Text"
@@ -52,7 +52,7 @@
             PlaceholderText="Select Names"
             MaxHeight="104"
             HorizontalAlignment="Stretch"
-            QueryIcon="{ex:SymbolIconSource Glyph=Find, FontSize=16}"
+            QueryIcon="{ex:SymbolIconSource Glyph=Find}"
             TextMemberPath="Text"
             TokenDelimiter=","
             IsItemClickEnabled="True">
@@ -66,7 +66,7 @@
         </controls:TokenizingTextBox.TokenItemTemplate>
       </controls:TokenizingTextBox>
 
-      <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch">
+      <Border BorderThickness="1" BorderBrush="Black">
         <ListView x:Name="EmailList" Height="200" IsItemClickEnabled="True">
           <ListView.ItemTemplate>
             <DataTemplate>
