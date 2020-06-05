@@ -155,15 +155,16 @@ namespace UnitTests.Diagnostics
         [TestMethod]
         public void Test_Guard_IsBitwiseEqualTo_Ok()
         {
-            // tests the >16 byte case where the loop is called
-            var biggerThanLimit = new BiggerThanLimit(0, 3, ulong.MaxValue, ulong.MinValue);
-
             Guard.IsBitwiseEqualTo(byte.MaxValue, byte.MaxValue, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
-            Guard.IsBitwiseEqualTo(biggerThanLimit, biggerThanLimit, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+            Guard.IsBitwiseEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             Guard.IsBitwiseEqualTo(double.Epsilon, double.Epsilon, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+
             var guid = Guid.NewGuid();
             Guard.IsBitwiseEqualTo(guid, guid, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
-            Guard.IsBitwiseEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+
+            // tests the >16 byte case where the loop is called
+            var biggerThanLimit = new BiggerThanLimit(0, 3, ulong.MaxValue, ulong.MinValue);
+            Guard.IsBitwiseEqualTo(biggerThanLimit, biggerThanLimit, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
         }
 
         [TestCategory("Guard")]
