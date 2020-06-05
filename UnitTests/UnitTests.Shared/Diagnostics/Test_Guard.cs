@@ -162,7 +162,7 @@ namespace UnitTests.Diagnostics
             Guard.IsBitwiseEqualTo(biggerThanLimit, biggerThanLimit, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             Guard.IsBitwiseEqualTo(double.Epsilon, double.Epsilon, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             var guid = Guid.NewGuid();
-            Guard.IsBitwiseEqual(guid, guid, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+            Guard.IsBitwiseEqualTo(guid, guid, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             Guard.IsBitwiseEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
         }
 
@@ -211,7 +211,7 @@ namespace UnitTests.Diagnostics
         {
             // tests the >16 byte case where the loop is called
             var biggerThanLimit0 = new BiggerThanLimit(0, 3, ulong.MaxValue, ulong.MinValue);
-            var biggerThanLimit1 = new BiggerThanLimit(-1, 99, ulong.MaxValue ^ 0xF7UL, ulong.MinValue ^ 5555UL);
+            var biggerThanLimit1 = new BiggerThanLimit(long.MaxValue + 1UL, 99, ulong.MaxValue ^ 0xF7UL, ulong.MinValue ^ 5555UL);
 
             Guard.IsBitwiseEqualTo(biggerThanLimit0, biggerThanLimit1, nameof(Test_Guard_IsBitwiseEqualTo_SequenceEqualFail));
         }
