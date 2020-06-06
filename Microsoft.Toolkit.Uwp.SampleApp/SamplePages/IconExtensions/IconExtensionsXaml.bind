@@ -49,6 +49,24 @@
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </SwipeControl>
 
+      <TextBlock Text="Use the BitmapIconSource extension to create BitmapIconSource items from image paths."
+                 TextWrapping="Wrap"
+                 Style="{StaticResource BodyTextBlockStyle}"/>
+
+      <SwipeControl BorderThickness="1"
+                    Background="#40000000"
+                    Width="300" Margin="12" Height="68">
+        <SwipeControl.LeftItems>
+          <SwipeItems Mode="Reveal">
+            <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
+            <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/mslogo.png}"/>
+          </SwipeItems>
+        </SwipeControl.LeftItems>
+        <TextBlock Text="Swipe Right"
+                   Margin="12"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </SwipeControl>
+
       <TextBlock Text="Use the SymbolIconSource extension to create FontIconSource items from known symbols."
                  TextWrapping="Wrap"
                  Style="{StaticResource BodyTextBlockStyle}"/>

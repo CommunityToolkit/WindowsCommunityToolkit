@@ -18,6 +18,7 @@
                     <SwipeItems Mode="Reveal">
                         <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=&#xE10B;}"/>
                         <SwipeItem Text="Play" IconSource="{ex:SymbolIconSource Glyph=Play}"/>
+                        <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
                     </SwipeItems>
                 </SwipeControl.LeftItems>
             </SwipeControl>
