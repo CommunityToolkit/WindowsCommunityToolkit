@@ -256,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             totalMeasure.U = parentMeasure.U;
 
             // Propagating an infinite size causes a crash. This can happen if the parent is scrollable and infinite in the opposite
-            // axis to the pannel. Clearing to zero prevents the crash.
+            // axis to the panel. Clearing to zero prevents the crash.
             // This is likely an incorrect use of the control by the developer, however we need stability here so setting a default that wont crash.
             if (double.IsInfinity(totalMeasure.U))
             {
