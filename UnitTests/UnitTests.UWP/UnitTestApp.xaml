@@ -9,7 +9,7 @@
         <!-- Workarounds for .NET Native issue in unit tests -->
         <CommandBar x:Key="DummyCommandBar">
             <AppBarButton Icon="{extensions:FontIcon Glyph=&#xE102;}"/>
-            <AppBarButton Icon="{extensions:SymbolIcon Glyph=Play}"/>
+            <AppBarButton Icon="{extensions:SymbolIcon Symbol=Play}"/>
         </CommandBar>
 
         <unitTestExtensions:MockSwipeItem
@@ -18,7 +18,7 @@
 
         <unitTestExtensions:MockSwipeItem
             x:Key="DummySwipeControl2"
-            IconSource="{extensions:SymbolIconSource Glyph=Play}"/>
+            IconSource="{extensions:SymbolIconSource Symbol=Play}"/>
 
         <Button x:Key="DummyButton">
             <Button.Flyout>
