@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -97,23 +99,68 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
+            // We measure all our children with the minimum width between MaxColumnWidth and availableSize.Width.
+            var (columnsCount, columnsWidth) = GetAvailableColumnsInformation(availableSize);
+            var childAvailableSize = new Size(columnsWidth, availableSize.Height);
             foreach (var child in Children)
             {
-                child.Measure(availableSize);
+                child.Measure(childAvailableSize);
             }
 
-            return availableSize;
+            // We get the number of available columns that we can fill.
+            var totalChildrenHeight = Children.Select(c => c.DesiredSize.Height).Sum();
+
+            // var availableCombinedColumnsHeight = availableSize.Height * columnsCount; <= This is not needed...
+            var requiredColumns = Math.Ceiling(totalChildrenHeight / availableSize.Height);
+
+            var requiredColumnsWidth = requiredColumns * columnsWidth;
+            var requiredSpacingWidth = Math.Max(0, requiredColumns - 1) * ColumnsSpacing;
+            return new Size(
+                requiredColumnsWidth + requiredSpacingWidth,
+                totalChildrenHeight / requiredColumns); // <-- this will have to be improved. We need to get the height of the tallest column. Need to handle ItemsSpacing
         }
 
         /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
+            // We measure all our children with the minimum width between MaxColumnWidth and availableSize.Width.
+            var (columnsCount, columnsWidth) = GetAvailableColumnsInformation(finalSize);
+
+            var currentColumn = 0;
+            var currentHeight = 0.0;
+            var rect = new Rect(0, 0, columnsWidth, 0);
             foreach (var child in Children)
             {
-                child.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
+                // <=== Need to handle ItemsSpacing.
+                rect.Height = child.DesiredSize.Height;
+                rect.Y = currentHeight;
+                currentHeight += rect.Height;
+
+                if (currentHeight >= finalSize.Height)
+                {
+                    currentColumn++;
+                    currentHeight = rect.Height;
+                    rect.X += columnsWidth + ColumnsSpacing;
+                    rect.Y = 0;
+                }
+
+                child.Arrange(rect);
             }
 
             return finalSize;
+        }
+
+        private (int columnsCount, double columnsWidth) GetAvailableColumnsInformation(Size availableSize)
+        {
+            var columnsWidth = MaxColumnWidth > 0 ? Math.Min(MaxColumnWidth, availableSize.Width) : availableSize.Width;
+            var columnsCount = 1;
+            if (columnsWidth < availableSize.Width)
+            {
+                var additionalColumns = (int)((availableSize.Width - columnsWidth) / (columnsWidth + ColumnsSpacing));
+                columnsCount += additionalColumns;
+            }
+
+            return (columnsCount, columnsWidth);
         }
     }
 }
