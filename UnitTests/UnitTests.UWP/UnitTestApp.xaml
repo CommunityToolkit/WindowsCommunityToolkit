@@ -20,6 +20,10 @@
             x:Key="DummySwipeControl2"
             IconSource="{extensions:SymbolIconSource Symbol=Play}"/>
 
+        <unitTestExtensions:MockSwipeItem
+            x:Key="DummySwipeControl3"
+            IconSource="{extensions:BitmapIconSource Source=/Assets/StoreLogo.png}"/>
+
         <Button x:Key="DummyButton">
             <Button.Flyout>
                 <MenuFlyout>
