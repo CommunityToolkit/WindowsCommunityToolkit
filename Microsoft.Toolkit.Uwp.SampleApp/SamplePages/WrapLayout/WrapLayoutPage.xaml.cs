@@ -39,16 +39,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var repeater = control.FindChildByName("WrapRepeater") as ItemsRepeater;
+            var repeater = control.FindDescendantByName("WrapRepeater") as ItemsRepeater;
 
             if (repeater != null)
             {
                 repeater.ItemsSource = _items;
+
+                _wrapLayout = repeater.Layout as WrapLayout;
             }
 
-            _wrapScrollParent = control.FindChildByName("WrapScrollParent") as ScrollViewer;
-            var wrapLayoutParent = _wrapScrollParent?.FindDescendant<ItemsRepeater>();
-            _wrapLayout = wrapLayoutParent.Layout as WrapLayout;
+            _wrapScrollParent = control.FindDescendantByName("WrapScrollParent") as ScrollViewer;
         }
 
         private class Item
