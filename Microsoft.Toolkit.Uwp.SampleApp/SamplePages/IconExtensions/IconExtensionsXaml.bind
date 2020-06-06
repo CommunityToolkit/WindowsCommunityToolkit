@@ -26,9 +26,9 @@
                  Style="{StaticResource BodyTextBlockStyle}"/>
 
       <CommandBar>
-        <AppBarButton Icon="{ex:SymbolIcon Glyph=Play}"/>
-        <AppBarButton Icon="{ex:SymbolIcon Glyph=Pause}"/>
-        <AppBarButton Icon="{ex:SymbolIcon Glyph=Home}"/>
+        <AppBarButton Icon="{ex:SymbolIcon Symbol=Play}"/>
+        <AppBarButton Icon="{ex:SymbolIcon Symbol=Pause}"/>
+        <AppBarButton Icon="{ex:SymbolIcon Symbol=Home}"/>
       </CommandBar>
 
       <TextBlock Text="Use the FontIconSource extension to create FontIconSource items from custom glyphs."
@@ -76,8 +76,8 @@
                     Width="300" Margin="12" Height="68">
         <SwipeControl.LeftItems>
           <SwipeItems Mode="Reveal">
-            <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=Accept}"/>
-            <SwipeItem Text="Flag" IconSource="{ex:FontIconSource Glyph=Flag}"/>
+            <SwipeItem Text="Accept" IconSource="{ex:SymbolIconSource Symbol=Accept}"/>
+            <SwipeItem Text="Flag" IconSource="{ex:SymbolIconSource Symbol=Flag}"/>
           </SwipeItems>
         </SwipeControl.LeftItems>
         <TextBlock Text="Swipe Right"
