@@ -10,14 +10,15 @@
 
             <CommandBar>
                 <AppBarButton Icon="{ex:FontIcon Glyph=&#xE102;}"/>
-                <AppBarButton Icon="{ex:SymbolIcon Glyph=Play}"/>
+                <AppBarButton Icon="{ex:SymbolIcon Symbol=Play}"/>
             </CommandBar>
 
             <SwipeControl>
                 <SwipeControl.LeftItems>
                     <SwipeItems Mode="Reveal">
                         <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=&#xE10B;}"/>
-                        <SwipeItem Text="Play" IconSource="{ex:SymbolIconSource Glyph=Play}"/>
+                        <SwipeItem Text="Play" IconSource="{ex:SymbolIconSource Symbol=Play}"/>
+                        <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
                     </SwipeItems>
                 </SwipeControl.LeftItems>
             </SwipeControl>
