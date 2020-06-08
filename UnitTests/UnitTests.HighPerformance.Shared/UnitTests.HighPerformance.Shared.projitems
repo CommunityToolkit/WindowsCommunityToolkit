@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9b3a94a6-0d29-4523-880b-6938e2efeef7</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UnitTests.HighPerformance.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryBufferWriter{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_ArrayPoolBufferWriter{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryOwner{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.2D.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayPoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IMemoryOwnerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlyMemoryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_MemoryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IBufferWriterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StreamExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpanExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.Count.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpinLockExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_HashCode{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ThrowExceptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.For.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.For2D.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.In.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.Ref.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_BitHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IMemoryOwnerStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.ThrowExceptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Box{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_NullableReadOnlyRef{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_NullableRef{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_Ref{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test_ReadOnlyRef{T}.cs" />
+  </ItemGroup>
+</Project>

@@ -2,10 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 <#@include file="TypeInfo.ttinclude" #>
-/* ========================
- * Auto generated file
- * ===================== */
-
 using System;
 using System.Runtime.CompilerServices;
 
@@ -32,10 +28,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(<#=type#> value, <#=type#> target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -49,10 +47,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(<#=type#> value, <#=type#> target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -66,10 +66,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(<#=type#> value, <#=type#> maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -83,10 +85,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(<#=type#> value, <#=type#> maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -100,10 +104,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(<#=type#> value, <#=type#> minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -117,10 +123,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(<#=type#> value, <#=type#> minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -138,10 +146,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -159,10 +169,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -180,10 +192,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -201,10 +215,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -222,10 +238,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -243,10 +261,12 @@ GenerateTextForItems(NumericTypes, type =>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 <#
 });

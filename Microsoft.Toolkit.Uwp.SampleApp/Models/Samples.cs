@@ -77,12 +77,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         {
                             sample.CategoryName = category.Name;
 
-                            if (sample.IsSupported && (sample.IsUno ?? ShowUnoUnsupported))
-                            {
-                                finalSamples.Add(sample);
-                                await sample.PreparePropertyDescriptorAsync();
-                            }
+                        if (sample.IsSupported && (sample.IsUno ?? ShowUnoUnsupported))
+                        {
+                            finalSamples.Add(sample);
                         }
+                    }
 
                         if (finalSamples.Count > 0)
                         {

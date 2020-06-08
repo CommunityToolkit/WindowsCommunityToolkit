@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.0</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -14,6 +14,35 @@
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
+
+  <Choose>
+
+    <!--Desktop Win32 apps-->
+    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.0'">
+      <ItemGroup>
+        <!--Reference Windows SDK NuGet of correct target platform version-->
+        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.17763.1000" />
+      </ItemGroup>
+      <PropertyGroup>
+        <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
+        <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
+      </PropertyGroup>
+    </When>
+
+    <!--Non-desktop apps (UWP, libraries, ASP.NET servers)-->
+    <Otherwise>
+      <ItemGroup>
+        <!--Remove the DesktopNotificationManager code-->
+        <Compile Remove="DesktopNotificationManager\**\*" />
+      </ItemGroup>
+    </Otherwise>
+
+  </Choose>
+
+  <!--NET Core desktop apps also need the Registry NuGet package-->
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+  </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" PrivateAssets="all" IsImplicitlyDefined="true" />
@@ -24,25 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-  </ItemGroup>
-  
-  <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
-    <Compile Remove="DesktopNotificationManager\**\*" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
-    <Reference Include="System" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="Windows">
-      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
-      <IsWinMDFile>true</IsWinMDFile>
-      <Private>False</Private>
-    </Reference>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
+    <DebugType>Full</DebugType>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <!-- Workaround for issue NuGet/Home#8388; change behavior during NuGet restore time vs. final build to avoid NuGet conflict in VS 2019 -->
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NugetTargetMoniker>
