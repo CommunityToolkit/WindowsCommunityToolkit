@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // We measure all our children with the minimum width between MaxColumnWidth and availableSize.Width.
             var (columnsCount, columnsWidth) = GetAvailableColumnsInformation(availableSize);
-            var childAvailableSize = new Size(columnsWidth, availableSize.Height);
+            var childAvailableSize = new Size(columnsWidth, double.PositiveInfinity);
             foreach (var child in Children)
             {
                 child.Measure(childAvailableSize);
@@ -113,11 +113,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // var availableCombinedColumnsHeight = availableSize.Height * columnsCount; <= This is not needed...
             var requiredColumns = Math.Ceiling(totalChildrenHeight / availableSize.Height);
 
-            var requiredColumnsWidth = requiredColumns * columnsWidth;
-            var requiredSpacingWidth = Math.Max(0, requiredColumns - 1) * ColumnsSpacing;
+            var requiredColumnsWidth = columnsCount * columnsWidth;
+            var requiredSpacingWidth = Math.Max(0, columnsCount - 1) * ColumnsSpacing;
             return new Size(
                 requiredColumnsWidth + requiredSpacingWidth,
-                totalChildrenHeight / requiredColumns); // <-- this will have to be improved. We need to get the height of the tallest column. Need to handle ItemsSpacing
+                totalChildrenHeight / columnsCount); // <-- this will have to be improved. We need to get the height of the tallest column. Need to handle ItemsSpacing
         }
 
         /// <inheritdoc/>
@@ -126,9 +126,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We measure all our children with the minimum width between MaxColumnWidth and availableSize.Width.
             var (columnsCount, columnsWidth) = GetAvailableColumnsInformation(finalSize);
 
+            // We split the items across all the columns
+            var totalChildrenHeight = Children.Select(c => c.DesiredSize.Height).Sum();
+            var totalAvailableColumnsHeight = finalSize.Height * columnsCount;
+            var columnHeight = finalSize.Height;
+            if (totalChildrenHeight > totalAvailableColumnsHeight)
+            {
+                // We cannot fit all our children in the columns we have. We will have to overflow.
+                columnHeight = totalChildrenHeight / columnsCount;
+            }
+
             var currentColumn = 0;
             var currentHeight = 0.0;
             var rect = new Rect(0, 0, columnsWidth, 0);
+            var maxCurrentHeight = 0.0;
             foreach (var child in Children)
             {
                 // <=== Need to handle ItemsSpacing.
@@ -136,18 +147,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rect.Y = currentHeight;
                 currentHeight += rect.Height;
 
-                if (currentHeight >= finalSize.Height)
+                if (currentHeight >= columnHeight)
                 {
+                    maxCurrentHeight = Math.Max(maxCurrentHeight, currentHeight - rect.Height);
+
                     currentColumn++;
                     currentHeight = rect.Height;
                     rect.X += columnsWidth + ColumnsSpacing;
                     rect.Y = 0;
+
                 }
 
                 child.Arrange(rect);
             }
 
-            return finalSize;
+            maxCurrentHeight = Math.Max(maxCurrentHeight, currentHeight);
+
+            return new Size(
+                rect.X + columnsWidth,
+                maxCurrentHeight);
         }
 
         private (int columnsCount, double columnsWidth) GetAvailableColumnsInformation(Size availableSize)
