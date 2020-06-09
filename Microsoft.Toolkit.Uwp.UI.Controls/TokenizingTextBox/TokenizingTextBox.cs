@@ -359,6 +359,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _innerItemsSource.Remove(text);
 
                 UpdateCurrentTextEdit(_lastTextEdit);
+
+                GuardAgainstPlaceholderTextLayoutIssue();
             }
         }
 
