@@ -4,7 +4,25 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       mc:Ignorable="d">
+  <Page.Resources>
+    <local:NameToColorConverter x:Key="NameToColorConverter"/>
+
+    <DataTemplate x:Key="EmailTokenTemplate">
+      <StackPanel Orientation="Horizontal">
+        <Border CornerRadius="9999" Background="{Binding DisplayName, Converter={StaticResource NameToColorConverter}}"
+                Width="20" Height="20">
+          <TextBlock Text="{Binding Initials}" Foreground="White"
+                     FontSize="10"
+                     FontWeight="Semibold"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"/>
+        </Border>
+        <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
+      </StackPanel>
+    </DataTemplate>
+  </Page.Resources>
 
   <Grid Margin="40,40,40,40">
     <Grid.RowDefinitions>
@@ -12,7 +30,8 @@
       <RowDefinition/>
     </Grid.RowDefinitions>
     <StackPanel>
-      <TextBlock FontSize="32" Text="Select Actions"/>
+      <TextBlock FontSize="32" Text="Select Actions"
+                 Margin="0,0,0,4"/>
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
@@ -38,7 +57,7 @@
           </DataTemplate>
         </controls:TokenizingTextBox.TokenItemTemplate>
       </controls:TokenizingTextBox>
-      <TextBlock>
+      <TextBlock Margin="0,4,0,0">
         <Run>Current Edit: </Run>
         <Run Text="{Binding Text, ElementName=TokenBox}"/>
       </TextBlock>
@@ -46,7 +65,8 @@
     </StackPanel>
 
     <StackPanel Grid.Row="1">
-      <TextBlock FontSize="32" Text="Select Email addresses"/>
+      <TextBlock FontSize="32" Text="Select Email Addresses"
+                 Margin="0,0,0,4"/>
       <controls:TokenizingTextBox
             x:Name="TokenBoxEmail"
             PlaceholderText="Select Names"
@@ -55,27 +75,13 @@
             QueryIcon="{ex:SymbolIconSource Symbol=Find}"
             TextMemberPath="Text"
             TokenDelimiter=","
-            IsItemClickEnabled="True">
-        <controls:TokenizingTextBox.TokenItemTemplate>
-          <DataTemplate>
-            <StackPanel Orientation="Horizontal">
-              <SymbolIcon Symbol="{Binding Icon}"/>
-              <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
-            </StackPanel>
-          </DataTemplate>
-        </controls:TokenizingTextBox.TokenItemTemplate>
+            IsItemClickEnabled="True"
+            TokenItemTemplate="{StaticResource EmailTokenTemplate}">
       </controls:TokenizingTextBox>
 
-      <Border BorderThickness="1" BorderBrush="Black">
-        <ListView x:Name="EmailList" Height="200" IsItemClickEnabled="True">
-          <ListView.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Horizontal">
-                <SymbolIcon Symbol="{Binding Icon}"/>
-                <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
-              </StackPanel>
-            </DataTemplate>
-          </ListView.ItemTemplate>
+      <Border BorderThickness="1,0,1,1" BorderBrush="{ThemeResource TextControlBorderBrush}">
+        <ListView x:Name="EmailList" Height="200" IsItemClickEnabled="True"
+                  ItemTemplate="{StaticResource EmailTokenTemplate}">
         </ListView>
       </Border>
     </StackPanel>
