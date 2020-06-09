@@ -16,7 +16,7 @@
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
-          QueryIcon="{ex:SymbolIconSource Glyph=Setting}"
+          QueryIcon="{ex:SymbolIconSource Symbol=Setting}"
           MaxHeight="104"
           HorizontalAlignment="Stretch"
           TextMemberPath="Text"
@@ -52,7 +52,7 @@
             PlaceholderText="Select Names"
             MaxHeight="104"
             HorizontalAlignment="Stretch"
-            QueryIcon="{ex:SymbolIconSource Glyph=Find}"
+            QueryIcon="{ex:SymbolIconSource Symbol=Find}"
             TextMemberPath="Text"
             TokenDelimiter=","
             IsItemClickEnabled="True">
