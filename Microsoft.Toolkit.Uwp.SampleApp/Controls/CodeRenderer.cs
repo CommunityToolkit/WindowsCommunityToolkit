@@ -10,6 +10,12 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
+#if HAS_UNO
+using RichTextBlock = Windows.UI.Xaml.Controls.TextBox;
+#else
+using RichTextBlock = Windows.UI.Xaml.Controls.RichTextBlock;
+#endif
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public partial class CodeRenderer : Control
@@ -87,8 +93,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void RenderDocument()
         {
-#if !HAS_UNO
-			_codeView?.Blocks?.Clear();
+#if HAS_UNO
+            _codeView.Text = _displayedText ?? string.Empty;
+#else
+            _codeView?.Blocks?.Clear();
             _formatter = new RichTextBlockFormatter(_theme);
             _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
             _rendered = true;
@@ -106,6 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private async void PrintButton_Click(object sender, RoutedEventArgs e)
         {
+#if !HAS_UNO
             SampleController.Current.DisplayWaitRing = true;
 
             var printblock = new RichTextBlock
@@ -124,6 +133,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
 
             await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App");
+#endif
         }
 
         private void ReleasePrintHelper()

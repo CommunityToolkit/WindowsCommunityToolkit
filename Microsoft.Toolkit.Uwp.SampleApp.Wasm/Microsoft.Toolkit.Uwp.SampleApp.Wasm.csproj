@@ -36,7 +36,7 @@
   </ItemGroup>
       
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="2.2.0-dev.486" />
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.405" />
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0-dev.24" />
 		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.2.0-dev.24" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />

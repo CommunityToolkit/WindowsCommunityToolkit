@@ -347,6 +347,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)SamplePages\TokenizingTextBox\SampleDataType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
+      <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)SamplePages\Twitter Service\TwitterPage.xaml.cs">
       <DependentUpon>TwitterPage.xaml</DependentUpon>
     </Compile>
@@ -440,6 +444,7 @@
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\RemoteDevicePicker\RemoteDevicePicker.png" />
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\TabView\TabView.png" />
+    <Content Include="$(MSBuildThisFileDirectory)SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="$(MSBuildThisFileDirectory)SamplePages\Weibo Service\WeiboLogo.png" />
     <None Include="$(MSBuildThisFileDirectory)Assets\Photos\OnlinePhotos.json" />
@@ -1110,6 +1115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)SamplePages\Toast\ToastPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
