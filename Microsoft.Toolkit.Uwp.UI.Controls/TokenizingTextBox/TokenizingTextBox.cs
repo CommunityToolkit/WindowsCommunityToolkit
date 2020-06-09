@@ -48,8 +48,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal bool IsClearingForClick { get; set; }
 
         private InterspersedObservableCollection _innerItemsSource;
-        private PretokenStringContainer _currentTextEdit; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
-        private PretokenStringContainer _lastTextEdit;
+        private ITokenStringContainer _currentTextEdit; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
+        private ITokenStringContainer _lastTextEdit;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     //// TODO: Behavior question: if no items selected (just focus) does it just go to our last active textbox?
                     //// Community voted that typing in the end box made sense
 
-                    if (_innerItemsSource[_innerItemsSource.Count - 1] is PretokenStringContainer textToken)
+                    if (_innerItemsSource[_innerItemsSource.Count - 1] is ITokenStringContainer textToken)
                     {
                         var last = ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem; // Should be our last text box
                         var position = last._autoSuggestTextBox.SelectionStart;
@@ -343,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TokenizingTextBoxItem_GotFocus(object sender, RoutedEventArgs e)
         {
             // Keep track of our currently focused textbox
-            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is PretokenStringContainer text)
+            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is ITokenStringContainer text)
             {
                 UpdateCurrentTextEdit(text);
             }
@@ -352,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TokenizingTextBoxItem_LostFocus(object sender, RoutedEventArgs e)
         {
             // Keep track of our currently focused textbox
-            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is PretokenStringContainer text &&
+            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is ITokenStringContainer text &&
                 string.IsNullOrWhiteSpace(text.Text) && text != _lastTextEdit)
             {
                 // We're leaving an inner textbox that's blank, so we'll remove it
@@ -441,7 +441,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             GuardAgainstPlaceholderTextLayoutIssue();
         }
 
-        private void UpdateCurrentTextEdit(PretokenStringContainer edit)
+        /// <summary>
+        /// Helper to change out the currently focused text element in the control.
+        /// </summary>
+        /// <param name="edit"><see cref="ITokenStringContainer"/> element which is now the main edited text.</param>
+        protected void UpdateCurrentTextEdit(ITokenStringContainer edit)
         {
             _currentTextEdit = edit;
 

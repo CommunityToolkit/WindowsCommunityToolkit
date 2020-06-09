@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Check for the new item being a text control.
                     // this must happen before focus is set to avoid seeing the caret
                     // jump in come cases
-                    if (Items[index] is PretokenStringContainer && !IsShiftPressed)
+                    if (Items[index] is ITokenStringContainer && !IsShiftPressed)
                     {
                         newItem._autoSuggestTextBox.SelectionLength = 0;
                         newItem._autoSuggestTextBox.SelectionStart = direction == MoveDirection.Next
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 foreach (var item in Items)
                 {
-                    if (item is PretokenStringContainer)
+                    if (item is ITokenStringContainer)
                     {
                         // grab any selected text
                         var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Clear any selection in the text box
             foreach (var item in Items)
             {
-                if (item is PretokenStringContainer)
+                if (item is ITokenStringContainer)
                 {
                     var container = ContainerFromItem(item) as TokenizingTextBoxItem;
 
@@ -254,7 +254,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (IndexFromContainer(container) != Items.Count - 1)
                 {
                     // if its a text box, remove any selected text, and if its then empty remove the container, unless its focused
-                    if (SelectedItems[i] is PretokenStringContainer)
+                    if (SelectedItems[i] is ITokenStringContainer)
                     {
                         var asb = container._autoSuggestTextBox;
 
@@ -322,7 +322,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     addSeparator = true;
                 }
 
-                if (item is PretokenStringContainer)
+                if (item is ITokenStringContainer)
                 {
                     // grab any selected text
                     var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
