@@ -23,8 +23,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private readonly List<SampleEmailDataType> _emailSamples = new List<SampleEmailDataType>()
         {
             new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman" },
-            new SampleEmailDataType() { FirstName = "Ian", FamilyName = "Smith" },
-            new SampleEmailDataType() { FirstName = "Peter", FamilyName = "Strange" },
+            new SampleEmailDataType() { FirstName = "Michael", FamilyName = "Hawker" },
+            new SampleEmailDataType() { FirstName = "Matt", FamilyName = "Lacey" },
+            new SampleEmailDataType() { FirstName = "Alexandre", FamilyName = "Chohfi" },
+            new SampleEmailDataType() { FirstName = "Filip", FamilyName = "Wallberg" },
+            new SampleEmailDataType() { FirstName = "Shane", FamilyName = "Weaver" },
+            new SampleEmailDataType() { FirstName = "Vincent", FamilyName = "Gromfeld" },
+            new SampleEmailDataType() { FirstName = "Sergio", FamilyName = "Pedri" },
             new SampleEmailDataType() { FirstName = "Alex", FamilyName = "Wilber" },
             new SampleEmailDataType() { FirstName = "Allan", FamilyName = "Deyoung" },
             new SampleEmailDataType() { FirstName = "Adele", FamilyName = "Vance" },
