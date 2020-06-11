@@ -247,14 +247,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var currentContainerItem = FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
 
-            for (int i = SelectedItems.Count - 1; i >= 0; i--)
+            while (SelectedItems.Count > 0)
             {
-                var container = ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem;
+                var container = ContainerFromItem(SelectedItems[0]) as TokenizingTextBoxItem;
 
                 if (IndexFromContainer(container) != Items.Count - 1)
                 {
                     // if its a text box, remove any selected text, and if its then empty remove the container, unless its focused
-                    if (SelectedItems[i] is ITokenStringContainer)
+                    if (SelectedItems[0] is ITokenStringContainer)
                     {
                         var asb = container._autoSuggestTextBox;
 
@@ -286,6 +286,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // if the item is a token just remove it.
                         await RemoveTokenAsync(container);
+                    }
+                }
+                else
+                {
+                    if (SelectedItems.Count == 1)
+                    {
+                        // at this point we have one selection and its the default textbox.
+                        // stop the iteration here
+                        break;
                     }
                 }
             }
