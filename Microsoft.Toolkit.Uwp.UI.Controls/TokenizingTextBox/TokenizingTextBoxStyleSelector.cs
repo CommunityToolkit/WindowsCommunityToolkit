@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Style SelectStyleCore(object item, DependencyObject container)
         {
-            if (item is PretokenStringContainer)
+            if (item is ITokenStringContainer)
             {
                 return TextStyle;
             }
