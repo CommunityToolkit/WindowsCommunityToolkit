@@ -19,7 +19,7 @@
 
   <Grid Padding="48">
     <winui:ItemsRepeaterScrollHost> <!-- Needed for 1803 and below -->
-      <ScrollViewer>
+      <ScrollViewer x:Name="WrapScrollParent">
         <winui:ItemsRepeater x:Name="WrapRepeater"
                              Background="{ThemeResource Brush-Grey-04}"
                              ItemTemplate="{StaticResource WrapTemplate}">

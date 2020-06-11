@@ -839,7 +839,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit/ObservableGroup",
         "CodeFile": "ObservableGroup.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ObservableGroup.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/collections/ObservableGroups.md"
       },
       {
         "Name": "CameraHelper",
@@ -931,6 +931,20 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
       {
+        "Name": "Guard APIs",
+        "Subcategory": "Developer",
+        "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
+      },
+      {
+        "Name": "High Performance APIs",
+        "Subcategory": "Developer",
+        "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
+      },
+      {
         "Name": "PlatformSpecificAnalyzer",
         "Subcategory": "Developer",
         "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
@@ -969,7 +983,7 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },
       {
-        "Name": "IsNullOrEmptyStateTriggers",
+        "Name": "IsNullOrEmptyStateTrigger",
         "Type": "IsNullOrEmptyStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if an Object is null or a String/IEnumerable is empty",

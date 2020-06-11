@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
