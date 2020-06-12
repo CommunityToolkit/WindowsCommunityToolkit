@@ -10,7 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
             </ResourceDictionary.MergedDictionaries>
-        
+
             <!-- Workarounds for .NET Native issue in unit tests -->
             <CommandBar x:Key="DummyCommandBar">
                 <AppBarButton Icon="{extensions:FontIcon Glyph=&#xE102;}"/>
@@ -23,7 +23,11 @@
 
             <unitTestExtensions:MockSwipeItem
                 x:Key="DummySwipeControl2"
-                IconSource="{extensions:SymbolIconSource Glyph=Play}"/>
+                IconSource="{extensions:SymbolIconSource Symbol=Play}"/>
+
+            <unitTestExtensions:MockSwipeItem
+                x:Key="DummySwipeControl3"
+                IconSource="{extensions:BitmapIconSource Source=/Assets/StoreLogo.png}"/>
 
             <Button x:Key="DummyButton">
                 <Button.Flyout>

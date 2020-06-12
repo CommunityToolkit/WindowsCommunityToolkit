@@ -35,13 +35,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 FromHostBackdrop()
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
-                //.Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
+                .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
                 .Shade(tintColor, tintOpacity);
 
-            //if (noiseUri != null)
-            //{
-            //    return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
-            //}
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
 
             return pipeline;
         }
@@ -69,13 +69,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 FromHostBackdrop()
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
-                //.Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
+                .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
                 .Shade(tintColor, out tintColorSetter, tintOpacity, out tintOpacitySetter);
 
-            //if (noiseUri != null)
-            //{
-            //    return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
-            //}
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
 
             return pipeline;
         }
@@ -103,13 +103,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 FromHostBackdrop()
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
-                //.Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
+                .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
                 .Shade(tintColor, out tintColorAnimation, tintOpacity, out tintOpacityAnimation);
 
-            //if (noiseUri != null)
-            //{
-            //    return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
-            //}
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
 
             return pipeline;
         }
@@ -133,10 +133,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var pipeline = FromBackdrop().Shade(tintColor, tintOpacity).Blur(blurAmount);
 
-            //if (noiseUri != null)
-            //{
-            //    return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
-            //}
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
 
             return pipeline;
         }
@@ -169,10 +169,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .Shade(tintColor, out tintColorSetter, tintOpacity, out tintOpacitySetter)
                 .Blur(blurAmount, out blurAmountSetter);
 
-            //if (noiseUri != null)
-            //{
-            //    return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
-            //}
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
 
             return pipeline;
         }
@@ -205,10 +205,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .Shade(tintColor, out tintAnimation, tintOpacity, out tintOpacityAnimation)
                 .Blur(blurAmount, out blurAmountAnimation);
 
-            //if (noiseUri != null)
-            //{
-            //    return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
-            //}
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
 
             return pipeline;
         }

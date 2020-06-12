@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var repeater = control.FindChildByName("StaggeredRepeater") as ItemsRepeater;
+            var repeater = control.FindDescendantByName("StaggeredRepeater") as ItemsRepeater;
 
             if (repeater != null)
             {

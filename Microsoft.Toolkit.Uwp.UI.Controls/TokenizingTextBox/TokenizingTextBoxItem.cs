@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TokenizingTextBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (!(Content is PretokenStringContainer))
+            if (!(Content is ITokenStringContainer))
             {
                 // We only want to 'remove' our token if we're not a textbox.
                 switch (e.Key)

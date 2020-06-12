@@ -11,14 +11,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// Custom <see cref="MarkupExtension"/> which can provide symbol-baased <see cref="FontIconSource"/> values.
     /// </summary>
     [MarkupExtensionReturnType(ReturnType = typeof(FontIconSource))]
-    public class SymbolIconSourceExtension : TextIconExtension<Symbol>
+    public class SymbolIconSourceExtension : TextIconExtension
     {
+        /// <summary>
+        /// Gets or sets the <see cref="Microsoft.UI.Xaml.Controls.Symbol"/> value representing the icon to display.
+        /// </summary>
+        public Symbol Symbol { get; set; }
+
         /// <inheritdoc/>
         protected override object ProvideValue()
         {
             var fontIcon = new FontIconSource
             {
-                Glyph = unchecked((char)Glyph).ToString(),
+                Glyph = unchecked((char)Symbol).ToString(),
                 FontFamily = SegoeMDL2AssetsFontFamily,
                 FontWeight = FontWeight,
                 FontStyle = FontStyle,
