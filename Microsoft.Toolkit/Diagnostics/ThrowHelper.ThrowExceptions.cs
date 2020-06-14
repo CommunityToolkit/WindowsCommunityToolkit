@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Diagnostics
     /// <summary>
     /// Helper methods to throw exceptions
     /// </summary>
-    internal static partial class ThrowHelper
+    public static partial class ThrowHelper
     {
         /// <summary>
         /// Returns a formatted representation of the input value.
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentException">Thrown with <paramref name="message"/> and <paramref name="name"/>.</exception>
         [DoesNotReturn]
-        private static void ThrowArgumentException(string name, string message)
+        internal static void ThrowArgumentException(string name, string message)
         {
             throw new ArgumentException(message, name);
         }
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentNullException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
         [DoesNotReturn]
-        private static void ThrowArgumentNullException(string name, string message)
+        internal static void ThrowArgumentNullException(string name, string message)
         {
             throw new ArgumentNullException(name, message);
         }
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
         [DoesNotReturn]
-        private static void ThrowArgumentOutOfRangeException(string name, string message)
+        internal static void ThrowArgumentOutOfRangeException(string name, string message)
         {
             throw new ArgumentOutOfRangeException(name, message);
         }
