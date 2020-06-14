@@ -17,17 +17,6 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class ThrowHelper
     {
         /// <summary>
-        /// Throws a new <see cref="AccessViolationException"/>.
-        /// </summary>
-        /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="AccessViolationException">Thrown with <paramref name="message"/>.</exception>
-        [DoesNotReturn]
-        public static void ThrowAccessViolationException(string message)
-        {
-            throw new AccessViolationException(message);
-        }
-
-        /// <summary>
         /// Throws a new <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
@@ -118,17 +107,6 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowFormatException(string message)
         {
             throw new FormatException(message);
-        }
-
-        /// <summary>
-        /// Throws a new <see cref="IndexOutOfRangeException"/>.
-        /// </summary>
-        /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="IndexOutOfRangeException">Thrown with <paramref name="message"/>.</exception>
-        [DoesNotReturn]
-        public static void ThrowIndexOutOfRangeException(string message)
-        {
-            throw new IndexOutOfRangeException(message);
         }
 
         /// <summary>
@@ -234,17 +212,6 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws a new <see cref="NullReferenceException"/>.
-        /// </summary>
-        /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="NullReferenceException">Thrown with <paramref name="message"/>.</exception>
-        [DoesNotReturn]
-        public static void ThrowNullReferenceException(string message)
-        {
-            throw new NullReferenceException(message);
-        }
-
-        /// <summary>
         /// Throws a new <see cref="ObjectDisposedException"/>.
         /// </summary>
         /// <param name="objectName">The name of the disposed object.</param>
@@ -299,17 +266,6 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowThrowOperationCanceledException(string message, CancellationToken token)
         {
             throw new OperationCanceledException(message, token);
-        }
-
-        /// <summary>
-        /// Throws a new <see cref="OutOfMemoryException"/>.
-        /// </summary>
-        /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="OutOfMemoryException">Thrown with <paramref name="message"/>.</exception>
-        [DoesNotReturn]
-        public static void ThrowOutOfMemoryException(string message)
-        {
-            throw new OutOfMemoryException(message);
         }
 
         /// <summary>
