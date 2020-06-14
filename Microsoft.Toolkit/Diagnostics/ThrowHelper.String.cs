@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor(int index, string text, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {text.Length.ToAssertString()} to be a valid index for the target string, was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {text.Length.ToAssertString()} to be a valid index for the target string, was {index.ToAssertString()}");
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(int index, string text, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {text.Length.ToAssertString()} to be an invalid index for the target string, was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {text.Length.ToAssertString()} to be an invalid index for the target string, was {index.ToAssertString()}");
         }
     }
 }

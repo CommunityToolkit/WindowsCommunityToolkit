@@ -118,7 +118,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be an invalid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be an invalid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
         }
 <#
 });

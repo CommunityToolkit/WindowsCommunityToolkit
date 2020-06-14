@@ -59,12 +59,13 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
         /// </summary>
         /// <param name="name">The argument name.</param>
+        /// <param name="value">The current argument value.</param>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
         [DoesNotReturn]
-        internal static void ThrowArgumentOutOfRangeException(string name, string message)
+        internal static void ThrowArgumentOutOfRangeException(string name, object value, string message)
         {
-            throw new ArgumentOutOfRangeException(name, message);
+            throw new ArgumentOutOfRangeException(name, value, message);
         }
     }
 }
