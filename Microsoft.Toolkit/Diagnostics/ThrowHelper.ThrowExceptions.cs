@@ -32,15 +32,48 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws a new <see cref="AccessViolationException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="AccessViolationException">Thrown with <paramref name="message"/>.</exception>
+        [DoesNotReturn]
+        public static void ThrowAccessViolationException(string message)
+        {
+            throw new AccessViolationException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="ArgumentException">Thrown with <paramref name="message"/>.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentException(string message)
+        {
+            throw new ArgumentException(message);
+        }
+
+        /// <summary>
         /// Throws a new <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentException">Thrown with <paramref name="message"/> and <paramref name="name"/>.</exception>
         [DoesNotReturn]
-        internal static void ThrowArgumentException(string name, string message)
+        public static void ThrowArgumentException(string name, string message)
         {
             throw new ArgumentException(message, name);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="name">The argument name.</param>
+        /// <exception cref="ArgumentNullException">Thrown with <paramref name="name"/>.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentNullException(string name)
+        {
+            throw new ArgumentNullException(name);
         }
 
         /// <summary>
@@ -50,7 +83,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentNullException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
         [DoesNotReturn]
-        internal static void ThrowArgumentNullException(string name, string message)
+        public static void ThrowArgumentNullException(string name, string message)
         {
             throw new ArgumentNullException(name, message);
         }
@@ -59,11 +92,34 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
         /// </summary>
         /// <param name="name">The argument name.</param>
-        /// <param name="value">The current argument value.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/>.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentOutOfRangeException(string name)
+        {
+            throw new ArgumentOutOfRangeException(name);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
         [DoesNotReturn]
-        internal static void ThrowArgumentOutOfRangeException(string name, object value, string message)
+        public static void ThrowArgumentOutOfRangeException(string name, string message)
+        {
+            throw new ArgumentOutOfRangeException(name, message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <param name="name">The argument name.</param>
+        /// <param name="value">The current argument value.</param>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/>, <paramref name="value"/> and <paramref name="message"/>.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentOutOfRangeException(string name, object value, string message)
         {
             throw new ArgumentOutOfRangeException(name, value, message);
         }
