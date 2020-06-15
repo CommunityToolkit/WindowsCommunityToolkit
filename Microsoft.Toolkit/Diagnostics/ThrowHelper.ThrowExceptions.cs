@@ -3,8 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 #nullable enable
@@ -148,6 +151,41 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws a new <see cref="ExternalException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="ExternalException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowExternalException(string message)
+        {
+            throw new ExternalException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ExternalException"/>.
+        /// </summary>
+        /// <param name="message">The argument name.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="ExternalException">Thrown with the specified parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowExternalException(string message, Exception innerException)
+        {
+            throw new ExternalException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ExternalException"/>.
+        /// </summary>
+        /// <param name="message">The argument name.</param>
+        /// <param name="error">The HRESULT of the errror to include.</param>
+        /// <exception cref="ExternalException">Thrown with the specified parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowExternalException(string message, int error)
+        {
+            throw new ExternalException(message, error);
+        }
+
+        /// <summary>
         /// Throws a new <see cref="FormatException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
@@ -194,6 +232,29 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws a new <see cref="InvalidDataException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="InvalidDataException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowInvalidDataException(string message)
+        {
+            throw new InvalidDataException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="InvalidDataException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="InvalidDataException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowInvalidDataException(string message, Exception innerException)
+        {
+            throw new InvalidDataException(message, innerException);
+        }
+
+        /// <summary>
         /// Throws a new <see cref="InvalidOperationException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
@@ -214,6 +275,29 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowInvalidOperationException(string message, Exception innerException)
         {
             throw new InvalidOperationException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="LockRecursionException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="LockRecursionException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowLockRecursionException(string message)
+        {
+            throw new LockRecursionException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="LockRecursionException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="LockRecursionException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowLockRecursionException(string message, Exception innerException)
+        {
+            throw new LockRecursionException(message, innerException);
         }
 
         /// <summary>
@@ -420,7 +504,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="token">The <see cref="CancellationToken"/> in use.</param>
         /// <exception cref="OperationCanceledException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowThrowOperationCanceledException(string message, CancellationToken token)
+        public static void ThrowOperationCanceledException(string message, CancellationToken token)
         {
             throw new OperationCanceledException(message, token);
         }
@@ -433,7 +517,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="token">The <see cref="CancellationToken"/> in use.</param>
         /// <exception cref="OperationCanceledException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowThrowOperationCanceledException(string message, Exception innerException, CancellationToken token)
+        public static void ThrowOperationCanceledException(string message, Exception innerException, CancellationToken token)
         {
             throw new OperationCanceledException(message, innerException, token);
         }
@@ -459,6 +543,29 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowPlatformNotSupportedException(string message, Exception innerException)
         {
             throw new PlatformNotSupportedException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="SynchronizationLockException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="SynchronizationLockException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowSynchronizationLockException(string message)
+        {
+            throw new SynchronizationLockException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="SynchronizationLockException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="SynchronizationLockException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowSynchronizationLockException(string message, Exception innerException)
+        {
+            throw new SynchronizationLockException(message, innerException);
         }
 
         /// <summary>
@@ -505,6 +612,52 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowUnauthorizedAccessException(string message, Exception innerException)
         {
             throw new UnauthorizedAccessException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="Win32Exception"/>.
+        /// </summary>
+        /// <param name="error">The Win32 error code associated with this exception.</param>
+        /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowWin32Exception(int error)
+        {
+            throw new Win32Exception(error);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="Win32Exception"/>.
+        /// </summary>
+        /// <param name="error">The Win32 error code associated with this exception.</param>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowWin32Exception(int error, string message)
+        {
+            throw new Win32Exception(error, message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="Win32Exception"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowWin32Exception(string message)
+        {
+            throw new Win32Exception(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="Win32Exception"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowWin32Exception(string message, Exception innerException)
+        {
+            throw new Win32Exception(message, innerException);
         }
 
         /// <summary>
