@@ -58,6 +58,11 @@ namespace Microsoft.Toolkit.Parsers.Rss
         public DateTime PublishDate { get; set; }
 
         /// <summary>
+        /// Gets or sets updated Date.
+        /// </summary>
+        public DateTime UpdatedDate { get; set; }
+        
+        /// <summary>
         /// Gets or sets item's categories.
         /// </summary>
         public IEnumerable<string> Categories { get; set; }
