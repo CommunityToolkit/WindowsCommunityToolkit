@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="ArgumentException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentException(string message)
         {
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="ArgumentException">Thrown with <paramref name="message"/> and <paramref name="name"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentException(string name, string message)
         {
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <param name="name">The argument name.</param>
-        /// <exception cref="ArgumentNullException">Thrown with <paramref name="name"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentNullException(string name)
         {
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="ArgumentNullException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentNullException(string name, string message)
         {
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
         /// </summary>
         /// <param name="name">The argument name.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeException(string name)
         {
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeException(string name, string message)
         {
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The argument name.</param>
         /// <param name="value">The current argument value.</param>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/>, <paramref name="value"/> and <paramref name="message"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowArgumentOutOfRangeException(string name, object value, string message)
         {
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="FormatException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="FormatException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="FormatException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowFormatException(string message)
         {
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="InsufficientMemoryException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="InsufficientMemoryException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="InsufficientMemoryException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowInsufficientMemoryException(string message)
         {
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="InvalidOperationException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="InvalidOperationException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowInvalidOperationException(string message)
         {
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="MissingFieldException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="MissingFieldException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="MissingFieldException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowMissingFieldException(string message)
         {
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="className">The target class being inspected.</param>
         /// <param name="fieldName">The target field being retrieved.</param>
-        /// <exception cref="MissingFieldException">Thrown with <paramref name="className"/> and <paramref name="fieldName"/>.</exception>
+        /// <exception cref="MissingFieldException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowMissingFieldException(string className, string fieldName)
         {
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="MissingMemberException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="MissingMemberException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="MissingMemberException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowMissingMemberException(string message)
         {
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="className">The target class being inspected.</param>
         /// <param name="memberName">The target member being retrieved.</param>
-        /// <exception cref="MissingMemberException">Thrown with <paramref name="className"/> and <paramref name="memberName"/>.</exception>
+        /// <exception cref="MissingMemberException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowMissingMemberException(string className, string memberName)
         {
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="MissingMethodException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="MissingMethodException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="MissingMethodException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowMissingMethodException(string message)
         {
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="className">The target class being inspected.</param>
         /// <param name="methodName">The target method being retrieved.</param>
-        /// <exception cref="MissingMethodException">Thrown with <paramref name="className"/> and <paramref name="methodName"/>.</exception>
+        /// <exception cref="MissingMethodException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowMissingMethodException(string className, string methodName)
         {
@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="NotSupportedException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="NotSupportedException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="NotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowNotSupportedException(string message)
         {
@@ -215,7 +215,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ObjectDisposedException"/>.
         /// </summary>
         /// <param name="objectName">The name of the disposed object.</param>
-        /// <exception cref="ObjectDisposedException">Thrown with <paramref name="objectName"/>.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowObjectDisposedException(string objectName)
         {
@@ -227,7 +227,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="objectName">The name of the disposed object.</param>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="ObjectDisposedException">Thrown with <paramref name="objectName"/> and <paramref name="message"/>.</exception>
+        /// <exception cref="ObjectDisposedException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowObjectDisposedException(string objectName, string message)
         {
@@ -238,7 +238,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="OperationCanceledException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="OperationCanceledException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="OperationCanceledException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowOperationCanceledException(string message)
         {
@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="OperationCanceledException"/>.
         /// </summary>
         /// <param name="token">The <see cref="CancellationToken"/> in use.</param>
-        /// <exception cref="OperationCanceledException">Thrown with <paramref name="token"/>.</exception>
+        /// <exception cref="OperationCanceledException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowOperationCanceledException(CancellationToken token)
         {
@@ -257,11 +257,11 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws a new <see cref="ObjectDisposedException"/>.
+        /// Throws a new <see cref="OperationCanceledException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <param name="token">The <see cref="CancellationToken"/> in use.</param>
-        /// <exception cref="ObjectDisposedException">Thrown with <paramref name="message"/> and <paramref name="token"/>.</exception>
+        /// <exception cref="OperationCanceledException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
         public static void ThrowThrowOperationCanceledException(string message, CancellationToken token)
         {
@@ -272,7 +272,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="PlatformNotSupportedException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="PlatformNotSupportedException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="PlatformNotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowPlatformNotSupportedException(string message)
         {
@@ -283,7 +283,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="TimeoutException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="TimeoutException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="TimeoutException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowTimeoutException(string message)
         {
@@ -294,7 +294,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="UnauthorizedAccessException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="UnauthorizedAccessException">Thrown with <paramref name="message"/>.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
         public static void ThrowUnauthorizedAccessException(string message)
         {
