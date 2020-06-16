@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -107,17 +108,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 child.Measure(childAvailableSize);
             }
 
-            // We get the number of available columns that we can fill.
+            // We evaluate how the children are filling the columns to get the size that we will use.
+            var columnHeight = GetColumnHeight(columnsCount, availableSize);
+            var columnsItemsHeights = new List<double>[columnsCount];
+            for (var i = 0; i < columnsCount; i++)
+            {
+                columnsItemsHeights[i] = new List<double>();
+            }
+
+            var overflowItemsHeights = new List<double>();
+            var adjustementColumnIndex = 0;
+            while (true)
+            {
+                var height = 0.0;
+                var maxHeigth = 0.0;
+                var columnsIndex = 0;
+                foreach (var child in Children)
+                {
+                    if (columnsIndex < columnsCount)
+                    {
+                        columnsItemsHeights[columnsIndex].Add(child.DesiredSize.Height);
+                    }
+                    else
+                    {
+                        overflowItemsHeights.Add(child.DesiredSize.Height);
+                    }
+
+                    height += child.DesiredSize.Height;
+                    if (height > columnHeight)
+                    {
+                        maxHeigth = Math.Max(maxHeigth, height);
+                        height = 0;
+                        columnsIndex++;
+                    }
+                }
+
+                var requiredColumnsCount = columnsItemsHeights.TakeWhile(x => x.Any()).Count();
+                var requiredColumnsWidth = requiredColumnsCount * columnsWidth;
+                var requiredSpacingWidth = Math.Max(0, requiredColumnsCount - 1) * ColumnsSpacing;
+
+                if (overflowItemsHeights.Count == 0)
+                {
+                    // No overflow, we've been able to put all our items in our columns.
+                    return new Size(
+                        requiredColumnsWidth + requiredSpacingWidth,
+                        maxHeigth); // <-- Need to handle ItemsSpacing
+                }
+
+                // We move the first item of the second column to the first one
+                columnsItemsHeights[adjustementColumnIndex].Add(columnsItemsHeights[adjustementColumnIndex + 1].FirstOrDefault());
+                columnsItemsHeights[adjustementColumnIndex + 1].RemoveAt(0);
+            }
+        }
+
+        private double GetColumnHeight(int columnsCount, Size availableSize)
+        {
             var totalChildrenHeight = Children.Select(c => c.DesiredSize.Height).Sum();
+            //var availableColumnsHeight = columnsCount * availableSize.Height;
+            //if (totalChildrenHeight <= availableColumnsHeight)
+            //{
+            //    // We have enough space for all our items
+            //    return Math.Ceiling(availableSize.Height);
+            //}
 
-            // var availableCombinedColumnsHeight = availableSize.Height * columnsCount; <= This is not needed...
-            var requiredColumns = Math.Ceiling(totalChildrenHeight / availableSize.Height);
-
-            var requiredColumnsWidth = columnsCount * columnsWidth;
-            var requiredSpacingWidth = Math.Max(0, columnsCount - 1) * ColumnsSpacing;
-            return new Size(
-                requiredColumnsWidth + requiredSpacingWidth,
-                totalChildrenHeight / columnsCount); // <-- this will have to be improved. We need to get the height of the tallest column. Need to handle ItemsSpacing
+            // Not enough place for all items. We required longer columns
+            return Math.Ceiling(totalChildrenHeight / columnsCount);
         }
 
         /// <inheritdoc/>
@@ -127,45 +182,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var (columnsCount, columnsWidth) = GetAvailableColumnsInformation(finalSize);
 
             // We split the items across all the columns
-            var totalChildrenHeight = Children.Select(c => c.DesiredSize.Height).Sum();
-            var totalAvailableColumnsHeight = finalSize.Height * columnsCount;
-            var columnHeight = finalSize.Height;
-            if (totalChildrenHeight > totalAvailableColumnsHeight)
-            {
-                // We cannot fit all our children in the columns we have. We will have to overflow.
-                columnHeight = totalChildrenHeight / columnsCount;
-            }
+            var columnHeight = GetColumnHeight(columnsCount, finalSize);
 
-            var currentColumn = 0;
-            var currentHeight = 0.0;
+            var height = 0.0;
+            var maxHeigth = 0.0;
+            var requiredColumnsCount = 0;
             var rect = new Rect(0, 0, columnsWidth, 0);
-            var maxCurrentHeight = 0.0;
             foreach (var child in Children)
             {
-                // <=== Need to handle ItemsSpacing.
                 rect.Height = child.DesiredSize.Height;
-                rect.Y = currentHeight;
-                currentHeight += rect.Height;
-
-                if (currentHeight >= columnHeight)
-                {
-                    maxCurrentHeight = Math.Max(maxCurrentHeight, currentHeight - rect.Height);
-
-                    currentColumn++;
-                    currentHeight = rect.Height;
-                    rect.X += columnsWidth + ColumnsSpacing;
-                    rect.Y = 0;
-
-                }
+                rect.Y = height;
 
                 child.Arrange(rect);
-            }
 
-            maxCurrentHeight = Math.Max(maxCurrentHeight, currentHeight);
+                height += child.DesiredSize.Height;
+                if (height >= columnHeight)
+                {
+                    maxHeigth = Math.Max(maxHeigth, height);
+                    height = 0;
+                    requiredColumnsCount++;
+
+                    rect.X += columnsWidth + ColumnsSpacing;
+                    rect.Y = 0;
+                }
+            }
 
             return new Size(
                 rect.X + columnsWidth,
-                maxCurrentHeight);
+                maxHeigth);
         }
 
         private (int columnsCount, double columnsWidth) GetAvailableColumnsInformation(Size availableSize)

@@ -8,7 +8,9 @@
       mc:Ignorable="d">
 
     <Grid>
-        <controls:MultiColumnsStackPanel ColumnsSpacing="12"
+        <controls:MultiColumnsStackPanel HorizontalAlignment="Left"
+                                         VerticalAlignment="Top"
+                                         ColumnsSpacing="12"
                                          ItemsSpacing="8"
                                          MaxColumnWidth="240">
             <TextBox Header="Field 1" />
