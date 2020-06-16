@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
@@ -25,6 +26,16 @@ namespace UnitTests.HighPerformance.Buffers
             buffer.Span.Fill(42);
 
             Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
+        }
+
+        [TestCategory("SpanOwnerOfT")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_SpanOwnerOfT_InvalidRequestedSize()
+        {
+            using var buffer = SpanOwner<int>.Allocate(-1);
+
+            Assert.Fail("You shouldn't be here");
         }
 
         [TestCategory("HashCodeOfT")]

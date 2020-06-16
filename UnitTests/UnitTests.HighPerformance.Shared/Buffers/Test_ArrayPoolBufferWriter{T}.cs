@@ -56,6 +56,16 @@ namespace UnitTests.HighPerformance.Buffers
 
         [TestCategory("ArrayPoolBufferWriterOfT")]
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_ArrayPoolBufferWriterOfT_InvalidRequestedSize()
+        {
+            var writer = new ArrayPoolBufferWriter<byte>(-1);
+
+            Assert.Fail("You shouldn't be here");
+        }
+
+        [TestCategory("ArrayPoolBufferWriterOfT")]
+        [TestMethod]
         public void Test_ArrayPoolBufferWriterOfT_Clear()
         {
             using var writer = new ArrayPoolBufferWriter<byte>();

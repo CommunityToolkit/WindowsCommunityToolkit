@@ -32,6 +32,16 @@ namespace UnitTests.HighPerformance.Buffers
 
         [TestCategory("MemoryOwnerOfT")]
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_MemoryOwnerOfT_InvalidRequestedSize()
+        {
+            using var buffer = MemoryOwner<int>.Allocate(-1);
+
+            Assert.Fail("You shouldn't be here");
+        }
+
+        [TestCategory("MemoryOwnerOfT")]
+        [TestMethod]
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Test_MemoryOwnerOfT_DisposedMemory()
         {
