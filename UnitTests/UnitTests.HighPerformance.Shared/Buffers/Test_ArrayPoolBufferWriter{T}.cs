@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers;
 
 namespace UnitTests.HighPerformance.Buffers
 {
@@ -52,6 +53,51 @@ namespace UnitTests.HighPerformance.Buffers
             Assert.ThrowsException<ObjectDisposedException>(() => writer.FreeCapacity);
             Assert.ThrowsException<ObjectDisposedException>(() => writer.Clear());
             Assert.ThrowsException<ObjectDisposedException>(() => writer.Advance(1));
+        }
+
+        [TestCategory("ArrayPoolBufferWriterOfT")]
+        [TestMethod]
+        public void Test_ArrayPoolBufferWriterOfT_AllocateFromCustomPoolAndGetMemoryAndSpan()
+        {
+            var pool = new TrackingArrayPool<byte>();
+
+            using (var writer = new ArrayPoolBufferWriter<byte>())
+            {
+                Assert.AreEqual(pool.RentedArrays.Count, 1);
+
+                Assert.AreEqual(writer.Capacity, 256);
+                Assert.AreEqual(writer.FreeCapacity, 256);
+                Assert.AreEqual(writer.WrittenCount, 0);
+                Assert.IsTrue(writer.WrittenMemory.IsEmpty);
+                Assert.IsTrue(writer.WrittenSpan.IsEmpty);
+
+                Span<byte> span = writer.GetSpan(43);
+
+                Assert.IsTrue(span.Length >= 43);
+
+                writer.Advance(43);
+
+                Assert.AreEqual(writer.Capacity, 256);
+                Assert.AreEqual(writer.FreeCapacity, 256 - 43);
+                Assert.AreEqual(writer.WrittenCount, 43);
+                Assert.AreEqual(writer.WrittenMemory.Length, 43);
+                Assert.AreEqual(writer.WrittenSpan.Length, 43);
+
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() => writer.Advance(-1));
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() => writer.GetMemory(-1));
+                Assert.ThrowsException<ArgumentException>(() => writer.Advance(1024));
+
+                writer.Dispose();
+
+                Assert.ThrowsException<ObjectDisposedException>(() => writer.WrittenMemory);
+                Assert.ThrowsException<ObjectDisposedException>(() => writer.WrittenSpan.Length);
+                Assert.ThrowsException<ObjectDisposedException>(() => writer.Capacity);
+                Assert.ThrowsException<ObjectDisposedException>(() => writer.FreeCapacity);
+                Assert.ThrowsException<ObjectDisposedException>(() => writer.Clear());
+                Assert.ThrowsException<ObjectDisposedException>(() => writer.Advance(1));
+            }
+
+            Assert.AreEqual(pool.RentedArrays.Count, 0);
         }
 
         [TestCategory("ArrayPoolBufferWriterOfT")]

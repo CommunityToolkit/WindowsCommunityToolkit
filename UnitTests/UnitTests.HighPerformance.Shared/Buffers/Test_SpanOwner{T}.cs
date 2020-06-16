@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers;
 
 namespace UnitTests.HighPerformance.Buffers
 {
@@ -26,6 +27,27 @@ namespace UnitTests.HighPerformance.Buffers
             buffer.Span.Fill(42);
 
             Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
+        }
+
+        [TestCategory("SpanOwnerOfT")]
+        [TestMethod]
+        public void Test_SpanOwnerOfT_AllocateFromCustomPoolAndGetMemoryAndSpan()
+        {
+            var pool = new TrackingArrayPool<int>();
+
+            using (var buffer = SpanOwner<int>.Allocate(127))
+            {
+                Assert.AreEqual(pool.RentedArrays.Count, 1);
+
+                Assert.IsTrue(buffer.Length == 127);
+                Assert.IsTrue(buffer.Span.Length == 127);
+
+                buffer.Span.Fill(42);
+
+                Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
+            }
+
+            Assert.AreEqual(pool.RentedArrays.Count, 0);
         }
 
         [TestCategory("SpanOwnerOfT")]
