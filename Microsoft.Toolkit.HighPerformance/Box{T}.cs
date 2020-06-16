@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator T(Box<T> box)
         {
-            return Unsafe.Unbox<T>(box);
+            return (T)(object)box;
         }
 
         /// <summary>
