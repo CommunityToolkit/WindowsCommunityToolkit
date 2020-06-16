@@ -71,9 +71,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
         /// <param name="initialCapacity">The minimum capacity with which to initialize the underlying buffer.</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="initialCapacity"/> is not positive (i.e. less than or equal to 0).
-        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="initialCapacity"/> is not valid.</exception>
         public ArrayPoolBufferWriter(int initialCapacity)
             : this(ArrayPool<T>.Shared, initialCapacity)
         {
@@ -84,19 +82,15 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
         /// <param name="initialCapacity">The minimum capacity with which to initialize the underlying buffer.</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="initialCapacity"/> is not positive (i.e. less than or equal to 0).
-        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="initialCapacity"/> is not valid.</exception>
         public ArrayPoolBufferWriter(ArrayPool<T> pool, int initialCapacity)
         {
-            if (initialCapacity <= 0)
-            {
-                ThrowArgumentOutOfRangeExceptionForInitialCapacity();
-            }
-
             // Since we're using pooled arrays, we can rent the buffer with the
             // default size immediately, we don't need to use lazy initialization
             // to save unnecessary memory allocations in this case.
+            // Additionally, we don't need to manually throw the exception if
+            // the requested size is not valid, as that'll be thrown automatically
+            // by the array pool in use when we try to rent an array with that size.
             this.pool = pool;
             this.array = pool.Rent(initialCapacity);
             this.index = 0;
@@ -312,14 +306,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             // Same representation used in Span<T>
             return $"Microsoft.Toolkit.HighPerformance.Buffers.ArrayPoolBufferWriter<{typeof(T)}>[{this.index}]";
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the initial capacity is invalid.
-        /// </summary>
-        private static void ThrowArgumentOutOfRangeExceptionForInitialCapacity()
-        {
-            throw new ArgumentOutOfRangeException("initialCapacity", "The initial capacity must be a positive value");
         }
 
         /// <summary>
