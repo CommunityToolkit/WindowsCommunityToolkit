@@ -34,6 +34,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         private const int DefaultInitialBufferSize = 256;
 
         /// <summary>
+        /// The <see cref="ArrayPool{T}"/> instance used to rent <see cref="array"/>.
+        /// </summary>
+        private readonly ArrayPool<T> pool;
+
+        /// <summary>
         /// The underlying <typeparamref name="T"/> array.
         /// </summary>
         private T[]? array;
@@ -49,12 +54,17 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
         public ArrayPoolBufferWriter()
+            : this(ArrayPool<T>.Shared, DefaultInitialBufferSize)
         {
-            // Since we're using pooled arrays, we can rent the buffer with the
-            // default size immediately, we don't need to use lazy initialization
-            // to save unnecessary memory allocations in this case.
-            this.array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize);
-            this.index = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
+        /// </summary>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
+        public ArrayPoolBufferWriter(ArrayPool<T> pool)
+            : this(pool, DefaultInitialBufferSize)
+        {
         }
 
         /// <summary>
@@ -65,20 +75,37 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Thrown when <paramref name="initialCapacity"/> is not positive (i.e. less than or equal to 0).
         /// </exception>
         public ArrayPoolBufferWriter(int initialCapacity)
+            : this(ArrayPool<T>.Shared, initialCapacity)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
+        /// </summary>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
+        /// <param name="initialCapacity">The minimum capacity with which to initialize the underlying buffer.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="initialCapacity"/> is not positive (i.e. less than or equal to 0).
+        /// </exception>
+        public ArrayPoolBufferWriter(ArrayPool<T> pool, int initialCapacity)
         {
             if (initialCapacity <= 0)
             {
                 ThrowArgumentOutOfRangeExceptionForInitialCapacity();
             }
 
-            this.array = ArrayPool<T>.Shared.Rent(initialCapacity);
+            // Since we're using pooled arrays, we can rent the buffer with the
+            // default size immediately, we don't need to use lazy initialization
+            // to save unnecessary memory allocations in this case.
+            this.pool = pool;
+            this.array = pool.Rent(initialCapacity);
             this.index = 0;
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
-        ~ArrayPoolBufferWriter() => this.Dispose();
+        ~ArrayPoolBufferWriter() => Dispose();
 
         /// <inheritdoc/>
         Memory<T> IMemoryOwner<T>.Memory
@@ -182,6 +209,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
 
             array.AsSpan(0, this.index).Clear();
+
             this.index = 0;
         }
 
@@ -250,7 +278,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             {
                 int minimumSize = this.index + sizeHint;
 
-                ArrayPool<T>.Shared.Resize(ref this.array, minimumSize);
+                this.pool.Resize(ref this.array, minimumSize);
             }
         }
 
@@ -268,7 +296,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             this.array = null;
 
-            ArrayPool<T>.Shared.Return(array);
+            this.pool.Return(array);
         }
 
         /// <inheritdoc/>
