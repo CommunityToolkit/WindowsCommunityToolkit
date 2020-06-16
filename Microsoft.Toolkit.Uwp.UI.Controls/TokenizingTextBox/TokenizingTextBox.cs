@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var container = ContainerFromItem(_currentTextEdit) as TokenizingTextBoxItem;
 
-            if (container != null && !(FocusManager.GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
+            if (container != null && !(GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
             {
                 if (SelectedItems.Count > 0)
                 {
@@ -285,6 +285,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         last._autoSuggestTextBox.Focus(FocusState.Keyboard);
                     }
                 }
+            }
+        }
+
+        private object GetFocusedElement()
+        {
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
             }
         }
 
