@@ -2,11 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if SPAN_RUNTIME_SUPPORT
-
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -44,7 +43,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         // discontiguous row, so that any arbitrary memory locations
         // can be used to internally represent a 2D span. This gives
         // users much more flexibility when creating spans from data.
-
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
         /// </summary>
@@ -53,6 +52,22 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// This is done to save 4 bytes in the layout of the <see cref="Span2D{T}"/> type.
         /// </remarks>
         private readonly Span<T> span;
+#else
+        /// <summary>
+        /// The target <see cref="object"/> instance, if present.
+        /// </summary>
+        private readonly object? instance;
+
+        /// <summary>
+        /// The initial offset within <see cref="instance"/>.
+        /// </summary>
+        private readonly IntPtr offset;
+
+        /// <summary>
+        /// The height of the specified 2D region.
+        /// </summary>
+        private readonly int height;
+#endif
 
         /// <summary>
         /// The width of the specified 2D region.
@@ -64,6 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </summary>
         private readonly int pitch;
 
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
         /// </summary>
@@ -113,6 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.pitch = pitch;
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct wrapping a 2D array.
@@ -130,12 +147,27 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 return;
             }
 
-            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            if (
+#pragma warning disable SA1003 // Whitespace before ! operator
+#if NETSTANDARD1_4
+
+                !typeof(T).GetTypeInfo().IsValueType &&
+#else
+                !typeof(T).IsValueType &&
+#endif
+#pragma warning restore SA1003
+                array.GetType() != typeof(T[]))
             {
                 ThrowArrayTypeMismatchException();
             }
 
+#if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array[0, 0], array.GetLength(0));
+#else
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
+            this.height = array.GetLength(0);
+#endif
             this.width = array.GetLength(1);
             this.pitch = 0;
         }
@@ -157,7 +189,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public Span2D(T[,] array, int row, int column, int width, int height)
         {
-            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            if (
+#pragma warning disable SA1003 // Whitespace before ! operator
+#if NETSTANDARD1_4
+
+                !typeof(T).GetTypeInfo().IsValueType &&
+#else
+                !typeof(T).IsValueType &&
+#endif
+#pragma warning restore SA1003
+                array.GetType() != typeof(T[]))
             {
                 ThrowArrayTypeMismatchException();
             }
@@ -174,7 +215,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowArgumentExceptionForNegativeOrInvalidParameter();
             }
 
+#if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array[row, column], height);
+#else
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.height = array.GetLength(0);
+#endif
             this.width = width;
             this.pitch = row + (array.GetLength(1) - column);
         }
@@ -190,7 +237,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool IsEmpty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (this.span.Length | this.width) == 0;
+            get
+            {
+#if SPAN_RUNTIME_SUPPORT
+                return (this.span.Length | this.width) == 0;
+#else
+                return (this.height | this.width) == 0;
+#endif
+            }
         }
 
         /// <summary>
@@ -207,15 +261,27 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if ((uint)i >= (uint)this.span.Length ||
+                if (
+#pragma warning disable SA1003 // Whitespace before cast
+#if SPAN_RUNTIME_SUPPORT
+                    (uint)i >= (uint)this.span.Length ||
+#else
+                    (uint)i >= (uint)this.height ||
+#endif
+#pragma warning restore SA1003
                     (uint)j >= (uint)this.width)
                 {
                     ThrowIndexOutOfRangeException();
                 }
 
-                return ref Unsafe.Add(
-                    ref MemoryMarshal.GetReference(this.span),
-                    (i * (this.width + this.pitch)) + j);
+#if SPAN_RUNTIME_SUPPORT
+                ref T r0 = ref MemoryMarshal.GetReference(this.span);
+#else
+                ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
+                int index = (i * (this.width + this.pitch)) + j;
+
+                return ref Unsafe.Add(ref r0, index);
             }
         }
 
@@ -225,7 +291,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public int Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.span.Length * this.width;
+            get
+            {
+#if SPAN_RUNTIME_SUPPORT
+                return this.span.Length * this.width;
+#else
+                return this.height * this.width;
+#endif
+            }
         }
 
         /// <summary>
@@ -233,6 +306,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </summary>
         public void Clear()
         {
+#if SPAN_RUNTIME_SUPPORT
             if (this.pitch == 0)
             {
                 // If the pitch is 0, it means all the target area is contiguous
@@ -253,6 +327,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     r0 = ref Unsafe.Add(ref r0, step);
                 }
             }
+#else
+            // Fallback to the enumerator to traverse the span
+            foreach (ref T item in this)
+            {
+                item = default!;
+            }
+#endif
         }
 
         /// <summary>
@@ -264,6 +345,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public void CopyTo(Span<T> destination)
         {
+#if SPAN_RUNTIME_SUPPORT
             if (this.pitch == 0)
             {
                 // If the pitch is 0, we can copy in a single pass
@@ -289,6 +371,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     offset += this.width;
                 }
             }
+#else
+            // Similar to the previous case
+            ref T destinationRef = ref MemoryMarshal.GetReference(destination);
+            IntPtr offset = default;
+
+            foreach (T item in this)
+            {
+                Unsafe.Add(ref destinationRef, offset) = item;
+
+                offset += 1;
+            }
+#endif
         }
 
         /// <summary>
@@ -327,6 +421,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="value">The value to assign to each element of the <see cref="Span2D{T}"/> instance.</param>
         public void Fill(T value)
         {
+#if SPAN_RUNTIME_SUPPORT
             if (this.pitch == 0)
             {
                 MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).Fill(value);
@@ -344,6 +439,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     sourceRef = ref Unsafe.Add(ref sourceRef, step);
                 }
             }
+#else
+            // Use the enumerator again
+            foreach (ref T item in this)
+            {
+                item = value;
+            }
+#endif
         }
 
         /// <summary>
@@ -371,7 +473,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             if (this.Length != 0)
             {
+#if SPAN_RUNTIME_SUPPORT
                 r0 = ref MemoryMarshal.GetReference(this.span);
+#else
+                r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
             }
 
             return ref r0;
@@ -385,7 +491,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T DangerousGetReference()
         {
+#if SPAN_RUNTIME_SUPPORT
             return ref MemoryMarshal.GetReference(this.span);
+#else
+            return ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
         }
 
         /// <summary>
@@ -397,7 +507,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public static bool operator ==(Span2D<T> left, Span2D<T> right)
         {
             return
+#if SPAN_RUNTIME_SUPPORT
                 left.span == right.span &&
+#else
+                ReferenceEquals(left.instance, right.instance) &&
+                left.offset == right.offset &&
+                left.height == right.height &&
+#endif
                 left.width == right.width &&
                 left.pitch == right.pitch;
         }
@@ -444,6 +560,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [Pure]
         public T[,] ToArray()
         {
+#if SPAN_RUNTIME_SUPPORT
             T[,] array = new T[this.span.Length, this.width];
 
             if (this.pitch == 0)
@@ -465,6 +582,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     offset += this.width;
                 }
             }
+#else
+            T[,] array = new T[this.height, this.width];
+
+            // Skip the initialization if the array is empty
+            if (Length > 0)
+            {
+                ref T r0 = ref array.DangerousGetReference();
+                IntPtr offset = default;
+
+                // Fallback once again on the enumerator to copy the items
+                foreach (T item in this)
+                {
+                    Unsafe.Add(ref r0, offset) = item;
+
+                    offset += 1;
+                }
+            }
+#endif
 
             return array;
         }
@@ -472,7 +607,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{this.span.Length}, {this.width}]";
+#if SPAN_RUNTIME_SUPPORT
+            int height = this.span.Length;
+#else
+            int height = this.height;
+#endif
+
+            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{height}, {this.width}]";
         }
 
         /// <summary>
@@ -492,6 +633,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             return false;
         }
 
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Tries to get a <see cref="Span{T}"/> instance, if the underlying buffer is contiguous.
         /// </summary>
@@ -511,17 +653,35 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             return false;
         }
+#endif
 
         /// <summary>
         /// Provides an enumerator for the elements of a <see cref="Span2D{T}"/> instance.
         /// </summary>
         public ref struct Enumerator
         {
+#if SPAN_RUNTIME_SUPPORT
             /// <summary>
             /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
             /// </summary>
             /// <remarks>Just like in <see cref="Span2D{T}"/>, the length is the height of the 2D region.</remarks>
             private readonly Span<T> span;
+#else
+            /// <summary>
+            /// The target <see cref="object"/> instance, if present.
+            /// </summary>
+            private readonly object? instance;
+
+            /// <summary>
+            /// The initial offset within <see cref="instance"/>.
+            /// </summary>
+            private readonly IntPtr offset;
+
+            /// <summary>
+            /// The height of the specified 2D region.
+            /// </summary>
+            private readonly int height;
+#endif
 
             /// <summary>
             /// The width of the specified 2D region.
@@ -549,7 +709,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             /// <param name="span">The target <see cref="Span2D{T}"/> instance to enumerate.</param>
             internal Enumerator(Span2D<T> span)
             {
+#if SPAN_RUNTIME_SUPPORT
                 this.span = span.span;
+#else
+                this.instance = span.instance;
+                this.offset = span.offset;
+                this.height = span.height;
+#endif
                 this.width = span.width;
                 this.pitch = span.pitch;
                 this.x = -1;
@@ -575,7 +741,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 // We reached the end of a row and there is at least
                 // another row available: wrap to a new line and continue.
-                if (this.y < (this.span.Length - 1))
+                if (
+#if SPAN_RUNTIME_SUPPORT
+                    this.y < (this.span.Length - 1)
+#else
+                    this.y < this.height - 1
+#endif
+                )
                 {
                     this.x = 0;
                     this.y++;
@@ -594,9 +766,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-                    return ref Unsafe.Add(
-                        ref MemoryMarshal.GetReference(this.span),
-                        (this.y * (this.width + this.pitch)) + this.x);
+#if SPAN_RUNTIME_SUPPORT
+                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
+#else
+                    ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
+                    int index = (this.y * (this.width + this.pitch)) + this.x;
+
+                    return ref Unsafe.Add(ref r0, index);
                 }
             }
         }
@@ -654,5 +831,3 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
     }
 }
-
-#endif
