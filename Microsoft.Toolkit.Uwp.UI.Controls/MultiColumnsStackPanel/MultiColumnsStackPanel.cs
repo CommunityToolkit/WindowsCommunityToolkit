@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -110,69 +109,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // We evaluate how the children are filling the columns to get the size that we will use.
             var columnHeight = GetColumnHeight(columnsCount, availableSize);
-            var columnsItemsHeights = new List<double>[columnsCount];
-            for (var i = 0; i < columnsCount; i++)
-            {
-                columnsItemsHeights[i] = new List<double>();
-            }
+            var columnsData = DoLayout(columnsCount, columnHeight);
 
-            var overflowItemsHeights = new List<double>();
-            var adjustementColumnIndex = 0;
-            while (true)
-            {
-                var height = 0.0;
-                var maxHeigth = 0.0;
-                var columnsIndex = 0;
-                foreach (var child in Children)
-                {
-                    if (columnsIndex < columnsCount)
-                    {
-                        columnsItemsHeights[columnsIndex].Add(child.DesiredSize.Height);
-                    }
-                    else
-                    {
-                        overflowItemsHeights.Add(child.DesiredSize.Height);
-                    }
-
-                    height += child.DesiredSize.Height;
-                    if (height > columnHeight)
-                    {
-                        maxHeigth = Math.Max(maxHeigth, height);
-                        height = 0;
-                        columnsIndex++;
-                    }
-                }
-
-                var requiredColumnsCount = columnsItemsHeights.TakeWhile(x => x.Any()).Count();
-                var requiredColumnsWidth = requiredColumnsCount * columnsWidth;
-                var requiredSpacingWidth = Math.Max(0, requiredColumnsCount - 1) * ColumnsSpacing;
-
-                if (overflowItemsHeights.Count == 0)
-                {
-                    // No overflow, we've been able to put all our items in our columns.
-                    return new Size(
-                        requiredColumnsWidth + requiredSpacingWidth,
-                        maxHeigth); // <-- Need to handle ItemsSpacing
-                }
-
-                // We move the first item of the second column to the first one
-                columnsItemsHeights[adjustementColumnIndex].Add(columnsItemsHeights[adjustementColumnIndex + 1].FirstOrDefault());
-                columnsItemsHeights[adjustementColumnIndex + 1].RemoveAt(0);
-            }
-        }
-
-        private double GetColumnHeight(int columnsCount, Size availableSize)
-        {
-            var totalChildrenHeight = Children.Select(c => c.DesiredSize.Height).Sum();
-            //var availableColumnsHeight = columnsCount * availableSize.Height;
-            //if (totalChildrenHeight <= availableColumnsHeight)
-            //{
-            //    // We have enough space for all our items
-            //    return Math.Ceiling(availableSize.Height);
-            //}
-
-            // Not enough place for all items. We required longer columns
-            return Math.Ceiling(totalChildrenHeight / columnsCount);
+            var size = GetFinalSize(columnsData, columnsWidth);
+            return size;
         }
 
         /// <inheritdoc/>
@@ -183,33 +123,131 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // We split the items across all the columns
             var columnHeight = GetColumnHeight(columnsCount, finalSize);
+            var columnsData = DoLayout(columnsCount, columnHeight);
 
-            var height = 0.0;
-            var maxHeigth = 0.0;
-            var requiredColumnsCount = 0;
             var rect = new Rect(0, 0, columnsWidth, 0);
-            foreach (var child in Children)
+            var height = 0.0;
+            var currentColumn = 0;
+            for (var childIndex = 0; childIndex < Children.Count; childIndex++)
             {
-                rect.Height = child.DesiredSize.Height;
+
+                var child = Children[childIndex];
                 rect.Y = height;
+                rect.Height = child.DesiredSize.Height;
 
                 child.Arrange(rect);
 
                 height += child.DesiredSize.Height;
-                if (height >= columnHeight)
+                if (childIndex == columnsData[currentColumn].LastChildIndex)
                 {
-                    maxHeigth = Math.Max(maxHeigth, height);
-                    height = 0;
-                    requiredColumnsCount++;
+                    // We've reached the last item for the current column. We move to the next one.
+                    height = 0.0;
+                    currentColumn++;
 
                     rect.X += columnsWidth + ColumnsSpacing;
                     rect.Y = 0;
                 }
             }
 
+            var size = GetFinalSize(columnsData, columnsWidth);
+            return size;
+        }
+
+        private double GetColumnHeight(int columnsCount, Size availableSize)
+        {
+            var totalChildrenHeight = Children.Select(c => c.DesiredSize.Height).Sum();
+            var availableColumnsHeight = columnsCount * availableSize.Height;
+            if (totalChildrenHeight <= availableColumnsHeight)
+            {
+                // We have enough space for all our items, we try with the available height
+                return Math.Ceiling(availableSize.Height);
+            }
+
+            // Not enough place for all items. We try with a balanced split.
+            return Math.Ceiling(totalChildrenHeight / columnsCount);
+        }
+
+        private struct ColumnData
+        {
+            public int LastChildIndex { get; set; }
+
+            public double ColumnHeight { get; set; }
+        }
+
+        private ColumnData[] DoLayout(int columnsCount, double targetHeight)
+        {
+            var columnsData = new ColumnData[columnsCount];
+
+            var currentColumnIndex = 0;
+            var childIndex = 0;
+            for (; childIndex < Children.Count; childIndex++)
+            {
+                columnsData[currentColumnIndex].ColumnHeight += Children[childIndex].DesiredSize.Height;
+                if (columnsData[currentColumnIndex].ColumnHeight > targetHeight)
+                {
+                    // We have pass the end, we move to the next column.
+                    columnsData[currentColumnIndex].LastChildIndex = childIndex;
+                    currentColumnIndex++;
+
+                    if (currentColumnIndex >= columnsData.Length)
+                    {
+                        // We have filled our last column. We stop
+                        break;
+                    }
+                }
+            }
+
+            columnsData[currentColumnIndex].LastChildIndex = childIndex;
+
+            while (childIndex < Children.Count)
+            {
+                // We have remaining items but no more space in our targetHeight height columns.
+                // We move the first items of each column to the previous one.
+                columnsData[0].LastChildIndex++;
+                var nextChildHeight = Children[columnsData[0].LastChildIndex].DesiredSize.Height;
+                columnsData[0].ColumnHeight += nextChildHeight;
+
+                columnsData[1].ColumnHeight -= nextChildHeight;
+
+                // We adjust the other columns so we first reset our data and restart the loop
+                for (var i = 1; i < columnsCount; i++)
+                {
+                    columnsData[i].ColumnHeight = 0.0;
+                    columnsData[i].LastChildIndex = 0;
+                }
+
+                currentColumnIndex = 1;
+                childIndex = columnsData[0].LastChildIndex + 1;
+                for (; childIndex < Children.Count; childIndex++)
+                {
+                    columnsData[currentColumnIndex].ColumnHeight += Children[childIndex].DesiredSize.Height;
+                    if (columnsData[currentColumnIndex].ColumnHeight > targetHeight)
+                    {
+                        // We have pass the end, we move to the next column.
+                        columnsData[currentColumnIndex].LastChildIndex = childIndex;
+                        currentColumnIndex++;
+
+                        if (currentColumnIndex >= columnsData.Length)
+                        {
+                            // We have filled our last column. We stop
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return columnsData;
+        }
+
+        private Size GetFinalSize(ColumnData[] columnsData, double columnWidth)
+        {
+            var requiredColumnsCount = columnsData.TakeWhile(cd => cd.LastChildIndex > 0).Count();
+            var requiredColumnsWidth = requiredColumnsCount * columnWidth;
+            var requiredSpacingWidth = Math.Max(0, requiredColumnsCount - 1) * ColumnsSpacing;
+            var maxHeight = columnsData.Max(cd => cd.ColumnHeight);
             return new Size(
-                rect.X + columnsWidth,
-                maxHeigth);
+                requiredColumnsWidth + requiredSpacingWidth,
+                maxHeight);
         }
 
         private (int columnsCount, double columnsWidth) GetAvailableColumnsInformation(Size availableSize)
