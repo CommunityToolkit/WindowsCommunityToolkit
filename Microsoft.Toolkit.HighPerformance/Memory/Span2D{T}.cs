@@ -128,6 +128,23 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.pitch = pitch;
         }
+#else
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
+        /// </summary>
+        /// <param name="instance">The target <see cref="object"/> instance.</param>
+        /// <param name="offset">The initial offset within <see cref="instance"/>.</param>
+        /// <param name="height">The height of the 2D memory area to map.</param>
+        /// <param name="width">The width of the 2D memory area to map.</param>
+        /// <param name="pitch">The pitch of the 2D memory area to map.</param>
+        internal Span2D(object instance, IntPtr offset, int height, int width, int pitch)
+        {
+            this.instance = instance;
+            this.offset = offset;
+            this.height = height;
+            this.width = width;
+            this.pitch = pitch;
+        }
 #endif
 
         /// <summary>

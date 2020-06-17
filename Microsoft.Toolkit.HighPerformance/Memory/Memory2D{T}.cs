@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if SPAN_RUNTIME_SUPPORT
-
 using System;
 using System.Buffers;
 using System.ComponentModel;
@@ -250,9 +248,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             {
                 if (!(this.instance is null))
                 {
+#if SPAN_RUNTIME_SUPPORT
                     ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
 
                     return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
+#else
+                    return new Span2D<T>(this.instance, this.offset, this.height, this.width, this.pitch);
+#endif
                 }
 
                 return default;
@@ -329,12 +331,25 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (!(this.instance is null))
             {
+#if SPAN_RUNTIME_SUPPORT
                 return HashCode.Combine(
                     RuntimeHelpers.GetHashCode(this.instance),
                     this.offset,
                     this.height,
                     this.width,
                     this.pitch);
+#else
+                Span<int> values = stackalloc int[]
+                {
+                    RuntimeHelpers.GetHashCode(this.instance),
+                    this.offset.GetHashCode(),
+                    this.height,
+                    this.width,
+                    this.pitch
+                };
+
+                return values.GetDjb2HashCode();
+#endif
             }
 
             return 0;
@@ -349,5 +364,3 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
     }
 }
-
-#endif
