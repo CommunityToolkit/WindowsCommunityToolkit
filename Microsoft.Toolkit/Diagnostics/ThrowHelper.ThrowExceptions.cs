@@ -20,6 +20,29 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class ThrowHelper
     {
         /// <summary>
+        /// Throws a new <see cref="ArrayTypeMismatchException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="ArrayTypeMismatchException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowArrayTypeMismatchException(string message)
+        {
+            throw new ArrayTypeMismatchException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArrayTypeMismatchException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="ArrayTypeMismatchException">Thrown with the specified parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowArrayTypeMismatchException(string message, Exception innerException)
+        {
+            throw new ArrayTypeMismatchException(message, innerException);
+        }
+
+        /// <summary>
         /// Throws a new <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
