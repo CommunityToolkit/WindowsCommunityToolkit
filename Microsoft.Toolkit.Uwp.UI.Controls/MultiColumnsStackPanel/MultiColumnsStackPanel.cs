@@ -182,11 +182,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var childIndex = 0;
             for (; childIndex < Children.Count; childIndex++)
             {
+                columnsData[currentColumnIndex].LastChildIndex = childIndex;
                 columnsData[currentColumnIndex].ColumnHeight += Children[childIndex].DesiredSize.Height;
                 if (columnsData[currentColumnIndex].ColumnHeight > targetHeight)
                 {
                     // We have pass the end, we move to the next column.
-                    columnsData[currentColumnIndex].LastChildIndex = childIndex;
+                    columnsData[currentColumnIndex].LastChildIndex = childIndex - 1; // TODO: handle the case of super big items that do not fit.
+                    columnsData[currentColumnIndex].ColumnHeight -= Children[childIndex].DesiredSize.Height;
                     currentColumnIndex++;
 
                     if (currentColumnIndex >= columnsData.Length)
@@ -194,10 +196,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // We have filled our last column. We stop
                         break;
                     }
+
+                    // We fill the data for our next column
+                    columnsData[currentColumnIndex].LastChildIndex = childIndex;
+                    columnsData[currentColumnIndex].ColumnHeight = Children[childIndex].DesiredSize.Height;
                 }
             }
-
-            columnsData[currentColumnIndex].LastChildIndex = childIndex;
 
             while (childIndex < Children.Count)
             {
@@ -208,6 +212,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 columnsData[0].ColumnHeight += nextChildHeight;
 
                 columnsData[1].ColumnHeight -= nextChildHeight;
+
+                // We get our new target height
+                targetHeight = columnsData[0].ColumnHeight; // columnsData.Max(cd => cd.ColumnHeight); we do not pick max to have a better alignment.
 
                 // We adjust the other columns so we first reset our data and restart the loop
                 for (var i = 1; i < columnsCount; i++)
@@ -220,11 +227,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 childIndex = columnsData[0].LastChildIndex + 1;
                 for (; childIndex < Children.Count; childIndex++)
                 {
+                    columnsData[currentColumnIndex].LastChildIndex = childIndex;
                     columnsData[currentColumnIndex].ColumnHeight += Children[childIndex].DesiredSize.Height;
                     if (columnsData[currentColumnIndex].ColumnHeight > targetHeight)
                     {
                         // We have pass the end, we move to the next column.
-                        columnsData[currentColumnIndex].LastChildIndex = childIndex;
+                        columnsData[currentColumnIndex].LastChildIndex = childIndex - 1; // TODO: handle the case of super big items that do not fit.
+                        columnsData[currentColumnIndex].ColumnHeight -= Children[childIndex].DesiredSize.Height;
                         currentColumnIndex++;
 
                         if (currentColumnIndex >= columnsData.Length)
@@ -232,6 +241,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             // We have filled our last column. We stop
                             break;
                         }
+
+                        // We fill the data for our next column
+                        columnsData[currentColumnIndex].LastChildIndex = childIndex;
+                        columnsData[currentColumnIndex].ColumnHeight = Children[childIndex].DesiredSize.Height;
                     }
                 }
             }
