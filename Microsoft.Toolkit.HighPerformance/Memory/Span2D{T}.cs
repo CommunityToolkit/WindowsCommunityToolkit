@@ -46,14 +46,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         // users much more flexibility when creating spans from data.
 
         /// <summary>
-        /// The <see cref="Ref{T}"/> instance pointing to the first item in the target memory area.
+        /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
         /// </summary>
-        private readonly Ref<T> reference;
-
-        /// <summary>
-        /// The height of the specified 2D region.
-        /// </summary>
-        private readonly int height;
+        /// <remarks>
+        /// The <see cref="Span{T}.Length"/> field maps to the height of the 2D region.
+        /// This is done to save 4 bytes in the layout of the <see cref="Span2D{T}"/> type.
+        /// </remarks>
+        private readonly Span<T> span;
 
         /// <summary>
         /// The width of the specified 2D region.
@@ -82,8 +81,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowArgumentExceptionForNegativeSize();
             }
 
-            this.reference = new Ref<T>(ref value);
-            this.height = height;
+            this.span = MemoryMarshal.CreateSpan(ref value, height);
             this.width = width;
             this.pitch = pitch;
         }
@@ -111,8 +109,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowArgumentExceptionForNegativeSize();
             }
 
-            this.reference = new Ref<T>(ref Unsafe.AsRef<T>(pointer));
-            this.height = height;
+            this.span = new Span<T>(pointer, height);
             this.width = width;
             this.pitch = pitch;
         }
@@ -138,8 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowArrayTypeMismatchException();
             }
 
-            this.reference = new Ref<T>(ref array[0, 0]);
-            this.height = array.GetLength(0);
+            this.span = MemoryMarshal.CreateSpan(ref array[0, 0], array.GetLength(0));
             this.width = array.GetLength(1);
             this.pitch = 0;
         }
@@ -178,8 +174,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowArgumentExceptionForNegativeOrInvalidParameter();
             }
 
-            this.reference = new Ref<T>(ref array[row, column]);
-            this.height = height;
+            this.span = MemoryMarshal.CreateSpan(ref array[row, column], height);
             this.width = width;
             this.pitch = row + (array.GetLength(1) - column);
         }
@@ -195,7 +190,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool IsEmpty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (this.height | this.width) == 0;
+            get => (this.span.Length | this.width) == 0;
         }
 
         /// <summary>
@@ -212,14 +207,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if ((uint)i >= (uint)this.height ||
+                if ((uint)i >= (uint)this.span.Length ||
                     (uint)j >= (uint)this.width)
                 {
                     ThrowIndexOutOfRangeException();
                 }
 
                 return ref Unsafe.Add(
-                    ref this.reference.Value,
+                    ref MemoryMarshal.GetReference(this.span),
                     (i * (this.width + this.pitch)) + j);
             }
         }
@@ -230,7 +225,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public int Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.height * this.width;
+            get => this.span.Length * this.width;
         }
 
         /// <summary>
@@ -243,15 +238,15 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 // If the pitch is 0, it means all the target area is contiguous
                 // in memory with no padding between row boundaries. In this case
                 // we can just create a Span<T> over the area and use it to clear it.
-                MemoryMarshal.CreateSpan(ref this.reference.Value, Length).Clear();
+                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).Clear();
             }
             else
             {
-                ref T r0 = ref this.reference.Value;
+                ref T r0 = ref MemoryMarshal.GetReference(this.span);
                 IntPtr step = (IntPtr)(this.width + this.pitch);
 
                 // Clear each row individually, as they're not contiguous
-                for (int i = 0; i < this.height; i++)
+                for (int i = 0; i < this.span.Length; i++)
                 {
                     MemoryMarshal.CreateSpan(ref r0, this.width).Clear();
 
@@ -272,7 +267,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             if (this.pitch == 0)
             {
                 // If the pitch is 0, we can copy in a single pass
-                MemoryMarshal.CreateSpan(ref this.reference.Value, Length).CopyTo(destination);
+                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).CopyTo(destination);
             }
             else
             {
@@ -281,12 +276,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     ThrowArgumentExceptionForDestinationTooShort();
                 }
 
-                ref T sourceRef = ref this.reference.Value;
+                ref T sourceRef = ref MemoryMarshal.GetReference(this.span);
                 IntPtr step = (IntPtr)(this.width + this.pitch);
                 int offset = 0;
 
                 // Copy each row individually
-                for (int i = 0; i < this.height; i++)
+                for (int i = 0; i < this.span.Length; i++)
                 {
                     MemoryMarshal.CreateSpan(ref sourceRef, this.width).CopyTo(destination.Slice(offset));
 
@@ -334,15 +329,15 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (this.pitch == 0)
             {
-                MemoryMarshal.CreateSpan(ref this.reference.Value, Length).Fill(value);
+                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).Fill(value);
             }
             else
             {
-                ref T sourceRef = ref this.reference.Value;
+                ref T sourceRef = ref MemoryMarshal.GetReference(this.span);
                 IntPtr step = (IntPtr)(this.width + this.pitch);
 
                 // Fill each row individually
-                for (int i = 0; i < this.height; i++)
+                for (int i = 0; i < this.span.Length; i++)
                 {
                     MemoryMarshal.CreateSpan(ref sourceRef, this.width).Fill(value);
 
@@ -376,7 +371,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             if (this.Length != 0)
             {
-                r0 = ref this.reference.Value;
+                r0 = ref MemoryMarshal.GetReference(this.span);
             }
 
             return ref r0;
@@ -390,7 +385,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T DangerousGetReference()
         {
-            return ref this.reference.Value;
+            return ref MemoryMarshal.GetReference(this.span);
         }
 
         /// <summary>
@@ -402,8 +397,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public static bool operator ==(Span2D<T> left, Span2D<T> right)
         {
             return
-                Unsafe.AreSame(ref left.reference.Value, ref right.reference.Value) &&
-                left.height == right.height &&
+                left.span == right.span &&
                 left.width == right.width &&
                 left.pitch == right.pitch;
         }
@@ -450,7 +444,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [Pure]
         public T[,] ToArray()
         {
-            T[,] array = new T[this.height, this.width];
+            T[,] array = new T[this.span.Length, this.width];
 
             if (this.pitch == 0)
             {
@@ -458,12 +452,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
             else
             {
-                ref T sourceRef = ref this.reference.Value;
+                ref T sourceRef = ref MemoryMarshal.GetReference(this.span);
                 IntPtr step = (IntPtr)(this.width + this.pitch);
                 int offset = 0;
 
                 // Copy each row individually
-                for (int i = 0; i < this.height; i++)
+                for (int i = 0; i < this.span.Length; i++)
                 {
                     MemoryMarshal.CreateSpan(ref sourceRef, this.width).CopyTo(array.AsSpan().Slice(offset));
 
@@ -478,7 +472,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{this.height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{this.span.Length}, {this.width}]";
         }
 
         /// <summary>
@@ -508,7 +502,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             if (this.pitch == 0)
             {
                 // We can only create a Span<T> if the buffer is contiguous
-                span = MemoryMarshal.CreateSpan(ref this.reference.Value, Length);
+                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length);
 
                 return true;
             }
@@ -524,14 +518,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public ref struct Enumerator
         {
             /// <summary>
-            /// The <see cref="Ref{T}"/> instance pointing to the first item in the target memory area.
+            /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
             /// </summary>
-            private readonly Ref<T> reference;
-
-            /// <summary>
-            /// The height of the specified 2D region.
-            /// </summary>
-            private readonly int height;
+            /// <remarks>Just like in <see cref="Span2D{T}"/>, the length is the height of the 2D region.</remarks>
+            private readonly Span<T> span;
 
             /// <summary>
             /// The width of the specified 2D region.
@@ -559,8 +549,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             /// <param name="span">The target <see cref="Span2D{T}"/> instance to enumerate.</param>
             internal Enumerator(Span2D<T> span)
             {
-                this.reference = span.reference;
-                this.height = span.height;
+                this.span = span.span;
                 this.width = span.width;
                 this.pitch = span.pitch;
                 this.x = -1;
@@ -586,7 +575,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 // We reached the end of a row and there is at least
                 // another row available: wrap to a new line and continue.
-                if (this.y < (this.height - 1))
+                if (this.y < (this.span.Length - 1))
                 {
                     this.x = 0;
                     this.y++;
@@ -606,7 +595,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 get
                 {
                     return ref Unsafe.Add(
-                        ref this.reference.Value,
+                        ref MemoryMarshal.GetReference(this.span),
                         (this.y * (this.width + this.pitch)) + this.x);
                 }
             }
