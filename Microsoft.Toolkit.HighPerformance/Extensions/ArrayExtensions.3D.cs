@@ -175,5 +175,27 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
+
+        /// <summary>
+        /// Checks whether or not a given <typeparamref name="T"/> array is covariant.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <returns>Whether or not <paramref name="array"/> is covariant.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsCovariant<T>(this T[,,] array)
+        {
+            return
+#pragma warning disable SA1003 // Whitespace before ! operator
+#if NETSTANDARD1_4
+
+                !System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(T)).IsValueType &&
+#else
+                !typeof(T).IsValueType &&
+#endif
+#pragma warning restore SA1003
+                array.GetType() != typeof(T[]);
+        }
     }
 }
