@@ -22,12 +22,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
     {
         /// <summary>
-        /// The target <see cref="Array"/> instance, if present.
+        /// The target <see cref="object"/> instance, if present.
         /// </summary>
-        private readonly Array? array;
+        private readonly object? instance;
 
         /// <summary>
-        /// The initial offset within <see cref="array"/>.
+        /// The initial offset within <see cref="instance"/>.
         /// </summary>
         private readonly IntPtr offset;
 
@@ -45,6 +45,46 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// The pitch of the specified 2D region.
         /// </summary>
         private readonly int pitch;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="array">The target array to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="array"/>.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(T[] array, int offset, int width, int height)
+        {
+            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
+            if ((uint)offset >= (uint)array.Length)
+            {
+                throw new Exception();
+            }
+
+            int remaining = array.Length - offset;
+
+            if (((uint)width * (uint)height) > (uint)remaining)
+            {
+                throw new Exception();
+            }
+
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.height = height;
+            this.width = width;
+            this.pitch = 0;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
@@ -68,10 +108,81 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowArrayTypeMismatchException();
             }
 
-            this.array = array;
+            this.instance = array;
             this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReference());
             this.height = array.GetLength(0);
             this.width = array.GetLength(1);
+            this.pitch = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct wrapping a 2D array.
+        /// </summary>
+        /// <param name="array">The given 2D array to wrap.</param>
+        /// <param name="row">The target row to map within <paramref name="array"/>.</param>
+        /// <param name="column">The target column to map within <paramref name="array"/>.</param>
+        /// <param name="width">The width to map within <paramref name="array"/>.</param>
+        /// <param name="height">The height to map within <paramref name="array"/>.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
+        /// are negative or not within the bounds that are valid for <paramref name="array"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(T[,] array, int row, int column, int width, int height)
+        {
+            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
+            int
+                rows = array.GetLength(0),
+                columns = array.GetLength(1);
+
+            if ((uint)row >= (uint)rows ||
+                (uint)column >= (uint)columns ||
+                width > (columns - column) ||
+                height > (rows - row))
+            {
+                throw new Exception();
+            }
+
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.height = height;
+            this.width = width;
+            this.pitch = row + (array.GetLength(1) - column);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(T[,,] array, int depth)
+        {
+            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
+            if ((uint)depth >= (uint)array.GetLength(0))
+            {
+                throw new Exception();
+            }
+
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.height = array.GetLength(1);
+            this.width = array.GetLength(2);
             this.pitch = 0;
         }
 
@@ -135,9 +246,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (!(this.array is null))
+                if (!(this.instance is null))
                 {
-                    ref T r0 = ref this.array.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                    ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
 
                     return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
                 }
@@ -173,11 +284,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A <see cref="MemoryHandle"/> instance wrapping the pinned handle.</returns>
         public unsafe MemoryHandle Pin()
         {
-            if (!(this.array is null))
+            if (!(this.instance is null))
             {
-                GCHandle handle = GCHandle.Alloc(this.array, GCHandleType.Pinned);
+                GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
 
-                void* pointer = Unsafe.AsPointer(ref this.array.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                void* pointer = Unsafe.AsPointer(ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset));
 
                 return new MemoryHandle(pointer, handle);
             }
@@ -203,7 +314,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool Equals(Memory2D<T> other)
         {
             return
-                this.array == other.array &&
+                this.instance == other.instance &&
                 this.offset == other.offset &&
                 this.height == other.height &&
                 this.width == other.width &&
@@ -214,10 +325,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode()
         {
-            if (!(this.array is null))
+            if (!(this.instance is null))
             {
                 return HashCode.Combine(
-                    RuntimeHelpers.GetHashCode(this.array),
+                    RuntimeHelpers.GetHashCode(this.instance),
                     this.offset,
                     this.height,
                     this.width,
