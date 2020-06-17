@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[] array, int offset, int width, int height)
         {
-            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 return;
             }
 
-            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,] array, int row, int column, int width, int height)
         {
-            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,,] array, int depth)
         {
-            if (!typeof(T).IsValueType && array.GetType() != typeof(T[]))
+            if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }

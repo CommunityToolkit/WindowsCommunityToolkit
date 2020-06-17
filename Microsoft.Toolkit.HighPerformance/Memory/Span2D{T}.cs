@@ -5,7 +5,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -147,16 +146,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 return;
             }
 
-            if (
-#pragma warning disable SA1003 // Whitespace before ! operator
-#if NETSTANDARD1_4
-
-                !typeof(T).GetTypeInfo().IsValueType &&
-#else
-                !typeof(T).IsValueType &&
-#endif
-#pragma warning restore SA1003
-                array.GetType() != typeof(T[]))
+            if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
@@ -189,16 +179,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public Span2D(T[,] array, int row, int column, int width, int height)
         {
-            if (
-#pragma warning disable SA1003 // Whitespace before ! operator
-#if NETSTANDARD1_4
-
-                !typeof(T).GetTypeInfo().IsValueType &&
-#else
-                !typeof(T).IsValueType &&
-#endif
-#pragma warning restore SA1003
-                array.GetType() != typeof(T[]))
+            if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
