@@ -1,6 +1,11 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+#if SPAN_RUNTIME_SUPPORT
+
+using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -182,11 +187,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets an empty <see cref="Span2D{T}"/> instance.
         /// </summary>
-        public static Span<T> Empty
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => default;
-        }
+        public static Span<T> Empty => default;
 
         /// <summary>
         /// Gets a value indicating whether the current <see cref="Span2D{T}"/> instance is empty.
@@ -617,7 +618,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Throwing <see cref="IndexOutOfRangeException"/> is technically discouraged in the docs, but
         /// we're doing that here for consistency with the official <see cref="Span{T}"/> type from the BCL.
         /// </remarks>
-        [DoesNotReturn]
         private static void ThrowIndexOutOfRangeException()
         {
             throw new IndexOutOfRangeException();
@@ -626,7 +626,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when using the <see langword="void"/>* constructor with a managed type.
         /// </summary>
-        [DoesNotReturn]
         private static void ThrowArgumentExceptionForManagedType()
         {
             throw new ArgumentException("Can't create a Span2D<T> from a pointer when T is a managed type");
@@ -635,7 +634,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
         /// </summary>
-        [DoesNotReturn]
         private static void ThrowArrayTypeMismatchException()
         {
             throw new ArrayTypeMismatchException("The given array doesn't match the specified Span2D<T> type");
@@ -644,7 +642,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a constructor parameter is negative.
         /// </summary>
-        [DoesNotReturn]
         private static void ThrowArgumentExceptionForNegativeSize()
         {
             throw new ArgumentException("The size parameters must be positive values");
@@ -653,7 +650,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a constructor parameter is negative or invalid.
         /// </summary>
-        [DoesNotReturn]
         private static void ThrowArgumentExceptionForNegativeOrInvalidParameter()
         {
             throw new ArgumentException("The given parameters must be non negative and within valid range for the array");
@@ -662,10 +658,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the target span is too short.
         /// </summary>
-        [DoesNotReturn]
         private static void ThrowArgumentExceptionForDestinationTooShort()
         {
             throw new ArgumentException("The target span is too short to copy all the current items to");
         }
     }
 }
+
+#endif
