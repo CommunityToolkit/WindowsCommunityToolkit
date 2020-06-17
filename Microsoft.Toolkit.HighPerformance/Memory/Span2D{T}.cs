@@ -482,7 +482,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Attempts to copy the current <see cref="Span2D{T}"/> instance to a destination <see cref="Span{T}"/>.</summary>
+        /// Attempts to copy the current <see cref="Span2D{T}"/> instance to a destination <see cref="Span{T}"/>.
+        /// </summary>
         /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
         /// <returns>Whether or not the operaation was successful.</returns>
         public bool TryCopyTo(Span<T> destination)
