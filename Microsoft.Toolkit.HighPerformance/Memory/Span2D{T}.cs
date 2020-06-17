@@ -246,6 +246,22 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
+        /// Gets the length of the current <see cref="Span2D{T}"/> instance.
+        /// </summary>
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+#if SPAN_RUNTIME_SUPPORT
+                return this.span.Length * this.width;
+#else
+                return this.height * this.width;
+#endif
+            }
+        }
+
+        /// <summary>
         /// Gets the element at the specified zero-based indices.
         /// </summary>
         /// <param name="i">The target row to get the element from.</param>
@@ -280,22 +296,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 int index = (i * (this.width + this.pitch)) + j;
 
                 return ref Unsafe.Add(ref r0, index);
-            }
-        }
-
-        /// <summary>
-        /// Gets the length of the current <see cref="Span2D{T}"/> instance.
-        /// </summary>
-        public int Length
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-#if SPAN_RUNTIME_SUPPORT
-                return this.span.Length * this.width;
-#else
-                return this.height * this.width;
-#endif
             }
         }
 
@@ -395,23 +395,22 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             throw new NotImplementedException("TODO");
         }
 
-#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
-        /// <inheritdoc cref="Span{T}.Equals(object)"/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Equals() on Span will always throw an exception. Use == instead.")]
-        public override bool Equals(object obj)
+        /// <summary>
+        /// Attempts to copy the current <see cref="Span2D{T}"/> instance to a destination <see cref="Span{T}"/>.
+        /// </summary>
+        /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
+        /// <returns>Whether or not the operaation was successful.</returns>
+        public bool TryCopyTo(Span<T> destination)
         {
-            throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.Span2D<T>.Equals(object) is not supported");
-        }
+            if (destination.Length >= Length)
+            {
+                CopyTo(destination);
 
-        /// <inheritdoc cref="Span{T}.GetHashCode()"/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("GetHashCode() on Span will always throw an exception.")]
-        public override int GetHashCode()
-        {
-            throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.Span2D<T>.GetHashCode() is not supported");
+                return true;
+            }
+
+            return false;
         }
-#pragma warning restore CS0809
 
         /// <summary>
         /// Fills the elements of this span with a specified value.
@@ -497,43 +496,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Checks whether two <see cref="Span2D{T}"/> instances are equal.
-        /// </summary>
-        /// <param name="left">The first <see cref="Span2D{T}"/> instance to compare.</param>
-        /// <param name="right">The second <see cref="Span2D{T}"/> instance to compare.</param>
-        /// <returns>Whether or not <paramref name="left"/> and <paramref name="right"/> are equal.</returns>
-        public static bool operator ==(Span2D<T> left, Span2D<T> right)
-        {
-            return
-#if SPAN_RUNTIME_SUPPORT
-                left.span == right.span &&
-#else
-                ReferenceEquals(left.instance, right.instance) &&
-                left.offset == right.offset &&
-                left.height == right.height &&
-#endif
-                left.width == right.width &&
-                left.pitch == right.pitch;
-        }
-
-        /// <summary>
-        /// Checks whether two <see cref="Span2D{T}"/> instances are not equal.
-        /// </summary>
-        /// <param name="left">The first <see cref="Span2D{T}"/> instance to compare.</param>
-        /// <param name="right">The second <see cref="Span2D{T}"/> instance to compare.</param>
-        /// <returns>Whether or not <paramref name="left"/> and <paramref name="right"/> are not equal.</returns>
-        public static bool operator !=(Span2D<T> left, Span2D<T> right)
-        {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// Implicily converts a given 2D array into a <see cref="Span2D{T}"/> instance.
-        /// </summary>
-        /// <param name="array">The input 2D array to convert.</param>
-        public static implicit operator Span2D<T>(T[,]? array) => new Span2D<T>(array);
-
-        /// <summary>
         /// Slices the current instance with the specified parameters.
         /// </summary>
         /// <param name="row">The target row to map within the current instance.</param>
@@ -550,6 +512,28 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             throw new NotImplementedException("TODO");
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Tries to get a <see cref="Span{T}"/> instance, if the underlying buffer is contiguous.
+        /// </summary>
+        /// <param name="span">The resulting <see cref="Span{T}"/>, in case of success.</param>
+        /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
+        public bool TryAsSpan(out Span<T> span)
+        {
+            if (this.pitch == 0)
+            {
+                // We can only create a Span<T> if the buffer is contiguous
+                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length);
+
+                return true;
+            }
+
+            span = default;
+
+            return false;
+        }
+#endif
 
         /// <summary>
         /// Copies the contents of the current <see cref="Span2D{T}"/> instance into a new 2D array.
@@ -602,6 +586,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             return array;
         }
 
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        /// <inheritdoc cref="Span{T}.Equals(object)"/>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Equals() on Span will always throw an exception. Use == instead.")]
+        public override bool Equals(object obj)
+        {
+            throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.Span2D<T>.Equals(object) is not supported");
+        }
+
+        /// <inheritdoc cref="Span{T}.GetHashCode()"/>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("GetHashCode() on Span will always throw an exception.")]
+        public override int GetHashCode()
+        {
+            throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.Span2D<T>.GetHashCode() is not supported");
+        }
+#pragma warning restore CS0809
+
         /// <inheritdoc/>
         public override string ToString()
         {
@@ -615,43 +617,41 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Attempts to copy the current <see cref="Span2D{T}"/> instance to a destination <see cref="Span{T}"/>.
+        /// Checks whether two <see cref="Span2D{T}"/> instances are equal.
         /// </summary>
-        /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
-        /// <returns>Whether or not the operaation was successful.</returns>
-        public bool TryCopyTo(Span<T> destination)
+        /// <param name="left">The first <see cref="Span2D{T}"/> instance to compare.</param>
+        /// <param name="right">The second <see cref="Span2D{T}"/> instance to compare.</param>
+        /// <returns>Whether or not <paramref name="left"/> and <paramref name="right"/> are equal.</returns>
+        public static bool operator ==(Span2D<T> left, Span2D<T> right)
         {
-            if (destination.Length >= Length)
-            {
-                CopyTo(destination);
-
-                return true;
-            }
-
-            return false;
-        }
-
+            return
 #if SPAN_RUNTIME_SUPPORT
-        /// <summary>
-        /// Tries to get a <see cref="Span{T}"/> instance, if the underlying buffer is contiguous.
-        /// </summary>
-        /// <param name="span">The resulting <see cref="Span{T}"/>, in case of success.</param>
-        /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
-        public bool TryAsSpan(out Span<T> span)
-        {
-            if (this.pitch == 0)
-            {
-                // We can only create a Span<T> if the buffer is contiguous
-                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length);
-
-                return true;
-            }
-
-            span = default;
-
-            return false;
-        }
+                left.span == right.span &&
+#else
+                ReferenceEquals(left.instance, right.instance) &&
+                left.offset == right.offset &&
+                left.height == right.height &&
 #endif
+                left.width == right.width &&
+                left.pitch == right.pitch;
+        }
+
+        /// <summary>
+        /// Checks whether two <see cref="Span2D{T}"/> instances are not equal.
+        /// </summary>
+        /// <param name="left">The first <see cref="Span2D{T}"/> instance to compare.</param>
+        /// <param name="right">The second <see cref="Span2D{T}"/> instance to compare.</param>
+        /// <returns>Whether or not <paramref name="left"/> and <paramref name="right"/> are not equal.</returns>
+        public static bool operator !=(Span2D<T> left, Span2D<T> right)
+        {
+            return !(left == right);
+        }
+
+        /// <summary>
+        /// Implicily converts a given 2D array into a <see cref="Span2D{T}"/> instance.
+        /// </summary>
+        /// <param name="array">The input 2D array to convert.</param>
+        public static implicit operator Span2D<T>(T[,]? array) => new Span2D<T>(array);
 
         /// <summary>
         /// Provides an enumerator for the elements of a <see cref="Span2D{T}"/> instance.
@@ -776,6 +776,32 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
         }
 
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when using the <see langword="void"/>* constructor with a managed type.
+        /// </summary>
+        private static void ThrowArgumentExceptionForManagedType()
+        {
+            throw new ArgumentException("Can't create a Span2D<T> from a pointer when T is a managed type");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when a constructor parameter is negative.
+        /// </summary>
+        private static void ThrowArgumentExceptionForNegativeSize()
+        {
+            throw new ArgumentException("The size parameters must be positive values");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when the target span is too short.
+        /// </summary>
+        private static void ThrowArgumentExceptionForDestinationTooShort()
+        {
+            throw new ArgumentException("The target span is too short to copy all the current items to");
+        }
+#endif
+
         /// <summary>
         /// Throws an <see cref="IndexOutOfRangeException"/> when the a given coordinate is invalid.
         /// </summary>
@@ -789,14 +815,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when using the <see langword="void"/>* constructor with a managed type.
-        /// </summary>
-        private static void ThrowArgumentExceptionForManagedType()
-        {
-            throw new ArgumentException("Can't create a Span2D<T> from a pointer when T is a managed type");
-        }
-
-        /// <summary>
         /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
         /// </summary>
         private static void ThrowArrayTypeMismatchException()
@@ -805,27 +823,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when a constructor parameter is negative.
-        /// </summary>
-        private static void ThrowArgumentExceptionForNegativeSize()
-        {
-            throw new ArgumentException("The size parameters must be positive values");
-        }
-
-        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a constructor parameter is negative or invalid.
         /// </summary>
         private static void ThrowArgumentExceptionForNegativeOrInvalidParameter()
         {
             throw new ArgumentException("The given parameters must be non negative and within valid range for the array");
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when the target span is too short.
-        /// </summary>
-        private static void ThrowArgumentExceptionForDestinationTooShort()
-        {
-            throw new ArgumentException("The target span is too short to copy all the current items to");
         }
     }
 }

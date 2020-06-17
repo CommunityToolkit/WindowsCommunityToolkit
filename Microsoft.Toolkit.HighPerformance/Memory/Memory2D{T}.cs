@@ -187,11 +187,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Defines an implicit conversion of an array to a <see cref="Memory2D{T}"/>
-        /// </summary>
-        public static implicit operator Memory2D<T>(T[,]? array) => new Memory2D<T>(array);
-
-        /// <summary>
         /// Gets an empty <see cref="Memory2D{T}"/> instance.
         /// </summary>
         public static Memory2D<T> Empty => default;
@@ -212,30 +207,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.height * this.width;
-        }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
-        }
-
-        /// <summary>
-        /// Slices the current instance with the specified parameters.
-        /// </summary>
-        /// <param name="row">The target row to map within the current instance.</param>
-        /// <param name="column">The target column to map within the current instance.</param>
-        /// <param name="width">The width to map within the current instance.</param>
-        /// <param name="height">The height to map within the current instance.</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
-        /// are negative or not within the bounds that are valid for the current instance.
-        /// </exception>
-        /// <returns>A new <see cref="Memory2D{T}"/> instance representing a slice of the current one.</returns>
-        [Pure]
-        public Memory2D<T> Slice(int row, int column, int width, int height)
-        {
-            throw new NotImplementedException("TODO");
         }
 
         /// <summary>
@@ -259,6 +230,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 return default;
             }
+        }
+
+        /// <summary>
+        /// Slices the current instance with the specified parameters.
+        /// </summary>
+        /// <param name="row">The target row to map within the current instance.</param>
+        /// <param name="column">The target column to map within the current instance.</param>
+        /// <param name="width">The width to map within the current instance.</param>
+        /// <param name="height">The height to map within the current instance.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
+        /// are negative or not within the bounds that are valid for the current instance.
+        /// </exception>
+        /// <returns>A new <see cref="Memory2D{T}"/> instance representing a slice of the current one.</returns>
+        [Pure]
+        public Memory2D<T> Slice(int row, int column, int width, int height)
+        {
+            throw new NotImplementedException("TODO");
         }
 
         /// <summary>
@@ -354,6 +343,17 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             return 0;
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"Microsoft.Toolkit.HighPerformance.Memory.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
+        }
+
+        /// <summary>
+        /// Defines an implicit conversion of an array to a <see cref="Memory2D{T}"/>
+        /// </summary>
+        public static implicit operator Memory2D<T>(T[,]? array) => new Memory2D<T>(array);
 
         /// <summary>
         /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
