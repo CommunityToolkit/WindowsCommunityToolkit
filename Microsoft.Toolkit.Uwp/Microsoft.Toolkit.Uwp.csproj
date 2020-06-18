@@ -21,6 +21,8 @@
     
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
+    
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
   </ItemGroup>

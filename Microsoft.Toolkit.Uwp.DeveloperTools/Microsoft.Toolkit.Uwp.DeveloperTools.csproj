@@ -28,6 +28,10 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
+  </ItemGroup>
+
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>

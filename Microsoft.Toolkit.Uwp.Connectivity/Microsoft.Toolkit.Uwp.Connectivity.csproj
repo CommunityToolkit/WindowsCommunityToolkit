@@ -18,6 +18,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
+	</ItemGroup>
+
+	<ItemGroup>
 
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
 

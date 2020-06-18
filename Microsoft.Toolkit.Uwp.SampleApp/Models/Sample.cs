@@ -469,7 +469,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if HAS_UNO
                 var manifestName = typeof(Samples).GetTypeInfo().Assembly
                     .GetManifestResourceNames()
-                    .FirstOrDefault(n => n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
+                    .FirstOrDefault(n =>
+                        n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase)
+                        || n.EndsWith(XamlCodeFile.Replace("/", "."), StringComparison.OrdinalIgnoreCase));
 
                 if (manifestName == null)
                 {

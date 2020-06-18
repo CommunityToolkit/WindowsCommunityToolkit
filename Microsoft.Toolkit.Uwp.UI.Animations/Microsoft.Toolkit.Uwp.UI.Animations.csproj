@@ -32,7 +32,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
-		<PackageReference Include="Uno.UI"  Version="3.0.0-dev.405"/>
+		<PackageReference Include="Uno.UI" Version="3.0.0-dev.405" />
 
 		<Compile Remove="Effects\Blur.cs" />
 		<Compile Remove="Effects\Saturation.cs" />
@@ -52,6 +52,10 @@
 		<None Include="Behaviors\Blur.cs" />
 		<None Include="Behaviors\Light.cs" />
 		<None Include="Behaviors\Saturation.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
 	</ItemGroup>
 
 	<ItemGroup>
