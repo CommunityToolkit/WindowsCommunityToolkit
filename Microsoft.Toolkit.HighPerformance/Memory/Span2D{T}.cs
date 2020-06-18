@@ -87,14 +87,22 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="pitch"/> are negative.
-        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
         public Span2D(ref T value, int height, int width, int pitch)
         {
-            if ((height | width | pitch) < 0)
+            if (width < 0)
             {
-                ThrowHelper.ThrowArgumentException();
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
             this.span = MemoryMarshal.CreateSpan(ref value, height);
@@ -109,10 +117,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="T"/> is a reference type or contains references. Also thrown
-        /// when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="pitch"/> are negative.
-        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
         public unsafe Span2D(void* pointer, int height, int width, int pitch)
         {
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
@@ -120,9 +125,19 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentExceptionForManagedType();
             }
 
-            if ((height | width | pitch) < 0)
+            if (width < 0)
             {
-                ThrowHelper.ThrowArgumentException();
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
             this.span = new Span<T>(pointer, height);
@@ -152,18 +167,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
         /// </summary>
         /// <param name="array">The target array to wrap.</param>
-        /// <param name="offset">The initial offset within <paramref name="array"/>.</param>
         /// <param name="width">The width of each row in the resulting 2D area.</param>
         /// <param name="height">The height of the resulting 2D area.</param>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
+        /// <remarks>The total area must match the lenght of <paramref name="array"/>.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span2D(T[] array, int offset, int width, int height)
-            : this(array, offset, width, height, 0)
+        public Span2D(T[] array, int width, int height)
+            : this(array, 0, width, height, 0)
         {
         }
 
@@ -179,8 +194,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/>,
-        /// <paramref name="width"/> or <paramref name="pitch"/> are invalid.
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="array"/>.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Span2D(T[] array, int offset, int width, int height, int pitch)
@@ -190,14 +207,38 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
-            if ((uint)offset >= (uint)array.Length)
+            if ((uint)offset > (uint)array.Length)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
             }
 
-            int remaining = array.Length - offset;
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
 
-            if ((((uint)width + (uint)pitch) * (uint)height) > (uint)remaining)
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            if (width == 0 || height == 0)
+            {
+                this = default;
+
+                return;
+            }
+
+            int
+                remaining = array.Length - offset,
+                area = ((width + pitch) * (height - 1)) + width;
+
+            if (area > remaining)
             {
                 ThrowHelper.ThrowArgumentException();
             }
@@ -299,7 +340,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.height = array.GetLength(0);
 #endif
             this.width = width;
-            this.pitch = row + (array.GetLength(1) - column);
+            this.pitch = columns - width;
         }
 
         /// <summary>
