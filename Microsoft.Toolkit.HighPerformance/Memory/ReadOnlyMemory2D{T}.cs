@@ -374,14 +374,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                         // If the wrapped object is a ReadOnlyMemory<T>, it is always pre-offset
                         ref T r0 = ref memory.Span.DangerousGetReference();
 
-                        return new ReadOnlySpan2D<T>(ref r0, this.height, this.width, this.pitch);
+                        return new ReadOnlySpan2D<T>(r0, this.height, this.width, this.pitch);
                     }
                     else
                     {
                         // The only other possible cases is with the instance being an array
                         ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
 
-                        return new ReadOnlySpan2D<T>(ref r0, this.height, this.width, this.pitch);
+                        return new ReadOnlySpan2D<T>(r0, this.height, this.width, this.pitch);
                     }
 #else
                     return new ReadOnlySpan2D<T>(this.instance, this.offset, this.height, this.width, this.pitch);
