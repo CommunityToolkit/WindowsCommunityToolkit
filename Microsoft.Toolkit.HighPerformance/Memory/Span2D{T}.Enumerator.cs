@@ -5,7 +5,11 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+#else
+using Microsoft.Toolkit.HighPerformance.Extensions;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
