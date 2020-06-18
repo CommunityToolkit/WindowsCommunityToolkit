@@ -368,7 +368,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="column">The target column to map within the current instance.</param>
         /// <param name="width">The width to map within the current instance.</param>
         /// <param name="height">The height to map within the current instance.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for the current instance.
         /// </exception>
@@ -420,6 +420,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
         /// <summary>
         /// Copies the contents of this <see cref="Memory2D{T}"/> into a destination <see cref="Memory2D{T}"/> instance.
+        /// For this API to succeed, the target <see cref="Span2D{T}"/> has to have the same shape as the current one.
         /// </summary>
         /// <param name="destination">The destination <see cref="Memory2D{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
@@ -429,6 +430,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
         /// <summary>
         /// Attempts to copy the current <see cref="Memory2D{T}"/> instance to a destination <see cref="Memory2D{T}"/>.
+        /// For this API to succeed, the target <see cref="Span2D{T}"/> has to have the same shape as the current one.
         /// </summary>
         /// <param name="destination">The target <see cref="Memory2D{T}"/> of the copy operation.</param>
         /// <returns>Whether or not the operaation was successful.</returns>
