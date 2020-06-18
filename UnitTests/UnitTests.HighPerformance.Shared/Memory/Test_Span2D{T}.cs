@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -240,6 +241,429 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, 1, -1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, 1, 1, -1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, 1, 1, 1, -1));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_FillAndClear_1()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            span2d.Fill(42);
+
+            Assert.IsTrue(array.Cast<int>().All(n => n == 42));
+
+            span2d.Clear();
+
+            Assert.IsTrue(array.Cast<int>().All(n => n == 0));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_FillAndClear_2()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
+
+            span2d.Fill(42);
+
+            int[,] filled =
+            {
+                { 1, 42, 42 },
+                { 4, 42, 42 }
+            };
+
+            CollectionAssert.AreEqual(array, filled);
+
+            span2d.Clear();
+
+            int[,] cleared =
+            {
+                { 1, 0, 0 },
+                { 4, 0, 0 }
+            };
+
+            CollectionAssert.AreEqual(array, cleared);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_CopyTo_1()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            int[] target = new int[array.Length];
+
+            span2d.CopyTo(target);
+
+            CollectionAssert.AreEqual(array, target);
+
+            Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array).CopyTo(Span<int>.Empty));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_CopyTo_2()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
+
+            int[] target = new int[4];
+
+            span2d.CopyTo(target);
+
+            int[] expected = { 2, 3, 5, 6 };
+
+            CollectionAssert.AreEqual(target, expected);
+
+            Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array).CopyTo(Span<int>.Empty));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_CopyTo2D_1()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            int[,] target = new int[2, 3];
+
+            span2d.CopyTo(target);
+
+            CollectionAssert.AreEqual(array, target);
+
+            Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array).CopyTo(Span2D<int>.Empty));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_CopyTo2D_2()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
+
+            int[,] target = new int[2, 2];
+
+            span2d.CopyTo(target);
+
+            int[,] expected =
+            {
+                { 2, 3 },
+                { 5, 6 }
+            };
+
+            CollectionAssert.AreEqual(target, expected);
+
+            Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array).CopyTo(new Span2D<int>(target)));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryCopyTo()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            int[] target = new int[array.Length];
+
+            Assert.IsTrue(span2d.TryCopyTo(target));
+            Assert.IsFalse(span2d.TryCopyTo(Span<int>.Empty));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryCopyTo2D()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            int[,] target = new int[2, 3];
+
+            Assert.IsTrue(span2d.TryCopyTo(target));
+            Assert.IsFalse(span2d.TryCopyTo(Span2D<int>.Empty));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public unsafe void Test_Span2DT_GetPinnableReference()
+        {
+            Assert.IsTrue(Unsafe.AreSame(
+                ref Unsafe.AsRef<int>(null),
+                ref Span2D<int>.Empty.GetPinnableReference()));
+
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            ref int r0 = ref span2d.GetPinnableReference();
+
+            Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public unsafe void Test_Span2DT_DangerousGetReference()
+        {
+            Assert.IsTrue(Unsafe.AreSame(
+                ref Unsafe.AsRef<int>(null),
+                ref Span2D<int>.Empty.DangerousGetReference()));
+
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            ref int r0 = ref span2d.DangerousGetReference();
+
+            Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
+        }
+
+#if !WINDOWS_UWP
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_GetRowSpan()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            Span<int> span = span2d.GetRowSpan(1);
+
+            Assert.IsTrue(Unsafe.AreSame(
+                ref span[0],
+                ref array[1, 0]));
+            Assert.IsTrue(Unsafe.AreSame(
+                ref span[2],
+                ref array[1, 2]));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRowSpan(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRowSpan(5));
+        }
+#endif
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryGetSpan_1()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            bool success = span2d.TryGetSpan(out Span<int> span);
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(span.Length, span2d.Size);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryGetSpan_2()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 0, 0, 2, 2);
+
+            bool success = span2d.TryGetSpan(out Span<int> span);
+
+            Assert.IsFalse(success);
+            Assert.IsTrue(span.IsEmpty);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_ToArray_1()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            int[,] copy = span2d.ToArray();
+
+            Assert.AreEqual(copy.GetLength(0), array.GetLength(0));
+            Assert.AreEqual(copy.GetLength(1), array.GetLength(1));
+
+            CollectionAssert.AreEqual(array, copy);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_ToArray_2()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 0, 0, 2, 2);
+
+            int[,] copy = span2d.ToArray();
+
+            Assert.AreEqual(copy.GetLength(0), 2);
+            Assert.AreEqual(copy.GetLength(1), 2);
+
+            int[,] expected =
+            {
+                { 1, 2 },
+                { 4, 5 }
+            };
+
+            CollectionAssert.AreEqual(expected, copy);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void Test_Span2DT_Equals()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            _ = span2d.Equals(null);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void Test_Span2DT_GetHashCode()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            _ = span2d.GetHashCode();
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_ToString()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            string text = span2d.ToString();
+
+            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.Span2D<System.Int32>[2, 3]";
+
+            Assert.AreEqual(text, expected);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_ToString_opEquals()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d_1 = new Span2D<int>(array);
+            Span2D<int> span2d_2 = new Span2D<int>(array);
+
+            Assert.IsTrue(span2d_1 == span2d_2);
+            Assert.IsFalse(span2d_1 == Span2D<int>.Empty);
+            Assert.IsTrue(Span2D<int>.Empty == Span2D<int>.Empty);
+
+            Span2D<int> span2d_3 = new Span2D<int>(array, 0, 0, 2, 2);
+
+            Assert.IsFalse(span2d_1 == span2d_3);
+            Assert.IsFalse(span2d_3 == Span2D<int>.Empty);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_ToString_ImplicitCast()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d_1 = array;
+            Span2D<int> span2d_2 = new Span2D<int>(array);
+
+            Assert.IsTrue(span2d_1 == span2d_2);
         }
     }
 }
