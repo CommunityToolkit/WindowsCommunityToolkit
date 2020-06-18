@@ -54,12 +54,12 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
         /// </summary>
         /// <param name="reference">A reference to the first item of the sequence.</param>
-        /// <param name="length">The total available length for the sequence.</param>
+        /// <param name="length">The number of items in the sequence.</param>
         /// <param name="step">The distance between items in the sequence to enumerate.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ReadOnlyRefEnumerable(ref T reference, int length, int step)
         {
-            this.span = MemoryMarshal.CreateReadOnlySpan(ref reference, length);
+            this.span = MemoryMarshal.CreateReadOnlySpan(ref reference, length * step);
             this.step = step;
             this.position = 0;
         }
@@ -69,14 +69,14 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="instance">The target <see cref="object"/> instance.</param>
         /// <param name="offset">The initial offset within <see paramref="instance"/>.</param>
-        /// <param name="length">The total available length for the sequence.</param>
+        /// <param name="length">The number of items in the sequence.</param>
         /// <param name="step">The distance between items in the sequence to enumerate.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ReadOnlyRefEnumerable(object instance, IntPtr offset, int length, int step)
         {
             this.instance = instance;
             this.offset = offset;
-            this.length = length;
+            this.length = length * step;
             this.step = step;
             this.position = 0;
         }
@@ -124,6 +124,48 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 return ref ri;
 #endif
             }
+        }
+
+        /// <summary>
+        /// Returns a <typeparamref name="T"/> array with the values in the target row.
+        /// </summary>
+        /// <returns>A <typeparamref name="T"/> array with the values in the target row.</returns>
+        /// <remarks>
+        /// This method will allocate a new <typeparamref name="T"/> array, so only
+        /// use it if you really need to copy the target items in a new memory location.
+        /// Additionally, this method will always return the whole sequence from the start,
+        /// ignoring the current position in case the sequence has already been enumerated in part.
+        /// </remarks>
+        [Pure]
+        public T[] ToArray()
+        {
+#if SPAN_RUNTIME_SUPPORT
+            // Fast path for contiguous items
+            if (this.step == 1)
+            {
+                return this.span.ToArray();
+            }
+
+            int length = this.span.Length;
+#else
+            int length = this.length;
+#endif
+
+            // Empty array if no data is mapped
+            if (length == 0)
+            {
+                return Array.Empty<T>();
+            }
+
+            T[] array = new T[length / this.step];
+            ref T r0 = ref array.DangerousGetReference();
+
+            for (int i = 0, j = 0; i < length; i += this.step, j++)
+            {
+                Unsafe.Add(ref r0, j) = Unsafe.Add(ref r0, i);
+            }
+
+            return array;
         }
     }
 }
