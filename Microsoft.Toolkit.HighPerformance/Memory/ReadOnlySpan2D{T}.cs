@@ -557,7 +557,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).CopyTo(destination.GetRowSpan(i));
                 }
 #else
-                Enumerator destinationEnumerator = destination.GetEnumerator();
+                Span2D<T>.Enumerator destinationEnumerator = destination.GetEnumerator();
 
                 // Fallback path with two enumerators
                 foreach (T item in this)
