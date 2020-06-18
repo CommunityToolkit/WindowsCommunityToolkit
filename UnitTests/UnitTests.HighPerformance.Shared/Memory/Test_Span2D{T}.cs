@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -703,7 +704,7 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("Span2DT")]
         [TestMethod]
-        public void Test_Span2DT_ToString_opEquals()
+        public void Test_Span2DT_opEquals()
         {
             int[,] array =
             {
@@ -726,7 +727,7 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("Span2DT")]
         [TestMethod]
-        public void Test_Span2DT_ToString_ImplicitCast()
+        public void Test_Span2DT_ImplicitCast()
         {
             int[,] array =
             {
@@ -738,6 +739,80 @@ namespace UnitTests.HighPerformance.Memory
             Span2D<int> span2d_2 = new Span2D<int>(array);
 
             Assert.IsTrue(span2d_1 == span2d_2);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_GetRow()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            RefEnumerable<int> enumerable = new Span2D<int>(array).GetRow(1);
+
+            int[] expected = { 4, 5, 6 };
+
+            CollectionAssert.AreEqual(enumerable.ToArray(), expected);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRow(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRow(2));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetRow(1000));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_GetColumn()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            RefEnumerable<int> enumerable = new Span2D<int>(array).GetColumn(2);
+
+            int[] expected = { 3, 6 };
+
+            CollectionAssert.AreEqual(enumerable.ToArray(), expected);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetColumn(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetColumn(3));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).GetColumn(1000));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_GetEnumerator()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            int[] result = new int[4];
+            int i = 0;
+
+            foreach (var item in new Span2D<int>(array, 0, 1, 2, 2))
+            {
+                result[i++] = item;
+            }
+
+            int[] expected = { 2, 3, 5, 6 };
+
+            CollectionAssert.AreEqual(result, expected);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_GetEnumerator_Empty()
+        {
+            var enumerator = Span2D<int>.Empty.GetEnumerator();
+
+            Assert.IsFalse(enumerator.MoveNext());
         }
     }
 }
