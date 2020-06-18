@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         {
             throw new ArgumentException("Can't create a Span2D<T> from a pointer when T is a managed type");
         }
+#endif
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the target span is too short.
@@ -23,7 +24,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         {
             throw new ArgumentException("The target span is too short to copy all the current items to");
         }
-#endif
 
         /// <summary>
         /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.

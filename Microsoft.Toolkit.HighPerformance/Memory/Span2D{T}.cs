@@ -321,34 +321,26 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </summary>
         public void Clear()
         {
-#if SPAN_RUNTIME_SUPPORT
-            if (this.pitch == 0)
+            if (TryGetSpan(out Span<T> span))
             {
-                // If the pitch is 0, it means all the target area is contiguous
-                // in memory with no padding between row boundaries. In this case
-                // we can just create a Span<T> over the area and use it to clear it.
-                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size).Clear();
+                span.Clear();
             }
             else
             {
-                ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                IntPtr step = (IntPtr)(this.width + this.pitch);
-
-                // Clear each row individually, as they're not contiguous
-                for (int i = 0; i < this.span.Length; i++)
+#if SPAN_RUNTIME_SUPPORT
+                // Clear one row at a time
+                for (int i = 0; i < Height; i++)
                 {
-                    MemoryMarshal.CreateSpan(ref r0, this.width).Clear();
-
-                    r0 = ref Unsafe.Add(ref r0, step);
+                    GetRowSpan(i).Clear();
                 }
-            }
 #else
-            // Fallback to the enumerator to traverse the span
-            foreach (ref T item in this)
-            {
-                item = default!;
-            }
+                // Fallback to the enumerator
+                foreach (ref T item in this)
+                {
+                    item = default!;
+                }
 #endif
+            }
         }
 
         /// <summary>
@@ -360,11 +352,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public void CopyTo(Span<T> destination)
         {
-#if SPAN_RUNTIME_SUPPORT
-            if (this.pitch == 0)
+            if (TryGetSpan(out Span<T> span))
             {
-                // If the pitch is 0, we can copy in a single pass
-                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size).CopyTo(destination);
+                span.CopyTo(destination);
             }
             else
             {
@@ -373,31 +363,25 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     ThrowHelper.ThrowArgumentExceptionForDestinationTooShort();
                 }
 
-                ref T sourceRef = ref MemoryMarshal.GetReference(this.span);
-                IntPtr step = (IntPtr)(this.width + this.pitch);
-                int offset = 0;
-
+#if SPAN_RUNTIME_SUPPORT
                 // Copy each row individually
-                for (int i = 0; i < this.span.Length; i++)
+                for (int i = 0, j = 0; i < Height; i++, j += Width)
                 {
-                    MemoryMarshal.CreateSpan(ref sourceRef, this.width).CopyTo(destination.Slice(offset));
-
-                    sourceRef = ref Unsafe.Add(ref sourceRef, step);
-                    offset += this.width;
+                    GetRowSpan(i).CopyTo(destination.Slice(j));
                 }
-            }
 #else
-            // Similar to the previous case
-            ref T destinationRef = ref MemoryMarshal.GetReference(destination);
-            IntPtr offset = default;
+                ref T destinationRef = ref MemoryMarshal.GetReference(destination);
+                IntPtr offset = default;
 
-            foreach (T item in this)
-            {
-                Unsafe.Add(ref destinationRef, offset) = item;
+                // Fallback to the enumerator again
+                foreach (T item in this)
+                {
+                    Unsafe.Add(ref destinationRef, offset) = item;
 
-                offset += 1;
-            }
+                    offset += 1;
+                }
 #endif
+            }
         }
 
         /// <summary>
@@ -423,23 +407,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             else
             {
 #if SPAN_RUNTIME_SUPPORT
-                int
-                    sourcePaddedWitdh = this.width + this.pitch,
-                    destinationPaddedWidth = destination.width + destination.pitch,
-                    sourcePaddedSize = sourcePaddedWitdh * Height,
-                    destinationPaddedSize = destinationPaddedWidth * Height,
-                    sourceOffset = 0,
-                    destinationOffset = 0;
-                Span<T>
-                    fullSourceSpan = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), sourcePaddedSize),
-                    fullDestinationSpan = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(destination.span), destinationPaddedSize);
-
+                // Copy each row individually
                 for (int i = 0; i < Height; i++)
                 {
-                    fullSourceSpan.Slice(sourceOffset, this.width).CopyTo(fullDestinationSpan.Slice(destinationOffset, this.width));
-
-                    sourceOffset += sourcePaddedSize;
-                    destinationOffset += destinationPaddedSize;
+                    GetRowSpan(i).CopyTo(destination.GetRowSpan(i));
                 }
 #else
                 Enumerator destinationEnumerator = destination.GetEnumerator();
@@ -496,31 +467,26 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="value">The value to assign to each element of the <see cref="Span2D{T}"/> instance.</param>
         public void Fill(T value)
         {
-#if SPAN_RUNTIME_SUPPORT
-            if (this.pitch == 0)
+            if (TryGetSpan(out Span<T> span))
             {
-                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size).Fill(value);
+                span.Fill(value);
             }
             else
             {
-                ref T sourceRef = ref MemoryMarshal.GetReference(this.span);
-                IntPtr step = (IntPtr)(this.width + this.pitch);
-
-                // Fill each row individually
-                for (int i = 0; i < this.span.Length; i++)
+#if SPAN_RUNTIME_SUPPORT
+                // Fill one row at a time
+                for (int i = 0; i < Height; i++)
                 {
-                    MemoryMarshal.CreateSpan(ref sourceRef, this.width).Fill(value);
-
-                    sourceRef = ref Unsafe.Add(ref sourceRef, step);
+                    GetRowSpan(i).Fill(value);
                 }
-            }
 #else
-            // Use the enumerator again
-            foreach (ref T item in this)
-            {
-                item = value;
-            }
+                // Fill using the enumerator as above
+                foreach (ref T item in this)
+                {
+                    item = value;
+                }
 #endif
+            }
         }
 
         /// <summary>
@@ -679,31 +645,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [Pure]
         public T[,] ToArray()
         {
+            T[,] array = new T[Height, this.width];
+
 #if SPAN_RUNTIME_SUPPORT
-            T[,] array = new T[this.span.Length, this.width];
-
-            if (this.pitch == 0)
-            {
-                CopyTo(array.AsSpan());
-            }
-            else
-            {
-                ref T sourceRef = ref MemoryMarshal.GetReference(this.span);
-                IntPtr step = (IntPtr)(this.width + this.pitch);
-                int offset = 0;
-
-                // Copy each row individually
-                for (int i = 0; i < this.span.Length; i++)
-                {
-                    MemoryMarshal.CreateSpan(ref sourceRef, this.width).CopyTo(array.AsSpan().Slice(offset));
-
-                    sourceRef = ref Unsafe.Add(ref sourceRef, step);
-                    offset += this.width;
-                }
-            }
+            CopyTo(array.AsSpan());
 #else
-            T[,] array = new T[this.height, this.width];
-
             // Skip the initialization if the array is empty
             if (Size > 0)
             {
@@ -744,13 +690,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-#if SPAN_RUNTIME_SUPPORT
-            int height = this.span.Length;
-#else
-            int height = this.height;
-#endif
-
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{Height}, {this.width}]";
         }
 
         /// <summary>
