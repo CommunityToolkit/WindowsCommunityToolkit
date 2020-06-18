@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class PretokenStringContainer : DependencyObject, ITokenStringContainer
+    internal partial class PretokenStringContainer : DependencyObject, ITokenStringContainer
     {
         public string Text
         {

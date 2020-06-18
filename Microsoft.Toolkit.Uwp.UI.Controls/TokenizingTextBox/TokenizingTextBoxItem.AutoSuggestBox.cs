@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 bool lastDelimited = t[t.Length - 1] == Owner.TokenDelimiter[0];
 
-                string[] tokens = t.Split(Owner.TokenDelimiter);
+                string[] tokens = t.Split(new[] { Owner.TokenDelimiter }, System.StringSplitOptions.RemoveEmptyEntries);
                 int numberToProcess = lastDelimited ? tokens.Length : tokens.Length - 1;
                 for (int position = 0; position < numberToProcess; position++)
                 {

@@ -7,12 +7,12 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Name="NormalTemplate">
+        <DataTemplate x:Key="NormalTemplate">
             <TextBlock Foreground="Green"
                        Text="{Binding Title}" />
         </DataTemplate>
 
-        <DataTemplate x:Name="AlternateTemplate">
+		<DataTemplate x:Key="AlternateTemplate">
             <TextBlock Foreground="Red"
                        Text="{Binding Title}" />
         </DataTemplate>

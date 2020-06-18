@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -200,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // UNO TODO
                 // The controls may be loaded when set directly to their parent
                 // so the datacontext of the renderer needs to be set early.
-                SetSampleDataContext();
+                await SetSampleDataContext();
 
                 if (!string.IsNullOrWhiteSpace(CurrentSample.Type))
                 {
@@ -243,10 +244,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                InfoAreaPivot.Items.Clear();
-
-                if (CurrentSample.HasXAMLCode)
+                async Task SetSampleDataContext()
                 {
+                    DataContext = CurrentSample;
+
                     // Load Sample Properties before we load sample (if we haven't before)
                     await CurrentSample.PreparePropertyDescriptorAsync();
 
@@ -262,9 +263,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         InfoAreaPivot.Items.Add(PropertiesPivotItem);
                     }
+                }
+
+                InfoAreaPivot.Items.Clear();
 
                 if (CurrentSample.HasXAMLCode)
                 {
+
 #if !HAS_UNO
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
 #endif
@@ -326,8 +331,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     GithubButton.Visibility = Visibility.Visible;
                 }
-
-                DataContext = CurrentSample;
 
                 if (InfoAreaPivot.Items.Count == 0)
                 {

@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetCSharpSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
+            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), CodeFile.StartsWith("/") ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetJavaScriptSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
+            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), JavaScriptCodeFile.StartsWith("/") ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -466,6 +466,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_propertyDescriptor == null)
             {
+#if HAS_UNO
                 var manifestName = typeof(Samples).GetTypeInfo().Assembly
                     .GetManifestResourceNames()
                     .FirstOrDefault(n => n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
@@ -476,7 +477,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 // Get Xaml code
-                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(XamlCodeFile.StartsWith('/') ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
+                using (var codeStream = typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName))
+#else
+                using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), XamlCodeFile.StartsWith("/") ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
+#endif
                 {
                     XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 

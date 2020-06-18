@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <!--<TargetFramework>uap10.0.16299</TargetFramework>-->
     <LangVersion>8.0</LangVersion>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
@@ -60,7 +60,7 @@
 	
 	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
 		<PackageReference Include="Uno.UI"  Version="3.0.0-dev.405"/>
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.2-uno.66" />
 	</ItemGroup>
 	
   <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">

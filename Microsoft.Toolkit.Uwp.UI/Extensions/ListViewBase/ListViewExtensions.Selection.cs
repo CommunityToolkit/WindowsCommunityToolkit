@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             switch (list.SelectionMode)
             {
                 case ListViewSelectionMode.Single:
-                    if (list.SelectedItem == item)
+                    if (list.SelectedItem == (object)item)
                     {
                         list.SelectedItem = null;
                     }
