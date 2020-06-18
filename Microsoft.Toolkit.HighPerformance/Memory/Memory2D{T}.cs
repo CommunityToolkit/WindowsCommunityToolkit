@@ -244,6 +244,63 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.pitch = 0;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <param name="row">The target row to map within <paramref name="array"/>.</param>
+        /// <param name="column">The target column to map within <paramref name="array"/>.</param>
+        /// <param name="height">The height to map within <paramref name="array"/>.</param>
+        /// <param name="width">The width to map within <paramref name="array"/>.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(T[,,] array, int depth, int row, int column, int height, int width)
+        {
+            if (array.IsCovariant())
+            {
+                ThrowHelper.ThrowArrayTypeMismatchException();
+            }
+
+            if ((uint)depth >= (uint)array.GetLength(0))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForDepth();
+            }
+
+            int
+                rows = array.GetLength(1),
+                columns = array.GetLength(2);
+
+            if ((uint)row >= (uint)rows)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
+            }
+
+            if ((uint)column >= (uint)columns)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
+            }
+
+            if ((uint)height > (uint)(rows - row))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if ((uint)width > (uint)(columns - column))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.height = height;
+            this.width = width;
+            this.pitch = columns - width;
+        }
+
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
