@@ -162,28 +162,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
         /// <param name="row">The target row to retrieve (0-based index).</param>
-        /// <returns>A <see cref="Span{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
+        /// <returns>A <see cref="RefEnumerable{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static
-#if SPAN_RUNTIME_SUPPORT
-            Span<T>
-#else
-            // .NET Standard 2.0 lacks MemoryMarshal.CreateSpan<T>(ref T, int),
-            // which is necessary to create arbitrary Span<T>-s over a 2D array.
-            // To work around this, we use a custom ref struct enumerator,
-            // which makes the lack of that API completely transparent to the user.
-            // If a user then moves from .NET Standard 2.0 to 2.1, all the previous
-            // features will be perfectly supported, and in addition to that it will
-            // also gain the ability to use the Span<T> value elsewhere.
-            // The only case where this would be a breaking change for a user upgrading
-            // the target framework is when the returned enumerator type is used directly,
-            // but since that's specifically discouraged from the docs, we don't
-            // need to worry about that scenario in particular, as users doing that
-            // would be willingly go against the recommended usage of this API.
-            Array2DRowEnumerable<T>
-#endif
-            GetRow<T>(this T[,] array, int row)
+        public static RefEnumerable<T> GetRow<T>(this T[,] array, int row)
         {
             if ((uint)row >= (uint)array.GetLength(0))
             {
@@ -191,11 +174,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
 #if SPAN_RUNTIME_SUPPORT
-            ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
-
-            return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
+            return new RefEnumerable<T>(ref array.DangerousGetReferenceAt(row, 0), array.GetLength(1), 1);
 #else
-            return new Array2DRowEnumerable<T>(array, row);
+            ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
+            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+
+            return new RefEnumerable<T>(array, offset, array.GetLength(1), 1);
 #endif
         }
 
@@ -221,12 +205,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
         /// <param name="column">The target column to retrieve (0-based index).</param>
         /// <returns>A wrapper type that will handle the column enumeration for <paramref name="array"/>.</returns>
-        /// <remarks>The returned <see cref="Array2DColumnEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Array2DColumnEnumerable<T> GetColumn<T>(this T[,] array, int column)
+        public static RefEnumerable<T> GetColumn<T>(this T[,] array, int column)
         {
-            return new Array2DColumnEnumerable<T>(array, column);
+            if ((uint)column >= (uint)array.GetLength(1))
+            {
+                throw new ArgumentOutOfRangeException(nameof(column));
+            }
+
+#if SPAN_RUNTIME_SUPPORT
+            return new RefEnumerable<T>(ref array.DangerousGetReferenceAt(0, column), array.GetLength(0), array.GetLength(1));
+#else
+            ref T r0 = ref array.DangerousGetReferenceAt(0, column);
+            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+
+            return new RefEnumerable<T>(array, offset, array.GetLength(0), array.GetLength(1));
+#endif
         }
 
 #if SPAN_RUNTIME_SUPPORT
