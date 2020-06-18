@@ -337,12 +337,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [Pure]
         public unsafe Memory2D<T> Slice(int row, int column, int width, int height)
         {
-            if ((uint)row >= this.height ||
-                (uint)column >= this.width ||
-                (uint)width > (this.width - column) ||
-                (uint)height > (this.height - row))
+            if ((uint)row >= this.height)
             {
-                throw new Exception();
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
+            }
+
+            if ((uint)column >= this.width)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
+            }
+
+            if ((uint)width > (this.width - column))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if ((uint)height > (this.height - row))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
             int shift = ((this.width + this.pitch) * row) + column;
@@ -366,6 +378,22 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="destination">The target <see cref="Memory{T}"/> of the copy operation.</param>
         /// <returns>Whether or not the operaation was successful.</returns>
         public bool TryCopyTo(Memory<T> destination) => Span.TryCopyTo(destination.Span);
+
+        /// <summary>
+        /// Copies the contents of this <see cref="Memory2D{T}"/> into a destination <see cref="Memory2D{T}"/> instance.
+        /// </summary>
+        /// <param name="destination">The destination <see cref="Memory2D{T}"/> instance.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="Memory2D{T}"/> instance.
+        /// </exception>
+        public void CopyTo(Memory2D<T> destination) => Span.CopyTo(destination.Span);
+
+        /// <summary>
+        /// Attempts to copy the current <see cref="Memory2D{T}"/> instance to a destination <see cref="Memory2D{T}"/>.
+        /// </summary>
+        /// <param name="destination">The target <see cref="Memory2D{T}"/> of the copy operation.</param>
+        /// <returns>Whether or not the operaation was successful.</returns>
+        public bool TryCopyTo(Memory2D<T> destination) => Span.TryCopyTo(destination.Span);
 
         /// <summary>
         /// Creates a handle for the memory.
