@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.In.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.Ref.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_BitHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Memory\Test_Span2D{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IMemoryOwnerStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.ThrowExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
