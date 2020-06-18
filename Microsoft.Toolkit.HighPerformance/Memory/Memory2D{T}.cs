@@ -64,19 +64,19 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (array.IsCovariant())
             {
-                ThrowArrayTypeMismatchException();
+                ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
             if ((uint)offset >= (uint)array.Length)
             {
-                throw new Exception();
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
             }
 
             int remaining = array.Length - offset;
 
             if (((uint)width * (uint)height) > (uint)remaining)
             {
-                throw new Exception();
+                ThrowHelper.ThrowArgumentException();
             }
 
             this.instance = array;
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             if (array.IsCovariant())
             {
-                ThrowArrayTypeMismatchException();
+                ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
             this.instance = array;
@@ -131,23 +131,47 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// are negative or not within the bounds that are valid for <paramref name="array"/>.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory2D(T[,] array, int row, int column, int width, int height)
+        public Memory2D(T[,]? array, int row, int column, int width, int height)
         {
+            if (array is null)
+            {
+                if ((row | column | width | height) != 0)
+                {
+                    ThrowHelper.ThrowArgumentException();
+                }
+
+                this = default;
+
+                return;
+            }
+
             if (array.IsCovariant())
             {
-                ThrowArrayTypeMismatchException();
+                ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
             int
                 rows = array.GetLength(0),
                 columns = array.GetLength(1);
 
-            if ((uint)row >= (uint)rows ||
-                (uint)column >= (uint)columns ||
-                width > (columns - column) ||
-                height > (rows - row))
+            if ((uint)row >= (uint)rows)
             {
-                throw new Exception();
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
+            }
+
+            if ((uint)column >= (uint)columns)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
+            }
+
+            if (width > (columns - column))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (height > (rows - row))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
             this.instance = array;
@@ -171,12 +195,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (array.IsCovariant())
             {
-                ThrowArrayTypeMismatchException();
+                ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
             if ((uint)depth >= (uint)array.GetLength(0))
             {
-                throw new Exception();
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForDepth();
             }
 
             this.instance = array;
@@ -383,13 +407,5 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Defines an implicit conversion of an array to a <see cref="Memory2D{T}"/>
         /// </summary>
         public static implicit operator Memory2D<T>(T[,]? array) => new Memory2D<T>(array);
-
-        /// <summary>
-        /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
-        /// </summary>
-        private static void ThrowArrayTypeMismatchException()
-        {
-            throw new ArrayTypeMismatchException("The given array doesn't match the specified Span2D<T> type");
-        }
     }
 }
