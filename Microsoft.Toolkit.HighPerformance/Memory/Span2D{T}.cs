@@ -338,7 +338,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets an empty <see cref="Span2D{T}"/> instance.
         /// </summary>
-        public static Span<T> Empty => default;
+        public static Span2D<T> Empty => default;
 
         /// <summary>
         /// Gets a value indicating whether the current <see cref="Span2D{T}"/> instance is empty.
