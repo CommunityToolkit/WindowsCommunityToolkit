@@ -161,12 +161,18 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 return Array.Empty<T>();
             }
 
+#if SPAN_RUNTIME_SUPPORT
+            ref T sourceRef = ref this.span.DangerousGetReference();
+#else
+            ref T sourceRef = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
+
             T[] array = new T[length / this.step];
-            ref T r0 = ref array.DangerousGetReference();
+            ref T destinationRef = ref array.DangerousGetReference();
 
             for (int i = 0, j = 0; i < length; i += this.step, j++)
             {
-                Unsafe.Add(ref r0, j) = Unsafe.Add(ref r0, i);
+                Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, i);
             }
 
             return array;
