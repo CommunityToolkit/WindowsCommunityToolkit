@@ -480,7 +480,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
-            Span2D<int> slice1 = span2d.Slice(1, 1, 2, 1);
+            Span2D<int> slice1 = span2d.Slice(1, 1, 1, 2);
 
             Assert.AreEqual(slice1.Size, 2);
             Assert.AreEqual(slice1.Height, 1);
@@ -499,11 +499,11 @@ namespace UnitTests.HighPerformance.Memory
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(-1, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, -1, 1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, -1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, 1, -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, -1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(10, 1, 1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 12, 12, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, 1, 55));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 12, 1, 12));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, 55, 1));
         }
 
         [TestCategory("Span2DT")]
@@ -526,7 +526,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(slice1[0, 0], 1);
             Assert.AreEqual(slice1[1, 1], 5);
 
-            Span2D<int> slice2 = slice1.Slice(1, 0, 2, 1);
+            Span2D<int> slice2 = slice1.Slice(1, 0, 1, 2);
 
             Assert.AreEqual(slice2.Size, 2);
             Assert.AreEqual(slice2.Height, 1);
