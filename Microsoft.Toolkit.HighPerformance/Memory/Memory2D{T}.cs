@@ -187,6 +187,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct with the specified parameters.
+        /// </summary>
+        /// <param name="instance">The target <see cref="object"/> instance.</param>
+        /// <param name="offset">The initial offset within <see cref="instance"/>.</param>
+        /// <param name="height">The height of the 2D memory area to map.</param>
+        /// <param name="width">The width of the 2D memory area to map.</param>
+        /// <param name="pitch">The pitch of the 2D memory area to map.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Memory2D(object instance, IntPtr offset, int height, int width, int pitch)
+        {
+            this.instance = instance;
+            this.offset = offset;
+            this.height = height;
+            this.width = width;
+            this.pitch = pitch;
+        }
+
+        /// <summary>
         /// Gets an empty <see cref="Memory2D{T}"/> instance.
         /// </summary>
         public static Memory2D<T> Empty => default;
@@ -245,9 +263,20 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         /// <returns>A new <see cref="Memory2D{T}"/> instance representing a slice of the current one.</returns>
         [Pure]
-        public Memory2D<T> Slice(int row, int column, int width, int height)
+        public unsafe Memory2D<T> Slice(int row, int column, int width, int height)
         {
-            throw new NotImplementedException("TODO");
+            if ((uint)row >= this.height ||
+                (uint)column >= this.width ||
+                (uint)width > (this.width - column) ||
+                (uint)height > (this.height - row))
+            {
+                throw new Exception();
+            }
+
+            int shift = ((this.width + this.pitch) * row) + column;
+            IntPtr offset = (IntPtr)((byte*)this.offset + shift);
+
+            return new Memory2D<T>(this.instance!, offset, height, width, this.pitch);
         }
 
         /// <summary>
