@@ -140,6 +140,64 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 #endif
 
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Creates a new instance of the <see cref="Span{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        /// <returns>A <see cref="Span{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span<T> GetLayerSpan<T>(this T[,,] array, int depth)
+        {
+            if (array is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            if ((uint)depth >= (uint)array.GetLength(0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(depth));
+            }
+
+            ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
+            int length = array.GetLength(1) * array.GetLength(2);
+
+            return MemoryMarshal.CreateSpan(ref r0, length);
+        }
+#endif
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Span2D{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        /// <returns>A <see cref="Span2D{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span2D<T> GetLayerSpan2D<T>(this T[,,] array, int depth)
+        {
+            if (array is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return new Span2D<T>(array, depth);
+        }
+
         /// <summary>
         /// Creates a new instance of the <see cref="Memory2D{T}"/> struct wrapping a layer in a 3D array.
         /// </summary>
@@ -154,7 +212,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory2D{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory2D<T> GetLayer<T>(this T[,,] array, int depth)
+        public static Memory2D<T> GetLayerMemory2D<T>(this T[,,] array, int depth)
         {
             if (array is null)
             {
