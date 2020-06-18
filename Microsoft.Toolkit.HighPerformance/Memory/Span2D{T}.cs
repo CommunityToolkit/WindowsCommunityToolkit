@@ -149,6 +149,71 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
+        /// </summary>
+        /// <param name="array">The target array to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="array"/>.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span2D(T[] array, int offset, int width, int height)
+            : this(array, offset, width, height, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
+        /// </summary>
+        /// <param name="array">The target array to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="array"/>.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/>,
+        /// <paramref name="width"/> or <paramref name="pitch"/> are invalid.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span2D(T[] array, int offset, int width, int height, int pitch)
+        {
+            if (array.IsCovariant())
+            {
+                ThrowHelper.ThrowArrayTypeMismatchException();
+            }
+
+            if ((uint)offset >= (uint)array.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
+            }
+
+            int remaining = array.Length - offset;
+
+            if ((((uint)width + (uint)pitch) * (uint)height) > (uint)remaining)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
+
+#if SPAN_RUNTIME_SUPPORT
+            this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(offset), height);
+#else
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.height = height;
+#endif
+            this.width = width;
+            this.pitch = pitch;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct wrapping a 2D array.
         /// </summary>
         /// <param name="array">The given 2D array to wrap.</param>
@@ -170,7 +235,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
 #if SPAN_RUNTIME_SUPPORT
-            this.span = MemoryMarshal.CreateSpan(ref array[0, 0], array.GetLength(0));
+            this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReference(), array.GetLength(0));
 #else
             this.instance = array;
             this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
@@ -191,7 +256,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for <paramref name="array"/>.
         /// </exception>
@@ -227,7 +292,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
 #if SPAN_RUNTIME_SUPPORT
-            this.span = MemoryMarshal.CreateSpan(ref array[row, column], height);
+            this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(row, column), height);
 #else
             this.instance = array;
             this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
@@ -235,6 +300,39 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
             this.width = width;
             this.pitch = row + (array.GetLength(1) - column);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Span2D{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span2D(T[,,] array, int depth)
+        {
+            if (array.IsCovariant())
+            {
+                ThrowHelper.ThrowArrayTypeMismatchException();
+            }
+
+            if ((uint)depth >= (uint)array.GetLength(0))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForDepth();
+            }
+
+#if SPAN_RUNTIME_SUPPORT
+            this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, 0, 0), array.GetLength(1));
+#else
+            this.instance = array;
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.height = array.GetLength(1);
+#endif
+            this.width = array.GetLength(2);
+            this.pitch = 0;
         }
 
         /// <summary>

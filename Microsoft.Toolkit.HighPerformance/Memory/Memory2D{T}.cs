@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for <paramref name="array"/>.
         /// </exception>
@@ -211,7 +211,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when either <paramref name="depth"/> is invalid.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,,] array, int depth)
         {
