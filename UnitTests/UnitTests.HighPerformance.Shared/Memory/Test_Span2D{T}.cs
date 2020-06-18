@@ -173,7 +173,7 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("Span2DT")]
         [TestMethod]
-        public void Test_Span2DT_Array3DConstructo()
+        public void Test_Span2DT_Array3DConstructor_1()
         {
             int[,,] array =
             {
@@ -203,6 +203,43 @@ namespace UnitTests.HighPerformance.Memory
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, -1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 20));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_Array3DConstructor_2()
+        {
+            int[,,] array =
+            {
+                {
+                    { 1, 2, 3 },
+                    { 4, 5, 6 }
+                },
+                {
+                    { 10, 20, 30 },
+                    { 40, 50, 60 }
+                }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 1, 0, 1, 2, 2);
+
+            Assert.IsFalse(span2d.IsEmpty);
+            Assert.AreEqual(span2d.Size, 4);
+            Assert.AreEqual(span2d.Width, 2);
+            Assert.AreEqual(span2d.Height, 2);
+
+            span2d[0, 1] = 99;
+            span2d[1, 1] = 101;
+
+            Assert.AreEqual(span2d[0, 0], 20);
+            Assert.AreEqual(array[1, 0, 2], 99);
+            Assert.AreEqual(array[1, 1, 2], 101);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, -1, 1, 1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, -1, 1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, 1, -1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, 1, 1, -1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 1, 1, 1, 1, -1));
         }
     }
 }
