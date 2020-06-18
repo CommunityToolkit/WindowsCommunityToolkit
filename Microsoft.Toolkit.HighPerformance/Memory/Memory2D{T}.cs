@@ -61,6 +61,27 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[] array, int offset, int width, int height)
+            : this(array, offset, width, height, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="array">The target array to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="array"/>.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/>,
+        /// <paramref name="width"/> or <paramref name="pitch"/> are invalid.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(T[] array, int offset, int width, int height, int pitch)
         {
             if (array.IsCovariant())
             {
@@ -74,7 +95,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             int remaining = array.Length - offset;
 
-            if (((uint)width * (uint)height) > (uint)remaining)
+            if ((((uint)width + (uint)pitch) * (uint)height) > (uint)remaining)
             {
                 ThrowHelper.ThrowArgumentException();
             }
@@ -83,7 +104,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
             this.height = height;
             this.width = width;
-            this.pitch = 0;
+            this.pitch = pitch;
         }
 
         /// <summary>
@@ -223,6 +244,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(Memory<T> memory, int offset, int width, int height)
+            : this(memory, offset, width, height, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="memory">The target <see cref="Memory{T}"/> to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="memory"/>.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/>,
+        /// <paramref name="width"/> or <paramref name="pitch"/> are invalid.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(Memory<T> memory, int offset, int width, int height, int pitch)
         {
             if ((uint)offset >= (uint)memory.Length)
             {
@@ -231,7 +270,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             int remaining = memory.Length - offset;
 
-            if (((uint)width * (uint)height) > (uint)remaining)
+            if ((((uint)width + (uint)pitch) * (uint)height) > (uint)remaining)
             {
                 ThrowHelper.ThrowArgumentException();
             }
@@ -240,7 +279,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.offset = (IntPtr)offset;
             this.height = height;
             this.width = width;
-            this.pitch = 0;
+            this.pitch = pitch;
         }
 #endif
 
