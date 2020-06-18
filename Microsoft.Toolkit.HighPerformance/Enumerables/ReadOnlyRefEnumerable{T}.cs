@@ -61,9 +61,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <param name="length">The number of items in the sequence.</param>
         /// <param name="step">The distance between items in the sequence to enumerate.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal ReadOnlyRefEnumerable(ref T reference, int length, int step)
+        internal ReadOnlyRefEnumerable(in T reference, int length, int step)
         {
-            this.span = MemoryMarshal.CreateReadOnlySpan(ref reference, length * step);
+            this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(reference), length * step);
             this.step = step;
             this.position = 0;
         }
@@ -130,16 +130,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             }
         }
 
-        /// <summary>
-        /// Returns a <typeparamref name="T"/> array with the values in the target row.
-        /// </summary>
-        /// <returns>A <typeparamref name="T"/> array with the values in the target row.</returns>
-        /// <remarks>
-        /// This method will allocate a new <typeparamref name="T"/> array, so only
-        /// use it if you really need to copy the target items in a new memory location.
-        /// Additionally, this method will always return the whole sequence from the start,
-        /// ignoring the current position in case the sequence has already been enumerated in part.
-        /// </remarks>
+        /// <inheritdoc cref="RefEnumerable{T}.ToArray"/>
         [Pure]
         public T[] ToArray()
         {
@@ -161,12 +152,18 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 return Array.Empty<T>();
             }
 
+#if SPAN_RUNTIME_SUPPORT
+            ref T sourceRef = ref this.span.DangerousGetReference();
+#else
+            ref T sourceRef = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
+
             T[] array = new T[length / this.step];
-            ref T r0 = ref array.DangerousGetReference();
+            ref T destinationRef = ref array.DangerousGetReference();
 
             for (int i = 0, j = 0; i < length; i += this.step, j++)
             {
-                Unsafe.Add(ref r0, j) = Unsafe.Add(ref r0, i);
+                Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, i);
             }
 
             return array;
