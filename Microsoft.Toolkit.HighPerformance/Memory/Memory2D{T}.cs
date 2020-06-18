@@ -51,18 +51,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
         /// </summary>
         /// <param name="array">The target array to wrap.</param>
-        /// <param name="offset">The initial offset within <paramref name="array"/>.</param>
         /// <param name="height">The height of the resulting 2D area.</param>
         /// <param name="width">The width of each row in the resulting 2D area.</param>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
+        /// <remarks>The total area must match the lenght of <paramref name="array"/>.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory2D(T[] array, int offset, int height, int width)
-            : this(array, offset, height, width, 0)
+        public Memory2D(T[] array, int height, int width)
+            : this(array, 0, height, width, 0)
         {
         }
 
@@ -78,8 +78,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/>,
-        /// <paramref name="width"/> or <paramref name="pitch"/> are invalid.
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="array"/>.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[] array, int offset, int height, int width, int pitch)
@@ -89,14 +91,38 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
-            if ((uint)offset >= (uint)array.Length)
+            if ((uint)offset > (uint)array.Length)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
             }
 
-            int remaining = array.Length - offset;
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
 
-            if ((((uint)width + (uint)pitch) * (uint)height) > (uint)remaining)
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            if (width == 0 || height == 0)
+            {
+                this = default;
+
+                return;
+            }
+
+            int
+                remaining = array.Length - offset,
+                area = ((width + pitch) * (height - 1)) + width;
+
+            if (area > remaining)
             {
                 ThrowHelper.ThrowArgumentException();
             }
@@ -109,13 +135,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct wrapping a 2D array.
         /// </summary>
-        /// <param name="array">The target array to wrap.</param>
+        /// <param name="array">The given 2D array to wrap.</param>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,]? array)
         {
             if (array is null)
@@ -131,7 +156,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReference());
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
             this.height = array.GetLength(0);
             this.width = array.GetLength(1);
             this.pitch = 0;
@@ -152,21 +177,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for <paramref name="array"/>.
         /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory2D(T[,]? array, int row, int column, int height, int width)
+        public Memory2D(T[,] array, int row, int column, int height, int width)
         {
-            if (array is null)
-            {
-                if ((row | column | width | height) != 0)
-                {
-                    ThrowHelper.ThrowArgumentException();
-                }
-
-                this = default;
-
-                return;
-            }
-
             if (array.IsCovariant())
             {
                 ThrowHelper.ThrowArrayTypeMismatchException();
@@ -186,21 +198,21 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
-            if (height > (rows - row))
+            if ((uint)height > (uint)(rows - row))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
-            if (width > (columns - column))
+            if ((uint)width > (uint)(columns - column))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
             }
 
             this.instance = array;
             this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
-            this.height = height;
+            this.height = array.GetLength(0);
             this.width = width;
-            this.pitch = row + (array.GetLength(1) - column);
+            this.pitch = columns - width;
         }
 
         /// <summary>
@@ -211,7 +223,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,,] array, int depth)
         {
@@ -237,15 +249,15 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
         /// </summary>
         /// <param name="memory">The target <see cref="Memory{T}"/> to wrap.</param>
-        /// <param name="offset">The initial offset within <paramref name="memory"/>.</param>
         /// <param name="height">The height of the resulting 2D area.</param>
         /// <param name="width">The width of each row in the resulting 2D area.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
+        /// <remarks>The total area must match the lenght of <paramref name="memory"/>.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory2D(Memory<T> memory, int offset, int height, int width)
-            : this(memory, offset, height, width, 0)
+        public Memory2D(Memory<T> memory, int height, int width)
+            : this(memory, 0, height, width, 0)
         {
         }
 
@@ -258,20 +270,46 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="width">The width of each row in the resulting 2D area.</param>
         /// <param name="pitch">The pitch in the resulting 2D area.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/>,
-        /// <paramref name="width"/> or <paramref name="pitch"/> are invalid.
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="memory"/>.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(Memory<T> memory, int offset, int height, int width, int pitch)
         {
-            if ((uint)offset >= (uint)memory.Length)
+            if ((uint)offset > (uint)memory.Length)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
             }
 
-            int remaining = memory.Length - offset;
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
 
-            if ((((uint)width + (uint)pitch) * (uint)height) > (uint)remaining)
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            if (width == 0 || height == 0)
+            {
+                this = default;
+
+                return;
+            }
+
+            int
+                remaining = memory.Length - offset,
+                area = ((width + pitch) * (height - 1)) + width;
+
+            if (area > remaining)
             {
                 ThrowHelper.ThrowArgumentException();
             }
@@ -317,12 +355,30 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Gets the length of the current <see cref="Memory2D{T}"/> instance.
+        /// Gets the length of the current <see cref="Span2D{T}"/> instance.
         /// </summary>
-        public int Length
+        public int Size
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.height * this.width;
+            get => Height * Width;
+        }
+
+        /// <summary>
+        /// Gets the height of the underlying 2D memory area.
+        /// </summary>
+        public int Height
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.height;
+        }
+
+        /// <summary>
+        /// Gets the width of the underlying 2D memory area.
+        /// </summary>
+        public int Width
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.width;
         }
 
         /// <summary>
@@ -368,7 +424,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="column">The target column to map within the current instance.</param>
         /// <param name="width">The width to map within the current instance.</param>
         /// <param name="height">The height to map within the current instance.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for the current instance.
         /// </exception>
@@ -376,7 +432,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [Pure]
         public unsafe Memory2D<T> Slice(int row, int column, int width, int height)
         {
-            if ((uint)row >= this.height)
+            if ((uint)row >= Height)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
@@ -391,15 +447,26 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
             }
 
-            if ((uint)height > (this.height - row))
+            if ((uint)height > (Height - row))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
-            int shift = ((this.width + this.pitch) * row) + column;
+            int
+                shift = ((this.width + this.pitch) * row) + column,
+                pitch = this.pitch + (this.width - width);
+
             IntPtr offset = (IntPtr)((byte*)this.offset + shift);
 
-            return new Memory2D<T>(this.instance!, offset, height, width, this.pitch);
+            if (this.instance is Memory<T> memory)
+            {
+                // Memory<T> instance are always already sliced
+                object instance = memory.Slice((int)offset);
+
+                return new Memory2D<T>(instance, default, height, width, pitch);
+            }
+
+            return new Memory2D<T>(this.instance!, offset, height, width, pitch);
         }
 
         /// <summary>

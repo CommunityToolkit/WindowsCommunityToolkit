@@ -30,8 +30,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         //
         //  reference__  _________width_________  ________...
         //             \/                       \/
-        // | -- | -- | |- | -- | -- | -- | -- | -- | -- | -- |
-        // | -- | -- | XX | XX | XX | XX | XX | XX | -- | -- |_
+        // | -- | -- | |- | -- | -- | -- | -- | -- | -- | -- |_
+        // | -- | -- | XX | XX | XX | XX | XX | XX | -- | -- | |
         // | -- | -- | XX | XX | XX | XX | XX | XX | -- | -- | |
         // | -- | -- | XX | XX | XX | XX | XX | XX | -- | -- | |_height
         // | -- | -- | XX | XX | XX | XX | XX | XX | -- | -- |_|
