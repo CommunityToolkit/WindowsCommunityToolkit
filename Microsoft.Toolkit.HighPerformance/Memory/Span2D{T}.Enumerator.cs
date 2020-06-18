@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Enumerables;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
@@ -16,6 +17,48 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// <inheritdoc cref="Span2D{T}"/>
     public readonly ref partial struct Span2D<T>
     {
+        /// <summary>
+        /// Gets an enumerable that traverses items in a specified row.
+        /// </summary>
+        /// <param name="row">The target row to enumerate within the current <see cref="Span2D{T}"/> instance.</param>
+        /// <returns>A <see cref="RefEnumerable{T}"/> with target items to enumerate.</returns>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public RefEnumerable<T> GetRow(int row)
+        {
+            if ((uint)row >= Height)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
+            }
+
+            ref T r0 = ref this.DangerousGetReference();
+            ref T r1 = ref Unsafe.Add(ref r0, (Width + this.pitch) * row);
+
+            return new RefEnumerable<T>(ref r1, Width, 1);
+        }
+
+        /// <summary>
+        /// Gets an enumerable that traverses items in a specified column.
+        /// </summary>
+        /// <param name="column">The target column to enumerate within the current <see cref="Span2D{T}"/> instance.</param>
+        /// <returns>A <see cref="RefEnumerable{T}"/> with target items to enumerate.</returns>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public RefEnumerable<T> GetColumn(int column)
+        {
+            if ((uint)column >= Width)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
+            }
+
+            ref T r0 = ref this.DangerousGetReference();
+            ref T r1 = ref Unsafe.Add(ref r0, column);
+
+            return new RefEnumerable<T>(ref r1, Height, Width + this.pitch);
+        }
+
         /// <summary>
         /// Returns an enumerator for the current <see cref="Span2D{T}"/> instance.
         /// </summary>
