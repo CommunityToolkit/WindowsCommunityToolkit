@@ -124,6 +124,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="column">The column to start on (inclusive, 0-based index).</param>
         /// <param name="width">The positive width of area to fill.</param>
         /// <param name="height">The positive height of area to fill.</param>
+        [Obsolete("Use array.AsSpan2D(...).Fill(...) instead")]
         public static void Fill<T>(this T[,] array, T value, int row, int column, int width, int height)
         {
             Rectangle bounds = new Rectangle(0, 0, array.GetLength(1), array.GetLength(0));
@@ -252,8 +253,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
         /// <param name="row">The target row to map within <paramref name="array"/>.</param>
         /// <param name="column">The target column to map within <paramref name="array"/>.</param>
-        /// <param name="width">The width to map within <paramref name="array"/>.</param>
         /// <param name="height">The height to map within <paramref name="array"/>.</param>
+        /// <param name="width">The width to map within <paramref name="array"/>.</param>
         /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
@@ -265,14 +266,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span2D<T> AsSpan2D<T>(this T[,] array, int row, int column, int width, int height)
+        public static Span2D<T> AsSpan2D<T>(this T[,] array, int row, int column, int height, int width)
         {
             if (array is null)
             {
                 throw new NullReferenceException();
             }
 
-            return new Span2D<T>(array, row, column, width, height);
+            return new Span2D<T>(array, row, column, height, width);
         }
 
         /// <summary>
@@ -301,8 +302,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
         /// <param name="row">The target row to map within <paramref name="array"/>.</param>
         /// <param name="column">The target column to map within <paramref name="array"/>.</param>
-        /// <param name="width">The width to map within <paramref name="array"/>.</param>
         /// <param name="height">The height to map within <paramref name="array"/>.</param>
+        /// <param name="width">The width to map within <paramref name="array"/>.</param>
         /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
@@ -314,14 +315,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory2D<T> AsMemory2D<T>(this T[,] array, int row, int column, int width, int height)
+        public static Memory2D<T> AsMemory2D<T>(this T[,] array, int row, int column, int height, int width)
         {
             if (array is null)
             {
                 throw new NullReferenceException();
             }
 
-            return new Memory2D<T>(array, row, column, width, height);
+            return new Memory2D<T>(array, row, column, height, width);
         }
 
 #if SPAN_RUNTIME_SUPPORT
