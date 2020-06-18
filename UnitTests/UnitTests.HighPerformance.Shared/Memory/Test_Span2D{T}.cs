@@ -467,6 +467,80 @@ namespace UnitTests.HighPerformance.Memory
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
         }
 
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_Slice_1()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            Span2D<int> slice1 = span2d.Slice(1, 1, 2, 1);
+
+            Assert.AreEqual(slice1.Size, 2);
+            Assert.AreEqual(slice1.Height, 1);
+            Assert.AreEqual(slice1.Width, 2);
+            Assert.AreEqual(slice1[0, 0], 5);
+            Assert.AreEqual(slice1[0, 1], 6);
+
+            Span2D<int> slice2 = span2d.Slice(0, 1, 2, 2);
+
+            Assert.AreEqual(slice2.Size, 4);
+            Assert.AreEqual(slice2.Height, 2);
+            Assert.AreEqual(slice2.Width, 2);
+            Assert.AreEqual(slice2[0, 0], 2);
+            Assert.AreEqual(slice2[1, 0], 5);
+            Assert.AreEqual(slice2[1, 1], 6);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(-1, 1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, -1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, -1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, 1, -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(10, 1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 12, 12, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, 1, 55));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_Slice_2()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array);
+
+            Span2D<int> slice1 = span2d.Slice(0, 0, 2, 2);
+
+            Assert.AreEqual(slice1.Size, 4);
+            Assert.AreEqual(slice1.Height, 2);
+            Assert.AreEqual(slice1.Width, 2);
+            Assert.AreEqual(slice1[0, 0], 1);
+            Assert.AreEqual(slice1[1, 1], 5);
+
+            Span2D<int> slice2 = slice1.Slice(1, 0, 2, 1);
+
+            Assert.AreEqual(slice2.Size, 2);
+            Assert.AreEqual(slice2.Height, 1);
+            Assert.AreEqual(slice2.Width, 2);
+            Assert.AreEqual(slice2[0, 0], 4);
+            Assert.AreEqual(slice2[0, 1], 5);
+
+            Span2D<int> slice3 = slice2.Slice(0, 1, 1, 1);
+
+            Assert.AreEqual(slice3.Size, 1);
+            Assert.AreEqual(slice3.Height, 1);
+            Assert.AreEqual(slice3.Width, 1);
+            Assert.AreEqual(slice3[0, 0], 5);
+        }
+
 #if !WINDOWS_UWP
         [TestCategory("Span2DT")]
         [TestMethod]

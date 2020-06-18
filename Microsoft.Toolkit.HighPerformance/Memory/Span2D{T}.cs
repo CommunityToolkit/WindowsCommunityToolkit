@@ -760,11 +760,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
-            int shift = ((this.width + this.pitch) * row) + column;
+            int
+                shift = ((this.width + this.pitch) * row) + column,
+                pitch = this.pitch + (this.width - width);
 
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref Unsafe.Add(ref MemoryMarshal.GetReference(this.span), shift);
-            int pitch = this.pitch + column;
 
             return new Span2D<T>(ref r0, height, width, pitch);
 #else
@@ -772,7 +773,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             {
                 IntPtr offset = (IntPtr)((byte*)this.offset + shift);
 
-                return new Span2D<T>(this.instance!, offset, height, width, this.pitch);
+                return new Span2D<T>(this.instance!, offset, height, width, pitch);
             }
 #endif
         }
