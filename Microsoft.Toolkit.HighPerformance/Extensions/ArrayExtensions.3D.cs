@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -138,6 +139,30 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
 #endif
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Memory2D{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        /// <returns>A <see cref="Memory2D{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory2D<T> GetLayer<T>(this T[,,] array, int depth)
+        {
+            if (array is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return new Memory2D<T>(array, depth);
+        }
 
         /// <summary>
         /// Counts the number of occurrences of a given value into a target 3D <typeparamref name="T"/> array instance.
