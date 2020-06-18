@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -223,6 +224,55 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return new RefEnumerable<T>(array, offset, array.GetLength(0), array.GetLength(1));
 #endif
+        }
+
+        /// <summary>
+        /// Cretes a new <see cref="Memory2D{T}"/> over an input 2D <typeparamref name="T"/> array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
+        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
+        /// <returns>A <see cref="Memory2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory2D<T> AsMemory2D<T>(this T[,] array)
+        {
+            if (array is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return new Memory2D<T>(array);
+        }
+
+        /// <summary>
+        /// Cretes a new <see cref="Memory2D{T}"/> over an input 2D <typeparamref name="T"/> array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
+        /// <param name="row">The target row to map within <paramref name="array"/>.</param>
+        /// <param name="column">The target column to map within <paramref name="array"/>.</param>
+        /// <param name="width">The width to map within <paramref name="array"/>.</param>
+        /// <param name="height">The height to map within <paramref name="array"/>.</param>
+        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArrayTypeMismatchException">
+        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
+        /// are negative or not within the bounds that are valid for <paramref name="array"/>.
+        /// </exception>
+        /// <returns>A <see cref="Memory2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory2D<T> AsMemory2D<T>(this T[,] array, int row, int column, int width, int height)
+        {
+            if (array is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return new Memory2D<T>(array, row, column, width, height);
         }
 
 #if SPAN_RUNTIME_SUPPORT
