@@ -556,11 +556,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 // We can only create a Span<T> if the buffer is contiguous
                 span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size);
 
-
                 return true;
 #else
+                // An empty Span2D<T> is still valid
+                if (this.instance is null)
+                {
+                    span = default;
+
+                    return true;
+                }
+
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
-                if (this.instance?.GetType() == typeof(T[]))
+                if (this.instance.GetType() == typeof(T[]))
                 {
                     span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, Size);
 

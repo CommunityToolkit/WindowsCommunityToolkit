@@ -275,8 +275,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentException();
             }
 
-            this.instance = memory;
-            this.offset = (IntPtr)offset;
+            this.instance = memory.Slice(offset);
+            this.offset = default;
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -339,9 +339,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     {
                         Memory<T> memory = (Memory<T>)this.instance;
 
-                        // If the wrapped object is a Memory<T>, the offset simply refers
-                        // to the initial distance from the first element in the span.
-                        ref T r0 = ref memory.Span.DangerousGetReferenceAt((int)this.offset);
+                        // If the wrapped object is a Memory<T>, it is always pre-offset
+                        ref T r0 = ref memory.Span.DangerousGetReference();
 
                         return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
                     }
@@ -455,6 +454,47 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             return default;
+        }
+
+        /// <summary>
+        /// Tries to get a <see cref="Memory{T}"/> instance, if the underlying buffer is contiguous.
+        /// </summary>
+        /// <param name="memory">The resulting <see cref="Memory{T}"/>, in case of success.</param>
+        /// <returns>Whether or not <paramref name="memory"/> was correctly assigned.</returns>
+        public bool TryGetMemory(out Memory<T> memory)
+        {
+            if (this.pitch == 0)
+            {
+                // Empty Memory2D<T> instance
+                if (this.instance is null)
+                {
+                    memory = default;
+                }
+                else if (this.instance.GetType() == typeof(Memory<T>))
+                {
+                    // If the object is a Memory<T>, just slice it as needed
+                    memory = ((Memory<T>)this.instance).Slice(0, this.height * this.width);
+                }
+                else if (this.instance.GetType() == typeof(T[]))
+                {
+                    // If it's a T[] array, also handle the initial offset
+                    memory = Unsafe.As<T[]>(this.instance).AsMemory((int)this.offset, this.height * this.width);
+                }
+                else
+                {
+                    // Reuse a single failure path to reduce
+                    // the number of returns in the method
+                    goto Failure;
+                }
+
+                return true;
+            }
+
+            Failure:
+
+            memory = default;
+
+            return false;
         }
 
         /// <summary>
