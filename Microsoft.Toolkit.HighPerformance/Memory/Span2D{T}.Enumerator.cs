@@ -35,7 +35,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             ref T r0 = ref this.DangerousGetReference();
             ref T r1 = ref Unsafe.Add(ref r0, (Width + this.pitch) * row);
 
+#if SPAN_RUNTIME_SUPPORT
             return new RefEnumerable<T>(ref r1, Width, 1);
+#else
+            IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
+
+            return new RefEnumerable<T>(this.instance!, offset, Width, 1);
+#endif
         }
 
         /// <summary>
@@ -56,7 +62,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             ref T r0 = ref this.DangerousGetReference();
             ref T r1 = ref Unsafe.Add(ref r0, column);
 
+#if SPAN_RUNTIME_SUPPORT
             return new RefEnumerable<T>(ref r1, Height, Width + this.pitch);
+#else
+            IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
+
+            return new RefEnumerable<T>(this.instance!, offset, Height, Width + this.pitch);
+#endif
         }
 
         /// <summary>
