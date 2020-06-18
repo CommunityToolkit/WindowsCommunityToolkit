@@ -65,13 +65,6 @@ jobs:
     
   - powershell: .\build\build.ps1 -target=Package
     displayName: Build 
-
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Package Artifacts
-    inputs:
-      pathToPublish: .\Microsoft.Toolkit.Uwp.SampleApp.Wasm\bin\Release\netstandard2.0\dist
-      artifactType: container
-      artifactName: Wasm
   
   - task: PublishBuildArtifacts@1
     displayName: Publish Package Artifacts

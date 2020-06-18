@@ -211,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var manifestName = assemblyType.GetTypeInfo().Assembly
                 .GetManifestResourceNames()
-                .FirstOrDefault(n => n.EndsWith(fileName.Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(n => n.EndsWith(fileName.Replace(" ", "_"), StringComparison.OrdinalIgnoreCase) || n.EndsWith(fileName.Replace("/", "."), StringComparison.OrdinalIgnoreCase));
 
             if (manifestName == null)
             {

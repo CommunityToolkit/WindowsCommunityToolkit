@@ -45,5 +45,6 @@
 
 	<ItemGroup>
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
   </ItemGroup>
 </Project>

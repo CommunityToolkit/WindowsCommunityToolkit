@@ -16,11 +16,11 @@
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
-          QueryIcon="{ex:SymbolIconSource Glyph=Setting}"
           MaxHeight="104"
           HorizontalAlignment="Stretch"
           TextMemberPath="Text"
           TokenDelimiter=",">
+          <!--QueryIcon="{ex:SymbolIconSource Glyph=Setting}" https://github.com/unoplatform/uno/issues/3399 -->
         <controls:TokenizingTextBox.SuggestedItemTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
@@ -52,10 +52,10 @@
             PlaceholderText="Select Names"
             MaxHeight="104"
             HorizontalAlignment="Stretch"
-            QueryIcon="{ex:SymbolIconSource Glyph=Find}"
             TextMemberPath="Text"
             TokenDelimiter=","
             IsItemClickEnabled="True">
+            <!--QueryIcon="{ex:SymbolIconSource Glyph=Find}" https://github.com/unoplatform/uno/issues/3399 -->
         <controls:TokenizingTextBox.TokenItemTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">

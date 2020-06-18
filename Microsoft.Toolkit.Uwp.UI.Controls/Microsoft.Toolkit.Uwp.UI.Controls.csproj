@@ -56,7 +56,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
-    <PackageReference Include="Uno.UI" Version="3.0.0-dev.405" />
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
     <PackageReference Include="Uno.ColorCode.UWP" Version="2.0.5-gd0f1a63314" />
 
 		<Page Remove="Eyedropper/**/*.xaml" />

@@ -9,6 +9,13 @@
     </Description>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
   </PropertyGroup>
+	
+	<PropertyGroup>
+		<!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+		<DebugType>Full</DebugType>
+		<NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Controls.Layout</PackageId>
+	</PropertyGroup>
 
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />

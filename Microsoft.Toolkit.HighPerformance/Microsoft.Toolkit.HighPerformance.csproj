@@ -22,7 +22,15 @@
   </Description>
     <PackageTags>UWP Toolkit Windows core standard unsafe span memory string array stream buffer extensions helpers parallel performance</PackageTags>
   </PropertyGroup>
-  <Choose>
+	
+	<PropertyGroup>
+		<!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+		<DebugType>Full</DebugType>
+		<NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+		<PackageId>Uno.Microsoft.Toolkit.HighPerformance</PackageId>
+	</PropertyGroup>
+
+	<Choose>
     <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
       <ItemGroup>
 

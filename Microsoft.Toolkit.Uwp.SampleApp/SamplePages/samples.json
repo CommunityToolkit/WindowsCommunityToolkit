@@ -465,7 +465,8 @@
         "CodeFile": "TokenizingTextBoxCode.bind",
         "XamlCodeFile": "TokenizingTextBoxXaml.bind",
         "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md",
+        "IsUno": true
       }
     ]
   },

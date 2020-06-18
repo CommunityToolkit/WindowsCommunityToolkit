@@ -1,7 +1,7 @@
 #module nuget:?package=Cake.LongPath.Module&version=0.7.0
 
 #addin nuget:?package=Cake.FileHelpers&version=3.2.1
-#addin nuget:?package=Cake.Powershell&version=0.4.8
+#addin nuget:?package=Cake.Powershell&version=0.4.7
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.1.0
 #tool nuget:?package=vswhere&version=2.8.4
@@ -20,7 +20,7 @@ var target = Argument("target", "Default");
 // VERSIONS
 //////////////////////////////////////////////////////////////////////
 
-var gitVersioningVersion = "3.1.91";
+var gitVersioningVersion = "3.0.50";
 var inheritDocVersion = "2.5.2";
 
 //////////////////////////////////////////////////////////////////////
@@ -220,6 +220,7 @@ Task("Package")
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
+    .WithTarget("Restore")
     .WithTarget("Pack")
     .WithProperty("GenerateLibraryLayout", "true")
 	.WithProperty("PackageOutputPath", nupkgDir);
@@ -245,19 +246,19 @@ Task("Package")
     buildSettings.SetPlatformTarget(PlatformTarget.x86);
     MSBuild(Solution, buildSettings);
 
-    RetrieveVersion();
-
-    var nuGetPackSettings = new NuGetPackSettings
-	{
-		OutputDirectory = nupkgDir,
-        Version = Version
-	};
-	
-    var nuspecs = GetFiles("./*.nuspec");
-    foreach (var nuspec in nuspecs)
-    {
-        NuGetPack(nuspec, nuGetPackSettings);
-    }
+    // RetrieveVersion();
+    // 
+    // var nuGetPackSettings = new NuGetPackSettings
+	// {
+	// 	OutputDirectory = nupkgDir,
+    //     Version = Version
+	// };
+	// 
+    // var nuspecs = GetFiles("./*.nuspec");
+    // foreach (var nuspec in nuspecs)
+    // {
+    //     NuGetPack(nuspec, nuGetPackSettings);
+    // }
 });
 
 public string getMSTestAdapterPath(){
