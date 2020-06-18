@@ -16,9 +16,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// <see cref="Memory2D{T}"/> represents a 2D region of arbitrary memory. It is to <see cref="Span2D{T}"/>
     /// what <see cref="Memory{T}"/> is to <see cref="Span{T}"/>. For further details on how the internal layout
     /// is structured, see the docs for <see cref="Span2D{T}"/>. The <see cref="Memory2D{T}"/> type can wrap arrays
-    /// of any rank, provided that a valid series of parameters for the target memory area(s) are provided.
+    /// of any rank, provided that a valid series of parameters for the target memory area(s) are specified.
     /// </summary>
-    /// <typeparam name="T">The type of items in the current <see cref="Span2D{T}"/> instance.</typeparam>
+    /// <typeparam name="T">The type of items in the current <see cref="Memory2D{T}"/> instance.</typeparam>
     public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
     {
         /// <summary>
@@ -210,6 +210,40 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.pitch = 0;
         }
 
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="memory">The target <see cref="Memory{T}"/> to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="memory"/>.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when either <paramref name="offset"/>, <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Memory2D(Memory<T> memory, int offset, int width, int height)
+        {
+            if ((uint)offset >= (uint)memory.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
+            }
+
+            int remaining = memory.Length - offset;
+
+            if (((uint)width * (uint)height) > (uint)remaining)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
+
+            this.instance = memory;
+            this.offset = (IntPtr)offset;
+            this.height = height;
+            this.width = width;
+            this.pitch = 0;
+        }
+#endif
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct with the specified parameters.
         /// </summary>
@@ -262,9 +296,23 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 if (!(this.instance is null))
                 {
 #if SPAN_RUNTIME_SUPPORT
-                    ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                    if (this.instance.GetType() == typeof(Memory<T>))
+                    {
+                        Memory<T> memory = (Memory<T>)this.instance;
 
-                    return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
+                        // If the wrapped object is a Memory<T>, the offset simply refers
+                        // to the initial distance from the first element in the span.
+                        ref T r0 = ref memory.Span.DangerousGetReferenceAt((int)this.offset);
+
+                        return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
+                    }
+                    else
+                    {
+                        // The only other possible cases is with the instance being an array
+                        ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+
+                        return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
+                    }
 #else
                     return new Span2D<T>(this.instance, this.offset, this.height, this.width, this.pitch);
 #endif
