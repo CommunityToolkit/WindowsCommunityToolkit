@@ -227,7 +227,29 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
-        /// Creates a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
+        /// Returns a <see cref="Span{T}"/> over a row in a given 2D <typeparamref name="T"/> array instance.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="row">The target row to retrieve (0-based index).</param>
+        /// <returns>A <see cref="RefEnumerable{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span<T> GetRowSpan<T>(this T[,] array, int row)
+        {
+            if ((uint)row >= (uint)array.GetLength(0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(row));
+            }
+
+            ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
+
+            return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
+        }
+
+        /// <summary>
+        /// Cretes a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
