@@ -401,6 +401,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
         /// <summary>
         /// Copies the contents of this <see cref="Span2D{T}"/> into a destination <see cref="Span2D{T}"/> instance.
+        /// For this API to succeed, the target <see cref="Span2D{T}"/> has to have the same shape as the current one.
         /// </summary>
         /// <param name="destination">The destination <see cref="Span2D{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
@@ -408,7 +409,49 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public void CopyTo(Span2D<T> destination)
         {
-            throw new NotImplementedException("TODO");
+            if (destination.Height != Height ||
+                destination.width != Width)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
+
+            if (destination.TryGetSpan(out Span<T> span))
+            {
+                CopyTo(span);
+            }
+            else
+            {
+#if SPAN_RUNTIME_SUPPORT
+                int
+                    sourcePaddedWitdh = this.width + this.pitch,
+                    destinationPaddedWidth = destination.width + destination.pitch,
+                    sourcePaddedSize = sourcePaddedWitdh * Height,
+                    destinationPaddedSize = destinationPaddedWidth * Height,
+                    sourceOffset = 0,
+                    destinationOffset = 0;
+                Span<T>
+                    fullSourceSpan = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), sourcePaddedSize),
+                    fullDestinationSpan = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(destination.span), destinationPaddedSize);
+
+                for (int i = 0; i < Height; i++)
+                {
+                    fullSourceSpan.Slice(sourceOffset, this.width).CopyTo(fullDestinationSpan.Slice(destinationOffset, this.width));
+
+                    sourceOffset += sourcePaddedSize;
+                    destinationOffset += destinationPaddedSize;
+                }
+#else
+                Enumerator destinationEnumerator = destination.GetEnumerator();
+
+                // Fallback path with two enumerators
+                foreach (T item in this)
+                {
+                    _ = destinationEnumerator.MoveNext();
+
+                    destinationEnumerator.Current = item;
+                }
+#endif
+            }
         }
 
         /// <summary>
