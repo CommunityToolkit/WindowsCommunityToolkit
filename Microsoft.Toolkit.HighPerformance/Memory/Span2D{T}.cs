@@ -543,27 +543,36 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             throw new NotImplementedException("TODO");
         }
 
-#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Tries to get a <see cref="Span{T}"/> instance, if the underlying buffer is contiguous.
         /// </summary>
         /// <param name="span">The resulting <see cref="Span{T}"/>, in case of success.</param>
         /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
-        public bool TryAsSpan(out Span<T> span)
+        public bool TryGetSpan(out Span<T> span)
         {
             if (this.pitch == 0)
             {
+#if SPAN_RUNTIME_SUPPORT
                 // We can only create a Span<T> if the buffer is contiguous
                 span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size);
 
+
                 return true;
+#else
+                // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
+                if (this.instance?.GetType() == typeof(T[]))
+                {
+                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, Size);
+
+                    return true;
+                }
+#endif
             }
 
             span = default;
 
             return false;
         }
-#endif
 
         /// <summary>
         /// Copies the contents of the current <see cref="Span2D{T}"/> instance into a new 2D array.
