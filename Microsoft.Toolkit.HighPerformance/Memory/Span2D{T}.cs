@@ -573,7 +573,41 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [Pure]
         public Span2D<T> Slice(int row, int column, int width, int height)
         {
-            throw new NotImplementedException("TODO");
+            if ((uint)row >= Height)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
+            }
+
+            if ((uint)column >= this.width)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
+            }
+
+            if ((uint)width > (this.width - column))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if ((uint)height > (Height - row))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            int shift = ((this.width + this.pitch) * row) + column;
+
+#if SPAN_RUNTIME_SUPPORT
+            ref T r0 = ref Unsafe.Add(ref MemoryMarshal.GetReference(this.span), shift);
+            int pitch = this.pitch + column;
+
+            return new Span2D<T>(ref r0, height, width, pitch);
+#else
+            unsafe
+            {
+                IntPtr offset = (IntPtr)((byte*)this.offset + shift);
+
+                return new Span2D<T>(this.instance!, offset, height, width, this.pitch);
+            }
+#endif
         }
 
         /// <summary>
