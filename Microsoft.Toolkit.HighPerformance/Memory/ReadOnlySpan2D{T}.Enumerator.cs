@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             ref T r1 = ref Unsafe.Add(ref r0, (this.width + this.pitch) * row);
 
 #if SPAN_RUNTIME_SUPPORT
-            return new ReadOnlyRefEnumerable<T>(ref r1, Width, 1);
+            return new RefEnumerable<T>(ref r1, Width, 1);
 #else
             IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
 
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             ref T r1 = ref Unsafe.Add(ref r0, column);
 
 #if SPAN_RUNTIME_SUPPORT
-            return new ReadOnlyRefEnumerable<T>(ref r1, Height, this.width + this.pitch);
+            return new ReadOnlyRefEnumerable<T>(ref r1, Height, this.width + this.Pitch);
 #else
             IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
 
@@ -89,10 +89,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
 #if SPAN_RUNTIME_SUPPORT
             /// <summary>
-            /// The <see cref="ReadOnlySpan{T}"/> instance pointing to the first item in the target memory area.
+            /// The <see cref="Span{T}"/> instance pointing to the first item in the target memory area.
             /// </summary>
             /// <remarks>Just like in <see cref="ReadOnlySpan2D{T}"/>, the length is the height of the 2D region.</remarks>
-            private readonly ReadOnlySpan<T> span;
+            private readonly Span<T> span;
 #else
             /// <summary>
             /// The target <see cref="object"/> instance, if present.

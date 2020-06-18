@@ -56,12 +56,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// The target <see cref="object"/> instance, if present.
         /// </summary>
-        private readonly object? instance;
+        internal readonly object? Instance;
 
         /// <summary>
-        /// The initial offset within <see cref="instance"/>.
+        /// The initial offset within <see cref="Instance"/>.
         /// </summary>
-        private readonly IntPtr offset;
+        internal readonly IntPtr Offset;
 
         /// <summary>
         /// The height of the specified 2D region.
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// The pitch of the specified 2D region.
         /// </summary>
-        private readonly int pitch;
+        internal readonly int Pitch;
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             this.span = MemoryMarshal.CreateSpan(ref value, height);
             this.width = width;
-            this.pitch = pitch;
+            this.Pitch = pitch;
         }
 
         /// <summary>
@@ -142,24 +142,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             this.span = new Span<T>(pointer, height);
             this.width = width;
-            this.pitch = pitch;
+            this.Pitch = pitch;
         }
 #else
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
         /// </summary>
         /// <param name="instance">The target <see cref="object"/> instance.</param>
-        /// <param name="offset">The initial offset within <see cref="instance"/>.</param>
+        /// <param name="offset">The initial offset within <see cref="Instance"/>.</param>
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
         internal Span2D(object instance, IntPtr offset, int height, int width, int pitch)
         {
-            this.instance = instance;
-            this.offset = offset;
+            this.Instance = instance;
+            this.Offset = offset;
             this.height = height;
             this.width = width;
-            this.pitch = pitch;
+            this.Pitch = pitch;
         }
 #endif
 
@@ -246,12 +246,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(offset), height);
 #else
-            this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.Instance = array;
+            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
             this.height = height;
 #endif
             this.width = width;
-            this.pitch = pitch;
+            this.Pitch = pitch;
         }
 
         /// <summary>
@@ -278,12 +278,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReference(), array.GetLength(0));
 #else
-            this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
+            this.Instance = array;
+            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
             this.height = array.GetLength(0);
 #endif
             this.width = array.GetLength(1);
-            this.pitch = 0;
+            this.Pitch = 0;
         }
 
         /// <summary>
@@ -335,12 +335,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(row, column), height);
 #else
-            this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.Instance = array;
+            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
             this.height = array.GetLength(0);
 #endif
             this.width = width;
-            this.pitch = columns - width;
+            this.Pitch = columns - width;
         }
 
         /// <summary>
@@ -368,12 +368,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, 0, 0), array.GetLength(1));
 #else
-            this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.Instance = array;
+            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
 #endif
             this.width = array.GetLength(2);
-            this.pitch = 0;
+            this.Pitch = 0;
         }
 
         /// <summary>
@@ -429,12 +429,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, row, column), height);
 #else
-            this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.Instance = array;
+            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
 #endif
             this.width = width;
-            this.pitch = columns - width;
+            this.Pitch = columns - width;
         }
 
         /// <summary>
@@ -508,9 +508,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
                 ref T r0 = ref MemoryMarshal.GetReference(this.span);
 #else
-                ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                ref T r0 = ref this.Instance!.DangerousGetObjectDataReferenceAt<T>(this.Offset);
 #endif
-                int index = (i * (this.width + this.pitch)) + j;
+                int index = (i * (this.width + this.Pitch)) + j;
 
                 return ref Unsafe.Add(ref r0, index);
             }
@@ -721,7 +721,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             return ref MemoryMarshal.GetReference(this.span);
 #else
-            return ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            return ref this.Instance!.DangerousGetObjectDataReferenceAt<T>(this.Offset);
 #endif
         }
 
@@ -761,8 +761,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                shift = ((this.width + this.pitch) * row) + column,
-                pitch = this.pitch + (this.width - width);
+                shift = ((this.width + this.Pitch) * row) + column,
+                pitch = this.Pitch + (this.width - width);
 
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref Unsafe.Add(ref MemoryMarshal.GetReference(this.span), shift);
@@ -771,9 +771,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
             unsafe
             {
-                IntPtr offset = (IntPtr)((byte*)this.offset + shift);
+                IntPtr offset = (IntPtr)((byte*)this.Offset + shift);
 
-                return new Span2D<T>(this.instance!, offset, height, width, pitch);
+                return new Span2D<T>(this.Instance!, offset, height, width, pitch);
             }
 #endif
         }
@@ -793,7 +793,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            int offset = (this.width + this.pitch) * row;
+            int offset = (this.width + this.Pitch) * row;
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
             ref T r1 = ref Unsafe.Add(ref r0, offset);
 
@@ -808,7 +808,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
         public bool TryGetSpan(out Span<T> span)
         {
-            if (this.pitch == 0)
+            if (this.Pitch == 0)
             {
 #if SPAN_RUNTIME_SUPPORT
                 // We can only create a Span<T> if the buffer is contiguous
@@ -817,7 +817,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 return true;
 #else
                 // An empty Span2D<T> is still valid
-                if (this.instance is null)
+                if (this.Instance is null)
                 {
                     span = default;
 
@@ -825,9 +825,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 }
 
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
-                if (this.instance.GetType() == typeof(T[]))
+                if (this.Instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, Size);
+                    span = Unsafe.As<T[]>(this.Instance).AsSpan((int)this.Offset, Size);
 
                     return true;
                 }
@@ -906,12 +906,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
                 left.span == right.span &&
 #else
-                ReferenceEquals(left.instance, right.instance) &&
-                left.offset == right.offset &&
+                ReferenceEquals(left.Instance, right.Instance) &&
+                left.Offset == right.Offset &&
                 left.height == right.height &&
 #endif
                 left.width == right.width &&
-                left.pitch == right.pitch;
+                left.Pitch == right.Pitch;
         }
 
         /// <summary>

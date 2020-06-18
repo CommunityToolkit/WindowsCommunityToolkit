@@ -34,14 +34,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             ref T r0 = ref this.DangerousGetReference();
-            ref T r1 = ref Unsafe.Add(ref r0, (this.width + this.pitch) * row);
+            ref T r1 = ref Unsafe.Add(ref r0, (this.width + this.Pitch) * row);
 
 #if SPAN_RUNTIME_SUPPORT
             return new RefEnumerable<T>(ref r1, Width, 1);
 #else
-            IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
+            IntPtr offset = this.Instance!.DangerousGetObjectDataByteOffset(ref r1);
 
-            return new RefEnumerable<T>(this.instance!, offset, this.width, 1);
+            return new RefEnumerable<T>(this.Instance!, offset, this.width, 1);
 #endif
         }
 
@@ -64,11 +64,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             ref T r1 = ref Unsafe.Add(ref r0, column);
 
 #if SPAN_RUNTIME_SUPPORT
-            return new RefEnumerable<T>(ref r1, Height, this.width + this.pitch);
+            return new RefEnumerable<T>(ref r1, Height, this.width + this.Pitch);
 #else
-            IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
+            IntPtr offset = this.Instance!.DangerousGetObjectDataByteOffset(ref r1);
 
-            return new RefEnumerable<T>(this.instance!, offset, Height, this.width + this.pitch);
+            return new RefEnumerable<T>(this.Instance!, offset, Height, this.width + this.Pitch);
 #endif
         }
 
@@ -139,12 +139,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
                 this.span = span.span;
 #else
-                this.instance = span.instance;
-                this.offset = span.offset;
+                this.instance = span.Instance;
+                this.offset = span.Offset;
                 this.height = span.height;
 #endif
                 this.width = span.width;
-                this.pitch = span.pitch;
+                this.pitch = span.Pitch;
                 this.x = -1;
                 this.y = 0;
             }
