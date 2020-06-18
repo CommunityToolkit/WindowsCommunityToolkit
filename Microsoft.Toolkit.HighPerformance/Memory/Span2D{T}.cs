@@ -610,6 +610,29 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
         }
 
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Gets a <see cref="Span{T}"/> for a specified row.
+        /// </summary>
+        /// <param name="row">The index of the target row to retrieve.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="row"/> is out of range.</exception>
+        /// <returns>The resulting row <see cref="Span{T}"/>.</returns>
+        [Pure]
+        public Span<T> GetRowSpan(int row)
+        {
+            if ((uint)row >= (uint)Height)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
+            }
+
+            int offset = (this.width + this.pitch) * row;
+            ref T r0 = ref MemoryMarshal.GetReference(this.span);
+            ref T r1 = ref Unsafe.Add(ref r0, offset);
+
+            return MemoryMarshal.CreateSpan(ref r1, this.width);
+        }
+#endif
+
         /// <summary>
         /// Tries to get a <see cref="Span{T}"/> instance, if the underlying buffer is contiguous.
         /// </summary>
