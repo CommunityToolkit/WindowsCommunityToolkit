@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {

@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else

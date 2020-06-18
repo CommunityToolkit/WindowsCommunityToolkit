@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
 {
     /// <summary>
     /// A helper class to throw exceptions for memory types.
