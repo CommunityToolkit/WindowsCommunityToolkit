@@ -235,30 +235,41 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool IsEmpty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-#if SPAN_RUNTIME_SUPPORT
-                return (this.span.Length | this.width) == 0;
-#else
-                return (this.height | this.width) == 0;
-#endif
-            }
+            get => (Height | Width) == 0;
         }
 
         /// <summary>
         /// Gets the length of the current <see cref="Span2D{T}"/> instance.
         /// </summary>
-        public int Length
+        public int Size
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Height * Width;
+        }
+
+        /// <summary>
+        /// Gets the height of the underlying 2D memory area.
+        /// </summary>
+        public int Height
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
 #if SPAN_RUNTIME_SUPPORT
-                return this.span.Length * this.width;
+                return this.span.Length;
 #else
-                return this.height * this.width;
+                return this.height;
 #endif
             }
+        }
+
+        /// <summary>
+        /// Gets the width of the underlying 2D memory area.
+        /// </summary>
+        public int Width
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.width;
         }
 
         /// <summary>
@@ -275,15 +286,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (
-#pragma warning disable SA1003 // Whitespace before cast
-#if SPAN_RUNTIME_SUPPORT
-                    (uint)i >= (uint)this.span.Length ||
-#else
-                    (uint)i >= (uint)this.height ||
-#endif
-#pragma warning restore SA1003
-                    (uint)j >= (uint)this.width)
+                if ((uint)i >= (uint)Height ||
+                    (uint)j >= (uint)Width)
                 {
                     ThrowIndexOutOfRangeException();
                 }
@@ -310,7 +314,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 // If the pitch is 0, it means all the target area is contiguous
                 // in memory with no padding between row boundaries. In this case
                 // we can just create a Span<T> over the area and use it to clear it.
-                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).Clear();
+                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size).Clear();
             }
             else
             {
@@ -347,11 +351,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             if (this.pitch == 0)
             {
                 // If the pitch is 0, we can copy in a single pass
-                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).CopyTo(destination);
+                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size).CopyTo(destination);
             }
             else
             {
-                if (Length > destination.Length)
+                if (Size > destination.Length)
                 {
                     ThrowArgumentExceptionForDestinationTooShort();
                 }
@@ -399,10 +403,28 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Attempts to copy the current <see cref="Span2D{T}"/> instance to a destination <see cref="Span{T}"/>.
         /// </summary>
         /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
-        /// <returns>Whether or not the operaation was successful.</returns>
+        /// <returns>Whether or not the operation was successful.</returns>
         public bool TryCopyTo(Span<T> destination)
         {
-            if (destination.Length >= Length)
+            if (destination.Length >= Size)
+            {
+                CopyTo(destination);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to copy the current <see cref="Span2D{T}"/> instance to a destination <see cref="Span2D{T}"/>.
+        /// </summary>
+        /// <param name="destination">The target <see cref="Span2D{T}"/> of the copy operation.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        public bool TryCopyTo(Span2D<T> destination)
+        {
+            if (destination.Height == Height &&
+                destination.Width == Width)
             {
                 CopyTo(destination);
 
@@ -421,7 +443,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             if (this.pitch == 0)
             {
-                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length).Fill(value);
+                MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size).Fill(value);
             }
             else
             {
@@ -468,13 +490,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             ref T r0 = ref Unsafe.AsRef<T>(null);
 
-            if (this.Length != 0)
+            if (Size != 0)
             {
-#if SPAN_RUNTIME_SUPPORT
-                r0 = ref MemoryMarshal.GetReference(this.span);
-#else
-                r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
-#endif
+                r0 = ref this.DangerousGetReference();
             }
 
             return ref r0;
@@ -524,7 +542,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             if (this.pitch == 0)
             {
                 // We can only create a Span<T> if the buffer is contiguous
-                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length);
+                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size);
 
                 return true;
             }
@@ -568,7 +586,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             T[,] array = new T[this.height, this.width];
 
             // Skip the initialization if the array is empty
-            if (Length > 0)
+            if (Size > 0)
             {
                 ref T r0 = ref array.DangerousGetReference();
                 IntPtr offset = default;
@@ -590,7 +608,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc cref="Span{T}.Equals(object)"/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Equals() on Span will always throw an exception. Use == instead.")]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.Span2D<T>.Equals(object) is not supported");
         }
