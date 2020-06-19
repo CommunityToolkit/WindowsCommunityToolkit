@@ -642,6 +642,26 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
+        /// Returns a reference to a specified element within the current instance, with no bounds check.
+        /// </summary>
+        /// <param name="i">The target row to get the element from.</param>
+        /// <param name="j">The target column to get the element from.</param>
+        /// <returns>A reference to the element at the specified indices.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReferenceAt(int i, int j)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            ref T r0 = ref MemoryMarshal.GetReference(this.span);
+#else
+            ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
+            int index = (i * (this.width + this.pitch)) + j;
+
+            return ref Unsafe.Add(ref r0, index);
+        }
+
+        /// <summary>
         /// Slices the current instance with the specified parameters.
         /// </summary>
         /// <param name="row">The target row to map within the current instance.</param>
