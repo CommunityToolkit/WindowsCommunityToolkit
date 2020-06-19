@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Enumerables;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #endif
@@ -167,6 +168,102 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
 #endif
+
+        /// <summary>
+        /// Returns a <see cref="RefEnumerable{T}"/> over a row in a given 3D <typeparamref name="T"/> array instance.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <param name="row">The target row to retrieve (0-based index).</param>
+        /// <returns>A <see cref="RefEnumerable{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the input parameters is out of range.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static RefEnumerable<T> GetRow<T>(this T[,,] array, int depth, int row)
+        {
+            int
+                layers = array.GetLength(0),
+                height = array.GetLength(1);
+
+            if ((uint)depth >= (uint)layers ||
+                (uint)row >= (uint)height)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            int width = array.GetLength(2);
+
+#if SPAN_RUNTIME_SUPPORT
+            ref T r0 = ref array.DangerousGetReferenceAt(depth, row, 0);
+
+            return new RefEnumerable<T>(ref r0, width, 1);
+#else
+            ref T r0 = ref array.DangerousGetReferenceAt(depth, row, 0);
+            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+
+            return new RefEnumerable<T>(array, offset, width, 1);
+#endif
+        }
+
+        /// <summary>
+        /// Returns an enumerable that returns the items from a given column in a given 2D <typeparamref name="T"/> array instance.
+        /// This extension should be used directly within a <see langword="foreach"/> loop:
+        /// <code>
+        /// int[,,] matrix =
+        /// {
+        ///     {
+        ///         { 1, 2, 3 },
+        ///         { 4, 5, 6 },
+        ///     },
+        ///     {
+        ///         { 7, 8, 9 },
+        ///         { 10, 11, 12 },
+        ///     }
+        /// };
+        ///
+        /// foreach (ref int number in matrix.GetColumn(1, 1))
+        /// {
+        ///     // Access the current number by reference here...
+        /// }
+        /// </code>
+        /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <param name="column">The target column to retrieve (0-based index).</param>
+        /// <returns>A wrapper type that will handle the column enumeration for <paramref name="array"/>.</returns>
+        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the input parameters is out of range.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static RefEnumerable<T> GetColumn<T>(this T[,,] array, int depth, int column)
+        {
+            int
+                layers = array.GetLength(0),
+                width = array.GetLength(2);
+
+            if ((uint)depth >= (uint)layers ||
+                (uint)column >= (uint)width)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            int height = array.GetLength(1);
+
+#if SPAN_RUNTIME_SUPPORT
+            ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, column);
+
+            return new RefEnumerable<T>(ref r0, height, width);
+#else
+            ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, column);
+            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+
+            return new RefEnumerable<T>(array, offset, height, width);
+#endif
+        }
 
         /// <summary>
         /// Creates a new instance of the <see cref="Span2D{T}"/> struct wrapping a layer in a 3D array.
