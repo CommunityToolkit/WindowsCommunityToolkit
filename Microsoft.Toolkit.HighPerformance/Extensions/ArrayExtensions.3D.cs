@@ -147,7 +147,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The given 3D array to wrap.</param>
         /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
-        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
@@ -157,11 +156,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<T> GetLayerSpan<T>(this T[,,] array, int depth)
         {
-            if (array is null)
-            {
-                throw new NullReferenceException();
-            }
-
             if ((uint)depth >= (uint)array.GetLength(0))
             {
                 throw new ArgumentOutOfRangeException(nameof(depth));
@@ -180,7 +174,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The given 3D array to wrap.</param>
         /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
-        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
@@ -190,11 +183,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> GetLayerSpan2D<T>(this T[,,] array, int depth)
         {
-            if (array is null)
-            {
-                throw new NullReferenceException();
-            }
-
             return new Span2D<T>(array, depth);
         }
 
@@ -204,7 +192,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The given 3D array to wrap.</param>
         /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
-        /// <exception cref="NullReferenceException">Thrown when <paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArrayTypeMismatchException">
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
@@ -214,11 +201,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> GetLayerMemory2D<T>(this T[,,] array, int depth)
         {
-            if (array is null)
-            {
-                throw new NullReferenceException();
-            }
-
             return new Memory2D<T>(array, depth);
         }
 
