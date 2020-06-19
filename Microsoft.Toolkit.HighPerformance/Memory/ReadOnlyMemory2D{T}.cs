@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// A readonly version of <see cref="Memory2D{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="ReadOnlyMemory2D{T}"/> instance.</typeparam>
-    [DebuggerTypeProxy(typeof(ReadOnlyMemory2DDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView2D<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public readonly struct ReadOnlyMemory2D<T> : IEquatable<ReadOnlyMemory2D<T>>
     {

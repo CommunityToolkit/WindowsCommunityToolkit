@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// A readonly version of <see cref="Span2D{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="ReadOnlySpan2D{T}"/> instance.</typeparam>
-    [DebuggerTypeProxy(typeof(ReadOnlySpan2DDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView2D<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public readonly ref partial struct ReadOnlySpan2D<T>
     {

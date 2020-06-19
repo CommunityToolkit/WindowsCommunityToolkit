@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// of any rank, provided that a valid series of parameters for the target memory area(s) are specified.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="Memory2D{T}"/> instance.</typeparam>
-    [DebuggerTypeProxy(typeof(Memory2DDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView2D<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
     {

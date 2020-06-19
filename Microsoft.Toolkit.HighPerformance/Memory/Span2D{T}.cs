@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// type and it is transparent to the user, but note that working over discontiguous buffers has a performance impact.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="Span2D{T}"/> instance.</typeparam>
-    [DebuggerTypeProxy(typeof(Span2DDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView2D<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public readonly ref partial struct Span2D<T>
     {
