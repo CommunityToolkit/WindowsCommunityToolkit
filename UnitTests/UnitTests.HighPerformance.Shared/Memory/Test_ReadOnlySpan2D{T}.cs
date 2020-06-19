@@ -500,8 +500,14 @@ namespace UnitTests.HighPerformance.Memory
 
             bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
 
+#if WINDOWS_UWP
+            // Can't get a ReadOnlySpan<T> over a T[,] array on UWP
+            Assert.IsFalse(success);
+            Assert.AreEqual(span.Length, 0);
+#else
             Assert.IsTrue(success);
             Assert.AreEqual(span.Length, span2d.Size);
+#endif
         }
 
         [TestCategory("ReadOnlySpan2DT")]

@@ -163,6 +163,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(array, 1, 1, 1, 1, -1));
         }
 
+#if !WINDOWS_UWP
         [TestCategory("ReadOnlyMemory2DT")]
         [TestMethod]
         public void Test_ReadOnlyMemory2DT_ReadOnlyMemoryConstructor()
@@ -187,6 +188,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(memory, 0, 1, -100, 1));
             Assert.ThrowsException<ArgumentException>(() => new ReadOnlyMemory2D<int>(memory, 0, 10, 1, 120));
         }
+#endif
 
         [TestCategory("ReadOnlyMemory2DT")]
         [TestMethod]
@@ -295,6 +297,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory.Span[2], 3);
         }
 
+#if !WINDOWS_UWP
         [TestCategory("ReadOnlyMemory2DT")]
         [TestMethod]
         public void Test_ReadOnlyMemory2DT_TryGetReadOnlyMemory_3()
@@ -309,6 +312,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory.Length, data.Length);
             Assert.AreEqual(memory.Span[2], 3);
         }
+#endif
 
         [TestCategory("ReadOnlyMemory2DT")]
         [TestMethod]

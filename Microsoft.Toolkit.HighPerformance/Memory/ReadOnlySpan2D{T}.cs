@@ -620,7 +620,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             if (Size != 0)
             {
-                r0 = ref this.DangerousGetReference();
+#if SPAN_RUNTIME_SUPPORT
+                r0 = ref MemoryMarshal.GetReference(this.span);
+#else
+                r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
             }
 
             return ref r0;
@@ -637,7 +641,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             return ref MemoryMarshal.GetReference(this.span);
 #else
-            return ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            return ref this.GetPinnableReference();
 #endif
         }
 

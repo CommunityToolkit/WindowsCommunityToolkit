@@ -163,6 +163,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 1, 1, 1, 1, -1));
         }
 
+#if !WINDOWS_UWP
         [TestCategory("Memory2DT")]
         [TestMethod]
         public void Test_Memory2DT_MemoryConstructor()
@@ -187,6 +188,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(memory, 0, 1, -100, 1));
             Assert.ThrowsException<ArgumentException>(() => new Memory2D<int>(memory, 0, 10, 1, 120));
         }
+#endif
 
         [TestCategory("Memory2DT")]
         [TestMethod]
@@ -295,6 +297,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory.Span[2], 3);
         }
 
+#if !WINDOWS_UWP
         [TestCategory("Memory2DT")]
         [TestMethod]
         public void Test_Memory2DT_TryGetMemory_3()
@@ -309,6 +312,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory.Length, data.Length);
             Assert.AreEqual(memory.Span[2], 3);
         }
+#endif
 
         [TestCategory("Memory2DT")]
         [TestMethod]
