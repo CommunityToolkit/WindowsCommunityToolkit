@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -674,6 +675,12 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            int i = 0;
+            foreach (ref readonly int value in new ReadOnlySpan2D<int>(array).GetRow(1))
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(value), ref array[1, i++]));
+            }
+
             ReadOnlyRefEnumerable<int> enumerable = new ReadOnlySpan2D<int>(array).GetRow(1);
 
             int[] expected = { 4, 5, 6 };
@@ -694,6 +701,12 @@ namespace UnitTests.HighPerformance.Memory
                 { 1, 2, 3 },
                 { 4, 5, 6 }
             };
+
+            int i = 0;
+            foreach (ref readonly int value in new ReadOnlySpan2D<int>(array).GetColumn(1))
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(value), ref array[i++, 1]));
+            }
 
             ReadOnlyRefEnumerable<int> enumerable = new ReadOnlySpan2D<int>(array).GetColumn(2);
 

@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         {
             this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(reference), length * step);
             this.step = step;
-            this.position = 0;
+            this.position = -step;
         }
 #else
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             this.offset = offset;
             this.length = length * step;
             this.step = step;
-            this.position = 0;
+            this.position = -step;
         }
 #endif
 
