@@ -704,7 +704,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (!(this.instance is null))
             {
-#if SPAN_RUNTIME_SUPPORT
+#if !NETSTANDARD1_4
                 return HashCode.Combine(
                     RuntimeHelpers.GetHashCode(this.instance),
                     this.offset,
