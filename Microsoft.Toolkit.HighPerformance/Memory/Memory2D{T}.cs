@@ -60,7 +60,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
         /// <remarks>The total area must match the lenght of <paramref name="array"/>.</remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[] array, int height, int width)
             : this(array, 0, height, width, 0)
         {
@@ -83,7 +82,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when the requested area is outside of bounds for <paramref name="array"/>.
         /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[] array, int offset, int height, int width, int pitch)
         {
             if (array.IsCovariant())
@@ -224,7 +222,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,,] array, int depth)
         {
             if (array.IsCovariant())
@@ -257,7 +254,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(T[,,] array, int depth, int row, int column, int height, int width)
         {
             if (array.IsCovariant())
@@ -312,7 +308,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
         /// <remarks>The total area must match the lenght of <paramref name="memory"/>.</remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(Memory<T> memory, int height, int width)
             : this(memory, 0, height, width, 0)
         {
@@ -332,7 +327,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when the requested area is outside of bounds for <paramref name="memory"/>.
         /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Memory2D(Memory<T> memory, int offset, int height, int width, int pitch)
         {
             if ((uint)offset > (uint)memory.Length)
@@ -398,6 +392,50 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
+        /// Creates a new <see cref="Memory2D{T}"/> instance from an arbitrary object.
+        /// </summary>
+        /// <param name="instance">The <see cref="object"/> instance holding the data to map.</param>
+        /// <param name="value">The target reference to point to (it must be within <paramref name="instance"/>).</param>
+        /// <param name="height">The height of the 2D memory area to map.</param>
+        /// <param name="width">The width of the 2D memory area to map.</param>
+        /// <param name="pitch">The pitch of the 2D memory area to map.</param>
+        /// <returns>A <see cref="Memory2D{T}"/> instaance with the specified parameters.</returns>
+        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="instance"/> is of an unsupported type.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        [Pure]
+        public static Memory2D<T> DangerousCreate(object instance, ref T value, int height, int width, int pitch)
+        {
+            if (instance.GetType() == typeof(Memory<T>))
+            {
+                ThrowHelper.ThrowArgumentExceptionForUnsupportedType();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            IntPtr offset = instance.DangerousGetObjectDataByteOffset(ref value);
+
+            return new Memory2D<T>(instance, offset, height, width, pitch);
+        }
+
+        /// <summary>
         /// Gets an empty <see cref="Memory2D{T}"/> instance.
         /// </summary>
         public static Memory2D<T> Empty => default;
@@ -460,7 +498,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     }
                     else
                     {
-                        // The only other possible cases is with the instance being an array
                         ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
 
                         return new Span2D<T>(ref r0, this.height, this.width, this.pitch);

@@ -38,6 +38,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when using an array of an invalid type.
+        /// </summary>
+        public static void ThrowArgumentExceptionForUnsupportedType()
+        {
+            throw new ArgumentException("The specified object type is not supported");
+        }
+
+        /// <summary>
         /// Throws an <see cref="IndexOutOfRangeException"/> when the a given coordinate is invalid.
         /// </summary>
         /// <remarks>
