@@ -400,7 +400,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
-        /// <returns>A <see cref="ReadOnlyMemory2D{T}"/> instaance with the specified parameters.</returns>
+        /// <returns>A <see cref="ReadOnlyMemory2D{T}"/> instance with the specified parameters.</returns>
         /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="instance"/> is of an unsupported type.
@@ -577,7 +577,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Attempts to copy the current <see cref="ReadOnlyMemory2D{T}"/> instance to a destination <see cref="Memory{T}"/>.
         /// </summary>
         /// <param name="destination">The target <see cref="Memory{T}"/> of the copy operation.</param>
-        /// <returns>Whether or not the operaation was successful.</returns>
+        /// <returns>Whether or not the operation was successful.</returns>
         public bool TryCopyTo(Memory<T> destination) => Span.TryCopyTo(destination.Span);
 
         /// <summary>
@@ -595,7 +595,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// For this API to succeed, the target <see cref="Memory2D{T}"/> has to have the same shape as the current one.
         /// </summary>
         /// <param name="destination">The target <see cref="Memory2D{T}"/> of the copy operation.</param>
-        /// <returns>Whether or not the operaation was successful.</returns>
+        /// <returns>Whether or not the operation was successful.</returns>
         public bool TryCopyTo(Memory2D<T> destination) => Span.TryCopyTo(destination.Span);
 
         /// <summary>

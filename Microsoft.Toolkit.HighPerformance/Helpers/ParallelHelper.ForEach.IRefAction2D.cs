@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 numBatches = Math.Min(clipBatches, cores),
                 batchHeight = 1 + ((memory.Height - 1) / numBatches);
 
-            var actionInvoker = new RefActionInvokerWithReaadOnlyMemory2D<TItem, TAction>(batchHeight, memory, action);
+            var actionInvoker = new RefActionInvokerWithReadOnlyMemory2D<TItem, TAction>(batchHeight, memory, action);
 
             // Skip the parallel invocation when possible
             if (numBatches == 1)
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         // Wrapping struct acting as explicit closure to execute the processing batches
-        private readonly struct RefActionInvokerWithReaadOnlyMemory2D<TItem, TAction>
+        private readonly struct RefActionInvokerWithReadOnlyMemory2D<TItem, TAction>
             where TAction : struct, IRefAction<TItem>
         {
             private readonly int batchHeight;
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             private readonly TAction action;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public RefActionInvokerWithReaadOnlyMemory2D(
+            public RefActionInvokerWithReadOnlyMemory2D(
                 int batchHeight,
                 Memory2D<TItem> memory,
                 in TAction action)
