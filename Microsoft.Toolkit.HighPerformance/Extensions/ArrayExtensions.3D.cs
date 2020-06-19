@@ -159,7 +159,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             if ((uint)depth >= (uint)array.GetLength(0))
             {
-                throw new ArgumentOutOfRangeException(nameof(depth));
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
+
+                Throw();
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
@@ -187,10 +189,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 layers = array.GetLength(0),
                 height = array.GetLength(1);
 
-            if ((uint)depth >= (uint)layers ||
-                (uint)row >= (uint)height)
+            if ((uint)depth >= (uint)layers)
             {
-                throw new ArgumentOutOfRangeException();
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
+
+                Throw();
+            }
+
+            if ((uint)row >= (uint)height)
+            {
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
+
+                Throw();
             }
 
             int width = array.GetLength(2);
@@ -245,10 +255,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 layers = array.GetLength(0),
                 width = array.GetLength(2);
 
-            if ((uint)depth >= (uint)layers ||
-                (uint)column >= (uint)width)
+            if ((uint)depth >= (uint)layers)
             {
-                throw new ArgumentOutOfRangeException();
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
+
+                Throw();
+            }
+
+            if ((uint)column >= (uint)width)
+            {
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(column));
+
+                Throw();
             }
 
             int height = array.GetLength(1);
