@@ -204,7 +204,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return
 #pragma warning disable SA1003 // Whitespace before ! operator
 #if NETSTANDARD1_4
-
+                // On .NET Standard 1.4 we use GetTypeInfo to get the info we need
+                // on the current type T. We only do this step when absolutely necessary
+                // as it incurs in more overhead. Additionally, this pattern is recognized
+                // as a JIT intrinsics on .NET and results in a much more efficient codegen.
                 !System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(T)).IsValueType &&
 #else
                 !typeof(T).IsValueType &&
