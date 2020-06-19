@@ -611,7 +611,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (!(this.instance is null))
             {
-                if (this.instance is Memory<T> memory)
+                if (this.instance is ReadOnlyMemory<T> memory)
                 {
                     return memory.Pin();
                 }
