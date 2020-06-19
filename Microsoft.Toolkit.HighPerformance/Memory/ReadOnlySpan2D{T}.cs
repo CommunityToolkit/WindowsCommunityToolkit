@@ -685,12 +685,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             return new ReadOnlySpan2D<T>(r0, height, width, pitch);
 #else
-            unsafe
-            {
-                IntPtr offset = (IntPtr)((byte*)this.offset + shift);
+            IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
 
-                return new ReadOnlySpan2D<T>(this.instance!, offset, height, width, pitch);
-            }
+            return new ReadOnlySpan2D<T>(this.instance!, offset, height, width, pitch);
 #endif
         }
 

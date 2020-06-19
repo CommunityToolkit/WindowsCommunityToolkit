@@ -769,12 +769,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             return new Span2D<T>(ref r0, height, width, pitch);
 #else
-            unsafe
-            {
-                IntPtr offset = (IntPtr)((byte*)this.Offset + shift);
+            IntPtr offset = this.Offset + (shift * Unsafe.SizeOf<T>());
 
-                return new Span2D<T>(this.Instance!, offset, height, width, pitch);
-            }
+            return new Span2D<T>(this.Instance!, offset, height, width, pitch);
 #endif
         }
 

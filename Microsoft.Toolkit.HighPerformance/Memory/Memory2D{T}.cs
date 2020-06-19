@@ -487,7 +487,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         /// <returns>A new <see cref="Memory2D{T}"/> instance representing a slice of the current one.</returns>
         [Pure]
-        public unsafe Memory2D<T> Slice(int row, int column, int height, int width)
+        public Memory2D<T> Slice(int row, int column, int height, int width)
         {
             if ((uint)row >= Height)
             {
@@ -513,7 +513,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 shift = ((this.width + this.pitch) * row) + column,
                 pitch = this.pitch + (this.width - width);
 
-            IntPtr offset = (IntPtr)((byte*)this.offset + shift);
+            IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
 
             if (this.instance is Memory<T> memory)
             {
@@ -573,6 +573,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (!(this.instance is null))
             {
+                if (this.instance is Memory<T> memory)
+                {
+                    return memory.Pin();
+                }
+
                 GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
 
                 void* pointer = Unsafe.AsPointer(ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset));
@@ -605,7 +610,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 else if (this.instance.GetType() == typeof(T[]))
                 {
                     // If it's a T[] array, also handle the initial offset
-                    memory = Unsafe.As<T[]>(this.instance).AsMemory((int)this.offset, this.height * this.width);
+                    T[] array = Unsafe.As<T[]>(this.instance);
+                    int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
+
+                    memory = Unsafe.As<T[]>(this.instance).AsMemory(index, this.height * this.width);
                 }
                 else
                 {
