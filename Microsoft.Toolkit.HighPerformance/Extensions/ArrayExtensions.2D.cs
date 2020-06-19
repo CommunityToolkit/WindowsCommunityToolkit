@@ -212,18 +212,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetColumn<T>(this T[,] array, int column)
         {
+            int width = array.GetLength(1);
+
             if ((uint)column >= (uint)array.GetLength(1))
             {
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
 
+            int height = array.GetLength(0);
+
 #if SPAN_RUNTIME_SUPPORT
-            return new RefEnumerable<T>(ref array.DangerousGetReferenceAt(0, column), array.GetLength(0), array.GetLength(1));
+            ref T r0 = ref array.DangerousGetReferenceAt(0, column);
+
+            return new RefEnumerable<T>(ref r0, height, width);
 #else
             ref T r0 = ref array.DangerousGetReferenceAt(0, column);
             IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
 
-            return new RefEnumerable<T>(array, offset, array.GetLength(0), array.GetLength(1));
+            return new RefEnumerable<T>(array, offset, height, width);
 #endif
         }
 

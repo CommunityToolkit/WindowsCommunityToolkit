@@ -216,15 +216,9 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(array.GetRow(1).ToArray(), new[] { 5, 6, 7, 8 });
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                foreach (var _ in array.GetRow(-1)) { }
-            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(-1));
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                foreach (var _ in array.GetRow(20)) { }
-            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(20));
         }
 
         [TestCategory("ArrayExtensions")]
@@ -257,15 +251,9 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(array.GetColumn(1).ToArray(), new[] { 2, 6, 10 });
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                foreach (var _ in array.GetColumn(-1)) { }
-            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(-1));
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                foreach (var _ in array.GetColumn(20)) { }
-            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(20));
         }
 
         [TestCategory("ArrayExtensions")]
