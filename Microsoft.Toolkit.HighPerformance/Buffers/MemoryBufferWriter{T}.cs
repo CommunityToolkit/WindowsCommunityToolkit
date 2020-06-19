@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
@@ -20,7 +21,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// instances (or objects that can be converted to a <see cref="Memory{T}"/>), to ensure the data is written directly
     /// to the intended buffer, with no possibility of doing additional allocations or expanding the available capacity.
     /// </remarks>
-    [DebuggerTypeProxy(typeof(MemoryBufferWriter<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public sealed class MemoryBufferWriter<T> : IBuffer<T>
     {
