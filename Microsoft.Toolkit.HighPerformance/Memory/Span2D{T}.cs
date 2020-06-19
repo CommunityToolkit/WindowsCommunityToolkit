@@ -335,7 +335,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
             this.Instance = array;
             this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
-            this.height = array.GetLength(0);
+            this.height = height;
 #endif
             this.width = width;
             this.Pitch = columns - width;
