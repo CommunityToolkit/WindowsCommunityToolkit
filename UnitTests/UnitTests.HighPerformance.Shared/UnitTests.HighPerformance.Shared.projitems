@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpinLockExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_HashCode{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.In2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ThrowExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.For.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.For2D.cs" />
