@@ -4,11 +4,13 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory.Views;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
@@ -21,6 +23,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// type and it is transparent to the user, but note that working over discontiguous buffers has a performance impact.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="Span2D{T}"/> instance.</typeparam>
+    [DebuggerTypeProxy(typeof(Span2DDebugView<>))]
+    [DebuggerDisplay("{ToString(),raw}")]
     public readonly ref partial struct Span2D<T>
     {
         // Let's consider a representation of a discontiguous 2D memory

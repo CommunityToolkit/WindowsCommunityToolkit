@@ -5,11 +5,13 @@
 using System;
 using System.Buffers;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory.Views;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
@@ -17,6 +19,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// A readonly version of <see cref="Memory2D{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="ReadOnlyMemory2D{T}"/> instance.</typeparam>
+    [DebuggerTypeProxy(typeof(ReadOnlyMemory2DDebugView<>))]
+    [DebuggerDisplay("{ToString(),raw}")]
     public readonly struct ReadOnlyMemory2D<T> : IEquatable<ReadOnlyMemory2D<T>>
     {
         /// <summary>

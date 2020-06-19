@@ -5,11 +5,13 @@
 using System;
 using System.Buffers;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory.Views;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
@@ -20,6 +22,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// of any rank, provided that a valid series of parameters for the target memory area(s) are specified.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="Memory2D{T}"/> instance.</typeparam>
+    [DebuggerTypeProxy(typeof(Memory2DDebugView<>))]
+    [DebuggerDisplay("{ToString(),raw}")]
     public readonly struct Memory2D<T> : IEquatable<Memory2D<T>>
     {
         /// <summary>

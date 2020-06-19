@@ -4,11 +4,13 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory.Views;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
@@ -16,6 +18,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
     /// A readonly version of <see cref="Span2D{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of items in the current <see cref="ReadOnlySpan2D{T}"/> instance.</typeparam>
+    [DebuggerTypeProxy(typeof(ReadOnlySpan2DDebugView<>))]
+    [DebuggerDisplay("{ToString(),raw}")]
     public readonly ref partial struct ReadOnlySpan2D<T>
     {
 #if SPAN_RUNTIME_SUPPORT
