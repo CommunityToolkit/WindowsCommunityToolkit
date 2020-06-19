@@ -159,34 +159,41 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Returns a <see cref="Span{T}"/> over a row in a given 2D <typeparamref name="T"/> array instance.
+        /// Returns a <see cref="RefEnumerable{T}"/> over a row in a given 2D <typeparamref name="T"/> array instance.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
         /// <param name="row">The target row to retrieve (0-based index).</param>
         /// <returns>A <see cref="RefEnumerable{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
         /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the input parameters is out of range.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetRow<T>(this T[,] array, int row)
         {
-            if ((uint)row >= (uint)array.GetLength(0))
+            int height = array.GetLength(0);
+
+            if ((uint)row >= (uint)height)
             {
                 throw new ArgumentOutOfRangeException(nameof(row));
             }
 
+            int width = array.GetLength(1);
+
 #if SPAN_RUNTIME_SUPPORT
-            return new RefEnumerable<T>(ref array.DangerousGetReferenceAt(row, 0), array.GetLength(1), 1);
+            ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
+
+            return new RefEnumerable<T>(ref r0, width, 1);
 #else
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
             IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
 
-            return new RefEnumerable<T>(array, offset, array.GetLength(1), 1);
+            return new RefEnumerable<T>(array, offset, width, 1);
 #endif
         }
 
         /// <summary>
-        /// Returns an enumerable that returns the items from a given column in a given 2D <typeparamref name="T"/> array instance.
+        /// Returns a <see cref="RefEnumerable{T}"/> that returns the items from a given column in a given 2D <typeparamref name="T"/> array instance.
         /// This extension should be used directly within a <see langword="foreach"/> loop:
         /// <code>
         /// int[,] matrix =
@@ -208,13 +215,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="column">The target column to retrieve (0-based index).</param>
         /// <returns>A wrapper type that will handle the column enumeration for <paramref name="array"/>.</returns>
         /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the input parameters is out of range.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetColumn<T>(this T[,] array, int column)
         {
             int width = array.GetLength(1);
 
-            if ((uint)column >= (uint)array.GetLength(1))
+            if ((uint)column >= (uint)width)
             {
                 throw new ArgumentOutOfRangeException(nameof(column));
             }
