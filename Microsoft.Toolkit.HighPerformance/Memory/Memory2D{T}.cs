@@ -613,7 +613,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     T[] array = Unsafe.As<T[]>(this.instance);
                     int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
 
-                    memory = Unsafe.As<T[]>(this.instance).AsMemory(index, this.height * this.width);
+                    memory = array.AsMemory(index, this.height * this.width);
                 }
                 else
                 {

@@ -47,6 +47,82 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyMemory2D{T}"/> struct.
         /// </summary>
+        /// <param name="text">The target <see cref="string"/> to wrap.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// </exception>
+        /// <remarks>The total area must match the lenght of <paramref name="text"/>.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ReadOnlyMemory2D(string text, int height, int width)
+            : this(text, 0, height, width, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyMemory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="text">The target <see cref="string"/> to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="text"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="text"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ReadOnlyMemory2D(string text, int offset, int height, int width, int pitch)
+        {
+            if ((uint)offset > (uint)text.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            if (width == 0 || height == 0)
+            {
+                this = default;
+
+                return;
+            }
+
+            int
+                remaining = text.Length - offset,
+                area = ((width + pitch) * (height - 1)) + width;
+
+            if (area > remaining)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
+
+            this.instance = text;
+            this.offset = text.DangerousGetObjectDataByteOffset(ref text.DangerousGetReferenceAt(offset));
+            this.height = height;
+            this.width = width;
+            this.pitch = pitch;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyMemory2D{T}"/> struct.
+        /// </summary>
         /// <param name="array">The target array to wrap.</param>
         /// <param name="height">The height of the resulting 2D area.</param>
         /// <param name="width">The width of each row in the resulting 2D area.</param>
@@ -599,6 +675,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     memory = default;
                 }
+                else if (typeof(T) == typeof(char) && this.instance.GetType() == typeof(string))
+                {
+                    string text = Unsafe.As<string>(this.instance);
+                    int index = text.AsSpan().IndexOf(text.DangerousGetObjectDataReferenceAt<char>(this.offset));
+                    ReadOnlyMemory<char> temp = text.AsMemory(index, Size);
+
+                    memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
+                }
                 else if (this.instance.GetType() == typeof(ReadOnlyMemory<T>))
                 {
                     // If the object is a Memory<T>, just slice it as needed
@@ -610,7 +694,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     T[] array = Unsafe.As<T[]>(this.instance);
                     int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
 
-                    memory = Unsafe.As<T[]>(this.instance).AsMemory(index, this.height * this.width);
+                    memory = array.AsMemory(index, this.height * this.width);
                 }
                 else
                 {
