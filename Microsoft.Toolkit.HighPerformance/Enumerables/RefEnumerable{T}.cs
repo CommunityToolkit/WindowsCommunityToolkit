@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// The distance between items in the sequence to enumerate.
         /// </summary>
+        /// <remarks>The distance refers to <typeparamref name="T"/> items, not byte offset.</remarks>
         private readonly int step;
 
 #if SPAN_RUNTIME_SUPPORT
