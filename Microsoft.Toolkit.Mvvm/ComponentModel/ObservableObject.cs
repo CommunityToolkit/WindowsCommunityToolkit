@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// This method is just like <see cref="Set{T}(ref T, T, string)"/>, just with the addition
+        /// This method is just like <see cref="Set{T}(ref T,T,string)"/>, just with the addition
         /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
         /// the <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
@@ -124,6 +124,77 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             T oldValue = field;
 
             if (Set(ref field, newValue, propertyName))
+            {
+                Broadcast(oldValue, newValue, propertyName);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given property. If the value has changed,
+        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
+        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// This overload is much less efficient than <see cref="Set{T}(ref T,T,string)"/> and it
+        /// should only be used when the former is not viable (eg. when the target property being
+        /// updated does not directly expose a backing field that can be passed by reference).
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
+        /// if the current and new value for the target property are the same.
+        /// </remarks>
+        protected bool Set<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string propertyName = null!)
+        {
+            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            {
+                return false;
+            }
+
+            this.OnPropertyChanging(propertyName);
+
+            callback(newValue);
+
+            this.OnPropertyChanged(propertyName);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given property. If the value has changed,
+        /// raises the <see cref="PropertyChanging"/> event, updates the property with
+        /// the new value, then raises the <see cref="PropertyChanged"/> event. Similarly to
+        /// the <see cref="Set{T}(T,T,Action{T},string)"/> method, this overload should only be
+        /// used when <see cref="Set{T}(ref T,T,string)"/> can't be used directly.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// This method is just like <see cref="Set{T}(T,T,Action{T},string)"/>, just with the addition
+        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
+        /// the <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events
+        /// are not raised if the current and new value for the target property are the same.
+        /// </remarks>
+        protected bool Set<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
+        {
+            if (!broadcast)
+            {
+                return Set(oldValue, newValue, callback, propertyName);
+            }
+
+            if (Set(oldValue, newValue, callback, propertyName))
             {
                 Broadcast(oldValue, newValue, propertyName);
 
