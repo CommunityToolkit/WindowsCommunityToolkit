@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
-        /// Cretes a new <see cref="Span{T}"/> over an input 3D <typeparamref name="T"/> array.
+        /// Creates a new <see cref="Span{T}"/> over an input 3D <typeparamref name="T"/> array.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input 3D <typeparamref name="T"/> array instance.</param>

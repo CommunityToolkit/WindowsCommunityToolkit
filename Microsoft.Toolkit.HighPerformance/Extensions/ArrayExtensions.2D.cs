@@ -345,7 +345,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Cretes a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
+        /// Creates a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
