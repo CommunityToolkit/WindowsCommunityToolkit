@@ -69,6 +69,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (index != previousIndex)
                 {
                     var newItem = ContainerFromIndex(index) as TokenizingTextBoxItem;
+
+                    // Check for the new item being a text control.
+                    // this must happen before focus is set to avoid seeing the caret
+                    // jump in come cases
+                    if (Items[index] is ITokenStringContainer && !IsShiftPressed)
+                    {
+                        newItem._autoSuggestTextBox.SelectionLength = 0;
+                        newItem._autoSuggestTextBox.SelectionStart = direction == MoveDirection.Next
+                            ? 0
+                            : newItem._autoSuggestTextBox.Text.Length;
+                    }
+
                     newItem.Focus(FocusState.Keyboard);
 
                     // if no control keys are selected then the selection also becomes just this item
@@ -124,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 foreach (var item in Items)
                 {
-                    if (item is PretokenStringContainer)
+                    if (item is ITokenStringContainer)
                     {
                         // grab any selected text
                         var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
@@ -148,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Clear any selection in the text box
             foreach (var item in Items)
             {
-                if (item is PretokenStringContainer)
+                if (item is ITokenStringContainer)
                 {
                     var container = ContainerFromItem(item) as TokenizingTextBoxItem;
 
@@ -224,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            await RemoveToken(sender);
+            await RemoveTokenAsync(sender);
         }
 
         /// <summary>
@@ -235,14 +247,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var currentContainerItem = FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
 
-            for (int i = SelectedItems.Count - 1; i >= 0; i--)
+            while (SelectedItems.Count > 0)
             {
-                var container = ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem;
+                var container = ContainerFromItem(SelectedItems[0]) as TokenizingTextBoxItem;
 
                 if (IndexFromContainer(container) != Items.Count - 1)
                 {
                     // if its a text box, remove any selected text, and if its then empty remove the container, unless its focused
-                    if (SelectedItems[i] is PretokenStringContainer)
+                    if (SelectedItems[0] is ITokenStringContainer)
                     {
                         var asb = container._autoSuggestTextBox;
 
@@ -263,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (tempStr.Length == 0)
                         {
                             // Need to be careful not to remove the last item in the list
-                            await RemoveToken(container);
+                            await RemoveTokenAsync(container);
                         }
                         else
                         {
@@ -273,7 +285,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else
                     {
                         // if the item is a token just remove it.
-                        await RemoveToken(container);
+                        await RemoveTokenAsync(container);
+                    }
+                }
+                else
+                {
+                    if (SelectedItems.Count == 1)
+                    {
+                        // at this point we have one selection and its the default textbox.
+                        // stop the iteration here
+                        break;
                     }
                 }
             }
@@ -284,6 +305,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
 
+            var tokenString = PrepareSelectionForClipboard();
+
+            if (!string.IsNullOrEmpty(tokenString))
+            {
+                dataPackage.SetText(tokenString);
+                Clipboard.SetContent(dataPackage);
+            }
+        }
+
+        private string PrepareSelectionForClipboard()
+        {
             string tokenString = string.Empty;
             bool addSeparator = false;
 
@@ -299,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     addSeparator = true;
                 }
 
-                if (item is PretokenStringContainer)
+                if (item is ITokenStringContainer)
                 {
                     // grab any selected text
                     var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
@@ -313,11 +345,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (!string.IsNullOrEmpty(tokenString))
-            {
-                dataPackage.SetText(tokenString);
-                Clipboard.SetContent(dataPackage);
-            }
+            return tokenString;
         }
     }
 }

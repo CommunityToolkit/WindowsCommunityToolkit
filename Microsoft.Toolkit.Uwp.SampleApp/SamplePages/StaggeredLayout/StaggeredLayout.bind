@@ -21,15 +21,17 @@
   </Page.Resources>
 
   <Grid Padding="48">
-    <ScrollViewer >
-      <winui:ItemsRepeater x:Name="StaggeredRepeater"
-                           ItemTemplate="{StaticResource StaggeredTemplate}">
-        <winui:ItemsRepeater.Layout>
-          <controls:StaggeredLayout DesiredColumnWidth="@[DesiredColumnWidth:Slider:250:50-400]"
-                                    ColumnSpacing="@[ColumnSpacing:Slider:5:0-50]@"
-                                    RowSpacing="@[RowSpacing:Slider:5:0-50]@"/>
-        </winui:ItemsRepeater.Layout>
-      </winui:ItemsRepeater>
-    </ScrollViewer>
+    <winui:ItemsRepeaterScrollHost> <!-- Needed for 1803 and below -->
+      <ScrollViewer>
+        <winui:ItemsRepeater x:Name="StaggeredRepeater"
+                             ItemTemplate="{StaticResource StaggeredTemplate}">
+          <winui:ItemsRepeater.Layout>
+            <controls:StaggeredLayout DesiredColumnWidth="@[DesiredColumnWidth:Slider:250:50-400]"
+                                      ColumnSpacing="@[ColumnSpacing:Slider:5:0-50]@"
+                                      RowSpacing="@[RowSpacing:Slider:5:0-50]@"/>
+          </winui:ItemsRepeater.Layout>
+        </winui:ItemsRepeater>
+      </ScrollViewer>
+    </winui:ItemsRepeaterScrollHost>
   </Grid>
 </Page>

@@ -18,6 +18,8 @@
         "Name": "TabView",
         "Type": "TabViewPage",
         "Subcategory": "Layout",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the TabView control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
         "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
         "XamlCodeFile": "TabViewXaml.bind",
@@ -658,13 +660,12 @@
     "Samples": [
       {
         "Name": "Facebook Service",
-        "Type": "FacebookPage",
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "These helpers will be removed in the next release.",
+        "DeprecatedWarning": "The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
       },
       {
@@ -838,7 +839,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit/ObservableGroup",
         "CodeFile": "ObservableGroup.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ObservableGroup.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/collections/ObservableGroups.md"
       },
       {
         "Name": "CameraHelper",
@@ -930,6 +931,20 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
       {
+        "Name": "Guard APIs",
+        "Subcategory": "Developer",
+        "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
+      },
+      {
+        "Name": "High Performance APIs",
+        "Subcategory": "Developer",
+        "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
+      },
+      {
         "Name": "PlatformSpecificAnalyzer",
         "Subcategory": "Developer",
         "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
@@ -968,7 +983,7 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },
       {
-        "Name": "IsNullOrEmptyStateTriggers",
+        "Name": "IsNullOrEmptyStateTrigger",
         "Type": "IsNullOrEmptyStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if an Object is null or a String/IEnumerable is empty",
@@ -1096,6 +1111,8 @@
       {
         "Name": "RadialGradientBrush",
         "Type": "RadialGradientBrushPage",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the RadialGradientBrush control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
         "About": "A composition brush which creates a radial gradient effect.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/RadialGradientBrush.cs",
         "XamlCodeFile": "RadialGradientBrushXaml.bind",
@@ -1236,7 +1253,8 @@
         "Type": "ScrollViewerExtensionsPage",
         "About": "Extensions for all controls that contain a ScrollViewer like ListView.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ScrollViewer",
-        "XamlCodeFile": "ScrollViewerExtensionsCode.bind",
+        "XamlCodeFile": "ScrollViewerExtensionsXaml.bind",
+        "CodeFile": "ScrollViewerExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ScrollViewerExtensions.md"
       },

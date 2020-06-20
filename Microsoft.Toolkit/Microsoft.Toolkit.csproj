@@ -11,9 +11,6 @@
       - String extensions and array extensions: These extensions make working with string and arrays easier.
     </Description>
     <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
-
-    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
-    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> type -->

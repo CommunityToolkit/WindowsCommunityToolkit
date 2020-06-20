@@ -14,12 +14,6 @@ namespace System.Diagnostics.CodeAnalysis
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue)]
     internal sealed class NotNullAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NotNullAttribute"/> class.
-        /// </summary>
-        public NotNullAttribute()
-        {
-        }
     }
 }
 

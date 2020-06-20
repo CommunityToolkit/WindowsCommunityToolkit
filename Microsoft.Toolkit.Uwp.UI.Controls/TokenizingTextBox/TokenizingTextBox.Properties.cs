@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty QueryIconProperty = DependencyProperty.Register(
             nameof(QueryIcon),
-            typeof(IconElement),
+            typeof(IconSource),
             typeof(TokenizingTextBox),
             new PropertyMetadata(null));
 
@@ -232,9 +232,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the icon to display in the AutoSuggestBox template part.
         /// </summary>
-        public IconElement QueryIcon
+        public IconSource QueryIcon
         {
-            get => (IconElement)GetValue(QueryIconProperty);
+            get => (IconSource)GetValue(QueryIconProperty);
             set => SetValue(QueryIconProperty, value);
         }
 
@@ -291,6 +291,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (bool)GetValue(TabNavigateBackOnArrowProperty);
             set => SetValue(TabNavigateBackOnArrowProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the complete text value of any selection in the control. The result is the same text as would be copied to the clipboard.
+        /// </summary>
+        public string SelectedTokenText
+        {
+            get
+            {
+                return PrepareSelectionForClipboard();
+            }
         }
     }
 }

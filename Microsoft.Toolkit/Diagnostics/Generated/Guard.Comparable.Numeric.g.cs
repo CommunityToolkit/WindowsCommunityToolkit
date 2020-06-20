@@ -27,10 +27,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(byte value, byte target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -44,10 +46,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(byte value, byte target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -61,10 +65,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(byte value, byte maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -78,10 +84,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(byte value, byte maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -95,10 +103,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(byte value, byte minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -112,10 +122,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(byte value, byte minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -133,10 +145,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(byte value, byte minimum, byte maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -154,10 +168,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(byte value, byte minimum, byte maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -175,10 +191,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(byte value, byte minimum, byte maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -196,10 +214,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(byte value, byte minimum, byte maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -217,10 +237,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(byte value, byte minimum, byte maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -238,10 +260,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(byte value, byte minimum, byte maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -254,10 +278,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(sbyte value, sbyte target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -271,10 +297,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(sbyte value, sbyte target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -288,10 +316,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(sbyte value, sbyte maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -305,10 +335,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(sbyte value, sbyte maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -322,10 +354,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(sbyte value, sbyte minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -339,10 +373,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(sbyte value, sbyte minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -360,10 +396,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -381,10 +419,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -402,10 +442,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -423,10 +465,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -444,10 +488,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -465,10 +511,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -481,10 +529,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(short value, short target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -498,10 +548,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(short value, short target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -515,10 +567,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(short value, short maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -532,10 +586,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(short value, short maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -549,10 +605,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(short value, short minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -566,10 +624,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(short value, short minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -587,10 +647,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(short value, short minimum, short maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -608,10 +670,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(short value, short minimum, short maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -629,10 +693,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(short value, short minimum, short maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -650,10 +716,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(short value, short minimum, short maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -671,10 +739,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(short value, short minimum, short maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -692,10 +762,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(short value, short minimum, short maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -708,10 +780,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(ushort value, ushort target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -725,10 +799,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(ushort value, ushort target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -742,10 +818,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(ushort value, ushort maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -759,10 +837,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(ushort value, ushort maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -776,10 +856,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(ushort value, ushort minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -793,10 +875,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(ushort value, ushort minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -814,10 +898,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(ushort value, ushort minimum, ushort maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -835,10 +921,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(ushort value, ushort minimum, ushort maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -856,10 +944,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(ushort value, ushort minimum, ushort maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -877,10 +967,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(ushort value, ushort minimum, ushort maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -898,10 +990,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(ushort value, ushort minimum, ushort maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -919,10 +1013,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(ushort value, ushort minimum, ushort maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -935,10 +1031,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(char value, char target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -952,10 +1050,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(char value, char target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -969,10 +1069,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(char value, char maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -986,10 +1088,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(char value, char maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -1003,10 +1107,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(char value, char minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -1020,10 +1126,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(char value, char minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -1041,10 +1149,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(char value, char minimum, char maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1062,10 +1172,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(char value, char minimum, char maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1083,10 +1195,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(char value, char minimum, char maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1104,10 +1218,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(char value, char minimum, char maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1125,10 +1241,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(char value, char minimum, char maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1146,10 +1264,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(char value, char minimum, char maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1162,10 +1282,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(int value, int target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1179,10 +1301,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(int value, int target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1196,10 +1320,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(int value, int maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -1213,10 +1339,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(int value, int maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -1230,10 +1358,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(int value, int minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -1247,10 +1377,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(int value, int minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -1268,10 +1400,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(int value, int minimum, int maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1289,10 +1423,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(int value, int minimum, int maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1310,10 +1446,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(int value, int minimum, int maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1331,10 +1469,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(int value, int minimum, int maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1352,10 +1492,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(int value, int minimum, int maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1373,10 +1515,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(int value, int minimum, int maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1389,10 +1533,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(uint value, uint target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1406,10 +1552,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(uint value, uint target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1423,10 +1571,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(uint value, uint maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -1440,10 +1590,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(uint value, uint maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -1457,10 +1609,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(uint value, uint minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -1474,10 +1628,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(uint value, uint minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -1495,10 +1651,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(uint value, uint minimum, uint maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1516,10 +1674,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(uint value, uint minimum, uint maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1537,10 +1697,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(uint value, uint minimum, uint maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1558,10 +1720,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(uint value, uint minimum, uint maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1579,10 +1743,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(uint value, uint minimum, uint maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1600,10 +1766,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(uint value, uint minimum, uint maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1616,10 +1784,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(float value, float target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1633,10 +1803,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(float value, float target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1650,10 +1822,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(float value, float maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -1667,10 +1841,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(float value, float maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -1684,10 +1860,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(float value, float minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -1701,10 +1879,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(float value, float minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -1722,10 +1902,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(float value, float minimum, float maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1743,10 +1925,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(float value, float minimum, float maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1764,10 +1948,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(float value, float minimum, float maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1785,10 +1971,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(float value, float minimum, float maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1806,10 +1994,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(float value, float minimum, float maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1827,10 +2017,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(float value, float minimum, float maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1843,10 +2035,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(long value, long target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1860,10 +2054,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(long value, long target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -1877,10 +2073,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(long value, long maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -1894,10 +2092,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(long value, long maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -1911,10 +2111,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(long value, long minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -1928,10 +2130,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(long value, long minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -1949,10 +2153,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(long value, long minimum, long maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1970,10 +2176,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(long value, long minimum, long maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -1991,10 +2199,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(long value, long minimum, long maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2012,10 +2222,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(long value, long minimum, long maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2033,10 +2245,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(long value, long minimum, long maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2054,10 +2268,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(long value, long minimum, long maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2070,10 +2286,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(ulong value, ulong target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -2087,10 +2305,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(ulong value, ulong target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -2104,10 +2324,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(ulong value, ulong maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -2121,10 +2343,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(ulong value, ulong maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -2138,10 +2362,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(ulong value, ulong minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -2155,10 +2381,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(ulong value, ulong minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -2176,10 +2404,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(ulong value, ulong minimum, ulong maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2197,10 +2427,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(ulong value, ulong minimum, ulong maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2218,10 +2450,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(ulong value, ulong minimum, ulong maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2239,10 +2473,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(ulong value, ulong minimum, ulong maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2260,10 +2496,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(ulong value, ulong minimum, ulong maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2281,10 +2519,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(ulong value, ulong minimum, ulong maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2297,10 +2537,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(double value, double target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -2314,10 +2556,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(double value, double target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -2331,10 +2575,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(double value, double maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -2348,10 +2594,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(double value, double maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -2365,10 +2613,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(double value, double minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -2382,10 +2632,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(double value, double minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -2403,10 +2655,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(double value, double minimum, double maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2424,10 +2678,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(double value, double minimum, double maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2445,10 +2701,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(double value, double minimum, double maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2466,10 +2724,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(double value, double minimum, double maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2487,10 +2747,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(double value, double minimum, double maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2508,10 +2770,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(double value, double minimum, double maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2524,10 +2788,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEqualTo(decimal value, decimal target, string name)
         {
-            if (value != target)
+            if (value == target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -2541,10 +2807,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEqualTo(decimal value, decimal target, string name)
         {
-            if (value == target)
+            if (value != target)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -2558,10 +2826,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThan(decimal value, decimal maximum, string name)
         {
-            if (value >= maximum)
+            if (value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -2575,10 +2845,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsLessThanOrEqualTo(decimal value, decimal maximum, string name)
         {
-            if (value > maximum)
+            if (value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -2592,10 +2864,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThan(decimal value, decimal minimum, string name)
         {
-            if (value <= minimum)
+            if (value > minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -2609,10 +2883,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsGreaterThanOrEqualTo(decimal value, decimal minimum, string name)
         {
-            if (value < minimum)
+            if (value >= minimum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -2630,10 +2906,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(decimal value, decimal minimum, decimal maximum, string name)
         {
-            if (value < minimum || value >= maximum)
+            if (value >= minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2651,10 +2929,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(decimal value, decimal minimum, decimal maximum, string name)
         {
-            if (value >= minimum && value < maximum)
+            if (value < minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2672,10 +2952,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(decimal value, decimal minimum, decimal maximum, string name)
         {
-            if (value <= minimum || value >= maximum)
+            if (value > minimum && value < maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2693,10 +2975,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(decimal value, decimal minimum, decimal maximum, string name)
         {
-            if (value > minimum && value < maximum)
+            if (value <= minimum || value >= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2714,10 +2998,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(decimal value, decimal minimum, decimal maximum, string name)
         {
-            if (value < minimum || value > maximum)
+            if (value >= minimum && value <= maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -2735,10 +3021,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(decimal value, decimal minimum, decimal maximum, string name)
         {
-            if (value >= minimum && value <= maximum)
+            if (value < minimum || value > maximum)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
     }
 }
