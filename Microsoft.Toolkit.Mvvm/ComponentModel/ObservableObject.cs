@@ -327,7 +327,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForInvalidPropertyExpression()
         {
             throw new ArgumentException("The given expression must be in the form () => MyModel.MyProperty");
@@ -336,7 +335,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property field.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForInvalidFieldExpression()
         {
             throw new ArgumentException("The given expression must be in the form () => field");

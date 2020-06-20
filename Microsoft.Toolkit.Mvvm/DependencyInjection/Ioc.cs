@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -130,7 +129,6 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when the <see cref="ServiceProvider"/> property is used before initialization.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationExceptionForMissingInitialization()
         {
             throw new InvalidOperationException("The service provider has not been configured yet");
@@ -139,7 +137,6 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when a configuration is attempted more than once.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationExceptionForRepeatedConfiguration()
         {
             throw new InvalidOperationException("The default service provider has already been configured");
