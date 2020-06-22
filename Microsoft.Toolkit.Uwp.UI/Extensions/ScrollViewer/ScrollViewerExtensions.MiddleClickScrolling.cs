@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ScrollViewer"/> to scroll with middle click
+    /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
     /// </summary>
     public static partial class ScrollViewerExtensions
     {
@@ -370,7 +370,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="action">Action to be run on UIThread</param>
         private static async void RunInUIThread(Action action)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (_scrollViewer == null)
+            {
+                return;
+            }
+
+            await _scrollViewer.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 action();
             });

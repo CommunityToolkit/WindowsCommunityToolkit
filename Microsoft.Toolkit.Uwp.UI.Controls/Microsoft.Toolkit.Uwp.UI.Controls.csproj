@@ -41,6 +41,8 @@
         - WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
     </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile Tokenizing TextBox UniformGrid Uniform Grid</PackageTags>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
 
@@ -54,8 +56,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
-    <PackageReference Include="Uno.UI" Version="3.0.0-dev.405" />
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
     <PackageReference Include="Uno.ColorCode.UWP" Version="2.0.5-gd0f1a63314" />
 
 		<Page Remove="Eyedropper/**/*.xaml" />
@@ -72,7 +73,11 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299'">
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -86,7 +91,7 @@
 	UNO TODO
 	<ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
 	-->
  

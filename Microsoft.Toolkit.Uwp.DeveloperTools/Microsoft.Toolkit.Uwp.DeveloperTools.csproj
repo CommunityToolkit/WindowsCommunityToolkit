@@ -10,7 +10,8 @@
       -Themes : Provides the source path of the resource dictionaries for the FocusTracker.
     </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility AlignmentGrid</PackageTags>
-    <UseUwpMetaPackage>true</UseUwpMetaPackage>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 	
   <PropertyGroup>
@@ -20,11 +21,15 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
-    <PackageReference Include="Uno.UI" Version="3.0.0-dev.405" />
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
   </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->

@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
     /// <summary>
     /// Class for connecting to Facebook.
     /// </summary>
+    [Obsolete("The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.")]
     public class FacebookService
     {
         /// <summary>

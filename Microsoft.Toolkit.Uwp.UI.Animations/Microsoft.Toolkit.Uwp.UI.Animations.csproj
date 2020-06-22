@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.16299</TargetFrameworks>
+    <!--<TargetFrameworks>uap10.0.16299</TargetFrameworks>-->
     <Title>Windows Community Toolkit Animations</Title>
     <Description>
       This library provides helpers and extensions on top of Windows Composition and XAML storyboards. It is part of the Windows Community Toolkit.
@@ -20,9 +20,9 @@
   </PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
-		<PackageReference Include="System.ValueTuple" Version="4.4.0" />
-		<PackageReference Include="Win2D.uwp" Version="1.24.0" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="Win2D.uwp" Version="1.25.0" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -32,8 +32,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
-		<PackageReference Include="Uno.UI"  Version="3.0.0-dev.405"/>
-		<PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
+		<PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
 
 		<Compile Remove="Effects\Blur.cs" />
 		<Compile Remove="Effects\Saturation.cs" />
@@ -53,6 +52,10 @@
 		<None Include="Behaviors\Blur.cs" />
 		<None Include="Behaviors\Light.cs" />
 		<None Include="Behaviors\Saturation.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Uno.UI" Version="3.0.0-dev.593" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -200,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // UNO TODO
                 // The controls may be loaded when set directly to their parent
                 // so the datacontext of the renderer needs to be set early.
-                SetSampleDataContext();
+                await SetSampleDataContext();
 
                 if (!string.IsNullOrWhiteSpace(CurrentSample.Type))
                 {
@@ -243,27 +244,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                void SetSampleDataContext()
+                async Task SetSampleDataContext()
                 {
                     DataContext = CurrentSample;
 
-                    var propertyDesc = CurrentSample.PropertyDescriptor;
+                    // Load Sample Properties before we load sample (if we haven't before)
+                    await CurrentSample.PreparePropertyDescriptorAsync();
 
-                    InfoAreaPivot.Items.Clear();
+                    // We only have properties on examples with live XAML
+                    var propertyDesc = CurrentSample.PropertyDescriptor;
 
                     if (propertyDesc != null)
                     {
                         _xamlRenderer.DataContext = propertyDesc.Expando;
                     }
 
-                    if (propertyDesc != null && propertyDesc.Options.Count > 0)
+                    if (propertyDesc?.Options.Count > 0)
                     {
                         InfoAreaPivot.Items.Add(PropertiesPivotItem);
                     }
                 }
 
+                InfoAreaPivot.Items.Clear();
+
                 if (CurrentSample.HasXAMLCode)
                 {
+
 #if !HAS_UNO
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
 #endif

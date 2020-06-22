@@ -96,30 +96,29 @@
 
               <Border Background="{ThemeResource Menu-DropDown-Background}" />
 
-              <GridView x:Name="SamplePickerGridView"
-                        animations:ReorderGridAnimation.Duration="200"
-                        IsItemClickEnabled="True"
-                        Loaded="SamplePickerGridView_Loaded"
-                        ItemContainerStyle="{StaticResource SamplePickerItemStyle}"
-                        win:ItemContainerTransitions="{x:Null}"
-                        ItemTemplate="{StaticResource SampleTemplate}"
-                        SelectionMode="Single"
-                        ItemClick="SamplePickerGridView_ItemClick"
-                        ChoosingItemContainer="SamplePickerGridView_ChoosingItemContainer"
-                        win:Transitions="{x:Null}">
-                <GridView.GroupStyle>
-                  <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                      <DataTemplate>
-                        <TextBlock Text="{Binding Key}"/>
-                      </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                  </GroupStyle>
-                </GridView.GroupStyle>
-                <animations:Implicit.ShowAnimations>
-                  <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                </animations:Implicit.ShowAnimations>
-              </GridView>
+                        <GridView x:Name="SamplePickerGridView"
+                                  animations:ReorderGridAnimation.Duration="200"
+                                  IsItemClickEnabled="True"
+                                  ItemContainerStyle="{StaticResource SamplePickerItemStyle}"
+                                  win:ItemContainerTransitions="{x:Null}"
+                                  ItemTemplate="{StaticResource SampleTemplate}"
+                                  SelectionMode="Single"
+                                  ItemClick="SamplePickerGridView_ItemClick"
+                                  ChoosingItemContainer="SamplePickerGridView_ChoosingItemContainer"
+                                  win:Transitions="{x:Null}">
+                            <GridView.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key}"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </GridView.GroupStyle>
+                            <animations:Implicit.ShowAnimations>
+                                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                            </animations:Implicit.ShowAnimations>
+                        </GridView>
 
               <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>

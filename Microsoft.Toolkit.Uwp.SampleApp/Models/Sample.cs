@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetCSharpSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), $"SamplePages.{Name}.{CodeFile}"))
+            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), CodeFile.StartsWith("/") ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetJavaScriptSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), $"SamplePages.{Name}.{JavaScriptCodeFile}"))
+            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), JavaScriptCodeFile.StartsWith("/") ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -466,9 +466,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_propertyDescriptor == null)
             {
+#if HAS_UNO
                 var manifestName = typeof(Samples).GetTypeInfo().Assembly
                     .GetManifestResourceNames()
-                    .FirstOrDefault(n => n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
+                    .FirstOrDefault(n =>
+                        n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase)
+                        || n.EndsWith(XamlCodeFile.Replace("/", "."), StringComparison.OrdinalIgnoreCase));
 
                 if (manifestName == null)
                 {
@@ -477,11 +480,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 // Get Xaml code
                 using (var codeStream = typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName))
+#else
+                using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), XamlCodeFile.StartsWith("/") ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
+#endif
                 {
                     XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
+                    var regularExpression = new Regex("(?<=\\\")@\\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\\]@?(?=\\\")");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
