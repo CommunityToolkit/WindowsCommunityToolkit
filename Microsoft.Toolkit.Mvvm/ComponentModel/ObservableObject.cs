@@ -14,8 +14,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
@@ -46,25 +44,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
         {
             this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Broadcasts a <see cref="PropertyChangedMessage{T}"/> with the specified
-        /// parameters, without using any particular token (so using the default channel).
-        /// </summary>
-        /// <typeparam name="T">The type of the property that changed.</typeparam>
-        /// <param name="oldValue">The value of the property before it changed.</param>
-        /// <param name="newValue">The value of the property after it changed.</param>
-        /// <param name="propertyName">The name of the property that changed.</param>
-        /// <remarks>
-        /// You should override this method if you wish to customize the channel being
-        /// used to send the message (eg. if you need to use a specific token for the channel).
-        /// </remarks>
-        protected virtual void Broadcast<T>(T oldValue, T newValue, string propertyName)
-        {
-            var message = new PropertyChangedMessage<T>(this, propertyName, oldValue, newValue);
-
-            Messenger.Default.Send(message);
         }
 
         /// <summary>
@@ -99,42 +78,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
         /// <summary>
         /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property with
-        /// the new value, then raises the <see cref="PropertyChanged"/> event.
-        /// </summary>
-        /// <typeparam name="T">The type of the property that changed.</typeparam>
-        /// <param name="field">The field storing the property's value.</param>
-        /// <param name="newValue">The property's value after the change occurred.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        /// <remarks>
-        /// This method is just like <see cref="Set{T}(ref T,T,string)"/>, just with the addition
-        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
-        /// the <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events
-        /// are not raised if the current and new value for the target property are the same.
-        /// </remarks>
-        protected bool Set<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string propertyName = null!)
-        {
-            if (!broadcast)
-            {
-                return Set(ref field, newValue, propertyName);
-            }
-
-            T oldValue = field;
-
-            if (Set(ref field, newValue, propertyName))
-            {
-                Broadcast(oldValue, newValue, propertyName);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Compares the current and new values for a given property. If the value has changed,
         /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
         /// value, then raises the <see cref="PropertyChanged"/> event.
         /// This overload is much less efficient than <see cref="Set{T}(ref T,T,string)"/> and it
@@ -165,43 +108,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             this.OnPropertyChanged(propertyName);
 
             return true;
-        }
-
-        /// <summary>
-        /// Compares the current and new values for a given property. If the value has changed,
-        /// raises the <see cref="PropertyChanging"/> event, updates the property with
-        /// the new value, then raises the <see cref="PropertyChanged"/> event. Similarly to
-        /// the <see cref="Set{T}(T,T,Action{T},string)"/> method, this overload should only be
-        /// used when <see cref="Set{T}(ref T,T,string)"/> can't be used directly.
-        /// </summary>
-        /// <typeparam name="T">The type of the property that changed.</typeparam>
-        /// <param name="oldValue">The current property value.</param>
-        /// <param name="newValue">The property's value after the change occurred.</param>
-        /// <param name="callback">A callback to invoke to update the property value.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        /// <remarks>
-        /// This method is just like <see cref="Set{T}(T,T,Action{T},string)"/>, just with the addition
-        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
-        /// the <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events
-        /// are not raised if the current and new value for the target property are the same.
-        /// </remarks>
-        protected bool Set<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
-        {
-            if (!broadcast)
-            {
-                return Set(oldValue, newValue, callback, propertyName);
-            }
-
-            if (Set(oldValue, newValue, callback, propertyName))
-            {
-                Broadcast(oldValue, newValue, propertyName);
-
-                return true;
-            }
-
-            return false;
         }
 
         /// <summary>
