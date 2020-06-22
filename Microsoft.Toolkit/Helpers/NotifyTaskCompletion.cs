@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Helpers
     /// Helper class to wrap around a Task to provide more information usable for UI databinding scenarios. As discussed in MSDN Magazine: https://msdn.microsoft.com/magazine/dn605875.
     /// </summary>
     /// <typeparam name="TResult">Type of result returned by task.</typeparam>
+    [Obsolete("This helper will be removed in a future release, use the ObservableObject base class from Microsoft.Toolkit.Mvvm and the SetAndNotifyOnCompletion method")]
     public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
     {
         /// <summary>
