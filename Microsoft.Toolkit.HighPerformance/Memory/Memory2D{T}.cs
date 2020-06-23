@@ -379,7 +379,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 T[] array = segment.Array!;
 
                 this.instance = array;
-                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset)) + segment.Offset;
             }
             else
             {
