@@ -435,6 +435,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentExceptionForUnsupportedType();
             }
 
+            if (instance.GetType() == typeof(ReadOnlyMemory<T>))
+            {
+                ThrowHelper.ThrowArgumentExceptionForUnsupportedType();
+            }
+
             if (height < 0)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
@@ -658,6 +663,20 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 if (this.instance is null)
                 {
                     memory = default;
+                }
+                else if (typeof(T) == typeof(char) && this.instance.GetType() == typeof(string))
+                {
+                    string text = Unsafe.As<string>(this.instance);
+                    int index = text.AsSpan().IndexOf(text.DangerousGetObjectDataReferenceAt<char>(this.offset));
+                    ReadOnlyMemory<char> temp = text.AsMemory(index, Size);
+
+                    // The string type could still be present if a user ends up creating a
+                    // Memory2D<T> instance from a string using DangerousCreate. Similarly to
+                    // how CoreCLR handles the equivalent case in Memory<T>, here we just do
+                    // the necessary steps to still retrieve a Memory<T> instance correctly
+                    // wrapping the target string. In this case, it is up to the caller
+                    // to make sure not to ever actually write to the resulting Memory<T>.
+                    memory = MemoryMarshal.AsMemory<T>(Unsafe.As<ReadOnlyMemory<char>, Memory<T>>(ref temp));
                 }
                 else if (this.instance.GetType() == typeof(Memory<T>))
                 {
