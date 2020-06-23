@@ -369,8 +369,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentException();
             }
 
-            this.instance = memory.Slice(offset);
-            this.offset = default;
+            // Check if the input Memory<T> instance wraps an array we can access.
+            // This is fine, since Memory<T> on its own doesn't control the lifetime
+            // of the underlying array anyway, and this Memory2D<T> type would do the same.
+            // Using the array directly makes retrieving a Span2D<T> faster down the line,
+            // as we no longer have to jump through the boxed Memory<T> first anymore.
+            if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            {
+                T[] array = segment.Array!;
+
+                this.instance = array;
+                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            }
+            else
+            {
+                this.instance = memory.Slice(offset);
+                this.offset = default;
+            }
+
             this.height = height;
             this.width = width;
             this.pitch = pitch;

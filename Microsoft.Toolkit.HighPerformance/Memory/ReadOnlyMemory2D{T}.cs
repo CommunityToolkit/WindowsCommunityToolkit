@@ -366,8 +366,20 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentException();
             }
 
-            this.instance = memory.Slice(offset);
-            this.offset = default;
+            // Access the array directly, if possible, just like in Memory2D<T>
+            if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            {
+                T[] array = segment.Array!;
+
+                this.instance = array;
+                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            }
+            else
+            {
+                this.instance = memory.Slice(offset);
+                this.offset = default;
+            }
+
             this.height = height;
             this.width = width;
             this.pitch = pitch;
