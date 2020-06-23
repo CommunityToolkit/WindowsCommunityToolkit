@@ -84,8 +84,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
 
             labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
-            selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string labeltext);
-            labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, labeltext);
+            selection.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out string labeltext);
+            labelBox.Document.SetText(Microsoft.UI.Text.TextSetOptions.FormatRtf, labeltext);
 
             var result = await new ContentDialog
             {
@@ -97,8 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             if (result == ContentDialogResult.Primary)
             {
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
+                labelBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string labelText);
+                labelBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
                 string linkInvalidLabel = StringExtensions.GetLocalized("TextToolbarStrings_LinkInvalidLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
                 string okLabel = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");

@@ -4,8 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {

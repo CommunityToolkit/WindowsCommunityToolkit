@@ -12,7 +12,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Shapes;
-using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 {

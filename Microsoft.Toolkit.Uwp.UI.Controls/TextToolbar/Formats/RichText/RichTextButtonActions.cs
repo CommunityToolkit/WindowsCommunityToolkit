@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {

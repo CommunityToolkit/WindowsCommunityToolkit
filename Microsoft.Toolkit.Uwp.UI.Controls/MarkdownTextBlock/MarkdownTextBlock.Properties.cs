@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Metadata;
 using Windows.UI.Text;

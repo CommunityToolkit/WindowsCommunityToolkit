@@ -7,11 +7,11 @@ using System.Linq;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
