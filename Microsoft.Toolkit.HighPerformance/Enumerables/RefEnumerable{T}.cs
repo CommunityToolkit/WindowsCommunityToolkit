@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <inheritdoc cref="System.Collections.IEnumerable.GetEnumerator"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public RefEnumerable<T> GetEnumerator() => this;
+        public readonly RefEnumerable<T> GetEnumerator() => this;
 
         /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         }
 
         /// <inheritdoc cref="System.Collections.Generic.IEnumerator{T}.Current"/>
-        public ref T Current
+        public readonly ref T Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// ignoring the current position in case the sequence has already been enumerated in part.
         /// </remarks>
         [Pure]
-        public T[] ToArray()
+        public readonly T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
             // Fast path for contiguous items

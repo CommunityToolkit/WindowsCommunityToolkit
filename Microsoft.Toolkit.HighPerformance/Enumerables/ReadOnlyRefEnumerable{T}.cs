@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <inheritdoc cref="System.Collections.IEnumerable.GetEnumerator"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ReadOnlyRefEnumerable<T> GetEnumerator() => this;
+        public readonly ReadOnlyRefEnumerable<T> GetEnumerator() => this;
 
         /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         }
 
         /// <inheritdoc cref="System.Collections.Generic.IEnumerator{T}.Current"/>
-        public ref readonly T Current
+        public readonly ref readonly T Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
         /// <inheritdoc cref="RefEnumerable{T}.ToArray"/>
         [Pure]
-        public T[] ToArray()
+        public readonly T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
             // Fast path for contiguous items
