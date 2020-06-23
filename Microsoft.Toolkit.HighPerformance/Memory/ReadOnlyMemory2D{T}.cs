@@ -500,6 +500,17 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 if (!(this.instance is null))
                 {
 #if SPAN_RUNTIME_SUPPORT
+                    // Check Memory<T> too to be extra sure (could be from DangerousCreate)
+                    if (this.instance.GetType() == typeof(Memory<T>))
+                    {
+                        Memory<T> memory = (Memory<T>)this.instance;
+
+                        ref T r0 = ref memory.Span.DangerousGetReference();
+
+                        return new ReadOnlySpan2D<T>(r0, this.height, this.width, this.pitch);
+                    }
+
+                    // Check the "officially" supported cases
                     if (this.instance.GetType() == typeof(ReadOnlyMemory<T>))
                     {
                         ReadOnlyMemory<T> memory = (ReadOnlyMemory<T>)this.instance;
@@ -511,6 +522,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     }
                     else
                     {
+                        // This handles both arrays and strings
                         ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
 
                         return new ReadOnlySpan2D<T>(r0, this.height, this.width, this.pitch);
@@ -565,10 +577,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
 
-            if (this.instance is Memory<T> memory)
+            if (this.instance!.GetType() == typeof(Memory<T>))
             {
-                // Memory<T> instance are always already sliced
-                object instance = memory.Slice((int)offset);
+                object instance = ((Memory<T>)this.instance).Slice((int)offset);
+
+                return new ReadOnlyMemory2D<T>(instance, default, height, width, pitch);
+            }
+
+            if (this.instance.GetType() == typeof(ReadOnlyMemory<T>))
+            {
+                object instance = ((ReadOnlyMemory<T>)this.instance).Slice((int)offset);
 
                 return new ReadOnlyMemory2D<T>(instance, default, height, width, pitch);
             }
@@ -623,9 +641,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             if (!(this.instance is null))
             {
-                if (this.instance is ReadOnlyMemory<T> memory)
+                if (this.instance.GetType() == typeof(Memory<T>))
                 {
-                    return memory.Pin();
+                    return ((Memory<T>)this.instance).Pin();
+                }
+
+                if (this.instance.GetType() == typeof(ReadOnlyMemory<T>))
+                {
+                    return ((ReadOnlyMemory<T>)this.instance).Pin();
                 }
 
                 GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
@@ -660,9 +683,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                     memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
                 }
-                else if (this.instance.GetType() == typeof(ReadOnlyMemory<T>))
+                else if (this.instance.GetType() == typeof(Memory<T>))
                 {
                     // If the object is a Memory<T>, just slice it as needed
+                    memory = ((Memory<T>)this.instance).Slice(0, this.height * this.width);
+                }
+                else if (this.instance.GetType() == typeof(ReadOnlyMemory<T>))
+                {
                     memory = ((ReadOnlyMemory<T>)this.instance).Slice(0, this.height * this.width);
                 }
                 else if (this.instance.GetType() == typeof(T[]))
