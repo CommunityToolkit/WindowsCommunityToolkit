@@ -349,7 +349,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     foreach (var entry in pair.Value)
                     {
                         // Only select the ones with a matching token
-                        if (EqualityComparer<TToken>.Default.Equals(entry.Key, token))
+                        if (entry.Key.Equals(token))
                         {
                             entries[i++] = entry.Value;
                         }
