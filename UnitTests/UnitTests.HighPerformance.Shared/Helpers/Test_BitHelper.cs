@@ -79,6 +79,43 @@ namespace UnitTests.HighPerformance.Helpers
 
         [TestCategory("BitHelper")]
         [TestMethod]
+        [DataRow(0x0000_0000u, true)]
+        [DataRow(0x0000_0001u, true)]
+        [DataRow(0x0000_0011u, true)]
+        [DataRow(0x0011_1111u, true)]
+        [DataRow(0x1100_1111u, true)]
+        [DataRow(0x1011_0011u, true)]
+        [DataRow(0x1755_0055u, true)]
+        [DataRow(0x0055_B255u, true)]
+        [DataRow(0x1755_B200u, true)]
+        [DataRow(0x1111_1111u, false)]
+        [DataRow(0x1755_B255u, false)]
+        [DataRow(0x1705_B255u, false)]
+        [DataRow(0x1755_B055u, false)]
+        public void Test_BitHelper_HasZeroByte_UInt32(uint x, bool result)
+        {
+            Assert.AreEqual(result, BitHelper.HasZeroByte(x));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow(0x0000_0000_0000_0000ul, true)]
+        [DataRow(0x0000_0000_0000_0001ul, true)]
+        [DataRow(0x0000_0000_0000_0011ul, true)]
+        [DataRow(0x0011_1111_1111_1111ul, true)]
+        [DataRow(0x1111_0011_1111_1111ul, true)]
+        [DataRow(0x7234_AB00_DEAD_BEEFul, true)]
+        [DataRow(0x7234_A542_DEAD_BEEFul, false)]
+        [DataRow(0x1111_1111_1111_1111ul, false)]
+        [DataRow(0x7234_A542_DEAD_B0EFul, false)]
+        [DataRow(0x7030_A040_0E0D_B0E0ul, false)]
+        public void Test_BitHelper_HasZeroByte_UInt64(ulong x, bool result)
+        {
+            Assert.AreEqual(result, BitHelper.HasZeroByte(x));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
         public void Test_BitHelper_SetFlag_UInt32()
         {
             Assert.AreEqual(0b1u, BitHelper.SetFlag(0u, 0, true));
