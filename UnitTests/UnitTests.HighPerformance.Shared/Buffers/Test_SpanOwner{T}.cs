@@ -35,7 +35,7 @@ namespace UnitTests.HighPerformance.Buffers
         {
             var pool = new TrackingArrayPool<int>();
 
-            using (var buffer = SpanOwner<int>.Allocate(127))
+            using (var buffer = SpanOwner<int>.Allocate(127, pool))
             {
                 Assert.AreEqual(pool.RentedArrays.Count, 1);
 

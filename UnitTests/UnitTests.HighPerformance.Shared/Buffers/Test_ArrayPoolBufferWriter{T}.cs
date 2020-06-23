@@ -61,7 +61,7 @@ namespace UnitTests.HighPerformance.Buffers
         {
             var pool = new TrackingArrayPool<byte>();
 
-            using (var writer = new ArrayPoolBufferWriter<byte>())
+            using (var writer = new ArrayPoolBufferWriter<byte>(pool))
             {
                 Assert.AreEqual(pool.RentedArrays.Count, 1);
 
