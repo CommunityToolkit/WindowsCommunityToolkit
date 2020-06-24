@@ -120,9 +120,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 // Get the <TMessage, TToken> registration list for this recipient
-                Mapping<TMessage, TToken> values = GetOrAddMapping<TMessage, TToken>();
+                Mapping<TMessage, TToken> mapping = GetOrAddMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
-                ref DictionarySlim<TToken, Action<TMessage>>? map = ref values.GetOrAddValueRef(key);
+                ref DictionarySlim<TToken, Action<TMessage>>? map = ref mapping.GetOrAddValueRef(key);
 
                 map ??= new DictionarySlim<TToken, Action<TMessage>>();
 
@@ -136,12 +136,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 handler = action;
 
+                // Update the total counter for handlers for the current type parameters
+                mapping.TotalHandlersCount++;
+
                 // Make sure this registration map is tracked for the current recipient
                 ref HashSet<IMapping>? set = ref this.recipientsMap.GetOrAddValueRef(key);
 
                 set ??= new HashSet<IMapping>();
 
-                set.Add(values);
+                set.Add(mapping);
             }
         }
 
@@ -159,21 +162,36 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Removes all the lists of registered handlers for the recipient
-                foreach (IMapping map in set!)
+                foreach (IMapping mapping in set!)
                 {
-                    map.Remove(key);
+                    object? handlersMap = mapping.TryRemove(key, out bool success);
 
-                    if (map.Count == 0)
+                    if (success)
                     {
-                        // Maps here are really of type Mapping<,> and with unknown type arguments.
-                        // If after removing the current recipient a given map becomes empty, it means
-                        // that there are no registered recipients at all for a given pair of message
-                        // and token types. In that case, we also remove the map from the types map.
-                        // The reason for keeping a key in each mapping is that removing items from a
-                        // dictionary (a hashed collection) only costs O(1) in the best case, while
-                        // if we had tried to iterate the whole dictionary every time we would have
-                        // paid an O(n) minimum cost for each single remove operation.
-                        this.typesMap.Remove(map.TypeArguments);
+                        // If this branch is taken, it means the target recipient to unregister
+                        // had at least one registered handler for the current <TToken, TMessage>
+                        // pair of type parameters, which here is masked out by the IMapping interface.
+                        // Before removing the handlers, we need to retrieve the count of how many handlers
+                        // are being removed, in order to update the total counter for the mapping.
+                        // Just casting the dictionary to the base interface and accessing the Count
+                        // property directly gives us O(1) access time to retrieve this count.
+                        // The handlers map is the IDictionary<TToken, TMessage> instance for the mapping.
+                        int handlersCount = Unsafe.As<IDictionarySlim>(handlersMap).Count;
+
+                        mapping.TotalHandlersCount -= handlersCount;
+
+                        if (mapping.Count == 0)
+                        {
+                            // Maps here are really of type Mapping<,> and with unknown type arguments.
+                            // If after removing the current recipient a given map becomes empty, it means
+                            // that there are no registered recipients at all for a given pair of message
+                            // and token types. In that case, we also remove the map from the types map.
+                            // The reason for keeping a key in each mapping is that removing items from a
+                            // dictionary (a hashed collection) only costs O(1) in the best case, while
+                            // if we had tried to iterate the whole dictionary every time we would have
+                            // paid an O(n) minimum cost for each single remove operation.
+                            this.typesMap.Remove(mapping.TypeArguments);
+                        }
                     }
                 }
 
@@ -208,9 +226,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     foreach (IMapping item in set)
                     {
                         // Select all mappings using the same token type
-                        if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> map)
+                        if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> mapping)
                         {
-                            maps[i++] = map;
+                            maps[i++] = mapping;
                         }
                     }
 
@@ -228,27 +246,37 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // the mappings for the target recipiets: it is guaranteed to be here.
                         IDictionarySlim<TToken> holder = map[key];
 
-                        // Remove the registered handler for the input token,
+                        // Try to remove the registered handler for the input token,
                         // for the current message type (unknown from here).
-                        holder.Remove(token);
-
-                        if (holder.Count == 0)
+                        if (holder.Remove(token))
                         {
-                            // If the map is empty, remove the recipient entirely from its container
-                            map.Remove(key);
+                            // As above, we need to update the total number of registered handlers for the map.
+                            // In this case we also know that the current TToken type parameter is of interest
+                            // for the current method, as we're only unsubscribing handlers using that token.
+                            // This is because we're already working on the final <TToken, TMessage> mapping,
+                            // which associates a single handler with a given token, for a given recipient.
+                            // This means that we don't have to retrieve the count to subtract in this case,
+                            // we're just removing a single handler at a time. So, we just decrement the total.
+                            Unsafe.As<IMapping>(map).TotalHandlersCount--;
 
-                            if (map.Count == 0)
+                            if (holder.Count == 0)
                             {
-                                // If no handlers are left at all for the recipient, across all
-                                // message types and token types, remove the set of mappings
-                                // entirely for the current recipient, and lost the strong
-                                // reference to it as well. This is the same situation that
-                                // would've been achieved by just calling Unregister(recipient).
-                                set.Remove(Unsafe.As<IMapping>(map));
+                                // If the map is empty, remove the recipient entirely from its container
+                                map.Remove(key);
 
-                                if (set.Count == 0)
+                                if (map.Count == 0)
                                 {
-                                    this.recipientsMap.Remove(key);
+                                    // If no handlers are left at all for the recipient, across all
+                                    // message types and token types, remove the set of mappings
+                                    // entirely for the current recipient, and lost the strong
+                                    // reference to it as well. This is the same situation that
+                                    // would've been achieved by just calling Unregister(recipient).
+                                    set.Remove(Unsafe.As<IMapping>(map));
+
+                                    if (set.Count == 0)
+                                    {
+                                        this.recipientsMap.Remove(key);
+                                    }
                                 }
                             }
                         }
@@ -278,30 +306,34 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 var key = new Recipient(recipient);
 
-                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>>? map))
+                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>>? dictionary))
                 {
                     return;
                 }
 
                 // Remove the target handler
-                map!.Remove(token);
-
-                // If the map is empty, it means that the current recipient has no remaining
-                // registered handlers for the current <TMessage, TToken> combination, regardless,
-                // of the specific token value (ie. the channel used to receive messages of that type).
-                // We can remove the map entirely from this container, and remove the link to the map itself
-                // to the static mapping between existing registered recipients.
-                if (map.Count == 0)
+                if (dictionary!.Remove(token))
                 {
-                    mapping.Remove(key);
+                    // Decrement the total count, as above
+                    mapping.TotalHandlersCount--;
 
-                    HashSet<IMapping> set = this.recipientsMap[key];
-
-                    set.Remove(mapping);
-
-                    if (set.Count == 0)
+                    // If the map is empty, it means that the current recipient has no remaining
+                    // registered handlers for the current <TMessage, TToken> combination, regardless,
+                    // of the specific token value (ie. the channel used to receive messages of that type).
+                    // We can remove the map entirely from this container, and remove the link to the map itself
+                    // to the static mapping between existing registered recipients.
+                    if (dictionary.Count == 0)
                     {
-                        this.recipientsMap.Remove(key);
+                        mapping.Remove(key);
+
+                        HashSet<IMapping> set = this.recipientsMap[key];
+
+                        set.Remove(mapping);
+
+                        if (set.Count == 0)
+                        {
+                            this.recipientsMap.Remove(key);
+                        }
                     }
                 }
             }
@@ -470,6 +502,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             /// <inheritdoc/>
             public Type2 TypeArguments { get; }
+
+            /// <inheritdoc/>
+            public int TotalHandlersCount { get; set; }
         }
 
         /// <summary>
@@ -482,6 +517,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// Gets the <see cref="Type2"/> instance representing the current type arguments.
             /// </summary>
             Type2 TypeArguments { get; }
+
+            /// <summary>
+            /// Gets or sets the total number of handlers in the current instance.
+            /// </summary>
+            int TotalHandlersCount { get; set; }
         }
 
         /// <summary>
