@@ -133,6 +133,8 @@
     <Compile Include="TestsPage.xaml.cs">
       <DependentUpon>TestsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XamlIslandsTest_TokenizingTextBox.cs" />
+    <Compile Include="XamlIslandsTest_TextToolbar.cs" />
     <Compile Include="XamlIslandsTest_WrapPanel.cs" />
     <Compile Include="XamlIslandsTest_DropShadowPanel.cs" />
     <Compile Include="XamlIslandsTest_Eyedropper.cs" />

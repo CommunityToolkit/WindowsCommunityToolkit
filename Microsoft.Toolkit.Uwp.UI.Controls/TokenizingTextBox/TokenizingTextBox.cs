@@ -99,7 +99,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            switch (e.Key)
+            TokenizingTextBox_PreviewKeyUp(e.Key);
+        }
+
+        internal void TokenizingTextBox_PreviewKeyUp(VirtualKey key)
+        {
+            switch (key)
             {
                 case VirtualKey.Escape:
                     {
@@ -124,14 +129,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            e.Handled = await TokenizingTextBox_PreviewKeyDown(e.Key);
+        }
+
+        internal async Task<bool> TokenizingTextBox_PreviewKeyDown(VirtualKey key)
+        {
             // Global handlers on control regardless if focused on item or in textbox.
-            switch (e.Key)
+            switch (key)
             {
                 case VirtualKey.C:
                     if (IsControlPressed)
                     {
                         CopySelectedToClipboard();
-                        e.Handled = true;
+                        return true;
                     }
 
                     break;
@@ -148,24 +158,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
 
                 // For moving between tokens
-                case Windows.System.VirtualKey.Left:
-                    e.Handled = MoveFocusAndSelection(MoveDirection.Previous);
-                    break;
+                case VirtualKey.Left:
+                    return MoveFocusAndSelection(MoveDirection.Previous);
 
-                case Windows.System.VirtualKey.Right:
-                    e.Handled = MoveFocusAndSelection(MoveDirection.Next);
-                    break;
+                case VirtualKey.Right:
+                    return MoveFocusAndSelection(MoveDirection.Next);
 
                 case VirtualKey.A:
                     // modify the select-all behaviour to ensure the text in the edit box gets selected.
                     if (IsControlPressed)
                     {
                         this.SelectAllTokensAndText();
-                        e.Handled = true;
+                        return true;
                     }
 
                     break;
             }
+
+            return false;
         }
 
         /// <inheritdoc/>
@@ -207,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var container = ContainerFromItem(_currentTextEdit) as TokenizingTextBoxItem;
 
-            if (container != null && !(FocusManager.GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
+            if (container != null && !(GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
             {
                 if (SelectedItems.Count > 0)
                 {
@@ -285,6 +295,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         last._autoSuggestTextBox.Focus(FocusState.Keyboard);
                     }
                 }
+            }
+        }
+
+        private object GetFocusedElement()
+        {
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
             }
         }
 

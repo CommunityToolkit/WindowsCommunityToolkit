@@ -30,7 +30,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static bool NavigateUsingKeyboard(KeyEventArgs args, Menu menu, Orientation orientation)
         {
-            var element = FocusManager.GetFocusedElement();
+            object element;
+            if (ControlHelpers.IsXamlRootAvailable && menu.XamlRoot != null)
+            {
+                element = FocusManager.GetFocusedElement(menu.XamlRoot);
+            }
+            else
+            {
+                element = FocusManager.GetFocusedElement();
+            }
 
             if (element is MenuFlyoutPresenter &&
                 ((args.VirtualKey == VirtualKey.Down) ||
