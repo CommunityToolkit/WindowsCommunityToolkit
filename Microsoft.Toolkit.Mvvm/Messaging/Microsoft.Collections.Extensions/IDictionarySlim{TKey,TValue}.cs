@@ -23,8 +23,5 @@ namespace Microsoft.Collections.Extensions
         /// <returns>The returned value.</returns>
         /// <exception cref="ArgumentException">Thrown if the key wasn't present.</exception>
         TValue this[TKey key] { get; }
-
-        /// <inheritdoc cref="IDictionarySlim{TKey}.TryRemove(TKey,out bool)"/>
-        new TValue? TryRemove(TKey key, out bool success);
     }
 }
