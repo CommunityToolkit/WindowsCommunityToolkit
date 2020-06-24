@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (d is Eyedropper eyedropper)
             {
-                eyedropper.UpadateWorkArea();
+                eyedropper.UpdateWorkArea();
             }
         }
     }
