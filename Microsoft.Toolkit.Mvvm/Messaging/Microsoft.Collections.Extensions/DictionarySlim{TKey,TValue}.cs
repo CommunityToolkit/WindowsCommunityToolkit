@@ -34,6 +34,7 @@ namespace Microsoft.Collections.Extensions
     [DebuggerDisplay("Count = {Count}")]
     internal class DictionarySlim<TKey, TValue> : IDictionarySlim<TKey, TValue>
         where TKey : IEquatable<TKey>
+        where TValue : class
     {
         // See info in CoreFX labs for how this works
         private static readonly Entry[] InitialEntries = new Entry[1];
@@ -45,7 +46,7 @@ namespace Microsoft.Collections.Extensions
         private struct Entry
         {
             public TKey Key;
-            public TValue Value;
+            public TValue? Value;
             public int Next;
         }
 
@@ -74,7 +75,7 @@ namespace Microsoft.Collections.Extensions
                 {
                     if (key.Equals(entries[i].Key))
                     {
-                        return entries[i].Value;
+                        return entries[i].Value!;
                     }
                 }
 
@@ -117,7 +118,7 @@ namespace Microsoft.Collections.Extensions
         /// <param name="key">The key to look for.</param>
         /// <param name="value">The value found, otherwise <see langword="default"/>.</param>
         /// <returns>Whether or not the key was present.</returns>
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, out TValue? value)
         {
             Entry[] entries = this.entries;
 
@@ -127,7 +128,7 @@ namespace Microsoft.Collections.Extensions
             {
                 if (key.Equals(entries[i].Key))
                 {
-                    value = entries[i].Value;
+                    value = entries[i].Value!;
 
                     return true;
                 }
@@ -183,7 +184,7 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         /// <param name="key">Key to look for</param>
         /// <returns>Reference to the new or existing value</returns>
-        public ref TValue GetOrAddValueRef(TKey key)
+        public ref TValue? GetOrAddValueRef(TKey key)
         {
             Entry[] entries = this.entries;
             int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
@@ -201,8 +202,14 @@ namespace Microsoft.Collections.Extensions
             return ref AddKey(key, bucketIndex);
         }
 
+        /// <summary>
+        /// Creates a slot for a new value to add for a specified key.
+        /// </summary>
+        /// <param name="key">The key to use to add the new value.</param>
+        /// <param name="bucketIndex">The target bucked index to use.</param>
+        /// <returns>A reference to the slot for the new value to add.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private ref TValue AddKey(TKey key, int bucketIndex)
+        private ref TValue? AddKey(TKey key, int bucketIndex)
         {
             Entry[] entries = this.entries;
             int entryIndex;
@@ -307,7 +314,7 @@ namespace Microsoft.Collections.Extensions
 
                 this.current = new KeyValuePair<TKey, TValue>(
                     entries[this.index].Key,
-                    entries[this.index++].Value);
+                    entries[this.index++].Value!);
 
                 return true;
             }

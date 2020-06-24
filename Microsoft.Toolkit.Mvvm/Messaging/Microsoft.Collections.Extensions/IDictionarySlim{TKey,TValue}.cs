@@ -14,6 +14,7 @@ namespace Microsoft.Collections.Extensions
     /// <typeparam name="TValue">The covariant type of values in the dictionary.</typeparam>
     internal interface IDictionarySlim<in TKey, out TValue> : IDictionarySlim<TKey>
         where TKey : IEquatable<TKey>
+        where TValue : class
     {
         /// <summary>
         /// Gets the value with the specified key.
