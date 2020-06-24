@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Collections.Extensions
@@ -34,6 +35,7 @@ namespace Microsoft.Collections.Extensions
     [DebuggerDisplay("Count = {Count}")]
     internal class DictionarySlim<TKey, TValue> : IDictionarySlim<TKey, TValue>
         where TKey : IEquatable<TKey>
+        where TValue : class
     {
         // See info in CoreFX labs for how this works
         private static readonly Entry[] InitialEntries = new Entry[1];
@@ -45,7 +47,7 @@ namespace Microsoft.Collections.Extensions
         private struct Entry
         {
             public TKey Key;
-            public TValue Value;
+            public TValue? Value;
             public int Next;
         }
 
@@ -74,7 +76,7 @@ namespace Microsoft.Collections.Extensions
                 {
                     if (key.Equals(entries[i].Key))
                     {
-                        return entries[i].Value;
+                        return entries[i].Value!;
                     }
                 }
 
@@ -117,7 +119,7 @@ namespace Microsoft.Collections.Extensions
         /// <param name="key">The key to look for.</param>
         /// <param name="value">The value found, otherwise <see langword="default"/>.</param>
         /// <returns>Whether or not the key was present.</returns>
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, out TValue? value)
         {
             Entry[] entries = this.entries;
 
@@ -127,7 +129,7 @@ namespace Microsoft.Collections.Extensions
             {
                 if (key.Equals(entries[i].Key))
                 {
-                    value = entries[i].Value;
+                    value = entries[i].Value!;
 
                     return true;
                 }
@@ -139,7 +141,7 @@ namespace Microsoft.Collections.Extensions
         }
 
         /// <inheritdoc/>
-        public bool Remove(TKey key)
+        public object? TryRemove(TKey key, out bool success)
         {
             Entry[] entries = this.entries;
             int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
@@ -149,6 +151,7 @@ namespace Microsoft.Collections.Extensions
             while (entryIndex != -1)
             {
                 Entry candidate = entries[entryIndex];
+
                 if (candidate.Key.Equals(key))
                 {
                     if (lastIndex != -1)
@@ -166,14 +169,28 @@ namespace Microsoft.Collections.Extensions
                     this.freeList = entryIndex;
 
                     this.count--;
-                    return true;
+
+                    success = true;
+
+                    return candidate.Value;
                 }
 
                 lastIndex = entryIndex;
                 entryIndex = candidate.Next;
             }
 
-            return false;
+            success = false;
+
+            return null;
+        }
+
+        /// <inheritdoc/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Remove(TKey key)
+        {
+            _ = TryRemove(key, out bool success);
+
+            return success;
         }
 
         /// <summary>
@@ -183,7 +200,7 @@ namespace Microsoft.Collections.Extensions
         /// </summary>
         /// <param name="key">Key to look for</param>
         /// <returns>Reference to the new or existing value</returns>
-        public ref TValue GetOrAddValueRef(TKey key)
+        public ref TValue? GetOrAddValueRef(TKey key)
         {
             Entry[] entries = this.entries;
             int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
@@ -201,8 +218,14 @@ namespace Microsoft.Collections.Extensions
             return ref AddKey(key, bucketIndex);
         }
 
+        /// <summary>
+        /// Creates a slot for a new value to add for a specified key.
+        /// </summary>
+        /// <param name="key">The key to use to add the new value.</param>
+        /// <param name="bucketIndex">The target bucked index to use.</param>
+        /// <returns>A reference to the slot for the new value to add.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private ref TValue AddKey(TKey key, int bucketIndex)
+        private ref TValue? AddKey(TKey key, int bucketIndex)
         {
             Entry[] entries = this.entries;
             int entryIndex;
@@ -266,6 +289,8 @@ namespace Microsoft.Collections.Extensions
         }
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Enumerator GetEnumerator() => new Enumerator(this);
 
         /// <summary>
@@ -276,14 +301,13 @@ namespace Microsoft.Collections.Extensions
             private readonly Entry[] entries;
             private int index;
             private int count;
-            private KeyValuePair<TKey, TValue> current;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal Enumerator(DictionarySlim<TKey, TValue> dictionary)
             {
                 this.entries = dictionary.entries;
                 this.index = 0;
                 this.count = dictionary.count;
-                this.current = default;
             }
 
             /// <inheritdoc cref="IEnumerator.MoveNext"/>
@@ -291,8 +315,6 @@ namespace Microsoft.Collections.Extensions
             {
                 if (this.count == 0)
                 {
-                    this.current = default;
-
                     return false;
                 }
 
@@ -305,18 +327,35 @@ namespace Microsoft.Collections.Extensions
                     this.index++;
                 }
 
-                this.current = new KeyValuePair<TKey, TValue>(
-                    entries[this.index].Key,
-                    entries[this.index++].Value);
+                // We need to preemptively increment the current index so that we still correctly keep track
+                // of the current position in the dictionary even if the users doesn't access any of the
+                // available properties in the enumerator. As this is a possibility, we can't rely on one of
+                // them to increment the index before MoveNext is invoked again. We ditch the standard enumerator
+                // API surface here to expose the Key/Value properties directly and minimize the memory copies.
+                // For the same reason, we also removed the KeyValuePair<TKey, TValue> field here, and instead
+                // rely on the properties lazily accessing the target instances directly from the current entry
+                // pointed at by the index property (adjusted backwards to account for the increment here).
+                this.index++;
 
                 return true;
             }
 
-            /// <inheritdoc cref="IEnumerator{T}.Current"/>
-            public KeyValuePair<TKey, TValue> Current
+            /// <summary>
+            /// Gets the current key.
+            /// </summary>
+            public TKey Key
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => this.current;
+                get => this.entries[this.index - 1].Key;
+            }
+
+            /// <summary>
+            /// Gets the current value.
+            /// </summary>
+            public TValue Value
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => this.entries[this.index - 1].Value!;
             }
         }
 
