@@ -20,5 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         public static bool IsFallCreatorsUpdateOrAbove => (bool)(_isFallCreatorsUpdateOrAbove ??
             (_isFallCreatorsUpdateOrAbove = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5)));
+
+        public static bool IsXamlRootAvailable { get; } = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
     }
 }
