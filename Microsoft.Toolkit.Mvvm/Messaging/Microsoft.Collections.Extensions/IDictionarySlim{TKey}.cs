@@ -10,14 +10,9 @@ namespace Microsoft.Collections.Extensions
     /// An interface providing key type contravariant access to a <see cref="DictionarySlim{TKey,TValue}"/> instance.
     /// </summary>
     /// <typeparam name="TKey">The contravariant type of keys in the dictionary.</typeparam>
-    internal interface IDictionarySlim<in TKey>
+    internal interface IDictionarySlim<in TKey> : IDictionarySlim
         where TKey : IEquatable<TKey>
     {
-        /// <summary>
-        /// Gets the count of entries in the dictionary.
-        /// </summary>
-        int Count { get; }
-
         /// <summary>
         /// Tries to remove a value with a specified key.
         /// </summary>
@@ -32,10 +27,5 @@ namespace Microsoft.Collections.Extensions
         /// <param name="key">The key of the item to remove.</param>
         /// <returns>Whether or not an item was removed.</returns>
         bool Remove(TKey key);
-
-        /// <summary>
-        /// Clears the current dictionary.
-        /// </summary>
-        void Clear();
     }
 }
