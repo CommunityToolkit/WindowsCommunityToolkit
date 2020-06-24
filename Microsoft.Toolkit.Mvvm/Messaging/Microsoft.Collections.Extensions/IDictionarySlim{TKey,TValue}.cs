@@ -23,5 +23,13 @@ namespace Microsoft.Collections.Extensions
         /// <returns>The returned value.</returns>
         /// <exception cref="ArgumentException">Thrown if the key wasn't present.</exception>
         TValue this[TKey key] { get; }
+
+        /// <summary>
+        /// Tries to remove a value with a specified key.
+        /// </summary>
+        /// <param name="key">The key of the value to remove.</param>
+        /// <param name="success">Whether or not the key was present.</param>
+        /// <returns>The removed value, if it was present.</returns>
+        TValue? TryRemove(TKey key, out bool success);
     }
 }
