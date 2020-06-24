@@ -140,6 +140,12 @@ namespace Microsoft.Collections.Extensions
         }
 
         /// <inheritdoc/>
+        object? IDictionarySlim<TKey>.TryRemove(TKey key, out bool success)
+        {
+            return TryRemove(key, out success);
+        }
+
+        /// <inheritdoc/>
         public TValue? TryRemove(TKey key, out bool success)
         {
             Entry[] entries = this.entries;

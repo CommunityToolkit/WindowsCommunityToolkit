@@ -19,6 +19,14 @@ namespace Microsoft.Collections.Extensions
         int Count { get; }
 
         /// <summary>
+        /// Tries to remove a value with a specified key.
+        /// </summary>
+        /// <param name="key">The key of the value to remove.</param>
+        /// <param name="success">Whether or not the key was present.</param>
+        /// <returns>The removed value, if it was present.</returns>
+        object? TryRemove(TKey key, out bool success);
+
+        /// <summary>
         /// Removes an item from the dictionary with the specified key, if present.
         /// </summary>
         /// <param name="key">The key of the item to remove.</param>
