@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Collections.Extensions
@@ -288,6 +289,8 @@ namespace Microsoft.Collections.Extensions
         }
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Enumerator GetEnumerator() => new Enumerator(this);
 
         /// <summary>
@@ -298,14 +301,13 @@ namespace Microsoft.Collections.Extensions
             private readonly Entry[] entries;
             private int index;
             private int count;
-            private KeyValuePair<TKey, TValue> current;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal Enumerator(DictionarySlim<TKey, TValue> dictionary)
             {
                 this.entries = dictionary.entries;
                 this.index = 0;
                 this.count = dictionary.count;
-                this.current = default;
             }
 
             /// <inheritdoc cref="IEnumerator.MoveNext"/>
@@ -313,8 +315,6 @@ namespace Microsoft.Collections.Extensions
             {
                 if (this.count == 0)
                 {
-                    this.current = default;
-
                     return false;
                 }
 
@@ -327,18 +327,35 @@ namespace Microsoft.Collections.Extensions
                     this.index++;
                 }
 
-                this.current = new KeyValuePair<TKey, TValue>(
-                    entries[this.index].Key,
-                    entries[this.index++].Value!);
+                // We need to preemptively increment the current index so that we still correctly keep track
+                // of the current position in the dictionary even if the users doesn't access any of the
+                // available properties in the enumerator. As this is a possibility, we can't rely on one of
+                // them to increment the index before MoveNext is invoked again. We ditch the standard enumerator
+                // API surface here to expose the Key/Value properties directly and minimize the memory copies.
+                // For the same reason, we also removed the KeyValuePair<TKey, TValue> field here, and instead
+                // rely on the properties lazily accessing the target instances directly from the current entry
+                // pointed at by the index property (adjusted backwards to account for the increment here).
+                this.index++;
 
                 return true;
             }
 
-            /// <inheritdoc cref="IEnumerator{T}.Current"/>
-            public KeyValuePair<TKey, TValue> Current
+            /// <summary>
+            /// Gets the current key.
+            /// </summary>
+            public TKey Key
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => this.current;
+                get => this.entries[this.index - 1].Key;
+            }
+
+            /// <summary>
+            /// Gets the current value.
+            /// </summary>
+            public TValue Value
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => this.entries[this.index - 1].Value!;
             }
         }
 

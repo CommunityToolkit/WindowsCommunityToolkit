@@ -369,14 +369,20 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // handlers for different tokens. We can reuse the same variable
                 // to count the number of matching handlers to invoke later on.
                 // This will be the array slice with valid actions in the rented buffer.
-                foreach (var pair in mapping)
+                var mappingEnumerator = mapping.GetEnumerator();
+
+                // Explicit enumerator usage here as we're using a custom one
+                // that doesn't expose the single standard Current property.
+                while (mappingEnumerator.MoveNext())
                 {
-                    foreach (var entry in pair.Value)
+                    var pairsEnumerator = mappingEnumerator.Value.GetEnumerator();
+
+                    while (pairsEnumerator.MoveNext())
                     {
                         // Only select the ones with a matching token
-                        if (entry.Key.Equals(token))
+                        if (pairsEnumerator.Key.Equals(token))
                         {
-                            entries[i++] = entry.Value;
+                            entries[i++] = pairsEnumerator.Value;
                         }
                     }
                 }
@@ -408,10 +414,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                foreach (var pair in this.recipientsMap)
+                var recipientsEnumerator = this.recipientsMap.GetEnumerator();
+
+                while (recipientsEnumerator.MoveNext())
                 {
                     // Clear all the typed maps, as they're assigned to static fields
-                    foreach (var map in pair.Value)
+                    foreach (var map in recipientsEnumerator.Value)
                     {
                         map.Clear();
                     }
