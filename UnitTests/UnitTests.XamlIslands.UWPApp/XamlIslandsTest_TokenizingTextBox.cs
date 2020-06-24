@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
@@ -101,6 +100,35 @@ namespace UnitTests.XamlIslands.UWPApp
                 _tokenizingTextBox.SuggestedItemsSource = _acv;
 
                 TestsPage.Instance.SetMainTestContent(_tokenizingTextBox);
+
+                _tokenizingTextBox.AddTokenItem(_samples[0], true);
+                _tokenizingTextBox.AddTokenItem(_samples[1], true);
+                _tokenizingTextBox.AddTokenItem(_samples[2], true);
+            });
+        }
+
+        [TestMethod]
+        public async Task TokenizingTextBox_GetFocusedElement_RemoveAllSelectedTokens()
+        {
+            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            {
+                await Task.Delay(500);
+
+                _tokenizingTextBox.SelectedIndex = 1;
+
+                await Task.Delay(500);
+
+                await _tokenizingTextBox.TokenizingTextBox_PreviewKeyDown(Windows.System.VirtualKey.Left);
+
+                await Task.Delay(500);
+
+                Assert.AreEqual(4, _tokenizingTextBox.Items.Count);
+
+                await _tokenizingTextBox.RemoveAllSelectedTokens();
+
+                await Task.Delay(500);
+
+                Assert.AreEqual(3, _tokenizingTextBox.Items.Count);
             });
         }
 
@@ -109,7 +137,18 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
             {
-                await Task.Delay(10000);
+                await Task.Delay(500);
+
+                _tokenizingTextBox.SelectedIndex = 1;
+
+                await Task.Delay(500);
+
+                await _tokenizingTextBox.TokenizingTextBox_PreviewKeyDown(Windows.System.VirtualKey.Left);
+
+                var tokenizingTextBoxItem = _tokenizingTextBox.ContainerFromItem(_tokenizingTextBox.SelectedItem) as TokenizingTextBoxItem;
+                tokenizingTextBoxItem.ContextFlyout.ShowAt(tokenizingTextBoxItem);
+
+                await Task.Delay(1000);
             });
         }
     }

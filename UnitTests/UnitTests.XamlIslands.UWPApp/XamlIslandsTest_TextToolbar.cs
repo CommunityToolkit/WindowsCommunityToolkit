@@ -65,6 +65,8 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
             {
+                await Task.Delay(500);
+
                 var args = new ShortcutKeyRequestArgs(Windows.System.VirtualKey.K, false, null);
 
                 _textToolbar.GetDefaultButton(Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.ButtonType.Link).ShortcutRequested(ref args);
