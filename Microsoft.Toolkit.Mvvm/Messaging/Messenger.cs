@@ -367,7 +367,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
             finally
             {
-                // Remove references to avoid leaks coming from the shader memory pool.
+                // Remove references to avoid leaks coming from the shared memory pool.
                 // We manually create a span and clear it as a small optimization, as
                 // arrays rented from the pool can be larger than the requested size.
                 entries.AsSpan(0, i).Clear();
