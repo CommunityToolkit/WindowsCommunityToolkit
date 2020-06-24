@@ -355,18 +355,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return message;
                 }
 
-                // Count the total number of recipients (including with different tokens)
-                foreach (var pair in mapping!)
-                {
-                    i += pair.Value.Count;
-                }
-
                 // We need to make a local copy of the currently registered handlers,
                 // since users might try to unregister (or register) new handlers from
                 // inside one of the currently existing handlers. We can use memory pooling
                 // to reuse arrays, to minimize the average memory usage. In practice,
                 // we usually just need to pay the small overhead of copying the items.
-                entries = ArrayPool<Action<TMessage>>.Shared.Rent(i);
+                entries = ArrayPool<Action<TMessage>>.Shared.Rent(mapping!.TotalHandlersCount);
 
                 // Copy the handlers to the local collection.
                 // Both types being enumerate expose a struct enumerator,
@@ -375,7 +369,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // handlers for different tokens. We can reuse the same variable
                 // to count the number of matching handlers to invoke later on.
                 // This will be the array slice with valid actions in the rented buffer.
-                i = 0;
                 foreach (var pair in mapping)
                 {
                     foreach (var entry in pair.Value)
