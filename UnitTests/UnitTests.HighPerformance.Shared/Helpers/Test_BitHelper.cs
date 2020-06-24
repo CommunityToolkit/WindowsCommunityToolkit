@@ -116,6 +116,50 @@ namespace UnitTests.HighPerformance.Helpers
 
         [TestCategory("BitHelper")]
         [TestMethod]
+        [DataRow(0x0000_0000u, 0x7B, false)]
+        [DataRow(0x0000_0001u, 0x7B, false)]
+        [DataRow(0x0000_1010u, 0x7B, false)]
+        [DataRow(0x0111_7A00u, 0x7B, false)]
+        [DataRow(0x0000_07B0u, 0x7B, false)]
+        [DataRow(0x1111_1111u, 0x7B, false)]
+        [DataRow(0x0000_FEFEu, 0xFF, false)]
+        [DataRow(0xF00F_0FF0u, 0xFF, false)]
+        [DataRow(0x0000_0000u, 0x00, true)]
+        [DataRow(0x0000_007Bu, 0x7B, true)]
+        [DataRow(0x0000_7B7Bu, 0x7B, true)]
+        [DataRow(0x7B00_0110u, 0x7B, true)]
+        [DataRow(0x00FF_0000u, 0xFF, true)]
+        [DataRow(0xFFFF_FFFFu, 0xFF, true)]
+        [DataRow(0x1515_1515u, 0x15, true)]
+        public void Test_BitHelper_HasByteEqualTo_UInt32(uint x, int target, bool result)
+        {
+            Assert.AreEqual(result, BitHelper.HasByteEqualTo(x, unchecked((byte)target)));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
+        [DataRow(0x0000_0000_0000_0000u, 0x7B, false)]
+        [DataRow(0x0000_0000_0000_0001u, 0x7B, false)]
+        [DataRow(0x0000_0000_0000_1010u, 0x7B, false)]
+        [DataRow(0x0111_0000_0000_7A00u, 0x7B, false)]
+        [DataRow(0x0000_0000_0000_07B0u, 0x7B, false)]
+        [DataRow(0x1111_1111_0000_0000u, 0x7B, false)]
+        [DataRow(0x0000_FEFE_0000_0000u, 0xFF, false)]
+        [DataRow(0xF00F_0000_0000_0FF0u, 0xFF, false)]
+        [DataRow(0x0000_0000_0000_0000u, 0x00, true)]
+        [DataRow(0x0000_0000_0000_007Bu, 0x7B, true)]
+        [DataRow(0x0000_7B7B_0000_0000u, 0x7B, true)]
+        [DataRow(0x7B00_0110_0000_0000u, 0x7B, true)]
+        [DataRow(0x00FF_0000_0000_0000u, 0xFF, true)]
+        [DataRow(0xFFFF_FFFF_FFFF_FFFFu, 0xFF, true)]
+        [DataRow(0x1515_1515_1515_1515u, 0x15, true)]
+        public void Test_BitHelper_HasByteEqualTo_UInt64(ulong x, int target, bool result)
+        {
+            Assert.AreEqual(result, BitHelper.HasByteEqualTo(x, unchecked((byte)target)));
+        }
+
+        [TestCategory("BitHelper")]
+        [TestMethod]
         public void Test_BitHelper_SetFlag_UInt32()
         {
             Assert.AreEqual(0b1u, BitHelper.SetFlag(0u, 0, true));
