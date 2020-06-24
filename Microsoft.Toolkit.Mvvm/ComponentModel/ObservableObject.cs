@@ -29,21 +29,43 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         public event PropertyChangingEventHandler? PropertyChanging;
 
         /// <summary>
-        /// Raises the <see cref="PropertyChanged"/> event if needed.
+        /// Performs the required configuration when a property has changed, and then
+        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <remarks>The base implementation only raises the <see cref="PropertyChanged"/> event.</remarks>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            RaisePropertyChanged(propertyName);
+        }
+
+        /// <summary>
+        /// Performs the required configuration when a property is changing, and then
+        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// </summary>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <remarks>The base implementation only raises the <see cref="PropertyChanging"/> event.</remarks>
+        protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
+        {
+            RaisePropertyChanging(propertyName);
         }
 
         /// <summary>
         /// Raises the <see cref="PropertyChanging"/> event if needed.
         /// </summary>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
+        /// <param name="propertyName">The name of the property that changed.</param>
+        private void RaisePropertyChanged(string propertyName)
         {
-            this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event if needed.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
+        private void RaisePropertyChanging(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -67,11 +89,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            this.OnPropertyChanging(propertyName);
+            OnPropertyChanging(propertyName);
 
             field = newValue;
 
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
 
             return true;
         }
@@ -101,11 +123,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            this.OnPropertyChanging(propertyName);
+            OnPropertyChanging(propertyName);
 
             callback(newValue);
 
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
 
             return true;
         }
@@ -192,11 +214,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return false;
             }
 
-            this.OnPropertyChanging(propertyName);
+            OnPropertyChanging(propertyName);
 
             targetPropertyInfo.SetValue(parent, newValue);
 
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
 
             return true;
         }
@@ -247,7 +269,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // scheduling the method to monitor its completion.
             bool isAlreadyCompletedOrNull = newValue?.IsCompleted ?? true;
 
-            this.OnPropertyChanging(propertyName);
+            OnPropertyChanging(propertyName);
 
             field = newValue;
 
