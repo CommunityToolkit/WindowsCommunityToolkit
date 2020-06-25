@@ -5,12 +5,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:enums="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Enums"
     mc:Ignorable="d">
   <Grid>
     <StackPanel Spacing="8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
+      <!--Simple selector using the default template. Each item will
+          simply be displayed as the corresponding enum value name.-->
+      <TextBlock Text="Select an animal:"/>
+      <ComboBox ItemsSource="{ex:EnumValues Type=enums:Animal}"
+                SelectedIndex="0"/>
     </StackPanel>
   </Grid>
 </Page>

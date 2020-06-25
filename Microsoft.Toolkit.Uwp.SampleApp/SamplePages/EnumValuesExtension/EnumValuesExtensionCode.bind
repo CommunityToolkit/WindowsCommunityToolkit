@@ -1,0 +1,9 @@
+// Let's declare a sample enum
+public enum Animal
+{
+    Cat,
+    Dog,
+    Bunny,
+    Parrot,
+    Squirrel
+}

@@ -25,3 +25,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
     }
 }
+
+#pragma warning disable SA1403 // File may only contain a single namespace
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Enums
+{
+    public enum Animal
+    {
+        Cat,
+        Dog,
+        Bunny,
+        Parrot,
+        Squirrel
+    }
+}
+
+#pragma warning restore SA1403

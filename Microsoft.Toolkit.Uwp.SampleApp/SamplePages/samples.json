@@ -1280,7 +1280,8 @@
         "Type": "EnumValuesExtensionPage",
         "About": "The EnumValuesExtension markup extension allows you to easily retrieve a collection of all values from an enum type.",
         "Icon": "/Assets/Helpers.png",
-        "XamlCodeFile": "EnumValuesExtensionXaml.bind"
+        "XamlCodeFile": "EnumValuesExtensionXaml.bind",
+        "CodeFile": "EnumValuesExtensionCode.bind"
       }
     ]
   },

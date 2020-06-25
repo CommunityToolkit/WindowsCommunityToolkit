@@ -621,6 +621,7 @@
     <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionXaml.bind" />
+    <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
