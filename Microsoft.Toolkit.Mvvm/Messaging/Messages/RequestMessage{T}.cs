@@ -15,64 +15,64 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
     public class RequestMessage<T>
     {
         /// <summary>
-        /// An <see cref="object"/> used to synchronize access to <see cref="Result"/> and <see cref="ReportResult"/>.
+        /// An <see cref="object"/> used to synchronize access to <see cref="Response"/> and <see cref="Reply"/>.
         /// </summary>
         private readonly object dummy = new object();
 
-        private T result;
+        private T response;
 
         /// <summary>
         /// Gets the message response.
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when <see cref="IsResponseReceived"/> is <see langword="false"/>.</exception>
-        public T Result
+        /// <exception cref="InvalidOperationException">Thrown when <see cref="HasReceivedResponse"/> is <see langword="false"/>.</exception>
+        public T Response
         {
             get
             {
                 lock (this.dummy)
                 {
-                    if (!this.IsResponseReceived)
+                    if (!this.HasReceivedResponse)
                     {
                         ThrowInvalidOperationExceptionForNoResponseReceived();
                     }
 
-                    return this.result;
+                    return this.response;
                 }
             }
         }
 
         /// <summary>
-        /// Gets a value indicating whether a result has already been assigned to this instance.
+        /// Gets a value indicating whether a response has already been assigned to this instance.
         /// </summary>
-        public bool IsResponseReceived { get; private set; }
+        public bool HasReceivedResponse { get; private set; }
 
         /// <summary>
-        /// Reports a result for the current request message.
+        /// Replies to the current request message.
         /// </summary>
-        /// <param name="result">The result to report for the message.</param>
-        /// <exception cref="InvalidOperationException">Thrown if <see cref="Result"/> has already been set.</exception>
-        public void ReportResult(T result)
+        /// <param name="result">The response to use to reply to the request message.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="Response"/> has already been set.</exception>
+        public void Reply(T result)
         {
             lock (this.dummy)
             {
-                if (this.IsResponseReceived)
+                if (this.HasReceivedResponse)
                 {
-                    ThrowInvalidOperationExceptionForDuplicateReporResult();
+                    ThrowInvalidOperationExceptionForDuplicateReply();
                 }
 
-                this.IsResponseReceived = true;
-                this.result = result;
+                this.HasReceivedResponse = true;
+                this.response = result;
             }
         }
 
         /// <summary>
-        /// Implicitly gets the response from a given <see cref="RequestMessage{T}"/> instance
+        /// Implicitly gets the response from a given <see cref="RequestMessage{T}"/> instance.
         /// </summary>
-        /// <param name="message">The input <see cref="RequestMessage{T}"/> instance</param>
-        /// <exception cref="InvalidOperationException">Thrown when <see cref="IsResponseReceived"/> is <see langword="false"/>.</exception>
+        /// <param name="message">The input <see cref="RequestMessage{T}"/> instance.</param>
+        /// <exception cref="InvalidOperationException">Thrown when <see cref="HasReceivedResponse"/> is <see langword="false"/>.</exception>
         public static implicit operator T(RequestMessage<T> message)
         {
-            return message.Result;
+            return message.Response;
         }
 
         /// <summary>
@@ -84,11 +84,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when <see cref="ReportResult"/> is called twice.
+        /// Throws an <see cref="InvalidOperationException"/> when <see cref="Reply"/> is called twice.
         /// </summary>
-        private static void ThrowInvalidOperationExceptionForDuplicateReporResult()
+        private static void ThrowInvalidOperationExceptionForDuplicateReply()
         {
-            throw new InvalidOperationException("A result has already been reported for the current message");
+            throw new InvalidOperationException("A response has already been issued for the current message");
         }
     }
 }
