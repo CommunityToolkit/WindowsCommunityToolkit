@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UnitTests.XamlIslands": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

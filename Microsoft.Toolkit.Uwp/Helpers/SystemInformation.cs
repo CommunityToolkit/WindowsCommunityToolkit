@@ -12,31 +12,47 @@ using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.UserProfile;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// This class provides info about the app and the system.
     /// </summary>
-    public static class SystemInformation
+    public sealed class SystemInformation
     {
-        private static readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper();
-        private static DateTime _sessionStart;
+        private readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper();
+        private DateTime _sessionStart;
+
+        /// <summary>
+        /// Launches the store app so the user can leave a review.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>This method needs to be called from your UI thread.</remarks>
+        public static async Task LaunchStoreForReviewAsync()
+        {
+            await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
+        }
+
+        /// <summary>
+        /// Gets the unique instance of <see cref="SystemInformation"/>.
+        /// </summary>
+        public static SystemInformation Instance { get; } = new SystemInformation();
 
         /// <summary>
         /// Gets the application's name.
         /// </summary>
-        public static string ApplicationName { get; }
+        public string ApplicationName { get; }
 
         /// <summary>
         /// Gets the application's version.
         /// </summary>
-        public static PackageVersion ApplicationVersion { get; }
+        public PackageVersion ApplicationVersion { get; }
 
         /// <summary>
         /// Gets the user's most preferred culture.
         /// </summary>
-        public static CultureInfo Culture { get; }
+        public CultureInfo Culture { get; }
 
         /// <summary>
         /// Gets the device's family.
@@ -53,98 +69,98 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <para></para>
         /// Prepare your code for other values.
         /// </summary>
-        public static string DeviceFamily { get; }
+        public string DeviceFamily { get; }
 
         /// <summary>
         /// Gets the operating system's name.
         /// </summary>
-        public static string OperatingSystem { get; }
+        public string OperatingSystem { get; }
 
         /// <summary>
         /// Gets the operating system's version.
         /// </summary>
-        public static OSVersion OperatingSystemVersion { get; }
+        public OSVersion OperatingSystemVersion { get; }
 
         /// <summary>
         /// Gets the processor architecture.
         /// </summary>
-        public static ProcessorArchitecture OperatingSystemArchitecture { get; }
+        public ProcessorArchitecture OperatingSystemArchitecture { get; }
 
         /// <summary>
         /// Gets the available memory.
         /// </summary>
-        public static float AvailableMemory => (float)MemoryManager.AppMemoryUsageLimit / 1024 / 1024;
+        public float AvailableMemory => (float)MemoryManager.AppMemoryUsageLimit / 1024 / 1024;
 
         /// <summary>
         /// Gets the device's model.
         /// Will be empty if the model couldn't be determined (For example: when running in a virtual machine).
         /// </summary>
-        public static string DeviceModel { get; }
+        public string DeviceModel { get; }
 
         /// <summary>
         /// Gets the device's manufacturer.
         /// Will be empty if the manufacturer couldn't be determined (For example: when running in a virtual machine).
         /// </summary>
-        public static string DeviceManufacturer { get; }
+        public string DeviceManufacturer { get; }
 
         /// <summary>
         /// Gets a value indicating whether the app is being used for the first time since it was installed.
         /// Use this to tell if you should do or display something different for the app's first use.
         /// </summary>
-        public static bool IsFirstRun { get; }
+        public bool IsFirstRun { get; }
 
         /// <summary>
         /// Gets a value indicating whether the app is being used for the first time since being upgraded from an older version.
         /// Use this to tell if you should display details about what has changed.
         /// </summary>
-        public static bool IsAppUpdated { get; }
+        public bool IsAppUpdated { get; }
 
         /// <summary>
         /// Gets the first version of the app that was installed.
         /// This will be the current version if a previous verison of the app was installed before accessing this property.
         /// </summary>
-        public static PackageVersion FirstVersionInstalled { get; }
+        public PackageVersion FirstVersionInstalled { get; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) when the app was launched for the first time.
         /// </summary>
-        public static DateTime FirstUseTime { get; }
+        public DateTime FirstUseTime { get; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) when the app was last launched, not including this instance.
         /// Will be <see cref="DateTime.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
-        public static DateTime LastLaunchTime { get; private set; }
+        public DateTime LastLaunchTime { get; private set; }
 
         /// <summary>
         /// Gets the number of times the app has been launched.
         /// Will be <c>0</c> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
-        public static long LaunchCount { get; private set; }
+        public long LaunchCount { get; private set; }
 
         /// <summary>
         /// Gets the number of times the app has been launched.
         /// Will be <c>0</c> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
-        public static long TotalLaunchCount { get; private set; }
+        public long TotalLaunchCount { get; private set; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) that this instance of the app was launched.
         /// Will be <see cref="DateTime.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
-        public static DateTime LaunchTime { get; private set; }
+        public DateTime LaunchTime { get; private set; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) when the launch count was last reset.
         /// Will be <see cref="DateTime.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
-        public static DateTime LastResetTime { get; private set; }
+        public DateTime LastResetTime { get; private set; }
 
         /// <summary>
         /// Gets the length of time this instance of the app has been running.
         /// Will be <see cref="TimeSpan.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
-        public static TimeSpan AppUptime
+        public TimeSpan AppUptime
         {
             get
             {
@@ -156,10 +172,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                     return new TimeSpan(uptimeSoFar + subsessionLength);
                 }
-                else
-                {
-                    return TimeSpan.MinValue;
-                }
+
+                return TimeSpan.MinValue;
             }
         }
 
@@ -167,7 +181,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Tracks information about the app's launch.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        public static void TrackAppUse(LaunchActivatedEventArgs args)
+        /// <param name="xamlRoot">The XamlRoot object from your visual tree.</param>
+        public void TrackAppUse(IActivatedEventArgs args, XamlRoot xamlRoot = null)
         {
             if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
              || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
@@ -200,34 +215,42 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     : DateTime.MinValue;
             }
 
-            void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+            if (xamlRoot != null)
             {
-                if (e.Visible)
+                void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs e)
                 {
-                    _sessionStart = DateTime.UtcNow;
+                    UpdateVisibility(sender.IsHostVisible);
                 }
-                else
-                {
-                    var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
-                    var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
-
-                    _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subsessionLength);
-                }
+                xamlRoot.Changed -= XamlRoot_Changed;
+                xamlRoot.Changed += XamlRoot_Changed;
             }
+            else
+            {
+                void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+                {
+                    UpdateVisibility(e.Visible);
+                }
 
-            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
-            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
+                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+            }
         }
 
-        /// <summary>
-        /// Launches the store app so the user can leave a review.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <remarks>This method needs to be called from your UI thread.</remarks>
-        public static async Task LaunchStoreForReviewAsync()
+        private void UpdateVisibility(bool visible)
         {
-            await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
+            if (visible)
+            {
+                _sessionStart = DateTime.UtcNow;
+            }
+            else
+            {
+                var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+
+                var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
+
+                _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subsessionLength);
+            }
         }
 
         /// <summary>
@@ -235,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Use this to optionally include time spent in background tasks or extended execution.
         /// </summary>
         /// <param name="duration">The amount to time to add</param>
-        public static void AddToAppUptime(TimeSpan duration)
+        public void AddToAppUptime(TimeSpan duration)
         {
             var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
             _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + duration.Ticks);
@@ -244,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Resets the launch count.
         /// </summary>
-        public static void ResetLaunchCount()
+        public void ResetLaunchCount()
         {
             LastResetTime = DateTime.UtcNow;
             LaunchCount = 0;
@@ -254,9 +277,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Initializes static members of the <see cref="SystemInformation"/> class.
+        /// Initializes a new instance of the <see cref="SystemInformation"/> class.
         /// </summary>
-        static SystemInformation()
+        private SystemInformation()
         {
             ApplicationName = Package.Current.DisplayName;
             ApplicationVersion = Package.Current.Id.Version;
@@ -290,7 +313,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             InitializeValuesSetWithTrackAppUse();
         }
 
-        private static bool DetectIfFirstUse()
+        private bool DetectIfFirstUse()
         {
             if (_localObjectStorageHelper.KeyExists(nameof(IsFirstRun)))
             {
@@ -303,7 +326,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
         }
 
-        private static bool DetectIfAppUpdated()
+        private bool DetectIfAppUpdated()
         {
             var currentVersion = ApplicationVersion.ToFormattedString();
 
@@ -324,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return false;
         }
 
-        private static DateTime DetectFirstUseTime()
+        private DateTime DetectFirstUseTime()
         {
             DateTime result;
 
@@ -342,7 +365,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return result;
         }
 
-        private static PackageVersion DetectFirstVersionInstalled()
+        private PackageVersion DetectFirstVersionInstalled()
         {
             PackageVersion result;
 
@@ -359,7 +382,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return result;
         }
 
-        private static void InitializeValuesSetWithTrackAppUse()
+        private void InitializeValuesSetWithTrackAppUse()
         {
             LaunchTime = DateTime.MinValue;
             LaunchCount = 0;

@@ -119,7 +119,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Menu_LostFocus(object sender, RoutedEventArgs e)
         {
-            var menuItem = FocusManager.GetFocusedElement() as MenuItem;
+            MenuItem menuItem;
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                menuItem = FocusManager.GetFocusedElement(XamlRoot) as MenuItem;
+            }
+            else
+            {
+                menuItem = FocusManager.GetFocusedElement() as MenuItem;
+            }
 
             if (AllowTooltip)
             {
@@ -145,7 +153,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _lastFocusElement = FocusManager.GetFocusedElement() as Control;
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                _lastFocusElement = FocusManager.GetFocusedElement(XamlRoot) as Control;
+            }
+            else
+            {
+                _lastFocusElement = FocusManager.GetFocusedElement() as Control;
+            }
 
             if (args.KeyStatus.ScanCode != AltScanCode)
             {

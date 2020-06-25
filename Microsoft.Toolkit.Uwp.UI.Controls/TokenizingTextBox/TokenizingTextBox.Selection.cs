@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool MoveFocusAndSelection(MoveDirection direction)
         {
             bool retVal = false;
-            var currentContainerItem = FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
+            var currentContainerItem = GetCurrentContainerItem();
 
             if (currentContainerItem != null)
             {
@@ -121,6 +121,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return retVal;
+        }
+
+        private TokenizingTextBoxItem GetCurrentContainerItem()
+        {
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot) as TokenizingTextBoxItem;
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
+            }
         }
 
         internal void SelectAllTokensAndText()
@@ -245,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>async task</returns>
         internal async Task RemoveAllSelectedTokens()
         {
-            var currentContainerItem = FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
+            var currentContainerItem = GetCurrentContainerItem();
 
             while (SelectedItems.Count > 0)
             {
