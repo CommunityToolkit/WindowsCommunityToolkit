@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -42,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         [Pure]
         public static T Convert<T>(Task<T> task)
         {
-            return task.ResultOrDefault();
+            return task.IsCompletedSuccessfully ? task.Result : default;
         }
 
         /// <inheritdoc/>
@@ -56,10 +55,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             }
 
             Type taskType = task.GetType();
-            Type[] typeArguments = taskType.GetGenericArguments();
 
             // Check if the task is actually some Task<T>
-            if (typeArguments.Length != 1)
+            if (!taskType.IsGenericType ||
+                taskType.GetGenericTypeDefinition() != typeof(Task<>))
             {
                 return null;
             }
