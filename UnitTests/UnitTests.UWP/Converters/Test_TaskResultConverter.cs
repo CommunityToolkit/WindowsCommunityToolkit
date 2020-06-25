@@ -14,6 +14,7 @@ namespace UnitTests.Converters
     [TestClass]
     public class Test_TaskResultConverter
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestCategory("Converters")]
         [UITestMethod]
         [ExpectedException(typeof(NotImplementedException))]
@@ -21,6 +22,7 @@ namespace UnitTests.Converters
         {
             _ = TaskResultConverter.Convert(Task.CompletedTask);
         }
+#pragma warning restore CS0618
 
         [TestCategory("Converters")]
         [UITestMethod]
