@@ -538,7 +538,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == Windows.System.VirtualKey.Left)
             {
                 e.Handled = true;
-                if (FocusManager.GetFocusedElement() is ContentControl currentEllement)
+                if (GetFocusedElement() is ContentControl currentEllement)
                 {
                     var index = ItemsPanelRoot.Children.IndexOf(currentEllement);
                     var nextIndex = (index + 1) % Items.Count;
@@ -549,13 +549,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (e.Key == Windows.System.VirtualKey.Right)
             {
                 e.Handled = true;
-                if (FocusManager.GetFocusedElement() is ContentControl currentEllement)
+                if (GetFocusedElement() is ContentControl currentEllement)
                 {
                     var index = ItemsPanelRoot.Children.IndexOf(currentEllement);
                     var nextIndex = index > 0 ? index - 1 : Items.Count - 1;
 
                     (ItemsPanelRoot.Children.ElementAt(nextIndex) as ContentControl).Focus(FocusState.Keyboard);
                 }
+            }
+        }
+
+        private object GetFocusedElement()
+        {
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
             }
         }
 

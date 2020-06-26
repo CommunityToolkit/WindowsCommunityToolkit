@@ -87,13 +87,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             selection.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out string labeltext);
             labelBox.Document.SetText(Microsoft.UI.Text.TextSetOptions.FormatRtf, labeltext);
 
-            var result = await new ContentDialog
+            var contentDialog = new ContentDialog
             {
                 Title = StringExtensions.GetLocalized("TextToolbarStrings_CreateLinkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Content = contentPanel,
                 PrimaryButtonText = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 SecondaryButtonText = StringExtensions.GetLocalized("TextToolbarStrings_CancelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
-            }.ShowAsync();
+            };
+
+            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            {
+                contentDialog.XamlRoot = button.XamlRoot;
+            }
+
+            var result = await contentDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -107,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
                 if (string.IsNullOrWhiteSpace(linkText))
                 {
-                    ShowContentDialog(warningLabel, linkInvalidLabel, okLabel);
+                    ShowContentDialog(warningLabel, linkInvalidLabel, okLabel, button);
                     return;
                 }
 
@@ -116,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                     var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
                     if (!wellFormed)
                     {
-                        ShowContentDialog(warningLabel, linkInvalidLabel, okLabel);
+                        ShowContentDialog(warningLabel, linkInvalidLabel, okLabel, button);
                         return;
                     }
                 }
@@ -125,20 +132,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-        /// <summary>
-        /// Opens a <see cref="ContentDialog"/> to notify the user about empty and whitespace inputs.
-        /// </summary>
-        /// <param name="title">The <see cref="string"/> </param>
-        /// <param name="content">The <see cref="string"/> of the ContentDialog</param>
-        /// <param name="primaryButtonText">The <see cref="string"/> content of the primary button</param>
-        private async void ShowContentDialog(string title, string content, string primaryButtonText)
+        private async void ShowContentDialog(string title, string content, string primaryButtonText, ToolbarButton button)
         {
-            await new ContentDialog
+            var contentDialog = new ContentDialog
             {
                 Title = title,
                 Content = content,
                 PrimaryButtonText = primaryButtonText
-            }.ShowAsync();
+            };
+
+            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            {
+                contentDialog.XamlRoot = button.XamlRoot;
+            }
+
+            await contentDialog.ShowAsync();
         }
     }
 }

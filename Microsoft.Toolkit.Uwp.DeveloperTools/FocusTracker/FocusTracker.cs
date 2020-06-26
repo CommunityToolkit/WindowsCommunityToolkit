@@ -106,7 +106,16 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
 
         private void UpdateTimer_Tick(object sender, object e)
         {
-            var focusedControl = FocusManager.GetFocusedElement() as FrameworkElement;
+            FrameworkElement focusedControl;
+
+            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && XamlRoot != null)
+            {
+                focusedControl = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+            }
+            else
+            {
+                focusedControl = FocusManager.GetFocusedElement() as FrameworkElement;
+            }
 
             if (focusedControl == null)
             {

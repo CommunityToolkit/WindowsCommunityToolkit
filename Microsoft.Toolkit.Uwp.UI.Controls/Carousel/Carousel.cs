@@ -257,7 +257,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void FocusContainerFromIndex(int index)
         {
-            var oldElem = FocusManager.GetFocusedElement() as ContentControl;
+            ContentControl oldElem;
+
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                oldElem = FocusManager.GetFocusedElement(XamlRoot) as ContentControl;
+            }
+            else
+            {
+                oldElem = FocusManager.GetFocusedElement() as ContentControl;
+            }
+
             var newElem = ContainerFromIndex(index) as ContentControl;
 
             if (oldElem == newElem)

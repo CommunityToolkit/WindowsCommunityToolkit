@@ -5728,7 +5728,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Walk up the visual tree of the newly focused element
                 // to determine if focus is still within DataGrid.
-                object focusedObject = FocusManager.GetFocusedElement();
+                object focusedObject = GetFocusedElement();
                 DependencyObject focusedDependencyObject = focusedObject as DependencyObject;
 
                 while (focusedDependencyObject != null)
@@ -5791,6 +5791,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         focusedElement.LostFocus += new RoutedEventHandler(ExternalEditingElement_LostFocus);
                     }
                 }
+            }
+        }
+
+        private object GetFocusedElement()
+        {
+            if (TypeHelper.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
             }
         }
 
@@ -5999,7 +6011,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // TODO: Figure out if we should restore a cached this.IsTabStop.
                 this.IsTabStop = true;
-                if (keepFocus && editingElement.ContainsFocusedElement())
+                if (keepFocus && editingElement.ContainsFocusedElement(this))
                 {
                     this.Focus(FocusState.Programmatic);
                 }
@@ -6238,7 +6250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _previousAutomationFocusCoordinates = new DataGridCellCoordinates(this.CurrentCellCoordinates);
 
                 // If the DataGrid itself has focus, we want to move automation focus to the new current element
-                object focusedObject = FocusManager.GetFocusedElement();
+                object focusedObject = GetFocusedElement();
                 if (focusedObject == this && AutomationPeer.ListenerExists(AutomationEvents.AutomationFocusChanged))
                 {
                     peer.RaiseAutomationFocusChangedEvent(this.CurrentSlot, this.CurrentColumnIndex);
@@ -6293,7 +6305,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGridCell dataGridCell = this.EditingRow.Cells[_editingColumnIndex];
             if (setFocus)
             {
-                if (dataGridCell.ContainsFocusedElement())
+                if (dataGridCell.ContainsFocusedElement(this))
                 {
                     success = true;
                 }
@@ -7056,7 +7068,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // If Enter was used by a TextBox, we shouldn't handle the key
-                TextBox focusedTextBox = FocusManager.GetFocusedElement() as TextBox;
+                TextBox focusedTextBox = GetFocusedElement() as TextBox;
                 if (focusedTextBox != null && focusedTextBox.AcceptsReturn)
                 {
                     return false;

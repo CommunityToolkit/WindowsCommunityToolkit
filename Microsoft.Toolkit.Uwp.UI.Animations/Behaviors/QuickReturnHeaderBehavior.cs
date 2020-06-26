@@ -258,7 +258,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             var scroller = (ScrollViewer)sender;
 
-            var focusedElement = FocusManager.GetFocusedElement();
+            object focusedElement;
+            if (ApiInformationHelper.IsXamlRootAvailable && scroller.XamlRoot != null)
+            {
+                focusedElement = FocusManager.GetFocusedElement(scroller.XamlRoot);
+            }
+            else
+            {
+                focusedElement = FocusManager.GetFocusedElement();
+            }
 
             if (focusedElement is UIElement element)
             {
