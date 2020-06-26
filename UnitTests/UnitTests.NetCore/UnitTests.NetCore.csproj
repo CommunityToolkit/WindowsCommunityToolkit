@@ -12,6 +12,11 @@
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
   </ItemGroup>
 
+  <!-- Workaround for the .NET Core 2.1 binary not resolving the Unsafe assembly properly -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
   </ItemGroup>
