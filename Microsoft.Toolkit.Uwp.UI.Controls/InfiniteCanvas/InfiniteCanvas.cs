@@ -181,13 +181,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, ViewPortWidth, ViewPortHeight);
 
-        private double ViewPortHeight => (double.IsNaN(_infiniteCanvasScrollViewer.Height)
-            ? Window.Current.Bounds.Height
-            : _infiniteCanvasScrollViewer.ViewportHeight) / _infiniteCanvasScrollViewer.ZoomFactor;
+        private double ViewPortHeight
+        {
+            get
+            {
+                double height;
+                if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
+                {
+                    if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                    {
+                        height = _infiniteCanvasScrollViewer.XamlRoot.Size.Height;
+                    }
+                    else
+                    {
+                        height = Window.Current.Bounds.Height;
+                    }
+                }
+                else
+                {
+                    height = _infiniteCanvasScrollViewer.ViewportHeight;
+                }
 
-        private double ViewPortWidth => (double.IsNaN(_infiniteCanvasScrollViewer.Width)
-            ? Window.Current.Bounds.Width
-            : _infiniteCanvasScrollViewer.ViewportWidth) / _infiniteCanvasScrollViewer.ZoomFactor;
+                return height / _infiniteCanvasScrollViewer.ZoomFactor;
+            }
+        }
+
+        private double ViewPortWidth
+        {
+            get
+            {
+                double width;
+                if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
+                {
+                    if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                    {
+                        width = _infiniteCanvasScrollViewer.XamlRoot.Size.Width;
+                    }
+                    else
+                    {
+                        width = Window.Current.Bounds.Width;
+                    }
+                }
+                else
+                {
+                    width = _infiniteCanvasScrollViewer.ViewportWidth;
+                }
+
+                return width / _infiniteCanvasScrollViewer.ZoomFactor;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InfiniteCanvas"/> class.
@@ -227,12 +269,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
             {
-                _infiniteCanvasScrollViewer.Width = Window.Current.Bounds.Width;
+                if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                {
+                    _infiniteCanvasScrollViewer.Width = _infiniteCanvasScrollViewer.XamlRoot.Size.Width;
+                }
+                else
+                {
+                    _infiniteCanvasScrollViewer.Width = Window.Current.Bounds.Width;
+                }
             }
 
             if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
             {
-                _infiniteCanvasScrollViewer.Height = Window.Current.Bounds.Height;
+                if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                {
+                    _infiniteCanvasScrollViewer.Height = _infiniteCanvasScrollViewer.XamlRoot.Size.Height;
+                }
+                else
+                {
+                    _infiniteCanvasScrollViewer.Height = Window.Current.Bounds.Height;
+                }
             }
 
             base.OnApplyTemplate();

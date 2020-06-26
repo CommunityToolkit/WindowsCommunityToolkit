@@ -812,14 +812,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/PrintHelper.md"
       },
       {
-        "Name": "DispatcherHelper",
-        "Type": "DispatcherHelperPage",
+        "Name": "DispatcherQueueHelper",
+        "Type": "DispatcherQueueHelperPage",
         "Subcategory": "Developer",
-        "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs",
-        "CodeFile": "DispatcherHelperCode.bind",
+        "About": "Allows easy interaction with Windows Runtime message dispatcher queue for multi-threaded scenario (I.E: Run code on UI thread).",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherQueueHelper.cs",
+        "CodeFile": "DispatcherQueueHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/DispatcherHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/DispatcherQueueHelper.md"
       },
       {
         "Name": "AdvancedCollectionView",
