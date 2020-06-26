@@ -30,6 +30,24 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <code>
     /// Messenger.Default.Send&lt;LoginCompletedMessage&gt;();
     /// </code>
+    /// Additionally, the method group syntax can also be used to specify the action
+    /// to invoke when receiving a message, if a method with the right signature is available
+    /// in the current scope. This is helpful to keep the registration and handling logic separate.
+    /// Following up from the previous example, consider a class having this method:
+    /// <code>
+    /// private void Receive(LoginCompletedMessage message)
+    /// {
+    ///     // Handle the message there
+    /// }
+    /// </code>
+    /// The registration can then be performed in a single line like so:
+    /// <code>
+    /// Messenger.Default.Register&lt;LoginCompletedMessage&gt;(this, Receive);
+    /// </code>
+    /// The C# compiler will automatically convert that expression to an <see cref="Action{T}"/> instance
+    /// compatible with the <see cref="MessengerExtensions.Register{T}(IMessenger,object,Action{T})"/> method.
+    /// This will also work if multiple overloads of that method are available, each handling a different
+    /// message type: the C# compiler will automatically pick the right one for the current message type.
     /// For info on the other available features, check the <see cref="IMessenger"/> interface.
     /// </summary>
     public sealed class Messenger : IMessenger
