@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.Mvvm
 {
     [TestClass]
-    public class Test_Messenger
+    public partial class Test_Messenger
     {
         [TestCategory("Mvvm")]
         [TestMethod]
