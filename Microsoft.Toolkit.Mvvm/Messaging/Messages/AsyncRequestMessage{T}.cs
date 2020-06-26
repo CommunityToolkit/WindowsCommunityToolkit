@@ -3,29 +3,31 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-
-#pragma warning disable CS8618
+using System.ComponentModel;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
 {
     /// <summary>
-    /// A <see langword="class"/> for request messages, which can either be used directly or through derived classes.
+    /// A <see langword="class"/> for async request messages, which can either be used directly or through derived classes.
     /// </summary>
     /// <typeparam name="T">The type of request to make.</typeparam>
-    public class RequestMessage<T>
+    public class AsyncRequestMessage<T>
     {
         /// <summary>
         /// An <see cref="object"/> used to synchronize access to <see cref="Response"/> and <see cref="Reply"/>.
         /// </summary>
         private readonly object dummy = new object();
 
-        private T response;
+        private Task<T>? response;
 
         /// <summary>
         /// Gets the message response.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when <see cref="HasReceivedResponse"/> is <see langword="false"/>.</exception>
-        public T Response
+        public Task<T> Response
         {
             get
             {
@@ -36,7 +38,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
                         ThrowInvalidOperationExceptionForNoResponseReceived();
                     }
 
-                    return this.response;
+                    return this.response!;
                 }
             }
         }
@@ -53,6 +55,16 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <exception cref="InvalidOperationException">Thrown if <see cref="Response"/> has already been set.</exception>
         public void Reply(T response)
         {
+            Reply(Task.FromResult(response));
+        }
+
+        /// <summary>
+        /// Replies to the current request message.
+        /// </summary>
+        /// <param name="response">The response to use to reply to the request message.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <see cref="Response"/> has already been set.</exception>
+        public void Reply(Task<T> response)
+        {
             lock (this.dummy)
             {
                 if (this.HasReceivedResponse)
@@ -65,14 +77,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
             }
         }
 
-        /// <summary>
-        /// Implicitly gets the response from a given <see cref="RequestMessage{T}"/> instance.
-        /// </summary>
-        /// <param name="message">The input <see cref="RequestMessage{T}"/> instance.</param>
-        /// <exception cref="InvalidOperationException">Thrown when <see cref="HasReceivedResponse"/> is <see langword="false"/>.</exception>
-        public static implicit operator T(RequestMessage<T> message)
+        /// <inheritdoc cref="Task{T}.GetAwaiter"/>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public TaskAwaiter<T> GetAwaiter()
         {
-            return message.Response;
+            return this.Response.GetAwaiter();
         }
 
         /// <summary>
@@ -84,7 +95,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when <see cref="Reply"/> is called twice.
+        /// Throws an <see cref="InvalidOperationException"/> when <see cref="Reply(T)"/> or <see cref="Reply(Task{T})"/> are called twice.
         /// </summary>
         private static void ThrowInvalidOperationExceptionForDuplicateReply()
         {
