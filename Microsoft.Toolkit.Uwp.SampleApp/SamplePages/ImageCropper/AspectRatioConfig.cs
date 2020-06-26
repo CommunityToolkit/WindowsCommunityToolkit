@@ -8,6 +8,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public string Name { get; set; }
 
-        public float? AspectRatio { get; set; }
+        public double? AspectRatio { get; set; }
     }
 }

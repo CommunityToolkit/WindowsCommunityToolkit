@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (!_cachedBladeItemSizes.ContainsKey(bladeItem))
                     {
                         // Execute change of blade item size when a blade item is added in Fullscreen mode
-                        _cachedBladeItemSizes.Add(bladeItem, new Size((float)bladeItem.Width, (float)bladeItem.Height));
+                        _cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
                         AdjustBladeItemSize();
                     }
                 }

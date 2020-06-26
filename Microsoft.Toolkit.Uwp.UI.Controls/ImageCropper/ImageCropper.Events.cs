@@ -137,8 +137,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var imageCropperThumb = (ImageCropperThumb)sender;
             var currentPointerPosition = new Point(
-                (float)imageCropperThumb.X + e.Position.X + e.Delta.Translation.X - ((float)imageCropperThumb.ActualWidth / 2),
-                (float)imageCropperThumb.Y + e.Position.Y + e.Delta.Translation.Y - ((float)imageCropperThumb.ActualHeight / 2));
+                imageCropperThumb.X + e.Position.X + e.Delta.Translation.X - (imageCropperThumb.ActualWidth / 2),
+                imageCropperThumb.Y + e.Position.Y + e.Delta.Translation.Y - (imageCropperThumb.ActualHeight / 2));
             var safePosition = GetSafePoint(_restrictedSelectRect, currentPointerPosition);
             var safeDiffPoint = new Point(safePosition.X - (float)imageCropperThumb.X, safePosition.Y - (float)imageCropperThumb.Y);
             UpdateCroppedRect(imageCropperThumb.Position, safeDiffPoint);

@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Identifies the <see cref="Center"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CenterProperty =
-            DependencyProperty.Register(nameof(Center), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5f, 0.5f), new PropertyChangedCallback(OnPropertyChanged)));
+            DependencyProperty.Register(nameof(Center), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5, 0.5), new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the location of the two-dimensional focal point that defines the beginning of the gradient.  The default is 0.5,0.5.
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Identifies the <see cref="GradientOrigin"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty GradientOriginProperty =
-            DependencyProperty.Register(nameof(GradientOrigin), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5f, 0.5f), new PropertyChangedCallback(OnPropertyChanged)));
+            DependencyProperty.Register(nameof(GradientOrigin), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5, 0.5), new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the horizontal radius of the outermost circle of the radial gradient.  The default is 0.5.

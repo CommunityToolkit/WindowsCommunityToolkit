@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CanvasTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            SelectedTextDrawable?.UpdateBounds((float)_canvasTextBox.ActualWidth, (float)_canvasTextBox.ActualHeight);
+            SelectedTextDrawable?.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
         }
 
         private void CanvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)

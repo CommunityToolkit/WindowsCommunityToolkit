@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     foreach (var item in bladeView.Items)
                     {
                         var bladeItem = bladeView.GetBladeItem(item);
-                        bladeView._cachedBladeItemSizes.Add(bladeItem, new Size((float)bladeItem.Width, (float)bladeItem.Height));
+                        bladeView._cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
                     }
                 }
 

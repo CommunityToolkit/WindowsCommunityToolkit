@@ -23,8 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard storyboard = new Storyboard();
 
         // temp size
-        private float desiredWidth;
-        private float desiredHeight;
+        private double desiredWidth;
+        private double desiredHeight;
 
         private Carousel carouselControl;
 
@@ -229,8 +229,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Return carousel size</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            var containerWidth = 0f;
-            var containerHeight = 0f;
+            var containerWidth = 0d;
+            var containerHeight = 0d;
 
             foreach (FrameworkElement container in Children)
             {
@@ -248,8 +248,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // It's a Auto size, so we define the size should be 3 items
-            float width;
-            if (float.IsInfinity(availableSize.Width))
+            double width;
+            if (double.IsInfinity(availableSize.Width))
             {
                 width = Carousel.Orientation == Orientation.Horizontal ? containerWidth * (Children.Count > 3 ? 3 : Children.Count) : containerWidth;
             }
@@ -259,8 +259,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // It's a Auto size, so we define the size should be 3 items
-            float height;
-            if (float.IsInfinity(availableSize.Height))
+            double height;
+            if (double.IsInfinity(availableSize.Height))
             {
                 height = Carousel.Orientation == Orientation.Vertical ? containerHeight * (Children.Count > 3 ? 3 : Children.Count) : containerHeight;
             }
@@ -280,8 +280,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Return an item size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            float centerLeft = 0;
-            float centerTop = 0;
+            double centerLeft = 0;
+            double centerTop = 0;
 
             Clip = new RectangleGeometry { Rect = new Rect(0, 0, finalSize.Width, finalSize.Height) };
 
@@ -397,7 +397,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var relativePosition = Math.Abs(newPosition);
 
             // max Depth
-            double depth = -Carousel.ItemDepth;
+            double depth = (double)-Carousel.ItemDepth;
 
             // rotations
             var rotationX = Carousel.ItemRotationX;
@@ -439,7 +439,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var widthOrHeight = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;
 
             // calculate the position with the margin applied
-            float position = relativeIndex * (widthOrHeight + margin);
+            double position = relativeIndex * (widthOrHeight + margin);
 
             // Depth orientation
             var depth = relativeIndex == 0 ? 0 : -Carousel.ItemDepth;

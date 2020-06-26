@@ -131,8 +131,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            availableSize.Width = (float)(availableSize.Width - Padding.Left - Padding.Right);
-            availableSize.Height = (float)(availableSize.Height - Padding.Top - Padding.Bottom);
+            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
+            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, (float)HorizontalSpacing, (float)VerticalSpacing);
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // if this is the first item, do not add spacing. Spacing is added to the "left"
-                float uChange = lineMeasure.U == 0
+                double uChange = lineMeasure.U == 0
                     ? currentMeasure.U
                     : currentMeasure.U + spacingMeasure.U;
                 if (parentMeasure.U >= uChange + lineMeasure.U)
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
             totalMeasure.V += lineMeasure.V;
 
-            totalMeasure.U = (float)Math.Ceiling(totalMeasure.U);
+            totalMeasure.U = Math.Ceiling(totalMeasure.U);
 
             return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
         }
@@ -202,12 +202,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (Children.Count > 0)
             {
                 var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-                var spacingMeasure = new UvMeasure(Orientation, (float)HorizontalSpacing, (float)VerticalSpacing);
-                var paddingStart = new UvMeasure(Orientation, (float)Padding.Left, (float)Padding.Top);
-                var paddingEnd = new UvMeasure(Orientation, (float)Padding.Right, (float)Padding.Bottom);
-                var position = new UvMeasure(Orientation, (float)Padding.Left, (float)Padding.Top);
+                var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+                var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
+                var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
+                var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
-                float currentV = 0;
+                double currentV = 0;
                 void Arrange(UIElement child, bool isLast = false)
                 {
                     var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);

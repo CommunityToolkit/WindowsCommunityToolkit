@@ -43,14 +43,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TextChanged?.Invoke(this, _editZone.Text);
         }
 
-        internal float GetEditZoneWidth()
+        internal double GetEditZoneWidth()
         {
-            return (float)_editZone.ActualWidth;
+            return _editZone.ActualWidth;
         }
 
-        internal float GetEditZoneHeight()
+        internal double GetEditZoneHeight()
         {
-            return (float)_editZone.ActualHeight;
+            return _editZone.ActualHeight;
         }
 
         internal void Clear()

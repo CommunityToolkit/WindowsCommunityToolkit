@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             foreach (var child in ContentChildren)
             {
                 var columnIndex = Grid.GetColumn(child);
-                child.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 naturalColumnWidths[columnIndex] = Math.Max(naturalColumnWidths[columnIndex], child.DesiredSize.Width);
             }
 
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             {
                 var columnIndex = Grid.GetColumn(child);
                 var rowIndex = Grid.GetRow(child);
-                child.Measure(new Size((float)_columnWidths[columnIndex], float.PositiveInfinity));
+                child.Measure(new Size(_columnWidths[columnIndex], double.PositiveInfinity));
                 _rowHeights[rowIndex] = Math.Max(_rowHeights[rowIndex], child.DesiredSize.Height);
             }
 
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // Arrange vertical border elements.
             {
                 int colIndex = 0;
-                float x = 0;
+                double x = 0;
                 foreach (var borderLine in VerticalLines)
                 {
                     borderLine.Arrange(new Rect(x, 0, (float)_borderThickness, finalSize.Height));
@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // Arrange horizontal border elements.
             {
                 int rowIndex = 0;
-                float y = 0;
+                double y = 0;
                 foreach (var borderLine in HorizontalLines)
                 {
                     borderLine.Arrange(new Rect(0, y, finalSize.Width, (float)_borderThickness));

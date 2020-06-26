@@ -754,7 +754,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetGaugeValueFromPoint(Point p)
         {
-            var pt = new Point((float)(p.X - (ActualWidth / 2)), (float)(-p.Y + (ActualHeight / 2)));
+            var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
 
             var angle = Math.Atan2(pt.X, pt.Y) / Degrees2Radians;
             var divider = Mod(NormalizedMaxAngle - NormalizedMinAngle, 360);
@@ -775,7 +775,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Point ScalePoint(double angle, double middleOfScale)
         {
-            return new Point((float)(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale)), (float)(100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale)));
+            return new Point(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
         }
 
         private double ValueToAngle(double value)

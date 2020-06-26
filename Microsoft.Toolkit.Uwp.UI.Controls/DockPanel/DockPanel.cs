@@ -43,14 +43,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return finalSize;
             }
 
-            var currentBounds = new Rect((float)Padding.Left, (float)Padding.Top, (float)(finalSize.Width - Padding.Right), (float)(finalSize.Height - Padding.Bottom));
+            var currentBounds = new Rect(Padding.Left, Padding.Top, finalSize.Width - Padding.Right, finalSize.Height - Padding.Bottom);
             var childrenCount = LastChildFill ? Children.Count - 1 : Children.Count;
 
             for (var index = 0; index < childrenCount; index++)
             {
                 var child = Children[index];
                 var dock = (Dock)child.GetValue(DockProperty);
-                float width, height;
+                double width, height;
                 switch (dock)
                 {
                     case Dock.Left:
@@ -99,10 +99,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            var parentWidth = 0.0f;
-            var parentHeight = 0.0f;
-            var accumulatedWidth = (float)(Padding.Left + Padding.Right);
-            var accumulatedHeight = (float)(Padding.Top + Padding.Bottom);
+            var parentWidth = 0.0;
+            var parentHeight = 0.0;
+            var accumulatedWidth = Padding.Left + Padding.Right;
+            var accumulatedHeight = Padding.Top + Padding.Bottom;
 
             foreach (var child in Children)
             {
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return new Size(parentWidth, parentHeight);
         }
 
-        private static float GetPositiveOrZero(float value)
+        private static double GetPositiveOrZero(double value)
         {
             return Math.Max(value, 0);
         }

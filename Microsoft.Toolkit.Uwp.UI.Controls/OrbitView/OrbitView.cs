@@ -317,7 +317,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 element.SetValue(AutomationProperties.NameProperty, orbitViewDataItem.Label);
                 if (orbitViewDataItem.Diameter >= 0)
                 {
-                    var diameter = Math.Min(orbitViewDataItem.Diameter, 1d);
+                    double diameter = Math.Min(orbitViewDataItem.Diameter, 1d);
                     orbitViewElement.Width = orbitViewElement.Height = (diameter * (MaxItemSize - MinItemSize)) + MinItemSize;
                 }
             }

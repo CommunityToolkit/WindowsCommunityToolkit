@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
         {
             if (element.DesiredSize.Height == 0)
             {
-                element.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                element.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             }
 
             return element;

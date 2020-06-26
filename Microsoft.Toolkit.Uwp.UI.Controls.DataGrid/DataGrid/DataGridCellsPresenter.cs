@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
                 if (cell.Visibility == Visibility.Visible)
                 {
-                    cell.Arrange(new Rect((float)cellLeftEdge, 0, (float)column.LayoutRoundedWidth, finalSize.Height));
+                    cell.Arrange(new Rect(cellLeftEdge, 0, column.LayoutRoundedWidth, finalSize.Height));
                     EnsureCellClip(cell, column.ActualWidth, finalSize.Height, frozenLeftEdge, scrollingLeftEdge);
                 }
 
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             _fillerLeftEdge = scrollingLeftEdge;
 
             // FillerColumn.Width == 0 when the filler column is not active
-            this.OwningRow.FillerCell.Arrange(new Rect((float)_fillerLeftEdge, 0, (float)this.OwningGrid.ColumnsInternal.FillerColumn.FillerWidth, finalSize.Height));
+            this.OwningRow.FillerCell.Arrange(new Rect(_fillerLeftEdge, 0, this.OwningGrid.ColumnsInternal.FillerColumn.FillerWidth, finalSize.Height));
 
             return finalSize;
         }
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 RectangleGeometry rg = new RectangleGeometry();
                 double xClip = Math.Round(Math.Min(width, frozenLeftEdge - cellLeftEdge));
-                rg.Rect = new Rect((float)xClip, 0, (float)Math.Max(0, width - xClip), (float)height);
+                rg.Rect = new Rect(xClip, 0, Math.Max(0, width - xClip), height);
                 cell.Clip = rg;
             }
             else
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 this.OwningRow.FillerCell.Visibility = newVisibility;
                 if (newVisibility == Visibility.Visible)
                 {
-                    this.OwningRow.FillerCell.Arrange(new Rect((float)_fillerLeftEdge, 0, (float)fillerColumn.FillerWidth, (float)this.ActualHeight));
+                    this.OwningRow.FillerCell.Arrange(new Rect(_fillerLeftEdge, 0, fillerColumn.FillerWidth, this.ActualHeight));
                 }
             }
 
@@ -244,14 +244,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     // If we're auto-growing the column based on the cell content, we want to measure it at its maximum value
                     if (autoGrowWidth)
                     {
-                        cell.Measure(new Size((float)column.ActualMaxWidth, (float)measureHeight));
+                        cell.Measure(new Size(column.ActualMaxWidth, measureHeight));
                         this.OwningGrid.AutoSizeColumn(column, cell.DesiredSize.Width);
                         column.ComputeLayoutRoundedWidth(totalDisplayWidth);
                     }
                     else if (!this.OwningGrid.UsesStarSizing)
                     {
                         column.ComputeLayoutRoundedWidth(scrollingLeftEdge);
-                        cell.Measure(new Size((float)column.LayoutRoundedWidth, (float)measureHeight));
+                        cell.Measure(new Size(column.LayoutRoundedWidth, measureHeight));
                     }
 
                     // We need to track the largest height in order to auto-size
@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 {
                     DataGridCell cell = this.OwningRow.Cells[column.Index];
                     column.ComputeLayoutRoundedWidth(leftEdge);
-                    cell.Measure(new Size((float)column.LayoutRoundedWidth, (float)measureHeight));
+                    cell.Measure(new Size(column.LayoutRoundedWidth, measureHeight));
                     if (autoSizeHeight)
                     {
                         this.DesiredHeight = Math.Max(this.DesiredHeight, cell.DesiredSize.Height);
@@ -296,10 +296,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             // Measure FillerCell, we're doing it unconditionally here because we don't know if we'll need the filler
             // column and we don't want to cause another Measure if we do
-            this.OwningRow.FillerCell.Measure(new Size(float.PositiveInfinity, (float)this.DesiredHeight));
+            this.OwningRow.FillerCell.Measure(new Size(double.PositiveInfinity, this.DesiredHeight));
 
             this.OwningGrid.ColumnsInternal.EnsureVisibleEdgedColumnsWidth();
-            return new Size((float)this.OwningGrid.ColumnsInternal.VisibleEdgedColumnsWidth, (float)this.DesiredHeight);
+            return new Size(this.OwningGrid.ColumnsInternal.VisibleEdgedColumnsWidth, this.DesiredHeight);
         }
 
         internal void Recycle()

@@ -503,7 +503,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int offsetHorizontalAlignment = 0;
             int offsetVerticalAlignment = 0;
 
-            var clip = new RectangleGeometry { Rect = new Rect(0, 0, (float)width, (float)height) };
+            var clip = new RectangleGeometry { Rect = new Rect(0, 0, width, height) };
             _rootElement.Clip = clip;
 
             var imageAlignment = ImageAlignment;

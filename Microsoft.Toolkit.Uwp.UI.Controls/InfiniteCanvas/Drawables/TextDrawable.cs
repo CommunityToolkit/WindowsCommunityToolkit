@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public bool IsItalic { get; set; }
 
-        public TextDrawable(float left, float top, float width, float height, float fontSize, string text, Color textColor, bool isBold, bool isItalic)
+        public TextDrawable(double left, double top, double width, double height, float fontSize, string text, Color textColor, bool isBold, bool isItalic)
         {
             Bounds = new Rect(left, top, width, height);
             Text = text;
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
         */
 
-        public void UpdateBounds(float actualWidth, float actualHeight)
+        public void UpdateBounds(double actualWidth, double actualHeight)
         {
             Bounds = new Rect(Bounds.X, Bounds.Y, actualWidth, actualHeight);
         }

@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Editing was triggered by a mouse click
                     Point position = pointerEventArgs.GetCurrentPoint(editingCheckBox).Position;
-                    Rect rect = new Rect(0, 0, (float)editingCheckBox.ActualWidth, (float)editingCheckBox.ActualHeight);
+                    Rect rect = new Rect(0, 0, editingCheckBox.ActualWidth, editingCheckBox.ActualHeight);
                     editValue = rect.Contains(position);
                 }
                 else if (_beganEditWithKeyboard)

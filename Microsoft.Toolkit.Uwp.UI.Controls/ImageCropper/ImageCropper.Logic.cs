@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 selectedRect.Y + selectedRect.Height));
             if (animate)
             {
-                AnimateUIElementOffset(new Point((float)_imageTransform.TranslateX, (float)_imageTransform.TranslateY), _animationDuration, _sourceImage);
+                AnimateUIElementOffset(new Point(_imageTransform.TranslateX, _imageTransform.TranslateY), _animationDuration, _sourceImage);
                 AnimateUIElementScale(imageScale, _animationDuration, _sourceImage);
             }
             else
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (KeepAspectRatio)
                     {
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        var originSizeChange = new Point((float)(-effectiveLength * Math.Sin(radian)), (float)(-effectiveLength * Math.Cos(radian)));
+                        var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = -safeChange.X;
                         diffPos.Y = -safeChange.Y;
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         diffPointRadian = -diffPointRadian;
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        var originSizeChange = new Point((float)(-effectiveLength * Math.Sin(radian)), (float)(-effectiveLength * Math.Cos(radian)));
+                        var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = safeChange.X;
                         diffPos.Y = -safeChange.Y;
@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         diffPointRadian = -diffPointRadian;
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        var originSizeChange = new Point((float)(effectiveLength * Math.Sin(radian)), (float)(effectiveLength * Math.Cos(radian)));
+                        var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = -safeChange.X;
                         diffPos.Y = safeChange.Y;
@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (KeepAspectRatio)
                     {
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        var originSizeChange = new Point((float)(effectiveLength * Math.Sin(radian)), (float)(effectiveLength * Math.Cos(radian)));
+                        var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
                         var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
                         diffPos.X = safeChange.X;
                         diffPos.Y = safeChange.Y;
@@ -454,7 +454,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _outerGeometry.Rect = new Rect((float)-_layoutGrid.Padding.Left, (float)-_layoutGrid.Padding.Top, (float)_layoutGrid.ActualWidth, (float)_layoutGrid.ActualHeight);
+            _outerGeometry.Rect = new Rect(-_layoutGrid.Padding.Left, -_layoutGrid.Padding.Top, _layoutGrid.ActualWidth, _layoutGrid.ActualHeight);
 
             switch (CropShape)
             {
@@ -502,7 +502,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _layoutGrid.Clip = new RectangleGeometry
             {
-                Rect = new Rect(0, 0, (float)_layoutGrid.ActualWidth, (float)_layoutGrid.ActualHeight)
+                Rect = new Rect(0, 0, _layoutGrid.ActualWidth, _layoutGrid.ActualHeight)
             };
         }
 
@@ -527,8 +527,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (uniformSelectedRect.Width < restrictedMinLength || uniformSelectedRect.Height < restrictedMinLength)
                 {
                     var scale = restrictedMinLength / Math.Min(uniformSelectedRect.Width, uniformSelectedRect.Height);
-                    uniformSelectedRect.Width *= (float)scale;
-                    uniformSelectedRect.Height *= (float)scale;
+                    uniformSelectedRect.Width *= scale;
+                    uniformSelectedRect.Height *= scale;
                     if (uniformSelectedRect.Width > _restrictedSelectRect.Width || uniformSelectedRect.Height > _restrictedSelectRect.Height)
                     {
                         AspectRatio = -1;

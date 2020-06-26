@@ -68,22 +68,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Setup available size with our known dimensions now.
             // UniformGrid expands size based on largest singular item.
-            float columnSpacingSize = 0;
-            float rowSpacingSize = 0;
+            double columnSpacingSize = 0;
+            double rowSpacingSize = 0;
 
             // Guard for 15063 as Grid Spacing only works on 16299+.
             if (_hasGridSpacing)
             {
-                columnSpacingSize = (float)ColumnSpacing * (columns - 1);
-                rowSpacingSize = (float)RowSpacing * (rows - 1);
+                columnSpacingSize = ColumnSpacing * (columns - 1);
+                rowSpacingSize = RowSpacing * (rows - 1);
             }
 
             Size childSize = new Size(
                 (availableSize.Width - columnSpacingSize) / columns,
                 (availableSize.Height - rowSpacingSize) / rows);
 
-            float maxWidth = 0.0f;
-            float maxHeight = 0.0f;
+            double maxWidth = 0.0;
+            double maxHeight = 0.0;
 
             // Set Grid Row/Col for every child with autolayout = true
             // Backwards with FlowDirection
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return our desired size based on the largest child we found, our dimensions, and spacing.
-            var desiredSize = new Size((maxWidth * (float)columns) + columnSpacingSize, (maxHeight * (float)rows) + rowSpacingSize);
+            var desiredSize = new Size((maxWidth * (double)columns) + columnSpacingSize, (maxHeight * (double)rows) + rowSpacingSize);
 
             // Required to perform regular grid measurement, but ignore result.
             base.MeasureOverride(desiredSize);

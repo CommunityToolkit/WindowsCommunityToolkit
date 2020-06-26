@@ -754,7 +754,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_bottomGridLine != null)
             {
                 RectangleGeometry gridlineClipGeometry = new RectangleGeometry();
-                gridlineClipGeometry.Rect = new Rect((float)this.OwningGrid.HorizontalOffset, 0, (float)Math.Max(0, this.DesiredSize.Width - this.OwningGrid.HorizontalOffset), _bottomGridLine.DesiredSize.Height);
+                gridlineClipGeometry.Rect = new Rect(this.OwningGrid.HorizontalOffset, 0, Math.Max(0, this.DesiredSize.Width - this.OwningGrid.HorizontalOffset), _bottomGridLine.DesiredSize.Height);
                 _bottomGridLine.Clip = gridlineClipGeometry;
             }
 
@@ -807,14 +807,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
             }
 
-            desiredSize.Width = Math.Max((float)desiredSize.Width, (float)this.OwningGrid.CellsWidth);
+            desiredSize.Width = Math.Max(desiredSize.Width, this.OwningGrid.CellsWidth);
             if (double.IsNaN(this.Height) && DoubleUtil.IsZero(this.MinHeight) &&
                 (this.Index == this.OwningGrid.DataConnection.NewItemPlaceholderIndex ||
                 (this.OwningGrid.DataConnection.IsAddingNew && currentAddItemIsDataContext)))
             {
                 // In order to avoid auto-sizing the placeholder or new item row to an unusable height, we will
                 // measure it at the DataGrid's average RowHeightEstimate if its Height has not been explicitly set.
-                desiredSize.Height = (float)Math.Max(desiredSize.Height, this.OwningGrid.RowHeightEstimate);
+                desiredSize.Height = Math.Max(desiredSize.Height, this.OwningGrid.RowHeightEstimate);
             }
 
             return desiredSize;
@@ -1418,7 +1418,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Debug.Assert(_detailsElement.Children.Contains(_detailsContent), "Expected _detailsElement parent of _detailsContent.");
 
-                _detailsContent.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                _detailsContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 _detailsDesiredHeight = _detailsContent.DesiredSize.Height;
             }
             else

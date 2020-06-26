@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // }
         }
 
-        private Rect ScaleRect(Rect rect, float scale)
+        private Rect ScaleRect(Rect rect, double scale)
         {
             return new Rect(rect.X * scale, rect.Y * scale, rect.Width * scale, rect.Height * scale);
         }
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Rect GetDrawingBoundaries(Rect viewPort)
         {
             _visibleList.Clear();
-            float top = float.MaxValue, bottom = float.MinValue, left = float.MaxValue, right = float.MinValue;
+            double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
 
             foreach (var drawable in _drawableList)
             {
@@ -149,12 +149,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (toDraw.Height > Height)
             {
-                toDraw.Height = (float)Height;
+                toDraw.Height = Height;
             }
 
             if (toDraw.Width > Width)
             {
-                toDraw.Width = (float)Width;
+                toDraw.Width = Width;
             }
 
             return toDraw;
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /*
         private Rect GetMaxDrawingsBoundaries()
         {
-            float top = float.MaxValue, bottom = float.MinValue, left = float.MaxValue, right = float.MinValue;
+            double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
 
             foreach (var drawable in _drawableList)
             {

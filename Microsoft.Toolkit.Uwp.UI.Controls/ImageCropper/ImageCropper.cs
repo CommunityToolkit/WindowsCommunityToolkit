@@ -50,10 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ImageCropperThumb _upperRightThumb;
         private ImageCropperThumb _lowerLeftThumb;
         private ImageCropperThumb _lowerRigthThumb;
-        private float _startX;
-        private float _startY;
-        private float _endX;
-        private float _endY;
+        private double _startX;
+        private double _startY;
+        private double _endX;
+        private double _endY;
         private Rect _currentCroppedRect = Rect.Empty;
         private Rect _restrictedCropRect = Rect.Empty;
         private Rect _restrictedSelectRect = Rect.Empty;
@@ -69,11 +69,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(ImageCropper);
         }
 
-        private Rect CanvasRect => new Rect(0, 0, (float)(_imageCanvas?.ActualWidth ?? 0.0), (float)(_imageCanvas?.ActualHeight ?? 0.0));
+        private Rect CanvasRect => new Rect(0, 0, _imageCanvas?.ActualWidth ?? 0, _imageCanvas?.ActualHeight ?? 0);
 
         private bool KeepAspectRatio => UsedAspectRatio > 0;
 
-        private float UsedAspectRatio
+        private double UsedAspectRatio
         {
             get
             {
@@ -343,13 +343,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return base.MeasureOverride(availableSize);
             }
 
-            if (float.IsInfinity(availableSize.Width) || float.IsInfinity(availableSize.Height))
+            if (double.IsInfinity(availableSize.Width) || double.IsInfinity(availableSize.Height))
             {
-                if (!float.IsInfinity(availableSize.Width))
+                if (!double.IsInfinity(availableSize.Width))
                 {
                     availableSize.Height = availableSize.Width / Source.PixelWidth * Source.PixelHeight;
                 }
-                else if (!float.IsInfinity(availableSize.Height))
+                else if (!double.IsInfinity(availableSize.Height))
                 {
                     availableSize.Width = availableSize.Height / Source.PixelHeight * Source.PixelWidth;
                 }

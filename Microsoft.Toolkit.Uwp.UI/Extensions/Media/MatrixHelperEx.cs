@@ -66,10 +66,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             Point rightTop = matrix.Transform(new Point(rectangle.Right, rectangle.Top));
             Point leftBottom = matrix.Transform(new Point(rectangle.Left, rectangle.Bottom));
             Point rightBottom = matrix.Transform(new Point(rectangle.Right, rectangle.Bottom));
-            var left = Math.Min(Math.Min(leftTop.X, rightTop.X), Math.Min(leftBottom.X, rightBottom.X));
-            var top = Math.Min(Math.Min(leftTop.Y, rightTop.Y), Math.Min(leftBottom.Y, rightBottom.Y));
-            var right = Math.Max(Math.Max(leftTop.X, rightTop.X), Math.Max(leftBottom.X, rightBottom.X));
-            var bottom = Math.Max(Math.Max(leftTop.Y, rightTop.Y), Math.Max(leftBottom.Y, rightBottom.Y));
+            double left = Math.Min(Math.Min(leftTop.X, rightTop.X), Math.Min(leftBottom.X, rightBottom.X));
+            double top = Math.Min(Math.Min(leftTop.Y, rightTop.Y), Math.Min(leftBottom.Y, rightBottom.Y));
+            double right = Math.Max(Math.Max(leftTop.X, rightTop.X), Math.Max(leftBottom.X, rightBottom.X));
+            double bottom = Math.Max(Math.Max(leftTop.Y, rightTop.Y), Math.Max(leftBottom.Y, rightBottom.Y));
             Rect rectTransformed = new Rect(left, top, right - left, bottom - top);
             return rectTransformed;
         }

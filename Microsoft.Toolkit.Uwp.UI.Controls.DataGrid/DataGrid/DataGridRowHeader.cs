@@ -297,12 +297,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             double measureHeight = double.IsNaN(this.OwningGrid.RowHeight) ? availableSize.Height : this.OwningGrid.RowHeight;
             double measureWidth = double.IsNaN(this.OwningGrid.RowHeaderWidth) ? availableSize.Width : this.OwningGrid.RowHeaderWidth;
-            Size measuredSize = base.MeasureOverride(new Size((float)measureWidth, (float)measureHeight));
+            Size measuredSize = base.MeasureOverride(new Size(measureWidth, measureHeight));
 
             // Auto grow the row header or force it to a fixed width based on the DataGrid's setting
             if (!double.IsNaN(this.OwningGrid.RowHeaderWidth) || measuredSize.Width < this.OwningGrid.ActualRowHeaderWidth)
             {
-                return new Size((float)this.OwningGrid.ActualRowHeaderWidth, measuredSize.Height);
+                return new Size(this.OwningGrid.ActualRowHeaderWidth, measuredSize.Height);
             }
 
             return measuredSize;

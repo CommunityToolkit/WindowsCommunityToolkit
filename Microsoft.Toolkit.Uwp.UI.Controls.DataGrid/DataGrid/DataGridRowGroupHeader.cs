@@ -482,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 double xClip = Math.Round(frozenLeftEdge - childLeftEdge);
                 RectangleGeometry rg = new RectangleGeometry();
-                rg.Rect = new Rect((float)xClip, 0, (float)Math.Max(0, child.RenderSize.Width - xClip), child.RenderSize.Height);
+                rg.Rect = new Rect(xClip, 0, Math.Max(0, child.RenderSize.Width - xClip), child.RenderSize.Height);
                 child.Clip = rg;
             }
             else

@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the minimum cropped length(in pixel).
         /// </summary>
-        public float MinCroppedPixelLength { get; set; } = 40;
+        public double MinCroppedPixelLength { get; set; } = 40;
 
         /// <summary>
         /// Gets or sets the minimum selectable length.
         /// </summary>
-        public float MinSelectedLength { get; set; } = 40;
+        public double MinSelectedLength { get; set; } = 40;
 
         /// <summary>
         /// Gets the current cropped region.
@@ -84,9 +84,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the aspect ratio of the cropped image, the default value is null.
         /// Only works when <see cref="CropShape"/> = <see cref="CropShape.Rectangular"/>.
         /// </summary>
-        public float? AspectRatio
+        public double? AspectRatio
         {
-            get { return (float?)GetValue(AspectRatioProperty); }
+            get { return (double?)GetValue(AspectRatioProperty); }
             set { SetValue(AspectRatioProperty, value); }
         }
 
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AspectRatioProperty =
-            DependencyProperty.Register(nameof(AspectRatio), typeof(float?), typeof(ImageCropper), new PropertyMetadata(null, OnAspectRatioChanged));
+            DependencyProperty.Register(nameof(AspectRatio), typeof(double?), typeof(ImageCropper), new PropertyMetadata(null, OnAspectRatioChanged));
 
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.

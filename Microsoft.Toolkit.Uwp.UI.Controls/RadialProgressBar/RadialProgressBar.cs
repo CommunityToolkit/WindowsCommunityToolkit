@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var safeThickness = Math.Max(Thickness, 0.0);
             var width = Math.Max((ActualWidth - safeThickness) / 2.0, 0.0);
             var height = Math.Max((ActualHeight - safeThickness) / 2.0, 0.0);
-            return new Size((float)width, (float)height);
+            return new Size(width, height);
         }
 
         // Render the segment representing progress ratio.
@@ -165,13 +165,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var angle = 2 * Math.PI * normalizedRange;
             var size = ComputeEllipseSize();
-            var translationFactor = Math.Max(Thickness / 2.0f, 0.0f);
+            var translationFactor = Math.Max(Thickness / 2.0, 0.0);
 
             double x = (Math.Sin(angle) * size.Width) + size.Width + translationFactor;
             double y = (((Math.Cos(angle) * size.Height) - size.Height) * -1) + translationFactor;
 
             barArc.IsLargeArc = angle >= Math.PI;
-            barArc.Point = new Point((float)x, (float)y);
+            barArc.Point = new Point(x, y);
         }
 
         // Render the progress segment and the loop outline. Needs to run when control is resized or retemplated
@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             outlineFigure.StartPoint = barFigure.StartPoint = new Point((float)(segmentWidth + translationFactor), (float)translationFactor);
             outlineArc.Size = barArc.Size = new Size(segmentWidth, size.Height);
-            outlineArc.Point = new Point((float)(segmentWidth + translationFactor - 0.05), (float)translationFactor);
+            outlineArc.Point = new Point(segmentWidth + translationFactor - 0.05, translationFactor);
 
             RenderSegment();
         }

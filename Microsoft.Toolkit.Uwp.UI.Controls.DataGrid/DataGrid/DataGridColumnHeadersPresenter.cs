@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
                 if (dataGridColumn.IsFrozen)
                 {
-                    columnHeader.Arrange(new Rect((float)frozenLeftEdge, 0, (float)dataGridColumn.LayoutRoundedWidth, finalSize.Height));
+                    columnHeader.Arrange(new Rect(frozenLeftEdge, 0, dataGridColumn.LayoutRoundedWidth, finalSize.Height));
                     columnHeader.Clip = null; // The layout system could have clipped this because it's not aware of our render transform
                     if (this.DragColumn == dataGridColumn && this.DragIndicator != null)
                     {
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 }
                 else
                 {
-                    columnHeader.Arrange(new Rect((float)scrollingLeftEdge, 0, (float)dataGridColumn.LayoutRoundedWidth, finalSize.Height));
+                    columnHeader.Arrange(new Rect(scrollingLeftEdge, 0, dataGridColumn.LayoutRoundedWidth, finalSize.Height));
                     EnsureColumnHeaderClip(columnHeader, dataGridColumn.ActualWidth, finalSize.Height, frozenLeftEdge, scrollingLeftEdge);
                     if (this.DragColumn == dataGridColumn && this.DragIndicator != null)
                     {
@@ -174,13 +174,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 if (this.DragIndicator != null)
                 {
                     this.EnsureColumnReorderingClip(this.DragIndicator, finalSize.Height, frozenLeftEdge, dragIndicatorLeftEdge);
-                    this.DragIndicator.Arrange(new Rect((float)dragIndicatorLeftEdge, 0, (float)this.DragIndicator.ActualWidth, (float)this.DragIndicator.ActualHeight));
+                    this.DragIndicator.Arrange(new Rect(dragIndicatorLeftEdge, 0, this.DragIndicator.ActualWidth, this.DragIndicator.ActualHeight));
                 }
 
                 if (this.DropLocationIndicator != null)
                 {
                     this.EnsureColumnReorderingClip(this.DropLocationIndicator, finalSize.Height, frozenLeftEdge, this.DropLocationIndicatorOffset);
-                    this.DropLocationIndicator.Arrange(new Rect((float)this.DropLocationIndicatorOffset, 0, (float)this.DropLocationIndicator.ActualWidth, (float)this.DropLocationIndicator.ActualHeight));
+                    this.DropLocationIndicator.Arrange(new Rect(this.DropLocationIndicatorOffset, 0, this.DropLocationIndicator.ActualWidth, this.DropLocationIndicator.ActualHeight));
                 }
             }
 
@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             if (fillerColumn.FillerWidth > 0)
             {
                 fillerColumn.HeaderCell.Visibility = Visibility.Visible;
-                fillerColumn.HeaderCell.Arrange(new Rect((float)scrollingLeftEdge, 0, (float)fillerColumn.FillerWidth, finalSize.Height));
+                fillerColumn.HeaderCell.Arrange(new Rect(scrollingLeftEdge, 0, fillerColumn.FillerWidth, finalSize.Height));
             }
             else
             {
@@ -215,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 RectangleGeometry rg = new RectangleGeometry();
                 double xClip = Math.Min(width, frozenLeftEdge - columnHeaderLeftEdge);
-                rg.Rect = new Rect((float)xClip, 0, (float)(width - xClip), (float)height);
+                rg.Rect = new Rect(xClip, 0, width - xClip, height);
                 columnHeader.Clip = rg;
             }
             else
@@ -257,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 rg = new RectangleGeometry();
                 double xClip = Math.Min(width, leftEdge - controlLeftEdge);
-                rg.Rect = new Rect((float)xClip, 0, (float)(width - xClip), (float)height);
+                rg.Rect = new Rect(xClip, 0, width - xClip, height);
             }
 
             if (controlLeftEdge + width >= rightEdge)
@@ -267,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     rg = new RectangleGeometry();
                 }
 
-                rg.Rect = new Rect(rg.Rect.X, rg.Rect.Y, (float)Math.Max(0, rightEdge - controlLeftEdge - rg.Rect.X), (float)height);
+                rg.Rect = new Rect(rg.Rect.X, rg.Rect.Y, Math.Max(0, rightEdge - controlLeftEdge - rg.Rect.X), height);
             }
 
             control.Clip = rg;
@@ -292,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (!this.OwningGrid.AreColumnHeadersVisible)
             {
-                return new Size(0.0f, 0.0f);
+                return new Size(0.0, 0.0);
             }
 
             double height = this.OwningGrid.ColumnHeaderHeight;
@@ -336,14 +336,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 // If we're auto-growing the column based on the header content, we want to measure it at its maximum value
                 if (autoGrowWidth)
                 {
-                    columnHeader.Measure(new Size((float)column.ActualMaxWidth, float.PositiveInfinity));
+                    columnHeader.Measure(new Size(column.ActualMaxWidth, double.PositiveInfinity));
                     this.OwningGrid.AutoSizeColumn(column, columnHeader.DesiredSize.Width);
                     column.ComputeLayoutRoundedWidth(totalDisplayWidth);
                 }
                 else if (!this.OwningGrid.UsesStarSizing)
                 {
                     column.ComputeLayoutRoundedWidth(totalDisplayWidth);
-                    columnHeader.Measure(new Size((float)column.LayoutRoundedWidth, float.PositiveInfinity));
+                    columnHeader.Measure(new Size(column.LayoutRoundedWidth, double.PositiveInfinity));
                 }
 
                 // We need to track the largest height in order to auto-size
@@ -368,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 foreach (var column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
                 {
                     column.ComputeLayoutRoundedWidth(leftEdge);
-                    column.HeaderCell.Measure(new Size((float)column.LayoutRoundedWidth, float.PositiveInfinity));
+                    column.HeaderCell.Measure(new Size(column.LayoutRoundedWidth, double.PositiveInfinity));
                     if (autoSizeHeight)
                     {
                         height = Math.Max(height, column.HeaderCell.DesiredSize.Height);
@@ -391,20 +391,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 fillerColumn.HeaderCell.Visibility = Visibility.Collapsed;
             }
 
-            fillerColumn.HeaderCell.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+            fillerColumn.HeaderCell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
             if (this.DragIndicator != null)
             {
-                this.DragIndicator.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                this.DragIndicator.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             }
 
             if (this.DropLocationIndicator != null)
             {
-                this.DropLocationIndicator.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                this.DropLocationIndicator.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             }
 
             this.OwningGrid.ColumnsInternal.EnsureVisibleEdgedColumnsWidth();
-            return new Size((float)this.OwningGrid.ColumnsInternal.VisibleEdgedColumnsWidth, (float)height);
+            return new Size(this.OwningGrid.ColumnsInternal.VisibleEdgedColumnsWidth, height);
         }
 
         /// <summary>

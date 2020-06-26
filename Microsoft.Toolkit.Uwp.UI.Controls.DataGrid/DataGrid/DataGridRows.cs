@@ -638,7 +638,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // so they're accurate
                 foreach (DataGridRow row in this.DisplayData.GetScrollingElements(true /*onlyRows*/))
                 {
-                    row.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                    row.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 }
 
                 UpdateDisplayedRows(this.DisplayData.FirstScrollingSlot, this.CellsHeight);
@@ -1962,7 +1962,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Measure the element and update AvailableRowRoom
-                element.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                element.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 this.AvailableSlotElementRoom -= element.DesiredSize.Height;
 
                 if (groupHeader != null)
@@ -3357,7 +3357,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     _rowsPresenter.Children.Add(detailsContent);
 
-                    detailsContent.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                    detailsContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     this.RowDetailsHeightEstimate = detailsContent.DesiredSize.Height;
                     _rowsPresenter.Children.Remove(detailsContent);
                 }

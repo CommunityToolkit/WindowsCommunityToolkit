@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
-            tb.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+            tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
             base.OnApplyTemplate();
         }
@@ -778,7 +778,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_toolTipText != null && _toolTip != null)
             {
                 var thumbCenter = nextPos + (thumb.Width / 2);
-                _toolTip.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                _toolTip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 var ttWidth = _toolTip.ActualWidth / 2;
 
                 Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
@@ -801,7 +801,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _toolTip.Visibility = Visibility.Visible;
                 var thumbCenter = _absolutePosition + (thumb.Width / 2);
-                _toolTip.Measure(new Size(float.PositiveInfinity, float.PositiveInfinity));
+                _toolTip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 var ttWidth = _toolTip.ActualWidth / 2;
                 Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
 
