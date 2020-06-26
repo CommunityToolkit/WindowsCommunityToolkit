@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+// #define DEBUG_AUTOMATION
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -200,7 +201,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.GetClassName() : string.Empty;
+            string classNameCore = this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.GetClassName() : string.Empty;
+#if DEBUG_AUTOMATION
+            Debug.WriteLine("DataGridGroupItemAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>

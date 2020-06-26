@@ -184,7 +184,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return Owner.GetType().Name;
+            string classNameCore = Owner.GetType().Name;
+#if DEBUG_AUTOMATION
+            Debug.WriteLine("DataGridAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>
@@ -211,6 +215,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                     name = this.GetClassName();
                 }
             }
+
+#if DEBUG_AUTOMATION
+            Debug.WriteLine("DataGridAutomationPeer.GetNameCore returns " + name);
+#endif
 
             return name;
         }
