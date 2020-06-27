@@ -25,11 +25,6 @@ namespace Microsoft.Toolkit.HighPerformance
         private readonly ByReference<T> byReference;
 
         /// <summary>
-        /// Whether or not the current instance represents a <see langword="null"/> reference.
-        /// </summary>
-        private readonly bool hasValue;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="NullableReadOnlyRef{T}"/> struct.
         /// </summary>
         /// <param name="value">The readonly reference to the target <typeparamref name="T"/> value.</param>
@@ -37,7 +32,6 @@ namespace Microsoft.Toolkit.HighPerformance
         public NullableReadOnlyRef(in T value)
         {
             this.byReference = new ByReference<T>(ref Unsafe.AsRef(value));
-            this.hasValue = true;
         }
 
         /// <summary>
@@ -48,7 +42,6 @@ namespace Microsoft.Toolkit.HighPerformance
         private NullableReadOnlyRef(ByReference<T> byReference)
         {
             this.byReference = byReference;
-            this.hasValue = true;
         }
 #else
         /// <summary>
@@ -97,7 +90,10 @@ namespace Microsoft.Toolkit.HighPerformance
             get
             {
 #if NETCORE_RUNTIME
-                return this.hasValue;
+                unsafe
+                {
+                    return Unsafe.AreSame(ref this.byReference.Value, ref Unsafe.AsRef<T>(null));
+                }
 #else
                 // See comment in NullableRef<T> about this
                 byte length = unchecked((byte)this.span.Length);
