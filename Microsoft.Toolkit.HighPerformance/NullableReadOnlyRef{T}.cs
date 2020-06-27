@@ -6,7 +6,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
+#if !NETCORE_RUNTIME
 using System.Runtime.InteropServices;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance
 {
@@ -16,6 +18,41 @@ namespace Microsoft.Toolkit.HighPerformance
     /// <typeparam name="T">The type of value to reference.</typeparam>
     public readonly ref struct NullableReadOnlyRef<T>
     {
+#if NETCORE_RUNTIME
+        /// <summary>
+        /// The <see cref="ByReference{T}"/> instance holding the current reference.
+        /// </summary>
+        private readonly ByReference<T> reference;
+
+        /// <summary>
+        /// Whether or not the current instance represents a <see langword="null"/> reference.
+        /// </summary>
+        private readonly bool hasValue;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableReadOnlyRef{T}"/> struct.
+        /// </summary>
+        /// <param name="value">The readonly reference to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public NullableReadOnlyRef(in T value)
+        {
+            ref T r0 = ref Unsafe.AsRef(value);
+
+            this.reference = new ByReference<T>(ref r0);
+            this.hasValue = true;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableReadOnlyRef{T}"/> struct.
+        /// </summary>
+        /// <param name="reference">The <see cref="ByReference{T}"/> instance holding the target reference.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private NullableReadOnlyRef(ByReference<T> reference)
+        {
+            this.reference = reference;
+            this.hasValue = true;
+        }
+#else
         /// <summary>
         /// The 1-length <see cref="ReadOnlySpan{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
@@ -42,6 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             this.span = span;
         }
+#endif
 
         /// <summary>
         /// Gets a <see cref="NullableReadOnlyRef{T}"/> instance representing a <see langword="null"/> reference.
@@ -60,10 +98,14 @@ namespace Microsoft.Toolkit.HighPerformance
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
+#if NETCORE_RUNTIME
+                return this.hasValue;
+#else
                 // See comment in NullableRef<T> about this
                 byte length = unchecked((byte)this.span.Length);
 
                 return Unsafe.As<byte, bool>(ref length);
+#endif
             }
         }
 
@@ -81,7 +123,11 @@ namespace Microsoft.Toolkit.HighPerformance
                     ThrowInvalidOperationException();
                 }
 
+#if NETCORE_RUNTIME
+                return ref this.reference.Value;
+#else
                 return ref MemoryMarshal.GetReference(this.span);
+#endif
             }
         }
 
@@ -92,7 +138,11 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(Ref<T> reference)
         {
+#if NETCORE_RUNTIME
+            return new NullableReadOnlyRef<T>(reference.Value);
+#else
             return new NullableReadOnlyRef<T>(reference.Span);
+#endif
         }
 
         /// <summary>
@@ -102,7 +152,11 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(ReadOnlyRef<T> reference)
         {
+#if NETCORE_RUNTIME
+            return new NullableReadOnlyRef<T>(reference.Value);
+#else
             return new NullableReadOnlyRef<T>(reference.Span);
+#endif
         }
 
         /// <summary>
@@ -112,7 +166,11 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(NullableRef<T> reference)
         {
+#if NETCORE_RUNTIME
+            return new NullableReadOnlyRef<T>(reference.Value);
+#else
             return new NullableReadOnlyRef<T>(reference.Span);
+#endif
         }
 
         /// <summary>
