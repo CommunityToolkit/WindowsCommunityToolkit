@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static implicit operator NullableReadOnlyRef<T>(Ref<T> reference)
         {
 #if NETCORE_RUNTIME
-            return new NullableReadOnlyRef<T>(reference.Value);
+            return new NullableReadOnlyRef<T>(reference.ByReference);
 #else
             return new NullableReadOnlyRef<T>(reference.Span);
 #endif
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static implicit operator NullableReadOnlyRef<T>(ReadOnlyRef<T> reference)
         {
 #if NETCORE_RUNTIME
-            return new NullableReadOnlyRef<T>(reference.Value);
+            return new NullableReadOnlyRef<T>(reference.ByReference);
 #else
             return new NullableReadOnlyRef<T>(reference.Span);
 #endif
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static implicit operator NullableReadOnlyRef<T>(NullableRef<T> reference)
         {
 #if NETCORE_RUNTIME
-            return new NullableReadOnlyRef<T>(reference.Value);
+            return new NullableReadOnlyRef<T>(reference.ByReference);
 #else
             return new NullableReadOnlyRef<T>(reference.Span);
 #endif

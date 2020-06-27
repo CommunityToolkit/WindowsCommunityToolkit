@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The <see cref="ByReference{T}"/> instance holding the current reference.
         /// </summary>
-        private readonly ByReference<T> byReference;
+        internal readonly ByReference<T> ByReference;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableRef{T}"/> struct.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public NullableRef(ref T value)
         {
-            this.byReference = new ByReference<T>(ref value);
+            ByReference = new ByReference<T>(ref value);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private NullableRef(ByReference<T> byReference)
         {
-            this.byReference = byReference;
+            ByReference = byReference;
         }
 #else
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.HighPerformance
 #if NETCORE_RUNTIME
                 unsafe
                 {
-                    return Unsafe.AreSame(ref this.byReference.Value, ref Unsafe.AsRef<T>(null));
+                    return Unsafe.AreSame(ref ByReference.Value, ref Unsafe.AsRef<T>(null));
                 }
 #else
                 // We know that the span will always have a length of either
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 }
 
 #if NETCORE_RUNTIME
-                return ref this.byReference.Value;
+                return ref ByReference.Value;
 #else
                 return ref MemoryMarshal.GetReference(Span);
 #endif
