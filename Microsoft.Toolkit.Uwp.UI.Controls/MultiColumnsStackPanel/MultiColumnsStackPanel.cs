@@ -223,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (columnIndex == 0)
                     {
-                        // Now that we have the items that we want to add in our first column, we adjust expectedColumnHeight
+                        // Now that we have the items for our first column, we adjust expectedColumnHeight
                         // to be the height of this first column in order to have a more natural layout.
                         expectedColumnHeight = Children.Take(columnLastIndexes[0] + 1).Sum(child => child.DesiredSize.Height);
                     }
