@@ -18,7 +18,13 @@ namespace System.Runtime.CompilerServices
         /// <param name="assemblyName">The assembly name to use.</param>
         public IgnoresAccessChecksToAttribute(string assemblyName)
         {
+            AssemblyName = assemblyName;
         }
+
+        /// <summary>
+        /// Gets the assembly name to use.
+        /// </summary>
+        public string AssemblyName { get; }
     }
 }
 
