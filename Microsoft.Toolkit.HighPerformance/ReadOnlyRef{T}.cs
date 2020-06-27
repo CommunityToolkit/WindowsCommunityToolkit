@@ -4,7 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-#if SPAN_RUNTIME_SUPPORT
+#if NETCORE_RUNTIME
+#elif SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -18,7 +19,31 @@ namespace Microsoft.Toolkit.HighPerformance
     /// <typeparam name="T">The type of value to reference.</typeparam>
     public readonly ref struct ReadOnlyRef<T>
     {
-#if SPAN_RUNTIME_SUPPORT
+#if NETCORE_RUNTIME
+        /// <summary>
+        /// The <see cref="ByReference{T}"/> instance holding the current reference.
+        /// </summary>
+        internal readonly ByReference<T> ByReference;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
+        /// </summary>
+        /// <param name="value">The reference to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ReadOnlyRef(in T value)
+        {
+            ByReference = new ByReference<T>(ref Unsafe.AsRef(value));
+        }
+
+        /// <summary>
+        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="ReadOnlyRef{T}"/> instance.
+        /// </summary>
+        public ref T Value
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref ByReference.Value;
+        }
+#elif SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// The 1-length <see cref="ReadOnlySpan{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>

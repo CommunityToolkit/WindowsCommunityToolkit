@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The <see cref="ByReference{T}"/> instance holding the current reference.
         /// </summary>
-        private readonly ByReference<T> reference;
+        private readonly ByReference<T> byReference;
 
         /// <summary>
         /// Whether or not the current instance represents a <see langword="null"/> reference.
@@ -36,20 +36,18 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public NullableReadOnlyRef(in T value)
         {
-            ref T r0 = ref Unsafe.AsRef(value);
-
-            this.reference = new ByReference<T>(ref r0);
+            this.byReference = new ByReference<T>(ref Unsafe.AsRef(value));
             this.hasValue = true;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableReadOnlyRef{T}"/> struct.
         /// </summary>
-        /// <param name="reference">The <see cref="ByReference{T}"/> instance holding the target reference.</param>
+        /// <param name="byReference">The <see cref="ByReference{T}"/> instance holding the target reference.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private NullableReadOnlyRef(ByReference<T> reference)
+        private NullableReadOnlyRef(ByReference<T> byReference)
         {
-            this.reference = reference;
+            this.byReference = byReference;
             this.hasValue = true;
         }
 #else
@@ -124,7 +122,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 }
 
 #if NETCORE_RUNTIME
-                return ref this.reference.Value;
+                return ref this.byReference.Value;
 #else
                 return ref MemoryMarshal.GetReference(this.span);
 #endif

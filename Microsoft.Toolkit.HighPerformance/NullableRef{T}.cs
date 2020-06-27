@@ -6,7 +6,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
+#if !NETCORE_RUNTIME
 using System.Runtime.InteropServices;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance
 {
@@ -16,6 +18,39 @@ namespace Microsoft.Toolkit.HighPerformance
     /// <typeparam name="T">The type of value to reference.</typeparam>
     public readonly ref struct NullableRef<T>
     {
+#if NETCORE_RUNTIME
+        /// <summary>
+        /// The <see cref="ByReference{T}"/> instance holding the current reference.
+        /// </summary>
+        private readonly ByReference<T> byReference;
+
+        /// <summary>
+        /// Whether or not the current instance represents a <see langword="null"/> reference.
+        /// </summary>
+        private readonly bool hasValue;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableRef{T}"/> struct.
+        /// </summary>
+        /// <param name="value">The readonly reference to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public NullableRef(ref T value)
+        {
+            this.byReference = new ByReference<T>(ref value);
+            this.hasValue = true;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableRef{T}"/> struct.
+        /// </summary>
+        /// <param name="byReference">The <see cref="ByReference{T}"/> instance holding the target reference.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private NullableRef(ByReference<T> byReference)
+        {
+            this.byReference = byReference;
+            this.hasValue = true;
+        }
+#else
         /// <summary>
         /// The 1-length <see cref="Span{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
@@ -40,6 +75,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             Span = span;
         }
+#endif
 
         /// <summary>
         /// Gets a <see cref="NullableRef{T}"/> instance representing a <see langword="null"/> reference.
@@ -58,6 +94,9 @@ namespace Microsoft.Toolkit.HighPerformance
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
+#if NETCORE_RUNTIME
+                return this.hasValue;
+#else
                 // We know that the span will always have a length of either
                 // 1 or 0, se instead of using a cmp instruction and setting the
                 // zero flag to produce our boolean value, we can just cast
@@ -68,6 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 byte length = unchecked((byte)Span.Length);
 
                 return Unsafe.As<byte, bool>(ref length);
+#endif
             }
         }
 
@@ -85,7 +125,11 @@ namespace Microsoft.Toolkit.HighPerformance
                     ThrowInvalidOperationException();
                 }
 
+#if NETCORE_RUNTIME
+                return ref this.byReference.Value;
+#else
                 return ref MemoryMarshal.GetReference(Span);
+#endif
             }
         }
 
@@ -96,7 +140,11 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableRef<T>(Ref<T> reference)
         {
+#if NETCORE_RUNTIME
+            return new NullableRef<T>(reference.ByReference);
+#else
             return new NullableRef<T>(reference.Span);
+#endif
         }
 
         /// <summary>
