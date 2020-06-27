@@ -171,7 +171,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var expectedColumnHeight = Math.Max(availableColumnHeight, totalHeight / columnsCount);
 
             // We ensure that we have enough space to place the first item.
-            expectedColumnHeight = Math.Max(expectedColumnHeight, GetHeight(0));
+            if (Children.Count > 0)
+            {
+                expectedColumnHeight = Math.Max(expectedColumnHeight, GetHeight(0));
+            }
 
             var columnIndex = 0;
             var (hasFoundPartition, adjustedExpectedColumnHeight) = DoPartition(
