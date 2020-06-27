@@ -74,6 +74,9 @@
       </PropertyGroup>
     </When>
     <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+      <ItemGroup>
+        <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" />
+      </ItemGroup>
       <PropertyGroup>
 
         <!-- NETCORE_RUNTIME: to avoid issues with APIs that assume a specific memory layout, we define a
@@ -88,6 +91,9 @@
     <When Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+      </ItemGroup>
+      <ItemGroup>
+        <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" />
       </ItemGroup>
       <PropertyGroup>
         <DefineConstants>SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
