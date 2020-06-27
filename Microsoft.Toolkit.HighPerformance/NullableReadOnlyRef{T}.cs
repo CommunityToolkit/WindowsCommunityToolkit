@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.HighPerformance
 #if NETCORE_RUNTIME
                 unsafe
                 {
-                    return Unsafe.AreSame(ref this.byReference.Value, ref Unsafe.AsRef<T>(null));
+                    return !Unsafe.AreSame(ref this.byReference.Value, ref Unsafe.AsRef<T>(null));
                 }
 #else
                 // See comment in NullableRef<T> about this
