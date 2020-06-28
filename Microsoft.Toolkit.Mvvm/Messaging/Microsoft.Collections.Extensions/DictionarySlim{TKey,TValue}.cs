@@ -164,10 +164,9 @@ namespace Microsoft.Collections.Extensions
                     }
 
                     entries[entryIndex] = default;
-
                     entries[entryIndex].Next = -3 - this.freeList;
-                    this.freeList = entryIndex;
 
+                    this.freeList = entryIndex;
                     this.count--;
 
                     success = true;
@@ -233,6 +232,7 @@ namespace Microsoft.Collections.Extensions
             if (this.freeList != -1)
             {
                 entryIndex = this.freeList;
+
                 this.freeList = -3 - entries[this.freeList].Next;
             }
             else
@@ -278,7 +278,9 @@ namespace Microsoft.Collections.Extensions
             while (count-- > 0)
             {
                 int bucketIndex = entries[count].Key.GetHashCode() & (newBuckets.Length - 1);
+
                 entries[count].Next = newBuckets[bucketIndex] - 1;
+
                 newBuckets[bucketIndex] = count + 1;
             }
 
