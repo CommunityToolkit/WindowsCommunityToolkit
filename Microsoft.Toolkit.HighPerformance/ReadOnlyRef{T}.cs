@@ -157,7 +157,10 @@ namespace Microsoft.Toolkit.HighPerformance
 #elif SPAN_RUNTIME_SUPPORT
             return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
 #else
-            return ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset + offset);
+            ref T r0 = ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            ref T r1 = ref Unsafe.Add(ref r0, offset);
+
+            return ref r1;
 #endif
         }
 
@@ -179,15 +182,10 @@ namespace Microsoft.Toolkit.HighPerformance
 #elif SPAN_RUNTIME_SUPPORT
             return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
 #else
-            unsafe
-            {
-                if (sizeof(IntPtr) == sizeof(long))
-                {
-                    return ref this.owner.DangerousGetObjectDataReferenceAt<T>((IntPtr)((long)(byte*)this.offset + (long)(byte*)offset));
-                }
+            ref T r0 = ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            ref T r1 = ref Unsafe.Add(ref r0, offset);
 
-                return ref this.owner.DangerousGetObjectDataReferenceAt<T>((IntPtr)((int)(byte*)this.offset + (int)(byte*)offset));
-            }
+            return ref r1;
 #endif
         }
 
