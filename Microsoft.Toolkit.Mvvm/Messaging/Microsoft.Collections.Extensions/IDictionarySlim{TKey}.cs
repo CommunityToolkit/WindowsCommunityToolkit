@@ -17,9 +17,9 @@ namespace Microsoft.Collections.Extensions
         /// Tries to remove a value with a specified key.
         /// </summary>
         /// <param name="key">The key of the value to remove.</param>
-        /// <param name="success">Whether or not the key was present.</param>
-        /// <returns>The removed value, if it was present.</returns>
-        object? TryRemove(TKey key, out bool success);
+        /// <param name="result">The removed value, if it was present.</param>
+        /// <returns>.Whether or not the key was present.</returns>
+        bool TryRemove(TKey key, out object? result);
 
         /// <summary>
         /// Removes an item from the dictionary with the specified key, if present.

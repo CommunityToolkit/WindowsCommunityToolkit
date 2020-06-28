@@ -141,7 +141,7 @@ namespace Microsoft.Collections.Extensions
         }
 
         /// <inheritdoc/>
-        public object? TryRemove(TKey key, out bool success)
+        public bool TryRemove(TKey key, out object? result)
         {
             Entry[] entries = this.entries;
             int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
@@ -169,27 +169,25 @@ namespace Microsoft.Collections.Extensions
                     this.freeList = entryIndex;
                     this.count--;
 
-                    success = true;
+                    result = candidate.Value;
 
-                    return candidate.Value;
+                    return true;
                 }
 
                 lastIndex = entryIndex;
                 entryIndex = candidate.Next;
             }
 
-            success = false;
+            result = null;
 
-            return null;
+            return false;
         }
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Remove(TKey key)
         {
-            _ = TryRemove(key, out bool success);
-
-            return success;
+            return TryRemove(key, out _);
         }
 
         /// <summary>

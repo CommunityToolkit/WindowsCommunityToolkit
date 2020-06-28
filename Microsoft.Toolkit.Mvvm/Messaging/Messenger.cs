@@ -182,9 +182,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Removes all the lists of registered handlers for the recipient
                 foreach (IMapping mapping in set!)
                 {
-                    object? handlersMap = mapping.TryRemove(key, out bool success);
-
-                    if (success)
+                    if (mapping.TryRemove(key, out object? handlersMap))
                     {
                         // If this branch is taken, it means the target recipient to unregister
                         // had at least one registered handler for the current <TToken, TMessage>
