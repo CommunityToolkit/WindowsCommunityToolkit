@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
     public class AsyncRequestMessage<T>
     {
         /// <summary>
-        /// An <see cref="object"/> used to synchronize access to <see cref="Response"/> and <see cref="Reply"/>.
+        /// An <see cref="object"/> used to synchronize access to <see cref="Response"/> and <see cref="Reply(T)"/> and <see cref="Reply(Task{T})"/>.
         /// </summary>
         private readonly object dummy = new object();
 
