@@ -129,6 +129,17 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
+        /// Returns a mutable reference with the same target as <see cref="Value"/>.
+        /// </summary>
+        /// <returns>A mutable reference equivalent to the one returned by <see cref="Value"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReference()
+        {
+            return ref Unsafe.AsRef(Value);
+        }
+
+        /// <summary>
         /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
         /// </summary>
         /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
