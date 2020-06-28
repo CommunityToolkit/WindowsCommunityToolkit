@@ -13,6 +13,10 @@ namespace System
     /// <typeparam name="T">The type of reference being stored.</typeparam>
     public readonly ref struct ByReference<T>
     {
+#pragma warning disable IDE0051, 169 // Local fields is never used
+        private readonly IntPtr value;
+#pragma warning restore IDE0051, 169
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ByReference{T}"/> struct.
         /// </summary>
