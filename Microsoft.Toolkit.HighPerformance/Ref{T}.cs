@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME
 #elif SPAN_RUNTIME_SUPPORT
@@ -36,12 +37,13 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
+        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
         /// </summary>
-        public ref T Value
+        /// <param name="byReference">The input <see cref="ByReference{T}"/> to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Ref(ByReference<T> byReference)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref ByReference.Value;
+            ByReference = byReference;
         }
 #elif SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -58,15 +60,6 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             Span = MemoryMarshal.CreateSpan(ref value, 1);
         }
-
-        /// <summary>
-        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
-        /// </summary>
-        public ref T Value
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(Span);
-        }
 #else
         /// <summary>
         /// The owner <see cref="object"/> the current instance belongs to
@@ -76,10 +69,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// The target offset within <see cref="Owner"/> the current instance is pointing to
         /// </summary>
-        /// <remarks>
-        /// Using an <see cref="IntPtr"/> instead of <see cref="int"/> to avoid the int to
-        /// native int conversion in the generated asm (an extra movsxd on x64).
-        /// </remarks>
         internal readonly IntPtr Offset;
 
         /// <summary>
@@ -92,8 +81,9 @@ namespace Microsoft.Toolkit.HighPerformance
         public Ref(object owner, ref T value)
         {
             Owner = owner;
-            Offset = owner.DangerousGetObjectDataByteOffset(ref value);
+            Offset = owner.DangerousGetObjectDataByteOffset(ref Unsafe.AsRef(value));
         }
+#endif
 
         /// <summary>
         /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
@@ -101,9 +91,69 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
-        }
+            get
+            {
+#if NETCORE_RUNTIME
+                return ref ByReference.Value;
+#elif SPAN_RUNTIME_SUPPORT
+                return ref MemoryMarshal.GetReference(Span);
+#else
+                return ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
 #endif
+            }
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// </summary>
+        /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
+        /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
+        /// <remarks>
+        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does not does not do
+        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReferenceAt(int offset)
+        {
+#if NETCORE_RUNTIME
+            return ref Unsafe.Add(ref ByReference.Value, offset);
+#elif SPAN_RUNTIME_SUPPORT
+            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+#else
+            return ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset + offset);
+#endif
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// </summary>
+        /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
+        /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
+        /// <remarks>
+        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does not does not do
+        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReferenceAt(IntPtr offset)
+        {
+#if NETCORE_RUNTIME
+            return ref Unsafe.Add(ref ByReference.Value, offset);
+#elif SPAN_RUNTIME_SUPPORT
+            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+#else
+            unsafe
+            {
+                if (sizeof(IntPtr) == sizeof(long))
+                {
+                    return ref Owner.DangerousGetObjectDataReferenceAt<T>((IntPtr)((long)(byte*)Offset + (long)(byte*)offset));
+                }
+
+                return ref Owner.DangerousGetObjectDataReferenceAt<T>((IntPtr)((int)(byte*)Offset + (int)(byte*)offset));
+            }
+#endif
+        }
 
         /// <summary>
         /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="Ref{T}"/> instance.

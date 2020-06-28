@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME
 #elif SPAN_RUNTIME_SUPPORT
@@ -36,12 +37,13 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="ReadOnlyRef{T}"/> instance.
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
         /// </summary>
-        public ref T Value
+        /// <param name="byReference">The input <see cref="ByReference{T}"/> to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ReadOnlyRef(ByReference<T> byReference)
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref ByReference.Value;
+            ByReference = byReference;
         }
 #elif SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -62,22 +64,13 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
         /// </summary>
-        public ref readonly T Value
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(Span);
-        }
-
-        /// <summary>
-        /// Implicitly converts a <see cref="Ref{T}"/> instance into a <see cref="ReadOnlyRef{T}"/> one.
-        /// </summary>
-        /// <param name="reference">The input <see cref="Ref{T}"/> instance.</param>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> targeting the current value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
+        private ReadOnlyRef(ReadOnlySpan<T> span)
         {
-            return new ReadOnlyRef<T>(reference.Value);
+            Span = span;
         }
 #else
         /// <summary>
@@ -115,14 +108,76 @@ namespace Microsoft.Toolkit.HighPerformance
             this.owner = owner;
             this.offset = owner.DangerousGetObjectDataByteOffset(ref Unsafe.AsRef(value));
         }
+#endif
 
         /// <summary>
-        /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
+        /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="ReadOnlyRef{T}"/> instance.
         /// </summary>
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            get
+            {
+#if NETCORE_RUNTIME
+                return ref this.ByReference.Value;
+#elif SPAN_RUNTIME_SUPPORT
+                return ref MemoryMarshal.GetReference(Span);
+#else
+                return ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// </summary>
+        /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
+        /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
+        /// <remarks>
+        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does not does not do
+        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReferenceAt(int offset)
+        {
+#if NETCORE_RUNTIME
+            return ref Unsafe.Add(ref ByReference.Value, offset);
+#elif SPAN_RUNTIME_SUPPORT
+            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+#else
+            return ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset + offset);
+#endif
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// </summary>
+        /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
+        /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
+        /// <remarks>
+        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does not does not do
+        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReferenceAt(IntPtr offset)
+        {
+#if NETCORE_RUNTIME
+            return ref Unsafe.Add(ref ByReference.Value, offset);
+#elif SPAN_RUNTIME_SUPPORT
+            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+#else
+            unsafe
+            {
+                if (sizeof(IntPtr) == sizeof(long))
+                {
+                    return ref this.owner.DangerousGetObjectDataReferenceAt<T>((IntPtr)((long)(byte*)this.offset + (long)(byte*)offset));
+                }
+
+                return ref this.owner.DangerousGetObjectDataReferenceAt<T>((IntPtr)((int)(byte*)this.offset + (int)(byte*)offset));
+            }
+#endif
         }
 
         /// <summary>
@@ -132,9 +187,14 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
+#if NETCORE_RUNTIME
+            return new ReadOnlyRef<T>(reference.ByReference);
+#elif SPAN_RUNTIME_SUPPORT
+            return new ReadOnlyRef<T>(reference.Span);
+#else
             return new ReadOnlyRef<T>(reference.Owner, reference.Offset);
-        }
 #endif
+        }
 
         /// <summary>
         /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="ReadOnlyRef{T}"/> instance.
