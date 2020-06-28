@@ -24,7 +24,11 @@ namespace Microsoft.Toolkit.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T ResultOrDefault<T>(this Task<T> task)
         {
+#if NETSTANDARD2_1
+            return task.IsCompletedSuccessfully ? task.Result : default;
+#else
             return task.Status == TaskStatus.RanToCompletion ? task.Result : default;
+#endif
         }
     }
 }
