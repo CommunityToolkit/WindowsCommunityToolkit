@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// An empty type representing a generic token with no specific value.
         /// </summary>
-        private struct Unit : IEquatable<Unit>
+        private readonly struct Unit : IEquatable<Unit>
         {
             /// <inheritdoc/>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
