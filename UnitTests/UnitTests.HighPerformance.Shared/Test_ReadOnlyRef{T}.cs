@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,9 +15,9 @@ namespace UnitTests.HighPerformance
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_ReadOnlyRefOfT
     {
+#if WINDOWS_UWP
         [TestCategory("ReadOnlyRefOfT")]
         [TestMethod]
-#if WINDOWS_UWP
         public void Test_RefOfT_CreateRefOfT()
         {
             var model = new ReadOnlyFieldOwner();
@@ -32,7 +34,15 @@ namespace UnitTests.HighPerformance
             [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Ref readonly access for tests")]
             public readonly int Value = 1;
         }
+
+        [Pure]
+        private static ReadOnlyRef<T> CreateRefFromArray<T>(T[] array)
+        {
+            return new ReadOnlyRef<T>(array, array[0]);
+        }
 #else
+        [TestCategory("ReadOnlyRefOfT")]
+        [TestMethod]
         public void Test_RefOfT_CreateRefOfT()
         {
             int value = 1;
@@ -40,6 +50,24 @@ namespace UnitTests.HighPerformance
 
             Assert.IsTrue(Unsafe.AreSame(ref value, ref Unsafe.AsRef(reference.Value)));
         }
+
+        [Pure]
+        private static ReadOnlyRef<T> CreateRefFromArray<T>(T[] array)
+        {
+            return new ReadOnlyRef<T>(array[0]);
+        }
 #endif
+
+        [TestCategory("ReadOnlyRefOfT")]
+        [TestMethod]
+        public void Test_ReadOnlyRefOfT_DangerousGetReferenceAt()
+        {
+            int[] array = { 1, 2, 3, 4, 5 };
+            ReadOnlyRef<int> reference = CreateRefFromArray(array);
+
+            Assert.IsTrue(Unsafe.AreSame(ref array[0], ref reference.DangerousGetReference()));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference.DangerousGetReferenceAt(3)));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference.DangerousGetReferenceAt((IntPtr)3)));
+        }
     }
 }
