@@ -72,11 +72,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static TMessage Send<TMessage>(this IMessenger messenger)
             where TMessage : class, new()
         {
-            var message = new TMessage();
-
-            messenger.Send(message, default(Unit));
-
-            return message;
+            return messenger.Send(new TMessage(), default(Unit));
         }
 
         /// <summary>
@@ -108,11 +104,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class, new()
             where TToken : IEquatable<TToken>
         {
-            var message = new TMessage();
-
-            messenger.Send(new TMessage(), token);
-
-            return message;
+            return messenger.Send(new TMessage(), token);
         }
     }
 }
