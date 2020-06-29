@@ -8,7 +8,8 @@
             out below -->
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverChromeBrush" Color="Transparent" />
-            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemColorButtonTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemBaseMediumColor}" />
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerPressedForegroundBrush" Color="{ThemeResource SystemBaseHighColor}" />
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationButtonBorderBrush" Color="Transparent" />
         </ResourceDictionary>
 
@@ -53,7 +54,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerPressedForegroundBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
