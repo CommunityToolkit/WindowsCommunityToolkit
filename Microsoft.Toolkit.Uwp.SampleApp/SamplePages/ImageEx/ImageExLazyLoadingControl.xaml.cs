@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.UI.Xaml;
-using Windows.UI.Popups;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -25,7 +25,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ImageEx_ImageExOpened(object sender, ImageExOpenedEventArgs e)
         {
-            await new MessageDialog("Image Opened").ShowAsync();
+            await new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Image Opened",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            }.ShowAsync();
         }
     }
 }

@@ -5,18 +5,24 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Connectivity;
-using Windows.UI.Popups;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     internal static class Tools
     {
-        internal static async Task<bool> CheckInternetConnectionAsync()
+        internal static async Task<bool> CheckInternetConnectionAsync(XamlRoot xamlRoot)
         {
             if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
-                var dialog = new MessageDialog("Internet connection not detected. Please try again later.");
-                await dialog.ShowAsync();
+                await new ContentDialog
+                {
+                    Title = "Windows Community Toolkit Sample App",
+                    Content = "Internet connection not detected. Please try again later.",
+                    CloseButtonText = "Close",
+                    XamlRoot = xamlRoot
+                }.ShowAsync();
 
                 return false;
             }

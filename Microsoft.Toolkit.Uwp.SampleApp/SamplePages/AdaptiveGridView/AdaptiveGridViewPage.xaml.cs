@@ -9,8 +9,8 @@ using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -34,11 +34,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _originalPhotos = allPhotos.ToArray();
                 _boundPhotos = new ObservableCollection<PhotoDataItem>(_originalPhotos);
                 _adaptiveGridViewControl.ItemsSource = _boundPhotos;
+                _adaptiveGridViewControl.ItemClick -= AdaptiveGridViewControl_ItemClick;
                 _adaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
+                _adaptiveGridViewControl.SelectionChanged -= AdaptiveGridViewControl_SelectionChanged;
                 _adaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
                 NumberSlider.Minimum = 1;
                 NumberSlider.Maximum = _originalPhotos.Length;
                 NumberSlider.Value = _originalPhotos.Length;
+                NumberSlider.ValueChanged -= OnNumberSliderValueChanged;
                 NumberSlider.ValueChanged += OnNumberSliderValueChanged;
             }
         }
@@ -74,7 +77,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (e.ClickedItem != null)
             {
-                await new MessageDialog($"You clicked {(e.ClickedItem as PhotoDataItem).Title}", "Item Clicked").ShowAsync();
+                await new ContentDialog
+                {
+                    Title = "Item Clicked",
+                    Content = $"You clicked {(e.ClickedItem as PhotoDataItem).Title}",
+                    CloseButtonText = "Close",
+                    XamlRoot = base.XamlRoot
+                }.ShowAsync();
             }
         }
     }

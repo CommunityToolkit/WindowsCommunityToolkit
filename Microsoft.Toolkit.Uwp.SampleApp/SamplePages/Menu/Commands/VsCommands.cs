@@ -4,7 +4,7 @@
 
 using System;
 using System.Windows.Input;
-using Windows.UI.Popups;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 {
@@ -23,7 +23,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 
         public async void Execute(object parameter)
         {
-            var dialog = new MessageDialog("Create New Project");
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Create New Project",
+                CloseButtonText = "Close",
+                XamlRoot = Shell.Current.XamlRoot
+            };
             await dialog.ShowAsync();
         }
     }
@@ -43,7 +49,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 
         public async void Execute(object parameter)
         {
-            var dialog = new MessageDialog("Create New File");
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Create New File",
+                CloseButtonText = "Close",
+                XamlRoot = Shell.Current.XamlRoot
+            };
             await dialog.ShowAsync();
         }
     }
@@ -63,7 +75,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
 
         public async void Execute(object parameter)
         {
-            var dialog = new MessageDialog(parameter.ToString());
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = parameter.ToString(),
+                CloseButtonText = "Close",
+                XamlRoot = Shell.Current.XamlRoot
+            };
             await dialog.ShowAsync();
         }
     }

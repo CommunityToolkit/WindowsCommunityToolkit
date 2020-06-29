@@ -13,7 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.Devices.Geolocation;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -35,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -53,8 +52,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ShareBox.Visibility = Visibility.Collapsed;
                 SearchBox.Visibility = Visibility.Collapsed;
                 SampleController.Current.DisplayWaitRing = false;
-                var error = new MessageDialog("Unable to log to Twitter");
-                await error.ShowAsync();
+                var dialog = new ContentDialog
+                {
+                    Title = "Windows Community Toolkit Sample App",
+                    Content = "Unable to log to Twitter",
+                    CloseButtonText = "Close",
+                    XamlRoot = XamlRoot
+                };
+                await dialog.ShowAsync();
                 return;
             }
 
@@ -76,7 +81,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if ((ex.Errors?.Errors?.Length > 0) && (ex.Errors.Errors[0].Code == 89))
                 {
-                    await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
+                    await new ContentDialog
+                    {
+                        Title = "Windows Community Toolkit Sample App",
+                        Content = "Invalid or expired token. Logging out. Re-connect for new token.",
+                        CloseButtonText = "Close",
+                        XamlRoot = XamlRoot
+                    }.ShowAsync();
                     await TwitterService.Instance.LogoutAsync();
                     return;
                 }
@@ -111,14 +122,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (Exception ex)
             {
-                await new MessageDialog($"An error occured finding your location. Message: {ex.Message}").ShowAsync();
+                await new ContentDialog
+                {
+                    Title = "Windows Community Toolkit Sample App",
+                    Content = $"An error occured finding your location. Message: {ex.Message}",
+                    CloseButtonText = "Close",
+                    XamlRoot = XamlRoot
+                }.ShowAsync();
                 TrackingManager.TrackException(ex);
             }
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -138,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -150,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }

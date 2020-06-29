@@ -7,8 +7,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Microsoft.Toolkit.Services.Weibo;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Storage.Pickers;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -46,7 +46,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (!await WeiboService.Instance.LoginAsync())
             {
                 SampleController.Current.DisplayWaitRing = false;
-                var error = new MessageDialog("Unable to log to Weibo");
+                var error = new ContentDialog
+                {
+                    Title = "Windows Community Toolkit Sample App",
+                    Content = "Unable to log to Weibo",
+                    CloseButtonText = "Close",
+                    XamlRoot = XamlRoot
+                };
                 await error.ShowAsync();
                 return;
             }
@@ -65,7 +71,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (ex.Error.Code == 21332)
                 {
-                    await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
+                    await new ContentDialog
+                    {
+                        Title = "Windows Community Toolkit Sample App",
+                        Content = "Invalid or expired token. Logging out. Re-connect for new token.",
+                        CloseButtonText = "Close",
+                        XamlRoot = XamlRoot
+                    }.ShowAsync();
                     await WeiboService.Instance.LogoutAsync();
                     return;
                 }
@@ -111,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -123,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }

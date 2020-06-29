@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Popups;
 using TabView = Microsoft.Toolkit.Uwp.UI.Controls.TabView;
 using TabViewItem = Microsoft.Toolkit.Uwp.UI.Controls.TabViewItem;
 

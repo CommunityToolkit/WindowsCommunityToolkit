@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -37,7 +36,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void OnExecuteSampleCommand(PhotoDataItem item)
         {
-            await new MessageDialog($"You clicked {item.Title} via the 'ListViewExtensions.Command' binding", "Item Clicked").ShowAsync();
+            await new ContentDialog
+            {
+                Title = "Item Clicked",
+                Content = $"You clicked {item.Title} via the 'ListViewExtensions.Command' binding",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            }.ShowAsync();
         }
     }
 }

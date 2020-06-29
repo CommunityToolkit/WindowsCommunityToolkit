@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -31,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var people = control.FindChildByName("People") as OrbitView;
             if (people != null)
             {
+                people.ItemClick -= People_ItemClick;
                 people.ItemClick += People_ItemClick;
             }
 
@@ -38,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (devices != null)
             {
                 devices.ItemsSource = DeviceList;
+                devices.ItemClick -= Devices_ItemClick;
                 devices.ItemClick += Devices_ItemClick;
             }
         }
@@ -65,7 +66,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void People_ItemClick(object sender, OrbitViewItemClickedEventArgs e)
         {
-            await new MessageDialog("You clicked: " + (e.Item as OrbitViewDataItem)?.Label).ShowAsync();
+            await new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "You clicked: " + (e.Item as OrbitViewDataItem)?.Label,
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            }.ShowAsync();
         }
 
         private void Devices_ItemClick(object sender, OrbitViewItemClickedEventArgs e)

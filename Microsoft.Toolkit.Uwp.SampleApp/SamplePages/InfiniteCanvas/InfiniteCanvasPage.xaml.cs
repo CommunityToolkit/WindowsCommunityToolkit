@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -76,7 +75,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         }
                         catch
                         {
-                            var dialog = new MessageDialog("Invalid File");
+                            var dialog = new ContentDialog
+                            {
+                                Title = "Windows Community Toolkit Sample App",
+                                Content = "Invalid File",
+                                CloseButtonText = "Close",
+                                XamlRoot = XamlRoot
+                            };
                             await dialog.ShowAsync();
                         }
                     }

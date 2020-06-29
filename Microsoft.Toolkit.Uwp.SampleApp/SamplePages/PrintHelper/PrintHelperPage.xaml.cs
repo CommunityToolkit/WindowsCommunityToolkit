@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Graphics.Printing;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -130,7 +129,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (customPrintTemplate == null)
             {
-                var dialog = new MessageDialog("Could not find the data template resource called 'CustomPrintTemplate' under the listview called 'PrintSampleListView'.", "Incomplete XAML");
+                var dialog = new ContentDialog
+                {
+                    Title = "Incomplete XAML",
+                    Content = "Could not find the data template resource called 'CustomPrintTemplate' under the listview called 'PrintSampleListView'.",
+                    CloseButtonText = "Close",
+                    XamlRoot = base.XamlRoot
+                };
                 await dialog.ShowAsync();
                 return;
             }
@@ -200,14 +205,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void PrintHelper_OnPrintSucceeded()
         {
             ReleasePrintHelper();
-            var dialog = new MessageDialog("Printing done.");
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Printing done.",
+                CloseButtonText = "Close",
+                XamlRoot = base.XamlRoot
+            };
             await dialog.ShowAsync();
         }
 
         private async void PrintHelper_OnPrintFailed()
         {
             ReleasePrintHelper();
-            var dialog = new MessageDialog("Printing failed.");
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Printing failed.",
+                CloseButtonText = "Close",
+                XamlRoot = base.XamlRoot
+            };
             await dialog.ShowAsync();
         }
 

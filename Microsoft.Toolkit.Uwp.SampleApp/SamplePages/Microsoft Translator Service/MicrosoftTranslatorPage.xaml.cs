@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void GetLanguages_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Translate_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }

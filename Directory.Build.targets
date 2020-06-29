@@ -1,6 +1,6 @@
 <Project>
   <Choose>
-    <When Condition="'$(ShouldAddWinUI)' == 'true' and '$(TargetFramework)' == 'netcoreapp5.0'">
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and '$(TargetFramework)' == 'net5.0'">
       <PropertyGroup>
         <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
       </PropertyGroup>
@@ -24,7 +24,7 @@
         </Resource>
       </ItemGroup>
       <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName).pri')">
-        <None Include="$(SolutionDir)\build\CopyPri.targets" Pack="True" PackagePath="buildTransitive\netcoreapp5.0\$(AssemblyName).targets" />
+        <None Include="$(SolutionDir)\build\CopyPri.targets" Pack="True" PackagePath="buildTransitive\net5.0\$(AssemblyName).targets" />
       </ItemGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
@@ -38,12 +38,12 @@
   
   <Choose>
     <!-- Small fix for wrong TFM in final nuget -->
-    <When Condition="'$(TargetFramework)' == 'netcoreapp5.0'">
+    <When Condition="'$(TargetFramework)' == 'net5.0'">
       <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName).pri')">
-        <None Include="$(OutputPath)\$(AssemblyName).pri" Pack="True" PackagePath="lib\netcoreapp5.0\"/>
+        <None Include="$(OutputPath)\$(AssemblyName).pri" Pack="True" PackagePath="lib\net5.0\"/>
       </ItemGroup>
       <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll;$(OutputPath)\$(AssemblyName).xml;$(OutputPath)\$(AssemblyName).pdb" Pack="True" PackagePath="lib\netcoreapp5.0\"/>
+        <None Include="$(OutputPath)\$(AssemblyName).dll;$(OutputPath)\$(AssemblyName).xml;$(OutputPath)\$(AssemblyName).pdb" Pack="True" PackagePath="lib\net5.0\"/>
       </ItemGroup>
       <PropertyGroup>
         <IncludeBuildOutput>false</IncludeBuildOutput>

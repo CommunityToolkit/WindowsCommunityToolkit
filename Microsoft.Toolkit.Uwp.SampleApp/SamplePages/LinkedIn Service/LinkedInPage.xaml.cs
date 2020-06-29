@@ -6,7 +6,6 @@ using System;
 using Microsoft.Toolkit.Services.LinkedIn;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -22,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -56,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void ShareButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
+            if (!await Tools.CheckInternetConnectionAsync(XamlRoot))
             {
                 return;
             }
@@ -68,8 +67,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
 
-            var message = new MessageDialog("Share sent to LinkedIn");
-            await message.ShowAsync();
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Share sent to LinkedIn",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         private void ShareExpandButton_Click(object sender, RoutedEventArgs e)

@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -142,14 +141,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private async void PrintHelper_OnPrintSucceeded()
         {
             ReleasePrintHelper();
-            var dialog = new MessageDialog("Printing done.");
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Printing done.",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            };
             await dialog.ShowAsync();
         }
 
         private async void PrintHelper_OnPrintFailed()
         {
             ReleasePrintHelper();
-            var dialog = new MessageDialog("Printing failed.");
+            var dialog = new ContentDialog
+            {
+                Title = "Windows Community Toolkit Sample App",
+                Content = "Printing failed.",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            };
             await dialog.ShowAsync();
         }
 

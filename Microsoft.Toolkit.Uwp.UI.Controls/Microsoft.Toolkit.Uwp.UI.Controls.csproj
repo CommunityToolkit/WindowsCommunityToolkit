@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
@@ -44,7 +44,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview1" />
+    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview2-g5c9cf916ed" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />

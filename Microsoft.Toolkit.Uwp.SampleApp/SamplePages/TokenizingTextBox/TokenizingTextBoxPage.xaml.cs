@@ -13,7 +13,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -181,8 +180,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void EmailTokenItemClick(object sender, ItemClickEventArgs e)
         {
-            MessageDialog md = new MessageDialog($"email address {(e.ClickedItem as SampleEmailDataType)?.EmailAddress} clicked", "Clicked Item");
-            await md.ShowAsync();
+            var dialog = new ContentDialog
+            {
+                Title = "Clicked Item",
+                Content = $"email address {(e.ClickedItem as SampleEmailDataType)?.EmailAddress} clicked",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -328,8 +333,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 message += string.IsNullOrEmpty(textVal) ? "<empty>" : textVal;
             }
 
-            MessageDialog md = new MessageDialog(message, "Item List with type");
-            await md.ShowAsync();
+            var dialog = new ContentDialog
+            {
+                Title = "Item List with type",
+                Content = message,
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         private async void ShowSelectedTextClick(object sender, RoutedEventArgs e)
@@ -342,8 +353,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 message = "<Nothing Selected>";
             }
 
-            MessageDialog md = new MessageDialog(message, "Selected Tokens as Text");
-            await md.ShowAsync();
+            var dialog = new ContentDialog
+            {
+                Title = "Selected Tokens as Text",
+                Content = message,
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         // Move to Email Suggest ListView list when we keydown from the TTB

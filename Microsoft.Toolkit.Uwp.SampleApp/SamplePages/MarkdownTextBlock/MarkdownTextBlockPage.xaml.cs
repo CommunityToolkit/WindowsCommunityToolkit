@@ -13,7 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Windows.System;
-using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -37,8 +36,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (markdownText != null)
             {
                 markdownText.RequestedTheme = SampleController.Current.GetCurrentTheme();
+                markdownText.LinkClicked -= MarkdownText_LinkClicked;
                 markdownText.LinkClicked += MarkdownText_LinkClicked;
+                markdownText.ImageClicked -= MarkdownText_ImageClicked;
                 markdownText.ImageClicked += MarkdownText_ImageClicked;
+                markdownText.CodeBlockResolving -= MarkdownText_CodeBlockResolving;
                 markdownText.CodeBlockResolving += MarkdownText_CodeBlockResolving;
             }
 
@@ -58,7 +60,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (!Uri.IsWellFormedUriString(e.Link, UriKind.Absolute))
             {
-                await new MessageDialog("Masked relative Images needs to be manually handled.").ShowAsync();
+                await new ContentDialog
+                {
+                    Title = "Windows Community Toolkit Sample App",
+                    Content = "Masked relative Images needs to be manually handled.",
+                    CloseButtonText = "Close",
+                    XamlRoot = XamlRoot
+                }.ShowAsync();
             }
             else
             {
@@ -98,7 +106,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (!Uri.IsWellFormedUriString(e.Link, UriKind.Absolute))
             {
-                await new MessageDialog("Masked relative links needs to be manually handled.").ShowAsync();
+                await new ContentDialog
+                {
+                    Title = "Windows Community Toolkit Sample App",
+                    Content = "Masked relative links needs to be manually handled.",
+                    CloseButtonText = "Close",
+                    XamlRoot = XamlRoot
+                }.ShowAsync();
             }
             else
             {
