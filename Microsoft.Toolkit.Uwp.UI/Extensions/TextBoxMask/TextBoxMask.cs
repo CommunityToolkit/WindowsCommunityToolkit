@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -295,6 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         deleteBackspaceIndex++;
                     }
                 }
+
             }
 
             // case adding data at the end of the textbox
@@ -327,6 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 if (string.IsNullOrEmpty(textbox.Text))
                 {
                     textbox.Text = displayText;
+                    return;
                 }
                 else
                 {
@@ -340,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (!isDeleteOrBackspace)
             {
-                // Case change happended due to user input
+                // Case change happened due to user input
                 var selectedChar = textbox.SelectionStart > 0 ?
                                     textbox.Text[textbox.SelectionStart - 1] :
                                     placeHolder;
