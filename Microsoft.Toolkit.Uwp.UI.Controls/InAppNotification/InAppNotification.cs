@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Show notification using the current template
+        /// Show notification using the current content.
         /// </summary>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Show notification using DataTemplate as the content of the notification
+        /// Show notification using <paramref name="dataTemplate"/> as the content of the notification
         /// </summary>
         /// <param name="dataTemplate">DataTemplate used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
@@ -141,6 +141,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Duration = duration,
                 Content = dataTemplate
+            };
+            Show(notificationOptions);
+        }
+
+        /// <summary>
+        /// Show notification using <paramref name="content"/> as the content of the notification.
+        /// The <paramref name="content"/> will be displayed with the current <see cref="ContentControl.ContentTemplate"/>.
+        /// </summary>
+        /// <param name="content">The content of the notification</param>
+        /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
+        public void Show(object content, int duration = 0)
+        {
+            var notificationOptions = new NotificationOptions
+            {
+                Duration = duration,
+                Content = content
             };
             Show(notificationOptions);
         }
@@ -228,6 +244,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case DataTemplate dataTemplate:
                     _contentProvider.ContentTemplate = dataTemplate;
                     _contentProvider.Content = null;
+                    break;
+                case object content:
+                    _contentProvider.ContentTemplate = ContentTemplate;
+                    _contentProvider.Content = content;
                     break;
             }
         }
