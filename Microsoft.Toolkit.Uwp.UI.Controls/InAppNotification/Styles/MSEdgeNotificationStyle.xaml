@@ -16,7 +16,8 @@
         <!-- HighContrast is used in all high contrast themes -->
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
-            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemBaseHighColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerPressedForegroundBrush" Color="{ThemeResource SystemBaseHighColor}" />
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
