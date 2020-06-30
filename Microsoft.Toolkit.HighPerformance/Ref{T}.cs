@@ -153,6 +153,21 @@ namespace Microsoft.Toolkit.HighPerformance
 #endif
         }
 
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Explicitly converts a <see cref="NullableRef{T}"/> instance into a <see cref="Ref{T}"/> one.
+        /// </summary>
+        /// <param name="reference">The input <see cref="NullableRef{T}"/> instance.</param>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="reference"/> has the <see cref="NullableRef{T}.HasValue"/> property set to <see langword="false"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Ref<T>(NullableRef<T> reference)
+        {
+            return new Ref<T>(ref reference.Value);
+        }
+#endif
+
         /// <summary>
         /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="Ref{T}"/> instance.
         /// </summary>
