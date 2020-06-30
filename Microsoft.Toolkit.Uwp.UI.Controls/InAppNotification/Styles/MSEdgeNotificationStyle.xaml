@@ -20,11 +20,14 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
+    <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonSize">40</x:Double>
+    <Thickness x:Key="SystemControlMSEdgeNotificationDismissButtonMargin">24,0,0,0</Thickness>
+
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="Width" Value="40" />
-        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}" />
+        <Setter Property="Height" Value="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="HighContrastAdjustment" Value="None" />
         <Setter Property="Template">
@@ -163,7 +166,7 @@
 
                 <Button x:Name="PART_DismissButton"
                         Grid.Column="1" 
-                        Margin="24,0,0,0"
+                        Margin="{StaticResource SystemControlMSEdgeNotificationDismissButtonMargin}"
                         FontSize="16"
                         Style="{StaticResource DismissTextBlockButtonStyle}"
                         Content="&#xE894;"
