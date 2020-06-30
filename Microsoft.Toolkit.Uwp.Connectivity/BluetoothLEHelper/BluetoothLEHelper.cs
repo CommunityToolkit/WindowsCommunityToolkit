@@ -8,12 +8,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Enumeration;
 using Windows.Foundation.Metadata;
-using Windows.UI.Core;
+using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {
@@ -60,10 +60,18 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         private BluetoothAdapter _adapter;
 
         /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
+
+        /// <summary>
         /// Prevents a default instance of the <see cref="BluetoothLEHelper" /> class from being created.
         /// </summary>
-        private BluetoothLEHelper()
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        private BluetoothLEHelper(DispatcherQueue dispatcherQueue = null)
         {
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Init();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -201,8 +209,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The advertisement.</param>
         private async void AdvertisementWatcher_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {
                     if (_readerWriterLockSlim.TryEnterReadLock(TimeSpan.FromSeconds(1)))
@@ -217,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                         _readerWriterLockSlim.ExitReadLock();
                     }
-                });
+                }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -286,19 +293,20 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             // Protect against race condition if the task runs after the app stopped the deviceWatcher.
             if (sender == _deviceWatcher)
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
+                await DispatcherQueue.ExecuteOnUIThreadAsync(
+                    () =>
                     {
-                        var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
-                        BluetoothLeDevices.Remove(device);
+                        if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
+                        {
+                            var device = BluetoothLeDevices.FirstOrDefault(i => i.DeviceInfo.Id == deviceInfoUpdate.Id);
+                            BluetoothLeDevices.Remove(device);
 
-                        var unusedDevice = _unusedDevices.FirstOrDefault(i => i.Id == deviceInfoUpdate.Id);
-                        _unusedDevices?.Remove(unusedDevice);
+                            var unusedDevice = _unusedDevices.FirstOrDefault(i => i.Id == deviceInfoUpdate.Id);
+                            _unusedDevices?.Remove(unusedDevice);
 
-                        _readerWriterLockSlim.ExitWriteLock();
-                    }
-                });
+                            _readerWriterLockSlim.ExitWriteLock();
+                        }
+                    }, DispatcherQueuePriority.Normal);
             }
         }
 
@@ -327,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             // Make sure device name isn't blank or already present in the list.
             if (!string.IsNullOrEmpty(deviceInfo?.Name))
             {
-                var device = new ObservableBluetoothLEDevice(deviceInfo);
+                var device = new ObservableBluetoothLEDevice(deviceInfo, DispatcherQueue);
                 var connectable = (device.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.Bluetooth.Le.IsConnectable") &&
                                         (bool)device.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"]) ||
                                         (device.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.IsConnected") &&
@@ -335,8 +343,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                 if (connectable)
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                        CoreDispatcherPriority.Normal,
+                    await DispatcherQueue.ExecuteOnUIThreadAsync(
                         () =>
                         {
                             if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
@@ -348,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                                 _readerWriterLockSlim.ExitWriteLock();
                             }
-                        });
+                        }, DispatcherQueuePriority.Normal);
 
                     return;
                 }

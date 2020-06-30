@@ -4,10 +4,15 @@
 
 using System;
 using System.Diagnostics;
-using Windows.ApplicationModel.Core;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Foundation.Metadata;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+
+[assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
 
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
@@ -43,6 +48,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         public bool IsHighContrast { get; set; }
 
         /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
+
+        /// <summary>
         /// An event that fires if the Theme changes.
         /// </summary>
         public event ThemeChangedEvent ThemeChanged;
@@ -53,16 +63,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="ThemeListener"/> class.
         /// </summary>
-        public ThemeListener()
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
+        public ThemeListener(DispatcherQueue dispatcherQueue = null)
         {
             CurrentTheme = Application.Current.RequestedTheme;
             IsHighContrast = _accessible.HighContrast;
+
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             _accessible.HighContrastChanged += Accessible_HighContrastChanged;
             _settings.ColorValuesChanged += Settings_ColorValuesChanged;
 
             // Fallback in case either of the above fail, we'll check when we get activated next.
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            }
         }
 
         private void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)
@@ -77,20 +93,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         // Note: This can get called multiple times during HighContrast switch, do we care?
         private async void Settings_ColorValuesChanged(UISettings sender, object args)
         {
+            await OnColorValuesChanged();
+        }
+
+        // Internal abstraction is used by the Unit Tests
+        internal Task OnColorValuesChanged()
+        {
             // Getting called off thread, so we need to dispatch to request value.
-            await CoreApplication.MainView?.CoreWindow?.Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
-                if (CurrentTheme != Application.Current.RequestedTheme ||
-                    IsHighContrast != _accessible.HighContrast)
+            return DispatcherQueue.ExecuteOnUIThreadAsync(
+                () =>
                 {
+                    // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
+                    if (CurrentTheme != Application.Current.RequestedTheme ||
+                        IsHighContrast != _accessible.HighContrast)
+                    {
 #if DEBUG
-                    Debug.WriteLine("Color Values Changed");
+                        Debug.WriteLine("Color Values Changed");
 #endif
 
-                    UpdateProperties();
-                }
-            });
+                        UpdateProperties();
+                    }
+                }, DispatcherQueuePriority.Normal);
         }
 
         private void CoreWindow_Activated(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.WindowActivatedEventArgs args)
@@ -133,7 +156,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         {
             _accessible.HighContrastChanged -= Accessible_HighContrastChanged;
             _settings.ColorValuesChanged -= Settings_ColorValuesChanged;
-            Window.Current.CoreWindow.Activated -= CoreWindow_Activated;
+            if (Window.Current != null)
+            {
+                Window.Current.CoreWindow.Activated -= CoreWindow_Activated;
+            }
         }
     }
 }

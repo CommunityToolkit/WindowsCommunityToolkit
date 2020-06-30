@@ -18,7 +18,9 @@
                                              TokenStyle="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
 
     <!--  Default style for TokenizingTextBox  -->
-    <Style TargetType="controls:TokenizingTextBox">
+    <Style TargetType="controls:TokenizingTextBox" BasedOn="{StaticResource DefaultTokenizingTextBoxStyle}" />
+
+    <Style x:Key="DefaultTokenizingTextBoxStyle" TargetType="controls:TokenizingTextBox">
         <Setter Property="AutoSuggestBoxTextBoxStyle" Value="{StaticResource TokenizingTextBoxTextBoxStyle}" />
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
         <Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
