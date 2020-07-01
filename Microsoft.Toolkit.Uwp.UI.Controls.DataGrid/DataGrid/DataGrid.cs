@@ -5653,7 +5653,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ShowScrollBars();
 
             // If the DataGrid itself got focus, we actually want the automation focus to be on the current element
-            if (e.OriginalSource == this && AutomationPeer.ListenerExists(AutomationEvents.AutomationFocusChanged))
+            if (e.OriginalSource as Control == this && AutomationPeer.ListenerExists(AutomationEvents.AutomationFocusChanged))
             {
                 DataGridAutomationPeer peer = DataGridAutomationPeer.FromElement(this) as DataGridAutomationPeer;
                 if (peer != null)
@@ -5684,7 +5684,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void DataGrid_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Tab && e.OriginalSource == this)
+            if (e.Key == VirtualKey.Tab && e.OriginalSource as Control == this)
             {
                 if (this.CurrentColumnIndex == -1)
                 {
@@ -6239,7 +6239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // If the DataGrid itself has focus, we want to move automation focus to the new current element
                 object focusedObject = FocusManager.GetFocusedElement();
-                if (focusedObject == this && AutomationPeer.ListenerExists(AutomationEvents.AutomationFocusChanged))
+                if (focusedObject as Control == this && AutomationPeer.ListenerExists(AutomationEvents.AutomationFocusChanged))
                 {
                     peer.RaiseAutomationFocusChangedEvent(this.CurrentSlot, this.CurrentColumnIndex);
                 }
@@ -6716,7 +6716,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_editingColumnIndex == -1 ||
                 this.CurrentColumnIndex == -1 ||
-                this.EditingRow.Cells[this.CurrentColumnIndex].Content != editingElement)
+                this.EditingRow.Cells[this.CurrentColumnIndex].Content as FrameworkElement != editingElement)
             {
                 // The current cell has changed since the call to BeginCellEdit, so the fact
                 // that this element has loaded is no longer relevant

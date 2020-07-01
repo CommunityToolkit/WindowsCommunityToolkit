@@ -432,7 +432,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 if (this.OwningRow != null)
                 {
                     Debug.Assert(sender is DataGridRowHeader, "Expected sender is DataGridRowHeader.");
-                    Debug.Assert(sender == this, "Expected sender is this.");
+                    Debug.Assert(sender as ContentControl == this, "Expected sender is this.");
 
                     e.Handled = this.OwningGrid.UpdateStateOnTapped(e, -1, this.Slot, false /*allowEdit*/);
                     this.OwningGrid.UpdatedStateOnTapped = true;

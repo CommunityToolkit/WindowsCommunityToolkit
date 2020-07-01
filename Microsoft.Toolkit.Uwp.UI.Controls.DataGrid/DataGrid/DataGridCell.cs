@@ -450,7 +450,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.OwningRow != null)
                 {
                     Debug.Assert(sender is DataGridCell, "Expected sender is DataGridCell.");
-                    Debug.Assert(sender == this, "Expected sender is this.");
+                    Debug.Assert(sender as ContentControl == this, "Expected sender is this.");
                     e.Handled = this.OwningGrid.UpdateStateOnTapped(e, this.ColumnIndex, this.OwningRow.Slot, !e.Handled /*allowEdit*/);
                     this.OwningGrid.UpdatedStateOnTapped = true;
                 }
