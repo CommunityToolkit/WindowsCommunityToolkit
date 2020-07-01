@@ -34,6 +34,7 @@
                         <Border x:Name="TextBorder" BorderThickness="2" BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
                             <ContentPresenter x:Name="Text"
                                               Content="{TemplateBinding Content}"
+                                              AutomationProperties.AccessibilityView="Raw"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>

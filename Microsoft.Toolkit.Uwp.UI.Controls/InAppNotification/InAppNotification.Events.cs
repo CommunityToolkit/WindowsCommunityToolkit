@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -51,29 +49,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _openAnimationTimer.Stop();
                 Opened?.Invoke(this, EventArgs.Empty);
-                SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
-                if (ContentTemplateRoot != null)
-                {
-                    var peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
-                    if (Content?.GetType() == typeof(string))
-                    {
-                        AutomateTextNotification(peer, Content.ToString());
-                    }
-                }
+                RaiseAutomationNotification();
             }
         }
 
-        private void AutomateTextNotification(AutomationPeer peer, string message)
+        private void RaiseAutomationNotification()
         {
-            if (peer != null)
+            if (!AutomationPeer.ListenerExists(AutomationEvents.LiveRegionChanged))
             {
-                peer.SetFocus();
-                peer.RaiseNotificationEvent(
-                    AutomationNotificationKind.Other,
-                    AutomationNotificationProcessing.ImportantMostRecent,
-                    StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources") + message,
-                    Guid.NewGuid().ToString());
+                return;
             }
+
+            var peer = FrameworkElementAutomationPeer.CreatePeerForElement(this);
+            peer.RaiseAutomationEvent(AutomationEvents.LiveRegionChanged);
         }
 
         private void ClosingAnimationTimer_Tick(object sender, object e)

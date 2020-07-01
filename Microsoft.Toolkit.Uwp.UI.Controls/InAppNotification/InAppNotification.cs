@@ -5,7 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -41,6 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
+            base.OnApplyTemplate();
+
             if (_dismissButton != null)
             {
                 _dismissButton.Click -= DismissButton_Click;
@@ -53,6 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
+                AutomationProperties.SetName(_dismissButton, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
             }
 
             if (Visibility == Visibility.Visible)
@@ -64,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
             }
 
-            base.OnApplyTemplate();
+            AutomationProperties.SetLabeledBy(this, VisualTree.FindDescendant<ContentPresenter>(this));
         }
 
         /// <summary>

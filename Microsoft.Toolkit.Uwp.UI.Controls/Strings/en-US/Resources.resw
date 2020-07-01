@@ -205,13 +205,13 @@
     <value>GridSpliter</value>
     <comment>Narrator Resource for GridSplitter control</comment>
   </data>
-  <data name="WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage" xml:space="preserve">
-    <value>New notification</value>
-    <comment>Narrator resource for a new notification using the InAppNotification</comment>
+  <data name="WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName" xml:space="preserve">
+    <value>Dismiss</value>
+    <comment>The automation name for the dismiss button of the InAppNotification control.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_InAppNotification_NameProperty" xml:space="preserve">
+  <data name="WindowsCommunityToolkit_InAppNotification_LandmarkProperty.Value" xml:space="preserve">
     <value>Notification</value>
-    <comment>Name property for InAppNotification</comment>
+    <comment>The landmark name for the InAppNotification control. It is said by the narrator when using landmark navigation.</comment>
   </data>
   <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Close tab</value>
