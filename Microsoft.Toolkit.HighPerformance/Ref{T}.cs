@@ -39,6 +39,21 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
         /// </summary>
+        /// <param name="pointer">The pointer to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe Ref(void* pointer)
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                ThrowArgumentExceptionForInvalidType();
+            }
+
+            ByReference = new ByReference<T>(ref Unsafe.AsRef<T>(pointer));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
+        /// </summary>
         /// <param name="byReference">The input <see cref="ByReference{T}"/> to the target <typeparamref name="T"/> value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Ref(ByReference<T> byReference)
@@ -60,6 +75,22 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             Span = MemoryMarshal.CreateSpan(ref value, 1);
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
+        /// </summary>
+        /// <param name="pointer">The pointer to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe Ref(void* pointer)
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                ThrowArgumentExceptionForInvalidType();
+            }
+
+            Span = new Span<T>(pointer, 1);
+        }
+
 #else
         /// <summary>
         /// The owner <see cref="object"/> the current instance belongs to
@@ -177,5 +208,15 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             return reference.Value;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when trying to create a <see cref="Ref{T}"/> from a pointer to a managed type.
+        /// </summary>
+        private static void ThrowArgumentExceptionForInvalidType()
+        {
+            throw new InvalidOperationException("The Ref<T>(void*) constructor can only be used when T is an unmanaged type");
+        }
+#endif
     }
 }

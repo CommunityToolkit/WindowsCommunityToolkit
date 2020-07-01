@@ -39,6 +39,21 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
         /// </summary>
+        /// <param name="pointer">The pointer to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe ReadOnlyRef(void* pointer)
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                ThrowArgumentExceptionForInvalidType();
+            }
+
+            ByReference = new ByReference<T>(ref Unsafe.AsRef<T>(pointer));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
+        /// </summary>
         /// <param name="byReference">The input <see cref="ByReference{T}"/> to the target <typeparamref name="T"/> value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private ReadOnlyRef(ByReference<T> byReference)
@@ -61,6 +76,21 @@ namespace Microsoft.Toolkit.HighPerformance
             ref T r0 = ref Unsafe.AsRef(value);
 
             Span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
+        /// </summary>
+        /// <param name="pointer">The pointer to the target <typeparamref name="T"/> value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe ReadOnlyRef(void* pointer)
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                ThrowArgumentExceptionForInvalidType();
+            }
+
+            Span = new ReadOnlySpan<T>(pointer, 1);
         }
 
         /// <summary>
@@ -242,5 +272,15 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             return reference.Value;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when trying to create a <see cref="ReadOnlyRef{T}"/> from a pointer to a managed type.
+        /// </summary>
+        private static void ThrowArgumentExceptionForInvalidType()
+        {
+            throw new InvalidOperationException("The ReadOnlyRef<T>(void*) constructor can only be used when T is an unmanaged type");
+        }
+#endif
     }
 }
