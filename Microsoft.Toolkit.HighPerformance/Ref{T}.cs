@@ -50,16 +50,6 @@ namespace Microsoft.Toolkit.HighPerformance
 
             ByReference = new ByReference<T>(ref Unsafe.AsRef<T>(pointer));
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
-        /// </summary>
-        /// <param name="byReference">The input <see cref="ByReference{T}"/> to the target <typeparamref name="T"/> value.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Ref(ByReference<T> byReference)
-        {
-            ByReference = byReference;
-        }
 #elif SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// The 1-length <see cref="Span{T}"/> instance used to track the target <typeparamref name="T"/> value.
