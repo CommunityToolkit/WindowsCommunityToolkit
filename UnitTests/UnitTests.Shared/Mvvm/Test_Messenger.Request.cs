@@ -207,7 +207,7 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_AsyncCollectionRequestMessage_Ok_NoReplies()
+        public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_NoReplies()
         {
             var messenger = new Messenger();
             var recipient = new object();
@@ -218,7 +218,7 @@ namespace UnitTests.Mvvm
 
             messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient, Receive);
 
-            var results = messenger.Send<AsyncNumbersCollectionRequestMessage>().Responses;
+            var results = await messenger.Send<AsyncNumbersCollectionRequestMessage>().GetResponsesAsync();
 
             Assert.AreEqual(results.Count, 0);
         }
@@ -231,7 +231,8 @@ namespace UnitTests.Mvvm
             object
                 recipient1 = new object(),
                 recipient2 = new object(),
-                recipient3 = new object();
+                recipient3 = new object(),
+                recipient4 = new object();
 
             async Task<int> GetNumberAsync()
             {
@@ -243,10 +244,12 @@ namespace UnitTests.Mvvm
             void Receive1(AsyncNumbersCollectionRequestMessage m) => m.Reply(1);
             void Receive2(AsyncNumbersCollectionRequestMessage m) => m.Reply(Task.FromResult(2));
             void Receive3(AsyncNumbersCollectionRequestMessage m) => m.Reply(GetNumberAsync());
+            void Receive4(AsyncNumbersCollectionRequestMessage m) => m.Reply(_ => GetNumberAsync());
 
             messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient1, Receive1);
             messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient2, Receive2);
             messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient3, Receive3);
+            messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient4, Receive4);
 
             List<int> responses = new List<int>();
 
@@ -255,7 +258,7 @@ namespace UnitTests.Mvvm
                 responses.Add(response);
             }
 
-            CollectionAssert.AreEquivalent(responses, new[] { 1, 2, 3 });
+            CollectionAssert.AreEquivalent(responses, new[] { 1, 2, 3, 3 });
         }
 
         public class AsyncNumbersCollectionRequestMessage : AsyncCollectionRequestMessage<int>
