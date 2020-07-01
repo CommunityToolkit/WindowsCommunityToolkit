@@ -56,6 +56,26 @@ namespace UnitTests.HighPerformance
         {
             return new ReadOnlyRef<T>(array[0]);
         }
+
+        [TestCategory("RefOfT")]
+        [TestMethod]
+        public unsafe void Test_RefOfT_CreateRefOfTFromPointer_Ok()
+        {
+            int value = 1;
+            var reference = new ReadOnlyRef<int>(&value);
+
+            Assert.IsTrue(Unsafe.AreSame(ref value, ref Unsafe.AsRef(reference.Value)));
+        }
+
+        [TestCategory("RefOfT")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public unsafe void Test_RefOfT_CreateRefOfTFrompointer_Fail()
+        {
+            var reference = new ReadOnlyRef<string>((void*)0);
+
+            Assert.Fail();
+        }
 #endif
 
         [TestCategory("ReadOnlyRefOfT")]

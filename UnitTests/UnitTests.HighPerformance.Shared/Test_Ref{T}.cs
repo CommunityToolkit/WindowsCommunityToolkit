@@ -64,6 +64,30 @@ namespace UnitTests.HighPerformance
         {
             return new Ref<T>(ref array[0]);
         }
+
+        [TestCategory("RefOfT")]
+        [TestMethod]
+        public unsafe void Test_RefOfT_CreateRefOfTFromPointer_Ok()
+        {
+            int value = 1;
+            var reference = new Ref<int>(&value);
+
+            Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
+
+            reference.Value++;
+
+            Assert.AreEqual(value, 2);
+        }
+
+        [TestCategory("RefOfT")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public unsafe void Test_RefOfT_CreateRefOfTFrompointer_Fail()
+        {
+            var reference = new Ref<string>((void*)0);
+
+            Assert.Fail();
+        }
 #endif
 
         [TestCategory("RefOfT")]
