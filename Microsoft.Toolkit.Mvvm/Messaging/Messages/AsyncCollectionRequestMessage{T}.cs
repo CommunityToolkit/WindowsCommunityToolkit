@@ -90,6 +90,29 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
             this.responses.Add((null, response));
         }
 
+        /// <summary>
+        /// Gets the collection of received response items.
+        /// </summary>
+        /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken"/> value to stop the operation.</param>
+        /// <returns>The collection of received response items.</returns>
+        [Pure]
+        public async Task<IReadOnlyCollection<T>> GetResponsesAsync(CancellationToken cancellationToken = default)
+        {
+            if (cancellationToken.CanBeCanceled)
+            {
+                cancellationToken.Register(this.cancellationTokenSource.Cancel);
+            }
+
+            List<T> results = new List<T>(this.responses.Count);
+
+            await foreach (var response in this.WithCancellation(cancellationToken))
+            {
+                results.Add(response);
+            }
+
+            return results;
+        }
+
         /// <inheritdoc/>
         [Pure]
         [EditorBrowsable(EditorBrowsableState.Never)]
