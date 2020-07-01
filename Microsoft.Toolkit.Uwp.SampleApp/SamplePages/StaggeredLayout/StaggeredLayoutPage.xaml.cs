@@ -5,9 +5,9 @@
 using System;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

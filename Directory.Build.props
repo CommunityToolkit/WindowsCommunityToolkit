@@ -18,8 +18,8 @@
     <ShouldAddWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</ShouldAddWinUI>
     <DefaultTargetPlatformVersion>18362</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
-    <MicrosoftWinUIVersion>3.0.0-preview1.200626.4-CI</MicrosoftWinUIVersion>
-    <MicrosoftCsWinrtVersion>0.1.0-prerelease.200623.2</MicrosoftCsWinrtVersion>
+    <MicrosoftWinUIVersion>3.0.0-preview2.200701.0-CI</MicrosoftWinUIVersion>
+    <MicrosoftCsWinrtVersion>0.1.0-prerelease.200629.3</MicrosoftCsWinrtVersion>
     <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>

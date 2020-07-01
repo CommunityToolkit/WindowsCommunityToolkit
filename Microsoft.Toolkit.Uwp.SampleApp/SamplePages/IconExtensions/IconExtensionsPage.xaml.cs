@@ -5,8 +5,8 @@
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.Xaml.Interactivity;
 using Microsoft.UI.Xaml;
+using Microsoft.Xaml.Interactivity;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

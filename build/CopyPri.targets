@@ -1,5 +1,0 @@
-<Project>
-  <ItemGroup Condition="'$(OutputType)' == 'WinExe'">
-    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\lib\net5.0\$(MSBuildThisFileName).pri"/>
-  </ItemGroup>
-</Project>

@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.ViewManagement;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.ViewManagement;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

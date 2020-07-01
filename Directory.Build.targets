@@ -11,21 +11,6 @@
       <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
         <PackageReference Include="Microsoft.WinUI" Version="$(MicrosoftWinUIVersion)"/>
       </ItemGroup>
-      <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName)\**\*.xaml;$(OutputPath)\$(AssemblyName)\**\*.xbf">
-          <Pack>true</Pack>
-          <PackagePath>lib\$(TargetFramework)\$(AssemblyName)</PackagePath>
-        </None>
-      </ItemGroup>
-      <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName)\$(AssemblyName).xr.xml')">
-        <Resource Include="$(OutputPath)\$(AssemblyName)\$(AssemblyName).xr.xml">
-          <Pack>true</Pack>
-          <PackagePath>lib\$(TargetFramework)\$(AssemblyName)\$(AssemblyName).xr.xml</PackagePath>
-        </Resource>
-      </ItemGroup>
-      <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName).pri')">
-        <None Include="$(SolutionDir)\build\CopyPri.targets" Pack="True" PackagePath="buildTransitive\net5.0\$(AssemblyName).targets" />
-      </ItemGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
       </PropertyGroup>
@@ -35,21 +20,6 @@
   <PropertyGroup Condition="'$(DebugType)' == ''">
     <DebugType>Portable</DebugType>
   </PropertyGroup>
-  
-  <Choose>
-    <!-- Small fix for wrong TFM in final nuget -->
-    <When Condition="'$(TargetFramework)' == 'net5.0'">
-      <ItemGroup Condition="Exists('$(OutputPath)\$(AssemblyName).pri')">
-        <None Include="$(OutputPath)\$(AssemblyName).pri" Pack="True" PackagePath="lib\net5.0\"/>
-      </ItemGroup>
-      <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll;$(OutputPath)\$(AssemblyName).xml;$(OutputPath)\$(AssemblyName).pdb" Pack="True" PackagePath="lib\net5.0\"/>
-      </ItemGroup>
-      <PropertyGroup>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-      </PropertyGroup>
-    </When>
-  </Choose>
   
   <Choose>
     <When Condition="'$(TargetFramework.Contains(`uap10.0`))' == 'false' and '$(TargetFramework)' != 'native' and '$(IsSampleProject)' != 'true'">

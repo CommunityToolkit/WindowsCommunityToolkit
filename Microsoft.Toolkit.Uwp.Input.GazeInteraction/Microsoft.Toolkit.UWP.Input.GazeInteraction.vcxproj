@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.props" Condition="Exists('..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.props')" />
+  <Import Project="..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.props" Condition="Exists('..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.props')" />
   <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
@@ -377,7 +377,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.targets')" />
-    <Import Project="..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.targets" Condition="Exists('..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.targets')" />
+    <Import Project="..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.targets" Condition="Exists('..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -385,7 +385,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.200514.2\build\native\Microsoft.Windows.CppWinRT.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WinUI.3.0.0-preview1.200626.4-CI\build\native\Microsoft.WinUI.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.WinUI.3.0.0-preview2.200701.0-CI\build\native\Microsoft.WinUI.targets'))" />
   </Target>
 </Project>

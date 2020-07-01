@@ -125,5 +125,12 @@
     <AppxTargetsLocation Condition="'$(AppxTargetsLocation)'==''">$(MSBuildThisFileDirectory)build\</AppxTargetsLocation>
     <EntryPointProjectUniqueName>..\Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
+
+  <!-- Temporary fix to a bug in WinUI3 -->
+  <Target Name="_RemoveXrXmlFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe" Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
+    <ItemGroup>
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))"/>
+    </ItemGroup>
+  </Target>
   <Import Project="$(AppxTargetsLocation)Microsoft.WinUI.AppX.targets" />
 </Project>
