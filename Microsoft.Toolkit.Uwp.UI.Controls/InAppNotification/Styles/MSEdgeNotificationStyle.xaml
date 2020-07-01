@@ -8,14 +8,16 @@
             out below -->
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverChromeBrush" Color="Transparent" />
-            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemColorButtonTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemBaseMediumColor}" />
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerPressedForegroundBrush" Color="{ThemeResource SystemBaseHighColor}" />
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationButtonBorderBrush" Color="Transparent" />
         </ResourceDictionary>
 
         <!-- HighContrast is used in all high contrast themes -->
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
-            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemBaseHighColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerPressedForegroundBrush" Color="{ThemeResource SystemBaseHighColor}" />
             <SolidColorBrush x:Key="SystemControlMSEdgeNotificationButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
@@ -54,7 +56,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerPressedForegroundBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
