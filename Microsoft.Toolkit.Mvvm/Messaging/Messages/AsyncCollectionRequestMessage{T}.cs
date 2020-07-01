@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,12 +18,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
     /// <typeparam name="T">The type of request to make.</typeparam>
     public class AsyncCollectionRequestMessage<T> : IAsyncEnumerable<T>
     {
-        private readonly ConcurrentBag<Task<T>> responses = new ConcurrentBag<Task<T>>();
-
         /// <summary>
-        /// Gets the message responses.
+        /// The collection of received replies. We accept both <see cref="Task{TResult}"/> instance, representing already running
+        /// operations that can be executed in parallel, or <see cref="Func{T,TResult}"/> instances, which can be used so that multiple
+        /// asynchronous operations are only started sequentially from <see cref="GetAsyncEnumerator"/> and do not overlap in time.
         /// </summary>
-        public IReadOnlyCollection<Task<T>> Responses => this.responses;
+        private readonly ConcurrentBag<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new ConcurrentBag<(Task<T>?, Func<CancellationToken, Task<T>>?)>();
 
         /// <summary>
         /// The <see cref="CancellationTokenSource"/> instance used to link the token passed to
@@ -77,7 +78,16 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <param name="response">The response to use to reply to the request message.</param>
         public void Reply(Task<T> response)
         {
-            this.responses.Add(response);
+            this.responses.Add((response, null));
+        }
+
+        /// <summary>
+        /// Replies to the current request message.
+        /// </summary>
+        /// <param name="response">The response to use to reply to the request message.</param>
+        public void Reply(Func<CancellationToken, Task<T>> response)
+        {
+            this.responses.Add((null, response));
         }
 
         /// <inheritdoc/>
@@ -90,14 +100,21 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
                 cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
-            foreach (var task in this.responses)
+            foreach (var (task, func) in this.responses)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
                     yield break;
                 }
 
-                yield return await task.ConfigureAwait(false);
+                if (!(task is null))
+                {
+                    yield return await task.ConfigureAwait(false);
+                }
+                else
+                {
+                    yield return await func!(cancellationToken).ConfigureAwait(false);
+                }
             }
         }
     }
