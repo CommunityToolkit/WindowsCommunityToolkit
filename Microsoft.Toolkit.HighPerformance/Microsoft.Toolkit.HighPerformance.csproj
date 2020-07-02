@@ -75,7 +75,7 @@
     </When>
     <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
       <ItemGroup>
-        <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" />
+        <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" PrivateAssets="all" />
       </ItemGroup>
       <PropertyGroup>
 
@@ -93,7 +93,7 @@
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
       </ItemGroup>
       <ItemGroup>
-        <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" />
+        <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" PrivateAssets="all" />
       </ItemGroup>
       <PropertyGroup>
         <DefineConstants>SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
