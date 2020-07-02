@@ -40,8 +40,7 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid MinHeight="100"
-                Background="{ThemeResource Brush-Grey-03}">
+                    <Grid MinHeight="100" Background="Blue">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -66,5 +65,46 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <StackPanel x:Name="shapesPanel"
+                    HorizontalAlignment="Center"
+                    Margin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
+                    Padding="88"
+                    Spacing="32">
+            <Polygon Height="100"
+                     Width="100"
+                     Points="0,0 0,72 44,36"
+                     Stroke="DarkGreen"
+                     Fill="Green"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="4"
+                        Height="84"
+                        Width="100">
+                <Polygon Points="0,0 0,56 32,28"
+                         Stroke="Blue"
+                         Fill="DodgerBlue"/>
+                <Polygon Points="0,0 0,56 32,28"
+                         Stroke="Blue"
+                         Fill="DodgerBlue"/>
+            </StackPanel>
+            <TextBlock
+                Height="100"
+                FontSize="24"
+                TextAlignment="Center">
+                <Run Text="Look at me, I'm floating between"/>
+                <LineBreak/>
+                <Run Text="two different ListView items!"/>
+            </TextBlock>
+            <Polygon Height="100"
+                     Width="100"
+                     Points="0,0 0,60 60,60 60,0"
+                     Stroke="DarkRed"
+                     Fill="Crimson"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"/>
+        </StackPanel>
     </Grid>
 </Page>

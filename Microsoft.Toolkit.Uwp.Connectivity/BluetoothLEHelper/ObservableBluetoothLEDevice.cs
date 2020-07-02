@@ -11,10 +11,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -135,15 +136,23 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             new ObservableCollection<ObservableGattDeviceService>();
 
         /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableBluetoothLEDevice"/> class.
         /// </summary>
         /// <param name="deviceInfo">The device information.</param>
-        public ObservableBluetoothLEDevice(DeviceInformation deviceInfo)
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates for this BluetoothLE Device, or null if this is being called from the UI thread.</param>
+        public ObservableBluetoothLEDevice(DeviceInformation deviceInfo, DispatcherQueue dispatcherQueue = null)
         {
             DeviceInfo = deviceInfo;
             Name = DeviceInfo.Name;
 
             IsPaired = DeviceInfo.Pairing.IsPaired;
+
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             LoadGlyph();
 
@@ -395,7 +404,8 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <exception cref="Exception">Thorws Exception when no permission to access device</exception>
         public async Task ConnectAsync()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherQueue.ExecuteOnUIThreadAsync(
+                async () =>
             {
                 if (BluetoothLEDevice == null)
                 {
@@ -442,7 +452,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                         throw new Exception(_result.ProtocolError.GetErrorString());
                     }
                 }
-            });
+            }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -468,8 +478,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <returns>The task of the update.</returns>
         public async Task UpdateAsync(DeviceInformationUpdate deviceUpdate)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {
                     DeviceInfo.Update(deviceUpdate);
@@ -479,7 +488,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                     LoadGlyph();
                     OnPropertyChanged("DeviceInfo");
-                });
+                }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -512,9 +521,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The arguments.</param>
         private async void BluetoothLEDevice_NameChanged(BluetoothLEDevice sender, object args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
-                () => { Name = BluetoothLEDevice.Name; });
+            await DispatcherQueue.ExecuteOnUIThreadAsync(() => { Name = BluetoothLEDevice.Name; }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -524,13 +531,12 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The arguments.</param>
         private async void BluetoothLEDevice_ConnectionStatusChanged(BluetoothLEDevice sender, object args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.ExecuteOnUIThreadAsync(
                 () =>
                 {
                     IsPaired = DeviceInfo.Pairing.IsPaired;
                     IsConnected = BluetoothLEDevice.ConnectionStatus == BluetoothConnectionStatus.Connected;
-                });
+                }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -538,15 +544,14 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// </summary>
         private async void LoadGlyph()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.ExecuteOnUIThreadAsync(
                 async () =>
                 {
                     var deviceThumbnail = await DeviceInfo.GetGlyphThumbnailAsync();
                     var glyphBitmapImage = new BitmapImage();
                     await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
                     Glyph = glyphBitmapImage;
-                });
+                }, DispatcherQueuePriority.Normal);
         }
     }
 }

@@ -2,18 +2,31 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Brush which applies a SepiaEffect to the Backdrop. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SepiaEffect.htm
     /// </summary>
-    public class BackdropSepiaBrush : XamlCompositionBrushBase
+    public class BackdropSepiaBrush : XamlCompositionEffectBrushBase
     {
+        /// <summary>
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
+        /// </summary>
+        private EffectSetter<float> setter;
+
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Intensity
+        {
+            get => (double)GetValue(IntensityProperty);
+            set => SetValue(IntensityProperty, value);
+        }
+
         /// <summary>
         /// Identifies the <see cref="Intensity"/> dependency property.
         /// </summary>
@@ -24,14 +37,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.5, new PropertyChangedCallback(OnIntensityChanged)));
 
         /// <summary>
-        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// Updates the UI when <see cref="Intensity"/> changes
         /// </summary>
-        public double Intensity
-        {
-            get { return (double)GetValue(IntensityProperty); }
-            set { SetValue(IntensityProperty, value); }
-        }
-
+        /// <param name="d">The current <see cref="BackdropSepiaBrush"/> instance</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="IntensityProperty"/></param>
         private static void OnIntensityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (BackdropSepiaBrush)d;
@@ -48,60 +57,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
 
             // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Sepia.Intensity", (float)brush.Intensity);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropSepiaBrush"/> class.
-        /// </summary>
-        public BackdropSepiaBrush()
-        {
-        }
-
-        /// <summary>
-        /// Initializes the Composition Brush.
-        /// </summary>
-        protected override void OnConnected()
-        {
-            // Delay creating composition resources until they're required.
-            if (CompositionBrush == null)
+            if (brush.CompositionBrush is CompositionBrush target)
             {
-                // Abort if effects aren't supported.
-                if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
-                {
-                    return;
-                }
-
-                var backdrop = Window.Current.Compositor.CreateBackdropBrush();
-
-                // Use a Win2D blur affect applied to a CompositionBackdropBrush.
-                var graphicsEffect = new SepiaEffect
-                {
-                    Name = "Sepia",
-                    Intensity = (float)Intensity,
-                    Source = new CompositionEffectSourceParameter("backdrop")
-                };
-
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Sepia.Intensity" });
-                var effectBrush = effectFactory.CreateBrush();
-
-                effectBrush.SetSourceParameter("backdrop", backdrop);
-
-                CompositionBrush = effectBrush;
+                brush.setter?.Invoke(target, (float)brush.Intensity);
             }
         }
 
-        /// <summary>
-        /// Deconstructs the Composition Brush.
-        /// </summary>
-        protected override void OnDisconnected()
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
         {
-            // Dispose of composition resources when no longer in use.
-            if (CompositionBrush != null)
-            {
-                CompositionBrush.Dispose();
-                CompositionBrush = null;
-            }
+            return PipelineBuilder.FromBackdrop().Sepia((float)Intensity, out setter);
         }
     }
 }
