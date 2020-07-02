@@ -24,6 +24,7 @@
     <Thickness x:Key="SystemControlMSEdgeNotificationDismissButtonMargin">24,0,0,0</Thickness>
     <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonTranslate">18</x:Double>
     <VerticalAlignment x:Key="SystemControlMSEdgeNotificationDismissButtonVerticalAlignment">Center</VerticalAlignment>
+    <Thickness x:Key="SystemControlMSEdgeNotificationButtonBorderThickness">2</Thickness>
     
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
@@ -36,7 +37,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
                     <Grid x:Name="RootGrid" Margin="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                        <Border x:Name="TextBorder" BorderThickness="2" BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
+                        <Border x:Name="TextBorder" BorderThickness="{StaticResource SystemControlMSEdgeNotificationButtonBorderThickness}" BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
                             <ContentPresenter x:Name="Text"
                                               Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
