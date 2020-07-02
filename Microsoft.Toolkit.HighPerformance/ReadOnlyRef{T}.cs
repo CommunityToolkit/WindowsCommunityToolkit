@@ -279,7 +279,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         private static void ThrowArgumentExceptionForInvalidType()
         {
-            throw new InvalidOperationException("The ReadOnlyRef<T>(void*) constructor can only be used when T is an unmanaged type");
+            throw new ArgumentException("The ReadOnlyRef<T>(void*) constructor can only be used when T is an unmanaged type");
         }
 #endif
     }

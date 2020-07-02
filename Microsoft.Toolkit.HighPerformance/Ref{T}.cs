@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         private static void ThrowArgumentExceptionForInvalidType()
         {
-            throw new InvalidOperationException("The Ref<T>(void*) constructor can only be used when T is an unmanaged type");
+            throw new ArgumentException("The Ref<T>(void*) constructor can only be used when T is an unmanaged type");
         }
 #endif
     }
