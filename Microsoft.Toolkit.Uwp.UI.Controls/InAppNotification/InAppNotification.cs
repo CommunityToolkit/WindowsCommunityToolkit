@@ -80,16 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
         {
-            _dismissTimer.Stop();
-
-            var eventArgs = new InAppNotificationOpeningEventArgs();
-            Opening?.Invoke(this, eventArgs);
-
-            if (eventArgs.Cancel)
-            {
-                return;
-            }
-
             // We keep our current content
             var notificationOptions = new NotificationOptions
             {
@@ -258,6 +248,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="notificationOptions">Information about the notification to display</param>
         private void Show(NotificationOptions notificationOptions)
         {
+            var eventArgs = new InAppNotificationOpeningEventArgs();
+            Opening?.Invoke(this, eventArgs);
+
+            if (eventArgs.Cancel)
+            {
+                return;
+            }
+
             var shouldDisplayImmediately = true;
             switch (StackMode)
             {
@@ -287,6 +285,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
                     _dismissTimer.Start();
+                }
+                else
+                {
+                    _dismissTimer.Stop();
                 }
             }
         }
