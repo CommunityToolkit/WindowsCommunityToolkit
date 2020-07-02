@@ -122,25 +122,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var (columnLastIndex, columnHeight) = Partition(columnsCount, finalSize.Height);
 
             var rect = new Rect(0, 0, columnsWidth, 0);
-            var height = 0.0;
             var currentColumnIndex = 0;
             for (var childIndex = 0; childIndex < Children.Count; childIndex++)
             {
                 var child = Children[childIndex];
-                rect.Y = height;
                 rect.Height = child.DesiredSize.Height;
 
                 child.Arrange(rect);
 
-                height += child.DesiredSize.Height + ItemsSpacing;
                 if (childIndex == columnLastIndex[currentColumnIndex])
                 {
                     // We've reached the last item for the current column. We move to the next one.
-                    height = 0.0;
                     currentColumnIndex++;
 
                     rect.X += columnsWidth + ColumnsSpacing;
                     rect.Y = 0;
+                }
+                else
+                {
+                    rect.Y += child.DesiredSize.Height + ItemsSpacing;
                 }
             }
 
@@ -168,7 +168,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var columnLastIndexes = new int[columnsCount];
 
             var totalHeight = Children.Sum(child => child.DesiredSize.Height);
-            var expectedColumnHeight = Math.Max(availableColumnHeight, totalHeight / columnsCount);
+            var expectedColumnHeight = totalHeight / columnsCount;
+            if (!double.IsInfinity(availableColumnHeight))
+            {
+                expectedColumnHeight = Math.Max(availableColumnHeight, expectedColumnHeight);
+            }
 
             // We ensure that we have enough space to place the first item.
             if (Children.Count > 0)
@@ -187,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             while (!hasFoundPartition)
             {
                 columnLastIndexes[0]++;
-                expectedColumnHeight = Children.Take(columnLastIndexes[0] + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndexes[0] * ItemsSpacing);
+                expectedColumnHeight = GetColumnHeight(columnLastIndexes[0]);
 
                 columnIndex = 1;
                 (hasFoundPartition, adjustedExpectedColumnHeight) = DoPartition(
@@ -228,14 +232,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // Now that we have the items for our first column, we adjust expectedColumnHeight
                         // to be the height of this first column in order to have a more natural layout.
-                        expectedColumnHeight = Children.Take(columnLastIndexes[0] + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndexes[0] * ItemsSpacing);
+                        expectedColumnHeight = currentColumnHeight - ItemsSpacing;
                     }
 
                     columnIndex++;
                     if (columnIndex < columnLastIndexes.Length)
                     {
                         columnLastIndexes[columnIndex] = i;
-                        currentColumnHeight = currentChildHeight;
+                        currentColumnHeight = currentChildHeight + ItemsSpacing;
                     }
                     else
                     {
@@ -272,5 +276,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return (columnsCount, columnsWidth);
         }
+
+        private double GetColumnHeight(int columnLastIndex) => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * ItemsSpacing);
+
     }
 }
