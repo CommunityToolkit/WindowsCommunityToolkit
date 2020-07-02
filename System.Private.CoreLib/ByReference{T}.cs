@@ -11,7 +11,7 @@ namespace System
     /// <see href="https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/ByReference.cs">here</see>.
     /// </summary>
     /// <typeparam name="T">The type of reference being stored.</typeparam>
-    public readonly ref struct ByReference<T>
+    internal readonly ref struct ByReference<T>
     {
 #pragma warning disable IDE0051, 169 // Local fields is never used
         private readonly IntPtr value;
