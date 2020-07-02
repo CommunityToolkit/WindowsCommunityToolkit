@@ -9,6 +9,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>SilverlightPlatformPublicKey.snk</AssemblyOriginatorKeyFile>
     <PublicSign>true</PublicSign>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
 </Project>
