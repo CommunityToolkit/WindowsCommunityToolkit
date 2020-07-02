@@ -174,6 +174,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expectedColumnHeight = Math.Max(availableColumnHeight, expectedColumnHeight);
             }
 
+            // If we are wrapped in a scroll viewer, we get the size of the scroll viewer to fill as much as possible the columns
+            if (Parent is ScrollViewer scrollviewer)
+            {
+                expectedColumnHeight = Math.Max(expectedColumnHeight, scrollviewer.ViewportHeight);
+            }
+
             // We ensure that we have enough space to place the first item.
             if (Children.Count > 0)
             {
