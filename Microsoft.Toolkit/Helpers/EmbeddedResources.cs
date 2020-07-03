@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Helpers
             string[] parts = path.Split(PathSeparators, StringSplitOptions.RemoveEmptyEntries);
             string filename = $"{assembly.GetName().Name}.{string.Join(".", parts)}";
 
-            using Stream? stream = assembly.GetManifestResourceStream(filename);
+            Stream? stream = assembly.GetManifestResourceStream(filename);
 
             if (stream is null)
             {
