@@ -196,6 +196,7 @@
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Assets\SampleFile.txt" />
     <Content Include="Assets\Samples\lorem.txt" />
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

@@ -21,5 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_EmbeddedResources.cs" />
   </ItemGroup>
 </Project>
