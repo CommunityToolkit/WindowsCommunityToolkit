@@ -57,6 +57,7 @@
                 <TextBox Header="Field 28" />
                 <TextBox Height="200"
                          Header="Field 29" />
+                <TextBox Header="Field 30" />
             </controls:MultiColumnsStackPanel>
         </ScrollViewer>
     </Grid>

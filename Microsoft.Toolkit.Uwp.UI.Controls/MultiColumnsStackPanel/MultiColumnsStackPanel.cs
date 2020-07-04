@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 child.Arrange(rect);
 
-                if (childIndex == columnLastIndex[currentColumnIndex])
+                if (currentColumnIndex < columnLastIndex.Length && childIndex == columnLastIndex[currentColumnIndex])
                 {
                     // We've reached the last item for the current column. We move to the next one.
                     currentColumnIndex++;
@@ -148,9 +148,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private Size GetSize(int columnsCount, double columnsWidth, double columnHeight)
-            => new Size(
-                    width: (columnsCount * columnsWidth) + (Math.Max(0, columnsCount - 1) * ColumnsSpacing),
+        {
+            // We use this trick to fix rounding errors when scaling is greater than 100%
+            // The value we return from MeasureOverride() if converted using floor((value * scalefactor) + .5)/scalefactor  before being provided to ArrangeOverride() and in some
+            // cases, we are receiving a value lower than what we're expecting. For example, when we return a desired width of 707 px, we receive 706,8571 in arrange and we're dropping
+            // one column. Forcing even numbers is an easy way to limit the issue.
+            // See: https://github.com/microsoft/microsoft-ui-xaml/issues/1441
+            var requiredColumnWidth = Math.Ceiling((columnsCount * columnsWidth) + (Math.Max(0, columnsCount - 1) * ColumnsSpacing));
+            var evenColumnWidth = requiredColumnWidth % 2 == 0 ? requiredColumnWidth : (requiredColumnWidth + 1);
+
+            return new Size(
+                    width: evenColumnWidth,
                     height: columnHeight);
+        }
 
         private double GetHeight(int index) => Children[index].DesiredSize.Height;
 
@@ -167,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var columnLastIndexes = new int[columnsCount];
 
-            var totalHeight = Children.Sum(child => child.DesiredSize.Height);
+            var totalHeight = Children.Sum(child => child.DesiredSize.Height) + (Math.Max(Children.Count - 1, 0) * ItemsSpacing);
             var expectedColumnHeight = totalHeight / columnsCount;
             if (!double.IsInfinity(availableColumnHeight))
             {
@@ -194,17 +204,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expectedColumnHeight: expectedColumnHeight);
 
             // We have some overflow items, we move the first element of column 1 to column 0 and restart the logic.
-            while (!hasFoundPartition)
+            if (columnLastIndexes.Length > 1)
             {
-                columnLastIndexes[0]++;
-                expectedColumnHeight = GetColumnHeight(columnLastIndexes[0]);
+                while (!hasFoundPartition)
+                {
+                    columnLastIndexes[0]++;
+                    expectedColumnHeight = GetColumnHeight(columnLastIndexes[0]);
 
-                columnIndex = 1;
-                (hasFoundPartition, adjustedExpectedColumnHeight) = DoPartition(
-                    columnLastIndexes,
-                    columnIndex,
-                    childStartIndex: columnLastIndexes[0] + 1,
-                    expectedColumnHeight: expectedColumnHeight);
+                    columnIndex = 1;
+                    (hasFoundPartition, adjustedExpectedColumnHeight) = DoPartition(
+                        columnLastIndexes,
+                        columnIndex,
+                        childStartIndex: columnLastIndexes[0] + 1,
+                        expectedColumnHeight: expectedColumnHeight);
+                }
             }
 
             return (columnLastIndexes, adjustedExpectedColumnHeight);
