@@ -7,40 +7,57 @@
     mc:Ignorable="d">
 
     <Grid>
-        <controls:MultiColumnsStackPanel 
-            ColumnsSpacing="@[ColumnsSpacing:Slider:12:0-120]"
-            ItemsSpacing="@[ItemsSpacing:Slider:8:0-64]"
-            HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Stretch]"
-            MaxColumnWidth="@[MaxColumnWidth:Slider:240:0-500]">
-            <TextBox Header="Field 1" />
-            <TextBox Header="Field 2" />
-            <TextBox Header="Field 3" />
-            <TextBox Header="Field 4" />
-            <TextBox Header="Field 5" />
-            <TextBox Header="Field 6" />
-            <TextBox Header="Field 7" />
-            <TextBox Header="Field 8" />
-            <TextBox Header="Field 9" />
-            <TextBox Header="Field 10" />
-            <TextBox Header="Field 11" />
-            <TextBox Header="Field 12" />
-            <TextBox Header="Field 13" />
-            <TextBox Header="Field 14" />
-            <TextBox Header="Field 15" />
-            <TextBox Header="Field 16" />
-            <TextBox Header="Field 17" />
-            <TextBox Header="Field 18" />
-            <TextBox Header="Field 19" />
-            <TextBox Header="Field 20" />
-            <TextBox Header="Field 21" />
-            <TextBox Header="Field 22" />
-            <TextBox Header="Field 23" />
-            <TextBox Header="Field 24" />
-            <TextBox Header="Field 25" />
-            <TextBox Header="Field 26" />
-            <TextBox Header="Field 27" />
-            <TextBox Header="Field 28" />
-            <TextBox Header="Field 29" />
-        </controls:MultiColumnsStackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      HorizontalScrollMode="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Auto">
+            <controls:MultiColumnsStackPanel HorizontalAlignment="Left"
+                                             VerticalAlignment="Top"
+                                             HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Stretch]"
+                                             ColumnsSpacing="@[ColumnsSpacing:Slider:12:0-120]"
+                                             ItemsSpacing="@[ItemsSpacing:Slider:8:0-64]"
+                                             MaxColumnWidth="@[MaxColumnWidth:Slider:240:0-500]">
+                <TextBox Header="Field 1" />
+                <TextBox Header="Field 2" />
+                <TextBox Height="200"
+                         Header="Field 3" />
+                <TextBox Header="Field 4" />
+                <TextBox Header="Field 5" />
+                <TextBox Height="100"
+                         Header="Field 6" />
+                <TextBox Height="200"
+                         Header="Field 7" />
+                <TextBox Header="Field 8" />
+                <TextBox Height="100"
+                         Header="Field 9" />
+                <TextBox Header="Field 10" />
+                <TextBox Header="Field 11" />
+                <TextBox Header="Field 12" />
+                <TextBox Header="Field 13" />
+                <TextBox Height="200"
+                         Header="Field 14" />
+                <TextBox Header="Field 15" />
+                <TextBox Height="100"
+                         Header="Field 16" />
+                <TextBox Header="Field 17" />
+                <TextBox Header="Field 18" />
+                <TextBox Header="Field 19" />
+                <TextBox Height="200"
+                         Header="Field 20" />
+                <TextBox Header="Field 21" />
+                <TextBox Height="100"
+                         Header="Field 22" />
+                <TextBox Header="Field 23" />
+                <TextBox Height="300"
+                         Header="Field 24" />
+                <TextBox Header="Field 25" />
+                <TextBox Height="200"
+                         Header="Field 26" />
+                <TextBox Header="Field 27" />
+                <TextBox Header="Field 28" />
+                <TextBox Height="200"
+                         Header="Field 29" />
+            </controls:MultiColumnsStackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
