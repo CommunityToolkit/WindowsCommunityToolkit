@@ -106,12 +106,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // lookup table can just be assumed to always be false.
             bool isInRange = (uint)i < (uint)span.Length;
             byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
-            int
-                negativeFlag = rangeFlag - 1,
+            uint
+                negativeFlag = rangeFlag - 1u,
                 mask = ~negativeFlag,
-                offset = i & mask;
+                offset = (uint)i & mask;
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)offset);
 
             return ref r1;
         }
