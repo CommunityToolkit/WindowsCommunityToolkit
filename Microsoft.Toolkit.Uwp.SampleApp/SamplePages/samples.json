@@ -47,6 +47,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Carousel.md"
       },
       {
+        "Name": "ColorPickerButton",
+        "Type": "ColorPickerButtonPage",
+        "Subcategory": "Input",
+        "About": "TBD",
+        "CodeUrl": "TBD",
+        "DocumentationUrl": "TBD"
+      },
+      {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "Subcategory": "Layout",
