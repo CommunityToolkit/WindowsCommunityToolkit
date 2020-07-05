@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             bool isInRange = (uint)i < (uint)span.Length;
             byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
             uint
-                negativeFlag = rangeFlag - 1u,
+                negativeFlag = unchecked(rangeFlag - 1u),
                 mask = ~negativeFlag,
                 offset = (uint)i & mask;
             ref T r0 = ref MemoryMarshal.GetReference(span);
