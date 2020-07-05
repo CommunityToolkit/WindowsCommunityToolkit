@@ -45,7 +45,7 @@
                             <SolidColorBrush x:Name="CheckerColorBrush"
                                              Color="{ThemeResource SystemListLowColor}" />
                             <Style x:Key="ColorPickerButtonSliderStyle"
-                                   TargetType="controls:ColorPickerSlider">
+                                   TargetType="controls:ColorPickerButtonSlider">
                                 <Setter Property="VerticalAlignment"
                                         Value="Center" />
                                 <Setter Property="IsThumbToolTipEnabled"
@@ -53,7 +53,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <!-- Based on WinUI version 2.4.2 -->
-                                        <ControlTemplate TargetType="controls:ColorPickerSlider">
+                                        <ControlTemplate TargetType="controls:ColorPickerButtonSlider">
                                             <Grid Margin="{TemplateBinding Padding}">
                                                 <Grid.Resources>
                                                     <Style TargetType="Thumb"
@@ -361,15 +361,15 @@
                                                             <RowDefinition Height="Auto" />
                                                             <RowDefinition Height="*" />
                                                         </Grid.RowDefinitions>
-                                                        <controls:ColorPickerSlider x:Name="ColorSpectrumThirdDimensionSlider"
-                                                                                    Grid.Column="0"
-                                                                                    Grid.Row="1"
-                                                                                    Grid.RowSpan="2"
-                                                                                    Style="{StaticResource ColorPickerButtonSliderStyle}"
-                                                                                    Orientation="Vertical"
-                                                                                    HorizontalAlignment="Center"
-                                                                                    VerticalAlignment="Stretch"
-                                                                                    Margin="0,0,12,0" />
+                                                        <controls:ColorPickerButtonSlider x:Name="ColorSpectrumThirdDimensionSlider"
+                                                                                          Grid.Column="0"
+                                                                                          Grid.Row="1"
+                                                                                          Grid.RowSpan="2"
+                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          Orientation="Vertical"
+                                                                                          HorizontalAlignment="Center"
+                                                                                          VerticalAlignment="Stretch"
+                                                                                          Margin="0,0,12,0" />
                                                         <!-- Keep in mind the spectrum is always HSV -->
                                                         <ColorSpectrum x:Name="ColorSpectrum"
                                                                        Grid.Column="1"
@@ -385,15 +385,15 @@
                                                                        Shape="{TemplateBinding ColorSpectrumShape}"
                                                                        HorizontalAlignment="Stretch"
                                                                        VerticalAlignment="Stretch" />
-                                                        <controls:ColorPickerSlider x:Name="ColorSpectrumAlphaSlider"
-                                                                                    Grid.Column="2"
-                                                                                    Grid.Row="1"
-                                                                                    Grid.RowSpan="2"
-                                                                                    Style="{StaticResource ColorPickerButtonSliderStyle}"
-                                                                                    Orientation="Vertical"
-                                                                                    HorizontalAlignment="Center"
-                                                                                    VerticalAlignment="Stretch"
-                                                                                    Margin="12,0,0,0" />
+                                                        <controls:ColorPickerButtonSlider x:Name="ColorSpectrumAlphaSlider"
+                                                                                          Grid.Column="2"
+                                                                                          Grid.Row="1"
+                                                                                          Grid.RowSpan="2"
+                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          Orientation="Vertical"
+                                                                                          HorizontalAlignment="Center"
+                                                                                          VerticalAlignment="Stretch"
+                                                                                          Margin="12,0,0,0" />
                                                         <!--<Border
                                                             Grid.Column="1"
                                                             Grid.Row="0"
@@ -553,13 +553,13 @@
                                                                  Grid.Row="1"
                                                                  CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
-                                                        <controls:ColorPickerSlider x:Name="Channel1Slider"
-                                                                                    Grid.Column="2"
-                                                                                    Grid.Row="1"
-                                                                                    Style="{StaticResource ColorPickerButtonSliderStyle}"
-                                                                                    Margin="12,0,0,0"
-                                                                                    HorizontalAlignment="Stretch"
-                                                                                    VerticalAlignment="Center" />
+                                                        <controls:ColorPickerButtonSlider x:Name="Channel1Slider"
+                                                                                          Grid.Column="2"
+                                                                                          Grid.Row="1"
+                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          Margin="12,0,0,0"
+                                                                                          HorizontalAlignment="Stretch"
+                                                                                          VerticalAlignment="Center" />
                                                         <!-- Channel 2 RGB:Green HSV:Saturation -->
                                                         <Border Grid.Column="0"
                                                                 Grid.Row="2"
@@ -581,13 +581,13 @@
                                                                  Grid.Row="2"
                                                                  CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
-                                                        <controls:ColorPickerSlider x:Name="Channel2Slider"
-                                                                                    Grid.Column="2"
-                                                                                    Grid.Row="2"
-                                                                                    Style="{StaticResource ColorPickerButtonSliderStyle}"
-                                                                                    Margin="12,0,0,0"
-                                                                                    HorizontalAlignment="Stretch"
-                                                                                    VerticalAlignment="Center" />
+                                                        <controls:ColorPickerButtonSlider x:Name="Channel2Slider"
+                                                                                          Grid.Column="2"
+                                                                                          Grid.Row="2"
+                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          Margin="12,0,0,0"
+                                                                                          HorizontalAlignment="Stretch"
+                                                                                          VerticalAlignment="Center" />
                                                         <!-- Channel 3 RGB:Blue HSV:Value -->
                                                         <Border Grid.Column="0"
                                                                 Grid.Row="3"
@@ -609,13 +609,13 @@
                                                                  Grid.Row="3"
                                                                  CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
-                                                        <controls:ColorPickerSlider x:Name="Channel3Slider"
-                                                                                    Grid.Column="2"
-                                                                                    Grid.Row="3"
-                                                                                    Style="{StaticResource ColorPickerButtonSliderStyle}"
-                                                                                    Margin="12,0,0,0"
-                                                                                    HorizontalAlignment="Stretch"
-                                                                                    VerticalAlignment="Center" />
+                                                        <controls:ColorPickerButtonSlider x:Name="Channel3Slider"
+                                                                                          Grid.Column="2"
+                                                                                          Grid.Row="3"
+                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          Margin="12,0,0,0"
+                                                                                          HorizontalAlignment="Stretch"
+                                                                                          VerticalAlignment="Center" />
                                                         <!-- Alpha channel -->
                                                         <Border Grid.Column="0"
                                                                 Grid.Row="4"
@@ -637,13 +637,13 @@
                                                                  Grid.Row="4"
                                                                  CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
-                                                        <controls:ColorPickerSlider x:Name="AlphaChannelSlider"
-                                                                                    Grid.Column="2"
-                                                                                    Grid.Row="4"
-                                                                                    Style="{StaticResource ColorPickerButtonSliderStyle}"
-                                                                                    Margin="12,0,0,0"
-                                                                                    HorizontalAlignment="Stretch"
-                                                                                    VerticalAlignment="Center" />
+                                                        <controls:ColorPickerButtonSlider x:Name="AlphaChannelSlider"
+                                                                                          Grid.Column="2"
+                                                                                          Grid.Row="4"
+                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          Margin="12,0,0,0"
+                                                                                          HorizontalAlignment="Stretch"
+                                                                                          VerticalAlignment="Center" />
                                                     </Grid>
                                                 </PivotItem.Content>
                                             </PivotItem>

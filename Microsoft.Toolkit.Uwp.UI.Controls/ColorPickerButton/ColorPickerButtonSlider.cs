@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// here in the future just like ColorPicker.
     /// 
     /// </remarks>
-    public class ColorPickerSlider : Slider
+    public class ColorPickerButtonSlider : Slider
     {
         private Size oldSize;
         private Size measuredSize;
