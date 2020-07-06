@@ -50,8 +50,9 @@
         "Name": "ColorPickerButton",
         "Type": "ColorPickerButtonPage",
         "Subcategory": "Input",
-        "About": "TBD",
+        "About": "A color picker within a flyout opened by pressing a drop down button containing the selected color.",
         "CodeUrl": "TBD",
+        "Icon": "/SamplePages/ColorPickerButton/ColorPickerButton.png",
         "DocumentationUrl": "TBD"
       },
       {
