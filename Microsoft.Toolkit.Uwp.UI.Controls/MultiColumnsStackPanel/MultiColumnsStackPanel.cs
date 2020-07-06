@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var child = Children[childIndex];
                 rect.Height = child.DesiredSize.Height;
 
-                child.Arrange(rect);
+                ArrangeChild(child, rect);
 
                 if (currentColumnIndex < columnLastIndex.Length && childIndex == columnLastIndex[currentColumnIndex])
                 {
@@ -145,6 +145,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return GetSize(columnsCount, columnsWidth, columnHeight);
+        }
+
+        private void ArrangeChild(UIElement element, Rect position)
+        {
+            var requestedAlignement = HorizontalContentAlignment;
+            if (element is Control control)
+            {
+                // We use the control defined value
+                requestedAlignement = control.HorizontalAlignment;
+            }
+
+            if (element.DesiredSize.Width >= position.Width)
+            {
+                requestedAlignement = HorizontalAlignment.Stretch;
+            }
+
+            switch (requestedAlignement)
+            {
+                case HorizontalAlignment.Left:
+                    position.Width = element.DesiredSize.Width;
+                    break;
+                case HorizontalAlignment.Center:
+                    position.X = (position.Width - element.DesiredSize.Width) / 2.0;
+                    position.Width = element.DesiredSize.Width;
+                    break;
+                case HorizontalAlignment.Right:
+                    position.X = position.Width - element.DesiredSize.Width;
+                    position.Width = element.DesiredSize.Width;
+                    break;
+                case HorizontalAlignment.Stretch:
+                default:
+                    // no adjustment needed, we use the received value.
+                    break;
+            }
+
+            element.Arrange(position);
         }
 
         private Size GetSize(int columnsCount, double columnsWidth, double columnHeight)
