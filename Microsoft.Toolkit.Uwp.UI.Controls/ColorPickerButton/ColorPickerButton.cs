@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Presents a color spectrum, a palette of colors, and color channel sliders for user selection of a color.
+    /// </summary>
     [TemplatePart(Name = nameof(ColorPickerButton.AlphaChannelSlider),          Type = typeof(Slider))]
     [TemplatePart(Name = nameof(ColorPickerButton.AlphaChannelTextBox),         Type = typeof(TextBox))]
     [TemplatePart(Name = nameof(ColorPickerButton.Channel1Slider),              Type = typeof(Slider))]
@@ -123,10 +126,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private TextBox Channel2TextBox;
         private TextBox Channel3TextBox;
         private TextBox AlphaChannelTextBox;
-        private Slider    Channel1Slider;
-        private Slider    Channel2Slider;
-        private Slider    Channel3Slider;
-        private Slider    AlphaChannelSlider;
+        private Slider  Channel1Slider;
+        private Slider  Channel2Slider;
+        private Slider  Channel3Slider;
+        private Slider  AlphaChannelSlider;
 
         private Border N1PreviewBorder;
         private Border N2PreviewBorder;
@@ -152,14 +155,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          ***************************************************************************************/
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="ColorPickerButton"/> class.
         /// </summary>
         public ColorPickerButton()
         {
             this.DefaultStyleKey = typeof(ColorPickerButton);
 
             // Setup collections
-            base.SetValue(CustomPaletteColorsProperty, new ObservableCollection<Color>());
+            this.SetValue(CustomPaletteColorsProperty, new ObservableCollection<Color>());
             this.CustomPaletteColors.CollectionChanged += CustomPaletteColors_CollectionChanged;
 
             this.Loaded += ColorPickerButton_Loaded;
@@ -175,21 +178,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Destructor.
+        /// Finalizes an instance of the <see cref="ColorPickerButton"/> class.
         /// </summary>
         ~ColorPickerButton()
         {
             this.StopDispatcherTimer();
             this.CustomPaletteColors.CollectionChanged -= CustomPaletteColors_CollectionChanged;
         }
-
-        /***************************************************************************************
-         *
-         * Property Accessors
-         *
-         ***************************************************************************************/
-
-
 
         /***************************************************************************************
          *
@@ -240,11 +235,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Sync the active color
             if (this.ColorSpectrum != null)
             {
-                this.ColorSpectrum.Color = (Color)base.GetValue(ColorProperty);
+                this.ColorSpectrum.Color = (Color)this.GetValue(ColorProperty);
             }
 
             // Set initial state
-            if (base.IsEnabled == false)
+            if (this.IsEnabled == false)
             {
                 VisualStateManager.GoToState(this, "Disabled", false);
             }
@@ -264,16 +259,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Retrieves the named element in the instantiated ControlTemplate visual tree.
         /// </summary>
         /// <param name="childName">The name of the element to find.</param>
+        /// <param name="isRequired">Whether the element is required and will throw an exception if missing.</param>
         /// <returns>The template child matching the given name and type.</returns>
-        private T GetTemplateChild<T>(string childName, bool isRequired = true) where T : DependencyObject
+        private T GetTemplateChild<T>(string childName, bool isRequired = true)
+            where T : DependencyObject
         {
-            T child = base.GetTemplateChild(childName) as T;
+            T child = this.GetTemplateChild(childName) as T;
             if ((child == null) && isRequired)
             {
                 throw new NullReferenceException(childName);
             }
 
-            return (child);
+            return child;
         }
 
         /// <summary>
@@ -872,35 +869,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int height = 0;
             Color baseColor = this.Color;
 
-            // Updates may be requested when sliders are not in the visual tree.
-            // For first-time load this is handled by the Loaded event.
-            // However, after that problems may arise, consider the following case:
-            // 
-            //   (1) Backgrounds are drawn normally the first time on Loaded.
-            //       Actual height/width are available.
-            //   (2) The palette tab is selected which has no sliders
-            //   (3) The picker flyout is closed
-            //   (4) Externally the color is changed
-            //       The color change will trigger slider background updates but
-            //       with the flyout closed, actual height/width are zero. 
-            //       No zero size bitmap can be generated.
-            //   (5) The picker flyout is re-opened by the user and the default
-            //       last-opened tab will be viewed: palette.
-            //       No loaded events will be fired for sliders. The color change
-            //       event was already handled in (4). The sliders will never
-            //       be updated.
-            // 
-            // In this case the sliders become out of sync with the Color because there is no way 
-            // to tell when they actually come into view. To work around this, force a re-render of 
-            // the background with the last size of the slider. This last size will be when it was 
-            // last loaded or updated.
-            // 
-            // In the future additional consideration may be required for SizeChanged of the control.
-            // This work-around will also cause issues if display scaling changes in the special
-            // case where cached sizes are required.
+            /* Updates may be requested when sliders are not in the visual tree.
+             * For first-time load this is handled by the Loaded event.
+             * However, after that problems may arise, consider the following case:
+             *
+             *   (1) Backgrounds are drawn normally the first time on Loaded.
+             *       Actual height/width are available.
+             *   (2) The palette tab is selected which has no sliders
+             *   (3) The picker flyout is closed
+             *   (4) Externally the color is changed
+             *       The color change will trigger slider background updates but
+             *       with the flyout closed, actual height/width are zero.
+             *       No zero size bitmap can be generated.
+             *   (5) The picker flyout is re-opened by the user and the default
+             *       last-opened tab will be viewed: palette.
+             *       No loaded events will be fired for sliders. The color change
+             *       event was already handled in (4). The sliders will never
+             *       be updated.
+             *
+             * In this case the sliders become out of sync with the Color because there is no way
+             * to tell when they actually come into view. To work around this, force a re-render of
+             * the background with the last size of the slider. This last size will be when it was
+             * last loaded or updated.
+             *
+             * In the future additional consideration may be required for SizeChanged of the control.
+             * This work-around will also cause issues if display scaling changes in the special
+             * case where cached sizes are required.
+             */
             if (slider != null)
             {
-                width  = Convert.ToInt32(slider.ActualWidth);
+                width = Convert.ToInt32(slider.ActualWidth);
                 height = Convert.ToInt32(slider.ActualHeight);
 
                 if (width == 0 || height == 0)
@@ -909,7 +907,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (this.cachedSliderSizes.ContainsKey(slider))
                     {
                         Size cachedSize = this.cachedSliderSizes[slider];
-                        width  = Convert.ToInt32(cachedSize.Width);
+                        width = Convert.ToInt32(cachedSize.Width);
                         height = Convert.ToInt32(cachedSize.Height);
                     }
                 }
@@ -929,63 +927,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (object.ReferenceEquals(slider, this.Channel1Slider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(width,
-                                                             height,
-                                                             Orientation.Horizontal,
-                                                             this.GetActiveColorRepresentation(),
-                                                             ColorChannel.Channel1,
-                                                             baseColor,
-                                                             this.checkerBackgroundColor);
+                bitmap = await this.CreateChannelBitmapAsync(
+                    width,
+                    height,
+                    Orientation.Horizontal,
+                    this.GetActiveColorRepresentation(),
+                    ColorChannel.Channel1,
+                    baseColor,
+                    this.checkerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.Channel2Slider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(width,
-                                                             height,
-                                                             Orientation.Horizontal,
-                                                             this.GetActiveColorRepresentation(),
-                                                             ColorChannel.Channel2,
-                                                             baseColor,
-                                                             this.checkerBackgroundColor);
+                bitmap = await this.CreateChannelBitmapAsync(
+                    width,
+                    height,
+                    Orientation.Horizontal,
+                    this.GetActiveColorRepresentation(),
+                    ColorChannel.Channel2,
+                    baseColor,
+                    this.checkerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.Channel3Slider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(width,
-                                                             height,
-                                                             Orientation.Horizontal,
-                                                             this.GetActiveColorRepresentation(),
-                                                             ColorChannel.Channel3,
-                                                             baseColor,
-                                                             this.checkerBackgroundColor);
+                bitmap = await this.CreateChannelBitmapAsync(
+                    width,
+                    height,
+                    Orientation.Horizontal,
+                    this.GetActiveColorRepresentation(),
+                    ColorChannel.Channel3,
+                    baseColor,
+                    this.checkerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.AlphaChannelSlider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(width,
-                                                             height,
-                                                             Orientation.Horizontal,
-                                                             this.GetActiveColorRepresentation(),
-                                                             ColorChannel.Alpha,
-                                                             baseColor,
-                                                             this.checkerBackgroundColor);
+                bitmap = await this.CreateChannelBitmapAsync(
+                    width,
+                    height,
+                    Orientation.Horizontal,
+                    this.GetActiveColorRepresentation(),
+                    ColorChannel.Alpha,
+                    baseColor,
+                    this.checkerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.ColorSpectrumAlphaSlider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(width,
-                                                             height,
-                                                             Orientation.Vertical,
-                                                             this.GetActiveColorRepresentation(),
-                                                             ColorChannel.Alpha,
-                                                             baseColor,
-                                                             this.checkerBackgroundColor);
+                bitmap = await this.CreateChannelBitmapAsync(
+                    width,
+                    height,
+                    Orientation.Vertical,
+                    this.GetActiveColorRepresentation(),
+                    ColorChannel.Alpha,
+                    baseColor,
+                    this.checkerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.ColorSpectrumThirdDimensionSlider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(width,
-                                                             height,
-                                                             Orientation.Vertical,
-                                                             ColorRepresentation.Hsva, // Always HSV
-                                                             this.GetActiveColorSpectrumThirdDimension(),
-                                                             baseColor,
-                                                             this.checkerBackgroundColor);
+                bitmap = await this.CreateChannelBitmapAsync(
+                    width,
+                    height,
+                    Orientation.Vertical,
+                    ColorRepresentation.Hsva, // Always HSV
+                    this.GetActiveColorSpectrumThirdDimension(),
+                    baseColor,
+                    this.checkerBackgroundColor);
             }
 
             if (bitmap != null)
@@ -1025,8 +1029,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return;
         }
 
-        
-
         /***************************************************************************************
          *
          * Color Update Timer
@@ -1065,7 +1067,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // An equality check here is important
                 // Without it, OnColorChanged would continuously be invoked and preserveHsvColor overwritten when not wanted
-                if (object.Equals(newColor, base.GetValue(ColorProperty)) == false)
+                if (object.Equals(newColor, this.GetValue(ColorProperty)) == false)
                 {
                     // Disable events here so the color update isn't repeated as other controls in the UI are updated through binding.
                     // For example, the Spectrum should be bound to Color, as soon as Color is changed here the Spectrum is updated.
@@ -1075,7 +1077,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     //   2. A performance hit recalculating for no reason
                     //   3. preserveHsvColor gets overwritten unexpectedly by the ColorChanged handler
                     this.ConnectEvents(false);
-                    base.SetValue(ColorProperty, newColor);
+                    this.SetValue(ColorProperty, newColor);
                     this.ConnectEvents(true);
                 }
             }
@@ -1231,20 +1233,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             /* If this control has a color that is currently empty (#00000000),
              * selecting a new color directly in the spectrum will fail. This is
-             * a bug in the color spectrum. Selecting a new color in the spectrum will 
+             * a bug in the color spectrum. Selecting a new color in the spectrum will
              * keep zero for all channels (including alpha and the third dimension).
-             * 
+             *
              * In practice this means a new color cannot be selected using the spectrum
              * until both the alpha and third dimension slider are raised above zero.
              * This is extremely user unfriendly and must be corrected as best as possible.
-             * 
+             *
              * In order to work around this, detect when the color spectrum has selected
-             * a new color and then automatically set the alpha and third dimension 
+             * a new color and then automatically set the alpha and third dimension
              * channel to maximum. However, the color spectrum has a second bug, the
              * ColorChanged event is never raised if the color is empty. This prevents
              * automatically setting the other channels where it normally should be done
              * (in the ColorChanged event).
-             * 
+             *
              * In order to work around this second bug, the GotFocus event is used
              * to detect when the spectrum is engaged by the user. It's somewhat equivalent
              * to ColorChanged for this purpose. Then when the GotFocus event is fired
@@ -1253,18 +1255,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
              * in the spectrum. It is not available due to the afore mentioned bug or due to
              * timing. This means the best that can be done is to just set a 'neutral'
              * color such as white.
-             * 
-             * There is still a small usability issue with this as it requires two 
-             * presses to set a color. That's far better than having to slide up both 
+             *
+             * There is still a small usability issue with this as it requires two
+             * presses to set a color. That's far better than having to slide up both
              * sliders though.
-             * 
+             *
              *  1. If the color is empty, the first press on the spectrum will set white
              *     and ignore the pressed color on the spectrum
              *  2. The second press on the spectrum will be correctly handled.
-             * 
+             *
              */
 
-            if (IsColorEmpty(this.Color)) // In the future Color.IsEmpty will hopefully be added to UWP
+            // In the future Color.IsEmpty will hopefully be added to UWP
+            if (IsColorEmpty(this.Color))
             {
                 // The following code may be used in the future if ever the selected color is available
                 //
@@ -1465,10 +1468,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class HsvValueAdjustmentConverter : IValueConverter
     {
-        public object Convert(object value,
-                              Type targetType,
-                              object parameter,
-                              string language)
+        public object Convert(
+            object value,
+            Type targetType,
+            object parameter,
+            string language)
         {
             double valueDelta;
             HsvColor hsvColor;
@@ -1502,16 +1506,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 A = hsvColor.A,
             };
 
-            return Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hsvColor.H,
-                                                                     hsvColor.S,
-                                                                     hsvColor.V,
-                                                                     hsvColor.A);
+            return Uwp.Helpers.ColorHelper.FromHsv(
+                hsvColor.H,
+                hsvColor.S,
+                hsvColor.V,
+                hsvColor.A);
         }
 
-        public object ConvertBack(object value,
-                                  Type targetType,
-                                  object parameter,
-                                  string language)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            string language)
         {
             throw new NotImplementedException();
         }
@@ -1523,10 +1529,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class AccentColorShadeConverter : IValueConverter
     {
-        public object Convert(object value,
-                              Type targetType,
-                              object parameter,
-                              string language)
+        public object Convert(
+            object value,
+            Type targetType,
+            object parameter,
+            string language)
         {
             int shade;
             HsvColor hsvColor;
@@ -1614,10 +1621,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                                                      Math.Clamp(colorAlpha,      0.0, 1.0));
         }
 
-        public object ConvertBack(object value,
-                                  Type targetType,
-                                  object parameter,
-                                  string language)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            string language)
         {
             throw new NotImplementedException();
         }
@@ -1628,10 +1636,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ColorToHexConverter : IValueConverter
     {
-        public object Convert(object value,
-                              Type targetType,
-                              object parameter,
-                              string language)
+        public object Convert(
+            object value,
+            Type targetType,
+            object parameter,
+            string language)
         {
             Color color;
 
@@ -1649,10 +1658,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return hexColor;
         }
 
-        public object ConvertBack(object value,
-                                  Type targetType,
-                                  object parameter,
-                                  string language)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            string language)
         {
             string hexValue = value.ToString();
 
