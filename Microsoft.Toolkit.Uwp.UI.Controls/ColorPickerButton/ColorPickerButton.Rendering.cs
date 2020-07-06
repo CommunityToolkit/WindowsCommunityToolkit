@@ -58,9 +58,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Allocate the buffer
                 // BGRA formatted color channels 1 byte each (4 bytes in a pixel)
-                bgraPixelData       = new byte[width * height * 4];
+                bgraPixelData = new byte[width * height * 4];
                 bgraPixelDataHeight = height * 4;
-                bgraPixelDataWidth  = width * 4;
+                bgraPixelDataWidth = width * 4;
 
                 // Convert RGB to HSV once
                 if (colorRepresentation == ColorRepresentation.Hsva)
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep hue
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv (
+                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
                                         Math.Clamp(channelValue, 0.0, 360.0),
                                         baseHsvColor.S,
                                         baseHsvColor.V,
@@ -257,12 +257,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                                 break;
                             }
+
                         case ColorChannel.Channel2:
                             {
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep saturation
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv (
+                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
                                         baseHsvColor.H,
                                         Math.Clamp(channelValue, 0.0, 1.0),
                                         baseHsvColor.V,
@@ -282,6 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                                 break;
                             }
+
                         case ColorChannel.Channel3:
                             {
                                 if (colorRepresentation == ColorRepresentation.Hsva)
@@ -307,6 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                                 break;
                             }
+
                         case ColorChannel.Alpha:
                             {
                                 if (colorRepresentation == ColorRepresentation.Hsva)
