@@ -22,7 +22,7 @@
     <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net5.0'">
       <ItemGroup>
         <!--Reference Windows SDK NuGet of correct target platform version-->
-        <PackageReference Include="Microsoft.Windows.SDK.NET" Version="10.0.18362.5-preview" />
+        <PackageReference Include="Microsoft.Windows.SDK.NET" Version="10.0.18362.6-preview" />
       </ItemGroup>
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->

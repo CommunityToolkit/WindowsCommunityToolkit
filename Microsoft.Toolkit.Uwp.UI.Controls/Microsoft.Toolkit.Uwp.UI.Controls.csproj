@@ -44,7 +44,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview2-g5c9cf916ed" />
+    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview2-g11e7a28d49" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
