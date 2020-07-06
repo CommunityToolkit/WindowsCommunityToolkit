@@ -1,10 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
+                    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="controls:ColorPickerButton">
-        <Setter Property="CornerRadius"
-                Value="2" />
+    <!-- The XAML compiler has a serious bug that doesn't allow using conditional XAML on Setters...
+         The work-around is to create multiple styles as condition XAML still works at the style level.
+         This is needed to support CornerRadius properties. -->
+
+    <Style TargetType="controls:ColorPickerButton"
+           x:Key="BaseColorPickerButtonStyle">
         <Setter Property="Height"
                 Value="30" />
         <Setter Property="Width"
@@ -225,6 +230,15 @@
                                     </Setter.Value>
                                 </Setter>
                             </Style>
+                            <contract7NotPresent:Style TargetType="TextBox"
+                                                       x:Key="InputTextBoxStyle">
+                                <!-- Currently not used -->
+                            </contract7NotPresent:Style>
+                            <contract7Present:Style TargetType="TextBox"
+                                                    x:Key="InputTextBoxStyle">
+                                <Setter Property="CornerRadius"
+                                        Value="0,2,2,0" />
+                            </contract7Present:Style>
                         </Border.Resources>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -525,10 +539,10 @@
                                                                 </Border>
                                                                 <!-- Name must NOT match what is in ColorPicker 'HexTextBox' -->
                                                                 <TextBox x:Name="HexInputTextBox"
+                                                                         Style="{StaticResource InputTextBoxStyle}"
                                                                          Height="32"
                                                                          Grid.Column="1"
-                                                                         HorizontalAlignment="Stretch"
-                                                                         CornerRadius="0,2,2,0" />
+                                                                         HorizontalAlignment="Stretch" />
                                                             </Grid>
                                                         </Grid>
                                                         <!-- Color channel editing controls -->
@@ -549,9 +563,9 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="Channel1TextBox"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="1"
-                                                                 CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="Channel1Slider"
                                                                                           Grid.Column="2"
@@ -577,9 +591,9 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="Channel2TextBox"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="2"
-                                                                 CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="Channel2Slider"
                                                                                           Grid.Column="2"
@@ -605,9 +619,9 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="Channel3TextBox"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="3"
-                                                                 CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="Channel3Slider"
                                                                                           Grid.Column="2"
@@ -633,9 +647,9 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="AlphaChannelTextBox"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="4"
-                                                                 CornerRadius="0,2,2,0"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="AlphaChannelSlider"
                                                                                           Grid.Column="2"
@@ -744,5 +758,16 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <contract7NotPresent:Style TargetType="controls:ColorPickerButton"
+                               BasedOn="{StaticResource BaseColorPickerButtonStyle}">
+        <!-- Currently not used -->
+    </contract7NotPresent:Style>
+
+    <contract7Present:Style TargetType="controls:ColorPickerButton"
+                            BasedOn="{StaticResource BaseColorPickerButtonStyle}">
+        <Setter Property="CornerRadius"
+                Value="2" />
+    </contract7Present:Style>
 
 </ResourceDictionary>
