@@ -845,10 +845,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                 }
 
-                newRgbColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue,
-                                                                                saturation,
-                                                                                value,
-                                                                                alpha);
+                newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                    hue,
+                    saturation,
+                    value,
+                    alpha);
 
                 // Must update HSV color
                 this.savedHsvColor = new HsvColor()
@@ -1673,10 +1674,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
             }
 
-            return Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(Math.Clamp(colorHue,        0.0, 360.0),
-                                                                     Math.Clamp(colorSaturation, 0.0, 1.0),
-                                                                     Math.Clamp(colorValue,      0.0, 1.0),
-                                                                     Math.Clamp(colorAlpha,      0.0, 1.0));
+            return Uwp.Helpers.ColorHelper.FromHsv(
+                Math.Clamp(colorHue,        0.0, 360.0),
+                Math.Clamp(colorSaturation, 0.0, 1.0),
+                Math.Clamp(colorValue,      0.0, 1.0),
+                Math.Clamp(colorAlpha,      0.0, 1.0));
         }
 
         public object ConvertBack(
