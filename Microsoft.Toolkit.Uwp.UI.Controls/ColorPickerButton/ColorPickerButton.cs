@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
@@ -253,6 +254,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnApplyTemplate();
             this.isInitialized = true;
+            this.UpdateChannelControlValues();
         }
 
         /// <summary>
@@ -316,13 +318,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.ColorRepresentationComboBox != null) { this.ColorRepresentationComboBox.SelectionChanged += ColorRepresentationComboBox_SelectionChanged; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.KeyDown                      += HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.LostFocus                    += HexInputTextBox_LostFocus; }
-                if (this.HexInputTextBox             != null) { this.HexInputTextBox.TextChanged                  += HexInputTextBox_TextChanged; }
                 if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       += PaletteGridView_Loaded; }
 
-                //if (this.Channel1NumberBox     != null) { this.Channel1NumberBox.ValueChanged     += ChannelNumberBox_ValueChanged; }
-                //if (this.Channel2NumberBox     != null) { this.Channel2NumberBox.ValueChanged     += ChannelNumberBox_ValueChanged; }
-                //if (this.Channel3NumberBox     != null) { this.Channel3NumberBox.ValueChanged     += ChannelNumberBox_ValueChanged; }
-                //if (this.AlphaChannelNumberBox != null) { this.AlphaChannelNumberBox.ValueChanged += ChannelNumberBox_ValueChanged; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       += ChannelTextBox_KeyDown; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       += ChannelTextBox_KeyDown; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.KeyDown       += ChannelTextBox_KeyDown; }
+                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.KeyDown   += ChannelTextBox_KeyDown; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.LostFocus     += ChannelTextBox_LostFocus; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.LostFocus     += ChannelTextBox_LostFocus; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.LostFocus     += ChannelTextBox_LostFocus; }
+                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.LostFocus += ChannelTextBox_LostFocus; }
 
                 if (this.Channel1Slider                    != null) { this.Channel1Slider.ValueChanged                    += ChannelSlider_ValueChanged; }
                 if (this.Channel2Slider                    != null) { this.Channel2Slider.ValueChanged                    += ChannelSlider_ValueChanged; }
@@ -365,13 +370,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.ColorRepresentationComboBox != null) { this.ColorRepresentationComboBox.SelectionChanged -= ColorRepresentationComboBox_SelectionChanged; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.KeyDown                      -= HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.LostFocus                    -= HexInputTextBox_LostFocus; }
-                if (this.HexInputTextBox             != null) { this.HexInputTextBox.TextChanged                  -= HexInputTextBox_TextChanged; }
                 if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       -= PaletteGridView_Loaded; }
 
-                //if (this.Channel1TextBox     != null) { this.Channel1TextBox.ValueChanged     -= ChannelTextBox_ValueChanged; }
-                //if (this.Channel2TextBox     != null) { this.Channel2TextBox.ValueChanged     -= ChannelTextBox_ValueChanged; }
-                //if (this.Channel3TextBox     != null) { this.Channel3TextBox.ValueChanged     -= ChannelTextBox_ValueChanged; }
-                //if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.ValueChanged -= ChannelTextBox_ValueChanged; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
+                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.KeyDown   -= ChannelTextBox_KeyDown; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.LostFocus     -= ChannelTextBox_LostFocus; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.LostFocus     -= ChannelTextBox_LostFocus; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.LostFocus     -= ChannelTextBox_LostFocus; }
+                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.LostFocus -= ChannelTextBox_LostFocus; }
 
                 if (this.Channel1Slider                    != null) { this.Channel1Slider.ValueChanged                    -= ChannelSlider_ValueChanged; }
                 if (this.Channel2Slider                    != null) { this.Channel2Slider.ValueChanged                    -= ChannelSlider_ValueChanged; }
@@ -495,6 +503,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Applies the value of the given color channel TextBox to the current color.
+        /// </summary>
+        /// <param name="channelTextBox">The color channel TextBox to apply the value from.</param>
+        private void ApplyChannelTextBoxValue(TextBox channelTextBox)
+        {
+            double channelValue;
+
+            if (channelTextBox != null)
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(channelTextBox.Text))
+                    {
+                        // An empty string is allowed and happens when the clear TextBox button is pressed
+                        // This case should be interpreted as zero
+                        channelValue = 0;
+                    }
+                    else
+                    {
+                        channelValue = double.Parse(channelTextBox.Text, CultureInfo.CurrentUICulture);
+                    }
+
+                    if (object.ReferenceEquals(channelTextBox, this.Channel1TextBox))
+                    {
+                        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Channel1, channelValue);
+                    }
+                    else if (object.ReferenceEquals(channelTextBox, this.Channel2TextBox))
+                    {
+                        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Channel2, channelValue);
+                    }
+                    else if (object.ReferenceEquals(channelTextBox, this.Channel3TextBox))
+                    {
+                        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Channel3, channelValue);
+                    }
+                    else if (object.ReferenceEquals(channelTextBox, this.AlphaChannelTextBox))
+                    {
+                        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Alpha, channelValue);
+                    }
+                }
+                catch
+                {
+                    // Reset TextBox values
+                    this.UpdateChannelControlValues();
+                    this.UpdateChannelSliderBackgrounds();
+                }
+            }
+
+            return;
+        }
+
+        /// <summary>
         /// Updates the color channel values in all editing controls to match the current color.
         /// </summary>
         private void UpdateChannelControlValues()
@@ -591,7 +650,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Hue
                     if (this.Channel1TextBox != null)
                     {
-                        this.Channel1TextBox.Text = hue.ToString();
+                        this.Channel1TextBox.MaxLength = 3;
+                        this.Channel1TextBox.Text = hue.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.Channel1Slider != null)
@@ -604,7 +664,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Saturation
                     if (this.Channel2TextBox != null)
                     {
-                        this.Channel2TextBox.Text = staturation.ToString();
+                        this.Channel2TextBox.MaxLength = 3;
+                        this.Channel2TextBox.Text = staturation.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.Channel2Slider != null)
@@ -617,7 +678,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Value
                     if (this.Channel3TextBox != null)
                     {
-                        this.Channel3TextBox.Text = value.ToString();
+                        this.Channel3TextBox.MaxLength = 3;
+                        this.Channel3TextBox.Text = value.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.Channel3Slider != null)
@@ -630,7 +692,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Alpha
                     if (this.AlphaChannelTextBox != null)
                     {
-                        this.AlphaChannelTextBox.Text = alpha.ToString();
+                        this.AlphaChannelTextBox.MaxLength = 3;
+                        this.AlphaChannelTextBox.Text = alpha.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.AlphaChannelSlider != null)
@@ -653,7 +716,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Red
                     if (this.Channel1TextBox != null)
                     {
-                        this.Channel1TextBox.Text = rgbColor.R.ToString();;
+                        this.Channel1TextBox.MaxLength = 3;
+                        this.Channel1TextBox.Text = rgbColor.R.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.Channel1Slider != null)
@@ -666,7 +730,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Green
                     if (this.Channel2TextBox != null)
                     {
-                        this.Channel2TextBox.Text = rgbColor.G.ToString();;
+                        this.Channel2TextBox.MaxLength = 3;
+                        this.Channel2TextBox.Text = rgbColor.G.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.Channel2Slider != null)
@@ -679,7 +744,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Blue
                     if (this.Channel3TextBox != null)
                     {
-                        this.Channel3TextBox.Text = rgbColor.B.ToString();;
+                        this.Channel3TextBox.MaxLength = 3;
+                        this.Channel3TextBox.Text = rgbColor.B.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.Channel3Slider != null)
@@ -692,7 +758,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Alpha
                     if (this.AlphaChannelTextBox != null)
                     {
-                        this.AlphaChannelTextBox.Text = rgbColor.A.ToString();;
+                        this.AlphaChannelTextBox.MaxLength = 3;
+                        this.AlphaChannelTextBox.Text = rgbColor.A.ToString(CultureInfo.CurrentUICulture);
                     }
 
                     if (this.AlphaChannelSlider != null)
@@ -1389,38 +1456,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return;
         }
 
-        private void HexInputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        /// <summary>
+        /// Event handler for when a key is pressed within a color channel TextBox.
+        /// This is used to trigger re-evaluation of the color based on the TextBox value.
+        /// </summary>
+        private void ChannelTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            // Use LostFocus and KeyDown events instead
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                this.ApplyChannelTextBoxValue(sender as TextBox);
+            }
+
             return;
         }
 
         /// <summary>
-        /// Event handler for when the value within one of the channel NumberBoxes is changed.
+        /// Event handler for when a color channel TextBox looses focus.
+        /// This is used to trigger re-evaluation of the color based on the TextBox value.
         /// </summary>
-        //private void ChannelNumberBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
-        //{
-        //    double senderValue = sender.Value;
-
-        //    if (object.ReferenceEquals(sender, this.Channel1TextBox))
-        //    {
-        //        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Channel1, senderValue);
-        //    }
-        //    else if (object.ReferenceEquals(sender, this.Channel2TextBox))
-        //    {
-        //        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Channel2, senderValue);
-        //    }
-        //    else if (object.ReferenceEquals(sender, this.Channel3TextBox))
-        //    {
-        //        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Channel3, senderValue);
-        //    }
-        //    else if (object.ReferenceEquals(sender, this.AlphaChannelTextBox))
-        //    {
-        //        this.SetColorChannel(this.GetActiveColorRepresentation(), ColorChannel.Alpha, senderValue);
-        //    }
-
-        //    return;
-        //}
+        private void ChannelTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            this.ApplyChannelTextBoxValue(sender as TextBox);
+            return;
+        }
 
         /// <summary>
         /// Event handler for when the value within one of the channel Sliders is changed.
