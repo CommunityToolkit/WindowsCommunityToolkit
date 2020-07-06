@@ -172,9 +172,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // This may need to change in the future if theme changes should be supported
             this.checkerBackgroundColor = (Color)Application.Current.Resources["SystemListLowColor"];
 
-            this.SetDefaultPalette();
-
             this.ConnectCallbacks(true);
+            this.SetDefaultPalette();
             this.StartDispatcherTimer();
         }
 
@@ -1073,26 +1072,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetDefaultPalette()
         {
-            this.CustomPalette = null;
-
-            this.CustomPaletteColors.Add(Colors.Black);
-            this.CustomPaletteColors.Add(Colors.Gray);
-            this.CustomPaletteColors.Add(Colors.Silver);
-            this.CustomPaletteColors.Add(Colors.White);
-            this.CustomPaletteColors.Add(Colors.Maroon);
-            this.CustomPaletteColors.Add(Colors.Red);
-            this.CustomPaletteColors.Add(Colors.Olive);
-            this.CustomPaletteColors.Add(Colors.Yellow);
-            this.CustomPaletteColors.Add(Colors.Green);
-            this.CustomPaletteColors.Add(Colors.Lime);
-            this.CustomPaletteColors.Add(Colors.Teal);
-            this.CustomPaletteColors.Add(Colors.Aqua);
-            this.CustomPaletteColors.Add(Colors.Navy);
-            this.CustomPaletteColors.Add(Colors.Blue);
-            this.CustomPaletteColors.Add(Colors.Purple);
-            this.CustomPaletteColors.Add(Colors.Fuchsia);
-
-            this.CustomPaletteSectionCount = 4;
+            this.CustomPalette = new WindowsColorPalette();
 
             return;
         }
