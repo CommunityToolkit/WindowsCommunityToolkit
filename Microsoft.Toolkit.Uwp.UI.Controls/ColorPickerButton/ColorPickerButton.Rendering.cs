@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Contains the rendering methods used within <see cref="ColorPickerButton"/>.
+    /// </summary>
     public partial class ColorPickerButton
     {
         /// <summary>
@@ -26,14 +29,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="colorRepresentation">The color representation being used: RGBA or HSVA.</param>
         /// <param name="channel">The specific color channel to vary.</param>
         /// <param name="baseRgbColor">The base RGB color used for channels not being changed.</param>
+        /// <param name="checkerColor">The color of the checker background square.</param>
         /// <returns>A new bitmap representing a gradient of color channel values.</returns>
-        private async Task<byte[]> CreateChannelBitmapAsync(int width,
-                                                            int height,
-                                                            Orientation orientation,
-                                                            ColorRepresentation colorRepresentation,
-                                                            ColorChannel channel,
-                                                            Color baseRgbColor,
-                                                            Color? checkerColor)
+        private async Task<byte[]> CreateChannelBitmapAsync(
+            int width,
+            int height,
+            Orientation orientation,
+            ColorRepresentation colorRepresentation,
+            ColorChannel channel,
+            Color baseRgbColor,
+            Color? checkerColor)
         {
             if (width == 0 || height == 0)
             {
@@ -70,9 +75,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Create a checkered background
                 if (checkerColor != null)
                 {
-                    bgraCheckeredPixelData = await this.CreateCheckeredBitmapAsync(width,
-                                                                                   height,
-                                                                                   checkerColor.Value);
+                    bgraCheckeredPixelData = await this.CreateCheckeredBitmapAsync(
+                        width,
+                        height,
+                        checkerColor.Value);
                 }
 
                 // Create the color channel gradient
@@ -182,37 +188,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         for (int x = 0; x < width; x++)
                         {
-                            // The following algorithm is used to blend the two bitmaps creating the final composite.
-                            // In this formula, pixel data is normalized 0..1, actual pixel data is in the range 0..255.
-                            // The color channel gradient should apply OVER the checkered background.
-                            // 
-                            // R =  R0 * A0 * (1 - A1) + R1 * A1  =  RA0 * (1 - A1) + RA1
-                            // G =  G0 * A0 * (1 - A1) + G1 * A1  =  GA0 * (1 - A1) + GA1
-                            // B =  B0 * A0 * (1 - A1) + B1 * A1  =  BA0 * (1 - A1) + BA1
-                            // A =  A0 * (1 - A1) + A1            =  A0 * (1 - A1) + A1
-                            // 
-                            // Considering only the red channel, some algebraic transformation is applied to 
-                            // make the math quicker to solve.
-                            // 
-                            // => ((RA0 / 255.0) * (1.0 - A1 / 255.0) + (RA1 / 255.0)) * 255.0
-                            // => ((RA0 * 255) - (RA0 * A1) + (RA1 * 255)) / 255
+                            /* The following algorithm is used to blend the two bitmaps creating the final composite.
+                             * In this formula, pixel data is normalized 0..1, actual pixel data is in the range 0..255.
+                             * The color channel gradient should apply OVER the checkered background.
+                             *
+                             * R =  R0 * A0 * (1 - A1) + R1 * A1  =  RA0 * (1 - A1) + RA1
+                             * G =  G0 * A0 * (1 - A1) + G1 * A1  =  GA0 * (1 - A1) + GA1
+                             * B =  B0 * A0 * (1 - A1) + B1 * A1  =  BA0 * (1 - A1) + BA1
+                             * A =  A0 * (1 - A1) + A1            =  A0 * (1 - A1) + A1
+                             *
+                             * Considering only the red channel, some algebraic transformation is applied to
+                             * make the math quicker to solve.
+                             *
+                             * => ((RA0 / 255.0) * (1.0 - A1 / 255.0) + (RA1 / 255.0)) * 255.0
+                             * => ((RA0 * 255) - (RA0 * A1) + (RA1 * 255)) / 255
+                             */
 
                             // Bottom layer
-                            byte RA0 = bgraCheckeredPixelData[pixelDataIndex + 2];
-                            byte GA0 = bgraCheckeredPixelData[pixelDataIndex + 1];
-                            byte BA0 = bgraCheckeredPixelData[pixelDataIndex + 0];
-                            byte A0  = bgraCheckeredPixelData[pixelDataIndex + 3];
+                            byte rXa0 = bgraCheckeredPixelData[pixelDataIndex + 2];
+                            byte gXa0 = bgraCheckeredPixelData[pixelDataIndex + 1];
+                            byte bXa0 = bgraCheckeredPixelData[pixelDataIndex + 0];
+                            byte a0 = bgraCheckeredPixelData[pixelDataIndex + 3];
 
                             // Top layer
-                            byte RA1 = bgraPixelData[pixelDataIndex + 2];
-                            byte GA1 = bgraPixelData[pixelDataIndex + 1];
-                            byte BA1 = bgraPixelData[pixelDataIndex + 0];
-                            byte A1  = bgraPixelData[pixelDataIndex + 3];
+                            byte rXa1 = bgraPixelData[pixelDataIndex + 2];
+                            byte gXa1 = bgraPixelData[pixelDataIndex + 1];
+                            byte bXa1 = bgraPixelData[pixelDataIndex + 0];
+                            byte a1 = bgraPixelData[pixelDataIndex + 3];
 
-                            bgraPixelData[pixelDataIndex + 0] = Convert.ToByte(((BA0 * 255) - (BA0 * A1) + (BA1 * 255)) / 255);
-                            bgraPixelData[pixelDataIndex + 1] = Convert.ToByte(((GA0 * 255) - (GA0 * A1) + (GA1 * 255)) / 255);
-                            bgraPixelData[pixelDataIndex + 2] = Convert.ToByte(((RA0 * 255) - (RA0 * A1) + (RA1 * 255)) / 255);
-                            bgraPixelData[pixelDataIndex + 3] = Convert.ToByte(((A0 * 255) - (A0 * A1) + (A1 * 255)) / 255);
+                            bgraPixelData[pixelDataIndex + 0] = Convert.ToByte(((bXa0 * 255) - (bXa0 * a1) + (bXa1 * 255)) / 255);
+                            bgraPixelData[pixelDataIndex + 1] = Convert.ToByte(((gXa0 * 255) - (gXa0 * a1) + (gXa1 * 255)) / 255);
+                            bgraPixelData[pixelDataIndex + 2] = Convert.ToByte(((rXa0 * 255) - (rXa0 * a1) + (rXa1 * 255)) / 255);
+                            bgraPixelData[pixelDataIndex + 3] = Convert.ToByte(((a0 * 255) - (a0 * a1) + (a1 * 255)) / 255);
 
                             pixelDataIndex += 4;
                         }
@@ -230,22 +237,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep hue
-                                    newRgbColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                                    (
+                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv (
                                         Math.Clamp(channelValue, 0.0, 360.0),
                                         baseHsvColor.S,
                                         baseHsvColor.V,
-                                        baseHsvColor.A
-                                    );
+                                        baseHsvColor.A);
                                 }
                                 else
                                 {
                                     // Sweep red
-                                    newRgbColor = new Color();
-                                    newRgbColor.R = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0));
-                                    newRgbColor.G = baseRgbColor.G;
-                                    newRgbColor.B = baseRgbColor.B;
-                                    newRgbColor.A = baseRgbColor.A;
+                                    newRgbColor = new Color
+                                    {
+                                        R = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
+                                        G = baseRgbColor.G,
+                                        B = baseRgbColor.B,
+                                        A = baseRgbColor.A
+                                    };
                                 }
 
                                 break;
@@ -255,22 +262,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep saturation
-                                    newRgbColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                                    (
+                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv (
                                         baseHsvColor.H,
                                         Math.Clamp(channelValue, 0.0, 1.0),
                                         baseHsvColor.V,
-                                        baseHsvColor.A
-                                    );
+                                        baseHsvColor.A);
                                 }
                                 else
                                 {
                                     // Sweep green
-                                    newRgbColor = new Color();
-                                    newRgbColor.R = baseRgbColor.R;
-                                    newRgbColor.G = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0));
-                                    newRgbColor.B = baseRgbColor.B;
-                                    newRgbColor.A = baseRgbColor.A;
+                                    newRgbColor = new Color
+                                    {
+                                        R = baseRgbColor.R,
+                                        G = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
+                                        B = baseRgbColor.B,
+                                        A = baseRgbColor.A
+                                    };
                                 }
 
                                 break;
@@ -280,22 +287,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep value
-                                    newRgbColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                                    (
+                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
                                         baseHsvColor.H,
                                         baseHsvColor.S,
                                         Math.Clamp(channelValue, 0.0, 1.0),
-                                        baseHsvColor.A
-                                    );
+                                        baseHsvColor.A);
                                 }
                                 else
                                 {
                                     // Sweep blue
-                                    newRgbColor = new Color();
-                                    newRgbColor.R = baseRgbColor.R;
-                                    newRgbColor.G = baseRgbColor.G;
-                                    newRgbColor.B = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0));
-                                    newRgbColor.A = baseRgbColor.A;
+                                    newRgbColor = new Color
+                                    {
+                                        R = baseRgbColor.R,
+                                        G = baseRgbColor.G,
+                                        B = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0)),
+                                        A = baseRgbColor.A
+                                    };
                                 }
 
                                 break;
@@ -305,22 +312,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep alpha
-                                    newRgbColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                                    (
+                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
                                         baseHsvColor.H,
                                         baseHsvColor.S,
                                         baseHsvColor.V,
-                                        Math.Clamp(channelValue, 0.0, 1.0)
-                                    );
+                                        Math.Clamp(channelValue, 0.0, 1.0));
                                 }
                                 else
                                 {
                                     // Sweep alpha
-                                    newRgbColor = new Color();
-                                    newRgbColor.R = baseRgbColor.R;
-                                    newRgbColor.G = baseRgbColor.G;
-                                    newRgbColor.B = baseRgbColor.B;
-                                    newRgbColor.A = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0));
+                                    newRgbColor = new Color
+                                    {
+                                        R = baseRgbColor.R,
+                                        G = baseRgbColor.G,
+                                        B = baseRgbColor.B,
+                                        A = Convert.ToByte(Math.Clamp(channelValue, 0.0, 255.0))
+                                    };
                                 }
 
                                 break;
@@ -348,11 +355,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="height">The pixel height (Y, vertical) of the checkered bitmap.</param>
         /// <param name="checkerColor">The color of the checker square.</param>
         /// <returns>A new checkered bitmap of the specified size.</returns>
-        private async Task<byte[]> CreateCheckeredBitmapAsync(int width,
-                                                              int height,
-                                                              Color checkerColor)
+        private async Task<byte[]> CreateCheckeredBitmapAsync(
+            int width,
+            int height,
+            Color checkerColor)
         {
-            // The size of the checker is important. You want it big enough that the grid is clearly discernible. 
+            // The size of the checker is important. You want it big enough that the grid is clearly discernible.
             // However, the squares should be small enough they don't appear unnaturally cut at the edge of backgrounds.
             int checkerSize = 4;
 
@@ -368,7 +376,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Allocate the buffer
                 // BGRA formatted color channels 1 byte each (4 bytes in a pixel)
-                bgraPixelData = new byte[width * height * 4]; 
+                bgraPixelData = new byte[width * height * 4];
 
                 for (int y = 0; y < height; y++)
                 {
@@ -379,7 +387,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // depending on both its x- and its y-position.  If x == CheckerSize, we'll turn visibility off,
                         // but then if y == CheckerSize, we'll turn it back on.
                         // The below is a shorthand for the above intent.
-                        bool pixelShouldBeBlank = (x / checkerSize + y / checkerSize) % 2 == 0 ? true : false;
+                        bool pixelShouldBeBlank = ((x / checkerSize) + (y / checkerSize)) % 2 == 0 ? true : false;
 
                         // Remember, use BGRA pixel format with pre-multiplied alpha values
                         if (pixelShouldBeBlank)
@@ -408,16 +416,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Converts the given bitmap (in raw BGRA pre-multiplied alpha pixels) into an image brush 
+        /// Converts the given bitmap (in raw BGRA pre-multiplied alpha pixels) into an image brush
         /// that can be used in the UI.
         /// </summary>
         /// <param name="bitmap">The bitmap (in raw BGRA pre-multiplied alpha pixels) to convert to a brush.</param>
         /// <param name="width">The pixel width of the bitmap.</param>
         /// <param name="height">The pixel height of the bitmap.</param>
         /// <returns>A new ImageBrush.</returns>
-        private async Task<ImageBrush> BitmapToBrushAsync(byte[] bitmap,
-                                                          int width,
-                                                          int height)
+        private async Task<ImageBrush> BitmapToBrushAsync(
+            byte[] bitmap,
+            int width,
+            int height)
         {
             var writableBitmap = new WriteableBitmap(width, height);
             using (Stream stream = writableBitmap.PixelBuffer.AsStream())
@@ -428,7 +437,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var brush = new ImageBrush()
             {
                 ImageSource = writableBitmap,
-                Stretch     = Stretch.None
+                Stretch = Stretch.None
             };
 
             return brush;
