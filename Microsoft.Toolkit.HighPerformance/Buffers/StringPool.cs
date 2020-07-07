@@ -89,6 +89,24 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public int EntriesPerBucket { get; }
 
         /// <summary>
+        /// Stores a <see cref="string"/> instance in the internal cache.
+        /// </summary>
+        /// <param name="value">The input <see cref="string"/> instance to cache.</param>
+        public void Add(string value)
+        {
+            if (value.Length == 0)
+            {
+                return;
+            }
+
+            int bucketIndex = value.Length % NumberOfBuckets;
+
+            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
+
+            bucket.Add(value);
+        }
+
+        /// <summary>
         /// Gets a cached <see cref="string"/> instance matching the input content, or creates a new one.
         /// </summary>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
@@ -175,6 +193,29 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 this.entriesPerBucket = entriesPerBucket;
                 this.dummy = new object();
                 this.entries = null;
+            }
+
+            /// <summary>
+            /// Implements <see cref="StringPool.Add"/> for the current <see cref="Bucket"/> instance.
+            /// </summary>
+            /// <param name="value">The input <see cref="string"/> instance to cache.</param>
+            public void Add(string value)
+            {
+                lock (this.dummy)
+                {
+                    ref string?[]? entries = ref this.entries;
+
+                    entries ??= new string[entriesPerBucket];
+
+                    int entryIndex =
+#if NETSTANDARD1_4
+                        (value.GetDjb2HashCode() & SignMask) % entriesPerBucket;
+#else
+                        (HashCode<char>.Combine(value.AsSpan()) & SignMask) % entriesPerBucket;
+#endif
+
+                    entries.DangerousGetReferenceAt(entryIndex) = value;
+                }
             }
 
             /// <summary>
