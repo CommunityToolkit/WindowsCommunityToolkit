@@ -284,17 +284,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                         return entry;
                     }
 
-#if SPAN_RUNTIME_SUPPORT
-                    return entry = new string(span);
-#else
-                    unsafe
-                    {
-                        fixed (char* c = span)
-                        {
-                            return entry = new string(c, 0, span.Length);
-                        }
-                    }
-#endif
+                    // ReadOnlySpan<char>.ToString() creates a string with the span contents.
+                    // This is equivalent to doing new string(span) on Span<T>-enabled runtimes,
+                    // or to using an unsafe block, a fixed statement and new string(char*, int, int).
+                    return entry = span.ToString();
                 }
             }
 
