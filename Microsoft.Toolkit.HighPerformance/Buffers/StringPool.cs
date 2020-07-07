@@ -4,6 +4,8 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
@@ -207,12 +209,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     entries ??= new string[entriesPerBucket];
 
-                    int entryIndex =
-#if NETSTANDARD1_4
-                        (value.GetDjb2HashCode() & SignMask) % entriesPerBucket;
-#else
-                        (HashCode<char>.Combine(value.AsSpan()) & SignMask) % entriesPerBucket;
-#endif
+                    int entryIndex = GetIndex(value.AsSpan());
 
                     entries.DangerousGetReferenceAt(entryIndex) = value;
                 }
@@ -231,12 +228,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     entries ??= new string[entriesPerBucket];
 
-                    int entryIndex =
-#if NETSTANDARD1_4
-                        (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
-#else
-                        (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
-#endif
+                    int entryIndex = GetIndex(span);
 
                     ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
 
@@ -274,12 +266,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     if (!(entries is null))
                     {
-                        int entryIndex =
-#if NETSTANDARD1_4
-                            (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
-#else
-                            (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
-#endif
+                        int entryIndex = GetIndex(span);
 
                         ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
 
@@ -307,6 +294,22 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 {
                     this.entries = null;
                 }
+            }
+
+            /// <summary>
+            /// Gets the target index for a given <see cref="ReadOnlySpan{T}"/> instance.
+            /// </summary>
+            /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+            /// <returns>The target bucket index for <paramref name="span"/>.</returns>
+            [Pure]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private int GetIndex(ReadOnlySpan<char> span)
+            {
+#if NETSTANDARD1_4
+                return (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
+#else
+                return (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
+#endif
             }
         }
 
