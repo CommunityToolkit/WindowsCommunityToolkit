@@ -6,9 +6,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid>
-        <controls:ColorPickerButton 
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center" />
-    </Grid>
+
+    <Grid />
+
 </Page>

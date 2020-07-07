@@ -52,6 +52,7 @@
         "Subcategory": "Input",
         "About": "A color picker within a flyout opened by pressing a drop down button containing the selected color.",
         "CodeUrl": "TBD",
+        "XamlCodeFile": "ColorPickerButtonXaml.bind",
         "Icon": "/SamplePages/ColorPickerButton/ColorPickerButton.png",
         "DocumentationUrl": "TBD"
       },

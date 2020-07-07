@@ -1,0 +1,116 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <Page.Resources>
+    <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
+  </Page.Resources>
+
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <!-- Example 1 -->
+    <Border Grid.Column="0"
+            Grid.Row="0"
+            Background="{ThemeResource SystemChromeMediumColor}"
+            CornerRadius="4"
+            Height="100"
+            Width="300"
+            Padding="10">
+      <TextBlock TextAlignment="Center"
+                 VerticalAlignment="Center">
+        Ring-shaped spectrum <LineBreak />
+        Alpha channel disabled
+      </TextBlock>
+    </Border>
+    <controls:ColorPickerButton x:Name="ColorPickerButton1"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Color="Navy"
+                                ColorSpectrumShape="Ring"
+                                IsAlphaEnabled="False"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="20" />
+    <!-- Example 2 -->
+    <Border Grid.Column="1"
+            Grid.Row="0"
+            Background="{ThemeResource SystemChromeMediumColor}"
+            CornerRadius="4"
+            Height="100"
+            Width="300"
+            Padding="10">
+      <TextBlock TextAlignment="Center"
+                 VerticalAlignment="Center">
+        Box-shaped spectrum <LineBreak />
+        Alpha channel disabled
+      </TextBlock>
+    </Border>
+    <controls:ColorPickerButton x:Name="ColorPickerButton2"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Color="Green"
+                                ColorSpectrumShape="Box"
+                                IsAlphaEnabled="False"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="20" />
+    <!-- Example 3 -->
+    <Border Grid.Column="0"
+            Grid.Row="1"
+            Background="{ThemeResource SystemChromeMediumColor}"
+            CornerRadius="4"
+            Height="100"
+            Width="300"
+            Padding="10">
+      <TextBlock TextAlignment="Center"
+                 VerticalAlignment="Center">
+        Ring-shaped spectrum <LineBreak />
+        Alpha channel enabled
+      </TextBlock>
+    </Border>
+    <controls:ColorPickerButton x:Name="ColorPickerButton3"
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Color="Transparent"
+                                IsAlphaEnabled="True"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="20" />
+    <!-- Example 4 -->
+    <Border Grid.Column="1"
+            Grid.Row="1"
+            Background="{ThemeResource SystemChromeMediumColor}"
+            CornerRadius="4"
+            Height="100"
+            Width="300"
+            Padding="10">
+      <TextBlock TextAlignment="Center"
+                 VerticalAlignment="Center">
+        Ring-shaped spectrum <LineBreak />
+        Alpha channel enabled <LineBreak />
+        Saturation+Value spectrum channels
+      </TextBlock>
+    </Border>
+    <controls:ColorPickerButton x:Name="ColorPickerButton4"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Color="Maroon"
+                                ColorSpectrumComponents="SaturationValue"
+                                IsAlphaEnabled="True"
+                                Width="200"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="20" />
+  </Grid>
+</Page>
