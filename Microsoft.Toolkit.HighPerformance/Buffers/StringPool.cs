@@ -48,12 +48,12 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <param name="entriesPerBucket">The maximum number of <see cref="string"/> entries per bucket.</param>
         public StringPool(int numberOfBuckets, int entriesPerBucket)
         {
-            if (numberOfBuckets < 0)
+            if (numberOfBuckets <= 0)
             {
                 ThrowArgumentOutOfRangeException(nameof(numberOfBuckets));
             }
 
-            if (entriesPerBucket < 0)
+            if (entriesPerBucket <= 0)
             {
                 ThrowArgumentOutOfRangeException(nameof(entriesPerBucket));
             }
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         private static void ThrowArgumentOutOfRangeException(string name)
         {
-            throw new ArgumentOutOfRangeException(name, $"The input parameter must be greater than 0");
+            throw new ArgumentOutOfRangeException(name, "The input parameter must be greater than 0");
         }
     }
 }
