@@ -34,7 +34,7 @@ namespace UnitTests.HighPerformance.Buffers
         {
             StringPool.Default.Add(string.Empty);
 
-            bool found = StringPool.Default.TryGet(default, out string? text);
+            bool found = StringPool.Default.TryGet(ReadOnlySpan<char>.Empty, out string? text);
 
             Assert.IsTrue(found);
             Assert.AreSame(string.Empty, text);
@@ -89,7 +89,7 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_StringPool_GetOrAdd_Empty()
         {
-            string empty = StringPool.Default.GetOrAdd(default);
+            string empty = StringPool.Default.GetOrAdd(ReadOnlySpan<char>.Empty);
 
             Assert.AreSame(string.Empty, empty);
         }
