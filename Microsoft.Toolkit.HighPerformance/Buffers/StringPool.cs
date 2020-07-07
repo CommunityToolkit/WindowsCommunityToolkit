@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
@@ -110,6 +111,31 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
+        /// Tries to get a cached <see cref="string"/> instance matching the input content, if present.
+        /// </summary>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
+        /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
+        /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
+        public bool TryGet(ReadOnlySpan<char> span, [NotNullWhen(true)] out string? value)
+        {
+            if (span.IsEmpty)
+            {
+                value = string.Empty;
+
+                return true;
+            }
+
+            int bucketIndex = span.Length % NumberOfBuckets;
+
+            Bucket bucket = this.buckets.DangerousGetReferenceAt(bucketIndex);
+
+            lock (bucket)
+            {
+                return bucket.TryGet(span, out value);
+            }
+        }
+
+        /// <summary>
         /// Resets the current instance and its associated buckets.
         /// </summary>
         public void Reset()
@@ -190,6 +216,41 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     }
                 }
 #endif
+            }
+
+            /// <summary>
+            /// Implements <see cref="StringPool.TryGet"/> for the current <see cref="Bucket"/> instance.
+            /// </summary>
+            /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
+            /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
+            /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
+            public bool TryGet(ReadOnlySpan<char> span, [NotNullWhen(true)] out string? value)
+            {
+                ref string?[]? entries = ref this.entries;
+
+                if (!(entries is null))
+                {
+                    int entryIndex =
+#if NETSTANDARD1_4
+                        (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
+#else
+                        (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
+#endif
+
+                    ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
+
+                    if (!(entry is null) &&
+                        entry.AsSpan().SequenceEqual(span))
+                    {
+                        value = entry;
+
+                        return true;
+                    }
+                }
+
+                value = null;
+
+                return false;
             }
 
             /// <summary>
