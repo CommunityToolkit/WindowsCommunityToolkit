@@ -206,8 +206,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="columnsCount">The number of columns.</param>
         /// <param name="availableColumnHeight">The available height for the columns.</param>
         /// <returns>
-        /// An array containing the index of the last item of each column or -1 if the column is not used and
+        /// - columnLastIndexes: An array containing the index of the last item of each column or -1 if the column is not used and
         /// the required height for the columns.
+        /// - columnHeight: the height required to draw our columns.
         /// </returns>
         private (int[] columnLastIndexes, double columnHeight) Partition(int columnsCount, double availableColumnHeight)
         {
@@ -266,7 +267,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="columnIndex">The index of the first column where to apply the partition logic.</param>
         /// <param name="childStartIndex">The index of the first child to consider.</param>
         /// <param name="expectedColumnHeight">The expected height for our columns.</param>
-        /// <returns>True if we've been able to partition all the children in columns.</returns>
+        /// <returns>
+        /// - partitionSuceeded: true if we've been able to partition all the children in columns.
+        /// - expectedColumnHeight: the adjusted height of the first column (fitting exactly all the first column items).
+        /// </returns>
         private (bool partitionSuceeded, double expectedColumnHeight) DoPartition(
             int[] columnLastIndexes,
             int columnIndex,
