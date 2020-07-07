@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             // This lets us lock on each individual buckets when retrieving a string instance.
             foreach (ref Bucket bucket in span)
             {
-                bucket = new Bucket();
+                bucket = new Bucket(entriesPerBucket);
             }
 
             NumberOfBuckets = numberOfBuckets;
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             lock (bucket)
             {
-                return bucket.GetOrAdd(span, EntriesPerBucket);
+                return bucket.GetOrAdd(span);
             }
         }
 
@@ -135,17 +135,30 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             private const int SignMask = ~(1 << 31);
 
             /// <summary>
+            /// The number of entries being used in the current instance.
+            /// </summary>
+            private readonly int entriesPerBucket;
+
+            /// <summary>
             /// The array of entries currently in use.
             /// </summary>
             private string?[]? entries;
 
             /// <summary>
+            /// Initializes a new instance of the <see cref="Bucket"/> class.
+            /// </summary>
+            /// <param name="entriesPerBucket">The number of entries being used in the current instance.</param>
+            public Bucket(int entriesPerBucket)
+            {
+                this.entriesPerBucket = entriesPerBucket;
+            }
+
+            /// <summary>
             /// Implements <see cref="StringPool.GetOrAdd"/> for the current <see cref="Bucket"/> instance.
             /// </summary>
             /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
-            /// <param name="entriesPerBucket">The number of entries being used in the current instance.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
-            public string GetOrAdd(ReadOnlySpan<char> span, int entriesPerBucket)
+            public string GetOrAdd(ReadOnlySpan<char> span)
             {
                 ref string?[]? entries = ref this.entries;
 
