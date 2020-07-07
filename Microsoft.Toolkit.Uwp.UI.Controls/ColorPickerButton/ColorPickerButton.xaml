@@ -501,25 +501,21 @@
                                                         <!-- Top color model & Hex input -->
                                                         <Grid Grid.Column="0"
                                                               Grid.ColumnSpan="3"
-                                                              Grid.Row="0"
-                                                              ColumnSpacing="20">
+                                                              Grid.Row="0">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="1*" />
+                                                                <ColumnDefinition Width="1*" />
+                                                                <ColumnDefinition Width="12" />
+                                                                <ColumnDefinition Width="2*" />
                                                             </Grid.ColumnDefinitions>
-                                                            <!-- Name must match what is in ColorPicker -->
-                                                            <ComboBox x:Name="ColorRepresentationComboBox"
-                                                                      Height="32"
-                                                                      Grid.Column="0"
-                                                                      HorizontalAlignment="Stretch">
-                                                                <!-- These are hard-coded in ColorPicker as well -->
-                                                                <ComboBoxItem x:Name="RGBComboBoxItem"
-                                                                              Content="RGB"
-                                                                              IsSelected="True" />
-                                                                <ComboBoxItem x:Name="HSVComboBoxItem"
-                                                                              Content="HSV" />
-                                                            </ComboBox>
-                                                            <Grid Grid.Column="1">
+                                                            <!-- Content names are hard-coded in ColorPicker as well -->
+                                                            <RadioButton x:Name="RgbRadioButton"
+                                                                         Grid.Column="0"
+                                                                         Content="RGB" />
+                                                            <RadioButton x:Name="HsvRadioButton"
+                                                                         Grid.Column="1"
+                                                                         Content="HSV" />
+                                                            <Grid Grid.Column="3">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="30" />
                                                                     <ColumnDefinition Width="*" />

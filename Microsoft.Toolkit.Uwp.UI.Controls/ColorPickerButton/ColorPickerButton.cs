@@ -43,9 +43,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrum),               Type = typeof(ColorSpectrum))]
     [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumAlphaSlider),    Type = typeof(Slider))]
     [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumThirdDimensionSlider), Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.ColorRepresentationComboBox), Type = typeof(ComboBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.HexInputTextBox),             Type = typeof(TextBox))]
     [TemplatePart(Name = nameof(ColorPickerButton.PaletteGridView),             Type = typeof(GridView))]
+    [TemplatePart(Name = nameof(ColorPickerButton.HexInputTextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPickerButton.HsvRadioButton),              Type = typeof(RadioButton))]
+    [TemplatePart(Name = nameof(ColorPickerButton.RgbRadioButton),              Type = typeof(RadioButton))]
     [TemplatePart(Name = nameof(ColorPickerButton.P1PreviewBorder),             Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.P2PreviewBorder),             Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.N1PreviewBorder),             Type = typeof(Border))]
@@ -119,9 +120,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ColorSpectrum ColorSpectrum;
         private Slider        ColorSpectrumAlphaSlider;
         private Slider        ColorSpectrumThirdDimensionSlider;
-        private ComboBox      ColorRepresentationComboBox;
-        private TextBox       HexInputTextBox;
         private GridView      PaletteGridView;
+        private TextBox       HexInputTextBox;
+        private RadioButton   HsvRadioButton;
+        private RadioButton   RgbRadioButton;
 
         private TextBox Channel1TextBox;
         private TextBox Channel2TextBox;
@@ -203,8 +205,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.PaletteGridView = this.GetTemplateChild<GridView>("PaletteGridView", false);
 
-            this.ColorRepresentationComboBox = this.GetTemplateChild<ComboBox>("ColorRepresentationComboBox", false);
-            this.HexInputTextBox             = this.GetTemplateChild<TextBox>("HexInputTextBox", false);
+            this.HexInputTextBox = this.GetTemplateChild<TextBox>("HexInputTextBox", false);
+            this.HsvRadioButton  = this.GetTemplateChild<RadioButton>("HsvRadioButton", false);
+            this.RgbRadioButton  = this.GetTemplateChild<RadioButton>("RgbRadioButton", false);
 
             this.Channel1TextBox     = this.GetTemplateChild<TextBox>("Channel1TextBox", false);
             this.Channel2TextBox     = this.GetTemplateChild<TextBox>("Channel2TextBox", false);
@@ -253,6 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnApplyTemplate();
             this.isInitialized = true;
+            this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
             this.UpdateChannelControlValues();
         }
 
@@ -314,10 +318,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Add all events
                 if (this.ColorSpectrum               != null) { this.ColorSpectrum.ColorChanged                   += ColorSpectrum_ColorChanged; }
                 if (this.ColorSpectrum               != null) { this.ColorSpectrum.GotFocus                       += ColorSpectrum_GotFocus; }
-                if (this.ColorRepresentationComboBox != null) { this.ColorRepresentationComboBox.SelectionChanged += ColorRepresentationComboBox_SelectionChanged; }
+                if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       += PaletteGridView_Loaded; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.KeyDown                      += HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.LostFocus                    += HexInputTextBox_LostFocus; }
-                if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       += PaletteGridView_Loaded; }
+                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Checked                       += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Unchecked                     += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Checked                       += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Unchecked                     += ColorRepRadioButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       += ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       += ChannelTextBox_KeyDown; }
@@ -366,10 +373,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Remove all events
                 if (this.ColorSpectrum               != null) { this.ColorSpectrum.ColorChanged                   -= ColorSpectrum_ColorChanged; }
                 if (this.ColorSpectrum               != null) { this.ColorSpectrum.GotFocus                       -= ColorSpectrum_GotFocus; }
-                if (this.ColorRepresentationComboBox != null) { this.ColorRepresentationComboBox.SelectionChanged -= ColorRepresentationComboBox_SelectionChanged; }
+                if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       -= PaletteGridView_Loaded; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.KeyDown                      -= HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox             != null) { this.HexInputTextBox.LostFocus                    -= HexInputTextBox_LostFocus; }
-                if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       -= PaletteGridView_Loaded; }
+                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Checked                       -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Unchecked                     -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Checked                       -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Unchecked                     -= ColorRepRadioButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
@@ -421,16 +431,76 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private ColorRepresentation GetActiveColorRepresentation()
         {
-            // This is kind-of an ugly way to see if the HSV color channel representation is active
-            // However, it is the same technique used in the ColorPicker
-            // The order and number of items in the template is fixed and very important
-            if ((this.ColorRepresentationComboBox != null) &&
-                (this.ColorRepresentationComboBox.SelectedIndex == 1))
+            // If the HSV representation control is missing for whatever reason,
+            // the default will be RGB
+            if (this.HsvRadioButton != null &&
+                this.HsvRadioButton.IsChecked == true)
             {
                 return ColorRepresentation.Hsva;
             }
 
             return ColorRepresentation.Rgba;
+        }
+
+        /// <summary>
+        /// Sets the active color representation in the UI controls.
+        /// </summary>
+        /// <param name="colorRepresentation">The color representation to set.
+        /// Setting to null (the default) will attempt to keep the current state.</param>
+        private void SetActiveColorRepresentation(ColorRepresentation? colorRepresentation = null)
+        {
+            bool eventsDisconnectedByMethod = false;
+
+            if (colorRepresentation == null)
+            {
+                // Use the control's current value
+                colorRepresentation = this.GetActiveColorRepresentation();
+            }
+
+            // Disable events during the update
+            if (this.eventsConnected)
+            {
+                this.ConnectEvents(false);
+                eventsDisconnectedByMethod = true;
+            }
+
+            // Sync the UI controls and visual state
+            // The default is always RGBA
+            if (colorRepresentation == ColorRepresentation.Hsva)
+            {
+                if (this.RgbRadioButton != null)
+                {
+                    this.RgbRadioButton.IsChecked = false;
+                }
+
+                if (this.HsvRadioButton != null)
+                {
+                    this.HsvRadioButton.IsChecked = true;
+                }
+
+                VisualStateManager.GoToState(this, "HsvSelected", false);
+            }
+            else
+            {
+                if (this.RgbRadioButton != null)
+                {
+                    this.RgbRadioButton.IsChecked = true;
+                }
+
+                if (this.HsvRadioButton != null)
+                {
+                    this.HsvRadioButton.IsChecked = false;
+                }
+
+                VisualStateManager.GoToState(this, "RgbSelected", false);
+            }
+
+            if (eventsDisconnectedByMethod)
+            {
+                this.ConnectEvents(true);
+            }
+
+            return;
         }
 
         /// <summary>
@@ -1366,11 +1436,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Event handler for when the selection changes within the color representation ComboBox.
+        /// Event handler for when the selected color representation changes.
         /// This will convert between RGB and HSV.
         /// </summary>
-        private void ColorRepresentationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ColorRepRadioButton_CheckedUnchecked(object sender, RoutedEventArgs e)
         {
+            this.SetActiveColorRepresentation();
             this.UpdateChannelControlValues();
             this.UpdateChannelSliderBackgrounds();
             return;
