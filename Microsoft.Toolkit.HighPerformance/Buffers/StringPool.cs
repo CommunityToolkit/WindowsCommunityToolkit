@@ -4,7 +4,9 @@
 
 using System;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+#if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
@@ -34,10 +36,28 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Initializes a new instance of the <see cref="StringPool"/> class.
         /// </summary>
+        public StringPool()
+            : this(DefaultNumberOfBuckets, DefaultEntriesPerBucket)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringPool"/> class.
+        /// </summary>
         /// <param name="numberOfBuckets">The total number of buckets to use.</param>
         /// <param name="entriesPerBucket">The maximum number of <see cref="string"/> entries per bucket.</param>
         public StringPool(int numberOfBuckets, int entriesPerBucket)
         {
+            if (numberOfBuckets < 0)
+            {
+                ThrowArgumentOutOfRangeException(nameof(numberOfBuckets));
+            }
+
+            if (entriesPerBucket < 0)
+            {
+                ThrowArgumentOutOfRangeException(nameof(entriesPerBucket));
+            }
+
             Span<Bucket> span = this.buckets = new Bucket[numberOfBuckets];
 
             // We preallocate the buckets in advance, since each bucket only contains the
@@ -55,7 +75,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Gets the default <see cref="StringPool"/> instance.
         /// </summary>
-        public static StringPool Default { get; } = new StringPool(DefaultNumberOfBuckets, DefaultEntriesPerBucket);
+        public static StringPool Default { get; } = new StringPool();
 
         /// <summary>
         /// Gets the total number of buckets in use.
@@ -166,6 +186,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             {
                 this.entries = null;
             }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when the requested size exceeds the capacity.
+        /// </summary>
+        private static void ThrowArgumentOutOfRangeException(string name)
+        {
+            throw new ArgumentOutOfRangeException(name, $"The input parameter must be greater than 0");
         }
     }
 }
