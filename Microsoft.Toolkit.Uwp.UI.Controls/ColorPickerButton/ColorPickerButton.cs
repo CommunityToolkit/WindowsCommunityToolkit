@@ -14,7 +14,6 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -51,6 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPickerButton.P2PreviewBorder),             Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.N1PreviewBorder),             Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.N2PreviewBorder),             Type = typeof(Border))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "Inline brackets are used to improve code readability with repeated null checks.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:Code should not contain multiple whitespace in a row", Justification = "Whitespace is used to align code in columns for readability.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
     public partial class ColorPickerButton : Windows.UI.Xaml.Controls.ColorPicker
     {
         /// <summary>
@@ -74,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// Color is represented by red, green, blue and alpha channels.
             /// </summary>
             Rgba
-        };
+        }
 
         /// <summary>
         /// Defines a specific channel within a color representation.
@@ -193,6 +195,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          * Methods
          *
          ***************************************************************************************/
+
+        /// <summary>
+        /// Gets whether or not the color is considered empty (all fields zero).
+        /// In the future Color.IsEmpty will hopefully be added to UWP.
+        /// </summary>
+        /// <param name="color">The Windows.UI.Color to calculate with.</param>
+        /// <returns>Whether the color is considered empty.</returns>
+        private static bool IsColorEmpty(Color color)
+        {
+            return color.A == 0x00 &&
+                   color.R == 0x00 &&
+                   color.G == 0x00 &&
+                   color.B == 0x00;
+        }
 
         /// <summary>
         /// Overrides when a template is applied in order to get the required controls.
@@ -316,15 +332,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 (this.eventsConnected == false))
             {
                 // Add all events
-                if (this.ColorSpectrum               != null) { this.ColorSpectrum.ColorChanged                   += ColorSpectrum_ColorChanged; }
-                if (this.ColorSpectrum               != null) { this.ColorSpectrum.GotFocus                       += ColorSpectrum_GotFocus; }
-                if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       += PaletteGridView_Loaded; }
-                if (this.HexInputTextBox             != null) { this.HexInputTextBox.KeyDown                      += HexInputTextBox_KeyDown; }
-                if (this.HexInputTextBox             != null) { this.HexInputTextBox.LostFocus                    += HexInputTextBox_LostFocus; }
-                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Checked                       += ColorRepRadioButton_CheckedUnchecked; }
-                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Unchecked                     += ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Checked                       += ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Unchecked                     += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.ColorSpectrum   != null) { this.ColorSpectrum.ColorChanged += ColorSpectrum_ColorChanged; }
+                if (this.ColorSpectrum   != null) { this.ColorSpectrum.GotFocus     += ColorSpectrum_GotFocus; }
+                if (this.PaletteGridView != null) { this.PaletteGridView.Loaded     += PaletteGridView_Loaded; }
+                if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown    += HexInputTextBox_KeyDown; }
+                if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus  += HexInputTextBox_LostFocus; }
+                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Checked     += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Unchecked   += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Checked     += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Unchecked   += ColorRepRadioButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       += ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       += ChannelTextBox_KeyDown; }
@@ -371,15 +387,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                      (this.eventsConnected == true))
             {
                 // Remove all events
-                if (this.ColorSpectrum               != null) { this.ColorSpectrum.ColorChanged                   -= ColorSpectrum_ColorChanged; }
-                if (this.ColorSpectrum               != null) { this.ColorSpectrum.GotFocus                       -= ColorSpectrum_GotFocus; }
-                if (this.PaletteGridView             != null) { this.PaletteGridView.Loaded                       -= PaletteGridView_Loaded; }
-                if (this.HexInputTextBox             != null) { this.HexInputTextBox.KeyDown                      -= HexInputTextBox_KeyDown; }
-                if (this.HexInputTextBox             != null) { this.HexInputTextBox.LostFocus                    -= HexInputTextBox_LostFocus; }
-                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Checked                       -= ColorRepRadioButton_CheckedUnchecked; }
-                if (this.HsvRadioButton              != null) { this.HsvRadioButton.Unchecked                     -= ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Checked                       -= ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton              != null) { this.RgbRadioButton.Unchecked                     -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.ColorSpectrum   != null) { this.ColorSpectrum.ColorChanged -= ColorSpectrum_ColorChanged; }
+                if (this.ColorSpectrum   != null) { this.ColorSpectrum.GotFocus     -= ColorSpectrum_GotFocus; }
+                if (this.PaletteGridView != null) { this.PaletteGridView.Loaded     -= PaletteGridView_Loaded; }
+                if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown    -= HexInputTextBox_KeyDown; }
+                if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus  -= HexInputTextBox_LostFocus; }
+                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Checked     -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Unchecked   -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Checked     -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Unchecked   -= ColorRepRadioButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
@@ -516,12 +532,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // Hue
                         return ColorChannel.Channel1;
                     }
+
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueValue:
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue:
                     {
                         // Saturation
                         return ColorChannel.Channel2;
                     }
+
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation:
                 case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue:
                     {
@@ -531,20 +549,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return ColorChannel.Alpha; // Error, should never get here
-        }
-
-        /// <summary>
-        /// Gets whether or not the color is considered empty (all fields zero).
-        /// In the future Color.IsEmpty will hopefully be added to UWP.
-        /// </summary>
-        /// <param name="color">The Windows.UI.Color to calculate with.</param>
-        /// <returns>Whether the color is considered empty.</returns>
-        private static bool IsColorEmpty(Color color)
-        {
-            return color.A == 0x00 &&
-                   color.R == 0x00 &&
-                   color.G == 0x00 &&
-                   color.B == 0x00;
         }
 
         /// <summary>
@@ -700,6 +704,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 this.ColorSpectrumThirdDimensionSlider.Value   = hue;
                                 break;
                             }
+
                         case ColorChannel.Channel2:
                             {
                                 // Saturation
@@ -708,6 +713,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 this.ColorSpectrumThirdDimensionSlider.Value   = staturation;
                                 break;
                             }
+
                         case ColorChannel.Channel3:
                             {
                                 // Value
@@ -875,9 +881,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="colorRepresentation">The color representation of the given channel.</param>
         /// <param name="channel">The specified color channel to modify.</param>
         /// <param name="newValue">The new color channel value.</param>
-        private void SetColorChannel(ColorRepresentation colorRepresentation,
-                                     ColorChannel channel,
-                                     double newValue)
+        private void SetColorChannel(
+            ColorRepresentation colorRepresentation,
+            ColorChannel channel,
+            double newValue)
         {
             Color oldRgbColor = this.Color;
             Color newRgbColor;
@@ -905,19 +912,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     case ColorChannel.Channel1:
                         {
-                            hue = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue), 0, 360);
+                            hue = Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 360);
                             break;
                         }
+
                     case ColorChannel.Channel2:
                         {
                             saturation = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
                             break;
                         }
+
                     case ColorChannel.Channel3:
                         {
                             value = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
                             break;
                         }
+
                     case ColorChannel.Alpha:
                         {
                             // Unlike color channels, default to no transparency
@@ -947,29 +957,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 byte red   = oldRgbColor.R;
                 byte green = oldRgbColor.G;
                 byte blue  = oldRgbColor.B;
-                byte alpha = oldRgbColor.A; 
+                byte alpha = oldRgbColor.A;
 
                 switch (channel)
                 {
                     case ColorChannel.Channel1:
                         {
-                            red = Convert.ToByte(Math.Clamp((double.IsNaN(newValue) ? 0 : newValue), 0, 255));
+                            red = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
                             break;
                         }
+
                     case ColorChannel.Channel2:
                         {
-                            green = Convert.ToByte(Math.Clamp((double.IsNaN(newValue) ? 0 : newValue), 0, 255));
+                            green = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
                             break;
                         }
+
                     case ColorChannel.Channel3:
                         {
-                            blue = Convert.ToByte(Math.Clamp((double.IsNaN(newValue) ? 0 : newValue), 0, 255));
+                            blue = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
                             break;
                         }
+
                     case ColorChannel.Alpha:
                         {
                             // Unlike color channels, default to no transparency
-                            alpha = Convert.ToByte(Math.Clamp((double.IsNaN(newValue) ? 255 : newValue), 0, 255));
+                            alpha = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 255 : newValue, 0, 255));
                             break;
                         }
                 }
@@ -1183,6 +1196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 this.dispatcherTimer.Stop();
             }
+
             return;
         }
 
@@ -1201,7 +1215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Disable events here so the color update isn't repeated as other controls in the UI are updated through binding.
                     // For example, the Spectrum should be bound to Color, as soon as Color is changed here the Spectrum is updated.
-                    // Then however, the ColorSpectrum.ColorChanged event would fire which would schedule a new color update -- 
+                    // Then however, the ColorSpectrum.ColorChanged event would fire which would schedule a new color update --
                     // with the same color. This causes several problems:
                     //   1. Layout cycle that may crash the app
                     //   2. A performance hit recalculating for no reason
@@ -1222,7 +1236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          ***************************************************************************************/
 
         /// <summary>
-        /// Callback for when the <see cref="Color"/> dependency property value changes.
+        /// Callback for when the <see cref="ColorPicker.Color"/> dependency property value changes.
         /// </summary>
         private void OnColorChanged(DependencyObject d, DependencyProperty e)
         {
@@ -1297,17 +1311,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void CheckeredBackgroundBorder_Loaded(object sender, RoutedEventArgs e)
         {
             Border border = sender as Border;
-            int width;
-            int height;
 
             if (border != null)
             {
-                width  = Convert.ToInt32(border.ActualWidth);
-                height = Convert.ToInt32(border.ActualHeight);
+                int width = Convert.ToInt32(border.ActualWidth);
+                int height = Convert.ToInt32(border.ActualHeight);
 
-                var bitmap = await this.CreateCheckeredBitmapAsync(width,
-                                                                   height,
-                                                                   this.checkerBackgroundColor);
+                var bitmap = await this.CreateCheckeredBitmapAsync(
+                    width,
+                    height,
+                    this.checkerBackgroundColor);
 
                 if (bitmap != null)
                 {
@@ -1399,47 +1412,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // In the future Color.IsEmpty will hopefully be added to UWP
             if (IsColorEmpty(this.Color))
             {
-                // The following code may be used in the future if ever the selected color is available
-                //
-                //Color newColor = this.ColorSpectrum.Color;
-                //HsvColor newHsvColor = newColor.ToHsv();
+                /* The following code may be used in the future if ever the selected color is available
 
-                //switch (this.GetActiveColorSpectrumThirdDimension())
-                //{
-                //    case ColorChannel.Channel1:
-                //        {
-                //            newColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                //            (
-                //                360.0,
-                //                newHsvColor.S,
-                //                newHsvColor.V,
-                //                100.0
-                //            );
-                //            break;
-                //        }
-                //    case ColorChannel.Channel2:
-                //        {
-                //            newColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                //            (
-                //                newHsvColor.H,
-                //                100.0,
-                //                newHsvColor.V,
-                //                100.0
-                //            );
-                //            break;
-                //        }
-                //    case ColorChannel.Channel3:
-                //        {
-                //            newColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
-                //            (
-                //                newHsvColor.H,
-                //                newHsvColor.S,
-                //                100.0,
-                //                100.0
-                //            );
-                //            break;
-                //        }
-                //}
+                Color newColor = this.ColorSpectrum.Color;
+                HsvColor newHsvColor = newColor.ToHsv();
+
+                switch (this.GetActiveColorSpectrumThirdDimension())
+                {
+                    case ColorChannel.Channel1:
+                        {
+                            newColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
+                            (
+                                360.0,
+                                newHsvColor.S,
+                                newHsvColor.V,
+                                100.0
+                            );
+                            break;
+                        }
+
+                    case ColorChannel.Channel2:
+                        {
+                            newColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
+                            (
+                                newHsvColor.H,
+                                100.0,
+                                newHsvColor.V,
+                                100.0
+                            );
+                            break;
+                        }
+
+                    case ColorChannel.Channel3:
+                        {
+                            newColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv
+                            (
+                                newHsvColor.H,
+                                newHsvColor.S,
+                                100.0,
+                                100.0
+                            );
+                            break;
+                        }
+                }
+                */
 
                 this.Color = Colors.White;
             }
