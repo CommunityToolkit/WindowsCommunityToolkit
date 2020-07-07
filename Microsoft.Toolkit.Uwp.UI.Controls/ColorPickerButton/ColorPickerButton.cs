@@ -640,7 +640,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     eventsDisconnectedByMethod = true;
                 }
 
-                this.HexInputTextBox.Text = rgbColor.ToHex().Replace("#", "");
+                if (this.HexInputTextBox != null)
+                {
+                    if (this.IsAlphaEnabled)
+                    {
+                        // Remove only the "#" sign
+                        this.HexInputTextBox.Text = rgbColor.ToHex().Replace("#", string.Empty);
+                    }
+                    else
+                    {
+                        // Remove the "#" sign and alpha hex
+                        this.HexInputTextBox.Text = rgbColor.ToHex().Replace("#", string.Empty).Substring(2);
+                    }
+                }
 
                 // Regardless of the active color representation, the spectrum is always HSV
                 // Therefore, always calculate HSV color here
