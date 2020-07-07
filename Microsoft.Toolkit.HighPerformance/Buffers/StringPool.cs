@@ -102,12 +102,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             int bucketIndex = span.Length % NumberOfBuckets;
 
-            Bucket bucket = this.buckets.DangerousGetReferenceAt(bucketIndex);
+            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
-            lock (bucket)
-            {
-                return bucket.GetOrAdd(span);
-            }
+            return bucket.GetOrAdd(span);
         }
 
         /// <summary>
@@ -127,12 +124,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             int bucketIndex = span.Length % NumberOfBuckets;
 
-            Bucket bucket = this.buckets.DangerousGetReferenceAt(bucketIndex);
+            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
-            lock (bucket)
-            {
-                return bucket.TryGet(span, out value);
-            }
+            return bucket.TryGet(span, out value);
         }
 
         /// <summary>
@@ -140,19 +134,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         public void Reset()
         {
-            foreach (Bucket bucket in this.buckets)
+            foreach (ref Bucket bucket in this.buckets.AsSpan())
             {
-                lock (bucket)
-                {
-                    bucket.Reset();
-                }
+                bucket.Reset();
             }
         }
 
         /// <summary>
         /// A configurable bucket containing a group of cached <see cref="string"/> instances.
         /// </summary>
-        private sealed class Bucket
+        private struct Bucket
         {
             /// <summary>
             /// A bitmask used to avoid branches when computing the absolute value of an <see cref="int"/>.
@@ -166,17 +157,24 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             private readonly int entriesPerBucket;
 
             /// <summary>
+            /// A dummy <see cref="object"/> used for synchronization.
+            /// </summary>
+            private readonly object dummy;
+
+            /// <summary>
             /// The array of entries currently in use.
             /// </summary>
             private string?[]? entries;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Bucket"/> class.
+            /// Initializes a new instance of the <see cref="Bucket"/> struct.
             /// </summary>
             /// <param name="entriesPerBucket">The number of entries being used in the current instance.</param>
             public Bucket(int entriesPerBucket)
             {
                 this.entriesPerBucket = entriesPerBucket;
+                this.dummy = new object();
+                this.entries = null;
             }
 
             /// <summary>
@@ -186,50 +184,12 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
             public string GetOrAdd(ReadOnlySpan<char> span)
             {
-                ref string?[]? entries = ref this.entries;
-
-                entries ??= new string[entriesPerBucket];
-
-                int entryIndex =
-#if NETSTANDARD1_4
-                    (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
-#else
-                    (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
-#endif
-
-                ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
-
-                if (!(entry is null) &&
-                    entry.AsSpan().SequenceEqual(span))
+                lock (this.dummy)
                 {
-                    return entry;
-                }
+                    ref string?[]? entries = ref this.entries;
 
-#if SPAN_RUNTIME_SUPPORT
-                return entry = new string(span);
-#else
-                unsafe
-                {
-                    fixed (char* c = span)
-                    {
-                        return entry = new string(c, 0, span.Length);
-                    }
-                }
-#endif
-            }
+                    entries ??= new string[entriesPerBucket];
 
-            /// <summary>
-            /// Implements <see cref="StringPool.TryGet"/> for the current <see cref="Bucket"/> instance.
-            /// </summary>
-            /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
-            /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
-            /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
-            public bool TryGet(ReadOnlySpan<char> span, [NotNullWhen(true)] out string? value)
-            {
-                ref string?[]? entries = ref this.entries;
-
-                if (!(entries is null))
-                {
                     int entryIndex =
 #if NETSTANDARD1_4
                         (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
@@ -242,15 +202,59 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     if (!(entry is null) &&
                         entry.AsSpan().SequenceEqual(span))
                     {
-                        value = entry;
-
-                        return true;
+                        return entry;
                     }
+
+#if SPAN_RUNTIME_SUPPORT
+                    return entry = new string(span);
+#else
+                    unsafe
+                    {
+                        fixed (char* c = span)
+                        {
+                            return entry = new string(c, 0, span.Length);
+                        }
+                    }
+#endif
                 }
+            }
 
-                value = null;
+            /// <summary>
+            /// Implements <see cref="StringPool.TryGet"/> for the current <see cref="Bucket"/> instance.
+            /// </summary>
+            /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
+            /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
+            /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
+            public bool TryGet(ReadOnlySpan<char> span, [NotNullWhen(true)] out string? value)
+            {
+                lock (this.dummy)
+                {
+                    ref string?[]? entries = ref this.entries;
 
-                return false;
+                    if (!(entries is null))
+                    {
+                        int entryIndex =
+#if NETSTANDARD1_4
+                            (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
+#else
+                            (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
+#endif
+
+                        ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
+
+                        if (!(entry is null) &&
+                            entry.AsSpan().SequenceEqual(span))
+                        {
+                            value = entry;
+
+                            return true;
+                        }
+                    }
+
+                    value = null;
+
+                    return false;
+                }
             }
 
             /// <summary>
@@ -258,7 +262,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// </summary>
             public void Reset()
             {
-                this.entries = null;
+                lock (this.dummy)
+                {
+                    this.entries = null;
+                }
             }
         }
 
