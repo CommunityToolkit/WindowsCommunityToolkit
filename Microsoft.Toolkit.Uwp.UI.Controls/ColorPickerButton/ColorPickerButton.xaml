@@ -408,23 +408,6 @@
                                                                                           HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Stretch"
                                                                                           Margin="12,0,0,0" />
-                                                        <!--<Border
-                                                            Grid.Column="1"
-                                                            Grid.Row="0"
-                                                            Height="32"
-                                                            Width="30"
-                                                            Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
-                                                            BorderBrush="{ThemeResource TextBoxBorderThemeBrush}"
-                                                            BorderThickness="1"
-                                                            CornerRadius="2"
-                                                            Margin="11,0,0,11">
-                                                            <TextBlock
-                                                                Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
-                                                                FontWeight="Bold"
-                                                                Text="A"
-                                                                HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center" />
-                                                        </Border>-->
                                                     </Grid>
                                                 </PivotItem.Content>
                                             </PivotItem>
