@@ -29,7 +29,7 @@
             Padding="10">
       <TextBlock TextAlignment="Center"
                  VerticalAlignment="Center">
-        Ring-shaped spectrum <LineBreak />
+        Box-shaped spectrum <LineBreak />
         Alpha channel disabled
       </TextBlock>
     </Border>
@@ -37,7 +37,7 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 Color="Navy"
-                                ColorSpectrumShape="Ring"
+                                ColorSpectrumShape="Box"
                                 IsAlphaEnabled="False"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
@@ -53,7 +53,7 @@
       <TextBlock TextAlignment="Center"
                  VerticalAlignment="Center">
         Box-shaped spectrum <LineBreak />
-        Alpha channel disabled
+        Alpha channel enabled
       </TextBlock>
     </Border>
     <controls:ColorPickerButton x:Name="ColorPickerButton2"
@@ -61,7 +61,7 @@
                                 Grid.Row="0"
                                 Color="Green"
                                 ColorSpectrumShape="Box"
-                                IsAlphaEnabled="False"
+                                IsAlphaEnabled="True"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
                                 Margin="20" />
@@ -83,6 +83,7 @@
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 Color="Transparent"
+                                ColorSpectrumShape="Ring"
                                 IsAlphaEnabled="True"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
@@ -106,6 +107,7 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Color="Maroon"
+                                ColorSpectrumShape="Ring"
                                 ColorSpectrumComponents="SaturationValue"
                                 IsAlphaEnabled="True"
                                 Width="200"
