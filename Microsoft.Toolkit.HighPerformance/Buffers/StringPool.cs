@@ -16,8 +16,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// <summary>
     /// A configurable pool for <see cref="string"/> instances. This can be used to minimize allocations
     /// when creating multiple <see cref="string"/> instances from buffers of <see cref="char"/> values.
-    /// The <see cref="GetOrAdd"/> method provides a best-effort alternative to just creating a new
-    /// <see cref="string"/> instance every time, in order to minimize the number of duplicated instances.
+    /// The <see cref="GetOrAdd(ReadOnlySpan{char})"/> method provides a best-effort alternative to just creating
+    /// a new <see cref="string"/> instance every time, in order to minimize the number of duplicated instances.
     /// </summary>
     public sealed class StringPool
     {
@@ -106,6 +106,25 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
             bucket.Add(value);
+        }
+
+        /// <summary>
+        /// Gets a cached <see cref="string"/> instance matching the input content, or stores the input one.
+        /// </summary>
+        /// <param name="value">The input <see cref="string"/> instance with the contents to use.</param>
+        /// <returns>A <see cref="string"/> instance with the contents of <paramref name="value"/>, cached if possible.</returns>
+        public string GetOrAdd(string value)
+        {
+            if (value.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            int bucketIndex = value.Length % NumberOfBuckets;
+
+            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
+
+            return bucket.GetOrAdd(value);
         }
 
         /// <summary>
@@ -216,7 +235,34 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
 
             /// <summary>
-            /// Implements <see cref="StringPool.GetOrAdd"/> for the current <see cref="Bucket"/> instance.
+            /// Implements <see cref="StringPool.GetOrAdd(string)"/> for the current <see cref="Bucket"/> instance.
+            /// </summary>
+            /// <param name="value">The input <see cref="string"/> instance with the contents to use.</param>
+            /// <returns>A <see cref="string"/> instance with the contents of <paramref name="value"/>.</returns>
+            public string GetOrAdd(string value)
+            {
+                lock (this.dummy)
+                {
+                    ref string?[]? entries = ref this.entries;
+
+                    entries ??= new string[entriesPerBucket];
+
+                    int entryIndex = GetIndex(value.AsSpan());
+
+                    ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
+
+                    if (!(entry is null) &&
+                        entry.AsSpan().SequenceEqual(value.AsSpan()))
+                    {
+                        return entry;
+                    }
+
+                    return entry = value;
+                }
+            }
+
+            /// <summary>
+            /// Implements <see cref="StringPool.GetOrAdd(ReadOnlySpan{char})"/> for the current <see cref="Bucket"/> instance.
             /// </summary>
             /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
