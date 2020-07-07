@@ -42,17 +42,17 @@ namespace UnitTests.HighPerformance.Buffers
             var pool = new StringPool();
 
             string
-                hello = pool.GetOrAdd(nameof(hello)),
-                world = pool.GetOrAdd(nameof(world)),
-                windowsCommunityToolkit = pool.GetOrAdd(nameof(windowsCommunityToolkit));
+                hello = pool.GetOrAdd(nameof(hello).AsSpan()),
+                world = pool.GetOrAdd(nameof(world).AsSpan()),
+                windowsCommunityToolkit = pool.GetOrAdd(nameof(windowsCommunityToolkit).AsSpan());
 
             Assert.AreEqual(nameof(hello), hello);
             Assert.AreEqual(nameof(world), world);
             Assert.AreEqual(nameof(windowsCommunityToolkit), windowsCommunityToolkit);
 
-            Assert.AreSame(hello, pool.GetOrAdd(hello));
-            Assert.AreSame(world, pool.GetOrAdd(world));
-            Assert.AreSame(windowsCommunityToolkit, pool.GetOrAdd(windowsCommunityToolkit));
+            Assert.AreSame(hello, pool.GetOrAdd(hello.AsSpan()));
+            Assert.AreSame(world, pool.GetOrAdd(world.AsSpan()));
+            Assert.AreSame(windowsCommunityToolkit, pool.GetOrAdd(windowsCommunityToolkit.AsSpan()));
 
             pool.Reset();
 
@@ -60,9 +60,9 @@ namespace UnitTests.HighPerformance.Buffers
             Assert.AreEqual(nameof(world), world);
             Assert.AreEqual(nameof(windowsCommunityToolkit), windowsCommunityToolkit);
 
-            Assert.AreNotSame(hello, pool.GetOrAdd(hello));
-            Assert.AreNotSame(world, pool.GetOrAdd(world));
-            Assert.AreNotSame(windowsCommunityToolkit, pool.GetOrAdd(windowsCommunityToolkit));
+            Assert.AreNotSame(hello, pool.GetOrAdd(hello.AsSpan()));
+            Assert.AreNotSame(world, pool.GetOrAdd(world.AsSpan()));
+            Assert.AreNotSame(windowsCommunityToolkit, pool.GetOrAdd(windowsCommunityToolkit.AsSpan()));
         }
     }
 }
