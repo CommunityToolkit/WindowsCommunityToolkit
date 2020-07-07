@@ -6,20 +6,13 @@ using System;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+#nullable enable
+
 namespace UnitTests.HighPerformance.Buffers
 {
     [TestClass]
     public class Test_StringPool
     {
-        [TestCategory("StringPool")]
-        [TestMethod]
-        public void Test_StringPool_Empty()
-        {
-            string empty = StringPool.Default.GetOrAdd(default);
-
-            Assert.AreSame(string.Empty, empty);
-        }
-
         [TestCategory("StringPool")]
         [TestMethod]
         [DataRow(0, 0)]
@@ -28,7 +21,7 @@ namespace UnitTests.HighPerformance.Buffers
         [DataRow(-3248234, 22)]
         [DataRow(int.MinValue, int.MinValue)]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Test_StringPool_Fail(int buckets, int entries)
+        public void Test_StringPool_Cctor_Fail(int buckets, int entries)
         {
             var pool = new StringPool(buckets, entries);
 
@@ -37,7 +30,56 @@ namespace UnitTests.HighPerformance.Buffers
 
         [TestCategory("StringPool")]
         [TestMethod]
-        public void Test_StringPool_Misc()
+        public void Test_StringPool_Add_Empty()
+        {
+            StringPool.Default.Add(string.Empty);
+
+            bool found = StringPool.Default.TryGet(default, out string? text);
+
+            Assert.IsTrue(found);
+            Assert.AreSame(string.Empty, text);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_Add_Misc()
+        {
+            var pool = new StringPool();
+
+            string
+                hello = nameof(hello),
+                world = nameof(world),
+                windowsCommunityToolkit = nameof(windowsCommunityToolkit);
+
+            Assert.IsFalse(pool.TryGet(hello.AsSpan(), out _));
+            Assert.IsFalse(pool.TryGet(world.AsSpan(), out _));
+            Assert.IsFalse(pool.TryGet(windowsCommunityToolkit.AsSpan(), out _));
+
+            pool.Add(hello);
+            pool.Add(world);
+            pool.Add(windowsCommunityToolkit);
+
+            Assert.IsTrue(pool.TryGet(hello.AsSpan(), out string? hello2));
+            Assert.IsTrue(pool.TryGet(world.AsSpan(), out string? world2));
+            Assert.IsTrue(pool.TryGet(windowsCommunityToolkit.AsSpan(), out string? windowsCommunityToolkit2));
+
+            Assert.AreSame(hello, hello2);
+            Assert.AreSame(world, world2);
+            Assert.AreSame(windowsCommunityToolkit, windowsCommunityToolkit2);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_Empty()
+        {
+            string empty = StringPool.Default.GetOrAdd(default);
+
+            Assert.AreSame(string.Empty, empty);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_Misc()
         {
             var pool = new StringPool();
 
