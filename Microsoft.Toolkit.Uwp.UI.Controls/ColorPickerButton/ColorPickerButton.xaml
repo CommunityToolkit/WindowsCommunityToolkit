@@ -16,17 +16,6 @@
                 Value="64" />
         <Setter Property="MinWidth"
                 Value="64" />
-        <Setter Property="HorizontalAlignment"
-                Value="Left" />
-        <Setter Property="VerticalAlignment"
-                Value="Top" />
-        <!-- Updated default ColorPicker properties -->
-        <Setter Property="IsAlphaEnabled"
-                Value="True" />
-        <Setter Property="IsAlphaSliderVisible"
-                Value="False" />
-        <Setter Property="ColorSpectrumShape"
-                Value="Ring" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ColorPickerButton">
