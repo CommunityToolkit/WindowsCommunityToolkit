@@ -23,8 +23,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch">
                         <Border.Resources>
-                            <controls:HsvValueAdjustmentConverter x:Key="HsvValueAdjustment" />
-                            <controls:AccentColorShadeConverter x:Key="AccentColorShade" />
+                            <controls:ColorToColorShadeConverter x:Key="ColorToColorShade" />
                             <controls:ColorToHexConverter x:Key="ColorToHex" />
                             <SolidColorBrush x:Key="CheckerboardColor0">
                                 <SolidColorBrush.Color>
@@ -652,7 +651,7 @@
                                                 <Border x:Name="N2PreviewBorder"
                                                         Grid.Column="0">
                                                     <Border.Background>
-                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource AccentColorShade}, ConverterParameter='-2'}" />
+                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShade}, ConverterParameter='-2'}" />
                                                     </Border.Background>
                                                 </Border>
                                                 <!-- The -1 and +1 accent preview originally had a drop shadow as well.
@@ -663,7 +662,7 @@
                                                 <Border x:Name="N1PreviewBorder"
                                                         Grid.Column="1">
                                                     <Border.Background>
-                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource AccentColorShade}, ConverterParameter='-1'}" />
+                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShade}, ConverterParameter='-1'}" />
                                                     </Border.Background>
                                                 </Border>
                                             </Grid>
@@ -683,13 +682,13 @@
                                                 <Border x:Name="P1PreviewBorder"
                                                         Grid.Column="0">
                                                     <Border.Background>
-                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource AccentColorShade}, ConverterParameter='1'}" />
+                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShade}, ConverterParameter='1'}" />
                                                     </Border.Background>
                                                 </Border>
                                                 <Border x:Name="P2PreviewBorder"
                                                         Grid.Column="1">
                                                     <Border.Background>
-                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource AccentColorShade}, ConverterParameter='2'}" />
+                                                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShade}, ConverterParameter='2'}" />
                                                     </Border.Background>
                                                 </Border>
                                             </Grid>
