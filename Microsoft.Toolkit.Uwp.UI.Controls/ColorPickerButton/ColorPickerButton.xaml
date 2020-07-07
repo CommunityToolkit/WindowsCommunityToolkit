@@ -262,12 +262,29 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-
+                            
+                            <VisualStateGroup
+                                x:Name="AlphaSliderVisibility">
+                                <VisualState x:Name="AlphaSliderVisible" />
+                                <VisualState x:Name="AlphaSliderCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ColorSpectrumAlphaSlider.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="AlphaChannelBorder.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="AlphaChannelTextBox.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="AlphaChannelSlider.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            
                             <VisualStateGroup x:Name="AlphaTextInputVisibility">
                                 <VisualState x:Name="AlphaTextInputVisible" />
                                 <VisualState x:Name="AlphaTextInputCollapsed">
                                     <VisualState.Setters>
-                                        <Setter Target="ColorSpectrumAlphaSlider.Visibility"
+                                        <Setter Target="HexInputGrid.Visibility"
                                                 Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -486,13 +503,13 @@
                                                             <RadioButton x:Name="HsvRadioButton"
                                                                          Grid.Column="1"
                                                                          Content="HSV" />
-                                                            <Grid Grid.Column="3">
+                                                            <Grid x:Name="HexInputGrid"
+                                                                  Grid.Column="3">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="30" />
                                                                     <ColumnDefinition Width="*" />
                                                                 </Grid.ColumnDefinitions>
-                                                                <Border x:Name="TestBorder"
-                                                                        Grid.Column="0"
+                                                                <Border Grid.Column="0"
                                                                         Height="32"
                                                                         Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                                                         BorderBrush="{ThemeResource TextControlBorderBrush}"
@@ -598,7 +615,8 @@
                                                                                           HorizontalAlignment="Stretch"
                                                                                           VerticalAlignment="Center" />
                                                         <!-- Alpha channel -->
-                                                        <Border Grid.Column="0"
+                                                        <Border x:Name="AlphaChannelBorder"
+                                                                Grid.Column="0"
                                                                 Grid.Row="4"
                                                                 Height="{Binding ElementName=AlphaChannelTextBox, Path=ActualHeight}"
                                                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
