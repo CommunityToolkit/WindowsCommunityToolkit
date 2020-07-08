@@ -43,6 +43,8 @@
                                         Value="Center" />
                                 <Setter Property="IsThumbToolTipEnabled"
                                         Value="False" />
+                                <Setter Property="Foreground"
+                                        Value="{ThemeResource TextControlForeground}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <!-- Based on WinUI version 2.4.2 -->
@@ -51,8 +53,6 @@
                                                 <Grid.Resources>
                                                     <Style TargetType="Thumb"
                                                            x:Key="SliderThumbStyle">
-                                                        <Setter Property="BorderBrush"
-                                                                Value="{ThemeResource TextControlForeground}" />
                                                         <Setter Property="BorderThickness"
                                                                 Value="3" />
                                                         <Setter Property="Background"
@@ -74,16 +74,10 @@
                                                     <VisualStateGroup x:Name="CommonStates">
                                                         <VisualState x:Name="Normal" />
 
-                                                        <VisualState x:Name="Pressed">
-                                                            <VisualState.Setters>
-                                                                <Setter Target="HorizontalThumb.BorderBrush"
-                                                                        Value="{ThemeResource SliderThumbBackgroundPressed}" />
-                                                                <Setter Target="VerticalThumb.BorderBrush"
-                                                                        Value="{ThemeResource SliderThumbBackgroundPressed}" />
-                                                                <Setter Target="SliderContainer.Background"
-                                                                        Value="{ThemeResource SliderContainerBackgroundPressed}" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
+                                                        <!-- The Pressed state is purposely the same as normal.
+                                                             This ensures that the thumb always has the correct contrast with 
+                                                             the selected color underneath it when dragging or moving. -->
+                                                        <VisualState x:Name="Pressed" />
 
                                                         <VisualState x:Name="Disabled">
                                                             <VisualState.Setters>
@@ -164,8 +158,10 @@
                                                         <Thumb x:Name="HorizontalThumb"
                                                                Style="{StaticResource SliderThumbStyle}"
                                                                DataContext="{TemplateBinding Value}"
-                                                               Height="{TemplateBinding Height}"
+                                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                                               Height="20"
                                                                Width="20"
+                                                               contract7Present:CornerRadius="10"
                                                                Grid.Row="0"
                                                                Grid.RowSpan="3"
                                                                Grid.Column="1"
@@ -204,8 +200,10 @@
                                                         <Thumb x:Name="VerticalThumb"
                                                                Style="{StaticResource SliderThumbStyle}"
                                                                DataContext="{TemplateBinding Value}"
+                                                               BorderBrush="{TemplateBinding BorderBrush}"
                                                                Height="20"
-                                                               Width="{TemplateBinding Width}"
+                                                               Width="20"
+                                                               contract7Present:CornerRadius="10"
                                                                Grid.Row="1"
                                                                Grid.Column="0"
                                                                Grid.ColumnSpan="3"

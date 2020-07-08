@@ -1156,6 +1156,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (bitmap != null)
             {
+                if (baseColor.A / 255.0 < 0.5)
+                {
+                    /* If the transparency is less than 50 %, just use the normal text brush
+                     * Note that normally the code would be:
+                     *
+                     * slider.BorderBrush = (Brush)Application.Current.Resources["TextControlForeground"];
+                     *
+                     * However, this does not lookup the correct value when only the page theme is changed.
+                     * Therefore, the Slider.Foreground color is set in XAML using the ThemeResource above.
+                     * Then the code here simply gets the current Foreground color which always matches
+                     * the page theme.
+                     *
+                     * It's currently not known how to access the correct theme resource scoped to a page.
+                     * If anyone figures it out this should be changed in the future.
+                     *
+                     */
+                    slider.BorderBrush = slider.Foreground;
+                }
+                else
+                {
+                    // Chose a white/black brush based on contrast to the base color
+                    ContrastColorConverter converter = new ContrastColorConverter();
+                    slider.BorderBrush = new SolidColorBrush((Color)converter.Convert(baseColor, typeof(Color), null, null));
+                }
+
                 slider.Background = await this.BitmapToBrushAsync(bitmap, width, height);
             }
 
