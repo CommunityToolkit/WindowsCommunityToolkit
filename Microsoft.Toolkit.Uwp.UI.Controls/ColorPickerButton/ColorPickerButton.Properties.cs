@@ -31,28 +31,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="CustomPaletteSectionCount"/> dependency property.
+        /// Identifies the <see cref="CustomPaletteColumns"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty CustomPaletteSectionCountProperty =
+        public static readonly DependencyProperty CustomPaletteColumnsProperty =
             DependencyProperty.Register(
-                nameof(CustomPaletteSectionCount),
+                nameof(CustomPaletteColumns),
                 typeof(int),
                 typeof(ColorPickerButton),
                 new PropertyMetadata(4));
 
         /// <summary>
-        /// Gets or sets the number of colors in each section of the custom color palette.
+        /// Gets or sets the number of colors in each row (section) of the custom color palette.
         /// A section is the number of columns within an entire row in the palette.
         /// Within a standard palette, rows are shades and columns are unique colors.
         /// </summary>
-        public int CustomPaletteSectionCount
+        public int CustomPaletteColumns
         {
-            get => (int)this.GetValue(CustomPaletteSectionCountProperty);
+            get => (int)this.GetValue(CustomPaletteColumnsProperty);
             set
             {
-                if (object.Equals(value, this.GetValue(CustomPaletteSectionCountProperty)) == false)
+                if (object.Equals(value, this.GetValue(CustomPaletteColumnsProperty)) == false)
                 {
-                    this.SetValue(CustomPaletteSectionCountProperty, value);
+                    this.SetValue(CustomPaletteColumnsProperty, value);
                 }
             }
         }
