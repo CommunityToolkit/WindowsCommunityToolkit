@@ -496,13 +496,21 @@
                                                                 <ColumnDefinition Width="12" />
                                                                 <ColumnDefinition Width="2*" />
                                                             </Grid.ColumnDefinitions>
-                                                            <!-- Content names are hard-coded in ColorPicker as well -->
-                                                            <RadioButton x:Name="RgbRadioButton"
-                                                                         Grid.Column="0"
-                                                                         Content="RGB" />
-                                                            <RadioButton x:Name="HsvRadioButton"
-                                                                         Grid.Column="1"
-                                                                         Content="HSV" />
+                                                            <!-- Content RGB/HSV names are hard-coded in ColorPicker as well -->
+                                                            <ToggleButton x:Name="RgbToggleButton"
+                                                                          Grid.Column="0"
+                                                                          Content="RGB"
+                                                                          BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
+                                                                          BorderThickness="1"
+                                                                          HorizontalAlignment="Stretch"
+                                                                          contract7Present:CornerRadius="2,0,0,2"/>
+                                                            <ToggleButton x:Name="HsvToggleButton"
+                                                                          Grid.Column="1"
+                                                                          Content="HSV"
+                                                                          BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
+                                                                          BorderThickness="1"
+                                                                          HorizontalAlignment="Stretch"
+                                                                          contract7Present:CornerRadius="0,2,2,0" />
                                                             <Grid x:Name="HexInputGrid"
                                                                   Grid.Column="3">
                                                                 <Grid.ColumnDefinitions>

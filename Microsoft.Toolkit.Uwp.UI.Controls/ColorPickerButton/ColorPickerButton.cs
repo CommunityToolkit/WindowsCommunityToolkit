@@ -44,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumThirdDimensionSlider), Type = typeof(Slider))]
     [TemplatePart(Name = nameof(ColorPickerButton.PaletteGridView),             Type = typeof(GridView))]
     [TemplatePart(Name = nameof(ColorPickerButton.HexInputTextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.HsvRadioButton),              Type = typeof(RadioButton))]
-    [TemplatePart(Name = nameof(ColorPickerButton.RgbRadioButton),              Type = typeof(RadioButton))]
+    [TemplatePart(Name = nameof(ColorPickerButton.HsvToggleButton),             Type = typeof(ToggleButton))]
+    [TemplatePart(Name = nameof(ColorPickerButton.RgbToggleButton),             Type = typeof(ToggleButton))]
     [TemplatePart(Name = nameof(ColorPickerButton.P1PreviewBorder),             Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.P2PreviewBorder),             Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.N1PreviewBorder),             Type = typeof(Border))]
@@ -124,8 +124,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Slider        ColorSpectrumThirdDimensionSlider;
         private GridView      PaletteGridView;
         private TextBox       HexInputTextBox;
-        private RadioButton   HsvRadioButton;
-        private RadioButton   RgbRadioButton;
+        private ToggleButton  HsvToggleButton;
+        private ToggleButton  RgbToggleButton;
 
         private TextBox Channel1TextBox;
         private TextBox Channel2TextBox;
@@ -222,8 +222,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.PaletteGridView = this.GetTemplateChild<GridView>("PaletteGridView", false);
 
             this.HexInputTextBox = this.GetTemplateChild<TextBox>("HexInputTextBox", false);
-            this.HsvRadioButton  = this.GetTemplateChild<RadioButton>("HsvRadioButton", false);
-            this.RgbRadioButton  = this.GetTemplateChild<RadioButton>("RgbRadioButton", false);
+            this.HsvToggleButton = this.GetTemplateChild<ToggleButton>("HsvToggleButton", false);
+            this.RgbToggleButton = this.GetTemplateChild<ToggleButton>("RgbToggleButton", false);
 
             this.Channel1TextBox     = this.GetTemplateChild<TextBox>("Channel1TextBox", false);
             this.Channel2TextBox     = this.GetTemplateChild<TextBox>("Channel2TextBox", false);
@@ -337,10 +337,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.PaletteGridView != null) { this.PaletteGridView.Loaded     += PaletteGridView_Loaded; }
                 if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown    += HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus  += HexInputTextBox_LostFocus; }
-                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Checked     += ColorRepRadioButton_CheckedUnchecked; }
-                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Unchecked   += ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Checked     += ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Unchecked   += ColorRepRadioButton_CheckedUnchecked; }
+                if (this.HsvToggleButton != null) { this.HsvToggleButton.Checked    += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.HsvToggleButton != null) { this.HsvToggleButton.Unchecked  += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton != null) { this.RgbToggleButton.Checked    += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton != null) { this.RgbToggleButton.Unchecked  += ColorRepToggleButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       += ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       += ChannelTextBox_KeyDown; }
@@ -392,10 +392,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.PaletteGridView != null) { this.PaletteGridView.Loaded     -= PaletteGridView_Loaded; }
                 if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown    -= HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus  -= HexInputTextBox_LostFocus; }
-                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Checked     -= ColorRepRadioButton_CheckedUnchecked; }
-                if (this.HsvRadioButton  != null) { this.HsvRadioButton.Unchecked   -= ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Checked     -= ColorRepRadioButton_CheckedUnchecked; }
-                if (this.RgbRadioButton  != null) { this.RgbRadioButton.Unchecked   -= ColorRepRadioButton_CheckedUnchecked; }
+                if (this.HsvToggleButton != null) { this.HsvToggleButton.Checked    -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.HsvToggleButton != null) { this.HsvToggleButton.Unchecked  -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton != null) { this.RgbToggleButton.Checked    -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton != null) { this.RgbToggleButton.Unchecked  -= ColorRepToggleButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
@@ -449,8 +449,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // If the HSV representation control is missing for whatever reason,
             // the default will be RGB
-            if (this.HsvRadioButton != null &&
-                this.HsvRadioButton.IsChecked == true)
+            if (this.HsvToggleButton != null &&
+                this.HsvToggleButton.IsChecked == true)
             {
                 return ColorRepresentation.Hsva;
             }
@@ -484,28 +484,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // The default is always RGBA
             if (colorRepresentation == ColorRepresentation.Hsva)
             {
-                if (this.RgbRadioButton != null)
+                if (this.RgbToggleButton != null)
                 {
-                    this.RgbRadioButton.IsChecked = false;
+                    this.RgbToggleButton.IsChecked = false;
                 }
 
-                if (this.HsvRadioButton != null)
+                if (this.HsvToggleButton != null)
                 {
-                    this.HsvRadioButton.IsChecked = true;
+                    this.HsvToggleButton.IsChecked = true;
                 }
 
                 VisualStateManager.GoToState(this, "HsvSelected", false);
             }
             else
             {
-                if (this.RgbRadioButton != null)
+                if (this.RgbToggleButton != null)
                 {
-                    this.RgbRadioButton.IsChecked = true;
+                    this.RgbToggleButton.IsChecked = true;
                 }
 
-                if (this.HsvRadioButton != null)
+                if (this.HsvToggleButton != null)
                 {
-                    this.HsvRadioButton.IsChecked = false;
+                    this.HsvToggleButton.IsChecked = false;
                 }
 
                 VisualStateManager.GoToState(this, "RgbSelected", false);
@@ -1467,11 +1467,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event handler for when the selected color representation changes.
         /// This will convert between RGB and HSV.
         /// </summary>
-        private void ColorRepRadioButton_CheckedUnchecked(object sender, RoutedEventArgs e)
+        private void ColorRepToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
         {
-            this.SetActiveColorRepresentation();
+            if (object.ReferenceEquals(sender, this.HsvToggleButton))
+            {
+                this.SetActiveColorRepresentation(ColorRepresentation.Hsva);
+            }
+            else
+            {
+                this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
+            }
+
             this.UpdateChannelControlValues();
             this.UpdateChannelSliderBackgrounds();
+
             return;
         }
 
