@@ -33,6 +33,12 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         private const int DefaultEntriesPerBucket = 64;
 
         /// <summary>
+        /// A bitmask used to avoid branches when computing the absolute value of an <see cref="int"/>.
+        /// This will ignore overflows, as we just need this to map hashcodes into the valid bucket range.
+        /// </summary>
+        private const int SignMask = ~(1 << 31);
+
+        /// <summary>
         /// The current array of <see cref="Bucket"/> instances in use.
         /// </summary>
         private readonly Bucket[] buckets;
@@ -102,11 +108,13 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 return;
             }
 
-            int bucketIndex = value.Length % NumberOfBuckets;
+            int
+                hashcode = GetHashCode(value.AsSpan()),
+                bucketIndex = hashcode % NumberOfBuckets;
 
             ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
-            bucket.Add(value);
+            bucket.Add(value, hashcode);
         }
 
         /// <summary>
@@ -121,11 +129,13 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 return string.Empty;
             }
 
-            int bucketIndex = value.Length % NumberOfBuckets;
+            int
+                hashcode = GetHashCode(value.AsSpan()),
+                bucketIndex = hashcode % NumberOfBuckets;
 
             ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
-            return bucket.GetOrAdd(value);
+            return bucket.GetOrAdd(value, hashcode);
         }
 
         /// <summary>
@@ -140,11 +150,13 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 return string.Empty;
             }
 
-            int bucketIndex = span.Length % NumberOfBuckets;
+            int
+                hashcode = GetHashCode(span),
+                bucketIndex = hashcode % NumberOfBuckets;
 
             ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
-            return bucket.GetOrAdd(span);
+            return bucket.GetOrAdd(span, hashcode);
         }
 
         /// <summary>
@@ -188,11 +200,13 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 return true;
             }
 
-            int bucketIndex = span.Length % NumberOfBuckets;
+            int
+                hashcode = GetHashCode(span),
+                bucketIndex = hashcode % NumberOfBuckets;
 
             ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
-            return bucket.TryGet(span, out value);
+            return bucket.TryGet(span, hashcode, out value);
         }
 
         /// <summary>
@@ -211,12 +225,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         private struct Bucket
         {
-            /// <summary>
-            /// A bitmask used to avoid branches when computing the absolute value of an <see cref="int"/>.
-            /// This will ignore overflows, as we just need this to map hashcodes into the valid bucket range.
-            /// </summary>
-            private const int SignMask = ~(1 << 31);
-
             /// <summary>
             /// The number of entries being used in the current instance.
             /// </summary>
@@ -247,7 +255,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// Implements <see cref="StringPool.Add"/> for the current <see cref="Bucket"/> instance.
             /// </summary>
             /// <param name="value">The input <see cref="string"/> instance to cache.</param>
-            public void Add(string value)
+            /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
+            public void Add(string value, int hashcode)
             {
                 lock (this.dummy)
                 {
@@ -255,7 +264,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     entries ??= new string[entriesPerBucket];
 
-                    int entryIndex = GetIndex(value.AsSpan());
+                    int entryIndex = hashcode % this.entriesPerBucket;
 
                     entries.DangerousGetReferenceAt(entryIndex) = value;
                 }
@@ -265,8 +274,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// Implements <see cref="StringPool.GetOrAdd(string)"/> for the current <see cref="Bucket"/> instance.
             /// </summary>
             /// <param name="value">The input <see cref="string"/> instance with the contents to use.</param>
+            /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="value"/>.</returns>
-            public string GetOrAdd(string value)
+            public string GetOrAdd(string value, int hashcode)
             {
                 lock (this.dummy)
                 {
@@ -274,7 +284,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     entries ??= new string[entriesPerBucket];
 
-                    int entryIndex = GetIndex(value.AsSpan());
+                    int entryIndex = hashcode % this.entriesPerBucket;
 
                     ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
 
@@ -292,8 +302,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// Implements <see cref="StringPool.GetOrAdd(ReadOnlySpan{char})"/> for the current <see cref="Bucket"/> instance.
             /// </summary>
             /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
+            /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
-            public string GetOrAdd(ReadOnlySpan<char> span)
+            public string GetOrAdd(ReadOnlySpan<char> span, int hashcode)
             {
                 lock (this.dummy)
                 {
@@ -301,7 +312,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     entries ??= new string[entriesPerBucket];
 
-                    int entryIndex = GetIndex(span);
+                    int entryIndex = hashcode % this.entriesPerBucket;
 
                     ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
 
@@ -322,9 +333,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// Implements <see cref="StringPool.TryGet"/> for the current <see cref="Bucket"/> instance.
             /// </summary>
             /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
+            /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
             /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
-            public bool TryGet(ReadOnlySpan<char> span, [NotNullWhen(true)] out string? value)
+            public bool TryGet(ReadOnlySpan<char> span, int hashcode, [NotNullWhen(true)] out string? value)
             {
                 lock (this.dummy)
                 {
@@ -332,7 +344,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     if (!(entries is null))
                     {
-                        int entryIndex = GetIndex(span);
+                        int entryIndex = hashcode % this.entriesPerBucket;
 
                         ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
 
@@ -361,22 +373,27 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     this.entries = null;
                 }
             }
+        }
 
-            /// <summary>
-            /// Gets the target index for a given <see cref="ReadOnlySpan{T}"/> instance.
-            /// </summary>
-            /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
-            /// <returns>The target bucket index for <paramref name="span"/>.</returns>
-            [Pure]
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private int GetIndex(ReadOnlySpan<char> span)
-            {
+        /// <summary>
+        /// Gets the (positive) hashcode for a given <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <returns>The hashcode for <paramref name="span"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int GetHashCode(ReadOnlySpan<char> span)
+        {
+            // We calculate the content hashcode for the input span and
+            // perform a XOR with the input length, to try to reduce collisions
+            // in case two sequences of different length result in the same one.
+            return
+                span.Length ^
 #if NETSTANDARD1_4
-                return (span.GetDjb2HashCode() & SignMask) % entriesPerBucket;
+                (span.GetDjb2HashCode() & SignMask);
 #else
-                return (HashCode<char>.Combine(span) & SignMask) % entriesPerBucket;
+                (HashCode<char>.Combine(span) & SignMask);
 #endif
-            }
         }
 
         /// <summary>
