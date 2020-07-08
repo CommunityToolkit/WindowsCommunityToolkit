@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Text;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -158,6 +159,42 @@ namespace UnitTests.HighPerformance.Buffers
             Assert.AreNotSame(hello, pool.GetOrAdd(hello.AsSpan()));
             Assert.AreNotSame(helloworld, pool.GetOrAdd(helloworld.AsSpan()));
             Assert.AreNotSame(windowsCommunityToolkit, pool.GetOrAdd(windowsCommunityToolkit.AsSpan()));
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_Encoding_Empty()
+        {
+            string empty = StringPool.Default.GetOrAdd(ReadOnlySpan<byte>.Empty, Encoding.ASCII);
+
+            Assert.AreSame(string.Empty, empty);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_Encoding_Misc()
+        {
+            var pool = new StringPool();
+
+            string helloworld = nameof(helloworld);
+
+            pool.Add(helloworld);
+
+            Span<byte> span = Encoding.UTF8.GetBytes(nameof(helloworld));
+
+            string helloworld2 = pool.GetOrAdd(span, Encoding.UTF8);
+
+            Assert.AreSame(helloworld, helloworld2);
+
+            string windowsCommunityToolkit = nameof(windowsCommunityToolkit);
+
+            Span<byte> span2 = Encoding.ASCII.GetBytes(windowsCommunityToolkit);
+
+            string
+                windowsCommunityToolkit2 = pool.GetOrAdd(span2, Encoding.ASCII),
+                windowsCommunityToolkit3 = pool.GetOrAdd(windowsCommunityToolkit);
+
+            Assert.AreSame(windowsCommunityToolkit2, windowsCommunityToolkit3);
         }
     }
 }
