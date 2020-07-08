@@ -497,11 +497,13 @@
                                                                 <ColumnDefinition Width="2*" />
                                                             </Grid.ColumnDefinitions>
                                                             <!-- Content RGB/HSV names are hard-coded in ColorPicker as well -->
+                                                            <!-- ToggleButtons are styled to look like a 'SegmentedControl' or 'ButtonGroup' -->
                                                             <ToggleButton x:Name="RgbToggleButton"
                                                                           Grid.Column="0"
                                                                           Content="RGB"
                                                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                                                           BorderThickness="1"
+                                                                          Background="Transparent"
                                                                           HorizontalAlignment="Stretch"
                                                                           contract7Present:CornerRadius="2,0,0,2"/>
                                                             <ToggleButton x:Name="HsvToggleButton"
@@ -509,6 +511,7 @@
                                                                           Content="HSV"
                                                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                                                           BorderThickness="1"
+                                                                          Background="Transparent"
                                                                           HorizontalAlignment="Stretch"
                                                                           contract7Present:CornerRadius="0,2,2,0" />
                                                             <Grid x:Name="HexInputGrid"
