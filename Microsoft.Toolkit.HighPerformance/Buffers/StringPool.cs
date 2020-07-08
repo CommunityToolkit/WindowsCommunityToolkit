@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
@@ -144,6 +145,32 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
 
             return bucket.GetOrAdd(span);
+        }
+
+        /// <summary>
+        /// Gets a cached <see cref="string"/> instance matching the input content (converted to Unicode), or creates a new one.
+        /// </summary>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use, in a specified encoding.</param>
+        /// <param name="encoding">The <see cref="Encoding"/> instance to use to decode the contents of <paramref name="span"/>.</param>
+        /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
+        public unsafe string GetOrAdd(ReadOnlySpan<byte> span, Encoding encoding)
+        {
+            if (span.IsEmpty)
+            {
+                return string.Empty;
+            }
+
+            int maxLength = encoding.GetMaxCharCount(span.Length);
+
+            using SpanOwner<char> buffer = SpanOwner<char>.Allocate(maxLength);
+
+            fixed (byte* source = span)
+            fixed (char* destination = &buffer.DangerousGetReference())
+            {
+                int effectiveLength = encoding.GetChars(source, span.Length, destination, maxLength);
+
+                return GetOrAdd(new ReadOnlySpan<char>(destination, effectiveLength));
+            }
         }
 
         /// <summary>
