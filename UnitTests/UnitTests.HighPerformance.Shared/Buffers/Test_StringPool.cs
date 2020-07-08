@@ -87,7 +87,43 @@ namespace UnitTests.HighPerformance.Buffers
 
         [TestCategory("StringPool")]
         [TestMethod]
-        public void Test_StringPool_GetOrAdd_Empty()
+        public void Test_StringPool_GetOrAdd_String_Empty()
+        {
+            string empty = StringPool.Default.GetOrAdd(string.Empty);
+
+            Assert.AreSame(string.Empty, empty);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_String_Misc()
+        {
+            var pool = new StringPool();
+
+            string helloworld = nameof(helloworld);
+
+            string cached = pool.GetOrAdd(helloworld);
+
+            Assert.AreSame(helloworld, cached);
+
+            Span<char> span = stackalloc char[helloworld.Length];
+
+            helloworld.AsSpan().CopyTo(span);
+
+            string helloworld2 = span.ToString();
+
+            cached = pool.GetOrAdd(helloworld2);
+
+            Assert.AreSame(helloworld, cached);
+
+            cached = pool.GetOrAdd(new string(helloworld.ToCharArray()));
+
+            Assert.AreSame(helloworld, cached);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_ReadOnlySpan_Empty()
         {
             string empty = StringPool.Default.GetOrAdd(ReadOnlySpan<char>.Empty);
 
@@ -96,7 +132,7 @@ namespace UnitTests.HighPerformance.Buffers
 
         [TestCategory("StringPool")]
         [TestMethod]
-        public void Test_StringPool_GetOrAdd_Misc()
+        public void Test_StringPool_GetOrAdd_ReadOnlySpan_Misc()
         {
             var pool = new StringPool();
 
