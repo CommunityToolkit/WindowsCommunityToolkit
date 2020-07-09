@@ -457,15 +457,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int GetHashCode(ReadOnlySpan<char> span)
         {
-            // We calculate the content hashcode for the input span and
-            // perform a XOR with the input length, to try to reduce collisions
-            // in case two sequences of different length result in the same one.
-            return
-                span.Length ^
 #if NETSTANDARD1_4
-                (span.GetDjb2HashCode() & SignMask);
+            return span.GetDjb2HashCode() & SignMask;
 #else
-                (HashCode<char>.Combine(span) & SignMask);
+            return HashCode<char>.Combine(span) & SignMask;
 #endif
         }
 
