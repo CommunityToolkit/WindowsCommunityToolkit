@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Reflection;
 using System.Text;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,15 +17,45 @@ namespace UnitTests.HighPerformance.Buffers
     {
         [TestCategory("StringPool")]
         [TestMethod]
-        [DataRow(0, 0)]
-        [DataRow(1, 0)]
-        [DataRow(0, 1)]
-        [DataRow(-3248234, 22)]
-        [DataRow(int.MinValue, int.MinValue)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Test_StringPool_Cctor_Fail(int buckets, int entries)
+        [DataRow(44, 4, 16, 64)]
+        [DataRow(76, 8, 16, 128)]
+        [DataRow(128, 8, 16, 128)]
+        [DataRow(179, 8, 32, 256)]
+        [DataRow(366, 16, 32, 512)]
+        [DataRow(512, 16, 32, 512)]
+        [DataRow(890, 16, 64, 1024)]
+        [DataRow(1280, 32, 64, 2048)]
+        [DataRow(2445, 32, 128, 4096)]
+        [DataRow(5000, 64, 128, 8192)]
+        [DataRow(8000, 64, 128, 8192)]
+        [DataRow(12442, 64, 256, 16384)]
+        [DataRow(234000, 256, 1024, 262144)]
+        public void Test_StringPool_Cctor_Ok(int minimumSize, int x, int y, int size)
         {
-            var pool = new StringPool(buckets, entries);
+            var pool = new StringPool(minimumSize);
+
+            Assert.AreEqual(size, pool.Size);
+
+            Array buckets = (Array)typeof(StringPool).GetField("buckets", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
+
+            Assert.AreEqual(x, buckets.Length);
+
+            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+Bucket, Microsoft.Toolkit.HighPerformance");
+
+            int bucketSize = (int)bucketType.GetField("entriesPerBucket", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(buckets.GetValue(0));
+
+            Assert.AreEqual(y, bucketSize);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-3248234)]
+        [DataRow(int.MinValue)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_StringPool_Cctor_Fail(int size)
+        {
+            var pool = new StringPool(size);
 
             Assert.Fail();
         }
