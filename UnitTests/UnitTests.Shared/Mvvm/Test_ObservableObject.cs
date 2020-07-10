@@ -23,14 +23,22 @@ namespace UnitTests.Mvvm
 
             model.PropertyChanging += (s, e) =>
             {
+                Assert.IsNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
                 Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
 
                 changing = (e, model.Data);
             };
 
             model.PropertyChanged += (s, e) =>
             {
+                Assert.IsNotNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
                 Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
 
                 changed = (e, model.Data);
             };
