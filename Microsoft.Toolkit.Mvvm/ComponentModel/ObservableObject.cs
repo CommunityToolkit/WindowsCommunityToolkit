@@ -275,6 +275,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             OnPropertyChanged(propertyName);
 
+            // If the input task is either null or already completed, we don't need to
+            // execute the additional logic to monitor its completion, so we can just bypass
+            // the rest of the method and return that the field changed here. The return value
+            // does not indicate that the task itself has completed, but just that the property
+            // value itself has changed (ie. the referenced task instance has changed).
+            // This mirrors the return value of all the other synchronous Set methods as well.
             if (isAlreadyCompletedOrNull)
             {
                 return true;
