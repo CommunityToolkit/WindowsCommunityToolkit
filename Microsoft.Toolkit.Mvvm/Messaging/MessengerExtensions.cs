@@ -64,13 +64,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return;
                 }
 
-                Type messageType = subscriptionType.GenericTypeArguments[0];
+                Type
+                    messageType = subscriptionType.GenericTypeArguments[0],
+                    handlerType = typeof(Action<>).MakeGenericType(messageType);
 
                 MethodInfo
                     receiveMethod = recipient.GetType().GetMethod(nameof(ISubscriber<object>.Receive), new[] { messageType }),
                     registerMethod = messenger.GetType().GetMethod(nameof(IMessenger.Register)).MakeGenericMethod(messageType, typeof(TToken));
 
-                Delegate handler = receiveMethod.CreateDelegate(typeof(Action<>).MakeGenericType(messageType));
+                Delegate handler = receiveMethod.CreateDelegate(handlerType, recipient);
 
                 registerMethod.Invoke(messenger, new[] { recipient, token, handler });
             }

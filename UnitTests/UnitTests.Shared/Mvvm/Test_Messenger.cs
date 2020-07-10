@@ -218,9 +218,100 @@ namespace UnitTests.Mvvm
             });
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_ISubscriber_NoMessages()
+        {
+            var messenger = new Messenger();
+            var recipient = new RecipientWithNoMessages();
+
+            messenger.Register(recipient);
+
+            // We just need to verify we got here with no errors, this
+            // recipient has no declared handlers so there's nothing to do
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_ISubscriber_SomeMessages_NoToken()
+        {
+            var messenger = new Messenger();
+            var recipient = new RecipientWithSomeMessages();
+
+            messenger.Register(recipient);
+
+            Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+            Assert.IsTrue(messenger.IsRegistered<MessageB>(recipient));
+
+            messenger.Send<MessageA>();
+            messenger.Send<MessageB>();
+
+            Assert.AreEqual(recipient.As, 1);
+            Assert.AreEqual(recipient.Bs, 1);
+
+            messenger.Unregister(recipient);
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
+            Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_ISubscriber_SomeMessages_WithToken()
+        {
+            var messenger = new Messenger();
+            var recipient = new RecipientWithSomeMessages();
+            var token = nameof(Test_Messenger_ISubscriber_SomeMessages_WithToken);
+
+            messenger.Register(recipient, token);
+
+            Assert.IsTrue(messenger.IsRegistered<MessageA, string>(recipient, token));
+            Assert.IsTrue(messenger.IsRegistered<MessageB, string>(recipient, token));
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
+            Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
+
+            messenger.Send<MessageA, string>(token);
+            messenger.Send<MessageB, string>(token);
+
+            Assert.AreEqual(recipient.As, 1);
+            Assert.AreEqual(recipient.Bs, 1);
+
+            messenger.Unregister(recipient, token);
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
+            Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
+        }
+
+        public sealed class RecipientWithNoMessages
+        {
+        }
+
+        public sealed class RecipientWithSomeMessages
+             : ISubscriber<MessageA>, ISubscriber<MessageB>
+        {
+            public int As { get; private set; }
+
+            public void Receive(MessageA message)
+            {
+                As++;
+            }
+
+            public int Bs { get; private set; }
+
+            public void Receive(MessageB message)
+            {
+                Bs++;
+            }
+        }
+
         public sealed class MessageA
         {
             public string Text { get; set; }
+        }
+
+        public sealed class MessageB
+        {
         }
     }
 }
