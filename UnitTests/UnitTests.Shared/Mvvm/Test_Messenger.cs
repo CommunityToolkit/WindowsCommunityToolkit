@@ -243,7 +243,14 @@ namespace UnitTests.Mvvm
             Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
             Assert.IsTrue(messenger.IsRegistered<MessageB>(recipient));
 
+            Assert.AreEqual(recipient.As, 0);
+            Assert.AreEqual(recipient.Bs, 0);
+
             messenger.Send<MessageA>();
+
+            Assert.AreEqual(recipient.As, 1);
+            Assert.AreEqual(recipient.Bs, 0);
+
             messenger.Send<MessageB>();
 
             Assert.AreEqual(recipient.As, 1);
@@ -271,8 +278,15 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
             Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
 
-            messenger.Send<MessageA, string>(token);
+            Assert.AreEqual(recipient.As, 0);
+            Assert.AreEqual(recipient.Bs, 0);
+
             messenger.Send<MessageB, string>(token);
+
+            Assert.AreEqual(recipient.As, 0);
+            Assert.AreEqual(recipient.Bs, 1);
+
+            messenger.Send<MessageA, string>(token);
 
             Assert.AreEqual(recipient.As, 1);
             Assert.AreEqual(recipient.Bs, 1);
