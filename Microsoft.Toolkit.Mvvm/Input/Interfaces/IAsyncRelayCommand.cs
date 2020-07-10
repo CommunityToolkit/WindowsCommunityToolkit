@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         Task? ExecutionTask { get; }
 
         /// <summary>
-        /// Indicates whether the command currently has a pending operation being executed.
+        /// Gets a value indicating whether the command currently has a pending operation being executed.
         /// </summary>
         bool IsRunning { get; }
 
