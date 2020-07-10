@@ -137,6 +137,7 @@
     <Compile Include="Extensions\Test_BitmapIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconSourceExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconExtensionMarkupExtension.cs" />
+    <Compile Include="Extensions\Test_EnumValuesExtension.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
