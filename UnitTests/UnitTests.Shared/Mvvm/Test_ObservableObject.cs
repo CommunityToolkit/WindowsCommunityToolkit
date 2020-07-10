@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -171,44 +172,51 @@ namespace UnitTests.Mvvm
         [TestMethod]
         public async Task Test_ObservableObject_NotifyTask()
         {
-            var model = new SampleModelWithTask<int>();
-            var tcs = new TaskCompletionSource<int>();
-            var task = tcs.Task;
-
-            (PropertyChangingEventArgs, Task<int>) changing = default;
-            (PropertyChangedEventArgs, Task<int>) changed = default;
-
-            model.PropertyChanging += (s, e) =>
+            static async Task TestAsync(Action<TaskCompletionSource<int>> callback)
             {
-                Assert.AreSame(model, s);
+                var model = new SampleModelWithTask<int>();
+                var tcs = new TaskCompletionSource<int>();
+                var task = tcs.Task;
 
-                changing = (e, model.Data);
-            };
+                (PropertyChangingEventArgs, Task<int>) changing = default;
+                (PropertyChangedEventArgs, Task<int>) changed = default;
 
-            model.PropertyChanged += (s, e) =>
-            {
-                Assert.AreSame(model, s);
+                model.PropertyChanging += (s, e) =>
+                {
+                    Assert.AreSame(model, s);
 
-                changed = (e, model.Data);
-            };
+                    changing = (e, model.Data);
+                };
 
-            model.Data = task;
+                model.PropertyChanged += (s, e) =>
+                {
+                    Assert.AreSame(model, s);
 
-            Assert.IsFalse(task.IsCompleted);
-            Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModelWithTask<int>.Data));
-            Assert.IsNull(changing.Item2);
-            Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModelWithTask<int>.Data));
-            Assert.AreSame(changed.Item2, task);
+                    changed = (e, model.Data);
+                };
 
-            changed = default;
+                model.Data = task;
 
-            tcs.SetResult(42);
+                Assert.IsFalse(task.IsCompleted);
+                Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModelWithTask<int>.Data));
+                Assert.IsNull(changing.Item2);
+                Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModelWithTask<int>.Data));
+                Assert.AreSame(changed.Item2, task);
 
-            await Task.Delay(100); // Time for the notification to dispatch
+                changed = default;
 
-            Assert.IsTrue(task.IsCompleted);
-            Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel<int>.Data));
-            Assert.AreSame(changed.Item2, task);
+                callback(tcs);
+
+                await Task.Delay(100); // Time for the notification to dispatch
+
+                Assert.IsTrue(task.IsCompleted);
+                Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel<int>.Data));
+                Assert.AreSame(changed.Item2, task);
+            }
+
+            await TestAsync(tcs => tcs.SetResult(42));
+            await TestAsync(tcs => tcs.SetException(new ArgumentException("Something went wrong")));
+            await TestAsync(tcs => tcs.SetCanceled());
         }
 
         public class SampleModelWithTask<T> : ObservableObject
