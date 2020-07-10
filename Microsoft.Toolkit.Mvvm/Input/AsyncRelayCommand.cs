@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public bool IsRunning => ExecutionTask?.IsCompleted ?? false;
+        public bool IsRunning => ExecutionTask?.IsCompleted == false;
 
         /// <inheritdoc/>
         public void NotifyCanExecuteChanged()

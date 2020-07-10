@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Messenger.Request.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Messenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_ObservableObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_AsyncRelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_RelayCommand{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_ViewModelBase.cs" />
