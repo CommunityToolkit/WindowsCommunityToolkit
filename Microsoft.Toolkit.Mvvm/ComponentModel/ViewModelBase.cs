@@ -89,7 +89,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Raised whenever the <see cref="IsActive"/> property is set to <see langword="false"/>.
         /// Use this method to unregister from messages and do general cleanup for this instance.
         /// </summary>
-        /// <remarks>The base implementation unregisters all messages for this recipient (with no token).</remarks>
+        /// <remarks>
+        /// The base implementation unregisters all messages for this recipient. It does so by
+        /// invoking <see cref="IMessenger.Unregister(object)"/>, which removes all registered
+        /// handlers for a given subscriber, regardless of what token was used to register them.
+        /// That is, all registered handlers across all subscription channels will be removed.
+        /// </remarks>
         protected virtual void OnDeactivated()
         {
             Messenger.Unregister(this);
