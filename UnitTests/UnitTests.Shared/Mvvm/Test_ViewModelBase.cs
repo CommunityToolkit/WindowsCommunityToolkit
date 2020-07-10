@@ -23,10 +23,12 @@ namespace UnitTests.Mvvm
             viewmodel.IsActive = true;
 
             Assert.IsTrue(viewmodel.IsActivatedCheck);
+            Assert.IsTrue(viewmodel.CurrentMessenger.IsRegistered<SampleMessage>(viewmodel));
 
             viewmodel.IsActive = false;
 
             Assert.IsFalse(viewmodel.IsActivatedCheck);
+            Assert.IsFalse(viewmodel.CurrentMessenger.IsRegistered<SampleMessage>(viewmodel));
         }
 
         [TestCategory("Mvvm")]
@@ -94,6 +96,8 @@ namespace UnitTests.Mvvm
             protected override void OnActivated()
             {
                 IsActivatedCheck = true;
+
+                Messenger.Register<SampleMessage>(this, m => { });
             }
 
             protected override void OnDeactivated()
@@ -102,6 +106,10 @@ namespace UnitTests.Mvvm
 
                 IsActivatedCheck = false;
             }
+        }
+
+        public class SampleMessage
+        {
         }
     }
 }
