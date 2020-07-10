@@ -6,10 +6,14 @@
              RequestedTheme="Light" >
     <Application.Resources>
 
+        <extensions:EnumValuesExtension x:Key="DummyExtension"/>
+
+        <unitTestExtensions:Animal x:Key="Animal">Cat</unitTestExtensions:Animal>
+
         <!-- Workarounds for .NET Native issue in unit tests -->
         <CommandBar x:Key="DummyCommandBar">
             <AppBarButton Icon="{extensions:FontIcon Glyph=&#xE102;}"/>
-            <AppBarButton Icon="{extensions:SymbolIcon Glyph=Play}"/>
+            <AppBarButton Icon="{extensions:SymbolIcon Symbol=Play}"/>
         </CommandBar>
 
         <unitTestExtensions:MockSwipeItem
@@ -18,7 +22,11 @@
 
         <unitTestExtensions:MockSwipeItem
             x:Key="DummySwipeControl2"
-            IconSource="{extensions:SymbolIconSource Glyph=Play}"/>
+            IconSource="{extensions:SymbolIconSource Symbol=Play}"/>
+
+        <unitTestExtensions:MockSwipeItem
+            x:Key="DummySwipeControl3"
+            IconSource="{extensions:BitmapIconSource Source=/Assets/StoreLogo.png}"/>
 
         <Button x:Key="DummyButton">
             <Button.Flyout>

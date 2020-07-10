@@ -11,7 +11,7 @@
     <AssemblyName>UnitTests.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -104,10 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentAssertions">
-      <Version>5.10.2</Version>
+      <Version>5.10.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.1.0</Version>
@@ -132,10 +132,13 @@
     <Compile Include="Extensions\Test_BitmapIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconSourceExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconExtensionMarkupExtension.cs" />
+    <Compile Include="Extensions\Test_EnumValuesExtension.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
+    <Compile Include="Helpers\Test_DispatcherQueueHelper.cs" />
+    <Compile Include="Helpers\Test_DispatcherHelper.cs" />
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_CollectionCapableDeepLinkParser.cs" />
@@ -168,6 +171,7 @@
     <Compile Include="PrivateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
+    <Compile Include="UI\Controls\Test_TokenizingTextBox_General.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_InterspersedCollection.cs" />
     <Compile Include="UI\Controls\Test_MasterDetailsView.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />

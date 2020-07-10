@@ -4,6 +4,7 @@
 
 //// UWP Replacement for WPF RadialGradientBrush: https://msdn.microsoft.com/en-us/library/system.windows.media.radialgradientbrush(v=vs.110).aspx.
 
+using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
@@ -18,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// RadialGradientBrush - This GradientBrush defines its Gradient as an interpolation
     /// within an Ellipse.
     /// </summary>
+    [Obsolete("Please migrate to the RadialGradientBrush control from WinUI, this control will be removed in a future release. https://aka.ms/winui")]
     [ContentProperty(Name = nameof(GradientStops))]
     public partial class RadialGradientBrush : CanvasBrushBase
     {

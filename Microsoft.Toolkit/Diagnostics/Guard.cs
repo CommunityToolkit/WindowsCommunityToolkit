@@ -31,10 +31,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNull<T>(T? value, string name)
             where T : class
         {
-            if (!(value is null))
+            if (value is null)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNull(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNull(value, name);
         }
 
         /// <summary>
@@ -49,10 +51,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNull<T>(T? value, string name)
             where T : struct
         {
-            if (!(value is null))
+            if (value is null)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNull(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNull(value, name);
         }
 
         /// <summary>
@@ -66,10 +70,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : class
         {
-            if (value is null)
+            if (!(value is null))
             {
-                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull<T>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentNullExceptionForIsNotNull<T>(name);
         }
 
         /// <summary>
@@ -84,10 +90,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : struct
         {
-            if (value is null)
+            if (!(value is null))
             {
-                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull<T?>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentNullExceptionForIsNotNull<T?>(name);
         }
 
         /// <summary>
@@ -100,10 +108,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsOfType<T>(object value, string name)
         {
-            if (value.GetType() != typeof(T))
+            if (value.GetType() == typeof(T))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsOfType<T>(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsOfType<T>(value, name);
         }
 
         /// <summary>
@@ -116,10 +126,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotOfType<T>(object value, string name)
         {
-            if (value.GetType() == typeof(T))
+            if (value.GetType() != typeof(T))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotOfType<T>(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotOfType<T>(value, name);
         }
 
         /// <summary>
@@ -132,10 +144,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsOfType(object value, Type type, string name)
         {
-            if (value.GetType() != type)
+            if (value.GetType() == type)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsOfType(value, type, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsOfType(value, type, name);
         }
 
         /// <summary>
@@ -148,10 +162,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotOfType(object value, Type type, string name)
         {
-            if (value.GetType() == type)
+            if (value.GetType() != type)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotOfType(value, type, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotOfType(value, type, name);
         }
 
         /// <summary>
@@ -164,10 +180,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsAssignableToType<T>(object value, string name)
         {
-            if (!(value is T))
+            if (value is T)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsAssignableToType<T>(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsAssignableToType<T>(value, name);
         }
 
         /// <summary>
@@ -180,10 +198,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotAssignableToType<T>(object value, string name)
         {
-            if (value is T)
+            if (!(value is T))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotAssignableToType<T>(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotAssignableToType<T>(value, name);
         }
 
         /// <summary>
@@ -196,10 +216,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsAssignableToType(object value, Type type, string name)
         {
-            if (!type.IsInstanceOfType(value))
+            if (type.IsInstanceOfType(value))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsAssignableToType(value, type, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsAssignableToType(value, type, name);
         }
 
         /// <summary>
@@ -212,10 +234,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotAssignableToType(object value, Type type, string name)
         {
-            if (type.IsInstanceOfType(value))
+            if (!type.IsInstanceOfType(value))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotAssignableToType(value, type, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotAssignableToType(value, type, name);
         }
 
         /// <summary>
@@ -231,10 +255,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsReferenceEqualTo<T>(T value, T target, string name)
             where T : class
         {
-            if (!ReferenceEquals(value, target))
+            if (ReferenceEquals(value, target))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsReferenceEqualTo<T>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsReferenceEqualTo<T>(name);
         }
 
         /// <summary>
@@ -250,10 +276,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsReferenceNotEqualTo<T>(T value, T target, string name)
             where T : class
         {
-            if (ReferenceEquals(value, target))
+            if (!ReferenceEquals(value, target))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(name);
         }
 
         /// <summary>
@@ -265,10 +293,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsTrue([DoesNotReturnIf(false)] bool value, string name)
         {
-            if (!value)
+            if (value)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsTrue(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsTrue(name);
         }
 
         /// <summary>
@@ -281,10 +311,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsTrue([DoesNotReturnIf(false)] bool value, string name, string message)
         {
-            if (!value)
+            if (value)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsTrue(name, message);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsTrue(name, message);
         }
 
         /// <summary>
@@ -296,10 +328,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsFalse([DoesNotReturnIf(true)] bool value, string name)
         {
-            if (value)
+            if (!value)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsFalse(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsFalse(name);
         }
 
         /// <summary>
@@ -312,10 +346,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsFalse([DoesNotReturnIf(true)] bool value, string name, string message)
         {
-            if (value)
+            if (!value)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsFalse(name, message);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsFalse(name, message);
         }
     }
 }

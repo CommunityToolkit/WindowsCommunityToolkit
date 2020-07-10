@@ -22,31 +22,36 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         //// TODO: We should use images here.
         private readonly List<SampleEmailDataType> _emailSamples = new List<SampleEmailDataType>()
         {
-            new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman", Icon = Symbol.Account },
-            new SampleEmailDataType() { FirstName = "Ian", FamilyName = "Smith", Icon = Symbol.AddFriend },
-            new SampleEmailDataType() { FirstName = "Peter", FamilyName = "Strange", Icon = Symbol.Attach },
-            new SampleEmailDataType() { FirstName = "Alex", FamilyName = "Wilber", Icon = Symbol.AttachCamera },
-            new SampleEmailDataType() { FirstName = "Allan", FamilyName = "Deyoung", Icon = Symbol.Audio },
-            new SampleEmailDataType() { FirstName = "Adele", FamilyName = "Vance", Icon = Symbol.BlockContact },
-            new SampleEmailDataType() { FirstName = "Grady", FamilyName = "Archie", Icon = Symbol.Calculator },
-            new SampleEmailDataType() { FirstName = "Megan", FamilyName = "Bowen", Icon = Symbol.Calendar },
-            new SampleEmailDataType() { FirstName = "Ben", FamilyName = "Walters", Icon = Symbol.Camera },
-            new SampleEmailDataType() { FirstName = "Debra", FamilyName = "Berger", Icon = Symbol.Contact },
-            new SampleEmailDataType() { FirstName = "Emily", FamilyName = "Braun", Icon = Symbol.Favorite },
-            new SampleEmailDataType() { FirstName = "Christine", FamilyName = "Cline", Icon = Symbol.Link },
-            new SampleEmailDataType() { FirstName = "Enrico", FamilyName = "Catteneo", Icon = Symbol.Mail },
-            new SampleEmailDataType() { FirstName = "Davit", FamilyName = "Badalyan", Icon = Symbol.Map },
-            new SampleEmailDataType() { FirstName = "Diego", FamilyName = "Siciliani", Icon = Symbol.Phone },
-            new SampleEmailDataType() { FirstName = "Raul", FamilyName = "Razo", Icon = Symbol.Pin },
-            new SampleEmailDataType() { FirstName = "Miriam", FamilyName = "Graham", Icon = Symbol.Rotate },
-            new SampleEmailDataType() { FirstName = "Lynne", FamilyName = "Robbins", Icon = Symbol.RotateCamera },
-            new SampleEmailDataType() { FirstName = "Lydia", FamilyName = "Holloway", Icon = Symbol.Send },
-            new SampleEmailDataType() { FirstName = "Nestor", FamilyName = "Wilke", Icon = Symbol.Tag },
-            new SampleEmailDataType() { FirstName = "Patti", FamilyName = "Fernandez", Icon = Symbol.UnFavorite },
-            new SampleEmailDataType() { FirstName = "Pradeep", FamilyName = "Gupta", Icon = Symbol.UnPin },
-            new SampleEmailDataType() { FirstName = "Joni", FamilyName = "Sherman", Icon = Symbol.Zoom },
-            new SampleEmailDataType() { FirstName = "Isaiah", FamilyName = "Langer", Icon = Symbol.ZoomIn },
-            new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers", Icon = Symbol.ZoomOut },
+            new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman" },
+            new SampleEmailDataType() { FirstName = "Michael", FamilyName = "Hawker" },
+            new SampleEmailDataType() { FirstName = "Matt", FamilyName = "Lacey" },
+            new SampleEmailDataType() { FirstName = "Alexandre", FamilyName = "Chohfi" },
+            new SampleEmailDataType() { FirstName = "Filip", FamilyName = "Wallberg" },
+            new SampleEmailDataType() { FirstName = "Shane", FamilyName = "Weaver" },
+            new SampleEmailDataType() { FirstName = "Vincent", FamilyName = "Gromfeld" },
+            new SampleEmailDataType() { FirstName = "Sergio", FamilyName = "Pedri" },
+            new SampleEmailDataType() { FirstName = "Alex", FamilyName = "Wilber" },
+            new SampleEmailDataType() { FirstName = "Allan", FamilyName = "Deyoung" },
+            new SampleEmailDataType() { FirstName = "Adele", FamilyName = "Vance" },
+            new SampleEmailDataType() { FirstName = "Grady", FamilyName = "Archie" },
+            new SampleEmailDataType() { FirstName = "Megan", FamilyName = "Bowen" },
+            new SampleEmailDataType() { FirstName = "Ben", FamilyName = "Walters" },
+            new SampleEmailDataType() { FirstName = "Debra", FamilyName = "Berger" },
+            new SampleEmailDataType() { FirstName = "Emily", FamilyName = "Braun" },
+            new SampleEmailDataType() { FirstName = "Christine", FamilyName = "Cline" },
+            new SampleEmailDataType() { FirstName = "Enrico", FamilyName = "Catteneo" },
+            new SampleEmailDataType() { FirstName = "Davit", FamilyName = "Badalyan" },
+            new SampleEmailDataType() { FirstName = "Diego", FamilyName = "Siciliani" },
+            new SampleEmailDataType() { FirstName = "Raul", FamilyName = "Razo" },
+            new SampleEmailDataType() { FirstName = "Miriam", FamilyName = "Graham" },
+            new SampleEmailDataType() { FirstName = "Lynne", FamilyName = "Robbins" },
+            new SampleEmailDataType() { FirstName = "Lydia", FamilyName = "Holloway" },
+            new SampleEmailDataType() { FirstName = "Nestor", FamilyName = "Wilke" },
+            new SampleEmailDataType() { FirstName = "Patti", FamilyName = "Fernandez" },
+            new SampleEmailDataType() { FirstName = "Pradeep", FamilyName = "Gupta" },
+            new SampleEmailDataType() { FirstName = "Joni", FamilyName = "Sherman" },
+            new SampleEmailDataType() { FirstName = "Isaiah", FamilyName = "Langer" },
+            new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers" },
         };
 
         // TODO: Setup ACV for this collection as well.
@@ -82,7 +87,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private TokenizingTextBox _ttb;
         private TokenizingTextBox _ttbEmail;
         private ListView _ttbEmailSuggestions;
-        private Button _ttbEmailClear;
 
         private AdvancedCollectionView _acv;
         private AdvancedCollectionView _acvEmail;
@@ -100,6 +104,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _acvEmail.SortDescriptions.Add(new SortDescription(nameof(SampleEmailDataType.DisplayName), SortDirection.Ascending));
 
             Loaded += (sender, e) => { this.OnXamlRendered(this); };
+
+            // Add the buttons
+            SampleController.Current.RegisterNewCommand("Clear Tokens", ClearButtonClick);
+            SampleController.Current.RegisterNewCommand("Show Email Items", ShowEmailSelectedClick);
+            SampleController.Current.RegisterNewCommand("Show Email Selection", ShowSelectedTextClick);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -117,9 +126,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
             {
                 _ttb = ttb;
-
-                ////_ttb.ItemsSource = new ObservableCollection<SampleDataType>(); // TODO: This shouldn't be required, we should initialize in control constructor???
-
                 _ttb.TokenItemAdded += TokenItemAdded;
                 _ttb.TokenItemRemoving += TokenItemRemoved;
                 _ttb.TextChanged += TextChanged;
@@ -146,8 +152,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail = ttbEmail;
 
                 _ttbEmail.ItemsSource = _selectedEmails;
-
-                // _ttbEmail.ItemClick += EmailTokenItemClick;
+                _ttbEmail.ItemClick += EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
@@ -171,18 +176,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmailSuggestions.PreviewKeyDown += EmailList_PreviewKeyDown;
 
                 _ttbEmailSuggestions.ItemsSource = _acvEmail;
-            }
-
-            if (_ttbEmailClear != null)
-            {
-                _ttbEmailClear.Click -= ClearButtonClick;
-            }
-
-            if (control.FindChildByName("ClearButton") is Button btn)
-            {
-                _ttbEmailClear = btn;
-
-                _ttbEmailClear.Click += ClearButtonClick;
             }
         }
 
@@ -309,11 +302,48 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        private async void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            _selectedEmails.Clear();
-
+            await _ttbEmail.ClearAsync();
             _acvEmail.RefreshFilter();
+
+            await _ttb.ClearAsync();
+        }
+
+        private async void ShowEmailSelectedClick(object sender, RoutedEventArgs e)
+        {
+            // Grab the list of items and identify which ones are free text, which ones are tokens
+            string message = string.Empty;
+
+            foreach (var item in _ttbEmail.Items)
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    message += "\r\n";
+                }
+
+                message += item is ITokenStringContainer ? "Unrslvd: " : "Token  : ";
+                var textVal = item.ToString();
+
+                message += string.IsNullOrEmpty(textVal) ? "<empty>" : textVal;
+            }
+
+            MessageDialog md = new MessageDialog(message, "Item List with type");
+            await md.ShowAsync();
+        }
+
+        private async void ShowSelectedTextClick(object sender, RoutedEventArgs e)
+        {
+            // Grab the list of items and identify which ones are free text, which ones are tokens
+            string message = _ttbEmail.SelectedTokenText;
+
+            if (_ttbEmail.SelectedItems.Count == 0)
+            {
+                message = "<Nothing Selected>";
+            }
+
+            MessageDialog md = new MessageDialog(message, "Selected Tokens as Text");
+            await md.ShowAsync();
         }
 
         // Move to Email Suggest ListView list when we keydown from the TTB

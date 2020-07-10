@@ -53,17 +53,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
+    <DebugType>Full</DebugType>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <!-- Workaround for issue NuGet/Home#8388; change behavior during NuGet restore time vs. final build to avoid NuGet conflict in VS 2019 -->
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NugetTargetMoniker>
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>

@@ -24,10 +24,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CanRead(Stream stream, string name)
         {
-            if (!stream.CanRead)
+            if (stream.CanRead)
             {
-                ThrowHelper.ThrowArgumentExceptionForCanRead(stream, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForCanRead(stream, name);
         }
 
         /// <summary>
@@ -39,10 +41,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CanWrite(Stream stream, string name)
         {
-            if (!stream.CanWrite)
+            if (stream.CanWrite)
             {
-                ThrowHelper.ThrowArgumentExceptionForCanWrite(stream, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForCanWrite(stream, name);
         }
 
         /// <summary>
@@ -54,10 +58,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CanSeek(Stream stream, string name)
         {
-            if (!stream.CanSeek)
+            if (stream.CanSeek)
             {
-                ThrowHelper.ThrowArgumentExceptionForCanSeek(stream, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForCanSeek(stream, name);
         }
 
         /// <summary>
@@ -69,10 +75,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsAtStartPosition(Stream stream, string name)
         {
-            if (stream.Position != 0)
+            if (stream.Position == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsAtStartPosition(stream, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsAtStartPosition(stream, name);
         }
     }
 }
