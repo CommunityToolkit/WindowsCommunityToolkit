@@ -224,6 +224,95 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
+        /// Provides the internal backing implementation for <see cref="SetAndNotifyOnCompletion{TTask}(ref TTask,Expression{Func{TTask}},TTask,string)"/>.
+        /// </summary>
+        /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="fieldExpression">An <see cref="Expression{TDelegate}"/> returning the field to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="monitorTask">A <see cref="Task"/> that completes when </param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
+        /// if the current and new value for the target property are the same.
+        /// </remarks>
+        private protected bool SetAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, out Task monitorTask, [CallerMemberName] string propertyName = null!)
+            where TTask : Task
+        {
+            if (ReferenceEquals(field, newValue))
+            {
+                monitorTask = Task.CompletedTask;
+
+                return false;
+            }
+
+            // Check the status of the new task before assigning it to the
+            // target field. This is so that in case the task is either
+            // null or already completed, we can avoid the overhead of
+            // scheduling the method to monitor its completion.
+            bool isAlreadyCompletedOrNull = newValue?.IsCompleted ?? true;
+
+            OnPropertyChanging(propertyName);
+
+            field = newValue;
+
+            OnPropertyChanged(propertyName);
+
+            // If the input task is either null or already completed, we don't need to
+            // execute the additional logic to monitor its completion, so we can just bypass
+            // the rest of the method and return that the field changed here. The return value
+            // does not indicate that the task itself has completed, but just that the property
+            // value itself has changed (ie. the referenced task instance has changed).
+            // This mirrors the return value of all the other synchronous Set methods as well.
+            if (isAlreadyCompletedOrNull)
+            {
+                monitorTask = Task.CompletedTask;
+
+                return true;
+            }
+
+            // Get the target field to set. This is needed because we can't
+            // capture the ref field in a closure (for the async method).
+            if (!((fieldExpression.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
+            {
+                ThrowArgumentExceptionForInvalidFieldExpression();
+
+                // This is never executed, as the method above always throws
+                monitorTask = Task.CompletedTask;
+
+                return false;
+            }
+
+            // We use a local async function here so that the main method can
+            // remain synchronous and return a value that can be immediately
+            // used by the caller. This mirrors Set<T>(ref T, T, string).
+            async Task MonitorTask()
+            {
+                try
+                {
+                    // Await the task and ignore any exceptions
+                    await newValue!;
+                }
+                catch
+                {
+                }
+
+                TTask? currentTask = (TTask?)fieldInfo.GetValue(this);
+
+                // Only notify if the property hasn't changed
+                if (ReferenceEquals(newValue, currentTask))
+                {
+                    OnPropertyChanged(propertyName);
+                }
+            }
+
+            monitorTask = MonitorTask();
+
+            return true;
+        }
+
+        /// <summary>
         /// Compares the current and new values for a given field (which should be the backing
         /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
         /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
@@ -258,75 +347,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected bool SetAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string propertyName = null!)
             where TTask : Task
         {
-            if (ReferenceEquals(field, newValue))
-            {
-                return false;
-            }
-
-            // Check the status of the new task before assigning it to the
-            // target field. This is so that in case the task is either
-            // null or already completed, we can avoid the overhead of
-            // scheduling the method to monitor its completion.
-            bool isAlreadyCompletedOrNull = newValue?.IsCompleted ?? true;
-
-            OnPropertyChanging(propertyName);
-
-            field = newValue;
-
-            OnPropertyChanged(propertyName);
-
-            // If the input task is either null or already completed, we don't need to
-            // execute the additional logic to monitor its completion, so we can just bypass
-            // the rest of the method and return that the field changed here. The return value
-            // does not indicate that the task itself has completed, but just that the property
-            // value itself has changed (ie. the referenced task instance has changed).
-            // This mirrors the return value of all the other synchronous Set methods as well.
-            if (isAlreadyCompletedOrNull)
-            {
-                return true;
-            }
-
-            // Get the target field to set. This is needed because we can't
-            // capture the ref field in a closure (for the async method).
-            if (!((fieldExpression.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
-            {
-                ThrowArgumentExceptionForInvalidFieldExpression();
-
-                // This is never executed, as the method above always throws
-                return false;
-            }
-
-            // We use a local async function here so that the main method can
-            // remain synchronous and return a value that can be immediately
-            // used by the caller. This mirrors Set<T>(ref T, T, string).
-            // We use an async void function instead of a Task-returning function
-            // so that if a binding update caused by the property change notification
-            // causes a crash, it is immediately reported in the application instead of
-            // the exception being ignored (as the returned task wouldn't be awaited),
-            // which would result in a confusing behavior for users.
-            async void MonitorTask()
-            {
-                try
-                {
-                    // Await the task and ignore any exceptions
-                    await newValue!;
-                }
-                catch
-                {
-                }
-
-                TTask? currentTask = (TTask?)fieldInfo.GetValue(this);
-
-                // Only notify if the property hasn't changed
-                if (ReferenceEquals(newValue, currentTask))
-                {
-                    OnPropertyChanged(propertyName);
-                }
-            }
-
-            MonitorTask();
-
-            return true;
+            return SetAndNotifyOnCompletion(ref field, fieldExpression, newValue, out _);
         }
 
         /// <summary>
