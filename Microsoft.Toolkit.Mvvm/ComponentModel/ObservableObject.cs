@@ -252,8 +252,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same.
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current
+        /// and new value for the target property are the same. The return value being <see langword="true"/> only
+        /// indicates that the new value being assigned to <paramref name="field"/> is different than the previous one,
+        /// and it does not mean the new <typeparamref name="TTask"/> instance passed as argument is in any particular state.
         /// </remarks>
         protected bool SetAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string propertyName = null!)
             where TTask : Task
