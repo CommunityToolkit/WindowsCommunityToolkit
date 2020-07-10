@@ -73,8 +73,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Raised whenever the <see cref="IsActive"/> property is set to <see langword="true"/>.
         /// Use this method to register to messages and do other initialization for this instance.
         /// </summary>
+        /// <remarks>
+        /// The base implementation registers all messages for this recipients that have been declared
+        /// explicitly through the <see cref="ISubscriber{TMessage}"/> interface, using the default channel.
+        /// For more details on how this works, see the <see cref="MessengerExtensions.Register"/> method.
+        /// If you need more fine tuned control, want to register messages individually or just prefer
+        /// the lambda-style syntax for message registration, override this method and register manually.
+        /// </remarks>
         protected virtual void OnActivated()
         {
+            Messenger.Register(this);
         }
 
         /// <summary>

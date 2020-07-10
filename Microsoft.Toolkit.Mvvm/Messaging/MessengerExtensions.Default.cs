@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Reflection;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
@@ -25,6 +26,85 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
         {
             return messenger.IsRegistered<TMessage, Unit>(recipient, default);
+        }
+
+        /// <summary>
+        /// Registers all declared message handlers for a given recipient, using the default channel.
+        /// </summary>
+        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
+        /// <param name="recipient">The recipient that will receive the messages.</param>
+        /// <remarks>See notes for <see cref="Register{TToken}(IMessenger,object,TToken)"/> for more info.</remarks>
+        public static void Register(this IMessenger messenger, object recipient)
+        {
+            messenger.Register(recipient, default(Unit));
+        }
+
+        /// <summary>
+        /// Registers all declared message handlers for a given recipient.
+        /// </summary>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to receive messages.</typeparam>
+        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
+        /// <param name="recipient">The recipient that will receive the messages.</param>
+        /// <param name="token">The token indicating what channel to use.</param>
+        /// <remarks>
+        /// This method will register all messages corresponding to the <see cref="ISubscriber{TMessage}"/> interfaces
+        /// being implemented by <paramref name="recipient"/>. If none are present, this method will do nothing.
+        /// Note that unlike all other extensions, this method will use reflection to find the handlers to register.
+        /// Once the registration is complete though, the performance will be exactly the same as with handlers
+        /// registered directly through any of the other generic extensions for the <see cref="IMessenger"/> interface.
+        /// </remarks>
+        public static void Register<TToken>(this IMessenger messenger, object recipient, TToken token)
+            where TToken : IEquatable<TToken>
+        {
+            foreach (Type subscriptionType in recipient.GetType().GetInterfaces())
+            {
+                if (!subscriptionType.IsGenericType ||
+                    subscriptionType.GetGenericTypeDefinition() != typeof(ISubscriber<>))
+                {
+                    return;
+                }
+
+                Type messageType = subscriptionType.GenericTypeArguments[0];
+
+                MethodInfo
+                    receiveMethod = recipient.GetType().GetMethod(nameof(ISubscriber<object>.Receive), new[] { messageType }),
+                    registerMethod = messenger.GetType().GetMethod(nameof(IMessenger.Register)).MakeGenericMethod(messageType, typeof(TToken));
+
+                Delegate handler = receiveMethod.CreateDelegate(typeof(Action<>).MakeGenericType(messageType));
+
+                registerMethod.Invoke(messenger, new[] { recipient, token, handler });
+            }
+        }
+
+        /// <summary>
+        /// Registers a recipient for a given type of message.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
+        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
+        /// <param name="recipient">The recipient that will receive the messages.</param>
+        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
+        /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
+        public static void Register<TMessage>(this IMessenger messenger, ISubscriber<TMessage> recipient)
+            where TMessage : class
+        {
+            messenger.Register<TMessage, Unit>(recipient, default, recipient.Receive);
+        }
+
+        /// <summary>
+        /// Registers a recipient for a given type of message.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
+        /// <typeparam name="TToken">The type of token to identify what channel to use to receive messages.</typeparam>
+        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
+        /// <param name="recipient">The recipient that will receive the messages.</param>
+        /// <param name="token">The token indicating what channel to use.</param>
+        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
+        /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
+        public static void Register<TMessage, TToken>(this IMessenger messenger, ISubscriber<TMessage> recipient, TToken token)
+            where TMessage : class
+            where TToken : IEquatable<TToken>
+        {
+            messenger.Register<TMessage, TToken>(recipient, token, recipient.Receive);
         }
 
         /// <summary>
