@@ -116,7 +116,7 @@ jobs:
 
   - bash: |
       cd ~
-      git clone https://github.com/emscripten-core/emsdk
+      git clone --branch 1.39.11 https://github.com/emscripten-core/emsdk
       cd emsdk
       ./emsdk install sdk-1.39.11
       ./emsdk activate sdk-1.39.11
