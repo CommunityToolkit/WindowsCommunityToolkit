@@ -19,6 +19,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
         Task? ExecutionTask { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the command currently has a pending operation being executed.
+        /// </summary>
+        bool IsRunning { get; }
+
+        /// <summary>
         /// Provides a more specific version of <see cref="System.Windows.Input.ICommand.Execute"/>,
         /// also returning the <see cref="Task"/> representing the async operation being executed.
         /// </summary>

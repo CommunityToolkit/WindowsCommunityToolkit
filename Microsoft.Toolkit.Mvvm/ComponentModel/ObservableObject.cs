@@ -258,6 +258,38 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected bool SetAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string propertyName = null!)
             where TTask : Task
         {
+            // We invoke the overload with a callback here to avoid code duplication, and simply pass an empty callback.
+            // The lambda expression here is transformed by the C# compiler into an empty closure class with a
+            // static singleton field containing a closure instance, and another caching the instantiated Action<TTask>
+            // instance. This will result in no further allocations after the first time this method is called for a given
+            // generic type. We only pay the cost of the virtual call to the delegate, but this is not performance critical
+            // code and that overhead would still be much lower than the rest of the method anyway, so that's fine.
+            return SetAndNotifyOnCompletion(ref field, fieldExpression, newValue, _ => { }, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given field (which should be the backing
+        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
+        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// This method is just like <see cref="SetAndNotifyOnCompletion{TTask}(ref TTask,Expression{Func{TTask}},TTask,string)"/>,
+        /// with the difference being an extra <see cref="Action{T}"/> parameter with a callback being invoked
+        /// either immediately, if the new task has already completed or is <see langword="null"/>, or upon completion.
+        /// </summary>
+        /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="fieldExpression">
+        /// An <see cref="Expression{TDelegate}"/> returning the field to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
+        /// if the current and new value for the target property are the same.
+        /// </remarks>
+        protected bool SetAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string propertyName = null!)
+            where TTask : Task
+        {
             if (ReferenceEquals(field, newValue))
             {
                 return false;
@@ -283,6 +315,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // This mirrors the return value of all the other synchronous Set methods as well.
             if (isAlreadyCompletedOrNull)
             {
+                callback(newValue);
+
                 return true;
             }
 
@@ -322,6 +356,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 {
                     OnPropertyChanged(propertyName);
                 }
+
+                callback(newValue);
             }
 
             MonitorTask();

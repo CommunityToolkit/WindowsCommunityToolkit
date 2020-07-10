@@ -56,8 +56,17 @@ namespace Microsoft.Toolkit.Mvvm.Input
         public Task? ExecutionTask
         {
             get => this.executionTask;
-            private set => SetAndNotifyOnCompletion(ref executionTask, () => executionTask, value);
+            private set
+            {
+                if (SetAndNotifyOnCompletion(ref this.executionTask, () => this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
+                {
+                    OnPropertyChanged(nameof(IsRunning));
+                }
+            }
         }
+
+        /// <inheritdoc/>
+        public bool IsRunning => ExecutionTask?.IsCompleted == false;
 
         /// <inheritdoc/>
         public void NotifyCanExecuteChanged()
