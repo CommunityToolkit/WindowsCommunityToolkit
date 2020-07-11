@@ -4,7 +4,9 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm
@@ -36,6 +38,47 @@ namespace UnitTests.Mvvm
 
             Assert.IsNotNull(service);
             Assert.IsInstanceOfType(service, typeof(AliceService));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Ioc_LambdaInitialization_ConcreteType()
+        {
+            var ioc = new Ioc();
+
+            ioc.ConfigureServices(services =>
+            {
+                services.AddSingleton<AliceService, AliceService>();
+            });
+
+            var service = ioc.GetRequiredService<AliceService>();
+
+            Assert.IsNotNull(service);
+            Assert.IsInstanceOfType(service, typeof(AliceService));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Ioc_LambdaInitialization_ConstructorInjection()
+        {
+            var ioc = new Ioc();
+            var messenger = new Messenger();
+
+            ioc.ConfigureServices(services =>
+            {
+                services.AddSingleton<INameService, AliceService>();
+                services.AddSingleton<IMessenger>(messenger);
+                services.AddTransient<MyViewModel>();
+            });
+
+            var service = ioc.GetRequiredService<MyViewModel>();
+
+            Assert.IsNotNull(service);
+            Assert.IsInstanceOfType(service, typeof(MyViewModel));
+            Assert.IsNotNull(service.NameService);
+            Assert.IsInstanceOfType(service.NameService, typeof(AliceService));
+            Assert.IsNotNull(service.MessengerService);
+            Assert.AreSame(service.MessengerService, messenger);
         }
 
         [TestCategory("Mvvm")]
@@ -93,6 +136,19 @@ namespace UnitTests.Mvvm
         public class AliceService : INameService
         {
             public string GetName() => "Alice";
+        }
+
+        public class MyViewModel : ViewModelBase
+        {
+            public MyViewModel(INameService nameService, IMessenger messengerService)
+                : base(messengerService)
+            {
+                NameService = nameService;
+            }
+
+            public INameService NameService { get; }
+
+            public IMessenger MessengerService => Messenger;
         }
     }
 }
