@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <summary>
     /// Smooth scroll the list to bring specified item into view
     /// </summary>
-    public static class SmoothScrollIntoView
+    public static partial class ListViewExtensions
     {
         /// <summary>
         /// Smooth scrolling the list to bring the specified index into view
