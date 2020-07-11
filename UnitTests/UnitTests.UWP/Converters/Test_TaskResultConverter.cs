@@ -14,66 +14,6 @@ namespace UnitTests.Converters
     [TestClass]
     public class Test_TaskResultConverter
     {
-#pragma warning disable CS0618 // Type or member is obsolete
-        [TestCategory("Converters")]
-        [UITestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void Test_TaskResultConverter_Static_Obsolete()
-        {
-            _ = TaskResultConverter.Convert(Task.CompletedTask);
-        }
-#pragma warning restore CS0618
-
-        [TestCategory("Converters")]
-        [UITestMethod]
-        public void Test_TaskResultConverter_Static_Int32()
-        {
-            TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
-
-            Assert.AreEqual(0, TaskResultConverter.Convert(tcs.Task));
-
-            tcs.SetCanceled();
-
-            Assert.AreEqual(0, TaskResultConverter.Convert(tcs.Task));
-
-            tcs = new TaskCompletionSource<int>();
-
-            tcs.SetException(new InvalidOperationException("Test"));
-
-            Assert.AreEqual(0, TaskResultConverter.Convert(tcs.Task));
-
-            tcs = new TaskCompletionSource<int>();
-
-            tcs.SetResult(42);
-
-            Assert.AreEqual(42, TaskResultConverter.Convert(tcs.Task));
-        }
-
-        [TestCategory("Converters")]
-        [UITestMethod]
-        public void Test_TaskResultConverter_Static_String()
-        {
-            TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
-
-            Assert.AreEqual(null, TaskResultConverter.Convert(tcs.Task));
-
-            tcs.SetCanceled();
-
-            Assert.AreEqual(null, TaskResultConverter.Convert(tcs.Task));
-
-            tcs = new TaskCompletionSource<string>();
-
-            tcs.SetException(new InvalidOperationException("Test"));
-
-            Assert.AreEqual(null, TaskResultConverter.Convert(tcs.Task));
-
-            tcs = new TaskCompletionSource<string>();
-
-            tcs.SetResult("Hello world");
-
-            Assert.AreEqual("Hello world", TaskResultConverter.Convert(tcs.Task));
-        }
-
         [TestCategory("Converters")]
         [UITestMethod]
         public void Test_TaskResultConverter_Instance_Int32()

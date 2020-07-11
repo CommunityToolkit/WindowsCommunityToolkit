@@ -14,7 +14,32 @@ namespace UnitTests.Extensions
     {
         [TestCategory("TaskExtensions")]
         [TestMethod]
-        public void Test_TaskExtensions_ResultOrDefault_Int32()
+        public void Test_TaskExtensions_ResultOrDefault()
+        {
+            TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
+
+            Assert.AreEqual(null, ((Task)tcs.Task).ResultOrDefault());
+
+            tcs.SetCanceled();
+
+            Assert.AreEqual(null, ((Task)tcs.Task).ResultOrDefault());
+
+            tcs = new TaskCompletionSource<int>();
+
+            tcs.SetException(new InvalidOperationException("Test"));
+
+            Assert.AreEqual(null, ((Task)tcs.Task).ResultOrDefault());
+
+            tcs = new TaskCompletionSource<int>();
+
+            tcs.SetResult(42);
+
+            Assert.AreEqual(42, ((Task)tcs.Task).ResultOrDefault());
+        }
+
+        [TestCategory("TaskExtensions")]
+        [TestMethod]
+        public void Test_TaskExtensions_ResultOrDefault_OfT_Int32()
         {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
@@ -39,7 +64,7 @@ namespace UnitTests.Extensions
 
         [TestCategory("TaskExtensions")]
         [TestMethod]
-        public void Test_TaskExtensions_ResultOrDefault_String()
+        public void Test_TaskExtensions_ResultOrDefault_OfT_String()
         {
             TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
 

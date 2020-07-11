@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.Contracts;
-using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -20,54 +19,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// </summary>
     public sealed class TaskResultConverter : IValueConverter
     {
-        /// <summary>
-        /// Non-generic overload of <see cref="Convert{T}"/>, for compatibility reasons.
-        /// </summary>
-        /// <param name="task">The input <see cref="Task"/>.</param>
-        /// <returns>The result of <paramref name="task"/>, as an <see cref="object"/>.</returns>
-        [Obsolete("This method is here for compatibility reasons, use the generic overload")]
-        public static object Convert(Task task)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the result of a <see cref="Task{TResult}"/> if available, or <see langword="default"/> otherwise.
-        /// </summary>
-        /// <typeparam name="T">The type of <see cref="Task{TResult}"/> to get the result for.</typeparam>
-        /// <param name="task">The input <see cref="Task{TResult}"/> instance to get the result for.</param>
-        /// <returns>The result of <paramref name="task"/> if completed successfully, or <see langword="default"/> otherwise.</returns>
-        /// <remarks>This method does not block if <paramref name="task"/> has not completed yet.</remarks>
-        [Pure]
-        public static T Convert<T>(Task<T> task)
-        {
-            return task.IsCompletedSuccessfully ? task.Result : default;
-        }
-
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            // Check if the instance is a completed Task
-            if (!(value is Task task) ||
-                !task.IsCompletedSuccessfully)
+            if (value is Task task)
             {
-                return null;
+                return task.ResultOrDefault();
             }
 
-            Type taskType = task.GetType();
-
-            // Check if the task is actually some Task<T>
-            if (!taskType.IsGenericType ||
-                taskType.GetGenericTypeDefinition() != typeof(Task<>))
-            {
-                return null;
-            }
-
-            // Get the Task<T>.Result property
-            PropertyInfo propertyInfo = taskType.GetProperty(nameof(Task<object>.Result));
-
-            // Finally retrieve the result
-            return propertyInfo!.GetValue(task);
+            return null;
         }
 
         /// <inheritdoc/>
