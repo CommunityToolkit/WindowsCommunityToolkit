@@ -6,6 +6,7 @@ using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -26,6 +27,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int shade;
             HsvColor hsvColor;
 
+            // Get the current color in HSV
+            if (value is Color valueColor)
+            {
+                hsvColor = valueColor.ToHsv();
+            }
+            else if (value is SolidColorBrush valueBrush)
+            {
+                hsvColor = valueBrush.Color.ToHsv();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid color value provided, unable to convert to HsvColor");
+            }
+
             // Get the value component delta
             try
             {
@@ -34,16 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch
             {
                 throw new ArgumentException("Invalid parameter provided, unable to convert to double");
-            }
-
-            // Get the current color in HSV
-            try
-            {
-                hsvColor = ((Color)value).ToHsv();
-            }
-            catch
-            {
-                throw new ArgumentException("Invalid color value provided, unable to convert to HsvColor");
             }
 
             double colorHue        = hsvColor.H;

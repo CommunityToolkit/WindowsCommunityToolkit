@@ -6,6 +6,7 @@ using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -24,11 +25,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Color color;
 
             // Get the changing color to compare against
-            try
+            if (value is Color valueColor)
             {
-                color = (Color)value;
+                color = valueColor;
             }
-            catch
+            else if (value is SolidColorBrush valueBrush)
+            {
+                color = valueBrush.Color;
+            }
+            else
             {
                 throw new ArgumentException("Invalid color value provided");
             }
