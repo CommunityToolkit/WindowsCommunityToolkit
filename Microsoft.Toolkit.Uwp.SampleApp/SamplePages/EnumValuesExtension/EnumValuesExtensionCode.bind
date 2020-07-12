@@ -1,0 +1,31 @@
+// Let's declare a sample enum
+public enum Animal
+{
+    Cat,
+    Dog,
+    Bunny,
+    Parrot,
+    Squirrel
+}
+
+// We can use a converter to get other values from our enum
+public sealed class AnimalToColorConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        return (Animal)value switch
+        {
+            Animal.Cat => Colors.Coral,
+            Animal.Dog => Colors.Gray,
+            Animal.Bunny => Colors.Green,
+            Animal.Parrot => Colors.YellowGreen,
+            Animal.Squirrel => Colors.SaddleBrown,
+            _ => throw new ArgumentException("Invalid value", nameof(value))
+        };
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        throw new NotImplementedException();
+    }
+}
