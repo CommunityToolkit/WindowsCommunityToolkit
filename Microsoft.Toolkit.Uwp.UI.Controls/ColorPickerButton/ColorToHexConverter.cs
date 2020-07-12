@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Color color;
 
-            // Get the changing color to compare against
             if (value is Color valueColor)
             {
                 color = valueColor;
