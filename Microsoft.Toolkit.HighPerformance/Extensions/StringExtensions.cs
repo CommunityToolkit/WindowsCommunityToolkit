@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref char DangerousGetReferenceAt(this string text, int i)
+        public static unsafe ref char DangerousGetReferenceAt(this string text, int i)
         {
 #if NETCOREAPP3_1
             ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
 #endif
-            ref char ri = ref Unsafe.Add(ref r0, i);
+            ref char ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
 
             return ref ri;
         }

@@ -62,12 +62,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
+        public static unsafe ref T DangerousGetReferenceAt<T>(this T[] array, int i)
         {
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArrayData>(array);
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-            ref T ri = ref Unsafe.Add(ref r0, i);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
 
             return ref ri;
 #else
@@ -76,10 +76,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return ref array[i];
             }
 
-            unsafe
-            {
-                return ref Unsafe.AsRef<T>(null);
-            }
+            return ref Unsafe.AsRef<T>(null);
 #endif
         }
 

@@ -40,10 +40,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
+        public static unsafe ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T ri = ref Unsafe.Add(ref r0, i);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
 
             return ref ri;
         }
