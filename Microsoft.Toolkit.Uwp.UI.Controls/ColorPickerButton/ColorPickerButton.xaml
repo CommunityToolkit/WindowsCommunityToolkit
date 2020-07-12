@@ -128,7 +128,7 @@
                                                       Background="{ThemeResource SliderContainerBackground}"
                                                       Control.IsTemplateFocusTarget="True">
                                                     <Grid x:Name="HorizontalTemplate"
-                                                          MinHeight="{ThemeResource SliderHorizontalHeight}">
+                                                          MinHeight="20">
 
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
@@ -168,7 +168,7 @@
                                                                AutomationProperties.AccessibilityView="Raw" />
                                                     </Grid>
                                                     <Grid x:Name="VerticalTemplate"
-                                                          MinWidth="{ThemeResource SliderVerticalWidth}"
+                                                          MinWidth="20"
                                                           Visibility="Collapsed">
 
                                                         <Grid.RowDefinitions>
@@ -345,8 +345,28 @@
                             </Button.Content>
                             <Button.Flyout>
                                 <Flyout>
-                                    <StackPanel>
-                                        <Pivot Height="400"
+                                    <!-- The Grid removes the Flyout padding using negative margins.
+                                         This is better than restyling the FlyoutPresenter because there is no key for using
+                                         a new style based on the existing one. That would require entirely re-styling the 
+                                         FlyoutPresenter which would soon be out of sync with the system. -->
+                                    <Grid Margin="-12,-11,-12,-12">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <!-- The whole background of the pivot header is changed here.
+                                             It's much easier to do this than customize the PivotHeaderItem template.
+                                             Remember PivotHeaderItem has a default height of 48px. -->
+                                        <Grid Grid.Row="0"
+                                              CornerRadius="4,4,0,0"
+                                              Height="48"
+                                              Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                              HorizontalAlignment="Stretch">
+                                        </Grid>
+                                        <Pivot Grid.Row="0"
+                                               Grid.RowSpan="2"
+                                               Height="400"
                                                Width="400">
                                             <Pivot.ItemContainerStyle>
                                                 <Style TargetType="PivotItem">
@@ -355,7 +375,7 @@
                                                     <Setter Property="VerticalContentAlignment"
                                                             Value="Stretch" />
                                                     <Setter Property="Margin"
-                                                            Value="0,12,0,12" />
+                                                            Value="12" />
                                                     <Setter Property="Padding"
                                                             Value="0" />
                                                 </Style>
@@ -384,6 +404,7 @@
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Orientation="Vertical"
+                                                                                          Width="20"
                                                                                           HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Stretch"
                                                                                           Margin="0,0,12,0" />
@@ -409,6 +430,7 @@
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Orientation="Vertical"
+                                                                                          Width="20"
                                                                                           HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Stretch"
                                                                                           Margin="12,0,0,0" />
@@ -526,7 +548,7 @@
                                                                         BorderThickness="1,1,0,1"
                                                                         CornerRadius="2,0,0,2">
                                                                     <TextBlock Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
-                                                                               FontWeight="Bold"
+                                                                               FontWeight="SemiBold"
                                                                                Text="#"
                                                                                HorizontalAlignment="Center"
                                                                                VerticalAlignment="Center" />
@@ -551,7 +573,7 @@
                                                                 VerticalAlignment="Center">
                                                             <TextBlock x:Name="Channel1TextBlock"
                                                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
-                                                                       FontWeight="Bold"
+                                                                       FontWeight="SemiBold"
                                                                        Text="R"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center" />
@@ -580,7 +602,7 @@
                                                                 VerticalAlignment="Center">
                                                             <TextBlock x:Name="Channel2TextBlock"
                                                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
-                                                                       FontWeight="Bold"
+                                                                       FontWeight="SemiBold"
                                                                        Text="G"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center" />
@@ -609,7 +631,7 @@
                                                                 VerticalAlignment="Center">
                                                             <TextBlock x:Name="Channel3TextBlock"
                                                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
-                                                                       FontWeight="Bold"
+                                                                       FontWeight="SemiBold"
                                                                        Text="B"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center" />
@@ -639,7 +661,7 @@
                                                                 VerticalAlignment="Center">
                                                             <TextBlock x:Name="AlphaChannelTextBlock"
                                                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
-                                                                       FontWeight="Bold"
+                                                                       FontWeight="SemiBold"
                                                                        Text="A"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center" />
@@ -661,7 +683,9 @@
                                                 </PivotItem.Content>
                                             </PivotItem>
                                         </Pivot>
-                                        <Grid Height="50">
+                                        <Grid Grid.Row="2"
+                                              Height="50"
+                                              Margin="12,0,12,12">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
@@ -681,7 +705,8 @@
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Stretch" />
                                                 <Border x:Name="N2PreviewBorder"
-                                                        Grid.Column="0">
+                                                        Grid.Column="0"
+                                                        CornerRadius="2,0,0,2">
                                                     <Border.Background>
                                                         <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShade}, ConverterParameter='-2'}" />
                                                     </Border.Background>
@@ -718,7 +743,8 @@
                                                     </Border.Background>
                                                 </Border>
                                                 <Border x:Name="P2PreviewBorder"
-                                                        Grid.Column="1">
+                                                        Grid.Column="1"
+                                                        CornerRadius="0,2,2,0">
                                                     <Border.Background>
                                                         <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShade}, ConverterParameter='2'}" />
                                                     </Border.Background>
@@ -735,12 +761,15 @@
                                                                       VerticalContentAlignment="Stretch">
                                                 <Grid>
                                                     <Border Background="{ThemeResource FlyoutPresenterBackground}"
+                                                            CornerRadius="2"
                                                             HorizontalAlignment="Stretch"
                                                             VerticalAlignment="Stretch" />
                                                     <Border x:Name="CheckeredBackground3Border"
+                                                            CornerRadius="2"
                                                             HorizontalAlignment="Stretch"
                                                             VerticalAlignment="Stretch" />
-                                                    <Border x:Name="PreviewBorder">
+                                                    <Border x:Name="PreviewBorder"
+                                                            CornerRadius="2">
                                                         <Border.Background>
                                                             <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color}" />
                                                         </Border.Background>
@@ -748,7 +777,7 @@
                                                 </Grid>
                                             </controls:DropShadowPanel>
                                         </Grid>
-                                    </StackPanel>
+                                    </Grid>
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
