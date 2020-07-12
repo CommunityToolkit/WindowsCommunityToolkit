@@ -1,14 +1,20 @@
 ﻿using System;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Gets a color, either black or white, depending on the brightness of the supplied color.
     /// </summary>
-    public class ContrastColorConverter : IValueConverter
+    public class ContrastBrushConverter : IValueConverter
     {
+        /// <summary>
+        /// Gets or sets the alpha channel threshold below which a default color is used instead of black/white.
+        /// </summary>
+        public byte AlphaThreshold { get; set; } = 128;
+
         /// <inheritdoc/>
         public object Convert(
             object value,
@@ -17,26 +23,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string language)
         {
             Color comparisonColor;
+            Color? defaultColor = null;
 
             // Get the changing color to compare against
-            try
+            if (value is Color valueColor)
             {
-                comparisonColor = (Color)value;
+                comparisonColor = valueColor;
             }
-            catch
+            else if (value is SolidColorBrush valueBrush)
+            {
+                comparisonColor = valueBrush.Color;
+            }
+            else
             {
                 throw new ArgumentException("Invalid color value provided");
             }
 
-            if (this.GetBrightness(comparisonColor) > 0.5)
+            // Get the default color when transparency is high
+            if (parameter is Color parameterColor)
             {
-                // Bright color, use a dark for contrast
-                return Colors.Black;
+                defaultColor = parameterColor;
+            }
+            else if (parameter is SolidColorBrush parameterBrush)
+            {
+                defaultColor = parameterBrush.Color;
+            }
+
+            if (comparisonColor.A < AlphaThreshold &&
+                defaultColor.HasValue)
+            {
+                // If the transparency is less than 50 %, just use the default brush
+                // This can commonly be something like the TextControlForeground brush
+                return new SolidColorBrush(defaultColor.Value);
             }
             else
             {
-                // Dark color, use a light for contrast
-                return Colors.White;
+                // Chose a white/black brush based on contrast to the base color
+                if (this.GetBrightness(comparisonColor) > 0.5)
+                {
+                    // Bright color, use a dark for contrast
+                    return new SolidColorBrush(Colors.Black);
+                }
+                else
+                {
+                    // Dark color, use a light for contrast
+                    return new SolidColorBrush(Colors.White);
+                }
             }
         }
 

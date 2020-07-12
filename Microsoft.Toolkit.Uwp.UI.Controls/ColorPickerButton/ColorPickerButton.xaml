@@ -25,6 +25,7 @@
                         <Border.Resources>
                             <controls:ColorToColorShadeConverter x:Key="ColorToColorShade" />
                             <controls:ColorToHexConverter x:Key="ColorToHex" />
+                            <controls:ContrastBrushConverter x:Key="ContrastBrush" />
                             <SolidColorBrush x:Key="CheckerboardColor0">
                                 <SolidColorBrush.Color>
                                     <Color>Transparent</Color>
@@ -43,8 +44,6 @@
                                         Value="Center" />
                                 <Setter Property="IsThumbToolTipEnabled"
                                         Value="False" />
-                                <Setter Property="Foreground"
-                                        Value="{ThemeResource TextControlForeground}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <!-- Based on WinUI version 2.4.2 -->
@@ -383,6 +382,7 @@
                                                                                           Grid.Row="1"
                                                                                           Grid.RowSpan="2"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Orientation="Vertical"
                                                                                           HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Stretch"
@@ -407,6 +407,7 @@
                                                                                           Grid.Row="1"
                                                                                           Grid.RowSpan="2"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Orientation="Vertical"
                                                                                           HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Stretch"
@@ -564,6 +565,7 @@
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="1"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
                                                                                           HorizontalAlignment="Stretch"
                                                                                           VerticalAlignment="Center" />
@@ -592,6 +594,7 @@
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="2"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
                                                                                           HorizontalAlignment="Stretch"
                                                                                           VerticalAlignment="Center" />
@@ -620,6 +623,7 @@
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="3"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
                                                                                           HorizontalAlignment="Stretch"
                                                                                           VerticalAlignment="Center" />
@@ -649,6 +653,7 @@
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="4"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
+                                                                                          BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
                                                                                           HorizontalAlignment="Stretch"
                                                                                           VerticalAlignment="Center" />
