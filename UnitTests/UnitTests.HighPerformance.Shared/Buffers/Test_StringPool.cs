@@ -36,15 +36,15 @@ namespace UnitTests.HighPerformance.Buffers
 
             Assert.AreEqual(size, pool.Size);
 
-            Array buckets = (Array)typeof(StringPool).GetField("buckets", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
+            Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
 
-            Assert.AreEqual(x, buckets.Length);
+            Assert.AreEqual(x, maps.Length);
 
-            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+Bucket, Microsoft.Toolkit.HighPerformance");
+            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance");
 
-            int bucketSize = (int)bucketType.GetField("entriesPerBucket", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(buckets.GetValue(0));
+            int[] buckets = (int[])bucketType.GetField("buckets", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(maps.GetValue(0));
 
-            Assert.AreEqual(y, bucketSize);
+            Assert.AreEqual(y, buckets.Length);
         }
 
         [TestCategory("StringPool")]

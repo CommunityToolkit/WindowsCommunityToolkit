@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 #if NETCOREAPP3_1
@@ -15,6 +16,8 @@ using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 #endif
 
+#nullable enable
+
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
     /// <summary>
@@ -22,6 +25,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// when creating multiple <see cref="string"/> instances from buffers of <see cref="char"/> values.
     /// The <see cref="GetOrAdd(ReadOnlySpan{char})"/> method provides a best-effort alternative to just creating
     /// a new <see cref="string"/> instance every time, in order to minimize the number of duplicated instances.
+    /// The <see cref="StringPool"/> type will internally manage a highly efficient priority queue for the
+    /// cached <see cref="string"/> instances, so that when the full capacity is reached, the last recently
+    /// used values will be automatically discarded to leave room for new values to cache.
     /// </summary>
     public sealed class StringPool
     {
@@ -36,20 +42,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         private const int MinimumSize = 32;
 
         /// <summary>
-        /// A bitmask used to avoid branches when computing the absolute value of an <see cref="int"/>.
-        /// This will ignore overflows, as we just need this to map hashcodes into the valid bucket range.
+        /// The current array of <see cref="FixedSizePriorityMap"/> instances in use.
         /// </summary>
-        private const int SignMask = ~(1 << 31);
+        private readonly FixedSizePriorityMap[] maps;
 
         /// <summary>
-        /// The current array of <see cref="Bucket"/> instances in use.
+        /// The total number of maps in use.
         /// </summary>
-        private readonly Bucket[] buckets;
-
-        /// <summary>
-        /// The total number of buckets in use.
-        /// </summary>
-        private readonly int numberOfBuckets;
+        private readonly int numberOfMaps;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringPool"/> class.
@@ -89,10 +89,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             // combination producing the optimal factors (with the product being as
             // close as possible to the requested size), we test a number of ratios
             // that we consider acceptable, and pick the best results produced.
-            // The ratio between buckets influences the number of objects being allocated,
-            // as well as the multithreading performance when locking on buckets.
+            // The ratio between maps influences the number of objects being allocated,
+            // as well as the multithreading performance when locking on maps.
             // We still want to contraint this number to avoid situations where we
-            // have a way too high number of buckets compared to total size.
+            // have a way too high number of maps compared to total size.
             FindFactors(minimumSize, 2, out int x2, out int y2);
             FindFactors(minimumSize, 3, out int x3, out int y3);
             FindFactors(minimumSize, 4, out int x4, out int y4);
@@ -116,17 +116,17 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 y2 = y4;
             }
 
-            Span<Bucket> span = this.buckets = new Bucket[x2];
+            Span<FixedSizePriorityMap> span = this.maps = new FixedSizePriorityMap[x2];
 
-            // We preallocate the buckets in advance, since each bucket only contains the
+            // We preallocate the maps in advance, since each bucket only contains the
             // array field, which is not preinitialized, so the allocations are minimal.
-            // This lets us lock on each individual buckets when retrieving a string instance.
-            foreach (ref Bucket bucket in span)
+            // This lets us lock on each individual maps when retrieving a string instance.
+            foreach (ref FixedSizePriorityMap map in span)
             {
-                bucket = new Bucket(y2);
+                map = new FixedSizePriorityMap(y2);
             }
 
-            this.numberOfBuckets = x2;
+            this.numberOfMaps = x2;
 
             Size = p2;
         }
@@ -183,11 +183,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             int
                 hashcode = GetHashCode(value.AsSpan()),
-                bucketIndex = hashcode & (this.numberOfBuckets - 1);
+                bucketIndex = hashcode & (this.numberOfMaps - 1);
 
-            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
+            ref FixedSizePriorityMap map = ref this.maps.DangerousGetReferenceAt(bucketIndex);
 
-            bucket.Add(value, hashcode);
+            lock (map.SyncRoot)
+            {
+                map.Add(value, hashcode);
+            }
         }
 
         /// <summary>
@@ -204,11 +207,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             int
                 hashcode = GetHashCode(value.AsSpan()),
-                bucketIndex = hashcode & (this.numberOfBuckets - 1);
+                bucketIndex = hashcode & (this.numberOfMaps - 1);
 
-            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
+            ref FixedSizePriorityMap map = ref this.maps.DangerousGetReferenceAt(bucketIndex);
 
-            return bucket.GetOrAdd(value, hashcode);
+            lock (map.SyncRoot)
+            {
+                return map.GetOrAdd(value, hashcode);
+            }
         }
 
         /// <summary>
@@ -225,11 +231,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             int
                 hashcode = GetHashCode(span),
-                bucketIndex = hashcode & (this.numberOfBuckets - 1);
+                bucketIndex = hashcode & (this.numberOfMaps - 1);
 
-            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
+            ref FixedSizePriorityMap map = ref this.maps.DangerousGetReferenceAt(bucketIndex);
 
-            return bucket.GetOrAdd(span, hashcode);
+            lock (map.SyncRoot)
+            {
+                return map.GetOrAdd(span, hashcode);
+            }
         }
 
         /// <summary>
@@ -275,175 +284,459 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             int
                 hashcode = GetHashCode(span),
-                bucketIndex = hashcode & (this.numberOfBuckets - 1);
+                bucketIndex = hashcode & (this.numberOfMaps - 1);
 
-            ref Bucket bucket = ref this.buckets.DangerousGetReferenceAt(bucketIndex);
+            ref FixedSizePriorityMap map = ref this.maps.DangerousGetReferenceAt(bucketIndex);
 
-            return bucket.TryGet(span, hashcode, out value);
+            lock (map.SyncRoot)
+            {
+                return map.TryGet(span, hashcode, out value);
+            }
         }
 
         /// <summary>
-        /// Resets the current instance and its associated buckets.
+        /// Resets the current instance and its associated maps.
         /// </summary>
         public void Reset()
         {
-            foreach (ref Bucket bucket in this.buckets.AsSpan())
+            foreach (ref FixedSizePriorityMap map in this.maps.AsSpan())
             {
-                bucket.Reset();
+                lock (map.SyncRoot)
+                {
+                    map.Reset();
+                }
             }
         }
 
         /// <summary>
-        /// A configurable bucket containing a group of cached <see cref="string"/> instances.
+        /// A configurable map containing a group of cached <see cref="string"/> instances.
         /// </summary>
-        private struct Bucket
+        private struct FixedSizePriorityMap
         {
             /// <summary>
-            /// The number of entries being used in the current instance.
+            /// The index representing the end of a given list.
             /// </summary>
-            private readonly int entriesPerBucket;
+            private const int EndOfList = -1;
 
             /// <summary>
-            /// A dummy <see cref="object"/> used for synchronization.
+            /// The index representing the negative offset for the start of the free list.
             /// </summary>
-            private readonly object dummy;
+            private const int StartOfFreeList = -3;
 
             /// <summary>
-            /// The array of entries currently in use.
+            /// The array of 1-based indices for the <see cref="MapEntry"/> items stored in <see cref="mapEntries"/>.
             /// </summary>
-            private string?[]? entries;
+            private readonly int[] buckets;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Bucket"/> struct.
+            /// The array of currently cached entries (ie. the lists for each hash group).
             /// </summary>
-            /// <param name="entriesPerBucket">The number of entries being used in the current instance.</param>
-            public Bucket(int entriesPerBucket)
+            private readonly MapEntry[] mapEntries;
+
+            /// <summary>
+            /// The array of priority values associated to each item stored in <see cref="mapEntries"/>.
+            /// </summary>
+            private readonly HeapEntry[] heapEntries;
+
+            /// <summary>
+            /// The current number of items stored in the map.
+            /// </summary>
+            private int count;
+
+            /// <summary>
+            /// The 1-based index for the start of the free list within <see cref="mapEntries"/>.
+            /// </summary>
+            private int freeList;
+
+            /// <summary>
+            /// A type representing a map entry, ie. a node in a given list.
+            /// </summary>
+            private struct MapEntry
             {
-                this.entriesPerBucket = entriesPerBucket;
-                this.dummy = new object();
-                this.entries = null;
+                /// <summary>
+                /// The precomputed hashcode for <see cref="Value"/>.
+                /// </summary>
+                public int HashCode;
+
+                /// <summary>
+                /// The <see cref="string"/> instance cached in this entry.
+                /// </summary>
+                public string Value;
+
+                /// <summary>
+                /// The 0-based index for the next node in the current list.
+                /// </summary>
+                public int NextIndex;
+
+                /// <summary>
+                /// The 0-based index for the heap entry corresponding to the current node.
+                /// </summary>
+                public int HeapIndex;
             }
 
             /// <summary>
-            /// Implements <see cref="StringPool.Add"/> for the current <see cref="Bucket"/> instance.
+            /// A type representing a heap entry, used to associate priority to each item.
+            /// </summary>
+            private struct HeapEntry
+            {
+                /// <summary>
+                /// The timestamp for the current entry (ie. the priority for the item).
+                /// </summary>
+                public long Timestamp;
+
+                /// <summary>
+                /// The <see cref="string"/> instance cached in the associated map entry.
+                /// </summary>
+                public string Value;
+
+                /// <summary>
+                /// The 0-based index for the map entry corresponding to the current item.
+                /// </summary>
+                public int MapIndex;
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="FixedSizePriorityMap"/> struct.
+            /// </summary>
+            /// <param name="capacity">The fixed capacity of the current map.</param>
+            public FixedSizePriorityMap(int capacity)
+            {
+                this.buckets = new int[capacity];
+                this.mapEntries = new MapEntry[capacity];
+                this.heapEntries = new HeapEntry[capacity];
+                this.count = 0;
+                this.freeList = EndOfList;
+            }
+
+            /// <summary>
+            /// Gets an <see cref="object"/> that can be used to synchronize access to the current instance.
+            /// </summary>
+            public object SyncRoot
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => this.buckets;
+            }
+
+            /// <summary>
+            /// Implements <see cref="StringPool.Add"/> for the current instance.
             /// </summary>
             /// <param name="value">The input <see cref="string"/> instance to cache.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
-            public void Add(string value, int hashcode)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public unsafe void Add(string value, int hashcode)
             {
-                lock (this.dummy)
+                ref string? target = ref TryGet(value.AsSpan(), hashcode);
+
+                if (Unsafe.AreSame(ref target!, ref Unsafe.AsRef<string>(null)))
                 {
-                    ref string?[]? entries = ref this.entries;
-
-                    entries ??= new string[entriesPerBucket];
-
-                    int entryIndex = hashcode & (this.entriesPerBucket - 1);
-
-                    entries.DangerousGetReferenceAt(entryIndex) = value;
+                    Insert(value, hashcode);
+                }
+                else
+                {
+                    target = value;
                 }
             }
 
             /// <summary>
-            /// Implements <see cref="StringPool.GetOrAdd(string)"/> for the current <see cref="Bucket"/> instance.
+            /// Implements <see cref="StringPool.GetOrAdd(string)"/> for the current instance.
             /// </summary>
             /// <param name="value">The input <see cref="string"/> instance with the contents to use.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="value"/>.</returns>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public string GetOrAdd(string value, int hashcode)
             {
-                lock (this.dummy)
+                if (TryGet(value.AsSpan(), hashcode, out string? result))
                 {
-                    ref string?[]? entries = ref this.entries;
-
-                    entries ??= new string[entriesPerBucket];
-
-                    int entryIndex = hashcode & (this.entriesPerBucket - 1);
-
-                    ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
-
-                    if (!(entry is null) &&
-                        entry.AsSpan().SequenceEqual(value.AsSpan()))
-                    {
-                        return entry;
-                    }
-
-                    return entry = value;
+                    return result;
                 }
+
+                Insert(value, hashcode);
+
+                return value;
             }
 
             /// <summary>
-            /// Implements <see cref="StringPool.GetOrAdd(ReadOnlySpan{char})"/> for the current <see cref="Bucket"/> instance.
+            /// Implements <see cref="StringPool.GetOrAdd(ReadOnlySpan{char})"/> for the current instance.
             /// </summary>
             /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public string GetOrAdd(ReadOnlySpan<char> span, int hashcode)
             {
-                lock (this.dummy)
+                if (TryGet(span, hashcode, out string? result))
                 {
-                    ref string?[]? entries = ref this.entries;
-
-                    entries ??= new string[entriesPerBucket];
-
-                    int entryIndex = hashcode & (this.entriesPerBucket - 1);
-
-                    ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
-
-                    if (!(entry is null) &&
-                        entry.AsSpan().SequenceEqual(span))
-                    {
-                        return entry;
-                    }
-
-                    // ReadOnlySpan<char>.ToString() creates a string with the span contents.
-                    // This is equivalent to doing new string(span) on Span<T>-enabled runtimes,
-                    // or to using an unsafe block, a fixed statement and new string(char*, int, int).
-                    return entry = span.ToString();
+                    return result!;
                 }
+
+                string value = span.ToString();
+
+                Insert(value, hashcode);
+
+                return value;
             }
 
             /// <summary>
-            /// Implements <see cref="StringPool.TryGet"/> for the current <see cref="Bucket"/> instance.
+            /// Implements <see cref="StringPool.TryGet"/> for the current instance.
             /// </summary>
             /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
             /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
-            public bool TryGet(ReadOnlySpan<char> span, int hashcode, [NotNullWhen(true)] out string? value)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public unsafe bool TryGet(ReadOnlySpan<char> span, int hashcode, [NotNullWhen(true)] out string? value)
             {
-                lock (this.dummy)
+                ref string? result = ref TryGet(span, hashcode);
+
+                if (!Unsafe.AreSame(ref result!, ref Unsafe.AsRef<string>(null)))
                 {
-                    ref string?[]? entries = ref this.entries;
+                    value = result;
 
-                    if (!(entries is null))
+                    return true;
+                }
+
+                value = null;
+
+                return false;
+            }
+
+            /// <summary>
+            /// Resets the current instance and throws away all the cached values.
+            /// </summary>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void Reset()
+            {
+                this.buckets.AsSpan().Clear();
+                this.mapEntries.AsSpan().Clear();
+                this.heapEntries.AsSpan().Clear();
+                this.count = 0;
+                this.freeList = EndOfList;
+            }
+
+            /// <summary>
+            /// Tries to get a target <see cref="string"/> instance, if it exists, and returns a reference to it.
+            /// </summary>
+            /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> with the contents to use.</param>
+            /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
+            /// <returns>A reference to the slot where the target <see cref="string"/> instance could be.</returns>
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private unsafe ref string? TryGet(ReadOnlySpan<char> span, int hashcode)
+            {
+                ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
+                ref MapEntry entry = ref Unsafe.AsRef<MapEntry>(null);
+                int
+                    bucketIndex = hashcode & (this.buckets.Length - 1),
+                    length = this.buckets.Length;
+
+                for (int i = this.buckets.DangerousGetReferenceAt(bucketIndex) - 1;
+                     (uint)i < (uint)length;
+                     i = entry.NextIndex)
+                {
+                    entry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)i);
+
+                    if (entry.HashCode == hashcode &&
+                        entry.Value.AsSpan().SequenceEqual(span))
                     {
-                        int entryIndex = hashcode & (this.entriesPerBucket - 1);
+                        UpdateTimestamp(ref entry.HeapIndex);
 
-                        ref string? entry = ref entries.DangerousGetReferenceAt(entryIndex);
+                        return ref entry.Value!;
+                    }
+                }
 
-                        if (!(entry is null) &&
-                            entry.AsSpan().SequenceEqual(span))
+                return ref Unsafe.AsRef<string?>(null);
+            }
+
+            /// <summary>
+            /// Inserts a new <see cref="string"/> instance in the current map, freeing up a space if needed.
+            /// </summary>
+            /// <param name="value">The new <see cref="string"/> instance to store.</param>
+            /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private unsafe void Insert(string value, int hashcode)
+            {
+                ref int bucketsRef = ref this.buckets.DangerousGetReference();
+                ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
+                ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
+                int entryIndex, heapIndex;
+
+                // If the free list is not empty, get that map node and update the field
+                if (this.freeList != EndOfList)
+                {
+                    entryIndex = this.freeList;
+                    heapIndex = this.count;
+
+                    int nextIndex = Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex).NextIndex;
+
+                    // Update the free list pointer: either to the next free node or to the invalid marker
+                    this.freeList = StartOfFreeList - nextIndex;
+                }
+                else if (this.count == this.mapEntries.Length)
+                {
+                    // If the current map is empty, first get the oldest value, which is
+                    // always the first item in the heap. Then, free up a slot by
+                    // removing that, and insert the new value in that empty location.
+                    string key = heapEntriesRef.Value;
+
+                    entryIndex = Remove(key);
+                    heapIndex = 0;
+                }
+                else
+                {
+                    entryIndex = this.count;
+                    heapIndex = this.count;
+                }
+
+                int bucketIndex = hashcode & (this.buckets.Length - 1);
+                ref int targetBucket = ref Unsafe.Add(ref bucketsRef, (IntPtr)(void*)(uint)bucketIndex);
+                ref MapEntry targetMapEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+                ref HeapEntry targetHeapEntry = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)heapIndex);
+
+                // Assign the values in the new map entry
+                targetMapEntry.HashCode = hashcode;
+                targetMapEntry.Value = value;
+                targetMapEntry.NextIndex = targetBucket - 1;
+                targetMapEntry.HeapIndex = heapIndex;
+
+                // Update the bucket slot and the current count
+                targetBucket = entryIndex + 1;
+                this.count++;
+
+                // Link the heap node with the current entry
+                targetHeapEntry.Value = value;
+                targetHeapEntry.MapIndex = entryIndex;
+
+                // Update the timestamp and balance the heap again
+                UpdateTimestamp(ref targetMapEntry.HeapIndex);
+            }
+
+            /// <summary>
+            /// Removes a specified <see cref="string"/> instance from the map to free up one slot.
+            /// </summary>
+            /// <param name="key">The target <see cref="string"/> instance to remove.</param>
+            /// <returns>The index of the freed up slot within <see cref="mapEntries"/>.</returns>
+            /// <remarks>The input <see cref="string"/> instance needs to already exist in the map.</remarks>
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private unsafe int Remove(string key)
+            {
+                ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
+                int
+                    hashcode = StringPool.GetHashCode(key.AsSpan()),
+                    bucketIndex = hashcode & (this.buckets.Length - 1),
+                    entryIndex = this.buckets.DangerousGetReferenceAt(bucketIndex) - 1,
+                    lastIndex = EndOfList;
+
+                // We can just have an undefined loop, as the input
+                // value we're looking for is guaranteed to be present
+                while (true)
+                {
+                    ref MapEntry candidate = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+
+                    // Check the current value for a match
+                    if (candidate.HashCode == hashcode &&
+                        candidate.Value.Equals(key))
+                    {
+                        // If this was not the first list node, update the parent as well
+                        if (lastIndex != EndOfList)
                         {
-                            value = entry;
+                            ref MapEntry lastEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)lastIndex);
 
-                            return true;
+                            lastEntry.NextIndex = candidate.NextIndex;
                         }
+                        else
+                        {
+                            // Otherwise, update the target index from the bucket slot
+                            this.buckets.DangerousGetReferenceAt(bucketIndex) = candidate.NextIndex + 1;
+                        }
+
+                        this.count--;
+
+                        return entryIndex;
                     }
 
-                    value = null;
-
-                    return false;
+                    // Move to the following node in the current list
+                    lastIndex = entryIndex;
+                    entryIndex = candidate.NextIndex;
                 }
             }
 
             /// <summary>
-            /// Resets the current array of entries.
+            /// Updates the timestamp of a heap node at the specified index (which is then synced back).
             /// </summary>
-            public void Reset()
+            /// <param name="heapIndex">The index of the target heap node to update.</param>
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private unsafe void UpdateTimestamp(ref int heapIndex)
             {
-                lock (this.dummy)
+                int currentIndex = heapIndex;
+
+                ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
+                ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
+                ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+
+                // Assign a new timestamp to the target heap node
+                root.Timestamp = Stopwatch.GetTimestamp();
+
+                // Once the timestamp is updated (which will cause the heap to become
+                // unbalanced), start a sift down loop to balance the heap again.
+                while (true)
                 {
-                    this.entries = null;
+                    root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+
+                    // The heap is 0-based (so that the array length can remain the same
+                    // as the power of 2 value used for the other arrays in this type).
+                    // This means that children of each node are at positions:
+                    //   - left: (2 * n) + 1
+                    //   - right: (2 * n) + 2
+                    ref HeapEntry minimum = ref root;
+                    int
+                        left = (currentIndex * 2) + 1,
+                        right = (currentIndex * 2) + 2,
+                        targetIndex = currentIndex;
+
+                    // Check and update the left child, if necessary
+                    if (left < this.count)
+                    {
+                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)left);
+
+                        if (child.Timestamp < minimum.Timestamp)
+                        {
+                            minimum = ref child;
+                            targetIndex = left;
+                        }
+                    }
+
+                    // Same check as above for the right child
+                    if (right < this.count)
+                    {
+                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)right);
+
+                        if (child.Timestamp < minimum.Timestamp)
+                        {
+                            minimum = ref child;
+                            targetIndex = right;
+                        }
+                    }
+
+                    // If no swap is pending, we can just stop here.
+                    // Before returning, we update the target index as well.
+                    if (Unsafe.AreSame(ref root, ref minimum))
+                    {
+                        heapIndex = targetIndex;
+
+                        return;
+                    }
+
+                    // Update the indices in the respective map entries (accounting for the swap)
+                    Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)root.MapIndex).HeapIndex = targetIndex;
+                    Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)minimum.MapIndex).HeapIndex = currentIndex;
+
+                    currentIndex = targetIndex;
+
+                    // Swap the parent and child (so that the minimum value bubbles up)
+                    HeapEntry temp = root;
+
+                    root = minimum;
+                    minimum = temp;
                 }
             }
         }
@@ -458,9 +751,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         private static int GetHashCode(ReadOnlySpan<char> span)
         {
 #if NETSTANDARD1_4
-            return span.GetDjb2HashCode() & SignMask;
+            return span.GetDjb2HashCode();
 #else
-            return HashCode<char>.Combine(span) & SignMask;
+            return HashCode<char>.Combine(span);
 #endif
         }
 
