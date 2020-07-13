@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 #if NETCOREAPP3_1
@@ -349,6 +348,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             private int freeList;
 
             /// <summary>
+            /// The current incremental timestamp for the items stored in <see cref="heapEntries"/>.
+            /// </summary>
+            private ulong timestamp;
+
+            /// <summary>
             /// A type representing a map entry, ie. a node in a given list.
             /// </summary>
             private struct MapEntry
@@ -382,7 +386,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 /// <summary>
                 /// The timestamp for the current entry (ie. the priority for the item).
                 /// </summary>
-                public long Timestamp;
+                public ulong Timestamp;
 
                 /// <summary>
                 /// The <see cref="string"/> instance cached in the associated map entry.
@@ -406,6 +410,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 this.heapEntries = new HeapEntry[capacity];
                 this.count = 0;
                 this.freeList = EndOfList;
+                this.timestamp = 0;
             }
 
             /// <summary>
@@ -673,8 +678,15 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
                 ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
 
-                // Assign a new timestamp to the target heap node
-                root.Timestamp = Stopwatch.GetTimestamp();
+                // Assign a new timestamp to the target heap node. We use a
+                // local incremental timestamp instead of using the system timer
+                // as this greatly reduces the overhead and the time spent in system calls.
+                // The ulong type provides a massive range and it's unlikely users would ever
+                // exhaust it anyway (especially considering each map has a separate counter).
+                // Furthermore, even if this happened, the only consequence would be some newly
+                // used string instances potentially being discarded too early, but the map
+                // itself would still continue to work fine (the heap would remain balanced).
+                root.Timestamp = ++this.timestamp;
 
                 // Once the timestamp is updated (which will cause the heap to become
                 // unbalanced), start a sift down loop to balance the heap again.
