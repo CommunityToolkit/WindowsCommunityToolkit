@@ -35,6 +35,7 @@
     <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.FontIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
     <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.SymbolIconExtension" Dynamic="Required All" Serialize="Required All"/>
     <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.SymbolIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.EnumValuesExtension" Dynamic="Required All" Serialize="Required All"/>
 
   </Application>
 </Directives>
