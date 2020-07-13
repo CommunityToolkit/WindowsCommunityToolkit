@@ -33,7 +33,7 @@ namespace Microsoft.Collections.Extensions
     /// 3) This means it can avoid storing a comparer, and avoid the likely virtual call to a comparer.
     /// </remarks>
     [DebuggerDisplay("Count = {Count}")]
-    internal class DictionarySlim<TKey, TValue> : IDictionarySlim<TKey, TValue>
+    internal sealed class DictionarySlim<TKey, TValue> : IDictionarySlim<TKey, TValue>
         where TKey : IEquatable<TKey>
         where TValue : class
     {
