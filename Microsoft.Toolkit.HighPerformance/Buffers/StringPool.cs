@@ -161,11 +161,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
         /// <summary>
         /// Gets the total number of <see cref="string"/> that can be stored in the current instance.
-        /// <remarks>
-        /// This property only refers to the total number of available slots, ignoring collisions.
-        /// The requested size should always be set to a higher value than the target number of items
-        /// that will be stored in the cache, to reduce the number of collisions when caching values.
-        /// </remarks>
         /// </summary>
         public int Size { get; }
 
