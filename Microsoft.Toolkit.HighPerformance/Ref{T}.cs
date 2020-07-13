@@ -135,15 +135,15 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ref T DangerousGetReferenceAt(int offset)
+        public unsafe ref T DangerousGetReferenceAt(int offset)
         {
 #if NETCORE_RUNTIME
-            return ref Unsafe.Add(ref ByReference.Value, offset);
+            return ref Unsafe.Add(ref ByReference.Value, (IntPtr)(void*)(uint)offset);
 #elif SPAN_RUNTIME_SUPPORT
-            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), (IntPtr)(void*)(uint)offset);
 #else
             ref T r0 = ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
 
             return ref r1;
 #endif
