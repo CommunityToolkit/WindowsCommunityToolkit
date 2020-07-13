@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// </summary>
             /// <param name="i">The index of the batch to process</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public void Invoke(int i)
+            public unsafe void Invoke(int i)
             {
                 int
                     lowY = i * this.batchHeight,
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
                     for (int x = 0; x < width; x++)
                     {
-                        Unsafe.AsRef(this.action).Invoke(Unsafe.Add(ref r0, x));
+                        Unsafe.AsRef(this.action).Invoke(Unsafe.Add(ref r0, (IntPtr)(void*)(uint)x));
                     }
                 }
             }
