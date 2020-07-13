@@ -123,10 +123,13 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
                 return ref this.span.DangerousGetReferenceAt(this.position);
 #else
-                ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
-                ref T ri = ref Unsafe.Add(ref r0, this.position);
+                unsafe
+                {
+                    ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                    ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.position);
 
-                return ref ri;
+                    return ref ri;
+                }
 #endif
             }
         }
@@ -142,7 +145,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// ignoring the current position in case the sequence has already been enumerated in part.
         /// </remarks>
         [Pure]
-        public readonly T[] ToArray()
+        public readonly unsafe T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
             // Fast path for contiguous items
@@ -173,7 +176,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             for (int i = 0, j = 0; i < length; i += this.step, j++)
             {
-                Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, i);
+                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)j) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
             }
 
             return array;
