@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown when either <paramref name="i"/> or <paramref name="j"/> are invalid.
         /// </exception>
-        public ref readonly T this[int i, int j]
+        public unsafe ref readonly T this[int i, int j]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -483,7 +483,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
                 int index = (i * (this.width + this.pitch)) + j;
 
-                return ref Unsafe.Add(ref r0, index);
+                return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
             }
         }
 
@@ -653,7 +653,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A reference to the element at the specified indices.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ref T DangerousGetReferenceAt(int i, int j)
+        public unsafe ref T DangerousGetReferenceAt(int i, int j)
         {
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
@@ -662,7 +662,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
             int index = (i * (this.width + this.pitch)) + j;
 
-            return ref Unsafe.Add(ref r0, index);
+            return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
         }
 
         /// <summary>
@@ -705,9 +705,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 pitch = this.pitch + (this.width - width);
 
 #if SPAN_RUNTIME_SUPPORT
-            ref T r0 = ref Unsafe.Add(ref MemoryMarshal.GetReference(this.span), shift);
+            unsafe
+            {
+                ref T r0 = ref Unsafe.Add(ref MemoryMarshal.GetReference(this.span), (IntPtr)(void*)(uint)shift);
 
-            return new ReadOnlySpan2D<T>(r0, height, width, pitch);
+                return new ReadOnlySpan2D<T>(r0, height, width, pitch);
+            }
 #else
             IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
 
@@ -723,7 +726,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="row"/> is out of range.</exception>
         /// <returns>The resulting row <see cref="ReadOnlySpan{T}"/>.</returns>
         [Pure]
-        public ReadOnlySpan<T> GetRowSpan(int row)
+        public unsafe ReadOnlySpan<T> GetRowSpan(int row)
         {
             if ((uint)row >= (uint)Height)
             {
@@ -732,7 +735,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             int offset = (this.width + this.pitch) * row;
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
 
             return MemoryMarshal.CreateReadOnlySpan(ref r1, this.width);
         }
