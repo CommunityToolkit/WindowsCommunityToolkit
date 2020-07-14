@@ -111,11 +111,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this T[] array, T value)
+        public static unsafe int Count<T>(this T[] array, T value)
             where T : IEquatable<T>
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.Length;
+            IntPtr length = (IntPtr)(void*)(uint)array.Length;
 
             return SpanHelper.Count(ref r0, length, value);
         }
@@ -182,11 +182,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode<T>(this T[] array)
+        public static unsafe int GetDjb2HashCode<T>(this T[] array)
             where T : notnull
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.Length;
+            IntPtr length = (IntPtr)(void*)(uint)array.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

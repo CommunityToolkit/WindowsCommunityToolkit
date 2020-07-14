@@ -89,10 +89,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="c"/> in <paramref name="text"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count(this string text, char c)
+        public static unsafe int Count(this string text, char c)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)text.Length;
+            IntPtr length = (IntPtr)(void*)(uint)text.Length;
 
             return SpanHelper.Count(ref r0, length, c);
         }
@@ -155,10 +155,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode(this string text)
+        public static unsafe int GetDjb2HashCode(this string text)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)text.Length;
+            IntPtr length = (IntPtr)(void*)(uint)text.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
