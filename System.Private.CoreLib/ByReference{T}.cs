@@ -2,6 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+// ======================
+// NOTE
+// ======================
+// This project is only meant to be used by the Microsoft.Toolkit.HighPerformance
+// package, which has special handling to ensure the ByReference<T> type is only
+// imported and accessed on supported runtimes. Do not reference this project
+// from other packages in the toolkit, as it will not work correctly there.
+
 namespace System
 {
     /// <summary>
@@ -13,7 +21,7 @@ namespace System
     /// <typeparam name="T">The type of reference being stored.</typeparam>
     internal readonly ref struct ByReference<T>
     {
-#pragma warning disable IDE0051, 169 // Local fields is never used
+#pragma warning disable IDE0051, 169 // Unused local field
         private readonly IntPtr value;
 #pragma warning restore IDE0051, 169
 
