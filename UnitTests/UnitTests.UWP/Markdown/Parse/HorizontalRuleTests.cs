@@ -45,10 +45,10 @@ namespace UnitTests.Markdown.Parse
                 ---
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before" }),
+                    new TextRunInline {Text = "before"}),
                 new HorizontalRuleBlock(),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "after" }));
+                    new TextRunInline {Text = "after"}));
         }
 
         [TestMethod]
@@ -60,10 +60,10 @@ namespace UnitTests.Markdown.Parse
                 ___
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before" }),
+                    new TextRunInline {Text = "before"}),
                 new HorizontalRuleBlock(),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "after" }));
+                    new TextRunInline {Text = "after"}));
         }
 
         [TestMethod]
@@ -76,10 +76,10 @@ namespace UnitTests.Markdown.Parse
                 *****
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before" }),
+                    new TextRunInline {Text = "before"}),
                 new HorizontalRuleBlock(),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "after" }));
+                    new TextRunInline {Text = "after"}));
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace UnitTests.Markdown.Parse
                 ****d
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before ****d after" }));
+                    new TextRunInline {Text = "before ****d after"}));
         }
 
         [TestMethod]
@@ -105,18 +105,19 @@ namespace UnitTests.Markdown.Parse
                 **
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before ** after" }));
+                    new TextRunInline {Text = "before ** after"}));
         }
 
         [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_DoubleLine()
         {
-            AssertEqual(CollapseWhitespace(@"
+            AssertEqual(
+                CollapseWhitespace(@"
                 ---
                 ---
-            "),
-                new HorizontalRuleBlock(),
+                "),
+                new HorizontalRuleBlock(), 
                 new HorizontalRuleBlock());
         }
     }
