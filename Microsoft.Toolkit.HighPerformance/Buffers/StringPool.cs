@@ -512,6 +512,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 this.heapEntries.AsSpan().Clear();
                 this.count = 0;
                 this.freeList = EndOfList;
+                this.timestamp = 0;
             }
 
             /// <summary>
@@ -573,7 +574,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 }
                 else if (this.count == this.mapEntries.Length)
                 {
-                    // If the current map is empty, first get the oldest value, which is
+                    // If the current map is full, first get the oldest value, which is
                     // always the first item in the heap. Then, free up a slot by
                     // removing that, and insert the new value in that empty location.
                     string key = heapEntriesRef.Value;
