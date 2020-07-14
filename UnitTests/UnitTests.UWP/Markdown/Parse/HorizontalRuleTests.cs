@@ -112,10 +112,11 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - block")]
         public void HorizontalRule_DoubleLine()
         {
-            AssertEqual(CollapseWhitespace(@"
+            AssertEqual(
+                CollapseWhitespace(@"
                 ---
                 ---
-            "),
+                "),
                 new HorizontalRuleBlock(),
                 new HorizontalRuleBlock());
         }
