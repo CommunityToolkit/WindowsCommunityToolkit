@@ -107,5 +107,17 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "before ** after" }));
         }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void HorizontalRule_DoubleLine()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                ---
+                ---
+            "),
+                new HorizontalRuleBlock(),
+                new HorizontalRuleBlock());
+        }
     }
 }
