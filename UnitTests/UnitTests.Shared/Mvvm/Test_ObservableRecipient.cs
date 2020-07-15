@@ -10,13 +10,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.Mvvm
 {
     [TestClass]
-    public class Test_ViewModelBase
+    public class Test_ObservableRecipient
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ViewModelBase_Activation()
+        public void Test_ObservableRecipient_Activation()
         {
-            var viewmodel = new SomeViewModel<int>();
+            var viewmodel = new SomeRecipient<int>();
 
             Assert.IsFalse(viewmodel.IsActivatedCheck);
 
@@ -33,29 +33,29 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ViewModelBase_Defaults()
+        public void Test_ObservableRecipient_Defaults()
         {
-            var viewmodel = new SomeViewModel<int>();
+            var viewmodel = new SomeRecipient<int>();
 
             Assert.AreSame(viewmodel.CurrentMessenger, Messenger.Default);
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ViewModelBase_Injection()
+        public void Test_ObservableRecipient_Injection()
         {
             var messenger = new Messenger();
-            var viewmodel = new SomeViewModel<int>(messenger);
+            var viewmodel = new SomeRecipient<int>(messenger);
 
             Assert.AreSame(viewmodel.CurrentMessenger, messenger);
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ViewModelBase_Broadcast()
+        public void Test_ObservableRecipient_Broadcast()
         {
             var messenger = new Messenger();
-            var viewmodel = new SomeViewModel<int>(messenger);
+            var viewmodel = new SomeRecipient<int>(messenger);
 
             PropertyChangedMessage<int> message = null;
 
@@ -67,16 +67,16 @@ namespace UnitTests.Mvvm
             Assert.AreSame(message.Sender, viewmodel);
             Assert.AreEqual(message.OldValue, 0);
             Assert.AreEqual(message.NewValue, 42);
-            Assert.AreEqual(message.PropertyName, nameof(SomeViewModel<int>.Data));
+            Assert.AreEqual(message.PropertyName, nameof(SomeRecipient<int>.Data));
         }
 
-        public class SomeViewModel<T> : ViewModelBase
+        public class SomeRecipient<T> : ObservableRecipient
         {
-            public SomeViewModel()
+            public SomeRecipient()
             {
             }
 
-            public SomeViewModel(IMessenger messenger)
+            public SomeRecipient(IMessenger messenger)
                 : base(messenger)
             {
             }

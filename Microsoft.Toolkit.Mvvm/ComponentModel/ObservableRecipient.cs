@@ -15,27 +15,28 @@ using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
-    /// A base class for viewmodels.
+    /// A base class for observable objects that also acts as recipients for messages. This class is an extension of
+    /// <see cref="ObservableObject"/> which also provides built-in support to use the <see cref="IMessenger"/> type.
     /// </summary>
-    public abstract class ViewModelBase : ObservableObject
+    public abstract class ObservableRecipient : ObservableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <remarks>
         /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/> instance
         /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
-        protected ViewModelBase()
+        protected ObservableRecipient()
             : this(Messaging.Messenger.Default)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
-        protected ViewModelBase(IMessenger messenger)
+        protected ObservableRecipient(IMessenger messenger)
         {
             Messenger = messenger;
         }

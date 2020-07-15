@@ -68,13 +68,13 @@ namespace UnitTests.Mvvm
             {
                 services.AddSingleton<INameService, AliceService>();
                 services.AddSingleton<IMessenger>(messenger);
-                services.AddTransient<MyViewModel>();
+                services.AddTransient<MyRecipient>();
             });
 
-            var service = ioc.GetRequiredService<MyViewModel>();
+            var service = ioc.GetRequiredService<MyRecipient>();
 
             Assert.IsNotNull(service);
-            Assert.IsInstanceOfType(service, typeof(MyViewModel));
+            Assert.IsInstanceOfType(service, typeof(MyRecipient));
             Assert.IsNotNull(service.NameService);
             Assert.IsInstanceOfType(service.NameService, typeof(AliceService));
             Assert.IsNotNull(service.MessengerService);
@@ -138,9 +138,9 @@ namespace UnitTests.Mvvm
             public string GetName() => "Alice";
         }
 
-        public class MyViewModel : ViewModelBase
+        public class MyRecipient : ObservableRecipient
         {
-            public MyViewModel(INameService nameService, IMessenger messengerService)
+            public MyRecipient(INameService nameService, IMessenger messengerService)
                 : base(messengerService)
             {
                 NameService = nameService;

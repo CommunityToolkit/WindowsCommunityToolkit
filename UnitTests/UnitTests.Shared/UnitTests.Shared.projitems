@@ -29,6 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_AsyncRelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_RelayCommand{T}.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_ViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_ObservableRecipient.cs" />
   </ItemGroup>
 </Project>

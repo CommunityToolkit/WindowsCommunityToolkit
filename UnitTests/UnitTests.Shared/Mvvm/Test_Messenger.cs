@@ -220,7 +220,7 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_ISubscriber_NoMessages()
+        public void Test_Messenger_IRecipient_NoMessages()
         {
             var messenger = new Messenger();
             var recipient = new RecipientWithNoMessages();
@@ -233,7 +233,7 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_ISubscriber_SomeMessages_NoToken()
+        public void Test_Messenger_IRecipient_SomeMessages_NoToken()
         {
             var messenger = new Messenger();
             var recipient = new RecipientWithSomeMessages();
@@ -264,11 +264,11 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_ISubscriber_SomeMessages_WithToken()
+        public void Test_Messenger_IRecipient_SomeMessages_WithToken()
         {
             var messenger = new Messenger();
             var recipient = new RecipientWithSomeMessages();
-            var token = nameof(Test_Messenger_ISubscriber_SomeMessages_WithToken);
+            var token = nameof(Test_Messenger_IRecipient_SomeMessages_WithToken);
 
             messenger.Register(recipient, token);
 
