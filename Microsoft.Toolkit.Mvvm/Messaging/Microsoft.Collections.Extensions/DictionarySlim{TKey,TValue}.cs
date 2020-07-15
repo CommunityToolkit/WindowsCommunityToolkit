@@ -37,17 +37,52 @@ namespace Microsoft.Collections.Extensions
         where TKey : IEquatable<TKey>
         where TValue : class
     {
-        // See info in CoreFX labs for how this works
+        /// <summary>
+        /// A reusable array of <see cref="Entry"/> items with a single value.
+        /// This is used when a new <see cref="DictionarySlim{TKey,TValue}"/> instance is
+        /// created, or when one is cleared. The first item being added to this collection
+        /// will immediately cause the first resize (see <see cref="AddKey"/> for more info).
+        /// </summary>
         private static readonly Entry[] InitialEntries = new Entry[1];
+
+        /// <summary>
+        /// The current number of items stored in the map.
+        /// </summary>
         private int count;
+
+        /// <summary>
+        /// The 1-based index for the start of the free list within <see cref="entries"/>.
+        /// </summary>
         private int freeList = -1;
+
+        /// <summary>
+        /// The array of 1-based indices for the <see cref="Entry"/> items stored in <see cref="entries"/>.
+        /// </summary>
         private int[] buckets;
+
+        /// <summary>
+        /// The array of currently stored key-value pairs (ie. the lists for each hash group).
+        /// </summary>
         private Entry[] entries;
 
+        /// <summary>
+        /// A type representing a map entry, ie. a node in a given list.
+        /// </summary>
         private struct Entry
         {
+            /// <summary>
+            /// The key for the value in the current node.
+            /// </summary>
             public TKey Key;
+
+            /// <summary>
+            /// The value in the current node, if present.
+            /// </summary>
             public TValue? Value;
+
+            /// <summary>
+            /// The 0-based index for the next node in the current list.
+            /// </summary>
             public int Next;
         }
 
