@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 // using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
-using Windows.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {

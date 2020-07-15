@@ -38,4 +38,9 @@
             </Button>
         </ResourceDictionary>
     </Application.Resources>
+
+    <extensions:EnumValuesExtension x:Key="DummyExtension"/>
+
+    <unitTestExtensions:Animal x:Key="Animal">Cat</unitTestExtensions:Animal>
+
 </Application>
