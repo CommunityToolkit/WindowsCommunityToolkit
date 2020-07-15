@@ -302,7 +302,7 @@ namespace UnitTests.Mvvm
         }
 
         public sealed class RecipientWithSomeMessages
-             : ISubscriber<MessageA>, ISubscriber<MessageB>
+             : IRecipient<MessageA>, IRecipient<MessageB>
         {
             public int As { get; private set; }
 

@@ -8,7 +8,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// An interface for a recipient that declares a registration for a specific message type.
     /// </summary>
     /// <typeparam name="TMessage">The type of message to receive.</typeparam>
-    public interface ISubscriber<in TMessage>
+    public interface IRecipient<in TMessage>
         where TMessage : class
     {
         /// <summary>

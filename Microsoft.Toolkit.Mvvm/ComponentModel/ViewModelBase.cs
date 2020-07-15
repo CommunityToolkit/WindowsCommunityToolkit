@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <remarks>
         /// The base implementation registers all messages for this recipients that have been declared
-        /// explicitly through the <see cref="ISubscriber{TMessage}"/> interface, using the default channel.
+        /// explicitly through the <see cref="IRecipient{TMessage}"/> interface, using the default channel.
         /// For more details on how this works, see the <see cref="MessengerExtensions.Register"/> method.
         /// If you need more fine tuned control, want to register messages individually or just prefer
         /// the lambda-style syntax for message registration, override this method and register manually.
