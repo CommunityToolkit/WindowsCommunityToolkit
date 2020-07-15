@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         // needed in order to be able to update animations when a animations are added/removed or
         // animation properties change (for example in binding)
-        private WeakReference<UIElement> _parent;
+        private WinRT.WeakReference<UIElement> _parent;
 
         internal UIElement Parent
         {
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return element;
             }
 
-            set => _parent = new WeakReference<UIElement>(value);
+            set => _parent = new WinRT.WeakReference<UIElement>(value);
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         /// <summary>
         /// WeakReference to the instance listening for the event.
         /// </summary>
-        private WeakReference weakInstance;
+        private WinRT.WeakReference<TInstance> weakInstance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeakEventListener{TInstance, TSource, TEventArgs}"/> class.
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            weakInstance = new WeakReference(instance);
+            weakInstance = new WinRT.WeakReference<TInstance>(instance);
         }
 
         /// <summary>
@@ -55,8 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         /// <param name="eventArgs">Event arguments.</param>
         public void OnEvent(TSource source, TEventArgs eventArgs)
         {
-            TInstance target = (TInstance)weakInstance.Target;
-            if (target != null)
+            if (weakInstance.TryGetTarget(out var target))
             {
                 // Call registered action
                 OnEventAction?.Invoke(target, source, eventArgs);
