@@ -345,7 +345,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <summary>
             /// The current incremental timestamp for the items stored in <see cref="heapEntries"/>.
             /// </summary>
-            private ulong timestamp;
+            private uint timestamp;
 
             /// <summary>
             /// A type representing a map entry, ie. a node in a given list.
@@ -381,12 +381,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 /// <summary>
                 /// The timestamp for the current entry (ie. the priority for the item).
                 /// </summary>
-                public ulong Timestamp;
-
-                /// <summary>
-                /// The <see cref="string"/> instance cached in the associated map entry.
-                /// </summary>
-                public string Value;
+                public uint Timestamp;
 
                 /// <summary>
                 /// The 0-based index for the map entry corresponding to the current item.
@@ -577,10 +572,17 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     // If the current map is full, first get the oldest value, which is
                     // always the first item in the heap. Then, free up a slot by
                     // removing that, and insert the new value in that empty location.
-                    string key = heapEntriesRef.Value;
-
-                    entryIndex = Remove(key);
+                    entryIndex = heapEntriesRef.MapIndex;
                     heapIndex = 0;
+
+                    ref MapEntry removedEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+
+                    // The removal logic can be extremely optimized in this case, as we
+                    // can retrieve the precomputed hashcode for the target entry by doing
+                    // a lookup on the target map node, and we can also skip all the comparisons
+                    // while traversing the target chain since we know in advance the index of
+                    // the target node which will contain the item to remove from the map.
+                    Remove(removedEntry.HashCode, entryIndex);
                 }
                 else
                 {
@@ -604,7 +606,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 this.count++;
 
                 // Link the heap node with the current entry
-                targetHeapEntry.Value = value;
                 targetHeapEntry.MapIndex = entryIndex;
 
                 // Update the timestamp and balance the heap again
@@ -614,15 +615,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <summary>
             /// Removes a specified <see cref="string"/> instance from the map to free up one slot.
             /// </summary>
-            /// <param name="key">The target <see cref="string"/> instance to remove.</param>
-            /// <returns>The index of the freed up slot within <see cref="mapEntries"/>.</returns>
+            /// <param name="hashcode">The precomputed hashcode of the instance to remove.</param>
+            /// <param name="mapIndex">The index of the target map node to remove.</param>
             /// <remarks>The input <see cref="string"/> instance needs to already exist in the map.</remarks>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe int Remove(string key)
+            private unsafe void Remove(int hashcode, int mapIndex)
             {
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 int
-                    hashcode = StringPool.GetHashCode(key.AsSpan()),
                     bucketIndex = hashcode & (this.buckets.Length - 1),
                     entryIndex = this.buckets.DangerousGetReferenceAt(bucketIndex) - 1,
                     lastIndex = EndOfList;
@@ -634,8 +634,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ref MapEntry candidate = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
 
                     // Check the current value for a match
-                    if (candidate.HashCode == hashcode &&
-                        candidate.Value.Equals(key))
+                    if (entryIndex == mapIndex)
                     {
                         // If this was not the first list node, update the parent as well
                         if (lastIndex != EndOfList)
@@ -652,7 +651,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                         this.count--;
 
-                        return entryIndex;
+                        return;
                     }
 
                     // Move to the following node in the current list
@@ -677,7 +676,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 // Assign a new timestamp to the target heap node. We use a
                 // local incremental timestamp instead of using the system timer
                 // as this greatly reduces the overhead and the time spent in system calls.
-                // The ulong type provides a massive range and it's unlikely users would ever
+                // The uint type provides a large enough range and it's unlikely users would ever
                 // exhaust it anyway (especially considering each map has a separate counter).
                 // Furthermore, even if this happened, the only consequence would be some newly
                 // used string instances potentially being discarded too early, but the map
