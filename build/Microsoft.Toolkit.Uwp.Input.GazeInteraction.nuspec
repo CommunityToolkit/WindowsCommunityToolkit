@@ -14,6 +14,9 @@
     <releaseNotes>v5.0 release https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</releaseNotes>
     <copyright>(c) .NET Foundation and Contributors. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows Eye Gaze EyeTracker </tags>
+    <dependencies>
+      <dependency id="Microsoft.WinUI" version="3.0.0-preview2.200713.0"/>
+    </dependencies>
   </metadata>
 
   <files>
@@ -21,9 +24,9 @@
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd" target="lib\uap10.0.17134"/>
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.xml" target="lib\uap10.0.17134"/>
 
-      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\netcoreapp5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.dll" target="lib\netcoreapp5.0"/>
-      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\netcoreapp5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pri" target="lib\netcoreapp5.0"/>
-      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\netcoreapp5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pdb" target="lib\netcoreapp5.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\net5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.dll" target="lib\net5.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\net5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pri" target="lib\net5.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection\bin\Release\net5.0\Microsoft.Toolkit.Uwp.Input.GazeInteraction.Projection.pdb" target="lib\net5.0"/>
 
       <!-- DLLs and resources -->
 	  <!-- Not Available on preview versions of WinUI3.

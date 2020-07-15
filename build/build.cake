@@ -1,6 +1,6 @@
 #module nuget:?package=Cake.LongPath.Module&version=0.7.0
 
-#addin nuget:?package=Cake.FileHelpers&version=3.2.1
+#addin nuget:?package=Cake.FileHelpers&version=3.3.0
 #addin nuget:?package=Cake.Powershell&version=0.4.8
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.1.0
@@ -223,8 +223,7 @@ Task("BuildProjects")
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
-    .WithTarget("Build")
-    .WithProperty("GenerateLibraryLayout", "true");
+    .WithTarget("Build");
 
     UpdateToolsPath(buildSettings);
 
@@ -275,7 +274,6 @@ Task("Package")
     }
     .SetConfiguration("Release")
     .WithTarget("Pack")
-    .WithProperty("GenerateLibraryLayout", "true")
     .WithProperty("PackageOutputPath", nupkgDir);
 
     UpdateToolsPath(buildSettings);
