@@ -6,6 +6,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.Collections.Extensions;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
@@ -220,8 +221,20 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public void Unregister<TToken>(object recipient, TToken token)
             where TToken : IEquatable<TToken>
         {
-            lock (this.recipientsMap)
+            bool lockTaken = false;
+            IDictionarySlim<Recipient, IDictionarySlim<TToken>>[]? maps = null;
+            int i = 0;
+
+            // We use an explicit try/finally block here instead of the lock syntax so that we can use a single
+            // one both to release the lock and to clear the rented buffer and return it to the pool. The reason
+            // why we're declaring the buffer here and clearing and returning it in this outer finally block is
+            // that doing so doesn't require the lock to be kept, and releasing it before performing this last
+            // step reduces the total time spent while the lock is acquired, which in turn reduces the lock
+            // contention in multi-threaded scenarios where this method is invoked concurrently.
+            try
             {
+                Monitor.Enter(this.recipientsMap, ref lockTaken);
+
                 // Get the shared set of mappings for the recipient, if present
                 var key = new Recipient(recipient);
 
@@ -234,71 +247,80 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // array, as we can't modify the contents of the set while iterating it.
                 // The rented buffer is oversized and will also include mappings for
                 // handlers of messages that are registered through a different token.
-                var maps = ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Rent(set!.Count);
-                int i = 0;
+                maps = ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Rent(set!.Count);
 
-                try
+                foreach (IMapping item in set)
                 {
-                    foreach (IMapping item in set)
+                    // Select all mappings using the same token type
+                    if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> mapping)
                     {
-                        // Select all mappings using the same token type
-                        if (item is IDictionarySlim<Recipient, IDictionarySlim<TToken>> mapping)
-                        {
-                            maps[i++] = mapping;
-                        }
+                        maps[i++] = mapping;
                     }
+                }
 
-                    // Iterate through all the local maps. These are all the currently
-                    // existing maps of handlers for messages of any given type, with a token
-                    // of the current type, for the target recipient. We heavily rely on
-                    // interfaces here to be able to iterate through all the available mappings
-                    // without having to know the concrete type in advance, and without having
-                    // to deal with reflection: we can just check if the type of the closed interface
-                    // matches with the token type currently in use, and operate on those instances.
-                    foreach (IDictionarySlim<Recipient, IDictionarySlim<TToken>> map in maps.AsSpan(0, i))
+                // Iterate through all the local maps. These are all the currently
+                // existing maps of handlers for messages of any given type, with a token
+                // of the current type, for the target recipient. We heavily rely on
+                // interfaces here to be able to iterate through all the available mappings
+                // without having to know the concrete type in advance, and without having
+                // to deal with reflection: we can just check if the type of the closed interface
+                // matches with the token type currently in use, and operate on those instances.
+                foreach (IDictionarySlim<Recipient, IDictionarySlim<TToken>> map in maps.AsSpan(0, i))
+                {
+                    // We don't need whether or not the map contains the recipient, as the
+                    // sequence of maps has already been copied from the set containing all
+                    // the mappings for the target recipiets: it is guaranteed to be here.
+                    IDictionarySlim<TToken> holder = map[key];
+
+                    // Try to remove the registered handler for the input token,
+                    // for the current message type (unknown from here).
+                    if (holder.Remove(token))
                     {
-                        // We don't need whether or not the map contains the recipient, as the
-                        // sequence of maps has already been copied from the set containing all
-                        // the mappings for the target recipiets: it is guaranteed to be here.
-                        IDictionarySlim<TToken> holder = map[key];
+                        // As above, we need to update the total number of registered handlers for the map.
+                        // In this case we also know that the current TToken type parameter is of interest
+                        // for the current method, as we're only unsubscribing handlers using that token.
+                        // This is because we're already working on the final <TToken, TMessage> mapping,
+                        // which associates a single handler with a given token, for a given recipient.
+                        // This means that we don't have to retrieve the count to subtract in this case,
+                        // we're just removing a single handler at a time. So, we just decrement the total.
+                        Unsafe.As<IMapping>(map).TotalHandlersCount--;
 
-                        // Try to remove the registered handler for the input token,
-                        // for the current message type (unknown from here).
-                        if (holder.Remove(token))
+                        if (holder.Count == 0)
                         {
-                            // As above, we need to update the total number of registered handlers for the map.
-                            // In this case we also know that the current TToken type parameter is of interest
-                            // for the current method, as we're only unsubscribing handlers using that token.
-                            // This is because we're already working on the final <TToken, TMessage> mapping,
-                            // which associates a single handler with a given token, for a given recipient.
-                            // This means that we don't have to retrieve the count to subtract in this case,
-                            // we're just removing a single handler at a time. So, we just decrement the total.
-                            Unsafe.As<IMapping>(map).TotalHandlersCount--;
+                            // If the map is empty, remove the recipient entirely from its container
+                            map.Remove(key);
 
-                            if (holder.Count == 0)
+                            if (map.Count == 0)
                             {
-                                // If the map is empty, remove the recipient entirely from its container
-                                map.Remove(key);
+                                // If no handlers are left at all for the recipient, across all
+                                // message types and token types, remove the set of mappings
+                                // entirely for the current recipient, and lost the strong
+                                // reference to it as well. This is the same situation that
+                                // would've been achieved by just calling Unregister(recipient).
+                                set.Remove(Unsafe.As<IMapping>(map));
 
-                                if (map.Count == 0)
+                                if (set.Count == 0)
                                 {
-                                    // If no handlers are left at all for the recipient, across all
-                                    // message types and token types, remove the set of mappings
-                                    // entirely for the current recipient, and lost the strong
-                                    // reference to it as well. This is the same situation that
-                                    // would've been achieved by just calling Unregister(recipient).
-                                    set.Remove(Unsafe.As<IMapping>(map));
-
-                                    if (set.Count == 0)
-                                    {
-                                        this.recipientsMap.Remove(key);
-                                    }
+                                    this.recipientsMap.Remove(key);
                                 }
                             }
                         }
                     }
                 }
-                finally
+            }
+            finally
+            {
+                // Release the lock, if we did acquire it
+                if (lockTaken)
+                {
+                    Monitor.Exit(this.recipientsMap);
+                }
+
+                // If we got to renting the array of maps, return it to the shared pool.
+                // Remove references to avoid leaks coming from the shared memory pool.
+                // We manually create a span and clear it as a small optimization, as
+                // arrays rented from the pool can be larger than the requested size.
+                if (!(maps is null))
                 {
                     maps.AsSpan(0, i).Clear();
 
@@ -414,9 +436,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
             finally
             {
-                // Remove references to avoid leaks coming from the shared memory pool.
-                // We manually create a span and clear it as a small optimization, as
-                // arrays rented from the pool can be larger than the requested size.
+                // As before, we also need to clear it first to avoid having potentially long
+                // lasting memory leaks due to leftover references being stored in the pool.
                 entries.AsSpan(0, i).Clear();
 
                 ArrayPool<Action<TMessage>>.Shared.Return(entries);
