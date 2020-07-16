@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
@@ -16,6 +17,22 @@ namespace Microsoft.Toolkit.Diagnostics
     /// </summary>
     public static partial class ThrowHelper
     {
+        /// <summary>
+        /// Returns a formatted representation of the input value.
+        /// </summary>
+        /// <param name="obj">The input <see cref="object"/> to format.</param>
+        /// <returns>A formatted representation of <paramref name="obj"/> to display in error messages.</returns>
+        [Pure]
+        private static string ToAssertString(this object? obj)
+        {
+            return obj switch
+            {
+                string _ => $"\"{obj}\"",
+                null => "null",
+                _ => $"<{obj}>"
+            };
+        }
+
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}(T,string)"/> (where <typeparamref name="T"/> is <see langword="class"/>) fails.
         /// </summary>

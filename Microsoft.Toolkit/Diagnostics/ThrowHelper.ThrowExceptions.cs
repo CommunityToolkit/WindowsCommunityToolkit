@@ -5,7 +5,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -681,22 +680,6 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowWin32Exception(string message, Exception innerException)
         {
             throw new Win32Exception(message, innerException);
-        }
-
-        /// <summary>
-        /// Returns a formatted representation of the input value.
-        /// </summary>
-        /// <param name="obj">The input <see cref="object"/> to format.</param>
-        /// <returns>A formatted representation of <paramref name="obj"/> to display in error messages.</returns>
-        [Pure]
-        private static string ToAssertString(this object? obj)
-        {
-            return obj switch
-            {
-                string _ => $"\"{obj}\"",
-                null => "null",
-                _ => $"<{obj}>"
-            };
         }
     }
 }
