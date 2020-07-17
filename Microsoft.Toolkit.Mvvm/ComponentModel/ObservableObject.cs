@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>The base implementation only raises the <see cref="PropertyChanged"/> event.</remarks>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
-            RaisePropertyChanged(propertyName);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -46,24 +46,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <remarks>The base implementation only raises the <see cref="PropertyChanging"/> event.</remarks>
         protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
-        {
-            RaisePropertyChanging(propertyName);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="PropertyChanging"/> event if needed.
-        /// </summary>
-        /// <param name="propertyName">The name of the property that changed.</param>
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Raises the <see cref="PropertyChanged"/> event if needed.
-        /// </summary>
-        /// <param name="propertyName">The name of the property that changed.</param>
-        private void RaisePropertyChanging(string propertyName)
         {
             PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
