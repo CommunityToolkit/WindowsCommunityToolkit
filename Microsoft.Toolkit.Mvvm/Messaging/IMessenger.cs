@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Use this method as an easy way to lose all references to a target recipient.
         /// If the recipient has no registered handler, this method does nothing.
         /// </remarks>
-        void Unregister(object recipient);
+        void UnregisterAll(object recipient);
 
         /// <summary>
         /// Unregisters a recipient from all messages on a specific channel.
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="recipient">The recipient to unregister.</param>
         /// <param name="token">The token to use to identify which handlers to unregister.</param>
         /// <remarks>If the recipient has no registered handler, this method does nothing.</remarks>
-        void Unregister<TToken>(object recipient, TToken token)
+        void UnregisterAll<TToken>(object recipient, TToken token)
             where TToken : IEquatable<TToken>;
 
         /// <summary>

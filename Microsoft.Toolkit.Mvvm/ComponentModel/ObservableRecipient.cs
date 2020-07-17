@@ -77,13 +77,13 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The base implementation registers all messages for this recipients that have been declared
         /// explicitly through the <see cref="IRecipient{TMessage}"/> interface, using the default channel.
-        /// For more details on how this works, see the <see cref="MessengerExtensions.Register"/> method.
+        /// For more details on how this works, see the <see cref="MessengerExtensions.RegisterAll"/> method.
         /// If you need more fine tuned control, want to register messages individually or just prefer
         /// the lambda-style syntax for message registration, override this method and register manually.
         /// </remarks>
         protected virtual void OnActivated()
         {
-            Messenger.Register(this);
+            Messenger.RegisterAll(this);
         }
 
         /// <summary>
@@ -92,13 +92,13 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <remarks>
         /// The base implementation unregisters all messages for this recipient. It does so by
-        /// invoking <see cref="IMessenger.Unregister(object)"/>, which removes all registered
+        /// invoking <see cref="IMessenger.UnregisterAll"/>, which removes all registered
         /// handlers for a given subscriber, regardless of what token was used to register them.
         /// That is, all registered handlers across all subscription channels will be removed.
         /// </remarks>
         protected virtual void OnDeactivated()
         {
-            Messenger.Unregister(this);
+            Messenger.UnregisterAll(this);
         }
 
         /// <summary>

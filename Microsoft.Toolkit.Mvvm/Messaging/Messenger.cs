@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         /// <remarks>
         /// This collection is used to allow reflection-free access to all the existing
-        /// registered recipients from <see cref="Unregister(object)"/> and other overloads,
+        /// registered recipients from <see cref="UnregisterAll"/> and other methods in this type,
         /// so that all the existing handlers can be removed without having to dynamically create
         /// the generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public void Unregister(object recipient)
+        public void UnregisterAll(object recipient)
         {
             lock (this.recipientsMap)
             {
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public void Unregister<TToken>(object recipient, TToken token)
+        public void UnregisterAll<TToken>(object recipient, TToken token)
             where TToken : IEquatable<TToken>
         {
             bool lockTaken = false;
@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                                 // message types and token types, remove the set of mappings
                                 // entirely for the current recipient, and lost the strong
                                 // reference to it as well. This is the same situation that
-                                // would've been achieved by just calling Unregister(recipient).
+                                // would've been achieved by just calling UnregisterAll(recipient).
                                 set.Remove(Unsafe.As<IMapping>(map));
 
                                 if (set.Count == 0)

@@ -33,10 +33,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
         /// <param name="recipient">The recipient that will receive the messages.</param>
-        /// <remarks>See notes for <see cref="Register{TToken}(IMessenger,object,TToken)"/> for more info.</remarks>
-        public static void Register(this IMessenger messenger, object recipient)
+        /// <remarks>See notes for <see cref="RegisterAll{TToken}(IMessenger,object,TToken)"/> for more info.</remarks>
+        public static void RegisterAll(this IMessenger messenger, object recipient)
         {
-            messenger.Register(recipient, default(Unit));
+            messenger.RegisterAll(recipient, default(Unit));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Once the registration is complete though, the performance will be exactly the same as with handlers
         /// registered directly through any of the other generic extensions for the <see cref="IMessenger"/> interface.
         /// </remarks>
-        public static void Register<TToken>(this IMessenger messenger, object recipient, TToken token)
+        public static void RegisterAll<TToken>(this IMessenger messenger, object recipient, TToken token)
             where TToken : IEquatable<TToken>
         {
             foreach (Type subscriptionType in recipient.GetType().GetInterfaces())

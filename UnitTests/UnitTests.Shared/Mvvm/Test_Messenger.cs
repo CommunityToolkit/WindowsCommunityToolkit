@@ -38,7 +38,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Unregister(recipient, nameof(MessageA));
+            messenger.UnregisterAll(recipient, nameof(MessageA));
         }
 
         [TestCategory("Mvvm")]
@@ -48,7 +48,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Unregister(recipient);
+            messenger.UnregisterAll(recipient);
         }
 
         [TestCategory("Mvvm")]
@@ -88,7 +88,7 @@ namespace UnitTests.Mvvm
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
 
-            messenger.Unregister(recipient, nameof(MessageA));
+            messenger.UnregisterAll(recipient, nameof(MessageA));
 
             Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
         }
@@ -102,7 +102,7 @@ namespace UnitTests.Mvvm
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
 
-            messenger.Unregister(recipient);
+            messenger.UnregisterAll(recipient);
 
             Assert.IsFalse(messenger.IsRegistered<MessageA, string>(recipient, nameof(MessageA)));
         }
@@ -151,7 +151,7 @@ namespace UnitTests.Mvvm
 
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Default.Unregister(a);
+            Messenger.Default.UnregisterAll(a);
 
             Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
@@ -225,7 +225,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new RecipientWithNoMessages();
 
-            messenger.Register(recipient);
+            messenger.RegisterAll(recipient);
 
             // We just need to verify we got here with no errors, this
             // recipient has no declared handlers so there's nothing to do
@@ -238,7 +238,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new RecipientWithSomeMessages();
 
-            messenger.Register(recipient);
+            messenger.RegisterAll(recipient);
 
             Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
             Assert.IsTrue(messenger.IsRegistered<MessageB>(recipient));
@@ -256,7 +256,7 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(recipient.As, 1);
             Assert.AreEqual(recipient.Bs, 1);
 
-            messenger.Unregister(recipient);
+            messenger.UnregisterAll(recipient);
 
             Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
             Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
@@ -270,7 +270,7 @@ namespace UnitTests.Mvvm
             var recipient = new RecipientWithSomeMessages();
             var token = nameof(Test_Messenger_IRecipient_SomeMessages_WithToken);
 
-            messenger.Register(recipient, token);
+            messenger.RegisterAll(recipient, token);
 
             Assert.IsTrue(messenger.IsRegistered<MessageA, string>(recipient, token));
             Assert.IsTrue(messenger.IsRegistered<MessageB, string>(recipient, token));
@@ -291,7 +291,7 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(recipient.As, 1);
             Assert.AreEqual(recipient.Bs, 1);
 
-            messenger.Unregister(recipient, token);
+            messenger.UnregisterAll(recipient, token);
 
             Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
             Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
