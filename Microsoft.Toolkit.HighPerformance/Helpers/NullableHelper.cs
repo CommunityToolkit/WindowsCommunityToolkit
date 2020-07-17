@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         private struct NullableHelperMap<T>
             where T : struct
         {
-            public byte HasValue;
+            public bool HasValue;
             public T Value;
         }
 
