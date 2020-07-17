@@ -359,7 +359,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     // registered handlers for the current <TMessage, TToken> combination, regardless,
                     // of the specific token value (ie. the channel used to receive messages of that type).
                     // We can remove the map entirely from this container, and remove the link to the map itself
-                    // to the static mapping between existing registered recipients.
+                    // to the current mapping between existing registered recipients (or entire recipients too).
                     if (dictionary.Count == 0)
                     {
                         mapping.Remove(key);
@@ -451,19 +451,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                var recipientsEnumerator = this.recipientsMap.GetEnumerator();
-
-                while (recipientsEnumerator.MoveNext())
-                {
-                    // Clear all the typed maps, as they're assigned to static fields
-                    foreach (var map in recipientsEnumerator.Value)
-                    {
-                        map.Clear();
-                    }
-                }
-
-                // Clear the shared map too
                 this.recipientsMap.Clear();
+                this.typesMap.Clear();
             }
         }
 
