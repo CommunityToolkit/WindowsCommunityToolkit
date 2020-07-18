@@ -66,7 +66,24 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool Set<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null!)
         {
-            if (EqualityComparer<T>.Default.Equals(field, newValue))
+            return Set(ref field, newValue, EqualityComparer<T>.Default, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given property. If the value has changed,
+        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
+        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// See additional notes about this overload in <see cref="Set{T}(ref T,T,string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool Set<T>(ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string propertyName = null!)
+        {
+            if (comparer.Equals(field, newValue))
             {
                 return false;
             }
@@ -100,7 +117,25 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool Set<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string propertyName = null!)
         {
-            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            return Set(oldValue, newValue, EqualityComparer<T>.Default, callback, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given property. If the value has changed,
+        /// raises the <see cref="PropertyChanging"/> event, updates the property with the new
+        /// value, then raises the <see cref="PropertyChanged"/> event.
+        /// See additional notes about this overload in <see cref="Set{T}(T,T,Action{T},string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool Set<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string propertyName = null!)
+        {
+            if (comparer.Equals(oldValue, newValue))
             {
                 return false;
             }
@@ -168,6 +203,24 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool Set<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string propertyName = null!)
         {
+            return Set(propertyExpression, newValue, EqualityComparer<T>.Default, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given nested property. If the value has changed,
+        /// raises the <see cref="PropertyChanging"/> event, updates the property and then raises the
+        /// <see cref="PropertyChanged"/> event. The behavior mirrors that of <see cref="Set{T}(ref T,T,string)"/>,
+        /// with the difference being that this method is used to relay properties from a wrapped model in the
+        /// current instance. See additional notes about this overload in <see cref="Set{T}(Expression{Func{T}},T,string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of property to set.</typeparam>
+        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool Set<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string propertyName = null!)
+        {
             PropertyInfo? parentPropertyInfo;
             FieldInfo? parentFieldInfo = null;
 
@@ -191,7 +244,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 : parentPropertyInfo.GetValue(instance);
             T oldValue = (T)targetPropertyInfo.GetValue(parent);
 
-            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            if (comparer.Equals(oldValue, newValue))
             {
                 return false;
             }

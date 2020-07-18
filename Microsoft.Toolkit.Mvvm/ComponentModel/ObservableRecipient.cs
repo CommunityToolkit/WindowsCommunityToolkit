@@ -8,6 +8,7 @@
 // more info in ThirdPartyNotices.txt in the root of the project.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -139,14 +140,32 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool Set<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string propertyName = null!)
         {
+            return Set(ref field, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given property. If the value has changed,
+        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property with
+        /// the new value, then raises the <see cref="ObservableObject.PropertyChanged"/> event.
+        /// See additional notes about this overload in <see cref="Set{T}(ref T,T,bool,string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool Set<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string propertyName = null!)
+        {
             if (!broadcast)
             {
-                return Set(ref field, newValue, propertyName);
+                return Set(ref field, newValue, comparer, propertyName);
             }
 
             T oldValue = field;
 
-            if (Set(ref field, newValue, propertyName))
+            if (Set(ref field, newValue, comparer, propertyName))
             {
                 Broadcast(oldValue, newValue, propertyName);
 
@@ -178,12 +197,31 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool Set<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
         {
+            return Set(oldValue, newValue, EqualityComparer<T>.Default, callback, broadcast, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given property. If the value has changed,
+        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property with
+        /// the new value, then raises the <see cref="ObservableObject.PropertyChanged"/> event.
+        /// See additional notes about this overload in <see cref="Set{T}(T,T,Action{T},bool,string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool Set<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
+        {
             if (!broadcast)
             {
-                return Set(oldValue, newValue, callback, propertyName);
+                return Set(oldValue, newValue, comparer, callback, propertyName);
             }
 
-            if (Set(oldValue, newValue, callback, propertyName))
+            if (Set(oldValue, newValue, comparer, callback, propertyName))
             {
                 Broadcast(oldValue, newValue, propertyName);
 
