@@ -302,7 +302,7 @@ namespace UnitTests.Mvvm
         }
 
         public sealed class RecipientWithSomeMessages
-             : IRecipient<MessageA>, IRecipient<MessageB>
+             : IRecipient<MessageA>, ICloneable, IRecipient<MessageB>
         {
             public int As { get; private set; }
 
@@ -317,6 +317,11 @@ namespace UnitTests.Mvvm
             {
                 Bs++;
             }
+
+            // We also add the ICloneable interface to test that the message
+            // interfaces are all handled correctly even when inteleaved
+            // by other unrelated interfaces in the type declaration.
+            public object Clone() => throw new NotImplementedException();
         }
 
         public sealed class MessageA

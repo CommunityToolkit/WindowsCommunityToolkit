@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 if (!subscriptionType.IsGenericType ||
                     subscriptionType.GetGenericTypeDefinition() != typeof(IRecipient<>))
                 {
-                    return;
+                    continue;
                 }
 
                 Type
