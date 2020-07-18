@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -32,9 +33,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TToken : IEquatable<TToken>
         {
             /// <summary>
-            /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration method for each recipient.
+            /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration actions for each recipient.
             /// </summary>
-            public static readonly ConditionalWeakTable<Type, MethodInfo[]> RegistrationMethods = new ConditionalWeakTable<Type, MethodInfo[]>();
+            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods
+                = new ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]>();
         }
 
         /// <summary>
@@ -101,7 +103,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // handle thread-safety for us, as well as avoiding all the LINQ codegen bloat here.
             // This method is only invoked once per recipient type and token type, so we're not
             // worried about making it super efficient, and we can use the LINQ code for clarity.
-            static MethodInfo[] LoadRegistrationMethodsForType(Type type)
+            static Action<IMessenger, object, TToken>[] LoadRegistrationMethodsForType(Type type)
             {
                 return (
                     from interfaceType in type.GetInterfaces()
@@ -109,7 +111,30 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                           interfaceType.GetGenericTypeDefinition() == typeof(IRecipient<>)
                     let messageType = interfaceType.GenericTypeArguments[0]
                     let registrationMethod = RegisterIRecipientMethodInfo.MakeGenericMethod(messageType, typeof(TToken))
-                    select registrationMethod).ToArray();
+                    let registrationAction = GetRegisterationAction(type, registrationMethod)
+                    select registrationAction).ToArray();
+            }
+
+            // Helper method to build and compile an expression tree to a message handler to use for the registration
+            // This is used to reduce the overhead of repeated calls to MethodInfo.Invoke (which is over 10 times slower).
+            static Action<IMessenger, object, TToken> GetRegisterationAction(Type type, MethodInfo methodInfo)
+            {
+                // Input parameters (IMessenger instance, non-generic recipient, token)
+                ParameterExpression
+                    arg0 = Expression.Parameter(typeof(IMessenger)),
+                    arg1 = Expression.Parameter(typeof(object)),
+                    arg2 = Expression.Parameter(typeof(TToken));
+
+                // Cast the recipient and invoke the registration method
+                MethodCallExpression body = Expression.Call(null, methodInfo, new Expression[]
+                {
+                    arg0,
+                    Expression.Convert(arg1, type),
+                    arg2
+                });
+
+                // Create the expression tree and compile to a target delegate
+                return Expression.Lambda<Action<IMessenger, object, TToken>>(body, arg0, arg1, arg2).Compile();
             }
 
             // Get or compute the registration methods for the current recipient type.
@@ -117,21 +142,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // expression instead of a method group expression to leverage the statically initialized
             // delegate and avoid repeated allocations for each invocation of this method.
             // For more info on this, see the related issue at https://github.com/dotnet/roslyn/issues/5835.
-            MethodInfo[] registrationMethods = DiscoveredRecipients<TToken>.RegistrationMethods.GetValue(recipient.GetType(), t => LoadRegistrationMethodsForType(t));
+            Action<IMessenger, object, TToken>[] registrationActions = DiscoveredRecipients<TToken>.RegistrationMethods.GetValue(
+                recipient.GetType(),
+                t => LoadRegistrationMethodsForType(t));
 
-            if (registrationMethods.Length == 0)
+            foreach (Action<IMessenger, object, TToken> registrationAction in registrationActions)
             {
-                return;
-            }
-
-            // Unfortunatly we can't rent a buffer from the pool, as the reflection
-            // types don't accept Span<T> sequences. We can at least reuse the same
-            // array for all iterations, to save some memory allocations.
-            object[] parameters = { messenger, recipient, token };
-
-            foreach (MethodInfo registrationMethod in registrationMethods)
-            {
-                registrationMethod.Invoke(messenger, parameters);
+                registrationAction(messenger, recipient, token);
             }
         }
 
