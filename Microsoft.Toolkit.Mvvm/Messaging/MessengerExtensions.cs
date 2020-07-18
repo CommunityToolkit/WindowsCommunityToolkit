@@ -4,7 +4,9 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
@@ -13,6 +15,45 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// </summary>
     public static partial class MessengerExtensions
     {
+        /// <summary>
+        /// The <see cref="MethodInfo"/> instance assocuated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
+        /// </summary>
+        private static readonly MethodInfo RegisterIRecipientMethodInfo;
+
+        /// <summary>
+        /// A class that acts as a static container to associate a <see cref="ConditionalWeakTable{TKey,TValue}"/> instance to each
+        /// <typeparamref name="TToken"/> type in use. This is done because we can only use a single type as key, but we need to track
+        /// associations of each recipient type also across different communication channels, each identified by a token.
+        /// Since the token is actually a compile-time parameter, we can use a wrapping class to let the runtime handle a different
+        /// instance for each generic type instantiation. This lets us only worry about the recipient type being inspected.
+        /// </summary>
+        /// <typeparam name="TToken">The token indicating what channel to use.</typeparam>
+        private static class DiscoveredRecipients<TToken>
+            where TToken : IEquatable<TToken>
+        {
+            /// <summary>
+            /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration method for each recipient.
+            /// </summary>
+            public static readonly ConditionalWeakTable<Type, MethodInfo[]> RegistrationMethods = new ConditionalWeakTable<Type, MethodInfo[]>();
+        }
+
+        /// <summary>
+        /// Initializes static members of the <see cref="MessengerExtensions"/> class.
+        /// </summary>
+        static MessengerExtensions()
+        {
+            RegisterIRecipientMethodInfo = (
+                from methodInfo in typeof(MessengerExtensions).GetMethods()
+                where methodInfo.Name == nameof(Register) &&
+                      methodInfo.IsGenericMethod &&
+                      methodInfo.GetGenericArguments().Length == 2
+                let parameters = methodInfo.GetParameters()
+                where parameters.Length == 3 &&
+                      parameters[1].ParameterType.IsGenericType &&
+                      parameters[1].ParameterType.GetGenericTypeDefinition() == typeof(IRecipient<>)
+                select methodInfo).First();
+        }
+
         /// <summary>
         /// Checks whether or not a given recipient has already been registered for a message.
         /// </summary>
@@ -56,25 +97,41 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static void RegisterAll<TToken>(this IMessenger messenger, object recipient, TToken token)
             where TToken : IEquatable<TToken>
         {
-            foreach (Type subscriptionType in recipient.GetType().GetInterfaces())
+            // We use this method as a callback for the conditional weak table, which will both
+            // handle thread-safety for us, as well as avoiding all the LINQ codegen bloat here.
+            // This method is only invoked once per recipient type and token type, so we're not
+            // worried about making it super efficient, and we can use the LINQ code for clarity.
+            static MethodInfo[] LoadRegistrationMethodsForType(Type type)
             {
-                if (!subscriptionType.IsGenericType ||
-                    subscriptionType.GetGenericTypeDefinition() != typeof(IRecipient<>))
-                {
-                    continue;
-                }
+                return (
+                    from interfaceType in type.GetInterfaces()
+                    where interfaceType.IsGenericType &&
+                          interfaceType.GetGenericTypeDefinition() == typeof(IRecipient<>)
+                    let messageType = interfaceType.GenericTypeArguments[0]
+                    let registrationMethod = RegisterIRecipientMethodInfo.MakeGenericMethod(messageType, typeof(TToken))
+                    select registrationMethod).ToArray();
+            }
 
-                Type
-                    messageType = subscriptionType.GenericTypeArguments[0],
-                    handlerType = typeof(Action<>).MakeGenericType(messageType);
+            // Get or compute the registration methods for the current recipient type.
+            // As in Microsoft.Toolkit.Extensions.TypeExtensions.ToTypeString, we use a lambda
+            // expression instead of a method group expression to leverage the statically initialized
+            // delegate and avoid repeated allocations for each invocation of this method.
+            // For more info on this, see the related issue at https://github.com/dotnet/roslyn/issues/5835.
+            MethodInfo[] registrationMethods = DiscoveredRecipients<TToken>.RegistrationMethods.GetValue(recipient.GetType(), t => LoadRegistrationMethodsForType(t));
 
-                MethodInfo
-                    receiveMethod = recipient.GetType().GetMethod(nameof(IRecipient<object>.Receive), new[] { messageType }),
-                    registerMethod = messenger.GetType().GetMethod(nameof(IMessenger.Register)).MakeGenericMethod(messageType, typeof(TToken));
+            if (registrationMethods.Length == 0)
+            {
+                return;
+            }
 
-                Delegate handler = receiveMethod.CreateDelegate(handlerType, recipient);
+            // Unfortunatly we can't rent a buffer from the pool, as the reflection
+            // types don't accept Span<T> sequences. We can at least reuse the same
+            // array for all iterations, to save some memory allocations.
+            object[] parameters = { messenger, recipient, token };
 
-                registerMethod.Invoke(messenger, new[] { recipient, token, handler });
+            foreach (MethodInfo registrationMethod in registrationMethods)
+            {
+                registrationMethod.Invoke(messenger, parameters);
             }
         }
 
