@@ -10,8 +10,8 @@ namespace Microsoft.Collections.Extensions
     internal static class HashHelpers
     {
         /// <summary>
-        /// Gets an array of type <see cref="int"/> of size 1.
+        /// An array of type <see cref="int"/> of size 1.
         /// </summary>
-        internal static readonly int[] SizeOneIntArray = new int[1];
+        public static readonly int[] SizeOneIntArray = new int[1];
     }
 }

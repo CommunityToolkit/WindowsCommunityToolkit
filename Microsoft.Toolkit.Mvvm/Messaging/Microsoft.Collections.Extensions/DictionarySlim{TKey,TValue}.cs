@@ -106,8 +106,8 @@ namespace Microsoft.Collections.Extensions
                 Entry[] entries = this.entries;
 
                 for (int i = this.buckets[key.GetHashCode() & (this.buckets.Length - 1)] - 1;
-                    (uint)i < (uint)entries.Length;
-                    i = entries[i].Next)
+                     (uint)i < (uint)entries.Length;
+                     i = entries[i].Next)
                 {
                     if (key.Equals(entries[i].Key))
                     {
