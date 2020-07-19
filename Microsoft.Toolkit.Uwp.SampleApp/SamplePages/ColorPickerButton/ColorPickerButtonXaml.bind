@@ -39,6 +39,7 @@
                                 Color="Navy"
                                 ColorSpectrumShape="Box"
                                 IsAlphaEnabled="False"
+                                IsHexInputVisible="True"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
                                 Margin="20" />
@@ -62,6 +63,7 @@
                                 Color="Green"
                                 ColorSpectrumShape="Box"
                                 IsAlphaEnabled="True"
+                                IsHexInputVisible="False"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
                                 Margin="20" />
@@ -85,6 +87,7 @@
                                 Color="Transparent"
                                 ColorSpectrumShape="Ring"
                                 IsAlphaEnabled="True"
+                                IsHexInputVisible="True"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
                                 Margin="20" />
@@ -110,6 +113,7 @@
                                 ColorSpectrumShape="Ring"
                                 ColorSpectrumComponents="SaturationValue"
                                 IsAlphaEnabled="True"
+                                IsHexInputVisible="True"
                                 Width="200"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
