@@ -473,6 +473,18 @@
                                                         </GridView.ItemsPanel>
                                                         <GridView.ItemContainerStyle>
                                                             <Style TargetType="GridViewItem">
+                                                                <Setter Property="FontFamily"
+                                                                        Value="{ThemeResource ContentControlThemeFontFamily}" />
+                                                                <Setter Property="FontSize"
+                                                                        Value="{ThemeResource ControlContentThemeFontSize}" />
+                                                                <Setter Property="Background"
+                                                                        Value="Transparent" />
+                                                                <Setter Property="Foreground"
+                                                                        Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                <Setter Property="TabNavigation"
+                                                                        Value="Local" />
+                                                                <Setter Property="IsHoldingEnabled"
+                                                                        Value="True" />
                                                                 <Setter Property="HorizontalContentAlignment"
                                                                         Value="Stretch" />
                                                                 <Setter Property="VerticalContentAlignment"
@@ -481,10 +493,544 @@
                                                                         Value="0" />
                                                                 <Setter Property="Padding"
                                                                         Value="0" />
-                                                                <Setter Property="MinHeight"
-                                                                        Value="0" />
                                                                 <Setter Property="MinWidth"
-                                                                        Value="0" />
+                                                                        Value="10" />
+                                                                <Setter Property="MinHeight"
+                                                                        Value="10" />
+                                                                <Setter Property="AllowDrop"
+                                                                        Value="False" />
+                                                                <Setter Property="UseSystemFocusVisuals"
+                                                                        Value="{StaticResource UseSystemFocusVisuals}" />
+                                                                <Setter Property="FocusVisualMargin"
+                                                                        Value="-2" />
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="GridViewItem">
+                                                                            <Grid x:Name="ContentBorder"
+                                                                                  Control.IsTemplateFocusTarget="True"
+                                                                                  FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                                                                  Background="{TemplateBinding Background}"
+                                                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                                                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                                                                  RenderTransformOrigin="0.5,0.5">
+
+                                                                                <Grid.RenderTransform>
+                                                                                    <ScaleTransform x:Name="ContentBorderScale" />
+                                                                                </Grid.RenderTransform>
+
+                                                                                <VisualStateManager.VisualStateGroups>
+                                                                                    <VisualStateGroup x:Name="FocusStates">
+                                                                                        <VisualState x:Name="Focused">
+
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderRectangle"
+                                                                                                                               Storyboard.TargetProperty="Visibility">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="Collapsed" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+                                                                                        <VisualState x:Name="Unfocused" />
+
+                                                                                    </VisualStateGroup>
+                                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                                        <VisualState x:Name="Normal">
+
+                                                                                            <Storyboard>
+                                                                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="PointerOver">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="BorderRectangle"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderRectangle"
+                                                                                                                               Storyboard.TargetProperty="Stroke">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                                               Storyboard.TargetProperty="Foreground">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryBrush">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryThickness">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="2" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="Pressed">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="BorderRectangle"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderRectangle"
+                                                                                                                               Storyboard.TargetProperty="Stroke">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                                               Storyboard.TargetProperty="Foreground">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryBrush">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryThickness">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="2" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="Selected">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="BorderRectangle"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderRectangle"
+                                                                                                                               Storyboard.TargetProperty="Stroke">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{Binding Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                                               Storyboard.TargetProperty="Foreground">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryBrush">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{Binding Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryThickness">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="2" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                               Storyboard.TargetProperty="Background">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{Binding Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="PointerOverSelected">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="BorderRectangle"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderRectangle"
+                                                                                                                               Storyboard.TargetProperty="Stroke">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{Binding Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                                               Storyboard.TargetProperty="Foreground">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryBrush">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{Binding Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryThickness">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="2" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                               Storyboard.TargetProperty="Background">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{Binding Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="PressedSelected">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="BorderRectangle"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderRectangle"
+                                                                                                                               Storyboard.TargetProperty="Stroke">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                                                                               Storyboard.TargetProperty="Foreground">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryBrush">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder"
+                                                                                                                               Storyboard.TargetProperty="FocusVisualSecondaryThickness">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="2" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                               Storyboard.TargetProperty="Background">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                    </VisualStateGroup>
+
+                                                                                    <VisualStateGroup x:Name="DisabledStates">
+                                                                                        <VisualState x:Name="Enabled" />
+
+                                                                                        <VisualState x:Name="Disabled">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="{ThemeResource ListViewItemDisabledThemeOpacity}" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                    </VisualStateGroup>
+
+                                                                                    <VisualStateGroup x:Name="MultiSelectStates">
+                                                                                        <VisualState x:Name="MultiSelectDisabled">
+
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                               Storyboard.TargetProperty="Visibility">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="Visible" />
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.333"
+                                                                                                                            Value="Collapsed" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <FadeOutThemeAnimation TargetName="MultiSelectSquare" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="MultiSelectEnabled">
+
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                               Storyboard.TargetProperty="Visibility">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="Visible" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <FadeInThemeAnimation TargetName="MultiSelectSquare" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                    </VisualStateGroup>
+
+                                                                                    <VisualStateGroup x:Name="DataVirtualizationStates">
+                                                                                        <VisualState x:Name="DataAvailable" />
+
+                                                                                        <VisualState x:Name="DataPlaceholder">
+
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock"
+                                                                                                                               Storyboard.TargetProperty="Visibility">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="Visible" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderRect"
+                                                                                                                               Storyboard.TargetProperty="Visibility">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                            Value="Visible" />
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                    </VisualStateGroup>
+
+                                                                                    <VisualStateGroup x:Name="ReorderHintStates">
+                                                                                        <VisualState x:Name="NoReorderHint" />
+
+                                                                                        <VisualState x:Name="BottomReorderHint">
+
+                                                                                            <Storyboard>
+                                                                                                <DragOverThemeAnimation TargetName="ContentBorder"
+                                                                                                                        ToOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                                                                                                        Direction="Bottom" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="TopReorderHint">
+
+                                                                                            <Storyboard>
+                                                                                                <DragOverThemeAnimation TargetName="ContentBorder"
+                                                                                                                        ToOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                                                                                                        Direction="Top" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="RightReorderHint">
+
+                                                                                            <Storyboard>
+                                                                                                <DragOverThemeAnimation TargetName="ContentBorder"
+                                                                                                                        ToOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                                                                                                        Direction="Right" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="LeftReorderHint">
+
+                                                                                            <Storyboard>
+                                                                                                <DragOverThemeAnimation TargetName="ContentBorder"
+                                                                                                                        ToOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                                                                                                        Direction="Left" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualStateGroup.Transitions>
+                                                                                            <VisualTransition To="NoReorderHint"
+                                                                                                              GeneratedDuration="0:0:0.2" />
+                                                                                        </VisualStateGroup.Transitions>
+
+                                                                                    </VisualStateGroup>
+
+                                                                                    <VisualStateGroup x:Name="DragStates">
+                                                                                        <VisualState x:Name="NotDragging" />
+
+                                                                                        <VisualState x:Name="Dragging">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                                                                                <DragItemThemeAnimation TargetName="ContentBorder" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="DraggingTarget" />
+
+                                                                                        <VisualState x:Name="MultipleDraggingPrimary">
+
+                                                                                            <Storyboard>
+                                                                                                <!-- These two Opacity animations are required - the FadeInThemeAnimations
+                                                                                                     on the same elements animate an internal Opacity. -->
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayText"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayTextBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="0" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="0" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                                                                                <FadeInThemeAnimation TargetName="MultiArrangeOverlayText" />
+                                                                                                <FadeInThemeAnimation TargetName="MultiArrangeOverlayTextBorder" />
+                                                                                                <DragItemThemeAnimation TargetName="ContentBorder" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="MultipleDraggingSecondary" />
+
+                                                                                        <VisualState x:Name="DraggedPlaceholder" />
+
+                                                                                        <VisualState x:Name="Reordering">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0:0:0.240"
+                                                                                                                 To="{ThemeResource ListViewItemReorderThemeOpacity}" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="ReorderingTarget">
+
+                                                                                            <Storyboard>
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0:0:0.240"
+                                                                                                                 To="{ThemeResource ListViewItemReorderTargetThemeOpacity}" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorderScale"
+                                                                                                                 Storyboard.TargetProperty="ScaleX"
+                                                                                                                 Duration="0:0:0.240"
+                                                                                                                 To="{ThemeResource ListViewItemReorderTargetThemeScale}" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorderScale"
+                                                                                                                 Storyboard.TargetProperty="ScaleY"
+                                                                                                                 Duration="0:0:0.240"
+                                                                                                                 To="{ThemeResource ListViewItemReorderTargetThemeScale}" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="MultipleReorderingPrimary">
+
+                                                                                            <Storyboard>
+                                                                                                <!-- These two Opacity animations are required - the FadeInThemeAnimations
+                                                                                                     on the same elements animate an internal Opacity. -->
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayText"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayTextBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="1" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectSquare"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="0" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0"
+                                                                                                                 To="0" />
+                                                                                                <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                                                                 Storyboard.TargetProperty="Opacity"
+                                                                                                                 Duration="0:0:0.240"
+                                                                                                                 To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                                                                                <FadeInThemeAnimation TargetName="MultiArrangeOverlayText" />
+                                                                                                <FadeInThemeAnimation TargetName="MultiArrangeOverlayTextBorder" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="ReorderedPlaceholder">
+
+                                                                                            <Storyboard>
+                                                                                                <FadeOutThemeAnimation TargetName="ContentBorder" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualState x:Name="DragOver">
+
+                                                                                            <Storyboard>
+                                                                                                <DropTargetItemThemeAnimation TargetName="ContentBorder" />
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+
+                                                                                        <VisualStateGroup.Transitions>
+                                                                                            <VisualTransition To="NotDragging"
+                                                                                                              GeneratedDuration="0:0:0.2" />
+                                                                                        </VisualStateGroup.Transitions>
+
+                                                                                    </VisualStateGroup>
+
+                                                                                </VisualStateManager.VisualStateGroups>
+                                                                                <ContentPresenter x:Name="ContentPresenter"
+                                                                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                                  Margin="{TemplateBinding Padding}" />
+                                                                                <!-- The 'Xg' text simulates the amount of space one line of text will occupy.
+                                                                                     In the DataPlaceholder state, the Content is not loaded yet so we
+                                                                                     approximate the size of the item using placeholder text. -->
+                                                                                <TextBlock x:Name="PlaceholderTextBlock"
+                                                                                           Visibility="Collapsed"
+                                                                                           Text="Xg"
+                                                                                           Foreground="{x:Null}"
+                                                                                           Margin="{TemplateBinding Padding}"
+                                                                                           IsHitTestVisible="False"
+                                                                                           AutomationProperties.AccessibilityView="Raw" />
+                                                                                <Rectangle x:Name="PlaceholderRect"
+                                                                                           Visibility="Collapsed"
+                                                                                           Fill="{ThemeResource ListViewItemPlaceholderBackground}" />
+                                                                                <Rectangle x:Name="BorderRectangle"
+                                                                                           IsHitTestVisible="False"
+                                                                                           Stroke="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+                                                                                           StrokeThickness="2"
+                                                                                           Opacity="0" />
+                                                                                <Border x:Name="MultiSelectSquare"
+                                                                                        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                                                                                        Width="20"
+                                                                                        Height="20"
+                                                                                        Margin="0,2,2,0"
+                                                                                        VerticalAlignment="Top"
+                                                                                        HorizontalAlignment="Right"
+                                                                                        Visibility="Collapsed">
+                                                                                    <FontIcon x:Name="MultiSelectCheck"
+                                                                                              FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                                                              Glyph="&#xE73E;"
+                                                                                              FontSize="16"
+                                                                                              Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                                                                              Opacity="0" />
+                                                                                </Border>
+                                                                                <Border x:Name="MultiArrangeOverlayTextBorder"
+                                                                                        Opacity="0"
+                                                                                        IsHitTestVisible="False"
+                                                                                        MinWidth="20"
+                                                                                        Height="20"
+                                                                                        VerticalAlignment="Center"
+                                                                                        HorizontalAlignment="Center"
+                                                                                        Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                                                                        BorderThickness="2"
+                                                                                        BorderBrush="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
+                                                                                    <TextBlock x:Name="MultiArrangeOverlayText"
+                                                                                               Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DragItemsCount}"
+                                                                                               Style="{ThemeResource CaptionTextBlockStyle}"
+                                                                                               IsHitTestVisible="False"
+                                                                                               Opacity="0"
+                                                                                               VerticalAlignment="Center"
+                                                                                               HorizontalAlignment="Center"
+                                                                                               AutomationProperties.AccessibilityView="Raw" />
+                                                                                </Border>
+
+                                                                            </Grid>
+
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
                                                             </Style>
                                                         </GridView.ItemContainerStyle>
                                                         <GridView.ItemTemplate>
