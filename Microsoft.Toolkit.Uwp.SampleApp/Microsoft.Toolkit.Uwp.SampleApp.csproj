@@ -520,6 +520,7 @@
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\ColorPickerButton\ColorPickerButtonPage.xaml.cs">
       <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
@@ -1008,6 +1009,7 @@
     <Page Include="SamplePages\ColorPickerButton\ColorPickerButtonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
