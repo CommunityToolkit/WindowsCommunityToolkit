@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Border P1PreviewBorder;
         private Border P2PreviewBorder;
 
-        // Up to 8 checkered backgrounds may be used by name anywhere in the template
+        // Up to 10 checkered backgrounds may be used by name anywhere in the template
         private Border CheckeredBackground1Border;
         private Border CheckeredBackground2Border;
         private Border CheckeredBackground3Border;
