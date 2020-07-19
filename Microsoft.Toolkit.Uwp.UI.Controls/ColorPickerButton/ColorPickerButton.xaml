@@ -24,6 +24,7 @@
                             VerticalAlignment="Stretch">
                         <Border.Resources>
                             <controls:ColorToColorShadeConverter x:Key="ColorToColorShade" />
+                            <controls:ColorToDisplayNameConverter x:Key="ColorToDisplayName" />
                             <controls:ColorToHexConverter x:Key="ColorToHex" />
                             <controls:ContrastBrushConverter x:Key="ContrastBrush" />
                             <SolidColorBrush x:Key="CheckerboardColor0">
@@ -297,6 +298,18 @@
                                                 Value="S" />
                                         <Setter Target="Channel3TextBlock.Text"
                                                 Value="V" />
+                                        <Setter Target="Channel1TextBox.(AutomationProperties.Name)"
+                                                Value="Hue Channel" />
+                                        <Setter Target="Channel2TextBox.(AutomationProperties.Name)"
+                                                Value="Saturation Channel" />
+                                        <Setter Target="Channel3TextBox.(AutomationProperties.Name)"
+                                                Value="Value Channel" />
+                                        <Setter Target="Channel1Slider.(AutomationProperties.Name)"
+                                                Value="Hue Channel" />
+                                        <Setter Target="Channel2Slider.(AutomationProperties.Name)"
+                                                Value="Saturation Channel" />
+                                        <Setter Target="Channel3Slider.(AutomationProperties.Name)"
+                                                Value="Value Channel" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -380,10 +393,9 @@
                                                             Value="0" />
                                                 </Style>
                                             </Pivot.ItemContainerStyle>
-                                            <PivotItem>
+                                            <PivotItem AutomationProperties.Name="Spectrum">
                                                 <PivotItem.Header>
-                                                    <FontIcon AutomationProperties.Name="Spectrum"
-                                                              Glyph="&#xE76D;"
+                                                    <FontIcon Glyph="&#xE76D;"
                                                               Width="109" />
                                                 </PivotItem.Header>
                                                 <PivotItem.Content>
@@ -410,6 +422,7 @@
                                                                                           Margin="0,0,12,0" />
                                                         <!-- Keep in mind the spectrum is always HSV -->
                                                         <ColorSpectrum x:Name="ColorSpectrum"
+                                                                       AutomationProperties.Name="Third Dimension"
                                                                        Grid.Column="1"
                                                                        Grid.Row="0"
                                                                        Grid.RowSpan="2"
@@ -424,6 +437,7 @@
                                                                        HorizontalAlignment="Stretch"
                                                                        VerticalAlignment="Stretch" />
                                                         <controls:ColorPickerButtonSlider x:Name="ColorSpectrumAlphaSlider"
+                                                                                          AutomationProperties.Name="Alpha Channel"
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="1"
                                                                                           Grid.RowSpan="2"
@@ -437,10 +451,9 @@
                                                     </Grid>
                                                 </PivotItem.Content>
                                             </PivotItem>
-                                            <PivotItem>
+                                            <PivotItem AutomationProperties.Name="Palette">
                                                 <PivotItem.Header>
-                                                    <FontIcon AutomationProperties.Name="Palette"
-                                                              Glyph="&#xE790;"
+                                                    <FontIcon Glyph="&#xE790;"
                                                               Width="109" />
                                                 </PivotItem.Header>
                                                 <PivotItem.Content>
@@ -476,7 +489,8 @@
                                                         </GridView.ItemContainerStyle>
                                                         <GridView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Border HorizontalAlignment="Stretch"
+                                                                <Border AutomationProperties.Name="{Binding Converter={StaticResource ColorToDisplayName}}"
+                                                                        HorizontalAlignment="Stretch"
                                                                         VerticalAlignment="Stretch">
                                                                     <Border.Background>
                                                                         <SolidColorBrush Color="{Binding}" />
@@ -487,10 +501,9 @@
                                                     </GridView>
                                                 </PivotItem.Content>
                                             </PivotItem>
-                                            <PivotItem>
+                                            <PivotItem AutomationProperties.Name="Channels">
                                                 <PivotItem.Header>
-                                                    <FontIcon AutomationProperties.Name="Channels"
-                                                              Glyph="&#xE9E9;"
+                                                    <FontIcon Glyph="&#xE9E9;"
                                                               Width="109" />
                                                 </PivotItem.Header>
                                                 <PivotItem.Content>
@@ -526,6 +539,7 @@
                                                                           BorderThickness="1"
                                                                           Background="Transparent"
                                                                           HorizontalAlignment="Stretch"
+                                                                          IsThreeState="False"
                                                                           contract7Present:CornerRadius="2,0,0,2"/>
                                                             <ToggleButton x:Name="HsvToggleButton"
                                                                           Grid.Column="1"
@@ -534,6 +548,7 @@
                                                                           BorderThickness="1"
                                                                           Background="Transparent"
                                                                           HorizontalAlignment="Stretch"
+                                                                          IsThreeState="False"
                                                                           contract7Present:CornerRadius="0,2,2,0" />
                                                             <Grid x:Name="HexInputGrid"
                                                                   Grid.Column="3">
@@ -556,6 +571,7 @@
                                                                 <!-- Name must NOT match what is in ColorPicker 'HexTextBox' -->
                                                                 <TextBox x:Name="HexInputTextBox"
                                                                          Style="{StaticResource InputTextBoxStyle}"
+                                                                         AutomationProperties.Name="Hexadecimal Color Input"
                                                                          Height="32"
                                                                          Grid.Column="1"
                                                                          HorizontalAlignment="Stretch" />
@@ -579,13 +595,15 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="Channel1TextBox"
-                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="1"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
+                                                                 AutomationProperties.Name="Red Channel"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="Channel1Slider"
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="1"
+                                                                                          AutomationProperties.Name="Red Channel"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
@@ -608,13 +626,15 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="Channel2TextBox"
-                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="2"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
+                                                                 AutomationProperties.Name="Green Channel"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="Channel2Slider"
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="2"
+                                                                                          AutomationProperties.Name="Green Channel"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
@@ -637,13 +657,15 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="Channel3TextBox"
-                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="3"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
+                                                                 AutomationProperties.Name="Blue Channel"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="Channel3Slider"
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="3"
+                                                                                          AutomationProperties.Name="Blue Channel"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"
@@ -667,13 +689,15 @@
                                                                        VerticalAlignment="Center" />
                                                         </Border>
                                                         <TextBox x:Name="AlphaChannelTextBox"
-                                                                 Style="{StaticResource InputTextBoxStyle}"
                                                                  Grid.Column="1"
                                                                  Grid.Row="4"
+                                                                 Style="{StaticResource InputTextBoxStyle}"
+                                                                 AutomationProperties.Name="Alpha Channel"
                                                                  VerticalAlignment="Center" />
                                                         <controls:ColorPickerButtonSlider x:Name="AlphaChannelSlider"
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="4"
+                                                                                          AutomationProperties.Name="Alpha Channel"
                                                                                           Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Margin="12,0,0,0"

@@ -484,12 +484,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // The default is always RGBA
             if (colorRepresentation == ColorRepresentation.Hsva)
             {
-                if (this.RgbToggleButton != null)
+                if (this.RgbToggleButton != null &&
+                    (bool)this.RgbToggleButton.IsChecked)
                 {
                     this.RgbToggleButton.IsChecked = false;
                 }
 
-                if (this.HsvToggleButton != null)
+                if (this.HsvToggleButton != null &&
+                    (bool)this.HsvToggleButton.IsChecked == false)
                 {
                     this.HsvToggleButton.IsChecked = true;
                 }
@@ -498,12 +500,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                if (this.RgbToggleButton != null)
+                if (this.RgbToggleButton != null &&
+                    (bool)this.RgbToggleButton.IsChecked == false)
                 {
                     this.RgbToggleButton.IsChecked = true;
                 }
 
-                if (this.HsvToggleButton != null)
+                if (this.HsvToggleButton != null &&
+                    (bool)this.HsvToggleButton.IsChecked)
                 {
                     this.HsvToggleButton.IsChecked = false;
                 }
