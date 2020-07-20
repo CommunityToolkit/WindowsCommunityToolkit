@@ -106,6 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private long tokenColor;
         private long tokenCustomPalette;
+        private long tokenIsColorPaletteVisible;
 
         private Dictionary<Slider, Size> cachedSliderSizes      = new Dictionary<Slider, Size>();
         private bool                     callbacksConnected     = false;
@@ -257,20 +258,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this.ColorSpectrum.Color = (Color)this.GetValue(ColorProperty);
             }
 
-            // Set initial state
-            if (this.IsEnabled == false)
-            {
-                VisualStateManager.GoToState(this, "Disabled", false);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, "Normal", false);
-            }
-
             // Must connect after controls are resolved
             this.ConnectEvents(true);
 
             base.OnApplyTemplate();
+            this.UpdateVisualState(false);
             this.isInitialized = true;
             this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
             this.UpdateChannelControlValues();
@@ -304,8 +296,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 (this.callbacksConnected == false))
             {
                 // Add callbacks for dependency properties
-                this.tokenColor         = this.RegisterPropertyChangedCallback(ColorProperty,         OnColorChanged);
-                this.tokenCustomPalette = this.RegisterPropertyChangedCallback(CustomPaletteProperty, OnCustomPaletteChanged);
+                this.tokenColor                 = this.RegisterPropertyChangedCallback(ColorProperty,                 OnColorChanged);
+                this.tokenCustomPalette         = this.RegisterPropertyChangedCallback(CustomPaletteProperty,         OnCustomPaletteChanged);
+                this.tokenIsColorPaletteVisible = this.RegisterPropertyChangedCallback(IsColorPaletteVisibleProperty, OnIsColorPaletteVisibleChanged);
 
                 this.callbacksConnected = true;
             }
@@ -313,8 +306,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                      (this.callbacksConnected == true))
             {
                 // Remove callbacks for dependency properties
-                this.UnregisterPropertyChangedCallback(ColorProperty,         this.tokenColor);
-                this.UnregisterPropertyChangedCallback(CustomPaletteProperty, this.tokenCustomPalette);
+                this.UnregisterPropertyChangedCallback(ColorProperty,                 this.tokenColor);
+                this.UnregisterPropertyChangedCallback(CustomPaletteProperty,         this.tokenCustomPalette);
+                this.UnregisterPropertyChangedCallback(IsColorPaletteVisibleProperty, this.tokenIsColorPaletteVisible);
 
                 this.callbacksConnected = false;
             }
@@ -443,6 +437,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Updates all visual states based on current control properties.
+        /// </summary>
+        /// <param name="useTransitions">Whether transitions should occur when changing states.</param>
+        private void UpdateVisualState(bool useTransitions)
+        {
+            VisualStateManager.GoToState(this, this.IsEnabled ? "Normal" : "Disabled", useTransitions);
+            VisualStateManager.GoToState(this, this.GetActiveColorRepresentation() == ColorRepresentation.Hsva ? "HsvSelected" : "RgbSelected", useTransitions);
+            VisualStateManager.GoToState(this, this.IsColorPaletteVisible ? "ColorPaletteVisible" : "ColorPaletteCollapsed", useTransitions);
+
+            return;
+        }
+
+        /// <summary>
         /// Gets the active representation of the color: HSV or RGB.
         /// </summary>
         private ColorRepresentation GetActiveColorRepresentation()
@@ -495,8 +502,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     this.HsvToggleButton.IsChecked = true;
                 }
-
-                VisualStateManager.GoToState(this, "HsvSelected", false);
             }
             else
             {
@@ -511,9 +516,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     this.HsvToggleButton.IsChecked = false;
                 }
-
-                VisualStateManager.GoToState(this, "RgbSelected", false);
             }
+
+            this.UpdateVisualState(false);
 
             if (eventsDisconnectedByMethod)
             {
@@ -1281,6 +1286,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            return;
+        }
+
+        /// <summary>
+        /// Callback for when the <see cref="IsColorPaletteVisible"/> dependency property value changes.
+        /// </summary>
+        private void OnIsColorPaletteVisibleChanged(DependencyObject d, DependencyProperty e)
+        {
+            this.UpdateVisualState(false);
             return;
         }
 

@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the custom color palette.
-        /// This will automatically set <see cref="CustomPaletteColors"/> and <see cref="CustomPaletteSectionCount"/>
+        /// This will automatically set <see cref="CustomPaletteColors"/> and <see cref="CustomPaletteColumns"/>
         /// overwriting any existing values.
         /// </summary>
         public IColorPalette CustomPalette
@@ -80,6 +80,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (object.Equals(value, this.GetValue(CustomPaletteProperty)) == false)
                 {
                     this.SetValue(CustomPaletteProperty, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsColorPaletteVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsColorPaletteVisibleProperty =
+            DependencyProperty.Register(
+                nameof(IsColorPaletteVisible),
+                typeof(bool),
+                typeof(ColorPickerButton),
+                new PropertyMetadata(true));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the color palette is visible.
+        /// </summary>
+        public bool IsColorPaletteVisible
+        {
+            get => (bool)this.GetValue(IsColorPaletteVisibleProperty);
+            set
+            {
+                if (object.Equals(value, this.GetValue(IsColorPaletteVisibleProperty)) == false)
+                {
+                    this.SetValue(IsColorPaletteVisibleProperty, value);
                 }
             }
         }
