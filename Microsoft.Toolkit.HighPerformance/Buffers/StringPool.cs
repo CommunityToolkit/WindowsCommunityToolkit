@@ -360,7 +360,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 /// <summary>
                 /// The <see cref="string"/> instance cached in this entry.
                 /// </summary>
-                public string Value;
+                public string? Value;
 
                 /// <summary>
                 /// The 0-based index for the next node in the current list.
@@ -532,11 +532,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     entry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)i);
 
                     if (entry.HashCode == hashcode &&
-                        entry.Value.AsSpan().SequenceEqual(span))
+                        entry.Value!.AsSpan().SequenceEqual(span))
                     {
                         UpdateTimestamp(ref entry.HeapIndex);
 
-                        return ref entry.Value!;
+                        return ref entry.Value;
                     }
                 }
 
