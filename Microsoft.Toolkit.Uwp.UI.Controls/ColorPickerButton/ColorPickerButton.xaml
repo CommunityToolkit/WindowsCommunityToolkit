@@ -227,6 +227,7 @@
                             </contract7Present:Style>
                         </Border.Resources>
                         <VisualStateManager.VisualStateGroups>
+
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Disabled">
@@ -260,9 +261,50 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            
-                            <VisualStateGroup
-                                x:Name="AlphaSliderVisibility">
+                            <VisualStateGroup x:Name="ColorSpectrumVisibility">
+                                <VisualState x:Name="ColorSpectrumVisible" />
+                                <VisualState x:Name="ColorSpectrumCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="SpectrumPivotItem.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ColorPaletteVisibility">
+                                <VisualState x:Name="ColorPaletteVisible" />
+                                <VisualState x:Name="ColorPaletteCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="PalettePivotItem.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ColorPreviewVisibility">
+                                <VisualState x:Name="ColorPreviewVisible" />
+                                <VisualState x:Name="ColorPreviewCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ColorPreviewGrid.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="PreviousColorVisibility">
+                                <!-- Previous color is not currently supported -->
+                                <VisualState x:Name="PreviousColorCollapsedVertical" />
+                                <VisualState x:Name="PreviousColorVisibleVertical" />
+                                <VisualState x:Name="PreviousColorCollapsedHorizontal" />
+                                <VisualState x:Name="PreviousColorVisibleHorizontal" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ThirdDimensionSliderVisibility">
+                                <VisualState x:Name="ThirdDimensionSliderVisible" />
+                                <VisualState x:Name="ThirdDimensionSliderCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ColorSpectrumThirdDimensionSlider.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="AlphaSliderVisibility">
                                 <VisualState x:Name="AlphaSliderVisible" />
                                 <VisualState x:Name="AlphaSliderCollapsed">
                                     <VisualState.Setters>
@@ -277,17 +319,34 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            
-                            <VisualStateGroup x:Name="AlphaTextInputVisibility">
-                                <VisualState x:Name="AlphaTextInputVisible" />
-                                <VisualState x:Name="AlphaTextInputCollapsed">
+                            <VisualStateGroup x:Name="MoreButtonVisibility">
+                                <!-- More button isn't supported -->
+                                <VisualState x:Name="MoreButtonVisible" />
+                                <VisualState x:Name="MoreButtonCollapsed" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="TextEntryGridVisibility">
+                                <!-- Text entry grid is not currently supported -->
+                                <VisualState x:Name="TextEntryGridCollapsed" />
+                                <VisualState x:Name="TextEntryGridVisible" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ColorChannelTextInputVisibility">
+                                <VisualState x:Name="ColorChannelTextInputVisible" />
+                                <VisualState x:Name="ColorChannelTextInputCollapsed">
                                     <VisualState.Setters>
-                                        <Setter Target="HexInputGrid.Visibility"
+                                        <Setter Target="ChannelsPivotItem.Visibility"
                                                 Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-
+                            <VisualStateGroup x:Name="AlphaTextInputVisibility">
+                                <VisualState x:Name="AlphaTextInputVisible" />
+                                <VisualState x:Name="AlphaTextInputCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="AlphaChannelTextBox.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                             <VisualStateGroup x:Name="ColorRepresentationSelected">
                                 <VisualState x:Name="RgbSelected" />
                                 <VisualState x:Name="HsvSelected">
@@ -312,6 +371,31 @@
                                                 Value="Value Channel" />
                                     </VisualState.Setters>
                                 </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="HexInputVisibility">
+                                <VisualState x:Name="HexInputVisible" />
+                                <VisualState x:Name="HexInputCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="HexInputGrid.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="AlphaEnabledState">
+                                <!-- Not currently supported -->
+                                <VisualState x:Name="AlphaDisabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ColorSpectrumAlphaSlider.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="AlphaChannelBorder.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="AlphaChannelTextBox.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="AlphaChannelSlider.Visibility"
+                                                Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="AlphaEnabled" />
                             </VisualStateGroup>
 
                         </VisualStateManager.VisualStateGroups>
@@ -393,7 +477,8 @@
                                                             Value="0" />
                                                 </Style>
                                             </Pivot.ItemContainerStyle>
-                                            <PivotItem AutomationProperties.Name="Spectrum">
+                                            <PivotItem x:Name="SpectrumPivotItem"
+                                                       AutomationProperties.Name="Spectrum">
                                                 <PivotItem.Header>
                                                     <FontIcon Glyph="&#xE76D;"
                                                               Width="109" />
@@ -451,7 +536,8 @@
                                                     </Grid>
                                                 </PivotItem.Content>
                                             </PivotItem>
-                                            <PivotItem AutomationProperties.Name="Palette">
+                                            <PivotItem x:Name="PalettePivotItem"
+                                                       AutomationProperties.Name="Palette">
                                                 <PivotItem.Header>
                                                     <FontIcon Glyph="&#xE790;"
                                                               Width="109" />
@@ -1047,7 +1133,8 @@
                                                     </GridView>
                                                 </PivotItem.Content>
                                             </PivotItem>
-                                            <PivotItem AutomationProperties.Name="Channels">
+                                            <PivotItem x:Name="ChannelsPivotItem"
+                                                       AutomationProperties.Name="Channels">
                                                 <PivotItem.Header>
                                                     <FontIcon Glyph="&#xE9E9;"
                                                               Width="109" />
@@ -1253,7 +1340,8 @@
                                                 </PivotItem.Content>
                                             </PivotItem>
                                         </Pivot>
-                                        <Grid Grid.Row="2"
+                                        <Grid x:Name="ColorPreviewGrid"
+                                              Grid.Row="2"
                                               Height="50"
                                               Margin="12,0,12,12">
                                             <Grid.ColumnDefinitions>
