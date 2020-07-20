@@ -9,6 +9,10 @@
     <Application.Resources>
 
         <!--  Workarounds for .NET Native issue in unit tests  -->
+        <extensions:EnumValuesExtension x:Key="DummyExtension"/>
+
+        <unitTestExtensions:Animal x:Key="Animal">Cat</unitTestExtensions:Animal>
+
         <CommandBar x:Key="DummyCommandBar">
             <AppBarButton Icon="{extensions:FontIcon Glyph=&#xE102;}" />
             <AppBarButton Icon="{extensions:SymbolIcon Symbol=Play}" />
