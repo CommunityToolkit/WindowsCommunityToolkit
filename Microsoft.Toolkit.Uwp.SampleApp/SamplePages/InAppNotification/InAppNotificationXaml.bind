@@ -153,7 +153,8 @@
                           <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        <ContentPresenter x:Name="PART_Presenter"
+                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           VerticalContentAlignment="Center"
@@ -333,7 +334,8 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                <ContentPresenter x:Name="PART_Presenter"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   VerticalContentAlignment="Center"
@@ -376,7 +378,17 @@
                                     AnimationDuration="@[AnimationDuration:TimeSpan:100:0-5000]"
                                     VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
                                     HorizontalOffset="@[HorizontalOffset:DoubleSlider:0.0:-200.0-200.0]"
-                                    StackMode="@[StackMode:Enum:StackMode.Replace]" />
+                                    StackMode="@[StackMode:Enum:StackMode.Replace]">
+            <controls:InAppNotification.ContentTemplate>
+               <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Value}" Margin="0,0,0,8" />
+                        <TextBlock Text="{Binding Key}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity="0.8" />
+                    </StackPanel>
+                </DataTemplate>
+            </controls:InAppNotification.ContentTemplate>
+        </controls:InAppNotification>
+          
 
         <controls:InAppNotification x:Name="ExampleCustomInAppNotification"
                                     Style="{StaticResource MSEdgeNotificationTemplate_NoDismissButton}"
