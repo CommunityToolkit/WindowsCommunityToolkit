@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -43,9 +42,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
         /// <returns>An <see cref="SpanEnumerable{T}"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
-        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly SpanEnumerable<T> GetEnumerator() => this;
+        public SpanEnumerable<T> GetEnumerator() => this;
 
         /// <summary>
         /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
@@ -69,7 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
         /// </summary>
-        public readonly Item Current
+        public Item Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

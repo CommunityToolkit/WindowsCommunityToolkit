@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.HighPerformance.Enumerables
@@ -55,9 +54,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
         /// <returns>An <see cref="ReadOnlySpanTokenizer{T}"/> instance targeting the current <see cref="ReadOnlySpan{T}"/> value.</returns>
-        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly ReadOnlySpanTokenizer<T> GetEnumerator() => this;
+        public ReadOnlySpanTokenizer<T> GetEnumerator() => this;
 
         /// <summary>
         /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
@@ -96,7 +94,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
         /// </summary>
-        public readonly ReadOnlySpan<T> Current
+        public ReadOnlySpan<T> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.span.Slice(this.start, this.end - this.start);
