@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public Memory<T> GetMemory(int sizeHint = 0)
         {
-            this.ValidateSizeHint(sizeHint);
+            ValidateSizeHint(sizeHint);
 
             return this.memory.Slice(this.index);
         }
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public Span<T> GetSpan(int sizeHint = 0)
         {
-            this.ValidateSizeHint(sizeHint);
+            ValidateSizeHint(sizeHint);
 
             return this.memory.Slice(this.index).Span;
         }
