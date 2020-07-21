@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -39,6 +40,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNull<T>(T value, string name)
             where T : class
         {
@@ -51,6 +53,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNull<T>(T? value, string name)
             where T : struct
         {
@@ -63,6 +66,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentNullExceptionForIsNotNull<T>(string name)
         {
             ThrowArgumentNullException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be not null)");
@@ -74,6 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsOfType<T>(object value, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -85,6 +90,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of the input value.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotOfType<T>(object value, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -95,6 +101,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsOfType(object value, Type type, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -105,6 +112,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotOfType(object value, Type type, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -116,6 +124,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type being checked against.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsAssignableToType<T>(object value, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -127,6 +136,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type being checked against.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotAssignableToType<T>(object value, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -137,6 +147,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsAssignableToType(object value, Type type, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -147,6 +158,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotAssignableToType(object value, Type type, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
@@ -158,6 +170,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of input values being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
@@ -170,6 +183,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of input value being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsReferenceEqualTo<T>(string name)
             where T : class
         {
@@ -182,6 +196,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of input value being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(string name)
             where T : class
         {
@@ -193,6 +208,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsTrue(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be true, was false");
@@ -203,6 +219,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsTrue(string name, string message)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be true, was false: {message.ToAssertString()}");
@@ -213,6 +230,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsFalse(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true");
@@ -223,6 +241,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsFalse(string name, string message)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true: {message.ToAssertString()}");

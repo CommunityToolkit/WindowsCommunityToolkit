@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
@@ -21,6 +22,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsCloseTo(int value, int target, uint delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(int).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((double)((long)value - target)).ToAssertString()}");
@@ -31,6 +33,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(int value, int target, uint delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(int).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((double)((long)value - target)).ToAssertString()}");
@@ -41,6 +44,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsCloseTo(long value, long target, ulong delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(long).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((decimal)value - target).ToAssertString()}");
@@ -51,6 +55,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(long value, long target, ulong delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(long).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((decimal)value - target).ToAssertString()}");
@@ -61,6 +66,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsCloseTo(float value, float target, float delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(float).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
@@ -71,6 +77,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(float value, float target, float delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(float).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
@@ -81,6 +88,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsCloseTo(double value, double target, double delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(double).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
@@ -91,6 +99,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
+        [StackTraceHidden]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(double value, double target, double delta, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(double).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
