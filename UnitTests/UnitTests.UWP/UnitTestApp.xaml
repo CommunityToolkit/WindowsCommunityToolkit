@@ -6,6 +6,10 @@
              RequestedTheme="Light" >
     <Application.Resources>
 
+        <extensions:EnumValuesExtension x:Key="DummyExtension"/>
+
+        <unitTestExtensions:Animal x:Key="Animal">Cat</unitTestExtensions:Animal>
+
         <!-- Workarounds for .NET Native issue in unit tests -->
         <CommandBar x:Key="DummyCommandBar">
             <AppBarButton Icon="{extensions:FontIcon Glyph=&#xE102;}"/>
