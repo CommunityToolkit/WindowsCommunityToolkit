@@ -14,7 +14,7 @@ using System.Threading;
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
-    /// Helper methods to throw exceptions
+    /// Helper methods to efficiently throw exceptions.
     /// </summary>
     public static partial class ThrowHelper
     {
