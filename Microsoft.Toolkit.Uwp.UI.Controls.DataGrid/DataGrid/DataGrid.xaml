@@ -523,7 +523,7 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource DataGridColumnHeaderBackgroundBrush}"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource DataGridColumnHeaderBackgroundColor}"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="PointerOver">
