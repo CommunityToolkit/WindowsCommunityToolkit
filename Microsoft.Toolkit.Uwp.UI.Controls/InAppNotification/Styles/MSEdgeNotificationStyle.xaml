@@ -31,12 +31,18 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
+    <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonSize">40</x:Double>
+    <Thickness x:Key="SystemControlMSEdgeNotificationDismissButtonMargin">24,0,0,0</Thickness>
+    <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonTranslate">18</x:Double>
+    <VerticalAlignment x:Key="SystemControlMSEdgeNotificationDismissButtonVerticalAlignment">Center</VerticalAlignment>
+    <Thickness x:Key="SystemControlMSEdgeNotificationButtonBorderThickness">2</Thickness>
+    
     <Style x:Key="DismissTextBlockButtonStyle"
            TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="Width" Value="40" />
-        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}" />
+        <Setter Property="Height" Value="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="HighContrastAdjustment" Value="None" />
         <Setter Property="Template">
@@ -46,8 +52,8 @@
                           Margin="{TemplateBinding Padding}"
                           Background="{TemplateBinding Background}">
                         <Border x:Name="TextBorder"
-                                BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}"
-                                BorderThickness="2">
+                                BorderThickness="{StaticResource SystemControlMSEdgeNotificationButtonBorderThickness}"
+                                BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
                             <ContentPresenter x:Name="Text"
                                               AutomationProperties.AccessibilityView="Raw"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -144,11 +150,12 @@
 
                 <Button x:Name="PART_DismissButton"
                         Grid.Column="1"
-                        Margin="24,0,0,0"
+                        Margin="{StaticResource SystemControlMSEdgeNotificationDismissButtonMargin}"
                         AutomationProperties.Name="Dismiss"
                         Content="&#xE894;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="16"
+                        VerticalAlignment="{StaticResource SystemControlMSEdgeNotificationDismissButtonVerticalAlignment}"
                         Style="{StaticResource DismissTextBlockButtonStyle}">
                     <Button.RenderTransform>
                         <TranslateTransform x:Name="DismissButtonTransform" X="18" />
