@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -9,8 +10,10 @@ using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Uno.Extensions.Specialized;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -95,6 +98,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateView(true);
         }
 
+#if HAS_UNO
+        // Work around that the ItemsControl.Items property on uno is not filled when using the ItemsSource
+        // https://github.com/unoplatform/uno/issues/2347
+        private IEnumerable GetItems()
+        {
+            var itemsSource = ItemsSource is CollectionViewSource cvs
+                ? (object)cvs.View
+                : ItemsSource;
+
+            return itemsSource as IEnumerable ?? Items;
+        }
+#else
+        private IEnumerable GetItems() => Items;
+#endif
+
         /// <summary>
         /// Fired when the SelectedIndex changes.
         /// </summary>
@@ -107,8 +125,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var view = (MasterDetailsView)d;
 
-            var newValue = (int)e.NewValue < 0 ? null : view.Items[(int)e.NewValue];
-            var oldValue = e.OldValue == null ? null : view.Items.ElementAtOrDefault((int)e.OldValue);
+            var newValue = e.NewValue is int newIndex && newIndex >= 0 ? view.GetItems()?.ElementAt(newIndex) : default;
+            var oldValue = e.OldValue is int oldIndex ? view.GetItems()?.ElementAtOrDefault(oldIndex) : default;
 
             // check if selection actually changed
             if (view.SelectedItem != newValue)
@@ -130,7 +148,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            var index = e.NewValue == null ? -1 : view.Items.IndexOf(e.NewValue);
+
+            var index = e.NewValue == null ? -1 : view.GetItems()?.IndexOf(e.NewValue) ?? -1;
 
             // check if selection actually changed
             if (view.SelectedIndex != index)
