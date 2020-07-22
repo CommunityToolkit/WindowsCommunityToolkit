@@ -5,7 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -59,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
+                AutomationProperties.SetName(_dismissButton, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
             }
 
             if (_visualStateGroup != null)
@@ -72,6 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateContent(firstNotification);
                 VisualStateManager.GoToState(this, StateContentVisible, true);
             }
+
+            AutomationProperties.SetLabeledBy(this, VisualTree.FindDescendant<ContentPresenter>(this));
         }
 
         /// <summary>
@@ -240,6 +246,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _contentProvider.Content = content;
                     break;
             }
+
+            RaiseAutomationNotification();
         }
 
         /// <summary>
@@ -276,10 +284,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (shouldDisplayImmediately)
             {
-                UpdateContent(notificationOptions);
-
                 Visibility = Visibility.Visible;
                 VisualStateManager.GoToState(this, StateContentVisible, true);
+
+                UpdateContent(notificationOptions);
 
                 if (notificationOptions.Duration > 0)
                 {

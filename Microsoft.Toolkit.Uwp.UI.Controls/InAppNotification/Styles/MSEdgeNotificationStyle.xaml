@@ -55,6 +55,7 @@
                                 BorderThickness="{StaticResource SystemControlMSEdgeNotificationButtonBorderThickness}"
                                 BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
                             <ContentPresenter x:Name="Text"
+                                              AutomationProperties.AccessibilityView="Raw"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Content}" />
