@@ -35,35 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event InAppNotificationClosedEventHandler Closed;
 
-        private void DismissButton_Click(object sender, RoutedEventArgs e)
-        {
-            Dismiss(InAppNotificationDismissKind.User);
-        }
-
-        private void DismissTimer_Tick(object sender, object e)
-        {
-            Dismiss(InAppNotificationDismissKind.Timeout);
-        }
-
-        private void OpenAnimationTimer_Tick(object sender, object e)
-        {
-            lock (_openAnimationTimer)
-            {
-                _openAnimationTimer.Stop();
-                Opened?.Invoke(this, EventArgs.Empty);
-                SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
-                if (ContentTemplateRoot != null)
-                {
-                    var peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
-                    if (Content?.GetType() == typeof(string))
-                    {
-                        AutomateTextNotification(peer, Content.ToString());
-                    }
-                }
-            }
-        }
-
-        private void AutomateTextNotification(AutomationPeer peer, string message)
+        private static void AutomateTextNotification(AutomationPeer peer, string message)
         {
             if (peer != null)
             {
@@ -76,13 +48,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ClosingAnimationTimer_Tick(object sender, object e)
+        private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
-            lock (_closingAnimationTimer)
+            Dismiss(InAppNotificationDismissKind.User);
+        }
+
+        private void DismissTimer_Tick(object sender, object e)
+        {
+            Dismiss(InAppNotificationDismissKind.Timeout);
+        }
+
+        private void OnCurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            switch (e.NewState.Name)
             {
-                _closingAnimationTimer.Stop();
-                Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+                case StateContentVisible:
+                    OnNotificationVisible();
+                    break;
+                case StateContentCollapsed:
+                    OnNotificationCollapsed();
+                    break;
             }
+        }
+
+        private void OnNotificationVisible()
+        {
+            Opened?.Invoke(this, EventArgs.Empty);
+            SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
+            if (ContentTemplateRoot != null)
+            {
+                var peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
+                if (Content?.GetType() == typeof(string))
+                {
+                    AutomateTextNotification(peer, Content.ToString());
+                }
+            }
+        }
+
+        private void OnNotificationCollapsed()
+        {
+            Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+            Visibility = Visibility.Collapsed;
         }
     }
 }
