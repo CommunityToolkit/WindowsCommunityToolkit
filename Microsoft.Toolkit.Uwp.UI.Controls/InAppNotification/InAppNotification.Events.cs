@@ -59,7 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnNotificationVisible()
         {
             Opened?.Invoke(this, EventArgs.Empty);
-            RaiseAutomationNotification();
         }
 
         private void OnNotificationCollapsed()
