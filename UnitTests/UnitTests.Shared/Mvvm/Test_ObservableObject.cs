@@ -59,7 +59,7 @@ namespace UnitTests.Mvvm
             public T Data
             {
                 get => data;
-                set => Set(ref data, value);
+                set => SetProperty(ref data, value);
             }
         }
 
@@ -114,7 +114,7 @@ namespace UnitTests.Mvvm
             public string Name
             {
                 get => Person.Name;
-                set => Set(() => Person.Name, value);
+                set => SetProperty(() => Person.Name, value);
             }
         }
 
@@ -164,7 +164,7 @@ namespace UnitTests.Mvvm
             public string Name
             {
                 get => this.person.Name;
-                set => Set(() => this.person.Name, value);
+                set => SetProperty(() => this.person.Name, value);
             }
         }
 
@@ -226,7 +226,7 @@ namespace UnitTests.Mvvm
             public Task<T> Data
             {
                 get => data;
-                set => SetAndNotifyOnCompletion(ref data, () => data, value);
+                set => SetPropertyAndNotifyOnCompletion(ref data, () => data, value);
             }
         }
     }

@@ -88,7 +88,7 @@ namespace UnitTests.Mvvm
             public T Data
             {
                 get => data;
-                set => Set(ref data, value, true);
+                set => SetProperty(ref data, value, true);
             }
 
             public bool IsActivatedCheck { get; private set; }

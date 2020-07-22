@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             get => this.isActive;
             set
             {
-                if (Set(ref this.isActive, value, true))
+                if (SetProperty(ref this.isActive, value, true))
                 {
                     if (value)
                     {
@@ -133,21 +133,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// This method is just like <see cref="ObservableObject.Set{T}(ref T,T,string)"/>, just with the addition
+        /// This method is just like <see cref="ObservableObject.SetProperty{T}(ref T,T,string)"/>, just with the addition
         /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool Set<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string propertyName = null!)
         {
-            return Set(ref field, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+            return SetProperty(ref field, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
         }
 
         /// <summary>
         /// Compares the current and new values for a given property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property with
         /// the new value, then raises the <see cref="ObservableObject.PropertyChanged"/> event.
-        /// See additional notes about this overload in <see cref="Set{T}(ref T,T,bool,string)"/>.
+        /// See additional notes about this overload in <see cref="SetProperty{T}(ref T,T,bool,string)"/>.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="field">The field storing the property's value.</param>
@@ -156,16 +156,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool Set<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string propertyName = null!)
         {
             if (!broadcast)
             {
-                return Set(ref field, newValue, comparer, propertyName);
+                return SetProperty(ref field, newValue, comparer, propertyName);
             }
 
             T oldValue = field;
 
-            if (Set(ref field, newValue, comparer, propertyName))
+            if (SetProperty(ref field, newValue, comparer, propertyName))
             {
                 Broadcast(oldValue, newValue, propertyName);
 
@@ -179,8 +179,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Compares the current and new values for a given property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property with
         /// the new value, then raises the <see cref="ObservableObject.PropertyChanged"/> event. Similarly to
-        /// the <see cref="ObservableObject.Set{T}(T,T,Action{T},string)"/> method, this overload should only be
-        /// used when <see cref="ObservableObject.Set{T}(ref T,T,string)"/> can't be used directly.
+        /// the <see cref="ObservableObject.SetProperty{T}(T,T,Action{T},string)"/> method, this overload should only be
+        /// used when <see cref="ObservableObject.SetProperty{T}(ref T,T,string)"/> can't be used directly.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="oldValue">The current property value.</param>
@@ -190,21 +190,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// This method is just like <see cref="ObservableObject.Set{T}(T,T,Action{T},string)"/>, just with the addition
+        /// This method is just like <see cref="ObservableObject.SetProperty{T}(T,T,Action{T},string)"/>, just with the addition
         /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool Set<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
         {
-            return Set(oldValue, newValue, EqualityComparer<T>.Default, callback, broadcast, propertyName);
+            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, broadcast, propertyName);
         }
 
         /// <summary>
         /// Compares the current and new values for a given property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property with
         /// the new value, then raises the <see cref="ObservableObject.PropertyChanged"/> event.
-        /// See additional notes about this overload in <see cref="Set{T}(T,T,Action{T},bool,string)"/>.
+        /// See additional notes about this overload in <see cref="SetProperty{T}(T,T,Action{T},bool,string)"/>.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="oldValue">The current property value.</param>
@@ -214,14 +214,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool Set<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
         {
             if (!broadcast)
             {
-                return Set(oldValue, newValue, comparer, callback, propertyName);
+                return SetProperty(oldValue, newValue, comparer, callback, propertyName);
             }
 
-            if (Set(oldValue, newValue, comparer, callback, propertyName))
+            if (SetProperty(oldValue, newValue, comparer, callback, propertyName))
             {
                 Broadcast(oldValue, newValue, propertyName);
 
