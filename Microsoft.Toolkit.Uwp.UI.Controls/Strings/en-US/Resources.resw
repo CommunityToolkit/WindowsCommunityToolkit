@@ -202,7 +202,7 @@
     <comment>Narrator Resource for BladeView expanded status</comment>
   </data>
   <data name="WindowsCommunityToolkit_GridSplitter_AutomationName" xml:space="preserve">
-    <value>GridSpliter</value>
+    <value>GridSplitter</value>
     <comment>Narrator Resource for GridSplitter control</comment>
   </data>
   <data name="WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName" xml:space="preserve">

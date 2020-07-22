@@ -43,14 +43,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dismiss(InAppNotificationDismissKind.Timeout);
         }
 
-        private void OpenAnimationTimer_Tick(object sender, object e)
+        private void OnCurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            lock (_openAnimationTimer)
+            switch (e.NewState.Name)
             {
-                _openAnimationTimer.Stop();
-                Opened?.Invoke(this, EventArgs.Empty);
-                RaiseAutomationNotification();
+                case StateContentVisible:
+                    OnNotificationVisible();
+                    break;
+                case StateContentCollapsed:
+                    OnNotificationCollapsed();
+                    break;
             }
+        }
+
+        private void OnNotificationVisible()
+        {
+            Opened?.Invoke(this, EventArgs.Empty);
+            RaiseAutomationNotification();
+        }
+
+        private void OnNotificationCollapsed()
+        {
+            Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+            Visibility = Visibility.Collapsed;
         }
 
         private void RaiseAutomationNotification()
@@ -62,15 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var peer = FrameworkElementAutomationPeer.CreatePeerForElement(this);
             peer.RaiseAutomationEvent(AutomationEvents.LiveRegionChanged);
-        }
-
-        private void ClosingAnimationTimer_Tick(object sender, object e)
-        {
-            lock (_closingAnimationTimer)
-            {
-                _closingAnimationTimer.Stop();
-                Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
-            }
         }
     }
 }
