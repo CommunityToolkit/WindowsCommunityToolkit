@@ -20,7 +20,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// WeakReference to the instance listening for the event.
         /// </summary>
+#if WINDOWS_UWP
+        private readonly global::System.WeakReference<TInstance> _weakInstance;
+#else
         private readonly WinRT.WeakReference<TInstance> _weakInstance;
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeakEventListener{TInstance, TSource, TEventArgs}"/> class.
@@ -33,7 +37,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(instance));
             }
 
+#if WINDOWS_UWP
+            _weakInstance = new global::System.WeakReference<TInstance>(instance);
+#else
             _weakInstance = new WinRT.WeakReference<TInstance>(instance);
+#endif
         }
 
         /// <summary>

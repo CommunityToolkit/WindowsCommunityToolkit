@@ -9,8 +9,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Activation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
 namespace UnitTests
 {
@@ -19,20 +17,15 @@ namespace UnitTests
     /// </summary>
     public partial class App : Application
     {
-        private readonly ITestMethod _testMethod;
-        private readonly TaskCompletionSource<TestResult> _taskCompletionSource;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        public App(ITestMethod testMethod, TaskCompletionSource<TestResult> taskCompletionSource)
+        public App()
         {
             InitializeComponent();
             Suspending += OnSuspending;
-            _testMethod = testMethod;
-            _taskCompletionSource = taskCompletionSource;
         }
 
         /// <summary>
@@ -70,17 +63,12 @@ namespace UnitTests
                 Window.Current.Content = rootFrame;
             }
 
-            // Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
+            Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
 
             // Ensure the current window is active
             Window.Current.Activate();
 
-            // Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
-            var result = _testMethod.Invoke(new object[] { });
-
-            _taskCompletionSource.SetResult(result);
-
-            Exit();
+            Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }
 
         /// <summary>

@@ -6,10 +6,14 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
-using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 using Windows.Foundation;
+#if WINDOWS_UWP
+using Windows.UI.Xaml.Automation;
+#else
+using Microsoft.UI.Xaml.Automation;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {

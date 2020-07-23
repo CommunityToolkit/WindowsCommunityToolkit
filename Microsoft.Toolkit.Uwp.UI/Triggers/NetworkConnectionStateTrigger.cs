@@ -72,7 +72,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             /// <summary>
             /// WeakReference to the instance listening for the event.
             /// </summary>
+#if WINDOWS_UWP
+            private global::System.WeakReference<TInstance> _weakInstance;
+#else
             private WinRT.WeakReference<TInstance> _weakInstance;
+#endif
 
             /// <summary>
             /// Gets or sets the method to call when the event fires.
@@ -95,7 +99,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                     throw new ArgumentNullException("instance");
                 }
 
+#if WINDOWS_UWP
+                _weakInstance = new global::System.WeakReference<TInstance>(instance);
+#else
                 _weakInstance = new WinRT.WeakReference<TInstance>(instance);
+#endif
             }
 
             /// <summary>

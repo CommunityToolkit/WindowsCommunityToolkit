@@ -448,11 +448,13 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         /// <returns>Type of the instance</returns>
         internal static Type GetCustomOrCLRType(this object instance)
         {
+#if !WINDOWS_UWP
             ICustomTypeProvider customTypeProvider = instance as ICustomTypeProvider;
             if (customTypeProvider != null)
             {
                 return customTypeProvider.GetCustomType() ?? instance.GetType();
             }
+#endif
 
             return instance == null ? null : instance.GetType();
         }

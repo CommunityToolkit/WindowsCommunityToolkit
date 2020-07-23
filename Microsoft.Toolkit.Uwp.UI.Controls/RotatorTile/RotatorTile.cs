@@ -207,7 +207,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var anim = new DoubleAnimation
                 {
+#if WINDOWS_UWP
+                    Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(500)),
+#else
                     Duration = TimeSpan.FromMilliseconds(500),
+#endif
                     From = 0
                 };
                 if (Direction == RotateDirection.Up)

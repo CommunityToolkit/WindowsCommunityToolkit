@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;uap10.0.17134</TargetFrameworks>
     <Title>Windows Community Toolkit Controls DataGrid</Title>
     <Description>
       This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
@@ -11,9 +11,15 @@
     <LangVersion>preview</LangVersion> <!-- Fix a small internal bug -->
   </PropertyGroup>
 
+  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+    <!-- WinUI3: Removed for now-->
+    <!--<None Include="$(OutDir)\..\net5.0\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\..\net5.0\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />-->
   </ItemGroup>
 
   <ItemGroup>

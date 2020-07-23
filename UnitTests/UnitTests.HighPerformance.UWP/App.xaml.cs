@@ -22,7 +22,7 @@ namespace UnitTests.HighPerformance.UWP
         }
 
         /// <inheritdoc/>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)

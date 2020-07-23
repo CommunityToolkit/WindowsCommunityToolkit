@@ -3,7 +3,7 @@
 #addin nuget:?package=Cake.FileHelpers&version=3.3.0
 #addin nuget:?package=Cake.Powershell&version=0.4.8
 
-#tool nuget:?package=MSTest.TestAdapter&version=2.1.0
+#tool nuget:?package=MSTest.TestAdapter&version=2.1.2
 #tool nuget:?package=vswhere&version=2.8.4
 
 using System;
@@ -105,7 +105,7 @@ void RetrieveVersion()
 void UpdateToolsPath(MSBuildSettings buildSettings)
 {
     // Workaround for https://github.com/cake-build/cake/issues/2128
-	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = false });
+	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = true });
 
 	if (vsInstallation != null)
 	{
@@ -302,7 +302,7 @@ public string getMSTestAdapterPath(){
     if(nugetPaths.Count == 0){
         throw new Exception(
             "Cannot locate the MSTest test adapter. " +
-            "You might need to add '#tool nuget:?package=MSTest.TestAdapter&version=2.1.0' " + 
+            "You might need to add '#tool nuget:?package=MSTest.TestAdapter&version=2.1.2' " + 
             "to the top of your build.cake file.");
     }
 
@@ -347,7 +347,7 @@ Task("Test")
 
 Task("Default")
     .IsDependentOn("Build")
-    //.IsDependentOn("Test")
+    .IsDependentOn("Test")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")

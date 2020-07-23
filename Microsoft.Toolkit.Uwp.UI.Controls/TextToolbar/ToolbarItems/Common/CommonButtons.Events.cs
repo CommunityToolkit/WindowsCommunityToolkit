@@ -55,7 +55,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             var labelBox = new RichEditBox
             {
                 PlaceholderText = StringExtensions.GetLocalized("TextToolbarStrings_LabelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+#if WINDOWS_UWP
+                Margin = ThicknessHelper.FromLengths(0, 0, 0, 5),
+#else
                 Margin = new Thickness(0, 0, 0, 5),
+#endif
                 AcceptsReturn = false
             };
             var linkBox = new TextBox

@@ -8,6 +8,11 @@ using System.Collections.Specialized;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
+#if WINDOWS_UWP
+using NotifyCollectionChangedEventArgs = Microsoft.UI.Xaml.Interop.NotifyCollectionChangedEventArgs;
+#else
+using NotifyCollectionChangedEventArgs = global::System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

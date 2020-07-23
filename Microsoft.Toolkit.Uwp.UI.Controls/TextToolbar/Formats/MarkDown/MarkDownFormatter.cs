@@ -37,7 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         /// <param name="button">The button pressed</param>
         public void StyleHeader(ToolbarButton button)
         {
+#if WINDOWS_UWP
+            var list = new ListBox { Margin = ThicknessHelper.FromUniformLength(0), Padding = ThicknessHelper.FromUniformLength(0) };
+#else
             var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
+#endif
             headerFlyout = new Flyout { Content = list };
 
             if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
@@ -57,8 +61,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                         IsTextSelectionEnabled = false
                     },
                     Tag = val,
+#if WINDOWS_UWP
+                    Padding = ThicknessHelper.FromLengths(5, 2, 5, 2),
+                    Margin = ThicknessHelper.FromUniformLength(0)
+#else
                     Padding = new Thickness(5, 2, 5, 2),
                     Margin = new Thickness(0)
+#endif
                 };
                 item.Tapped += HeaderSelected;
                 list.Items.Add(item);
@@ -484,7 +493,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     {
                         Name = TextToolbar.CodeElement,
                         ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_CodeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
-                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin =
+#if WINDOWS_UWP
+                            ThicknessHelper.FromLengths(0, -5, 0, 0)
+#else
+                            new Thickness(0, -5, 0, 0)
+#endif
+                        },
                         Activation = FormatCode
                     },
                     QuoteButton,

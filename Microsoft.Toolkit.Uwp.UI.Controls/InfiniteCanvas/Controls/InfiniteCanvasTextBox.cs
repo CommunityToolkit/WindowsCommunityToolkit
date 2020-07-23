@@ -8,6 +8,7 @@ using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Text;
+using FontWeights = Microsoft.UI.Text.FontWeights;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

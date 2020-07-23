@@ -67,7 +67,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     bottom = Window.Current.Bounds.Height - WorkArea.Bottom;
                 }
 
+#if WINDOWS_UWP
+                _targetGrid.Margin = ThicknessHelper.FromLengths(left, top, right, bottom);
+#else
                 _targetGrid.Margin = new Thickness(left, top, right, bottom);
+#endif
             }
         }
 

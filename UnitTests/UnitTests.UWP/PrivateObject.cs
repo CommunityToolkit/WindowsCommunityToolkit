@@ -879,7 +879,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
     /// <summary>
     /// Provides method signature discovery for generic methods.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Internal helper to this class only")]
+    [global::System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Internal helper to this class only")]
     internal class RuntimeTypeHelper
     {
         /// <summary>

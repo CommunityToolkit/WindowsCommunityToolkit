@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;uap10.0.17134</TargetFrameworks>
+    
     <LangVersion>8.0</LangVersion>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
@@ -46,8 +47,13 @@
     <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers</PackageTags>
   </PropertyGroup>
 
+  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3-rc3" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3-rc4" />
   </ItemGroup>
 
   <ItemGroup>

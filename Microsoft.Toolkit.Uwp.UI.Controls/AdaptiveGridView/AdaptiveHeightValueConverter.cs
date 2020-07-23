@@ -12,7 +12,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class AdaptiveHeightValueConverter : IValueConverter
     {
+#if WINDOWS_UWP
+        private Thickness thickness = ThicknessHelper.FromLengths(0, 0, 4, 4);
+#else
         private Thickness thickness = new Thickness(0, 0, 4, 4);
+#endif
 
         public Thickness DefaultItemMargin
         {

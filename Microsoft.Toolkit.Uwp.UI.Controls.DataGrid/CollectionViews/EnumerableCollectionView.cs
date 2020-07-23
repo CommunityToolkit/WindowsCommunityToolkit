@@ -9,6 +9,9 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using Microsoft.UI.Xaml.Data;
+using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
 
 namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 {

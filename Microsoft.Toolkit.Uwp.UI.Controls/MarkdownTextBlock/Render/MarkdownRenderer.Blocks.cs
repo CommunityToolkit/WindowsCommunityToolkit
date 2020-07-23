@@ -46,7 +46,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                     if (i == 0)
                     {
                         // Remove the top margin.
+#if WINDOWS_UWP
+                        frameworkElement.Margin = ThicknessHelper.FromLengths(
+#else
                         frameworkElement.Margin = new Thickness(
+#endif
                             frameworkElement.Margin.Left,
                             0,
                             frameworkElement.Margin.Right,
@@ -55,12 +59,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                     else if (previousFrameworkElement != null)
                     {
                         // Remove the bottom margin.
+#if WINDOWS_UWP
+                        frameworkElement.Margin = ThicknessHelper.FromLengths(
+#else
                         frameworkElement.Margin = new Thickness(
+#endif
                             frameworkElement.Margin.Left,
                             Math.Max(frameworkElement.Margin.Top, previousFrameworkElement.Margin.Bottom),
                             frameworkElement.Margin.Right,
                             frameworkElement.Margin.Bottom);
+#if WINDOWS_UWP
+                        previousFrameworkElement.Margin = ThicknessHelper.FromLengths(
+#else
                         previousFrameworkElement.Margin = new Thickness(
+#endif
                             previousFrameworkElement.Margin.Left,
                             previousFrameworkElement.Margin.Top,
                             previousFrameworkElement.Margin.Right,
@@ -241,15 +253,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             };
 
             // The first column for the bullet (or number) and the second for the text.
+#if WINDOWS_UWP
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLengthHelper.FromPixels(ListGutterWidth) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLengthHelper.FromValueAndType(1, GridUnitType.Star) });
+#else
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(ListGutterWidth) });
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+#endif
 
             for (int rowIndex = 0; rowIndex < element.Items.Count; rowIndex++)
             {
                 var listItem = element.Items[rowIndex];
 
                 // Add a row definition.
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height =
+#if WINDOWS_UWP
+                    GridLengthHelper.Auto
+#else
+                    GridLength.Auto
+#endif
+                });
 
                 // Add the bullet or number.
                 var bullet = CreateTextBlock(localContext);
@@ -266,7 +289,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 }
 
                 bullet.HorizontalAlignment = HorizontalAlignment.Right;
+#if WINDOWS_UWP
+                bullet.Margin = ThicknessHelper.FromLengths(0, 0, ListBulletSpacing, 0);
+#else
                 bullet.Margin = new Thickness(0, 0, ListBulletSpacing, 0);
+#endif
                 Grid.SetRow(bullet, rowIndex);
                 grid.Children.Add(bullet);
 

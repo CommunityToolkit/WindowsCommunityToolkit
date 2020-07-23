@@ -244,7 +244,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (IsStarRow(rowDefinition))
                     {
+#if WINDOWS_UWP
+                        rowDefinition.Height = GridLengthHelper.FromValueAndType(rowDefinition.ActualHeight, GridUnitType.Star);
+#else
                         rowDefinition.Height = new GridLength(rowDefinition.ActualHeight, GridUnitType.Star);
+#endif
                     }
                 }
             }
@@ -310,7 +314,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (IsStarColumn(columnDefinition))
                     {
+#if WINDOWS_UWP
+                        columnDefinition.Width = GridLengthHelper.FromValueAndType(columnDefinition.ActualWidth, GridUnitType.Star);
+#else
                         columnDefinition.Width = new GridLength(columnDefinition.ActualWidth, GridUnitType.Star);
+#endif
                     }
                 }
             }

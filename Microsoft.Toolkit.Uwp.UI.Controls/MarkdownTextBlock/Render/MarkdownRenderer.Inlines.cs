@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
+using FontWeights = Microsoft.UI.Text.FontWeights;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 {
@@ -467,7 +468,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var border = new Border
             {
+#if WINDOWS_UWP
+                Padding = ThicknessHelper.FromLengths(0, 0, 0, paragraph.FontSize * 0.2),
+#else
                 Padding = new Thickness(0, 0, 0, paragraph.FontSize * 0.2),
+#endif
                 Child = richTextBlock
             };
 
@@ -514,7 +519,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var border = new Border
             {
+#if WINDOWS_UWP
+                Margin = ThicknessHelper.FromLengths(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
+#else
                 Margin = new Thickness(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
+#endif
                 Child = richTextBlock
             };
 

@@ -15,7 +15,10 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using INotifyPropertyChanged = global::System.ComponentModel.INotifyPropertyChanged;
 using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = global::System.ComponentModel.PropertyChangedEventHandler;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {

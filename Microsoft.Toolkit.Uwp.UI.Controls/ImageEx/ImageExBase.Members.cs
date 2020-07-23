@@ -24,7 +24,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="CornerRadius"/> dependency property.
         /// </summary>
-        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(new CornerRadius(0)));
+        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(
+#if WINDOWS_UWP
+            CornerRadiusHelper.FromUniformRadius(0)
+#else
+            new CornerRadius(0)
+#endif
+            ));
 
         /// <summary>
         /// Identifies the <see cref="DecodePixelHeight"/> dependency property.

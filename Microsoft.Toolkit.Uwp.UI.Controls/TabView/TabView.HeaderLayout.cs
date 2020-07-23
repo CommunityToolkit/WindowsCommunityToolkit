@@ -153,17 +153,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (available <= mintabwidth || Math.Abs(available - mintabwidth) < double.Epsilon)
                     {
+#if WINDOWS_UWP
+                        tabc.Width = GridLengthHelper.FromPixels(mintabwidth);
+#else
                         tabc.Width = new GridLength(mintabwidth);
+#endif
                     }
                     else if (required >= available)
                     {
                         // Fix size as we don't have enough space for all the tabs.
+#if WINDOWS_UWP
+                        tabc.Width = GridLengthHelper.FromPixels(available);
+#else
                         tabc.Width = new GridLength(available);
+#endif
                     }
                     else
                     {
                         // We haven't filled up our space, so we want to expand to take as much as needed.
+#if WINDOWS_UWP
+                        tabc.Width = GridLengthHelper.Auto;
+#else
                         tabc.Width = GridLength.Auto;
+#endif
                     }
                 }
             }

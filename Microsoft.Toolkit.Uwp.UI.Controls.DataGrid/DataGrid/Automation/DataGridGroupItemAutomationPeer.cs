@@ -8,7 +8,6 @@ using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Data;
@@ -419,7 +418,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             }
         }
 
-        ExpandCollapseState IExpandCollapseProvider.ExpandCollapseState
+        /// <inheritdoc/>
+        public Microsoft.UI.Xaml.Automation.ExpandCollapseState ExpandCollapseState
         {
             get
             {
@@ -428,11 +428,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                     DataGridRowGroupInfo groupInfo = this.OwningDataGrid.RowGroupInfoFromCollectionViewGroup(_group);
                     if (groupInfo != null && groupInfo.Visibility == Visibility.Visible)
                     {
-                        return ExpandCollapseState.Expanded;
+                        return Microsoft.UI.Xaml.Automation.ExpandCollapseState.Expanded;
                     }
                 }
 
-                return ExpandCollapseState.Collapsed;
+                return Microsoft.UI.Xaml.Automation.ExpandCollapseState.Collapsed;
             }
         }
 
@@ -564,7 +564,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             if (!_dataGridAutomationPeer.IsEnabled())
             {
-                throw new ElementNotEnabledException();
+#if WINDOWS_UWP
+                throw new Windows.UI.Xaml.Automation.ElementNotEnabledException();
+#else
+                throw new Microsoft.UI.Xaml.Automation.ElementNotEnabledException();
+#endif
             }
         }
     }

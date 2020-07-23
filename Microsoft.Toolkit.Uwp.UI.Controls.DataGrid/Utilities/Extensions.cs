@@ -124,10 +124,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
             if (listType.IsEnumerableType())
             {
                 itemType = listType.GetEnumerableItemType();
+#if !WINDOWS_UWP
                 if (itemType != null)
                 {
                     isICustomTypeProvider = typeof(ICustomTypeProvider).IsAssignableFrom(itemType);
                 }
+#endif
             }
 
             // Bare IEnumerables mean that result type will be object.  In that case, try to get something more interesting.

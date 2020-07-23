@@ -3,14 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Diagnostics.CodeAnalysis;
-using Windows.UI.Text;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Text;
 
 namespace UnitTests.Extensions
 {
@@ -88,8 +86,8 @@ namespace UnitTests.Extensions
             Assert.AreEqual(icon.Glyph, "\uE14D", "Expected icon glyph to be E14D.");
             Assert.AreEqual(icon.FontSize, 7.0, "Expected font size of 7");
             Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe MDL2 Assets");
-            Assert.AreEqual(icon.FontWeight, FontWeights.Bold, "Expected bold font weight");
-            Assert.AreEqual(icon.FontStyle, FontStyle.Italic, "Expected italic font style");
+            Assert.AreEqual(icon.FontWeight, Windows.UI.Text.FontWeights.Bold, "Expected bold font weight");
+            Assert.AreEqual(icon.FontStyle, Windows.UI.Text.FontStyle.Italic, "Expected italic font style");
             Assert.AreEqual(icon.IsTextScaleFactorEnabled, true, "Expected IsTextScaleFactorEnabled set to true");
             Assert.AreEqual(icon.MirroredWhenRightToLeft, true, "Expected MirroredWhenRightToLeft set to true");
         }

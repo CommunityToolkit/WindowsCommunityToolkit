@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;uap10.0.17134</TargetFrameworks>
     <Title>Windows Community Toolkit Developer Tools</Title>
     <Description>This library provides XAML user controls and services to help developers build their app. It is part of the Windows Community Toolkit.
       
@@ -11,7 +11,12 @@
     </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility AlignmentGrid</PackageTags>
   </PropertyGroup>
-  
+
+  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>

@@ -19,7 +19,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Matrix representing transform.</returns>
         public static Matrix GetMatrix(this SkewTransform transform)
         {
+#if WINDOWS_UWP
+            Matrix matrix = MatrixHelper.Identity;
+#else
             Matrix matrix = Matrix.Identity;
+#endif
 
             var angleX = transform.AngleX;
             var angleY = transform.AngleY;

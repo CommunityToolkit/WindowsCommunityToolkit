@@ -45,11 +45,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (d is DoubleKeyFrame dkf)
                 {
+#if WINDOWS_UWP
+                    dkf.KeyTime = KeyTimeHelper.FromTimeSpan(ts);
+#else
                     dkf.KeyTime = KeyTime.FromTimeSpan(ts);
+#endif
                 }
                 else if (d is ObjectKeyFrame okf)
                 {
+#if WINDOWS_UWP
+                    okf.KeyTime = KeyTimeHelper.FromTimeSpan(ts);
+#else
                     okf.KeyTime = KeyTime.FromTimeSpan(ts);
+#endif
                 }
             }
         }

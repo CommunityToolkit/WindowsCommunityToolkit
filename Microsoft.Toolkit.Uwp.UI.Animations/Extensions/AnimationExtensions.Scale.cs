@@ -94,7 +94,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationX.To = scaleX;
                 animationY.To = scaleY;
 
+#if WINDOWS_UWP
+                animationX.Duration = animationY.Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
+#else
                 animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
+#endif
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
                 animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType, easingMode);
 

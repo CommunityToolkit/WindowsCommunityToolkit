@@ -3,13 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Resources;
-using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-// TODO: Fix tests for WinUI3
-// [assembly: InternalsVisibleTo("UnitTests.UWP")]
-// [assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
+#if WINDOWS_UWP
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UnitTests.UWP")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
+#endif
 [assembly: NeutralResourcesLanguage("en-US")]

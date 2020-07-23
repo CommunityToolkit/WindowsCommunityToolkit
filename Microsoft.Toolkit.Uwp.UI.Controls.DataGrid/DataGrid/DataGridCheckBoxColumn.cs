@@ -256,7 +256,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ConfigureCheckBox(CheckBox checkBox, Brush computedRowForeground)
         {
+#if WINDOWS_UWP
+            checkBox.Margin = ThicknessHelper.FromLengths(DATAGRIDCHECKBOXCOLUMN_leftMargin, 0.0, 0.0, 0.0);
+#else
             checkBox.Margin = new Thickness(DATAGRIDCHECKBOXCOLUMN_leftMargin, 0.0, 0.0, 0.0);
+#endif
             checkBox.HorizontalAlignment = HorizontalAlignment.Left;
             checkBox.VerticalAlignment = VerticalAlignment.Center;
             checkBox.IsThreeState = this.IsThreeState;

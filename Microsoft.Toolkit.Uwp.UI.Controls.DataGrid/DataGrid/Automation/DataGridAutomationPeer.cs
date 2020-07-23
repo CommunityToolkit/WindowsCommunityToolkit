@@ -15,6 +15,9 @@ using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
+#if WINDOWS_UWP
+using ElementNotEnabledException = Windows.UI.Xaml.Automation.ElementNotEnabledException;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {

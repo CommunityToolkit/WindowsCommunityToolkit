@@ -19,7 +19,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Matrix representing transform.</returns>
         public static Matrix GetMatrix(this RotateTransform transform)
         {
-            return Matrix.Identity.RotateAt(transform.Angle, transform.CenterX, transform.CenterY);
+#if WINDOWS_UWP
+            return MatrixHelper.Identity
+#else
+            return Matrix.Identity
+#endif
+                .RotateAt(transform.Angle, transform.CenterX, transform.CenterY);
         }
     }
 }

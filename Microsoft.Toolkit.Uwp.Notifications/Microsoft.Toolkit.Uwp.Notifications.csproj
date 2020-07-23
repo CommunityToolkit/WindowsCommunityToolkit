@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework> <!-- TODO WinUI3 add netstandard1.4, native and net461 back-->
+    <TargetFrameworks>netstandard1.4;uap10.0.17134;net461;net5.0</TargetFrameworks> <!-- TODO WinUI3 add native -->
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -14,6 +14,11 @@
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
     <NoWarn>NU1701</NoWarn> <!-- Temporary fix for WinUI3 -->
+  </PropertyGroup>
+  
+  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
   </PropertyGroup>
 
   <Choose>

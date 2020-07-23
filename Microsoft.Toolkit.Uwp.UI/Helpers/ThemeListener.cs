@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.System;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -13,8 +12,9 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 
-// TODO: Fix tests for WinUI3
-// [assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
+#if WINDOWS_UWP
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
+#endif
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     /// <summary>

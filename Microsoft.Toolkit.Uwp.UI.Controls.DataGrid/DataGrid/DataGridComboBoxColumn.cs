@@ -17,6 +17,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
+using FontWeights = Microsoft.UI.Text.FontWeights;
+using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -299,7 +302,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var textBlockElement = new TextBlock
             {
+#if WINDOWS_UWP
+                Margin = ThicknessHelper.FromLengths(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
+#else
                 Margin = new Thickness(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
+#endif
                 VerticalAlignment = VerticalAlignment.Center
             };
 
