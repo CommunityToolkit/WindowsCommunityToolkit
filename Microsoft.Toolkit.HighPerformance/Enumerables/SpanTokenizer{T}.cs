@@ -14,119 +14,90 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public readonly ref struct SpanTokenizer<T>
+    public ref struct SpanTokenizer<T>
         where T : IEquatable<T>
     {
         /// <summary>
-        /// The source <see cref="Span{T}"/> instance
+        /// The source <see cref="Span{T}"/> instance.
         /// </summary>
         private readonly Span<T> span;
 
         /// <summary>
-        /// The separator <typeparamref name="T"/> item to use.
+        /// The separator item to use.
         /// </summary>
         private readonly T separator;
 
         /// <summary>
+        /// The current initial offset.
+        /// </summary>
+        private int start;
+
+        /// <summary>
+        /// The current final offset.
+        /// </summary>
+        private int end;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SpanTokenizer{T}"/> struct.
         /// </summary>
-        /// <param name="span">The source <see cref="ReadOnlySpan{T}"/> to tokenize.</param>
-        /// <param name="separator">The separator <typeparamref name="T"/> item to use.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
+        /// <param name="separator">The separator item to use.</param>
         public SpanTokenizer(Span<T> span, T separator)
         {
             this.span = span;
             this.separator = separator;
+            this.start = 0;
+            this.end = -1;
         }
 
         /// <summary>
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
-        /// <returns>An <see cref="Enumerator"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
+        /// <returns>An <see cref="SpanTokenizer{T}"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Enumerator GetEnumerator() => new Enumerator(this.span, this.separator);
+        public SpanTokenizer<T> GetEnumerator() => this;
 
         /// <summary>
-        /// An enumerator for a source <see cref="Span{T}"/> instance.
+        /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public ref struct Enumerator
+        /// <returns><see langword="true"/> whether a new element is available, <see langword="false"/> otherwise</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
         {
-            /// <summary>
-            /// The source <see cref="Span{T}"/> instance.
-            /// </summary>
-            private readonly Span<T> span;
+            int
+                newEnd = this.end + 1,
+                length = this.span.Length;
 
-            /// <summary>
-            /// The separator item to use.
-            /// </summary>
-            private readonly T separator;
-
-            /// <summary>
-            /// The current initial offset.
-            /// </summary>
-            private int start;
-
-            /// <summary>
-            /// The current final offset.
-            /// </summary>
-            private int end;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Enumerator"/> struct.
-            /// </summary>
-            /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
-            /// <param name="separator">The separator item to use.</param>
-            public Enumerator(Span<T> span, T separator)
+            // Additional check if the separator is not the last character
+            if (newEnd <= length)
             {
-                this.span = span;
-                this.separator = separator;
-                this.start = 0;
-                this.end = -1;
-            }
+                this.start = newEnd;
 
-            /// <summary>
-            /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
-            /// </summary>
-            /// <returns><see langword="true"/> whether a new element is available, <see langword="false"/> otherwise</returns>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public bool MoveNext()
-            {
-                int
-                    newEnd = this.end + 1,
-                    length = this.span.Length;
+                int index = this.span.Slice(newEnd).IndexOf(this.separator);
 
-                // Additional check if the separator is not the last character
-                if (newEnd <= length)
+                // Extract the current subsequence
+                if (index >= 0)
                 {
-                    this.start = newEnd;
-
-                    int index = this.span.Slice(newEnd).IndexOf(this.separator);
-
-                    // Extract the current subsequence
-                    if (index >= 0)
-                    {
-                        this.end = newEnd + index;
-
-                        return true;
-                    }
-
-                    this.end = length;
+                    this.end = newEnd + index;
 
                     return true;
                 }
 
-                return false;
+                this.end = length;
+
+                return true;
             }
 
-            /// <summary>
-            /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
-            /// </summary>
-            public Span<T> Current
-            {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => this.span.Slice(this.start, this.end - this.start);
-            }
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
+        /// </summary>
+        public Span<T> Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.span.Slice(this.start, this.end - this.start);
         }
     }
 }

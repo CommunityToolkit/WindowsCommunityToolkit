@@ -13,5 +13,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the string text for this unresolved token
         /// </summary>
         string Text { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this is the last text based token in the collection as it will always remain at the end.
+        /// </summary>
+        bool IsLast { get; }
     }
 }

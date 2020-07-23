@@ -86,6 +86,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            UpdateShadowMask();
+
             base.OnContentChanged(oldContent, newContent);
         }
 
