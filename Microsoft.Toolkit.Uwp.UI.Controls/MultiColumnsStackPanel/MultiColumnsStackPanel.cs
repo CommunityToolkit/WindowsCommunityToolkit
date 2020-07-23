@@ -25,19 +25,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
 
         /// <summary>
-        /// The DP to store the ColumnsSpacing value.
+        /// The DP to store the HorizontalSpacing value.
         /// </summary>
-        public static readonly DependencyProperty ColumnsSpacingProperty = DependencyProperty.Register(
-            nameof(ColumnsSpacing),
+        public static readonly DependencyProperty HorizontalSpacingProperty = DependencyProperty.Register(
+            nameof(HorizontalSpacing),
             typeof(double),
             typeof(MultiColumnsStackPanel),
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
 
         /// <summary>
-        /// The DP to store the ItemsSpacing value.
+        /// The DP to store the VerticalSpacing value.
         /// </summary>
-        public static readonly DependencyProperty ItemsSpacingProperty = DependencyProperty.Register(
-            nameof(ItemsSpacing),
+        public static readonly DependencyProperty VerticalSpacingProperty = DependencyProperty.Register(
+            nameof(VerticalSpacing),
             typeof(double),
             typeof(MultiColumnsStackPanel),
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
@@ -64,19 +64,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the spacing between two columns.
         /// </summary>
-        public double ColumnsSpacing
+        public double HorizontalSpacing
         {
-            get => (double)GetValue(ColumnsSpacingProperty);
-            set => SetValue(ColumnsSpacingProperty, value);
+            get => (double)GetValue(HorizontalSpacingProperty);
+            set => SetValue(HorizontalSpacingProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the spacing between two items.
         /// </summary>
-        public double ItemsSpacing
+        public double VerticalSpacing
         {
-            get => (double)GetValue(ItemsSpacingProperty);
-            set => SetValue(ItemsSpacingProperty, value);
+            get => (double)GetValue(VerticalSpacingProperty);
+            set => SetValue(VerticalSpacingProperty, value);
         }
 
         /// <summary>
@@ -135,12 +135,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // We've reached the last item for the current column. We move to the next one.
                     currentColumnIndex++;
 
-                    rect.X += columnsWidth + ColumnsSpacing;
+                    rect.X += columnsWidth + HorizontalSpacing;
                     rect.Y = 0;
                 }
                 else
                 {
-                    rect.Y += child.DesiredSize.Height + ItemsSpacing;
+                    rect.Y += child.DesiredSize.Height + VerticalSpacing;
                 }
             }
 
@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // cases, we are receiving a value lower than what we're expecting. For example, when we return a desired width of 707 px, we receive 706,8571 in arrange and we're dropping
             // one column. Forcing even numbers is an easy way to limit the issue.
             // See: https://github.com/microsoft/microsoft-ui-xaml/issues/1441
-            var requiredColumnWidth = Math.Ceiling((columnsCount * columnsWidth) + (Math.Max(0, columnsCount - 1) * ColumnsSpacing));
+            var requiredColumnWidth = Math.Ceiling((columnsCount * columnsWidth) + (Math.Max(0, columnsCount - 1) * HorizontalSpacing));
             var evenColumnWidth = requiredColumnWidth % 2 == 0 ? requiredColumnWidth : (requiredColumnWidth + 1);
 
             return new Size(
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var columnLastIndexes = new int[columnsCount];
 
-            var totalHeight = Children.Sum(child => child.DesiredSize.Height) + (Math.Max(Children.Count - 1, 0) * ItemsSpacing);
+            var totalHeight = Children.Sum(child => child.DesiredSize.Height) + (Math.Max(Children.Count - 1, 0) * VerticalSpacing);
             var expectedColumnHeight = totalHeight / columnsCount;
             if (!double.IsInfinity(availableColumnHeight))
             {
@@ -291,14 +291,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // Now that we have the items for our first column, we adjust expectedColumnHeight
                         // to be the height of this first column in order to have a more natural layout.
-                        expectedColumnHeight = currentColumnHeight - ItemsSpacing;
+                        expectedColumnHeight = currentColumnHeight - VerticalSpacing;
                     }
 
                     columnIndex++;
                     if (columnIndex < columnLastIndexes.Length)
                     {
                         columnLastIndexes[columnIndex] = i;
-                        currentColumnHeight = currentChildHeight + ItemsSpacing;
+                        currentColumnHeight = currentChildHeight + VerticalSpacing;
                     }
                     else
                     {
@@ -309,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     columnLastIndexes[columnIndex] = i;
-                    currentColumnHeight = columnHeightAfterAdd + ItemsSpacing;
+                    currentColumnHeight = columnHeightAfterAdd + VerticalSpacing;
                 }
             }
 
@@ -329,14 +329,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var columnsCount = 1;
             if (columnsWidth < availableSize.Width)
             {
-                var additionalColumns = (int)((availableSize.Width - columnsWidth) / (columnsWidth + ColumnsSpacing));
+                var additionalColumns = (int)((availableSize.Width - columnsWidth) / (columnsWidth + HorizontalSpacing));
                 columnsCount += additionalColumns;
             }
 
             return (columnsCount, columnsWidth);
         }
 
-        private double GetColumnHeight(int columnLastIndex) => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * ItemsSpacing);
+        private double GetColumnHeight(int columnLastIndex) => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * VerticalSpacing);
 
     }
 }

@@ -14,8 +14,8 @@
                       VerticalScrollMode="Auto">
             <controls:MultiColumnsStackPanel HorizontalAlignment="Left"
                                              VerticalAlignment="Top"
-                                             ColumnsSpacing="24"
-                                             ItemsSpacing="24"
+                                             HorizontalSpacing="24"
+                                             VerticalSpacing="24"
                                              MaxColumnWidth="240">
                 <TextBox Header="Field 1" />
                 <TextBox Header="Field 2" />
