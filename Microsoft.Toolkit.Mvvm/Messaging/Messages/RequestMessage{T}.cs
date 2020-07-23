@@ -14,11 +14,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
     /// <typeparam name="T">The type of request to make.</typeparam>
     public class RequestMessage<T>
     {
-        /// <summary>
-        /// An <see cref="object"/> used to synchronize access to <see cref="Response"/> and <see cref="Reply"/>.
-        /// </summary>
-        private readonly object dummy = new object();
-
         private T response;
 
         /// <summary>
@@ -29,15 +24,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             get
             {
-                lock (this.dummy)
+                if (!HasReceivedResponse)
                 {
-                    if (!this.HasReceivedResponse)
-                    {
-                        ThrowInvalidOperationExceptionForNoResponseReceived();
-                    }
-
-                    return this.response;
+                    ThrowInvalidOperationExceptionForNoResponseReceived();
                 }
+
+                return this.response;
             }
         }
 
@@ -53,16 +45,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <exception cref="InvalidOperationException">Thrown if <see cref="Response"/> has already been set.</exception>
         public void Reply(T response)
         {
-            lock (this.dummy)
+            if (HasReceivedResponse)
             {
-                if (this.HasReceivedResponse)
-                {
-                    ThrowInvalidOperationExceptionForDuplicateReply();
-                }
-
-                this.HasReceivedResponse = true;
-                this.response = response;
+                ThrowInvalidOperationExceptionForDuplicateReply();
             }
+
+            HasReceivedResponse = true;
+
+            this.response = response;
         }
 
         /// <summary>

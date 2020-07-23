@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
@@ -23,7 +22,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// operations that can be executed in parallel, or <see cref="Func{T,TResult}"/> instances, which can be used so that multiple
         /// asynchronous operations are only started sequentially from <see cref="GetAsyncEnumerator"/> and do not overlap in time.
         /// </summary>
-        private readonly ConcurrentBag<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new ConcurrentBag<(Task<T>?, Func<CancellationToken, Task<T>>?)>();
+        private readonly List<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new List<(Task<T>?, Func<CancellationToken, Task<T>>?)>();
 
         /// <summary>
         /// The <see cref="CancellationTokenSource"/> instance used to link the token passed to

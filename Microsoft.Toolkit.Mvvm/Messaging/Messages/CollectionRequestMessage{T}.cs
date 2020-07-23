@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
@@ -17,7 +16,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
     /// <typeparam name="T">The type of request to make.</typeparam>
     public class CollectionRequestMessage<T> : IEnumerable<T>
     {
-        private readonly ConcurrentBag<T> responses = new ConcurrentBag<T>();
+        private readonly List<T> responses = new List<T>();
 
         /// <summary>
         /// Gets the message responses.
