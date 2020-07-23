@@ -522,8 +522,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 ref MapEntry entry = ref Unsafe.AsRef<MapEntry>(null);
                 int
-                    bucketIndex = hashcode & (this.buckets.Length - 1),
-                    length = this.buckets.Length;
+                    length = this.buckets.Length,
+                    bucketIndex = hashcode & (length - 1);
 
                 for (int i = this.buckets.DangerousGetReferenceAt(bucketIndex) - 1;
                      (uint)i < (uint)length;
@@ -667,8 +667,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             [MethodImpl(MethodImplOptions.NoInlining)]
             private unsafe void UpdateTimestamp(ref int heapIndex)
             {
-                int currentIndex = heapIndex;
-
+                int
+                    currentIndex = heapIndex,
+                    count = this.count;
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
                 ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
@@ -701,7 +702,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                         targetIndex = currentIndex;
 
                     // Check and update the left child, if necessary
-                    if (left < this.count)
+                    if (left < count)
                     {
                         ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)left);
 
@@ -713,7 +714,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     }
 
                     // Same check as above for the right child
-                    if (right < this.count)
+                    if (right < count)
                     {
                         ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)right);
 
