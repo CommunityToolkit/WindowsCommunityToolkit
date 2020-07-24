@@ -4,7 +4,11 @@
 
 using System;
 using System.Collections.ObjectModel;
+#if WINDOWS_UWP
+using Microsoft.UI.Xaml.Data;
+#else
 using System.ComponentModel;
+#endif
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;

@@ -6,15 +6,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Utilities;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+#if WINDOWS_UWP
+using INotifyPropertyChanged = Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+using PropertyChangedEventArgs = Microsoft.UI.Xaml.Data.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = Microsoft.UI.Xaml.Data.PropertyChangedEventHandler;
+#else
 using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 {

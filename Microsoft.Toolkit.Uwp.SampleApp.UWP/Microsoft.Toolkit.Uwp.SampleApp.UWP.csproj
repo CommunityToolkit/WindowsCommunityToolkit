@@ -1,0 +1,943 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{51AEB5C6-14B9-4BED-B94C-8455F29275E4}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Toolkit.Uwp.SampleApp.UWP</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp.UWP</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <LangVersion>8.0</LangVersion>
+    <Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>
+    <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
+    <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\AnalyticsVersionInfoExtensions.cs">
+      <Link>Common\AnalyticsVersionInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\BindableBase.cs">
+      <Link>Common\BindableBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\BoolStringConverter.cs">
+      <Link>Common\BoolStringConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\Constants.cs">
+      <Link>Common\Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\DelegateCommand.cs">
+      <Link>Common\DelegateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\DelegateCommand{T}.cs">
+      <Link>Common\DelegateCommand{T}.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\DoubleTopThicknessConverter.cs">
+      <Link>Common\DoubleTopThicknessConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\EnumConverter.cs">
+      <Link>Common\EnumConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\IXamlRenderListener.cs">
+      <Link>Common\IXamlRenderListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\SampleCommand.cs">
+      <Link>Common\SampleCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\SolidColorBrushConverter.cs">
+      <Link>Common\SolidColorBrushConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\TextBlockHyperlinkBehavior.cs">
+      <Link>Common\TextBlockHyperlinkBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\ThicknessConverter.cs">
+      <Link>Common\ThicknessConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\TimeSpanConverter.cs">
+      <Link>Common\TimeSpanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Common\Tools.cs">
+      <Link>Common\Tools.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\CodeRenderer.cs">
+      <Link>Controls\CodeRenderer.cs</Link>
+      <DependentUpon>CodeRenderer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\PropertyControl.xaml.cs">
+      <Link>Controls\PropertyControl.xaml.cs</Link>
+      <DependentUpon>PropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\SampleAppMarkdownRenderer.cs">
+      <Link>Controls\SampleAppMarkdownRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\XamlCodeEditor.xaml.cs">
+      <Link>Controls\XamlCodeEditor.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\XamlExceptionRange.cs">
+      <Link>Controls\XamlExceptionRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\XamlRenderService.cs">
+      <Link>Controls\XamlRenderService.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Data\DataGridDataItem.cs">
+      <Link>Data\DataGridDataItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Data\DataGridDataSource.cs">
+      <Link>Data\DataGridDataSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Data\GitHub.cs">
+      <Link>Data\GitHub.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Data\PhotoDataItem.cs">
+      <Link>Data\PhotoDataItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Data\PhotoDataItemWithDimension.cs">
+      <Link>Data\PhotoDataItemWithDimension.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Data\PhotosDataSource.cs">
+      <Link>Data\PhotosDataSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\Email.cs">
+      <Link>Models\Email.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\GitHubRelease.cs">
+      <Link>Models\GitHubRelease.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\Item.cs">
+      <Link>Models\Item.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\LandingPageLink.cs">
+      <Link>Models\LandingPageLink.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\LandingPageLinks.cs">
+      <Link>Models\LandingPageLinks.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\LandingPageResource.cs">
+      <Link>Models\LandingPageResource.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\Option.cs">
+      <Link>Models\Option.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PaneState.cs">
+      <Link>Models\PaneState.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PropertyDescriptor\PropertyDescriptor.cs">
+      <Link>Models\PropertyDescriptor\PropertyDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PropertyDescriptor\PropertyKind.cs">
+      <Link>Models\PropertyDescriptor\PropertyKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PropertyDescriptor\PropertyOptions.cs">
+      <Link>Models\PropertyDescriptor\PropertyOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PropertyDescriptor\SliderPropertyOptions.cs">
+      <Link>Models\PropertyDescriptor\SliderPropertyOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PropertyDescriptor\ThicknessPropertyOptions.cs">
+      <Link>Models\PropertyDescriptor\ThicknessPropertyOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\PropertyDescriptor\ValueHolder.cs">
+      <Link>Models\PropertyDescriptor\ValueHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\Sample.cs">
+      <Link>Models\Sample.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\SampleCategory.cs">
+      <Link>Models\SampleCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\Samples.cs">
+      <Link>Models\Samples.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Models\ThemeChangedArgs.cs">
+      <Link>Models\ThemeChangedArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Pages\About.xaml.cs">
+      <Link>Pages\About.xaml.cs</Link>
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Pages\SampleController.xaml.cs">
+      <Link>Pages\SampleController.xaml.cs</Link>
+      <DependentUpon>SampleController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Shell.SamplePicker.cs">
+      <Link>Shell.SamplePicker.cs</Link>
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Shell.Search.cs">
+      <Link>Shell.Search.cs</Link>
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Shell.xaml.cs">
+      <Link>Shell.xaml.cs</Link>
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\Styles\ThemeInjector.cs">
+      <Link>Styles\ThemeInjector.cs</Link>
+    </Compile>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\TrackingManager.cs">
+      <Link>TrackingManager.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-16.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-16.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-16_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-16_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-20.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-20.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-20_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-20_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-24.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-24.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-24_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-24_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-256.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-256.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-256_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-256_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-30.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-30.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-30_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-30_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-32.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-32.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-32_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-32_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-36.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-36.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-36_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-36_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-40.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-40.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-40_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-40_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-48.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-48.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-48_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-48_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-60.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-60.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-60_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-60_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-64.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-64.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-64_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-64_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-72.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-72.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-72_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-72_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-80.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-80.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-80_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-80_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-96.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-96.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppAppList.targetsize-96_altform-unplated.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppAppList.targetsize-96_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppBadgeLogo.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppLargeTile.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppLargeTile.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppLargeTile.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppLargeTile.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppLargeTile.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppLargeTile.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppLargeTile.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppLargeTile.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppLargeTile.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppLargeTile.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppMedTile.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppMedTile.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppMedTile.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppMedTile.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppMedTile.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppMedTile.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppMedTile.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppMedTile.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppMedTile.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppMedTile.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSmallTile.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSmallTile.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSmallTile.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSmallTile.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSmallTile.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSmallTile.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSmallTile.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSmallTile.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSmallTile.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSmallTile.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSplashScreen.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSplashScreen.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSplashScreen.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSplashScreen.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppSplashScreen.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppStoreLogo.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppStoreLogo.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppStoreLogo.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppStoreLogo.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppStoreLogo.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppWideTile.scale-100.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppWideTile.scale-100.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppWideTile.scale-125.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppWideTile.scale-125.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppWideTile.scale-150.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppWideTile.scale-150.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppWideTile.scale-200.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppWideTile.scale-200.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\UWPCommunityToolkitSampleAppWideTile.scale-400.png">
+      <Link>Assets\UWPCommunityToolkitSampleAppWideTile.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp.Package\Images\Wide310x150Logo.scale-400.png">
+      <Link>Assets\Wide310x150Logo.scale-400.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\BrushAssets\NoiseTexture.png">
+      <Link>Assets\BrushAssets\NoiseTexture.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\BrushAssets\TileTexture.png">
+      <Link>Assets\BrushAssets\TileTexture.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Helpers.png">
+      <Link>Assets\Helpers.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\mslogo.png">
+      <Link>Assets\mslogo.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Cloudy-Square.png">
+      <Link>Assets\NotificationAssets\Cloudy-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Cloudy.png">
+      <Link>Assets\NotificationAssets\Cloudy.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Drizzle-Square.png">
+      <Link>Assets\NotificationAssets\Drizzle-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Drizzle.png">
+      <Link>Assets\NotificationAssets\Drizzle.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Haze-Square.png">
+      <Link>Assets\NotificationAssets\Haze-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Haze.png">
+      <Link>Assets\NotificationAssets\Haze.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Mostly Cloudy-Background.jpg">
+      <Link>Assets\NotificationAssets\Mostly Cloudy-Background.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Mostly Cloudy-Square.png">
+      <Link>Assets\NotificationAssets\Mostly Cloudy-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Mostly Cloudy.png">
+      <Link>Assets\NotificationAssets\Mostly Cloudy.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Slight Drizzle-Square.png">
+      <Link>Assets\NotificationAssets\Slight Drizzle-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Slight Drizzle.png">
+      <Link>Assets\NotificationAssets\Slight Drizzle.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Snow-Square.png">
+      <Link>Assets\NotificationAssets\Snow-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Snow.png">
+      <Link>Assets\NotificationAssets\Snow.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Sunny-Square.png">
+      <Link>Assets\NotificationAssets\Sunny-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Sunny.png">
+      <Link>Assets\NotificationAssets\Sunny.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Thunderstorms-Square.png">
+      <Link>Assets\NotificationAssets\Thunderstorms-Square.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\NotificationAssets\Thunderstorms.png">
+      <Link>Assets\NotificationAssets\Thunderstorms.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\dave.png">
+      <Link>Assets\People\dave.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\david.png">
+      <Link>Assets\People\david.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\giorgio.png">
+      <Link>Assets\People\giorgio.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\jeff.png">
+      <Link>Assets\People\jeff.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\nikola.png">
+      <Link>Assets\People\nikola.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\pete.png">
+      <Link>Assets\People\pete.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\petri.png">
+      <Link>Assets\People\petri.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\shen.png">
+      <Link>Assets\People\shen.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\People\vlad.png">
+      <Link>Assets\People\vlad.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\Backgrounds\HERO.jpg">
+      <Link>Assets\Photos\Backgrounds\HERO.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\BigFourSummerHeat.jpg">
+      <Link>Assets\Photos\BigFourSummerHeat.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\BisonBadlandsChillin.jpg">
+      <Link>Assets\Photos\BisonBadlandsChillin.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\ColumbiaRiverGorge.jpg">
+      <Link>Assets\Photos\ColumbiaRiverGorge.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\GiantSlabInOregon.jpg">
+      <Link>Assets\Photos\GiantSlabInOregon.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\GrandTetons.jpg">
+      <Link>Assets\Photos\GrandTetons.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\ImageExPlaceholder.jpg">
+      <Link>Assets\Photos\ImageExPlaceholder.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\LakeAnnMushroom.jpg">
+      <Link>Assets\Photos\LakeAnnMushroom.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\LunchBreak.jpg">
+      <Link>Assets\Photos\LunchBreak.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\MilkyWayStHelensHikePurple.jpg">
+      <Link>Assets\Photos\MilkyWayStHelensHikePurple.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\MitchellButtes.jpg">
+      <Link>Assets\Photos\MitchellButtes.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\MultnomahFalls.jpg">
+      <Link>Assets\Photos\MultnomahFalls.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\NorthernCascadesReflection.jpg">
+      <Link>Assets\Photos\NorthernCascadesReflection.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\NovemberHikeWaterfall.jpg">
+      <Link>Assets\Photos\NovemberHikeWaterfall.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\OregonWineryNamaste.jpg">
+      <Link>Assets\Photos\OregonWineryNamaste.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\Owl.jpg">
+      <Link>Assets\Photos\Owl.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\PaintedHillsPathway.jpg">
+      <Link>Assets\Photos\PaintedHillsPathway.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\RunningDogPacificCity.jpg">
+      <Link>Assets\Photos\RunningDogPacificCity.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\ShootingOnAutoOnTheDrone.jpg">
+      <Link>Assets\Photos\ShootingOnAutoOnTheDrone.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\SmithnRockDownTheRiverView.jpg">
+      <Link>Assets\Photos\SmithnRockDownTheRiverView.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\SnowyInterbayt.jpg">
+      <Link>Assets\Photos\SnowyInterbayt.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\SpeedTripleAtristsPoint.jpg">
+      <Link>Assets\Photos\SpeedTripleAtristsPoint.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\Van.jpg">
+      <Link>Assets\Photos\Van.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\WestSeattleView.jpg">
+      <Link>Assets\Photos\WestSeattleView.jpg</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\pixel.png">
+      <Link>Assets\pixel.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Samples\RangeSelector.png">
+      <Link>Assets\Samples\RangeSelector.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\ToolkitLogo.png">
+      <Link>Assets\ToolkitLogo.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\ToolkitLogoTransparent.png">
+      <Link>Assets\ToolkitLogoTransparent.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\About.png">
+      <Link>Icons\About.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Animations.png">
+      <Link>Icons\Animations.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Brushes.png">
+      <Link>Icons\Brushes.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\DeveloperTools.png">
+      <Link>Icons\DeveloperTools.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Error.png">
+      <Link>Icons\Error.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Extensions.png">
+      <Link>Icons\Extensions.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Foundation.png">
+      <Link>Icons\Foundation.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Helpers.png">
+      <Link>Icons\Helpers.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Layouts.png">
+      <Link>Icons\Layouts.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\More.png">
+      <Link>Icons\More.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Notifications.png">
+      <Link>Icons\Notifications.png</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Icons\Services.png">
+      <Link>Icons\Services.png</Link>
+    </Content>
+    <Content Include="MiddleClickScrolling-CursorType.res" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
+      <Version>8.0.0-build.14.g5e989ec508</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.WinUI" Version="$(MicrosoftWinUIVersion)" />
+    <PackageReference Include="Monaco.Editor">
+      <Version>0.10.0-alpha</Version>
+    </PackageReference>
+    <PackageReference Include="NotificationsVisualizerLibrary">
+      <Version>2.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
+      <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
+      <Name>Microsoft.Toolkit.Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
+      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
+      <Name>Microsoft.Toolkit.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+      <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.vcxproj">
+      <Project>{a5e98964-45b1-442d-a07a-298a3221d81e}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
+      <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
+      <Name>Microsoft.Toolkit.Uwp.DeveloperTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+      <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
+      <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
+      <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
+      <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+      <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
+      <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
+      <Name>Microsoft.Toolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
+      <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+      <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+      <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
+      <Name>Microsoft.Toolkit.Uwp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <!--<SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Engagement Framework</Name>
+    </SDKReference>-->
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\mtns.csv">
+      <Link>Assets\mtns.csv</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\OnlinePhotos.json">
+      <Link>Assets\Photos\OnlinePhotos.json</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\Assets\Photos\Photos.json">
+      <Link>Assets\Photos\Photos.json</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\CodeRenderer.xaml">
+      <Link>Controls\CodeRenderer.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\PropertyControl.xaml">
+      <Link>Controls\PropertyControl.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Controls\XamlCodeEditor.xaml">
+      <Link>Controls\XamlCodeEditor.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Pages\About.xaml">
+      <Link>Pages\About.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Pages\SampleController.xaml">
+      <Link>Pages\SampleController.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Shell.xaml">
+      <Link>Shell.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Styles\Custom\PivotHeaderItemUnderlineStyle.xaml">
+      <Link>Styles\Custom\PivotHeaderItemUnderlineStyle.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Styles\Generic.xaml">
+      <Link>Styles\Generic.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Styles\GithubIcon.xaml">
+      <Link>Styles\GithubIcon.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\Styles\Themes.xaml">
+      <Link>Styles\Themes.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\landingPageLinks.json">
+      <Link>landingPageLinks.json</Link>
+    </Content>
+    <None Include="..\Microsoft.Toolkit.Uwp.SampleApp\readme.md">
+      <Link>readme.md</Link>
+    </None>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\samples.json">
+      <Link>SamplePages\samples.json</Link>
+    </Content>
+    <!-- SamplePages -->
+    <None Include="..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\*\*.md">
+      <Link>SamplePages\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\*\*.bind">
+      <Link>SamplePages\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+    <Content Include="..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\*\*.png">
+      <Link>SamplePages\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\**\*.cs">
+      <Link>SamplePages\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Page Include="..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\**\*.xaml">
+      <Link>SamplePages\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- SamplePages -->
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageDebug;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageRelease;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+  <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*.md" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+</Project>

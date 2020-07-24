@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Data;
 using Windows.ApplicationModel;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
@@ -25,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         {
             _items = new ObservableCollection<DataGridDataItem>();
 
-            foreach (var line in await File.ReadAllLinesAsync(Path.Combine(Package.Current.InstalledLocation.Path, @"Microsoft.Toolkit.Uwp.SampleApp/Assets/mtns.csv")))
+            void Add(string line)
             {
                 string[] values = line.Split(',');
 
@@ -43,6 +46,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                         Ascents = values[8]
                     });
             }
+
+#if WINDOWS_UWP
+            var uri = new Uri($"ms-appx:///Assets/mtns.csv");
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
+
+            using (StreamReader sr = new StreamReader(randomStream.AsStreamForRead()))
+            {
+                while (!sr.EndOfStream)
+                {
+                    Add(sr.ReadLine());
+                }
+            }
+#else
+            foreach (var line in await File.ReadAllLinesAsync(Path.Combine(Package.Current.InstalledLocation.Path, @"Microsoft.Toolkit.Uwp.SampleApp/Assets/mtns.csv")))
+            {
+                Add(line);
+            }
+#endif
 
             return _items;
         }

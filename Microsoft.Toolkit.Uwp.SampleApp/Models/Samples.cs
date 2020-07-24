@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -51,6 +52,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 .ToArray();
         }
 
+#if WINDOWS_UWP
+        public static async Task<Stream> LoadLocalFile(string fileName)
+        {
+            return (await StreamHelper.GetPackagedFileStreamAsync(fileName)).AsStreamForRead();
+        }
+#else
         private static string _installedLocationPath = null;
 
         public static async Task<MemoryStream> LoadLocalFile(string fileName)
@@ -74,6 +81,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             return stream;
         }
+#endif
 
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
         {

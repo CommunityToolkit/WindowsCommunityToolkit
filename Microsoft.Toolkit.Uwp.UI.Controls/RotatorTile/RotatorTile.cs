@@ -46,13 +46,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ExtraRandomDuration"/> property.
         /// </summary>
         public static readonly DependencyProperty ExtraRandomDurationProperty =
+#if WINDOWS_UWP
+            DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(Duration), typeof(RotatorTile), new PropertyMetadata(default(Duration)));
+#else
             DependencyProperty.Register(nameof(ExtraRandomDuration), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan)));
+#endif
 
         /// <summary>
         /// Identifies the <see cref="RotationDelay"/> property.
         /// </summary>
         public static readonly DependencyProperty RotationDelayProperty =
+#if WINDOWS_UWP
+            DependencyProperty.Register(nameof(RotationDelay), typeof(Duration), typeof(RotatorTile), new PropertyMetadata(default(Duration), OnRotationDelayInSecondsPropertyChanged));
+#else
             DependencyProperty.Register(nameof(RotationDelay), typeof(TimeSpan), typeof(RotatorTile), new PropertyMetadata(default(TimeSpan), OnRotationDelayInSecondsPropertyChanged));
+#endif
 
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> property.
@@ -408,7 +416,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Returns the duration for the tile based on RotationDelay.</returns>
         private TimeSpan GetTileDuration()
         {
+#if WINDOWS_UWP
+            return RotationDelay.TimeSpan + TimeSpan.FromSeconds(Randomizer.Next(0, (int)(ExtraRandomDuration.TimeSpan - TimeSpan.Zero).TotalSeconds));
+#else
             return RotationDelay + TimeSpan.FromSeconds(Randomizer.Next(0, (int)(ExtraRandomDuration - TimeSpan.Zero).TotalSeconds));
+#endif
         }
 
         /// <summary>
@@ -596,9 +608,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the duration for tile rotation.
         /// </summary>
+#if WINDOWS_UWP
+        public Duration RotationDelay
+#else
         public TimeSpan RotationDelay
+#endif
         {
+#if WINDOWS_UWP
+            get { return (Duration)GetValue(RotationDelayProperty); }
+#else
             get { return (TimeSpan)GetValue(RotationDelayProperty); }
+#endif
             set { SetValue(RotationDelayProperty, value); }
         }
 
@@ -624,9 +644,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the extra randomized duration to be added to the <see cref="RotationDelay"/> property.
         /// A value between zero and this value *in seconds* will be added to the <see cref="RotationDelay"/>.
         /// </summary>
+#if WINDOWS_UWP
+        public Duration ExtraRandomDuration
+#else
         public TimeSpan ExtraRandomDuration
+#endif
         {
+#if WINDOWS_UWP
+            get { return (Duration)GetValue(ExtraRandomDurationProperty); }
+#else
             get { return (TimeSpan)GetValue(ExtraRandomDurationProperty); }
+#endif
             set { SetValue(ExtraRandomDurationProperty, value); }
         }
     }

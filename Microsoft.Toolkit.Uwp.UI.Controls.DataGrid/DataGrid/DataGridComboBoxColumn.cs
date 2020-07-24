@@ -18,8 +18,13 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
 using FontWeights = Microsoft.UI.Text.FontWeights;
+#if WINDOWS_UWP
+using INotifyPropertyChanged = Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+using PropertyChangedEventArgs = Microsoft.UI.Xaml.Data.PropertyChangedEventArgs;
+#else
 using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

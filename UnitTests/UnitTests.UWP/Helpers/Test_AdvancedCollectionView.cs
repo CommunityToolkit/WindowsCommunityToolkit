@@ -7,7 +7,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+#if WINDOWS_UWP
+using INotifyPropertyChanged = Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+using PropertyChangedEventArgs = Microsoft.UI.Xaml.Data.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = Microsoft.UI.Xaml.Data.PropertyChangedEventHandler;
+#else
+using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
+#endif
 using System.Runtime.CompilerServices;
 
 namespace UnitTests.Helpers

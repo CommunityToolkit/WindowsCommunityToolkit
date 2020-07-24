@@ -5,7 +5,11 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using System.ComponentModel;
+#if WINDOWS_UWP
+using PropertyChangedEventArgs = Microsoft.UI.Xaml.Data.PropertyChangedEventArgs;
+#else
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
+#endif
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.UI.Xaml;

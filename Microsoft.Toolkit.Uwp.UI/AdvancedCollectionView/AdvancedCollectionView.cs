@@ -6,8 +6,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -15,10 +13,18 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using INotifyPropertyChanged = global::System.ComponentModel.INotifyPropertyChanged;
-using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
+using INotifyCollectionChanged = System.Collections.Specialized.INotifyCollectionChanged;
+using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyCollectionChangedAction;
+using NotifyCollectionChangedEventArgs = System.Collections.Specialized.NotifyCollectionChangedEventArgs;
+#if WINDOWS_UWP
+using INotifyPropertyChanged = Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+using PropertyChangedEventArgs = Microsoft.UI.Xaml.Data.PropertyChangedEventArgs;
+using PropertyChangedEventHandler = Microsoft.UI.Xaml.Data.PropertyChangedEventHandler;
+#else
+using INotifyPropertyChanged = System.ComponentModel.INotifyPropertyChanged;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
-using PropertyChangedEventHandler = global::System.ComponentModel.PropertyChangedEventHandler;
+using PropertyChangedEventHandler = System.ComponentModel.PropertyChangedEventHandler;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.UI
 {

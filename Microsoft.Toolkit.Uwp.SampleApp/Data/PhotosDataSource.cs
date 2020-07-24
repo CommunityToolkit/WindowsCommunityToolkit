@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Data;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
@@ -74,7 +77,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         private static async Task<IEnumerable<PhotoDataItem>> GetPhotosAsync(bool online)
         {
             var prefix = online ? "Online" : string.Empty;
+#if WINDOWS_UWP
+            var uri = new Uri($"ms-appx:///Assets/Photos/{prefix}Photos.json");
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
+
+            using (StreamReader r = new StreamReader(randomStream.AsStreamForRead()))
+            {
+                return Parse(await r.ReadToEndAsync());
+            }
+#else
             return Parse(await File.ReadAllTextAsync(Path.Combine(Package.Current.InstalledLocation.Path, $"Microsoft.Toolkit.Uwp.SampleApp/Assets/Photos/{prefix}Photos.json")));
+#endif
         }
 
         private static IEnumerable<PhotoDataItem> Parse(string jsonData)

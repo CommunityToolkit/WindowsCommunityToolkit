@@ -4,7 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+#if WINDOWS_UWP
+using Microsoft.UI.Xaml.Data;
+#else
 using System.ComponentModel;
+#endif
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -158,8 +162,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                     {
                         From = 0,
                         To = 1,
+#if WINDOWS_UWP
+                        Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(300)),
+                        Delay = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(counter++ * delay)),
+#else
                         Duration = TimeSpan.FromMilliseconds(300),
                         Delay = TimeSpan.FromMilliseconds(counter++ * delay),
+#endif
                         SetInitialValueBeforeDelay = true
                     });
                 }

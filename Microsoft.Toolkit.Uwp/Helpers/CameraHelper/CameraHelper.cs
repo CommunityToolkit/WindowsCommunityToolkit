@@ -293,7 +293,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             // "Started" state. The latter can occur if a FrameArrived event was in flight
             // when the reader was stopped.
             var frame = sender.TryAcquireLatestFrame();
-            if (frame != null)
+            if (frame?.VideoMediaFrame != null)
             {
                 var vmf = frame.VideoMediaFrame;
                 EventHandler<FrameEventArgs> handler = FrameArrived;

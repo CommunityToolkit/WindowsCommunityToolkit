@@ -3,7 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+#if WINDOWS_UWP
+using Microsoft.UI.Xaml.Data;
+#else
 using System.ComponentModel;
+#endif
 using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Helpers

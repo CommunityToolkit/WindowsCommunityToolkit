@@ -111,7 +111,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (round)
             {
+#if WINDOWS_UWP
+                newImage.CornerRadius = CornerRadiusHelper.FromUniformRadius(999);
+#else
                 newImage.CornerRadius = new CornerRadius(999);
+#endif
             }
 
             newImage.Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail;

@@ -174,13 +174,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         Background = new SolidColorBrush(Windows.UI.Color.FromArgb(50, 0, 0, 0))
                     };
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
+#if WINDOWS_UWP
+                    headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLengthHelper.Auto });
+#else
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+#endif
 
                     var languageBlock = new TextBlock
                     {
                         Text = language,
                         VerticalAlignment = VerticalAlignment.Center,
+#if WINDOWS_UWP
+                        Margin = ThicknessHelper.FromLengths(10, 0, 0, 0)
+#else
                         Margin = new Thickness(10, 0, 0, 0)
+#endif
                     };
                     headerGrid.Children.Add(languageBlock);
 
@@ -332,22 +340,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 // Gets the current Quote Block UI from the UI Collection, and then styles it. Adds a header.
                 if (collection.Last() is Border border)
                 {
+#if WINDOWS_UWP
+                    border.CornerRadius = CornerRadiusHelper.FromUniformRadius(6);
+                    border.BorderThickness = ThicknessHelper.FromUniformLength(0);
+                    border.Padding = ThicknessHelper.FromUniformLength(20);
+                    border.Margin = ThicknessHelper.FromLengths(0, 5, 0, 5);
+#else
                     border.CornerRadius = new CornerRadius(6);
                     border.BorderThickness = new Thickness(0);
                     border.Padding = new Thickness(20);
                     border.Margin = new Thickness(0, 5, 0, 5);
+#endif
                     border.Background = localbackground;
 
                     if (theme == ElementTheme.Light)
                     {
+#if WINDOWS_UWP
+                        border.BorderThickness = ThicknessHelper.FromUniformLength(0.5);
+#else
                         border.BorderThickness = new Thickness(0.5);
+#endif
                         border.BorderBrush = localforeground;
                     }
 
                     var headerPanel = new StackPanel
                     {
                         Orientation = Orientation.Horizontal,
+#if WINDOWS_UWP
+                        Margin = ThicknessHelper.FromLengths(0, 0, 0, 10)
+#else
                         Margin = new Thickness(0, 0, 0, 10)
+#endif
                     };
 
                     headerPanel.Children.Add(new TextBlock
@@ -362,7 +385,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     {
                         FontSize = 16,
                         Foreground = localforeground,
+#if WINDOWS_UWP
+                        Margin = ThicknessHelper.FromLengths(5, 0, 0, 0),
+#else
                         Margin = new Thickness(5, 0, 0, 0),
+#endif
                         Text = header,
                         VerticalAlignment = VerticalAlignment.Center,
                         TextLineBounds = TextLineBounds.Tight,

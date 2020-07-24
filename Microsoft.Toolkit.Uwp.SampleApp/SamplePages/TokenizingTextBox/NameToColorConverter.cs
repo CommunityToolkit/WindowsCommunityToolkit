@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.UI;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
+using Colors = Microsoft.UI.Colors;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

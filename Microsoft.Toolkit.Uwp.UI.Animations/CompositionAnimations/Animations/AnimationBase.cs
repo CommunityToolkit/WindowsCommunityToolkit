@@ -26,7 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Duration"/> property
         /// </summary>
         public static readonly DependencyProperty DurationProperty =
+#if WINDOWS_UWP
+            DependencyProperty.Register(nameof(Duration), typeof(Duration), typeof(AnimationBase), new PropertyMetadata(DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(400)), OnAnimationPropertyChanged));
+#else
             DependencyProperty.Register(nameof(Duration), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.FromMilliseconds(400), OnAnimationPropertyChanged));
+#endif
 
         /// <summary>
         /// Identifies the <see cref="KeyFrames"/> property
@@ -44,7 +48,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Delay"/> property
         /// </summary>
         public static readonly DependencyProperty DelayProperty =
+#if WINDOWS_UWP
+            DependencyProperty.Register(nameof(Delay), typeof(Duration), typeof(AnimationBase), new PropertyMetadata(DurationHelper.FromTimeSpan(TimeSpan.Zero), OnAnimationPropertyChanged));
+#else
             DependencyProperty.Register(nameof(Delay), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.Zero, OnAnimationPropertyChanged));
+#endif
 
         /// <summary>
         /// Identifies the <see cref="SetInitialValueBeforeDelay"/> property
@@ -71,9 +79,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the duration of the animation
         /// </summary>
+#if WINDOWS_UWP
+        public Duration Duration
+#else
         public TimeSpan Duration
+#endif
         {
+#if WINDOWS_UWP
+            get { return (Duration)GetValue(DurationProperty); }
+#else
             get { return (TimeSpan)GetValue(DurationProperty); }
+#endif
             set { SetValue(DurationProperty, value); }
         }
 
@@ -107,9 +123,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the delay of the animation
         /// </summary>
+#if WINDOWS_UWP
+        public Duration Delay
+#else
         public TimeSpan Delay
+#endif
         {
+#if WINDOWS_UWP
+            get { return (Duration)GetValue(DelayProperty); }
+#else
             get { return (TimeSpan)GetValue(DelayProperty); }
+#endif
             set { SetValue(DelayProperty, value); }
         }
 

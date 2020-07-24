@@ -150,12 +150,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             foreach (var item in PrintSampleItems)
             {
                 var grid = new Grid();
+#if WINDOWS_UWP
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLengthHelper.Auto });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLengthHelper.FromValueAndType(1, GridUnitType.Star) });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLengthHelper.Auto });
+#else
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+#endif
 
                 // Static header
-                var header = new TextBlock { Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+                var header = new TextBlock
+                {
+                    Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print",
+#if WINDOWS_UWP
+                    Margin = ThicknessHelper.FromLengths(0, 0, 0, 20)
+#else
+                    Margin = new Thickness(0, 0, 0, 20)
+#endif
+                };
                 Grid.SetRow(header, 0);
                 grid.Children.Add(header);
 
@@ -168,7 +182,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 // Footer with page number
                 pageNumber++;
-                var footer = new TextBlock { Text = string.Format("page {0}", pageNumber), Margin = new Thickness(0, 20, 0, 0) };
+                var footer = new TextBlock
+                {
+                    Text = string.Format("page {0}", pageNumber),
+#if WINDOWS_UWP
+                    Margin = ThicknessHelper.FromLengths(0, 20, 0, 0)
+#else
+                    Margin = new Thickness(0, 20, 0, 0)
+#endif
+
+                };
                 Grid.SetRow(footer, 2);
                 grid.Children.Add(footer);
 
