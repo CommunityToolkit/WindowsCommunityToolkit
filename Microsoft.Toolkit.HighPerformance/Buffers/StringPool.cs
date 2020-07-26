@@ -420,9 +420,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public unsafe void Add(string value, int hashcode)
             {
-                ref string? target = ref TryGet(value.AsSpan(), hashcode);
+                ref string target = ref TryGet(value.AsSpan(), hashcode);
 
-                if (Unsafe.AreSame(ref target!, ref Unsafe.AsRef<string>(null)))
+                if (Unsafe.AreSame(ref target, ref Unsafe.AsRef<string>(null)))
                 {
                     Insert(value, hashcode);
                 }
@@ -439,9 +439,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="value"/>.</returns>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public string GetOrAdd(string value, int hashcode)
+            public unsafe string GetOrAdd(string value, int hashcode)
             {
-                if (TryGet(value.AsSpan(), hashcode, out string? result))
+                ref string result = ref TryGet(value.AsSpan(), hashcode);
+
+                if (!Unsafe.AreSame(ref result, ref Unsafe.AsRef<string>(null)))
                 {
                     return result;
                 }
@@ -458,11 +460,13 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public string GetOrAdd(ReadOnlySpan<char> span, int hashcode)
+            public unsafe string GetOrAdd(ReadOnlySpan<char> span, int hashcode)
             {
-                if (TryGet(span, hashcode, out string? result))
+                ref string result = ref TryGet(span, hashcode);
+
+                if (!Unsafe.AreSame(ref result, ref Unsafe.AsRef<string>(null)))
                 {
-                    return result!;
+                    return result;
                 }
 
                 string value = span.ToString();
@@ -482,9 +486,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public unsafe bool TryGet(ReadOnlySpan<char> span, int hashcode, [NotNullWhen(true)] out string? value)
             {
-                ref string? result = ref TryGet(span, hashcode);
+                ref string result = ref TryGet(span, hashcode);
 
-                if (!Unsafe.AreSame(ref result!, ref Unsafe.AsRef<string>(null)))
+                if (!Unsafe.AreSame(ref result, ref Unsafe.AsRef<string>(null)))
                 {
                     value = result;
 
@@ -517,7 +521,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <returns>A reference to the slot where the target <see cref="string"/> instance could be.</returns>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe ref string? TryGet(ReadOnlySpan<char> span, int hashcode)
+            private unsafe ref string TryGet(ReadOnlySpan<char> span, int hashcode)
             {
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 ref MapEntry entry = ref Unsafe.AsRef<MapEntry>(null);
@@ -536,11 +540,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     {
                         UpdateTimestamp(ref entry.HeapIndex);
 
-                        return ref entry.Value;
+                        return ref entry.Value!;
                     }
                 }
 
-                return ref Unsafe.AsRef<string?>(null);
+                return ref Unsafe.AsRef<string>(null);
             }
 
             /// <summary>
