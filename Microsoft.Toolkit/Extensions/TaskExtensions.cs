@@ -44,11 +44,21 @@ namespace Microsoft.Toolkit.Extensions
                 Type taskType = task.GetType();
 
                 // Check if the task is actually some Task<T>
-                if (taskType.IsGenericType &&
+                if (
+#if NETSTANDARD1_4
+                    taskType.GetTypeInfo().IsGenericType &&
+#else
+                    taskType.IsGenericType &&
+#endif
                     taskType.GetGenericTypeDefinition() == typeof(Task<>))
                 {
                     // Get the Task<T>.Result property
-                    PropertyInfo propertyInfo = taskType.GetProperty(nameof(Task<object>.Result));
+                    PropertyInfo propertyInfo =
+#if NETSTANDARD1_4
+                        taskType.GetRuntimeProperty(nameof(Task<object>.Result));
+#else
+                        taskType.GetProperty(nameof(Task<object>.Result));
+#endif
 
                     // Finally retrieve the result
                     return propertyInfo!.GetValue(task);
