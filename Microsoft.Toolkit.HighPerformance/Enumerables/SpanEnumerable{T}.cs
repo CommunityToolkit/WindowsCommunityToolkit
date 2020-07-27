@@ -95,23 +95,10 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [EditorBrowsable(EditorBrowsableState.Never)]
         public readonly ref struct Item
         {
-#if NETCORE_RUNTIME
-            /// <summary>
-            /// The <see cref="ByReference{T}"/> instance with the current item reference.
-            /// </summary>
-            private readonly ByReference<T> byReference;
-#else
             /// <summary>
             /// The source <see cref="Span{T}"/> instance.
             /// </summary>
             private readonly Span<T> span;
-#endif
-#if NETCORE_RUNTIME || !SPAN_RUNTIME_SUPPORT
-            /// <summary>
-            /// The current index within <see cref="span"/>.
-            /// </summary>
-            private readonly int index;
-#endif
 
 #if SPAN_RUNTIME_SUPPORT
             /// <summary>
@@ -120,23 +107,23 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <param name="value">A reference to the target value.</param>
             /// <param name="index">The index of the target value.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal Item(ref T value, int index)
+            public Item(ref T value, int index)
             {
-#if NETCORE_RUNTIME
-                this.byReference = new ByReference<T>(ref value);
-                this.index = index;
-#else
                 this.span = MemoryMarshal.CreateSpan(ref value, index);
-#endif
             }
 #else
+            /// <summary>
+            /// The current index within <see cref="span"/>.
+            /// </summary>
+            private readonly int index;
+
             /// <summary>
             /// Initializes a new instance of the <see cref="Item"/> struct.
             /// </summary>
             /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
             /// <param name="index">The current index within <paramref name="span"/>.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal Item(Span<T> span, int index)
+            public Item(Span<T> span, int index)
             {
                 this.span = span;
                 this.index = index;
@@ -151,9 +138,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETCORE_RUNTIME
-                    return ref this.byReference.Value;
-#elif SPAN_RUNTIME_SUPPORT
+#if SPAN_RUNTIME_SUPPORT
                     return ref MemoryMarshal.GetReference(this.span);
 #else
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
@@ -172,10 +157,10 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETCORE_RUNTIME || !SPAN_RUNTIME_SUPPORT
-                    return this.index;
-#else
+#if SPAN_RUNTIME_SUPPORT
                     return this.span.Length;
+#else
+                    return this.index;
 #endif
                 }
             }
