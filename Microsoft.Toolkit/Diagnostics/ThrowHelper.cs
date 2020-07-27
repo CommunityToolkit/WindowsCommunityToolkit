@@ -6,7 +6,9 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+#if !NETSTANDARD1_4
 using System.Runtime.InteropServices;
+#endif
 using System.Threading;
 
 #nullable enable
@@ -172,6 +174,7 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new ArgumentOutOfRangeException(name, value, message);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Throws a new <see cref="ExternalException"/>.
         /// </summary>
@@ -206,6 +209,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             throw new ExternalException(message, error);
         }
+#endif
 
         /// <summary>
         /// Throws a new <see cref="FormatException"/>.
@@ -230,6 +234,7 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new FormatException(message, innerException);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Throws a new <see cref="InsufficientMemoryException"/>.
         /// </summary>
@@ -252,6 +257,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             throw new InsufficientMemoryException(message, innerException);
         }
+#endif
 
         /// <summary>
         /// Throws a new <see cref="InvalidDataException"/>.
@@ -345,6 +351,7 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new MissingFieldException(message, innerException);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Throws a new <see cref="MissingFieldException"/>.
         /// </summary>
@@ -356,6 +363,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             throw new MissingFieldException(className, fieldName);
         }
+#endif
 
         /// <summary>
         /// Throws a new <see cref="MissingMemberException"/>.
@@ -380,6 +388,7 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new MissingMemberException(message, innerException);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Throws a new <see cref="MissingMemberException"/>.
         /// </summary>
@@ -391,6 +400,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             throw new MissingMemberException(className, memberName);
         }
+#endif
 
         /// <summary>
         /// Throws a new <see cref="MissingMethodException"/>.
@@ -415,6 +425,7 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new MissingMethodException(message, innerException);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Throws a new <see cref="MissingMethodException"/>.
         /// </summary>
@@ -426,6 +437,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             throw new MissingMethodException(className, methodName);
         }
+#endif
 
         /// <summary>
         /// Throws a new <see cref="NotSupportedException"/>.
