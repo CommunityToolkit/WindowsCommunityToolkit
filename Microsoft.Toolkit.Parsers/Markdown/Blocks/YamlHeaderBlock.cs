@@ -78,7 +78,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 else if (end - pos >= 3 && markdown.Substring(pos, 3) == "---")
                 {
                     lockedFinalUnderline = true;
-                    realEndIndex = pos + 3;
                     break;
                 }
                 else if (startOfNextLine == pos + 1)
@@ -134,6 +133,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 return null;
             }
 
+            realEndIndex = pos + 3;
             return result;
         }
 
