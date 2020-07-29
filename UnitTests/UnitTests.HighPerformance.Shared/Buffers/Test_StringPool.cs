@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Microsoft.Toolkit.HighPerformance.Buffers;
@@ -234,6 +235,67 @@ namespace UnitTests.HighPerformance.Buffers
                 windowsCommunityToolkit3 = pool.GetOrAdd(windowsCommunityToolkit);
 
             Assert.AreSame(windowsCommunityToolkit2, windowsCommunityToolkit3);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_GetOrAdd_Overflow()
+        {
+            var pool = new StringPool(32);
+
+            // Fill the pool
+            for (int i = 0; i < 4096; i++)
+            {
+                _ = pool.GetOrAdd(i.ToString());
+            }
+
+            // Force an overflow
+            string text = "Hello world";
+
+            for (uint i = 0; i < uint.MaxValue; i++)
+            {
+                _ = pool.GetOrAdd(text);
+            }
+
+            // Get the buckets
+            Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
+
+            Type
+                bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance"),
+                heapEntryType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, Microsoft.Toolkit.HighPerformance");
+
+            foreach (var map in maps)
+            {
+                // Get the heap for each bucket
+                Array heapEntries = (Array)bucketType.GetField("heapEntries", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(map);
+                FieldInfo fieldInfo = heapEntryType.GetField("Timestamp");
+
+                // Extract the array with the timestamps in the heap nodes
+                uint[] array = heapEntries.Cast<object>().Select(entry => (uint)fieldInfo.GetValue(entry)).ToArray();
+
+                static bool IsMinHeap(uint[] array)
+                {
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        int
+                            left = (i * 2) + 1,
+                            right = (i * 2) + 2;
+
+                        if ((left < array.Length &&
+                             array[left] <= array[i]) ||
+                            (right < array.Length &&
+                             array[right] <= array[i]))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+
+                // Verify that the current heap is indeed valid after the overflow
+                Assert.IsTrue(IsMinHeap(array));
+            }
         }
     }
 }
