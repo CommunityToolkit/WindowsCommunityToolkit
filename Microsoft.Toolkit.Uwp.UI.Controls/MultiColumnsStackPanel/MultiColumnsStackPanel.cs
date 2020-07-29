@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We split the items across all the columns
             var (columnLastIndex, columnHeight) = Partition(columnsCount, finalSize.Height);
 
-            var rect = new Rect(Padding.Left, 0, columnsWidth, 0);
+            var rect = new Rect(Padding.Left, Padding.Top, columnsWidth, 0);
             var currentColumnIndex = 0;
             for (var childIndex = 0; childIndex < Children.Count; childIndex++)
             {
@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     currentColumnIndex++;
 
                     rect.X += columnsWidth + HorizontalSpacing;
-                    rect.Y = 0;
+                    rect.Y = Padding.Top;
                 }
                 else
                 {
@@ -217,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     height: columnHeight);
         }
 
-        private double GetHeight(int index) => Children[index].DesiredSize.Height;
+        private double GetChildrenHeight(int index) => Children[index].DesiredSize.Height;
 
         /// <summary>
         /// Partition our <see cref="Panel.Children"/> list into columns.
@@ -231,6 +231,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </returns>
         private (int[] columnLastIndexes, double columnHeight) Partition(int columnsCount, double availableColumnHeight)
         {
+            availableColumnHeight = availableColumnHeight - Padding.Top - Padding.Bottom;
+
             var columnLastIndexes = new int[columnsCount];
 
             var totalHeight = Children.Sum(child => child.DesiredSize.Height) + (Math.Max(Children.Count - 1, 0) * VerticalSpacing);
@@ -249,7 +251,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We ensure that we have enough space to place the first item.
             if (Children.Count > 0)
             {
-                expectedColumnHeight = Math.Max(expectedColumnHeight, GetHeight(0));
+                expectedColumnHeight = Math.Max(expectedColumnHeight, GetChildrenHeight(0));
             }
 
             var columnIndex = 0;
@@ -296,12 +298,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int childStartIndex,
             double expectedColumnHeight)
         {
-            var currentColumnHeight = 0.0;
+            var currentColumnHeight = Padding.Top + Padding.Bottom;
             var partitionSucceeded = true;
 
             for (var i = childStartIndex; i < Children.Count; i++)
             {
-                var currentChildHeight = GetHeight(i);
+                var currentChildHeight = GetChildrenHeight(i);
                 var columnHeightAfterAdd = currentColumnHeight + currentChildHeight;
 
                 if (columnHeightAfterAdd > expectedColumnHeight)
@@ -317,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (columnIndex < columnLastIndexes.Length)
                     {
                         columnLastIndexes[columnIndex] = i;
-                        currentColumnHeight = currentChildHeight + VerticalSpacing;
+                        currentColumnHeight = Padding.Top + Padding.Bottom + currentChildHeight + VerticalSpacing;
                     }
                     else
                     {
@@ -356,7 +358,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return (columnsCount, columnsWidth);
         }
 
-        private double GetColumnHeight(int columnLastIndex) => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * VerticalSpacing);
+        private double GetColumnHeight(int columnLastIndex) => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * VerticalSpacing) + Padding.Top + Padding.Bottom;
 
     }
 }
