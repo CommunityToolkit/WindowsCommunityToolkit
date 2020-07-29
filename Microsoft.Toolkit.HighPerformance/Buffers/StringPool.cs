@@ -677,16 +677,38 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
                 ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+                uint timestamp = this.timestamp;
+
+                // Check if incrementing the current timestamp for the heap node to update
+                // would result in an overflow. If that happened, we could end up violating
+                // the min-heap property (the value of each node has to always be <= than that
+                // of its child nodes), eg. if we were updating a node that was not the root.
+                // In that scenario, we could end up with a node somewhere along the heap with
+                // a value lower than that of its parent node (as the timestamp would be 0).
+                // To guard against this, we just check the current timestamp value, and if
+                // the maximum value has been reached, we reinitialize the entire heap. This
+                // is done in a non-inlined call, so we don't increase the codegen size in this
+                // method. The reinitialization simply traverses the heap in breadth-first order
+                // (ie. level by level), and assigns incrementing timestamp to all nodes starting
+                // from 0. The value of the current timestamp is then just set to the current size.
+                if (timestamp == uint.MaxValue)
+                {
+                    // We use a goto here as this path is very rarely taken. Doing so
+                    // causes the generated asm to contain a forward jump to the fallback
+                    // path if this branch is taken, whereas the normal execution path will
+                    // not need to execute any jumps at all. This is done to reduce the overhead
+                    // introduced by this check in all the invocations where this point is not reached.
+                    goto Fallback;
+                }
+
+                Downheap:
 
                 // Assign a new timestamp to the target heap node. We use a
                 // local incremental timestamp instead of using the system timer
                 // as this greatly reduces the overhead and the time spent in system calls.
                 // The uint type provides a large enough range and it's unlikely users would ever
                 // exhaust it anyway (especially considering each map has a separate counter).
-                // Furthermore, even if this happened, the only consequence would be some newly
-                // used string instances potentially being discarded too early, but the map
-                // itself would still continue to work fine (the heap would remain balanced).
-                root.Timestamp = ++this.timestamp;
+                root.Timestamp = this.timestamp = timestamp + 1;
 
                 // Once the timestamp is updated (which will cause the heap to become
                 // unbalanced), start a sift down loop to balance the heap again.
@@ -749,6 +771,36 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     root = minimum;
                     minimum = temp;
+                }
+
+                Fallback:
+
+                UpdateAllTimestamps();
+
+                // After having updated all the timestamps, if the heap contains N items, the
+                // node in the bottom right corner will have a value of N - 1. Since the timestamp
+                // is incremented by 1 before starting the downheap execution, here we simply
+                // update the local timestamp to be N - 1, so that the code above will set the
+                // timestamp of the node currently being updated to exactly N.
+                timestamp = (uint)(count - 1);
+
+                goto Downheap;
+            }
+
+            /// <summary>
+            /// Updates the timestamp of all the current heap nodes in incrementing order.
+            /// The heap is always guaranteed to be complete binary tree, so when it contains
+            /// a given number of nodes, those are all contiguous from the start of the array.
+            /// </summary>
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private unsafe void UpdateAllTimestamps()
+            {
+                int count = this.count;
+                ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
+
+                for (int i = 0; i < count; i++)
+                {
+                    Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)i).Timestamp = (uint)i;
                 }
             }
         }
