@@ -52,12 +52,20 @@ namespace UnitTests.HighPerformance.Buffers
         [DataRow(0)]
         [DataRow(-3248234)]
         [DataRow(int.MinValue)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Test_StringPool_Cctor_Fail(int size)
         {
-            var pool = new StringPool(size);
+            try
+            {
+                var pool = new StringPool(size);
 
-            Assert.Fail();
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                var cctor = typeof(StringPool).GetConstructor(new[] { typeof(int) });
+
+                Assert.AreEqual(cctor.GetParameters()[0].Name, e.ParamName);
+            }
         }
 
         [TestCategory("StringPool")]
