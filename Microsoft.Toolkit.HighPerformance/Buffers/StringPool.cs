@@ -714,8 +714,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 // unbalanced), start a sift down loop to balance the heap again.
                 while (true)
                 {
-                    root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
-
                     // The heap is 0-based (so that the array length can remain the same
                     // as the power of 2 value used for the other arrays in this type).
                     // This means that children of each node are at positions:
@@ -771,6 +769,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
                     root = minimum;
                     minimum = temp;
+
+                    // Update the reference to the root node
+                    root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
                 }
 
                 Fallback:
