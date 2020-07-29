@@ -249,20 +249,28 @@ namespace UnitTests.HighPerformance.Buffers
                 _ = pool.GetOrAdd(i.ToString());
             }
 
-            // Force an overflow
-            string text = "Hello world";
-
-            for (uint i = 0; i < uint.MaxValue; i++)
-            {
-                _ = pool.GetOrAdd(text);
-            }
-
             // Get the buckets
             Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
 
-            Type
-                bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance"),
-                heapEntryType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, Microsoft.Toolkit.HighPerformance");
+            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance");
+            FieldInfo timestampInfo = bucketType.GetField("timestamp", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            // Force the timestamp to be the maximum value, or the test would take too long
+            for (int i = 0; i < maps.LongLength; i++)
+            {
+                object map = maps.GetValue(i);
+
+                timestampInfo.SetValue(map, uint.MaxValue);
+
+                maps.SetValue(map, i);
+            }
+
+            // Force an overflow
+            string text = "Hello world";
+
+            _ = pool.GetOrAdd(text);
+
+            Type heapEntryType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, Microsoft.Toolkit.HighPerformance");
 
             foreach (var map in maps)
             {
