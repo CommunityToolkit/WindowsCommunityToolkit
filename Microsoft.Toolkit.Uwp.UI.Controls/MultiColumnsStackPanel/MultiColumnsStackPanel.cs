@@ -51,6 +51,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MultiColumnsStackPanel),
             new PropertyMetadata(HorizontalAlignment.Stretch, OnLayoutPropertyChanged));
 
+
+        /// <summary>
+        /// The DP to store the Padding value.
+        /// </summary>
+        public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
+            nameof(Padding),
+            typeof(Thickness),
+            typeof(MultiColumnsStackPanel),
+            new PropertyMetadata(new Thickness(0), OnLayoutPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the padding inside the control.
+        /// </summary>
+        public Thickness Padding
+        {
+            get => (Thickness)GetValue(PaddingProperty);
+            set => SetValue(PaddingProperty, value);
+        }
+
         /// <summary>
         /// Gets or sets the maximum width for the columns.
         /// If the value is 0, it will display a single column (like a vertical <see cref="StackPanel"/>).
@@ -121,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We split the items across all the columns
             var (columnLastIndex, columnHeight) = Partition(columnsCount, finalSize.Height);
 
-            var rect = new Rect(0, 0, columnsWidth, 0);
+            var rect = new Rect(Padding.Left, 0, columnsWidth, 0);
             var currentColumnIndex = 0;
             for (var childIndex = 0; childIndex < Children.Count; childIndex++)
             {
@@ -190,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // cases, we are receiving a value lower than what we're expecting. For example, when we return a desired width of 707 px, we receive 706,8571 in arrange and we're dropping
             // one column. Forcing even numbers is an easy way to limit the issue.
             // See: https://github.com/microsoft/microsoft-ui-xaml/issues/1441
-            var requiredColumnWidth = Math.Ceiling((columnsCount * columnsWidth) + (Math.Max(0, columnsCount - 1) * HorizontalSpacing));
+            var requiredColumnWidth = Math.Ceiling((columnsCount * columnsWidth) + (Math.Max(0, columnsCount - 1) * HorizontalSpacing) + Padding.Left + Padding.Right);
             var evenColumnWidth = requiredColumnWidth % 2 == 0 ? requiredColumnWidth : (requiredColumnWidth + 1);
 
             return new Size(
@@ -325,11 +344,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private (int columnsCount, double columnsWidth) GetAvailableColumnsInformation(Size availableSize)
         {
-            var columnsWidth = MaxColumnWidth > 0 ? Math.Min(MaxColumnWidth, availableSize.Width) : availableSize.Width;
+            var availableWidth = Math.Max(availableSize.Width - Padding.Left - Padding.Right, 0);
+            var columnsWidth = MaxColumnWidth > 0 ? Math.Min(MaxColumnWidth, availableWidth) : availableWidth;
             var columnsCount = 1;
-            if (columnsWidth < availableSize.Width)
+            if (columnsWidth < availableWidth)
             {
-                var additionalColumns = (int)((availableSize.Width - columnsWidth) / (columnsWidth + HorizontalSpacing));
+                var additionalColumns = (int)((availableWidth - columnsWidth) / (columnsWidth + HorizontalSpacing));
                 columnsCount += additionalColumns;
             }
 

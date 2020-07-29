@@ -16,7 +16,8 @@
                                              HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Stretch]"
                                              HorizontalSpacing="@[HorizontalSpacing:Slider:12:0-120]"
                                              VerticalSpacing="@[VerticalSpacing:Slider:8:0-64]"
-                                             MaxColumnWidth="@[MaxColumnWidth:Slider:240:0-500]">
+                                             MaxColumnWidth="@[MaxColumnWidth:Slider:240:0-500]"
+                                             Padding="@[Padding:Thickness:0,0,0,0]@">
                 <TextBox Header="Field 1" />
                 <TextBox Header="Field 2" />
                 <TextBox Height="200"
