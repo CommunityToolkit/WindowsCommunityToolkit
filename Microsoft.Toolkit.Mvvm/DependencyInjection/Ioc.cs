@@ -30,9 +30,9 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     /// Then the services configuration should then be done at startup, by calling one of
     /// the available <see cref="ConfigureServices(IServiceCollection)"/> overloads, like so:
     /// <code>
-    /// Ioc.Default.ConfigureServices(collection =>
+    /// Ioc.Default.ConfigureServices(services =>
     /// {
-    ///     collection.AddSingleton&lt;ILogger, Logger&gt;();
+    ///     services.AddSingleton&lt;ILogger, Logger&gt;();
     /// });
     /// </code>
     /// Finally, you can use the <see cref="Ioc"/> instance (which implements <see cref="IServiceProvider"/>)
@@ -103,20 +103,20 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <summary>
         /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
-        /// <param name="collection">The input <see cref="IServiceCollection"/> instance to use.</param>
-        public void ConfigureServices(IServiceCollection collection)
+        /// <param name="services">The input <see cref="IServiceCollection"/> instance to use.</param>
+        public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureServices(collection, new ServiceProviderOptions());
+            ConfigureServices(services, new ServiceProviderOptions());
         }
 
         /// <summary>
         /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
-        /// <param name="collection">The input <see cref="IServiceCollection"/> instance to use.</param>
+        /// <param name="services">The input <see cref="IServiceCollection"/> instance to use.</param>
         /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
-        public void ConfigureServices(IServiceCollection collection, ServiceProviderOptions options)
+        public void ConfigureServices(IServiceCollection services, ServiceProviderOptions options)
         {
-            ServiceProvider newServices = collection.BuildServiceProvider(options);
+            ServiceProvider newServices = services.BuildServiceProvider(options);
 
             ServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, newServices, null);
 
