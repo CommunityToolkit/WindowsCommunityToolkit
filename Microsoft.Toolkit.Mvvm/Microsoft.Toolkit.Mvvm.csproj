@@ -8,7 +8,7 @@
     <Description>
       This package includes Mvvm .NET Standard code only helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
-      - ViewModelBase: a base class for view-models with built-in minimal dependency injection support.
+      - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
       - RelayCommand: a simple delegate command implementing the ICommand interface.
       - Messenger: a messaging system to exchange messages through different loosely-coupled objects.
       - Ioc: a helper class to configure dependency injection service containers.
