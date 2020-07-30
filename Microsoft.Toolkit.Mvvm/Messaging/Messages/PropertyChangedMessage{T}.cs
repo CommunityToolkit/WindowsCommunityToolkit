@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-
 #pragma warning disable SA1512
 
 // This file is inspired from the MvvmLight libray (lbugnion/mvvmlight),
@@ -24,7 +22,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <param name="propertyName">The name of the property that changed.</param>
         /// <param name="oldValue">The value that the property had before the change.</param>
         /// <param name="newValue">The value that the property has after the change.</param>
-        public PropertyChangedMessage(ObservableObject sender, string? propertyName, T oldValue, T newValue)
+        public PropertyChangedMessage(object sender, string? propertyName, T oldValue, T newValue)
         {
             Sender = sender;
             PropertyName = propertyName;
@@ -35,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Gets the original sender of the broadcast message.
         /// </summary>
-        public ObservableObject Sender { get; }
+        public object Sender { get; }
 
         /// <summary>
         /// Gets the name of the property that changed.
