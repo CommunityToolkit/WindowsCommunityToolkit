@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.ComponentModel;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.UI;
 using Microsoft.UI.Text;
@@ -73,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the font size.
         /// </summary>
         // Use DefaultValue here so undo in the Designer will set this to NaN
-        [DefaultValue(double.NaN)]
+        [global::System.ComponentModel.DefaultValue(double.NaN)]
         public double FontSize
         {
             get

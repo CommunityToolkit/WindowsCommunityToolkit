@@ -4,7 +4,11 @@
 
 using System;
 using System.Diagnostics;
+#if WINDOWS_UWP
+using Microsoft.UI.Xaml.Input;
+#else
 using System.Windows.Input;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
@@ -28,7 +32,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
+#if WINDOWS_UWP
+        public event EventHandler<object> CanExecuteChanged;
+#else
         public event EventHandler CanExecuteChanged;
+#endif
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.

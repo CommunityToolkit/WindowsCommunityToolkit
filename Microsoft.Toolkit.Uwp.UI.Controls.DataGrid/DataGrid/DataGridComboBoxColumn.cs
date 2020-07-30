@@ -6,12 +6,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.Toolkit.Uwp.Utilities;
-using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -125,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the font size.
         /// </summary>
         // Use DefaultValue here so undo in the Designer will set this to NaN
-        [DefaultValue(double.NaN)]
+        [global::System.ComponentModel.DefaultValue(double.NaN)]
         public double FontSize
         {
             get

@@ -3,7 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+#if WINDOWS_UWP
+using Microsoft.UI.Xaml.Input;
+#else
 using System.Windows.Input;
+#endif
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 

@@ -7,7 +7,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.Specialized;
+#if WINDOWS_UWP
+using Microsoft.UI.Xaml.Data;
+#else
 using System.ComponentModel;
+#endif
 using System.Linq;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.Helpers;
