@@ -689,7 +689,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 // the maximum value has been reached, we reinitialize the entire heap. This
                 // is done in a non-inlined call, so we don't increase the codegen size in this
                 // method. The reinitialization simply traverses the heap in breadth-first order
-                // (ie. level by level), and assigns incrementing timestamp to all nodes starting
+                // (ie. level by level), and assigns incrementing timestamps to all nodes starting
                 // from 0. The value of the current timestamp is then just set to the current size.
                 if (timestamp == uint.MaxValue)
                 {
