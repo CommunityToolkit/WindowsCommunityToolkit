@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object? ResultOrDefault(this Task task)
+        public static object? GetResultOrDefault(this Task task)
         {
             // Check if the instance is a completed Task
             if (
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T ResultOrDefault<T>(this Task<T> task)
+        public static T GetResultOrDefault<T>(this Task<T> task)
         {
 #if NETSTANDARD2_1
             return task.IsCompletedSuccessfully ? task.Result : default;

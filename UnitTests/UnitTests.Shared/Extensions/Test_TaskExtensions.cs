@@ -18,23 +18,23 @@ namespace UnitTests.Extensions
         {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
-            Assert.AreEqual(null, ((Task)tcs.Task).ResultOrDefault());
+            Assert.AreEqual(null, ((Task)tcs.Task).GetResultOrDefault());
 
             tcs.SetCanceled();
 
-            Assert.AreEqual(null, ((Task)tcs.Task).ResultOrDefault());
+            Assert.AreEqual(null, ((Task)tcs.Task).GetResultOrDefault());
 
             tcs = new TaskCompletionSource<int>();
 
             tcs.SetException(new InvalidOperationException("Test"));
 
-            Assert.AreEqual(null, ((Task)tcs.Task).ResultOrDefault());
+            Assert.AreEqual(null, ((Task)tcs.Task).GetResultOrDefault());
 
             tcs = new TaskCompletionSource<int>();
 
             tcs.SetResult(42);
 
-            Assert.AreEqual(42, ((Task)tcs.Task).ResultOrDefault());
+            Assert.AreEqual(42, ((Task)tcs.Task).GetResultOrDefault());
         }
 
         [TestCategory("TaskExtensions")]
@@ -43,23 +43,23 @@ namespace UnitTests.Extensions
         {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
-            Assert.AreEqual(0, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(0, tcs.Task.GetResultOrDefault());
 
             tcs.SetCanceled();
 
-            Assert.AreEqual(0, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(0, tcs.Task.GetResultOrDefault());
 
             tcs = new TaskCompletionSource<int>();
 
             tcs.SetException(new InvalidOperationException("Test"));
 
-            Assert.AreEqual(0, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(0, tcs.Task.GetResultOrDefault());
 
             tcs = new TaskCompletionSource<int>();
 
             tcs.SetResult(42);
 
-            Assert.AreEqual(42, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(42, tcs.Task.GetResultOrDefault());
         }
 
         [TestCategory("TaskExtensions")]
@@ -68,23 +68,23 @@ namespace UnitTests.Extensions
         {
             TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
 
-            Assert.AreEqual(null, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(null, tcs.Task.GetResultOrDefault());
 
             tcs.SetCanceled();
 
-            Assert.AreEqual(null, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(null, tcs.Task.GetResultOrDefault());
 
             tcs = new TaskCompletionSource<string>();
 
             tcs.SetException(new InvalidOperationException("Test"));
 
-            Assert.AreEqual(null, tcs.Task.ResultOrDefault());
+            Assert.AreEqual(null, tcs.Task.GetResultOrDefault());
 
             tcs = new TaskCompletionSource<string>();
 
             tcs.SetResult("Hello world");
 
-            Assert.AreEqual("Hello world", tcs.Task.ResultOrDefault());
+            Assert.AreEqual("Hello world", tcs.Task.GetResultOrDefault());
         }
     }
 }

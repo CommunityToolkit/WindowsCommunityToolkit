@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         {
             if (value is Task task)
             {
-                return task.ResultOrDefault();
+                return task.GetResultOrDefault();
             }
 
             return null;
