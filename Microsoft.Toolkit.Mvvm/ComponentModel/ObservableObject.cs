@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <remarks>The base implementation only raises the <see cref="PropertyChanged"/> event.</remarks>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <remarks>The base implementation only raises the <see cref="PropertyChanging"/> event.</remarks>
-        protected virtual void OnPropertyChanging([CallerMemberName] string propertyName = null!)
+        protected virtual void OnPropertyChanging([CallerMemberName] string? propertyName = null)
         {
             PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(ref field, newValue, EqualityComparer<T>.Default, propertyName);
         }
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
             if (comparer.Equals(field, newValue))
             {
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, propertyName);
         }
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="callback">A callback to invoke to update the property value.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
             if (comparer.Equals(oldValue, newValue))
             {
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// be used to access properties of a model that is directly stored as a property of the current instance.
         /// Additionally, this method can only be used if the wrapped item is a reference type.
         /// </remarks>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, propertyName);
         }
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
             PropertyInfo? parentPropertyInfo;
             FieldInfo? parentFieldInfo = null;
@@ -292,7 +292,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// indicates that the new value being assigned to <paramref name="field"/> is different than the previous one,
         /// and it does not mean the new <typeparamref name="TTask"/> instance passed as argument is in any particular state.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string propertyName = null!)
+        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
             // We invoke the overload with a callback here to avoid code duplication, and simply pass an empty callback.
@@ -324,7 +324,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string propertyName = null!)
+        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
             if (ReferenceEquals(field, newValue))

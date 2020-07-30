@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <param name="propertyName">The name of the property that changed.</param>
         /// <param name="oldValue">The value that the property had before the change.</param>
         /// <param name="newValue">The value that the property has after the change.</param>
-        public PropertyChangedMessage(ObservableObject sender, string propertyName, T oldValue, T newValue)
+        public PropertyChangedMessage(ObservableObject sender, string? propertyName, T oldValue, T newValue)
         {
             Sender = sender;
             PropertyName = propertyName;
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// <summary>
         /// Gets the name of the property that changed.
         /// </summary>
-        public string PropertyName { get; }
+        public string? PropertyName { get; }
 
         /// <summary>
         /// Gets the value that the property had before the change.

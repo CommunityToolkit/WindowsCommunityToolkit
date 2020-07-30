@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// You should override this method if you wish to customize the channel being
         /// used to send the message (eg. if you need to use a specific token for the channel).
         /// </remarks>
-        protected virtual void Broadcast<T>(T oldValue, T newValue, string propertyName)
+        protected virtual void Broadcast<T>(T oldValue, T newValue, string? propertyName)
         {
             var message = new PropertyChangedMessage<T>(this, propertyName, oldValue, newValue);
 
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(ref field, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
         }
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             if (!broadcast)
             {
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, broadcast, propertyName);
         }
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string propertyName = null!)
+        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             if (!broadcast)
             {
