@@ -6,9 +6,20 @@
     <Version>4.0.0.0</Version>
     <RootNamespace>System</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- We sign the assembly using the same key in use from the actual
+         System.Private.CoreLib. This is not strictly necessary due to
+         the loosened assembly binding system (compared to .NET Framework),
+         but we include this step for completeness. This is the same reason
+         why the Build.props and .targets file are overwritten in this project,
+         so that we can specify the assembly version and key manually. -->
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>SilverlightPlatformPublicKey.snk</AssemblyOriginatorKeyFile>
     <PublicSign>true</PublicSign>
+
+    <!-- We don't want a NuGet package being generated from this project.
+         The fake System.Private.CoreLib assembly is only referenced
+         internally by the Microsoft.Toolkit.HighPerformance package. -->
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

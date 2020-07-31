@@ -75,6 +75,13 @@
     </When>
     <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
       <ItemGroup>
+
+        <!-- This is the fake System.Private.CoreLib assembly we need to be able to reference and use the
+             internal ByReference<T> type available on .NET Core 2.1+. The Private="false" property prevents
+             the resulting assembly from being copied to the output directory: this is what causes the runtime
+             to just use the real System.Private.CoreLib during execution (this project acts more like a proxy).
+             The PrivateAssets="all" property is used to hide this reference from NuGet, so that users adding a
+             reference to Microsoft.Toolkit.HighPerformance won't see the System.Private.CoreLib dependency. -->
         <ProjectReference Include="..\System.Private.CoreLib\System.Private.CoreLib.csproj" Private="false" PrivateAssets="all" />
       </ItemGroup>
       <PropertyGroup>
