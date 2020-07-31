@@ -1,4 +1,5 @@
-## Fixes #<!-- Link to relevant issue (for ex: #1234) which will automatically close the issue once the PR is merged. -->
+## Fixes #
+<!-- Add the relevant issue number after the "#" mentioned above (for ex: Fixes #1234) which will automatically close the issue once the PR is merged. -->
 
 <!-- Add a brief overview here of the feature/bug & fix. -->
 

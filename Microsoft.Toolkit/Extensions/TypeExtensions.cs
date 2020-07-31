@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+#if NETSTANDARD1_4
+using System.Reflection;
+#endif
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -62,7 +65,12 @@ namespace Microsoft.Toolkit.Extensions
                 }
 
                 // Generic types
-                if (type.IsGenericType &&
+                if (
+#if NETSTANDARD1_4
+                    type.GetTypeInfo().IsGenericType &&
+#else
+                    type.IsGenericType &&
+#endif
                     type.FullName is { } fullName &&
                     fullName.Split('`') is { } tokens &&
                     tokens.Length > 0 &&
@@ -113,5 +121,28 @@ namespace Microsoft.Toolkit.Extensions
             // be removed once this issue is resolved: https://github.com/dotnet/roslyn/issues/5835.
             return DisplayNames.GetValue(type, t => FormatDisplayString(t));
         }
+
+#if NETSTANDARD1_4
+        /// <summary>
+        /// Returns an array of types representing the generic arguments.
+        /// </summary>
+        /// <param name="type">The input type.</param>
+        /// <returns>An array of types representing the generic arguments.</returns>
+        private static Type[] GetGenericArguments(this Type type)
+        {
+            return type.GetTypeInfo().GenericTypeParameters;
+        }
+
+        /// <summary>
+        /// Returns whether <paramref name="type"/> is an instance of <paramref name="value"/>.
+        /// </summary>
+        /// <param name="type">The input type.</param>
+        /// <param name="value">The type to check against.</param>
+        /// <returns><see langword="true"/> if <paramref name="type"/> is an instance of <paramref name="value"/>, <see langword="false"/> otherwise.</returns>
+        internal static bool IsInstanceOfType(this Type type, object value)
+        {
+            return type.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo());
+        }
+#endif
     }
 }
