@@ -1,39 +1,55 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <ResourceDictionary.ThemeDictionaries>
-        <!-- Default is a fallback if a more precise theme isn't called
-            out below -->
+        <!--
+            Default is a fallback if a more precise theme isn't called
+            out below
+        -->
         <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush" Color="#0E639C" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="#0E639C" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="White" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationGridBackgroundBrush" Color="#007ACC" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationBackgroundBrush" Color="#333333" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationForegroundBrush" Color="White" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationPointerOverChromeBrush" Color="#1177BB" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush"
+                             Color="#0E639C" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush"
+                             Color="#0E639C" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush"
+                             Color="White" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationGridBackgroundBrush"
+                             Color="#007ACC" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationBackgroundBrush"
+                             Color="#333333" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationForegroundBrush"
+                             Color="White" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationPointerOverChromeBrush"
+                             Color="#1177BB" />
         </ResourceDictionary>
 
-        <!-- HighContrast is used in all high contrast themes -->
+        <!--  HighContrast is used in all high contrast themes  -->
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationGridBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationForegroundBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush"
+                             Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush"
+                             Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush"
+                             Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationGridBackgroundBrush"
+                             Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationBackgroundBrush"
+                             Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationForegroundBrush"
+                             Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationPointerOverChromeBrush"
+                             Color="{ThemeResource SystemColorHighlightColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Style x:Key="VisualStudioCodeNotificationButtonStyle" TargetType="ButtonBase">
+    <Style x:Key="VisualStudioCodeNotificationButtonStyle"
+           TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource SystemControlVSNotificationButtonBackgroundBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlVSNotificationButtonTextBrush}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Padding" Value="10 0" />
+        <Setter Property="Padding" Value="10,0" />
         <Setter Property="Height" Value="35" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlVSNotificationButtonBorderBrush}" />
@@ -41,37 +57,46 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
-                    <Grid x:Name="RootGrid" 
-                          Padding="{TemplateBinding Padding}" 
-                          Margin="{TemplateBinding Margin}" 
+                    <Grid x:Name="RootGrid"
+                          Margin="{TemplateBinding Margin}"
+                          Padding="{TemplateBinding Padding}"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter x:Name="ContentHolder" Content="{TemplateBinding Content}"
+                        <ContentPresenter x:Name="ContentHolder"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                                          Foreground="{TemplateBinding Foreground}"/>
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Content}"
+                                          Foreground="{TemplateBinding Foreground}" />
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlVSNotificationPointerOverChromeBrush}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemControlVSNotificationPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemColorHighlightTextColor}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlVSNotificationPointerOverChromeBrush}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemControlVSNotificationPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemColorHighlightTextColor}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -84,7 +109,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="VSCodeNotificationStyle" TargetType="local:InAppNotification">
+    <Style x:Key="VSCodeNotificationStyle"
+           TargetType="local:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlVSNotificationBackgroundBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlVSNotificationForegroundBrush}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -94,28 +120,69 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinHeight" Value="35" />
         <Setter Property="RenderTransformOrigin" Value="0.5,0" />
-        <Setter Property="Margin" Value="20 0" />
+        <Setter Property="Margin" Value="20,0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalOffset" Value="-100" />
         <Setter Property="Template" Value="{StaticResource VSCodeNotificationTemplate}" />
     </Style>
 
-    <ControlTemplate x:Key="VSCodeNotificationTemplate" TargetType="local:InAppNotification">
+    <ControlTemplate x:Key="VSCodeNotificationTemplate"
+                     TargetType="local:InAppNotification">
         <Grid>
+            <Grid x:Name="RootGrid"
+                  MaxWidth="{TemplateBinding MaxWidth}"
+                  Margin="{TemplateBinding Margin}"
+                  Padding="{TemplateBinding Padding}"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                  Visibility="{TemplateBinding Visibility}">
+                <Grid.RenderTransform>
+                    <CompositeTransform />
+                </Grid.RenderTransform>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Height="20"
+                      Margin="10 5"
+                      Background="{ThemeResource SystemControlVSNotificationGridBackgroundBrush}">
+                    <TextBlock Padding="5 0"
+                               VerticalAlignment="Center"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Text="info" />
+                </Grid>
+
+                <ContentPresenter x:Name="PART_Presenter"
+                                  Grid.Column="1"
+                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Center"
+                                  TextWrapping="NoWrap" />
+            </Grid>
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="State">
                     <VisualState x:Name="Collapsed">
                         <Storyboard>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0"
+                                                      Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                      Value="0" />
                             </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-100" />
+                                <EasingDoubleKeyFrame KeyTime="0"
+                                                      Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                      Value="-100" />
                             </DoubleAnimationUsingKeyFrames>
 
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
@@ -136,56 +203,25 @@
 
                     <VisualState x:Name="Visible">
                         <Storyboard>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0"
+                                                      Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                      Value="0" />
                             </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="-100" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0"
+                                                      Value="-100" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                      Value="0" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-
-            <Grid x:Name="RootGrid"
-                  RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
-                  Margin="{TemplateBinding Margin}"
-                  Padding="{TemplateBinding Padding}"
-                  MaxWidth="{TemplateBinding MaxWidth}"
-                  Visibility="{TemplateBinding Visibility}"
-                  Background="{TemplateBinding Background}" 
-                  BorderBrush="{TemplateBinding BorderBrush}" 
-                  BorderThickness="{TemplateBinding BorderThickness}">
-                <Grid.RenderTransform>
-                    <CompositeTransform />
-                </Grid.RenderTransform>
-                
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Grid Margin="10 5" Height="20" Background="{ThemeResource SystemControlVSNotificationGridBackgroundBrush}">
-                    <TextBlock Text="info"
-                               Padding="5 0"
-                               FontWeight="Bold"
-                               VerticalAlignment="Center"
-                               Foreground="White" />
-                </Grid>
-
-                <ContentPresenter Grid.Column="1" 
-                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                  HorizontalContentAlignment="Stretch"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  VerticalContentAlignment="Center"
-                                  TextWrapping="NoWrap" 
-                                  />
-            </Grid>
         </Grid>
     </ControlTemplate>
 
