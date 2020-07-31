@@ -73,9 +73,9 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_StringPool_Add_Empty()
         {
-            StringPool.Default.Add(string.Empty);
+            StringPool.Shared.Add(string.Empty);
 
-            bool found = StringPool.Default.TryGet(ReadOnlySpan<char>.Empty, out string? text);
+            bool found = StringPool.Shared.TryGet(ReadOnlySpan<char>.Empty, out string? text);
 
             Assert.IsTrue(found);
             Assert.AreSame(string.Empty, text);
@@ -130,7 +130,7 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_StringPool_GetOrAdd_String_Empty()
         {
-            string empty = StringPool.Default.GetOrAdd(string.Empty);
+            string empty = StringPool.Shared.GetOrAdd(string.Empty);
 
             Assert.AreSame(string.Empty, empty);
         }
@@ -166,7 +166,7 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_StringPool_GetOrAdd_ReadOnlySpan_Empty()
         {
-            string empty = StringPool.Default.GetOrAdd(ReadOnlySpan<char>.Empty);
+            string empty = StringPool.Shared.GetOrAdd(ReadOnlySpan<char>.Empty);
 
             Assert.AreSame(string.Empty, empty);
         }
@@ -205,7 +205,7 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_StringPool_GetOrAdd_Encoding_Empty()
         {
-            string empty = StringPool.Default.GetOrAdd(ReadOnlySpan<byte>.Empty, Encoding.ASCII);
+            string empty = StringPool.Shared.GetOrAdd(ReadOnlySpan<byte>.Empty, Encoding.ASCII);
 
             Assert.AreSame(string.Empty, empty);
         }

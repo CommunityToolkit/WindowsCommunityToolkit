@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     public sealed class StringPool
     {
         /// <summary>
-        /// The size for the <see cref="Default"/> instance.
+        /// The size used by default by the parameterless constructor.
         /// </summary>
         private const int DefaultSize = 2048;
 
@@ -155,9 +155,15 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
-        /// Gets the default <see cref="StringPool"/> instance.
+        /// Gets the shared <see cref="StringPool"/> instance.
         /// </summary>
-        public static StringPool Default { get; } = new StringPool();
+        /// <remarks>
+        /// The shared pool provides a singleton, reusable <see cref="StringPool"/> instance that
+        /// can be accessed directly, and that pools <see cref="string"/> instances for the entire
+        /// process. Since <see cref="StringPool"/> is thread-safe, the shared instance can be used
+        /// concurrently by multiple threads without the need for manual synchronization.
+        /// </remarks>
+        public static StringPool Shared { get; } = new StringPool();
 
         /// <summary>
         /// Gets the total number of <see cref="string"/> that can be stored in the current instance.
