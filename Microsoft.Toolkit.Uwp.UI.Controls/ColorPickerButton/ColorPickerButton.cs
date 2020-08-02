@@ -1274,7 +1274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (palette != null)
             {
-                this.CustomPaletteColumns = palette.ColorCount;
+                this.CustomPaletteColumnCount = palette.ColorCount;
                 this.CustomPaletteColors.Clear();
 
                 for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
@@ -1361,7 +1361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (palettePanel != null)
             {
-                palettePanel.Columns = this.CustomPaletteColumns;
+                palettePanel.Columns = this.CustomPaletteColumnCount;
             }
 
             return;
