@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
 
     <!-- The XAML compiler has a serious bug that doesn't allow using conditional XAML on Setters...
          The work-around is to create multiple styles as condition XAML still works at the style level.
@@ -24,7 +25,7 @@
                             VerticalAlignment="Stretch">
                         <Border.Resources>
                             <controls:ColorToColorShadeConverter x:Key="ColorToColorShade" />
-                            <controls:ColorToDisplayNameConverter x:Key="ColorToDisplayName" />
+                            <converters:ColorToDisplayNameConverter x:Key="ColorToDisplayName" />
                             <controls:ColorToHexConverter x:Key="ColorToHex" />
                             <controls:ContrastBrushConverter x:Key="ContrastBrush" />
                             <SolidColorBrush x:Key="CheckerboardColor0">
