@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Mvvm.Messaging
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// Extensions for the <see cref="IMessenger"/> type.

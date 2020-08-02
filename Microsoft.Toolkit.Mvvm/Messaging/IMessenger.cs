@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Microsoft.Toolkit.Mvvm.Messaging
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// An interface for a type providing the ability to exchange messages between different objects.

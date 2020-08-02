@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Collections.Extensions;
 
-namespace Microsoft.Toolkit.Mvvm.Messaging
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// A type that can be used to exchange messages between different objects.

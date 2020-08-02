@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// A <see langword="class"/> for request messages that can receive multiple replies, which can either be used directly or through derived classes.

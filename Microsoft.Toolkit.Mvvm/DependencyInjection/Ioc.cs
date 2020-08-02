@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Mvvm.DependencyInjection
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// A type that facilitates the use of the <see cref="IServiceProvider"/> type.

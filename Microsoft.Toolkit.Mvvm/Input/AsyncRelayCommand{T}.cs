@@ -5,9 +5,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace Microsoft.Toolkit.Mvvm.Input
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// A generic command that provides a more specific version of <see cref="AsyncRelayCommand"/>.

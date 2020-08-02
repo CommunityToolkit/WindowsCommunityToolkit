@@ -10,7 +10,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Mvvm.Input
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// A command whose sole purpose is to relay its functionality to other

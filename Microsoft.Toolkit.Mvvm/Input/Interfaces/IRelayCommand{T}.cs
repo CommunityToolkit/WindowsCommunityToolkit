@@ -4,7 +4,7 @@
 
 using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Mvvm.Input
+namespace Microsoft.Toolkit.Mvvm
 {
     /// <summary>
     /// A generic interface representing a more specific version of <see cref="IRelayCommand"/>.
