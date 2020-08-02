@@ -10,8 +10,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace Microsoft.Toolkit.Mvvm
 {
@@ -25,11 +23,11 @@ namespace Microsoft.Toolkit.Mvvm
         /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/> instance
+        /// This constructor will produce an instance that will use the <see cref="Mvvm.Messenger.Default"/> instance
         /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
         protected ObservableRecipient()
-            : this(Messaging.Messenger.Default)
+            : this(Mvvm.Messenger.Default)
         {
         }
 

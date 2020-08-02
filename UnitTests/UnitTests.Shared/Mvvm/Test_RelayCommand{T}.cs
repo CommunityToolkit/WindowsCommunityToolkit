@@ -4,7 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm
