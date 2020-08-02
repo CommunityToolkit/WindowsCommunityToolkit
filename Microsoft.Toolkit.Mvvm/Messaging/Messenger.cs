@@ -269,7 +269,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 {
                     // We don't need whether or not the map contains the recipient, as the
                     // sequence of maps has already been copied from the set containing all
-                    // the mappings for the target recipiets: it is guaranteed to be here.
+                    // the mappings for the target recipients: it is guaranteed to be here.
                     IDictionarySlim<TToken> holder = map[key];
 
                     // Try to remove the registered handler for the input token,

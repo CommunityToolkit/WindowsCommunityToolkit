@@ -182,9 +182,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                using (var streamReader = new StreamReader(codeStream.AsStream()))
                 {
-                    return await streamreader.ReadToEndAsync();
+                    return await streamReader.ReadToEndAsync();
                 }
             }
         }
@@ -193,9 +193,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                using (var streamReader = new StreamReader(codeStream.AsStream()))
                 {
-                    return await streamreader.ReadToEndAsync();
+                    return await streamReader.ReadToEndAsync();
                 }
             }
         }
@@ -300,13 +300,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             IRandomAccessStream imageStream = null;
-            var localpath = $"{uri.Host}/{uri.LocalPath}";
+            var localPath = $"{uri.Host}/{uri.LocalPath}";
 
             // Cache only in Release
 #if !DEBUG
             try
             {
-                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localPath, Windows.Storage.FileAccessMode.Read);
             }
             catch
             {
@@ -343,17 +343,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return imageStream;
         }
 
-        private async Task SaveImageToCache(string localpath, Stream imageStream)
+        private async Task SaveImageToCache(string localPath, Stream imageStream)
         {
             var folder = ApplicationData.Current.LocalCacheFolder;
-            localpath = Path.Combine(folder.Path, localpath);
+            localPath = Path.Combine(folder.Path, localPath);
 
             // Resort to creating using traditional methods to avoid iteration for folder creation.
-            Directory.CreateDirectory(Path.GetDirectoryName(localpath));
+            Directory.CreateDirectory(Path.GetDirectoryName(localPath));
 
-            using (var filestream = File.Create(localpath))
+            using (var fileStream = File.Create(localPath))
             {
-                await imageStream.CopyToAsync(filestream);
+                await imageStream.CopyToAsync(fileStream);
             }
         }
 

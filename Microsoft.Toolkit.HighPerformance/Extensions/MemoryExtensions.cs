@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Stream"/> wrapping the data within <paramref name="memory"/>.</returns>
         /// <remarks>
         /// Since this method only receives a <see cref="Memory{T}"/> instance, which does not track
-        /// the lifetime of its underlying buffer, it is responsability of the caller to manage that.
+        /// the lifetime of its underlying buffer, it is responsibility of the caller to manage that.
         /// In particular, the caller must ensure that the target buffer is not disposed as long
         /// as the returned <see cref="Stream"/> is in use, to avoid unexpected issues.
         /// </remarks>

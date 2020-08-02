@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
     /// A generic interface representing a more specific version of <see cref="IAsyncRelayCommand"/>.
     /// </summary>
     /// <typeparam name="T">The type used as argument for the interface methods.</typeparam>
-    /// <remarks>This interface is needed to solve the diamong problem with base classes.</remarks>
+    /// <remarks>This interface is needed to solve the diamond problem with base classes.</remarks>
     public interface IAsyncRelayCommand<in T> : IAsyncRelayCommand, IRelayCommand<T>
     {
         /// <summary>
