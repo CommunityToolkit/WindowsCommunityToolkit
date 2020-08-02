@@ -1479,6 +1479,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this.Color = Colors.White;
             }
 
+            // As an additional usability improvement, reset alpha to maximum when the spectrum is used.
+            // The color spectrum has no alpha channel and it is much more intuitive to do this for the user
+            // especially if the picker was initially set with Colors.Transparent.
+            if (this.Color.A == 0x00)
+            {
+                this.Color = Color.FromArgb(0xFF, this.Color.R, this.Color.G, this.Color.B);
+            }
+
             return;
         }
 
