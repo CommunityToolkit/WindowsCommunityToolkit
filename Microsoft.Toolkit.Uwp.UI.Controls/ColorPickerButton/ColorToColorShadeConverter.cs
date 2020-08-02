@@ -26,19 +26,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             int shade;
             byte tolerance = 0x05;
-            HsvColor hsvColor;
+            double valueDelta = 0.25;
             Color rgbColor;
 
             // Get the current color in HSV
             if (value is Color valueColor)
             {
                 rgbColor = valueColor;
-                hsvColor = rgbColor.ToHsv();
             }
             else if (value is SolidColorBrush valueBrush)
             {
                 rgbColor = valueBrush.Color;
-                hsvColor = rgbColor.ToHsv();
             }
             else
             {
@@ -90,67 +88,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
+                HsvColor hsvColor = rgbColor.ToHsv();
+
                 double colorHue        = hsvColor.H;
                 double colorSaturation = hsvColor.S;
                 double colorValue      = hsvColor.V;
                 double colorAlpha      = hsvColor.A;
 
-                // Use the HSV representation as it's more perceptual
-                switch (shade)
+                // Use the HSV representation as it's more perceptual.
+                // Only the value is changed by a fixed percentage so the algorithm is reproducible.
+                // This does not account for perceptual differences and also does not match with
+                // system accent color calculation.
+                if (shade != 0)
                 {
-                    case -3:
-                        {
-                            colorHue        *= 1.0;
-                            colorSaturation *= 1.10;
-                            colorValue      *= 0.40;
-                            break;
-                        }
-
-                    case -2:
-                        {
-                            colorHue        *= 1.0;
-                            colorSaturation *= 1.05;
-                            colorValue      *= 0.50;
-                            break;
-                        }
-
-                    case -1:
-                        {
-                            colorHue        *= 1.0;
-                            colorSaturation *= 1.0;
-                            colorValue      *= 0.75;
-                            break;
-                        }
-
-                    case 0:
-                        {
-                            // No change
-                            break;
-                        }
-
-                    case 1:
-                        {
-                            colorHue        *= 1.00;
-                            colorSaturation *= 1.00;
-                            colorValue      *= 1.05;
-                            break;
-                        }
-
-                    case 2:
-                        {
-                            colorHue        *= 1.00;
-                            colorSaturation *= 0.75;
-                            colorValue      *= 1.05;
-                            break;
-                        }
-
-                    case 3:
-                        {
-                            colorHue        *= 1.00;
-                            colorSaturation *= 0.65;
-                            colorValue      *= 1.05;
-                            break;
-                        }
+                    colorValue *= 1.0 + (shade * valueDelta);
                 }
 
                 return Uwp.Helpers.ColorHelper.FromHsv(
