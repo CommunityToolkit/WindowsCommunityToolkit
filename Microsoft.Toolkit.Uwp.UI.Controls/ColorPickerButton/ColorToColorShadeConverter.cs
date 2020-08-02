@@ -25,16 +25,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string language)
         {
             int shade;
+            byte tolerance = 0x05;
             HsvColor hsvColor;
+            Color rgbColor;
 
             // Get the current color in HSV
             if (value is Color valueColor)
             {
-                hsvColor = valueColor.ToHsv();
+                rgbColor = valueColor;
+                hsvColor = rgbColor.ToHsv();
             }
             else if (value is SolidColorBrush valueBrush)
             {
-                hsvColor = valueBrush.Color.ToHsv();
+                rgbColor = valueBrush.Color;
+                hsvColor = rgbColor.ToHsv();
             }
             else
             {
@@ -51,74 +55,110 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw new ArgumentException("Invalid parameter provided, unable to convert to double");
             }
 
-            double colorHue        = hsvColor.H;
-            double colorSaturation = hsvColor.S;
-            double colorValue      = hsvColor.V;
-            double colorAlpha      = hsvColor.A;
-
-            // Use the HSV representation as it's more perceptual
-            switch (shade)
+            // Specially handle minimum (black) and maximum (white)
+            if (rgbColor.R <= (0x00 + tolerance) &&
+                rgbColor.G <= (0x00 + tolerance) &&
+                rgbColor.B <= (0x00 + tolerance))
             {
-                case -3:
-                    {
-                        colorHue        *= 1.0;
-                        colorSaturation *= 1.10;
-                        colorValue      *= 0.40;
-                        break;
-                    }
+                switch (shade)
+                {
+                    case 1:
+                        return Color.FromArgb(rgbColor.A, 0x3F, 0x3F, 0x3F);
+                    case 2:
+                        return Color.FromArgb(rgbColor.A, 0x80, 0x80, 0x80);
+                    case 3:
+                        return Color.FromArgb(rgbColor.A, 0xBF, 0xBF, 0xBF);
+                }
 
-                case -2:
-                    {
-                        colorHue        *= 1.0;
-                        colorSaturation *= 1.05;
-                        colorValue      *= 0.50;
-                        break;
-                    }
-
-                case -1:
-                    {
-                        colorHue        *= 1.0;
-                        colorSaturation *= 1.0;
-                        colorValue      *= 0.75;
-                        break;
-                    }
-
-                case 0:
-                    {
-                        // No change
-                        break;
-                    }
-
-                case 1:
-                    {
-                        colorHue        *= 1.00;
-                        colorSaturation *= 1.00;
-                        colorValue      *= 1.05;
-                        break;
-                    }
-
-                case 2:
-                    {
-                        colorHue        *= 1.00;
-                        colorSaturation *= 0.75;
-                        colorValue      *= 1.05;
-                        break;
-                    }
-
-                case 3:
-                    {
-                        colorHue        *= 1.00;
-                        colorSaturation *= 0.65;
-                        colorValue      *= 1.05;
-                        break;
-                    }
+                return rgbColor;
             }
+            else if (rgbColor.R >= (0xFF + tolerance) &&
+                     rgbColor.G >= (0xFF + tolerance) &&
+                     rgbColor.B >= (0xFF + tolerance))
+            {
+                switch (shade)
+                {
+                    case -1:
+                        return Color.FromArgb(rgbColor.A, 0xBF, 0xBF, 0xBF);
+                    case -2:
+                        return Color.FromArgb(rgbColor.A, 0x80, 0x80, 0x80);
+                    case -3:
+                        return Color.FromArgb(rgbColor.A, 0x3F, 0x3F, 0x3F);
+                }
 
-            return Uwp.Helpers.ColorHelper.FromHsv(
-                Math.Clamp(colorHue,        0.0, 360.0),
-                Math.Clamp(colorSaturation, 0.0, 1.0),
-                Math.Clamp(colorValue,      0.0, 1.0),
-                Math.Clamp(colorAlpha,      0.0, 1.0));
+                return rgbColor;
+            }
+            else
+            {
+                double colorHue        = hsvColor.H;
+                double colorSaturation = hsvColor.S;
+                double colorValue      = hsvColor.V;
+                double colorAlpha      = hsvColor.A;
+
+                // Use the HSV representation as it's more perceptual
+                switch (shade)
+                {
+                    case -3:
+                        {
+                            colorHue        *= 1.0;
+                            colorSaturation *= 1.10;
+                            colorValue      *= 0.40;
+                            break;
+                        }
+
+                    case -2:
+                        {
+                            colorHue        *= 1.0;
+                            colorSaturation *= 1.05;
+                            colorValue      *= 0.50;
+                            break;
+                        }
+
+                    case -1:
+                        {
+                            colorHue        *= 1.0;
+                            colorSaturation *= 1.0;
+                            colorValue      *= 0.75;
+                            break;
+                        }
+
+                    case 0:
+                        {
+                            // No change
+                            break;
+                        }
+
+                    case 1:
+                        {
+                            colorHue        *= 1.00;
+                            colorSaturation *= 1.00;
+                            colorValue      *= 1.05;
+                            break;
+                        }
+
+                    case 2:
+                        {
+                            colorHue        *= 1.00;
+                            colorSaturation *= 0.75;
+                            colorValue      *= 1.05;
+                            break;
+                        }
+
+                    case 3:
+                        {
+                            colorHue        *= 1.00;
+                            colorSaturation *= 0.65;
+                            colorValue      *= 1.05;
+                            break;
+                        }
+                }
+
+                return Uwp.Helpers.ColorHelper.FromHsv(
+                    Math.Clamp(colorHue,        0.0, 360.0),
+                    Math.Clamp(colorSaturation, 0.0, 1.0),
+                    Math.Clamp(colorValue,      0.0, 1.0),
+                    Math.Clamp(colorAlpha,      0.0, 1.0));
+            }
         }
 
         /// <inheritdoc/>
