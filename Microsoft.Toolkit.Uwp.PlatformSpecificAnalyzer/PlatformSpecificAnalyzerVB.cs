@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         }
 
         /// <summary>
-        /// Initialises the analyzer, registering for code analysis.
+        /// Initializes the analyzer, registering for code analysis.
         /// </summary>
         /// <param name="context"><see cref="AnalysisContext"/></param>
         public override void Initialize(AnalysisContext context)
