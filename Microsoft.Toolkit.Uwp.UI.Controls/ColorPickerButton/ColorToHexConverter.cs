@@ -8,7 +8,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerButtonConverters
 {
     /// <summary>
     /// Converts a color to a hex string and vice versa.

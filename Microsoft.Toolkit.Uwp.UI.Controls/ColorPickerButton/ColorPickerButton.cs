@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerButtonConverters;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;

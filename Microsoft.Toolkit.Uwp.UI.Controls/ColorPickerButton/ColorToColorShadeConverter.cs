@@ -8,7 +8,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerButtonConverters
 {
     /// <summary>
     /// Creates an accent color shade from a color value.

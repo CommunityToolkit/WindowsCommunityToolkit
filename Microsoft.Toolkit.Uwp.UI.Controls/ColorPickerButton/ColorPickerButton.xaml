@@ -3,6 +3,7 @@
                     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerButtonConverters"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
 
     <!-- The XAML compiler has a serious bug that doesn't allow using conditional XAML on Setters...
@@ -24,10 +25,10 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch">
                         <Border.Resources>
-                            <controls:ColorToColorShadeConverter x:Key="ColorToColorShade" />
+                            <localconverters:ColorToColorShadeConverter x:Key="ColorToColorShade" />
                             <converters:ColorToDisplayNameConverter x:Key="ColorToDisplayName" />
-                            <controls:ColorToHexConverter x:Key="ColorToHex" />
-                            <controls:ContrastBrushConverter x:Key="ContrastBrush" />
+                            <localconverters:ColorToHexConverter x:Key="ColorToHex" />
+                            <localconverters:ContrastBrushConverter x:Key="ContrastBrush" />
                             <SolidColorBrush x:Key="CheckerboardColor0">
                                 <SolidColorBrush.Color>
                                     <Color>Transparent</Color>
