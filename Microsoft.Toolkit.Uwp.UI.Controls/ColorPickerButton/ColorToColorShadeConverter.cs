@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                throw new ArgumentException("Invalid color value provided, unable to convert to HsvColor");
+                throw new ArgumentException("Invalid color value provided");
             }
 
             // Get the value component delta
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             catch
             {
-                throw new ArgumentException("Invalid parameter provided, unable to convert to double");
+                throw new ArgumentException("Invalid parameter provided, unable to convert to integer");
             }
 
             // Specially handle minimum (black) and maximum (white)

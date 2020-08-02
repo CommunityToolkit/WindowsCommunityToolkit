@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                throw new ArgumentException("Invalid color value provided, unable to convert to HsvColor");
+                throw new ArgumentException("Invalid color value provided");
             }
 
             return ColorHelper.ToDisplayName(color);
