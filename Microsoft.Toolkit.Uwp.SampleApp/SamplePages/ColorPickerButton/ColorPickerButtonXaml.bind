@@ -20,103 +20,103 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <!-- Example 1 -->
-    <Border Grid.Column="0"
-            Grid.Row="0"
-            Background="{ThemeResource SystemChromeMediumColor}"
-            CornerRadius="4"
-            Height="100"
-            Width="300"
-            Padding="10">
-      <TextBlock TextAlignment="Center"
-                 VerticalAlignment="Center">
-        Box-shaped spectrum <LineBreak />
-        Alpha channel disabled
-      </TextBlock>
-    </Border>
-    <controls:ColorPickerButton x:Name="ColorPickerButton1"
-                                Grid.Column="0"
-                                Grid.Row="0"
-                                Color="Navy"
-                                ColorSpectrumShape="Box"
-                                IsAlphaEnabled="False"
-                                IsHexInputVisible="True"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                Margin="20" />
+    <StackPanel Grid.Column="0"
+                Grid.Row="0"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                   VerticalAlignment="Center">
+          Box-shaped spectrum <LineBreak />
+          Alpha channel disabled
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton1"
+                                  Color="Navy"
+                                  ColorSpectrumShape="Box"
+                                  IsAlphaEnabled="False"
+                                  IsHexInputVisible="True" />
+    </StackPanel>
     <!-- Example 2 -->
-    <Border Grid.Column="1"
-            Grid.Row="0"
-            Background="{ThemeResource SystemChromeMediumColor}"
-            CornerRadius="4"
-            Height="100"
-            Width="300"
-            Padding="10">
-      <TextBlock TextAlignment="Center"
-                 VerticalAlignment="Center">
-        Box-shaped spectrum <LineBreak />
-        Alpha channel enabled
-      </TextBlock>
-    </Border>
-    <controls:ColorPickerButton x:Name="ColorPickerButton2"
-                                Grid.Column="1"
-                                Grid.Row="0"
-                                Color="Green"
-                                ColorSpectrumShape="Box"
-                                IsAlphaEnabled="True"
-                                IsHexInputVisible="False"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                Margin="20" />
+    <StackPanel Grid.Column="1"
+                Grid.Row="0"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                  VerticalAlignment="Center">
+          Box-shaped spectrum <LineBreak />
+          Alpha channel enabled
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton2"
+                                  Color="Green"
+                                  ColorSpectrumShape="Box"
+                                  IsAlphaEnabled="True"
+                                  IsHexInputVisible="False" />
+    </StackPanel>
     <!-- Example 3 -->
-    <Border Grid.Column="0"
-            Grid.Row="1"
-            Background="{ThemeResource SystemChromeMediumColor}"
-            CornerRadius="4"
-            Height="100"
-            Width="300"
-            Padding="10">
-      <TextBlock TextAlignment="Center"
-                 VerticalAlignment="Center">
-        Ring-shaped spectrum <LineBreak />
-        Alpha channel enabled
-      </TextBlock>
-    </Border>
-    <controls:ColorPickerButton x:Name="ColorPickerButton3"
-                                Grid.Column="0"
-                                Grid.Row="1"
-                                Color="Transparent"
-                                ColorSpectrumShape="Ring"
-                                IsAlphaEnabled="True"
-                                IsHexInputVisible="True"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                Margin="20" />
+    <StackPanel Grid.Column="0"
+                Grid.Row="1"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                  VerticalAlignment="Center">
+          Ring-shaped spectrum <LineBreak />
+          Alpha channel enabled
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton3"
+                                  Color="Transparent"
+                                  ColorSpectrumShape="Ring"
+                                  IsAlphaEnabled="True"
+                                  IsHexInputVisible="True" />
+    </StackPanel>
     <!-- Example 4 -->
-    <Border Grid.Column="1"
-            Grid.Row="1"
-            Background="{ThemeResource SystemChromeMediumColor}"
-            CornerRadius="4"
-            Height="100"
-            Width="300"
-            Padding="10">
-      <TextBlock TextAlignment="Center"
-                 VerticalAlignment="Center">
-        Ring-shaped spectrum <LineBreak />
-        Alpha channel enabled <LineBreak />
-        Saturation+Value spectrum channels
-      </TextBlock>
-    </Border>
-    <controls:ColorPickerButton x:Name="ColorPickerButton4"
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Color="Maroon"
-                                ColorSpectrumShape="Ring"
-                                ColorSpectrumComponents="SaturationValue"
-                                IsAlphaEnabled="True"
-                                IsHexInputVisible="True"
-                                Width="200"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                Margin="20" />
+    <StackPanel Grid.Column="1"
+                Grid.Row="1"
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                  VerticalAlignment="Center">
+          Ring-shaped spectrum <LineBreak />
+          Alpha channel enabled <LineBreak />
+          Saturation+Value spectrum channels
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton4"
+                                  Color="Maroon"
+                                  ColorSpectrumShape="Ring"
+                                  ColorSpectrumComponents="SaturationValue"
+                                  IsAlphaEnabled="True"
+                                  IsHexInputVisible="True"
+                                  Width="200" />
+    </StackPanel>
   </Grid>
 </Page>
