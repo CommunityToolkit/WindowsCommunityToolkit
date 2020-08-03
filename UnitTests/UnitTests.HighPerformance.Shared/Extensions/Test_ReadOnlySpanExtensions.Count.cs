@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -265,7 +264,7 @@ namespace UnitTests.HighPerformance.Extensions
         /// An owner for a buffer of an unmanaged type, recycling <see cref="byte"/> arrays to save memory.
         /// </summary>
         /// <typeparam name="T">The type of items to store in the rented buffers.</typeparam>
-        private sealed class UnmanagedSpanOwner<T> : IDisposable
+        private sealed unsafe class UnmanagedSpanOwner<T> : IDisposable
             where T : unmanaged
         {
             /// <summary>
@@ -274,9 +273,9 @@ namespace UnitTests.HighPerformance.Extensions
             private readonly int length;
 
             /// <summary>
-            /// The underlying <see cref="byte"/> array.
+            /// The pointer to the underlying <see cref="byte"/> array.
             /// </summary>
-            private byte[]? array;
+            private IntPtr ptr;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="UnmanagedSpanOwner{T}"/> class.
@@ -284,29 +283,29 @@ namespace UnitTests.HighPerformance.Extensions
             /// <param name="size">The size of the buffer to rent.</param>
             public UnmanagedSpanOwner(int size)
             {
-                this.array = ArrayPool<byte>.Shared.Rent(size * Unsafe.SizeOf<T>());
+                this.ptr = Marshal.AllocHGlobal(size * Unsafe.SizeOf<T>());
                 this.length = size;
             }
 
             /// <inheritdoc/>
             public void Dispose()
             {
-                byte[]? array = this.array;
+                IntPtr ptr = this.ptr;
 
-                if (array is null)
+                if (ptr == IntPtr.Zero)
                 {
                     return;
                 }
 
-                this.array = null;
+                this.ptr = IntPtr.Zero;
 
-                ArrayPool<byte>.Shared.Return(array);
+                Marshal.FreeHGlobal(ptr);
             }
 
             /// <summary>
             /// Gets the <see cref="Memory{T}"/> for the current instance.
             /// </summary>
-            public Span<T> Span => this.array.AsSpan().Cast<byte, T>().Slice(0, this.length);
+            public Span<T> Span => new Span<T>((void*)this.ptr, this.length);
         }
     }
 }
