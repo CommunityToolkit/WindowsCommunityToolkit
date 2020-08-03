@@ -3,11 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+#nullable enable
 
 namespace UnitTests.HighPerformance.Extensions
 {
@@ -168,15 +172,15 @@ namespace UnitTests.HighPerformance.Extensions
         /// <typeparam name="T">The type to test.</typeparam>
         /// <param name="value">The target value to look for.</param>
         /// <param name="provider">The function to use to create random data.</param>
-        private static void TestForType<T>(T value, Func<int, T, T[]> provider)
+        private static void TestForType<T>(T value, Func<int, T, UnmanagedSpanOwner<T>> provider)
             where T : unmanaged, IEquatable<T>
         {
             foreach (var count in TestCounts)
             {
-                T[] data = provider(count, value);
+                using UnmanagedSpanOwner<T> data = provider(count, value);
 
-                int result = data.Count(value);
-                int expected = CountWithForeach(data, value);
+                int result = data.Span.Count(value);
+                int expected = CountWithForeach(data.Span, value);
 
                 Assert.AreEqual(result, expected, $"Failed {typeof(T)} test with count {count}: got {result} instead of {expected}");
             }
@@ -214,14 +218,14 @@ namespace UnitTests.HighPerformance.Extensions
         /// <param name="value">The value to look for.</param>
         /// <returns>An array of random <typeparamref name="T"/> elements.</returns>
         [Pure]
-        private static T[] CreateRandomData<T>(int count, T value)
+        private static UnmanagedSpanOwner<T> CreateRandomData<T>(int count, T value)
             where T : unmanaged
         {
             var random = new Random(count);
 
-            T[] data = new T[count];
+            UnmanagedSpanOwner<T> data = new UnmanagedSpanOwner<T>(count);
 
-            foreach (ref byte n in MemoryMarshal.AsBytes(data.AsSpan()))
+            foreach (ref byte n in MemoryMarshal.AsBytes(data.Span))
             {
                 n = (byte)random.Next(0, byte.MaxValue);
             }
@@ -229,9 +233,11 @@ namespace UnitTests.HighPerformance.Extensions
             // Fill at least 20% of the items with a matching value
             int minimum = count / 20;
 
+            Span<T> span = data.Span;
+
             for (int i = 0; i < minimum; i++)
             {
-                data[random.Next(0, count)] = value;
+                span[random.Next(0, count)] = value;
             }
 
             return data;
@@ -245,14 +251,62 @@ namespace UnitTests.HighPerformance.Extensions
         /// <param name="value">The value to use to populate the array.</param>
         /// <returns>An array of <typeparamref name="T"/> elements.</returns>
         [Pure]
-        private static T[] CreateFilledData<T>(int count, T value)
+        private static UnmanagedSpanOwner<T> CreateFilledData<T>(int count, T value)
             where T : unmanaged
         {
-            T[] data = new T[count];
+            UnmanagedSpanOwner<T> data = new UnmanagedSpanOwner<T>(count);
 
-            data.AsSpan().Fill(value);
+            data.Span.Fill(value);
 
             return data;
+        }
+
+        /// <summary>
+        /// An owner for a buffer of an unmanaged type, recycling <see cref="byte"/> arrays to save memory.
+        /// </summary>
+        /// <typeparam name="T">The type of items to store in the rented buffers.</typeparam>
+        private sealed class UnmanagedSpanOwner<T> : IDisposable
+            where T : unmanaged
+        {
+            /// <summary>
+            /// The size of the current instance
+            /// </summary>
+            private readonly int length;
+
+            /// <summary>
+            /// The underlying <see cref="byte"/> array.
+            /// </summary>
+            private byte[]? array;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="UnmanagedSpanOwner{T}"/> class.
+            /// </summary>
+            /// <param name="size">The size of the buffer to rent.</param>
+            public UnmanagedSpanOwner(int size)
+            {
+                this.array = ArrayPool<byte>.Shared.Rent(size * Unsafe.SizeOf<T>());
+                this.length = size;
+            }
+
+            /// <inheritdoc/>
+            public void Dispose()
+            {
+                byte[]? array = this.array;
+
+                if (array is null)
+                {
+                    return;
+                }
+
+                this.array = null;
+
+                ArrayPool<byte>.Shared.Return(array);
+            }
+
+            /// <summary>
+            /// Gets the <see cref="Memory{T}"/> for the current instance.
+            /// </summary>
+            public Span<T> Span => this.array.AsSpan().Cast<byte, T>().Slice(0, this.length);
         }
     }
 }
