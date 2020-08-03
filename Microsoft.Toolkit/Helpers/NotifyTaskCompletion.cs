@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Helpers
 {
     /// <summary>
-    /// Helper class to wrap around a Task to provide more information usable for UI databinding scenarios. As discussed in MSDN Magazine: https://msdn.microsoft.com/magazine/dn605875.
+    /// Helper class to wrap around a Task to provide more information usable for UI data binding scenarios. As discussed in MSDN Magazine: https://msdn.microsoft.com/magazine/dn605875.
     /// </summary>
     /// <typeparam name="TResult">Type of result returned by task.</typeparam>
     [Obsolete("This helper will be removed in a future release, use the ObservableObject base class from Microsoft.Toolkit.Mvvm and the SetAndNotifyOnCompletion method")]

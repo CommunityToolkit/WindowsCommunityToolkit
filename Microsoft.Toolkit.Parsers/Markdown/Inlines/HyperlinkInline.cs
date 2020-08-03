@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             // reddit (for example: '$' and '!').
 
             // Special characters as per https://en.wikipedia.org/wiki/Email_address#Local-part allowed
-            char[] allowedchars = new char[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
+            char[] allowedChars = { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
 
             int start = tripPos;
             while (start > minStart)
@@ -334,7 +334,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 if ((c < 'a' || c > 'z') &&
                     (c < 'A' || c > 'Z') &&
                     (c < '0' || c > '9') &&
-                    !allowedchars.Contains(c))
+                    !allowedChars.Contains(c))
                 {
                     break;
                 }

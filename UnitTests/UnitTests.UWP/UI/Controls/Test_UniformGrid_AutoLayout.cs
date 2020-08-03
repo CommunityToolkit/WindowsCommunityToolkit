@@ -21,7 +21,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_FixedElementSingle()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -49,9 +49,9 @@ namespace UnitTests.UI.Controls
                 (2, 1)
             };
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -82,7 +82,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_FixedElementZeroZeroSpecial()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
@@ -114,9 +114,9 @@ namespace UnitTests.UI.Controls
                 (2, 1)
             };
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -144,7 +144,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_FixedElementSquare()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -174,9 +174,9 @@ namespace UnitTests.UI.Controls
                 (2, 3)
             };
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -204,7 +204,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_VerticalElement_FixedPosition()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -220,9 +220,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -232,14 +232,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeroot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChildByName("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(1, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeroot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChildByName("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
@@ -251,7 +251,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_VerticalElement()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -267,9 +267,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -279,14 +279,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeroot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChildByName("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(1, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeroot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChildByName("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
@@ -298,7 +298,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_HorizontalElement()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -314,9 +314,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -326,14 +326,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeroot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChildByName("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(0, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeroot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChildByName("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
@@ -345,7 +345,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_LargeElement()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -369,9 +369,9 @@ namespace UnitTests.UI.Controls
                 (2, 2),
             };
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -393,7 +393,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_AutoLayout_HorizontalElement_FixedPosition()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -409,9 +409,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -421,14 +421,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeroot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChildByName("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(1, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeroot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChildByName("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
