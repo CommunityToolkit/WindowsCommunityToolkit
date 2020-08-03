@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// The <see cref="IntPtr"/> value representing the offset to the target field from the start of the object data
         /// for the parameter <paramref name="obj"/>. The offset is in relation to the first usable byte after the method table.
         /// </returns>
-        /// <remarks>The input parameters are not validated, and it's responsability of the caller to ensure that
+        /// <remarks>The input parameters are not validated, and it's responsibility of the caller to ensure that
         /// the <paramref name="data"/> reference is actually pointing to a memory location within <paramref name="obj"/>.
         /// </remarks>
         [Pure]
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="offset">The input byte offset for the <typeparamref name="T"/> reference to retrieve.</param>
         /// <returns>A <typeparamref name="T"/> reference at a specified offset within <paramref name="obj"/>.</returns>
         /// <remarks>
-        /// None of the input arguments is validated, and it is responsability of the caller to ensure they are valid.
+        /// None of the input arguments is validated, and it is responsibility of the caller to ensure they are valid.
         /// In particular, using an invalid offset might cause the retrieved reference to be misaligned with the
         /// desired data, which would break the type system. Or, if the offset causes the retrieved reference to point
         /// to a memory location outside of the input <see cref="object"/> instance, that might lead to runtime crashes.

@@ -540,47 +540,70 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 throw new RenderContextIncorrectException();
             }
 
-            var text = CreateTextBlock(localContext);
-            text.Text = CollapseWhitespace(context, element.Text);
-            text.FontFamily = InlineCodeFontFamily ?? FontFamily;
-            text.Foreground = InlineCodeForeground ?? Foreground;
+            var text = CollapseWhitespace(context, element.Text);
 
-            if (localContext.WithinItalics)
+            // Avoid a crash if the current inline is inside an hyperline.
+            // This happens when using inline code blocks like [`SomeCode`](https://www.foo.bar).
+            if (localContext.Parent is Hyperlink)
             {
-                text.FontStyle = FontStyle.Italic;
+                // Fallback span
+                Run run = new Run
+                {
+                    Text = text,
+                    FontFamily = InlineCodeFontFamily ?? FontFamily,
+                    Foreground = InlineCodeForeground ?? Foreground
+                };
+
+                // Additional formatting
+                if (localContext.WithinItalics)
+                {
+                    run.FontStyle = FontStyle.Italic;
+                }
+
+                if (localContext.WithinBold)
+                {
+                    run.FontWeight = FontWeights.Bold;
+                }
+
+                // Add the fallback block
+                localContext.InlineCollection.Add(run);
             }
-
-            if (localContext.WithinBold)
+            else
             {
-                text.FontWeight = FontWeights.Bold;
+                var textBlock = CreateTextBlock(localContext);
+                textBlock.Text = text;
+                textBlock.FontFamily = InlineCodeFontFamily ?? FontFamily;
+                textBlock.Foreground = InlineCodeForeground ?? Foreground;
+
+                if (localContext.WithinItalics)
+                {
+                    textBlock.FontStyle = FontStyle.Italic;
+                }
+
+                if (localContext.WithinBold)
+                {
+                    textBlock.FontWeight = FontWeights.Bold;
+                }
+
+                var inlineUIContainer = new InlineUIContainer
+                {
+                    Child = new Border
+                    {
+                        BorderThickness = InlineCodeBorderThickness,
+                        BorderBrush = InlineCodeBorderBrush,
+                        Background = InlineCodeBackground,
+                        Child = textBlock,
+                        Padding = InlineCodePadding,
+                        Margin = InlineCodeMargin,
+
+                        // Aligns content in InlineUI, see https://social.msdn.microsoft.com/Forums/silverlight/en-US/48b5e91e-efc5-4768-8eaf-f897849fcf0b/richtextbox-inlineuicontainer-vertical-alignment-issue?forum=silverlightarchieve
+                        RenderTransform = new TranslateTransform { Y = 4 }
+                    }
+                };
+
+                // Add it to the current inlines
+                localContext.InlineCollection.Add(inlineUIContainer);
             }
-
-            var borderthickness = InlineCodeBorderThickness;
-            var padding = InlineCodePadding;
-
-            var border = new Border
-            {
-                BorderThickness = borderthickness,
-                BorderBrush = InlineCodeBorderBrush,
-                Background = InlineCodeBackground,
-                Child = text,
-                Padding = padding,
-                Margin = InlineCodeMargin
-            };
-
-            // Aligns content in InlineUI, see https://social.msdn.microsoft.com/Forums/silverlight/en-US/48b5e91e-efc5-4768-8eaf-f897849fcf0b/richtextbox-inlineuicontainer-vertical-alignment-issue?forum=silverlightarchieve
-            border.RenderTransform = new TranslateTransform
-            {
-                Y = 4
-            };
-
-            var inlineUIContainer = new InlineUIContainer
-            {
-                Child = border,
-            };
-
-            // Add it to the current inlines
-            localContext.InlineCollection.Add(inlineUIContainer);
         }
     }
 }

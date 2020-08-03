@@ -28,5 +28,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the UI Element that dismiss the control
         /// </summary>
         private const string DismissButtonPart = "PART_DismissButton";
+
+        /// <summary>
+        /// Key of the UI Element that will display the notification content.
+        /// </summary>
+        private const string ContentPresenterPart = "PART_Presenter";
     }
 }

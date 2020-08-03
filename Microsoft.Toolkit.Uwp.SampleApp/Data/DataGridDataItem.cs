@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                     if (_mountain == string.Empty && isMountainValid)
                     {
                         List<string> errors = new List<string>();
-                        errors.Add("Montain name cannot be empty");
+                        errors.Add("Mountain name cannot be empty");
                         _errors.Add("Mountain", errors);
                         this.ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("Mountain"));
                     }

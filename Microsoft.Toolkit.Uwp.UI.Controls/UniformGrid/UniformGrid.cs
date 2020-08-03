@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The UniformGrid control presents information within a Grid with even spacing.
     /// </summary>
-    [Bindable]
     public partial class UniformGrid : Grid
     {
         // Guard for 15063 as Grid Spacing only works on 16299+.
