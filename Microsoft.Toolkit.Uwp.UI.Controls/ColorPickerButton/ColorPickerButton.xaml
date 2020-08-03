@@ -13,7 +13,7 @@
     <Style TargetType="controls:ColorPickerButton"
            x:Key="BaseColorPickerButtonStyle">
         <Setter Property="Height"
-                Value="30" />
+                Value="32" />
         <Setter Property="Width"
                 Value="64" />
         <Setter Property="MinWidth"
