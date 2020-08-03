@@ -43,11 +43,6 @@
     <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile Tokenizing TextBox UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
   
-  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview3-ge9f5a3516b" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />

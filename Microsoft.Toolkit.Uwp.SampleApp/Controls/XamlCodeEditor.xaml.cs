@@ -103,10 +103,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 // TODO: Mark Dirty here if we want to prevent overwrites.
 
                 // Setup Time for Auto-Compile
-                this._autocompileTimer?.Cancel(); // Stop Old Timer
+                this._autoCompileTimer?.Cancel(); // Stop Old Timer
 
                 // Create Compile Timer
-                this._autocompileTimer = ThreadPoolTimer.CreateTimer(
+                this._autoCompileTimer = ThreadPoolTimer.CreateTimer(
                     e =>
                     {
                         UpdateRequested?.Invoke(this, EventArgs.Empty);
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private CssGlyphStyle _errorIconStyle;
 
-        private ThreadPoolTimer _autocompileTimer;
+        private ThreadPoolTimer _autoCompileTimer;
 
         public event EventHandler UpdateRequested;
 

@@ -184,9 +184,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await Samples.LoadLocalFile(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream))
+                using (var streamReader = new StreamReader(codeStream))
                 {
-                    return await streamreader.ReadToEndAsync();
+                    return await streamReader.ReadToEndAsync();
                 }
             }
         }
@@ -195,9 +195,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await Samples.LoadLocalFile(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream))
+                using (var streamReader = new StreamReader(codeStream))
                 {
-                    return await streamreader.ReadToEndAsync();
+                    return await streamReader.ReadToEndAsync();
                 }
             }
         }
@@ -305,13 +305,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             IRandomAccessStream imageStream = null;
-            var localpath = $"{uri.Host}/{uri.LocalPath}";
+            var localPath = $"{uri.Host}/{uri.LocalPath}";
 
             // Cache only in Release
 #if !DEBUG
             try
             {
-                imageStream = (await Samples.LoadSampleFile(localpath)).AsRandomAccessStream();
+                imageStream = (await Samples.LoadSampleFile(localPath)).AsRandomAccessStream();
             }
             catch
             {
@@ -348,17 +348,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return imageStream;
         }
 
-        private async Task SaveImageToCache(string localpath, Stream imageStream)
+        private async Task SaveImageToCache(string localPath, Stream imageStream)
         {
             var folder = ApplicationData.Current.LocalCacheFolder;
-            localpath = Path.Combine(folder.Path, localpath);
+            localPath = Path.Combine(folder.Path, localPath);
 
             // Resort to creating using traditional methods to avoid iteration for folder creation.
-            Directory.CreateDirectory(Path.GetDirectoryName(localpath));
+            Directory.CreateDirectory(Path.GetDirectoryName(localPath));
 
-            using (var filestream = File.Create(localpath))
+            using (var fileStream = File.Create(localPath))
             {
-                await imageStream.CopyToAsync(filestream);
+                await imageStream.CopyToAsync(fileStream);
             }
         }
 
@@ -481,7 +481,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         if (existingOption == null && string.IsNullOrWhiteSpace(type))
                         {
-                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurance in {XamlCodeFile}.");
+                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurence in {XamlCodeFile}.");
                         }
 
                         if (Enum.TryParse(type, out PropertyKind kind))

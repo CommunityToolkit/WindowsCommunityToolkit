@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 
 #if NET462
         /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
+        /// Initialize underlying provider with relevant token information for Uwp.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="clientId">Client Id.</param>
         /// <param name="clientSecret">Client secret.</param>
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 #endif
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="clientId">Client Id.</param>
         /// <param name="clientSecret">Client secret.</param>
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <param name="authentication">Authentication result interface.</param>
@@ -231,7 +231,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="config">LinkedInDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
         /// <param name="startRecord">Index of paged results.</param>
-        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
+        /// <param name="fields">A comma separated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<T>> RequestAsync<T>(LinkedInDataConfig config, int maxRecords = 20, int startRecord = 0, string fields = "id")
         {

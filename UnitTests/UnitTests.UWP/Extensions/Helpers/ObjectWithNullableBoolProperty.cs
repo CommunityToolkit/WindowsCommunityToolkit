@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Data;
 
 namespace UnitTests.Extensions.Helpers
 {
-    [Bindable]
     public class ObjectWithNullableBoolProperty : DependencyObject
     {
         public bool? NullableBool

@@ -10,6 +10,7 @@ using System.Windows.Input;
 #endif
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System.Collections.Generic;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -59,6 +60,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
                 _exampleInAppNotification?.Show(GetRandomText(), NotificationDuration);
+            });
+
+            SampleController.Current.RegisterNewCommand("Show notification with object", (sender, args) =>
+            {
+                _exampleVSCodeInAppNotification?.Dismiss();
+                SetDefaultControlTemplate();
+
+                var random = new Random();
+                _exampleInAppNotification?.Show(new KeyValuePair<int, string>(random.Next(1, 10), GetRandomText()), NotificationDuration);
             });
 
             SampleController.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", (sender, args) =>

@@ -15,11 +15,6 @@
     <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
   </PropertyGroup>
 
-  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.17134' OR '$(TargetFramework)' == 'net5.0'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>

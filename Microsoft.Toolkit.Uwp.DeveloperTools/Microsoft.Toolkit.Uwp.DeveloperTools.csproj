@@ -12,11 +12,6 @@
     <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility AlignmentGrid</PackageTags>
   </PropertyGroup>
 
-  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
-  </PropertyGroup>
-
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>

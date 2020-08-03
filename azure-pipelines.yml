@@ -21,9 +21,9 @@ steps:
   displayName: Setup Environment Variables
   
 - task: NuGetToolInstaller@1
-  displayName: Use NuGet 5.5.1
+  displayName: Use NuGet 5.6.0
   inputs:
-    versionSpec: 5.5.1
+    versionSpec: 5.6.0
 
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'

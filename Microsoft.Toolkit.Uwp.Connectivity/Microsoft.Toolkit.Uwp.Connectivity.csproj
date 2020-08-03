@@ -7,11 +7,6 @@
     <PackageTags>UWP Toolkit Windows Devices Bluetooth BluetoothLE BLE Networking</PackageTags>
   </PropertyGroup>
 
-  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
-  </PropertyGroup>
-    
   <ItemGroup>
 
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />

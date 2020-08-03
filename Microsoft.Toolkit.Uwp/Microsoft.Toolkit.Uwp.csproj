@@ -7,11 +7,6 @@
     <PackageTags>UWP Toolkit Windows</PackageTags>
   </PropertyGroup>
 
-  <!-- Workaround for https://github.com/novotnyllc/MSBuildSdkExtras/issues/232 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
-  </PropertyGroup>
-    
   <ItemGroup>
     
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

@@ -5,7 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -16,14 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentVisible, GroupName = GroupContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
+    [TemplatePart(Name = ContentPresenterPart, Type = typeof(ContentPresenter))]
     public partial class InAppNotification : ContentControl
     {
         private InAppNotificationDismissKind _lastDismissKind;
-        private DispatcherTimer _openAnimationTimer = new DispatcherTimer();
-        private DispatcherTimer _closingAnimationTimer = new DispatcherTimer();
         private DispatcherTimer _dismissTimer = new DispatcherTimer();
         private Button _dismissButton;
         private VisualStateGroup _visualStateGroup;
+        private ContentPresenter _contentProvider;
         private List<NotificationOptions> _stackedNotificationOptions = new List<NotificationOptions>();
 
         /// <summary>
@@ -34,77 +37,63 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(InAppNotification);
 
             _dismissTimer.Tick += DismissTimer_Tick;
-            _openAnimationTimer.Tick += OpenAnimationTimer_Tick;
-            _closingAnimationTimer.Tick += ClosingAnimationTimer_Tick;
         }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
+            base.OnApplyTemplate();
+
             if (_dismissButton != null)
             {
                 _dismissButton.Click -= DismissButton_Click;
             }
 
+            if (_visualStateGroup != null)
+            {
+                _visualStateGroup.CurrentStateChanged -= OnCurrentStateChanged;
+            }
+
             _dismissButton = (Button)GetTemplateChild(DismissButtonPart);
             _visualStateGroup = (VisualStateGroup)GetTemplateChild(GroupContent);
+            _contentProvider = (ContentPresenter)GetTemplateChild(ContentPresenterPart);
 
             if (_dismissButton != null)
             {
                 _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
+                AutomationProperties.SetName(_dismissButton, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
             }
 
-            if (Visibility == Visibility.Visible)
+            if (_visualStateGroup != null)
             {
+                _visualStateGroup.CurrentStateChanged += OnCurrentStateChanged;
+            }
+
+            var firstNotification = _stackedNotificationOptions.FirstOrDefault();
+            if (firstNotification != null)
+            {
+                UpdateContent(firstNotification);
                 VisualStateManager.GoToState(this, StateContentVisible, true);
             }
-            else
-            {
-                VisualStateManager.GoToState(this, StateContentCollapsed, true);
-            }
 
-            base.OnApplyTemplate();
+            AutomationProperties.SetLabeledBy(this, VisualTree.FindDescendant<ContentPresenter>(this));
         }
 
         /// <summary>
-        /// Show notification using the current template
+        /// Show notification using the current content.
         /// </summary>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
         {
-            lock (_openAnimationTimer)
-                lock (_closingAnimationTimer)
-                    lock (_dismissTimer)
-                    {
-                        _openAnimationTimer.Stop();
-                        _closingAnimationTimer.Stop();
-                        _dismissTimer.Stop();
+            // We keep our current content
+            var notificationOptions = new NotificationOptions
+            {
+                Duration = duration,
+                Content = Content
+            };
 
-                        var eventArgs = new InAppNotificationOpeningEventArgs();
-                        Opening?.Invoke(this, eventArgs);
-
-                        if (eventArgs.Cancel)
-                        {
-                            return;
-                        }
-
-                        Visibility = Visibility.Visible;
-                        VisualStateManager.GoToState(this, StateContentVisible, true);
-
-#if WINDOWS_UWP
-                        _openAnimationTimer.Interval = AnimationDuration.TimeSpan;
-#else
-                        _openAnimationTimer.Interval = AnimationDuration;
-#endif
-                        _openAnimationTimer.Start();
-
-                        if (duration > 0)
-                        {
-                            _dismissTimer.Interval = TimeSpan.FromMilliseconds(duration);
-                            _dismissTimer.Start();
-                        }
-                    }
+            Show(notificationOptions);
         }
 
         /// <summary>
@@ -138,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Show notification using DataTemplate as the content of the notification
+        /// Show notification using <paramref name="dataTemplate"/> as the content of the notification
         /// </summary>
         /// <param name="dataTemplate">DataTemplate used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
@@ -148,6 +137,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Duration = duration,
                 Content = dataTemplate
+            };
+            Show(notificationOptions);
+        }
+
+        /// <summary>
+        /// Show notification using <paramref name="content"/> as the content of the notification.
+        /// The <paramref name="content"/> will be displayed with the current <see cref="ContentControl.ContentTemplate"/>.
+        /// </summary>
+        /// <param name="content">The content of the notification</param>
+        /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
+        public void Show(object content, int duration = 0)
+        {
+            var notificationOptions = new NotificationOptions
+            {
+                Duration = duration,
+                Content = content
             };
             Show(notificationOptions);
         }
@@ -166,68 +171,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="dismissKind">Kind of action that triggered dismiss event</param>
         private void Dismiss(InAppNotificationDismissKind dismissKind)
         {
-            lock (_openAnimationTimer)
-                lock (_closingAnimationTimer)
-                    lock (_dismissTimer)
-                    {
-                        if (Visibility == Visibility.Visible)
-                        {
-                            _dismissTimer.Stop();
+            if (_stackedNotificationOptions.Count == 0)
+            {
+                // There is nothing to dismiss.
+                return;
+            }
 
-                            // Continue to display notification if on remaining stacked notification
-                            if (_stackedNotificationOptions.Any())
-                            {
-                                _stackedNotificationOptions.RemoveAt(0);
+            _dismissTimer.Stop();
 
-                                if (_stackedNotificationOptions.Any())
-                                {
-                                    var notificationOptions = _stackedNotificationOptions[0];
+            // Continue to display notification if on remaining stacked notification
+            _stackedNotificationOptions.RemoveAt(0);
+            if (_stackedNotificationOptions.Any())
+            {
+                var notificationOptions = _stackedNotificationOptions[0];
 
-                                    UpdateContent(notificationOptions);
+                UpdateContent(notificationOptions);
 
-                                    if (notificationOptions.Duration > 0)
-                                    {
-                                        _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
-                                        _dismissTimer.Start();
-                                    }
+                if (notificationOptions.Duration > 0)
+                {
+                    _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
+                    _dismissTimer.Start();
+                }
 
-                                    return;
-                                }
-                            }
+                return;
+            }
 
-                            _openAnimationTimer.Stop();
-                            _closingAnimationTimer.Stop();
+            var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
+            Closing?.Invoke(this, closingEventArgs);
 
-                            var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
-                            Closing?.Invoke(this, closingEventArgs);
+            if (closingEventArgs.Cancel)
+            {
+                return;
+            }
 
-                            if (closingEventArgs.Cancel)
-                            {
-                                return;
-                            }
+            var result = VisualStateManager.GoToState(this, StateContentCollapsed, true);
+            if (!result)
+            {
+                // The state transition cannot be executed.
+                // It means that the control's template hasn't been applied or that it doesn't contain the state.
+                Visibility = Visibility.Collapsed;
+            }
 
-                            VisualStateManager.GoToState(this, StateContentCollapsed, true);
-
-                            _lastDismissKind = dismissKind;
-
-#if WINDOWS_UWP
-                            _closingAnimationTimer.Interval = AnimationDuration.TimeSpan;
-#else
-                            _closingAnimationTimer.Interval = AnimationDuration;
-#endif
-                            _closingAnimationTimer.Start();
-                        }
-                    }
-        }
-
-        /// <summary>
-        /// Informs if the notification should be displayed immediately (based on the StackMode)
-        /// </summary>
-        /// <returns>True if notification should be displayed immediately</returns>
-        private bool ShouldDisplayImmediately()
-        {
-            return StackMode != StackMode.QueueBehind ||
-                (StackMode == StackMode.QueueBehind && _stackedNotificationOptions.Count == 0);
+            _lastDismissKind = dismissKind;
         }
 
         /// <summary>
@@ -236,21 +221,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="notificationOptions">Information about the notification to display</param>
         private void UpdateContent(NotificationOptions notificationOptions)
         {
+            if (_contentProvider is null)
+            {
+                // The control template has not been applied yet.
+                return;
+            }
+
             switch (notificationOptions.Content)
             {
                 case string text:
-                    ContentTemplate = null;
-                    Content = text;
+                    _contentProvider.ContentTemplate = null;
+                    _contentProvider.Content = text;
                     break;
                 case UIElement element:
-                    ContentTemplate = null;
-                    Content = element;
+                    _contentProvider.ContentTemplate = null;
+                    _contentProvider.Content = element;
                     break;
                 case DataTemplate dataTemplate:
-                    ContentTemplate = dataTemplate;
-                    Content = null;
+                    _contentProvider.ContentTemplate = dataTemplate;
+                    _contentProvider.Content = null;
+                    break;
+                case object content:
+                    _contentProvider.ContentTemplate = ContentTemplate;
+                    _contentProvider.Content = content;
                     break;
             }
+
+            RaiseAutomationNotification();
         }
 
         /// <summary>
@@ -259,22 +256,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="notificationOptions">Information about the notification to display</param>
         private void Show(NotificationOptions notificationOptions)
         {
-            bool shouldDisplayImmediately = ShouldDisplayImmediately();
+            var eventArgs = new InAppNotificationOpeningEventArgs();
+            Opening?.Invoke(this, eventArgs);
 
-            if (StackMode == StackMode.QueueBehind)
+            if (eventArgs.Cancel)
             {
-                _stackedNotificationOptions.Add(notificationOptions);
+                return;
             }
 
-            if (StackMode == StackMode.StackInFront)
+            var shouldDisplayImmediately = true;
+            switch (StackMode)
             {
-                _stackedNotificationOptions.Insert(0, notificationOptions);
+                case StackMode.Replace:
+                    _stackedNotificationOptions.Clear();
+                    _stackedNotificationOptions.Add(notificationOptions);
+                    break;
+                case StackMode.StackInFront:
+                    _stackedNotificationOptions.Insert(0, notificationOptions);
+                    break;
+                case StackMode.QueueBehind:
+                    _stackedNotificationOptions.Add(notificationOptions);
+                    shouldDisplayImmediately = _stackedNotificationOptions.Count == 1;
+                    break;
+                default:
+                    break;
             }
 
             if (shouldDisplayImmediately)
             {
+                Visibility = Visibility.Visible;
+                VisualStateManager.GoToState(this, StateContentVisible, true);
+
                 UpdateContent(notificationOptions);
-                Show(notificationOptions.Duration);
+
+                if (notificationOptions.Duration > 0)
+                {
+                    _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
+                    _dismissTimer.Start();
+                }
+                else
+                {
+                    _dismissTimer.Stop();
+                }
             }
         }
     }

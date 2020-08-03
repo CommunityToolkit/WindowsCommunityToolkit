@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             int remainingCount = markdown.Length - startingPos;
             if (count > remainingCount)
             {
-                DebuggingReporter.ReportCriticalError("IndexOf count > remaing count");
+                DebuggingReporter.ReportCriticalError("IndexOf count > remaining count");
                 count = remainingCount;
             }
 
@@ -306,7 +306,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             int remainingCount = markdown.Length - startingPos;
             if (count > remainingCount)
             {
-                DebuggingReporter.ReportCriticalError("IndexOf count > remaing count");
+                DebuggingReporter.ReportCriticalError("IndexOf count > remaining count");
                 count = remainingCount;
             }
 
