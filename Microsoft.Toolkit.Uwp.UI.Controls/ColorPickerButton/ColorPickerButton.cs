@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground8Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground9Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground10Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrum),               Type = typeof(ColorSpectrum))]
+    [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
     [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumAlphaSlider),    Type = typeof(Slider))]
     [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumThirdDimensionSlider), Type = typeof(Slider))]
     [TemplatePart(Name = nameof(ColorPickerButton.PaletteGridView),             Type = typeof(GridView))]
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Color?          updatedRgbColor            = null;
         private DispatcherTimer dispatcherTimer            = null;
 
-        private ColorSpectrum ColorSpectrum;
+        private ColorSpectrum ColorSpectrumControl;
         private Slider        ColorSpectrumAlphaSlider;
         private Slider        ColorSpectrumThirdDimensionSlider;
         private GridView      PaletteGridView;
@@ -217,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            this.ColorSpectrum                     = this.GetTemplateChild<ColorSpectrum>("ColorSpectrum", false);
+            this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>("ColorSpectrumControl", false);
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>("ColorSpectrumAlphaSlider", false);
             this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<Slider>("ColorSpectrumThirdDimensionSlider", false);
 
@@ -253,12 +253,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.CheckeredBackground9Border  = this.GetTemplateChild<Border>("CheckeredBackground9Border", false);
             this.CheckeredBackground10Border = this.GetTemplateChild<Border>("CheckeredBackground10Border", false);
 
-            // Sync the active color
-            if (this.ColorSpectrum != null)
-            {
-                this.ColorSpectrum.Color = (Color)this.GetValue(ColorProperty);
-            }
-
             // Must connect after controls are resolved
             this.ConnectEvents(true);
 
@@ -266,7 +260,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.UpdateVisualState(false);
             this.isInitialized = true;
             this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
-            this.UpdateChannelControlValues();
+            this.UpdateColorControlValues();
         }
 
         /// <summary>
@@ -327,15 +321,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 (this.eventsConnected == false))
             {
                 // Add all events
-                if (this.ColorSpectrum   != null) { this.ColorSpectrum.ColorChanged += ColorSpectrum_ColorChanged; }
-                if (this.ColorSpectrum   != null) { this.ColorSpectrum.GotFocus     += ColorSpectrum_GotFocus; }
-                if (this.PaletteGridView != null) { this.PaletteGridView.Loaded     += PaletteGridView_Loaded; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown    += HexInputTextBox_KeyDown; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus  += HexInputTextBox_LostFocus; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Checked    += ColorRepToggleButton_CheckedUnchecked; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Unchecked  += ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Checked    += ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Unchecked  += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged += ColorSpectrum_ColorChanged; }
+                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus     += ColorSpectrum_GotFocus; }
+                if (this.PaletteGridView      != null) { this.PaletteGridView.Loaded            += PaletteGridView_Loaded; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.KeyDown           += HexInputTextBox_KeyDown; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.LostFocus         += HexInputTextBox_LostFocus; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Checked           += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Unchecked         += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Checked           += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Unchecked         += ColorRepToggleButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       += ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       += ChannelTextBox_KeyDown; }
@@ -382,15 +376,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                      (this.eventsConnected == true))
             {
                 // Remove all events
-                if (this.ColorSpectrum   != null) { this.ColorSpectrum.ColorChanged -= ColorSpectrum_ColorChanged; }
-                if (this.ColorSpectrum   != null) { this.ColorSpectrum.GotFocus     -= ColorSpectrum_GotFocus; }
-                if (this.PaletteGridView != null) { this.PaletteGridView.Loaded     -= PaletteGridView_Loaded; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown    -= HexInputTextBox_KeyDown; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus  -= HexInputTextBox_LostFocus; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Checked    -= ColorRepToggleButton_CheckedUnchecked; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Unchecked  -= ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Checked    -= ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Unchecked  -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged -= ColorSpectrum_ColorChanged; }
+                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus     -= ColorSpectrum_GotFocus; }
+                if (this.PaletteGridView      != null) { this.PaletteGridView.Loaded            -= PaletteGridView_Loaded; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.KeyDown           -= HexInputTextBox_KeyDown; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.LostFocus         -= HexInputTextBox_LostFocus; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Checked           -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Unchecked         -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Checked           -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Unchecked         -= ColorRepToggleButton_CheckedUnchecked; }
 
                 if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
                 if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
@@ -628,7 +622,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 catch
                 {
                     // Reset TextBox values
-                    this.UpdateChannelControlValues();
+                    this.UpdateColorControlValues();
                     this.UpdateChannelSliderBackgrounds();
                 }
             }
@@ -637,9 +631,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Updates the color channel values in all editing controls to match the current color.
+        /// Updates the color values in all editing controls to match the current color.
         /// </summary>
-        private void UpdateChannelControlValues()
+        private void UpdateColorControlValues()
         {
             bool eventsDisconnectedByMethod = false;
             Color rgbColor = this.Color;
@@ -694,6 +688,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     hsvColor = this.savedHsvColor.Value;
+                }
+
+                // Update the color spectrum
+                // Remember the spectrum is always HSV and must be updated as such to avoid
+                // conversion errors
+                if (this.ColorSpectrumControl != null)
+                {
+                    this.ColorSpectrumControl.HsvColor = new System.Numerics.Vector4()
+                    {
+                        X = Convert.ToSingle(hsvColor.H),
+                        Y = Convert.ToSingle(hsvColor.S),
+                        Z = Convert.ToSingle(hsvColor.V),
+                        W = Convert.ToSingle(hsvColor.A)
+                    };
                 }
 
                 // Update the color spectrum third dimension channel
@@ -1260,7 +1268,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this.savedHsvColorRgbEquivalent = null;
             }
 
-            this.UpdateChannelControlValues();
+            this.UpdateColorControlValues();
             this.UpdateChannelSliderBackgrounds();
 
             return;
@@ -1383,7 +1391,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Windows.UI.Xaml.Controls.ColorChangedEventArgs args)
         {
-            this.ScheduleColorUpdate(this.ColorSpectrum.Color);
+            // It is OK in this case to use the RGB representation
+            this.ScheduleColorUpdate(this.ColorSpectrumControl.Color);
             return;
         }
 
@@ -1505,7 +1514,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
             }
 
-            this.UpdateChannelControlValues();
+            this.UpdateColorControlValues();
             this.UpdateChannelSliderBackgrounds();
 
             return;
@@ -1543,7 +1552,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 catch
                 {
                     // Reset hex value
-                    this.UpdateChannelControlValues();
+                    this.UpdateColorControlValues();
                     this.UpdateChannelSliderBackgrounds();
                 }
             }
@@ -1565,7 +1574,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch
             {
                 // Reset hex value
-                this.UpdateChannelControlValues();
+                this.UpdateColorControlValues();
                 this.UpdateChannelSliderBackgrounds();
             }
 

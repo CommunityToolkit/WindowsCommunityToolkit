@@ -508,7 +508,8 @@
                                                                                           VerticalAlignment="Stretch"
                                                                                           Margin="0,0,12,0" />
                                                         <!-- Keep in mind the spectrum is always HSV -->
-                                                        <ColorSpectrum x:Name="ColorSpectrum"
+                                                        <!-- This must also not be named 'ColorSpectrumControl' to differentiate from the base class -->
+                                                        <ColorSpectrum x:Name="ColorSpectrumControl"
                                                                        AutomationProperties.Name="Third Dimension"
                                                                        Grid.Column="1"
                                                                        Grid.Row="0"
