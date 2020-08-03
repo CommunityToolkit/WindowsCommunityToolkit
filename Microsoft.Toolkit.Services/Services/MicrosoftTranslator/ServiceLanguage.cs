@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
     /// <summary>
-    /// Holds information about langagues supported for text translation and speech synthesis.
+    /// Holds information about languages supported for text translation and speech synthesis.
     /// </summary>
     /// <seealso cref="ITranslatorService.GetLanguageNamesAsync(string)"/>
     public class ServiceLanguage
