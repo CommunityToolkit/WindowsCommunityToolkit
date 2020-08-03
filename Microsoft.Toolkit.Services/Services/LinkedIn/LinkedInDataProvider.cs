@@ -171,9 +171,9 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task LogoutAsync()
         {
-            var crendential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
+            var credential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
 
-            if (crendential != null)
+            if (credential != null)
             {
                 _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
                 await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="config">Query configuration.</param>
         /// <param name="maxRecords">Upper limit for records returned.</param>
         /// <param name="startRecord">Index of paged results.</param>
-        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
+        /// <param name="fields">A comma separated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of results.</returns>
         public async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(LinkedInDataConfig config, int maxRecords, int startRecord = 0, string fields = "id")
         {

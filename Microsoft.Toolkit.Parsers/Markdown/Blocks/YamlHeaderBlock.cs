@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location of the first hash character. </param>
         /// <param name="end"> The location of the end of the line. </param>
-        /// <param name="realEndIndex"> The location of the actual end of the aprse. </param>
+        /// <param name="realEndIndex"> The location of the actual end of the parse. </param>
         /// <returns>Parsed <see cref="YamlHeaderBlock"/> class</returns>
         internal static YamlHeaderBlock Parse(string markdown, int start, int end, out int realEndIndex)
         {

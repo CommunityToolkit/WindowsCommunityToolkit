@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
     public class PlatformSpecificFixerVB : CodeFixProvider
     {
         /// <summary>
-        /// Gets the list of Diagnotics that can be fixed.
+        /// Gets the list of Diagnostics that can be fixed.
         /// </summary>
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
