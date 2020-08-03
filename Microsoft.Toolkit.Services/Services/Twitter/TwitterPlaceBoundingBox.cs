@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public List<List<float[]>> Coordinates { get; set; }
 
         /// <summary>
-        /// Gets or sets the coordinate type. Polygon for a bounding box, Pointn for an exact coordinate.
+        /// Gets or sets the coordinate type. Polygon for a bounding box, Point for an exact coordinate.
         /// </summary>
         [JsonProperty("type")]
         public string Type { get; set; }

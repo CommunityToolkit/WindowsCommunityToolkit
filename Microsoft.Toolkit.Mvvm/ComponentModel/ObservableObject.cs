@@ -4,7 +4,7 @@
 
 #pragma warning disable SA1512
 
-// This file is inspired from the MvvmLight libray (lbugnion/mvvmlight),
+// This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
 // more info in ThirdPartyNotices.txt in the root of the project.
 
 using System;
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// }
         /// </code>
         /// We can then use a property to wrap instances of this type into our observable model (which supports
-        /// notifications), injecting the notification to theproperties of that model, like so:
+        /// notifications), injecting the notification to the properties of that model, like so:
         /// <code>
         /// public class BindablePerson : ObservableObject
         /// {

@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     public static partial class MessengerExtensions
     {
         /// <summary>
-        /// The <see cref="MethodInfo"/> instance assocuated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
+        /// The <see cref="MethodInfo"/> instance associated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
         /// </summary>
         private static readonly MethodInfo RegisterIRecipientMethodInfo;
 
@@ -111,13 +111,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                           interfaceType.GetGenericTypeDefinition() == typeof(IRecipient<>)
                     let messageType = interfaceType.GenericTypeArguments[0]
                     let registrationMethod = RegisterIRecipientMethodInfo.MakeGenericMethod(messageType, typeof(TToken))
-                    let registrationAction = GetRegisterationAction(type, registrationMethod)
+                    let registrationAction = GetRegistrationAction(type, registrationMethod)
                     select registrationAction).ToArray();
             }
 
             // Helper method to build and compile an expression tree to a message handler to use for the registration
             // This is used to reduce the overhead of repeated calls to MethodInfo.Invoke (which is over 10 times slower).
-            static Action<IMessenger, object, TToken> GetRegisterationAction(Type type, MethodInfo methodInfo)
+            static Action<IMessenger, object, TToken> GetRegistrationAction(Type type, MethodInfo methodInfo)
             {
                 // Input parameters (IMessenger instance, non-generic recipient, token)
                 ParameterExpression
