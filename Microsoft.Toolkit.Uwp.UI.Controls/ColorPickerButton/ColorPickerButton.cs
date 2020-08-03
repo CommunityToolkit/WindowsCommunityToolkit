@@ -1402,6 +1402,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ColorSpectrum_GotFocus(object sender, RoutedEventArgs e)
         {
+            Color rgbColor = this.ColorSpectrumControl.Color;
+
             /* If this control has a color that is currently empty (#00000000),
              * selecting a new color directly in the spectrum will fail. This is
              * a bug in the color spectrum. Selecting a new color in the spectrum will
@@ -1438,7 +1440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
              */
 
             // In the future Color.IsEmpty will hopefully be added to UWP
-            if (IsColorEmpty(this.Color))
+            if (IsColorEmpty(rgbColor))
             {
                 /* The following code may be used in the future if ever the selected color is available
 
@@ -1485,15 +1487,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 */
 
-                this.Color = Colors.White;
+                this.ScheduleColorUpdate(Colors.White);
             }
-
-            // As an additional usability improvement, reset alpha to maximum when the spectrum is used.
-            // The color spectrum has no alpha channel and it is much more intuitive to do this for the user
-            // especially if the picker was initially set with Colors.Transparent.
-            if (this.Color.A == 0x00)
+            else if (rgbColor.A == 0x00)
             {
-                this.Color = Color.FromArgb(0xFF, this.Color.R, this.Color.G, this.Color.B);
+                // As an additional usability improvement, reset alpha to maximum when the spectrum is used.
+                // The color spectrum has no alpha channel and it is much more intuitive to do this for the user
+                // especially if the picker was initially set with Colors.Transparent.
+                this.ScheduleColorUpdate(Color.FromArgb(0xFF, rgbColor.R, rgbColor.G, rgbColor.B));
             }
 
             return;
