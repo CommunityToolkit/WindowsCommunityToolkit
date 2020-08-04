@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -12,7 +13,7 @@ namespace UnitTests.HighPerformance.Shared.Buffers.Internals
     /// An owner for a buffer of an unmanaged type, recycling <see cref="byte"/> arrays to save memory.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the rented buffers.</typeparam>
-    internal sealed unsafe class UnmanagedSpanOwner<T> : IDisposable
+    internal sealed unsafe class UnmanagedSpanOwner<T> : MemoryManager<T>
         where T : unmanaged
     {
         /// <summary>
@@ -45,13 +46,8 @@ namespace UnitTests.HighPerformance.Shared.Buffers.Internals
         /// </summary>
         public T* Ptr => (T*)this.ptr;
 
-        /// <summary>
-        /// Gets the <see cref="Memory{T}"/> for the current instance.
-        /// </summary>
-        public Span<T> Span => new Span<T>((void*)this.ptr, this.length);
-
         /// <inheritdoc/>
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
             IntPtr ptr = this.ptr;
 
@@ -63,6 +59,24 @@ namespace UnitTests.HighPerformance.Shared.Buffers.Internals
             this.ptr = IntPtr.Zero;
 
             Marshal.FreeHGlobal(ptr);
+        }
+
+        /// <inheritdoc/>
+        public override Span<T> GetSpan()
+        {
+            return new Span<T>((void*)this.ptr, this.length);
+        }
+
+        /// <inheritdoc/>
+        public override MemoryHandle Pin(int elementIndex = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public override void Unpin()
+        {
+            throw new NotImplementedException();
         }
     }
 }

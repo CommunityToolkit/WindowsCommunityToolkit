@@ -102,8 +102,8 @@ namespace UnitTests.HighPerformance.Helpers
             {
                 using UnmanagedSpanOwner<T> data = CreateRandomData<T>(count);
 
-                int hash1 = HashCode<T>.Combine(data.Span);
-                int hash2 = HashCode<T>.Combine(data.Span);
+                int hash1 = HashCode<T>.Combine(data.GetSpan());
+                int hash2 = HashCode<T>.Combine(data.GetSpan());
 
                 Assert.AreEqual(hash1, hash2, $"Failed {typeof(T)} test with count {count}: got {hash1} and then {hash2}");
             }
@@ -123,7 +123,7 @@ namespace UnitTests.HighPerformance.Helpers
 
             UnmanagedSpanOwner<T> data = new UnmanagedSpanOwner<T>(count);
 
-            foreach (ref byte n in MemoryMarshal.AsBytes(data.Span))
+            foreach (ref byte n in MemoryMarshal.AsBytes(data.GetSpan()))
             {
                 n = (byte)random.Next(0, byte.MaxValue);
             }

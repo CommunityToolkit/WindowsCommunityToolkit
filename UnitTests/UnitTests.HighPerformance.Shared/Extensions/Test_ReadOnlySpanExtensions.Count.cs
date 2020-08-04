@@ -178,8 +178,8 @@ namespace UnitTests.HighPerformance.Extensions
             {
                 using UnmanagedSpanOwner<T> data = provider(count, value);
 
-                int result = data.Span.Count(value);
-                int expected = CountWithForeach(data.Span, value);
+                int result = data.GetSpan().Count(value);
+                int expected = CountWithForeach(data.GetSpan(), value);
 
                 Assert.AreEqual(result, expected, $"Failed {typeof(T)} test with count {count}: got {result} instead of {expected}");
             }
@@ -224,7 +224,7 @@ namespace UnitTests.HighPerformance.Extensions
 
             UnmanagedSpanOwner<T> data = new UnmanagedSpanOwner<T>(count);
 
-            foreach (ref byte n in MemoryMarshal.AsBytes(data.Span))
+            foreach (ref byte n in MemoryMarshal.AsBytes(data.GetSpan()))
             {
                 n = (byte)random.Next(0, byte.MaxValue);
             }
@@ -232,7 +232,7 @@ namespace UnitTests.HighPerformance.Extensions
             // Fill at least 20% of the items with a matching value
             int minimum = count / 20;
 
-            Span<T> span = data.Span;
+            Span<T> span = data.GetSpan();
 
             for (int i = 0; i < minimum; i++)
             {
@@ -255,7 +255,7 @@ namespace UnitTests.HighPerformance.Extensions
         {
             UnmanagedSpanOwner<T> data = new UnmanagedSpanOwner<T>(count);
 
-            data.Span.Fill(value);
+            data.GetSpan().Fill(value);
 
             return data;
         }
