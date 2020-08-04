@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -31,6 +35,21 @@ namespace UnitTests.HighPerformance.Shared.Buffers.Internals
             this.length = size;
         }
 
+        /// <summary>
+        /// Gets the length of the buffer in use.
+        /// </summary>
+        public int Length => this.length;
+
+        /// <summary>
+        /// Gets a pointer to the start of the buffer in use.
+        /// </summary>
+        public T* Ptr => (T*)this.ptr;
+
+        /// <summary>
+        /// Gets the <see cref="Memory{T}"/> for the current instance.
+        /// </summary>
+        public Span<T> Span => new Span<T>((void*)this.ptr, this.length);
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -45,10 +64,5 @@ namespace UnitTests.HighPerformance.Shared.Buffers.Internals
 
             Marshal.FreeHGlobal(ptr);
         }
-
-        /// <summary>
-        /// Gets the <see cref="Memory{T}"/> for the current instance.
-        /// </summary>
-        public Span<T> Span => new Span<T>((void*)this.ptr, this.length);
     }
 }
