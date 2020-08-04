@@ -39,6 +39,25 @@ namespace UnitTests.Extensions
 
         [TestCategory("TaskExtensions")]
         [TestMethod]
+        public async Task Test_TaskExtensions_ResultOrDefault_FromAsyncTaskMethodBuilder()
+        {
+            var tcs = new TaskCompletionSource<object>();
+
+            Task<string> taskFromBuilder = GetTaskFromAsyncMethodBuilder("Test", tcs);
+
+            Assert.IsNull(((Task)taskFromBuilder).GetResultOrDefault());
+            Assert.IsNull(taskFromBuilder.GetResultOrDefault());
+
+            tcs.SetResult(null);
+
+            await taskFromBuilder;
+
+            Assert.AreEqual(((Task)taskFromBuilder).GetResultOrDefault(), "Test");
+            Assert.AreEqual(taskFromBuilder.GetResultOrDefault(), "Test");
+        }
+
+        [TestCategory("TaskExtensions")]
+        [TestMethod]
         public void Test_TaskExtensions_ResultOrDefault_OfT_Int32()
         {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
@@ -85,6 +104,17 @@ namespace UnitTests.Extensions
             tcs.SetResult("Hello world");
 
             Assert.AreEqual("Hello world", tcs.Task.GetResultOrDefault());
+        }
+
+        // Creates a Task<T> of a given type which is actually an instance of
+        // System.Runtime.CompilerServices.AsyncTaskMethodBuilder<TResult>.AsyncStateMachineBox<TStateMachine>.
+        // See https://source.dot.net/#System.Private.CoreLib/AsyncTaskMethodBuilderT.cs,f8f35fd356112b30.
+        // This is needed to verify that the extension also works when the input Task<T> is of a derived type.
+        private static async Task<T> GetTaskFromAsyncMethodBuilder<T>(T result, TaskCompletionSource<object> tcs)
+        {
+            await tcs.Task;
+
+            return result;
         }
     }
 }
