@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -229,6 +230,53 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given nested property. If the value has changed,
+        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
+        /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>, with the difference being that this
+        /// method is used to relay properties from a wrapped model in the current instance. For more info, see the docs for
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of property to set.</typeparam>
+        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
+        {
+            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given nested property. If the value has changed,
+        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
+        /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>,
+        /// with the difference being that this method is used to relay properties from a wrapped model in the
+        /// current instance. For more info, see the docs for
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of property to set.</typeparam>
+        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
+        {
+            bool propertyChanged = SetProperty(propertyExpression, newValue, comparer, out T oldValue, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
     }
 }

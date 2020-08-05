@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, propertyName);
+            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, out _, propertyName);
         }
 
         /// <summary>
@@ -221,6 +221,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
+            return SetProperty(propertyExpression, newValue, comparer, out _, propertyName);
+        }
+
+        /// <summary>
+        /// Implements the shared logic for <see cref="SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>
+        /// </summary>
+        /// <typeparam name="T">The type of property to set.</typeparam>
+        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="oldValue">The resulting initial value for the target property.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        private protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, out T oldValue, [CallerMemberName] string? propertyName = null)
+        {
             PropertyInfo? parentPropertyInfo;
             FieldInfo? parentFieldInfo = null;
 
@@ -236,13 +251,15 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 ThrowArgumentExceptionForInvalidPropertyExpression();
 
                 // This is never executed, as the method above always throws
+                oldValue = default!;
+
                 return false;
             }
 
             object parent = parentPropertyInfo is null
                 ? parentFieldInfo!.GetValue(instance)
                 : parentPropertyInfo.GetValue(instance);
-            T oldValue = (T)targetPropertyInfo.GetValue(parent);
+            oldValue = (T)targetPropertyInfo.GetValue(parent);
 
             if (comparer.Equals(oldValue, newValue))
             {
