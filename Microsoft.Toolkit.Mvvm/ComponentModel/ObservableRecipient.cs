@@ -141,7 +141,18 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(ref field, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+            T oldValue = field;
+
+            // We duplicate the code as in the base class here to leverage
+            // the intrinsics support for EqualityComparer<T>.Default.Equals.
+            bool propertyChanged = SetProperty(ref field, newValue, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
 
         /// <summary>
@@ -159,21 +170,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            if (!broadcast)
-            {
-                return SetProperty(ref field, newValue, comparer, propertyName);
-            }
-
             T oldValue = field;
 
-            if (SetProperty(ref field, newValue, comparer, propertyName))
+            bool propertyChanged = SetProperty(ref field, newValue, comparer, propertyName);
+
+            if (propertyChanged && broadcast)
             {
                 Broadcast(oldValue, newValue, propertyName);
-
-                return true;
             }
 
-            return false;
+            return propertyChanged;
         }
 
         /// <summary>
@@ -217,19 +223,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            if (!broadcast)
-            {
-                return SetProperty(oldValue, newValue, comparer, callback, propertyName);
-            }
+            bool propertyChanged = SetProperty(oldValue, newValue, comparer, callback, propertyName);
 
-            if (SetProperty(oldValue, newValue, comparer, callback, propertyName))
+            if (propertyChanged && broadcast)
             {
                 Broadcast(oldValue, newValue, propertyName);
-
-                return true;
             }
 
-            return false;
+            return propertyChanged;
         }
 
         /// <summary>
