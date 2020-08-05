@@ -46,6 +46,14 @@ if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
     ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
 }
 
+// Show notification using an object
+<controls:InAppNotification
+    x:Name="ExampleInAppNotification"
+    ContentTemplate="{StaticResource MyNotificationDataTemplate}" />
+
+var notificationData = new MyNotificationData("Title", "Message");
+ExampleInAppNotification.Show(notificationData, duration: 2000);
+
 // Dismiss notification
 ExampleInAppNotification.Dismiss();
 
@@ -53,14 +61,14 @@ ExampleInAppNotification.Dismiss();
 
 private void YesButton_Click(object sender, RoutedEventArgs e)
 {
-	// TODO : Do something when user accepted
+    // TODO : Do something when user accepted
 
     ExampleInAppNotification.Dismiss();
 }
 
 private void NoButton_Click(object sender, RoutedEventArgs e)
 {
-	// TODO : Do something when user refused
+    // TODO : Do something when user refused
 
     ExampleInAppNotification.Dismiss();
 }

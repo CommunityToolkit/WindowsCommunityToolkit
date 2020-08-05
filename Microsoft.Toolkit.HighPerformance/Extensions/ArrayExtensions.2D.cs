@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/>
         /// and <paramref name="j"/> parameters are valid. Furthermore, this extension will ignore the lower bounds for the input
-        /// array, and will just assume that the input index is 0-based. It is responsability of the caller to adjust the input
+        /// array, and will just assume that the input index is 0-based. It is responsibility of the caller to adjust the input
         /// indices to account for the actual lower bounds, if the input array has either axis not starting at 0.
         /// </remarks>
         [Pure]
@@ -234,7 +234,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
-        /// Cretes a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
+        /// Creates a new <see cref="Span{T}"/> over an input 2D <typeparamref name="T"/> array.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
