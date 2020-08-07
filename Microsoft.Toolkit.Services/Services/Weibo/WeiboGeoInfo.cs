@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Services.Weibo
 {
@@ -14,13 +14,13 @@ namespace Microsoft.Toolkit.Services.Services.Weibo
         /// <summary>
         /// Gets the type of geographic information
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; internal set; }
 
         /// <summary>
         /// Gets the coordinates
         /// </summary>
-        [JsonProperty("coordinates")]
+        [JsonPropertyName("coordinates")]
         public double[] Coordinates { get; internal set; }
 
         /// <inheritdoc/>

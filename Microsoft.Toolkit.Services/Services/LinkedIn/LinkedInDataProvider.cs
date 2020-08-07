@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json.Linq;
 
 #if WINRT
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
@@ -81,7 +81,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
                 throw new ArgumentException("Missing callback uri");
             }
 
-            if (!Enum.IsDefined(typeof(LinkedInPermissions), requiredPermissions))
+            // Check if outside the bounds of the LinkedInPermissions Enum
+            if (requiredPermissions < 0 || requiredPermissions > (LinkedInPermissions)15)
             {
                 throw new ArgumentException("Error retrieving required permissions");
             }
@@ -278,9 +279,14 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             {
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var json = JObject.Parse(jsonString);
-                    return json.GetValue("access_token").Value<string>();
+                    using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    {
+                        using (var jsonDoc = await JsonDocument.ParseAsync(jsonStream).ConfigureAwait(false))
+                        {
+                            var value = jsonDoc.RootElement.GetProperty("access_token");
+                            return value.GetString();
+                        }
+                    }
                 }
             }
         }

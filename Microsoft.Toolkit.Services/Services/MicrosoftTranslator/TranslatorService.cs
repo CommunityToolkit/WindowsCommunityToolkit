@@ -8,9 +8,8 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
@@ -113,7 +112,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var responseContent = JsonConvert.DeserializeObject<IEnumerable<DetectedLanguageResponse>>(content);
+                var responseContent = JsonSerializer.Deserialize<IEnumerable<DetectedLanguageResponse>>(content);
                 return responseContent;
             }
         }
@@ -144,8 +143,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var jsonContent = JToken.Parse(content)["translation"];
-                var responseContent = JsonConvert.DeserializeObject<Dictionary<string, ServiceLanguage>>(jsonContent.ToString()).ToList();
+                var jsonContent = JsonDocument.Parse(content).RootElement.GetProperty("translation");
+                var responseContent = JsonSerializer.Deserialize<Dictionary<string, ServiceLanguage>>(jsonContent.ToString()).ToList();
                 responseContent.ForEach(r => r.Value.Code = r.Key);
 
                 return responseContent.Select(r => r.Value).OrderBy(r => r.Name).ToList();
@@ -221,7 +220,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var responseContent = JsonConvert.DeserializeObject<IEnumerable<TranslationResponse>>(content);
+                var responseContent = JsonSerializer.Deserialize<IEnumerable<TranslationResponse>>(content);
                 return responseContent;
             }
         }
@@ -254,7 +253,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 
             if (content != null)
             {
-                var jsonRequest = JsonConvert.SerializeObject(content);
+                var jsonRequest = JsonSerializer.Serialize(content);
                 var requestContent = new StringContent(jsonRequest, System.Text.Encoding.UTF8, JsonMediaType);
                 request.Content = requestContent;
             }

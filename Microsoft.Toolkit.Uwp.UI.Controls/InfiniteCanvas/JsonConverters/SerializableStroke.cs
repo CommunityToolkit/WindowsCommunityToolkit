@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Windows.UI.Input.Inking;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls

@@ -4,8 +4,8 @@
 
 using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
@@ -23,6 +23,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// URL of the token service
         /// </summary>
         private static readonly Uri ServiceUrl = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
+
+        // TODO
+        // private static readonly Uri ServiceUrl = new Uri(THIS SHOULD BE A PARAMETER NOW);
 
         /// <summary>
         /// After obtaining a valid token, this class will cache it for this duration.
@@ -99,8 +102,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
-                    throw new TranslatorServiceException(error.Message);
+                    var error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                    throw new TranslatorServiceException(error?.Error?.Message);
                 }
 
                 _storedTokenTime = DateTime.Now;

@@ -10,9 +10,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json;
 
 #if WINRT
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
-                return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
+                return JsonSerializer.Deserialize<TwitterUser>(rawResult);
             }
             catch (UserNotFoundException)
             {
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 if (!string.IsNullOrEmpty(rawResult))
                 {
-                    var errors = JsonConvert.DeserializeObject<TwitterErrors>(rawResult);
+                    var errors = JsonSerializer.Deserialize<TwitterErrors>(rawResult);
 
                     throw new TwitterException { Errors = errors };
                 }
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 if (!string.IsNullOrEmpty(rawResult))
                 {
-                    var errors = JsonConvert.DeserializeObject<TwitterErrors>(rawResult);
+                    var errors = JsonSerializer.Deserialize<TwitterErrors>(rawResult);
 
                     throw new TwitterException { Errors = errors };
                 }

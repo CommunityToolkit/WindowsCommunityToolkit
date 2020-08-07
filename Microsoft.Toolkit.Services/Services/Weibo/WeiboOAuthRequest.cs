@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.OAuth;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -97,7 +97,10 @@ namespace Microsoft.Toolkit.Services.Weibo
                     {
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
-                            return JsonConvert.DeserializeObject<WeiboStatus>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                            {
+                                return await JsonSerializer.DeserializeAsync<WeiboStatus>(stream).ConfigureAwait(false);
+                            }
                         }
                         else
                         {
@@ -153,7 +156,10 @@ namespace Microsoft.Toolkit.Services.Weibo
                                 {
                                     if (response.StatusCode == HttpStatusCode.OK)
                                     {
-                                        return JsonConvert.DeserializeObject<WeiboStatus>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                                        using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                                        {
+                                            return await JsonSerializer.DeserializeAsync<WeiboStatus>(stream).ConfigureAwait(false);
+                                        }
                                     }
                                     else
                                     {
@@ -180,10 +186,15 @@ namespace Microsoft.Toolkit.Services.Weibo
         {
             if (content.StartsWith("{\"error\":"))
             {
-                WeiboError error = JsonConvert.DeserializeObject<WeiboError>(content, new JsonSerializerSettings()
+                WeiboError error;
+                try
                 {
-                    Error = (sender, args) => throw new JsonException("Invalid Weibo error response!", args.ErrorContext.Error)
-                });
+                    error = JsonSerializer.Deserialize<WeiboError>(content);
+                }
+                catch (JsonException e)
+                {
+                    throw new JsonException("Invalid Weibo error response!", e);
+                }
 
                 throw new WeiboException { Error = error };
             }

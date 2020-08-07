@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -275,7 +275,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         {
             if (Provider.LoggedIn)
             {
-                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookDataHost<FacebookPicture>>);
+                var factory = new FBJsonClassFactory((s) =>
+                {
+                    return JsonSerializer.Deserialize<FacebookDataHost<FacebookPicture>>(s);
+                });
 
                 PropertySet propertySet = new PropertySet { { "redirect", "0" } };
                 var singleValue = new FBSingleValue("/me/picture", propertySet, factory);
@@ -368,7 +371,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         {
             if (Provider.LoggedIn)
             {
-                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPhoto>);
+                var factory = new FBJsonClassFactory((s) =>
+                {
+                    return JsonSerializer.Deserialize<FacebookPhoto>(s);
+                });
 
                 PropertySet propertySet = new PropertySet { { "fields", "images" } };
                 var singleValue = new FBSingleValue($"/{photoId}", propertySet, factory);
@@ -405,7 +411,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 var parameters = new PropertySet { { "link", link } };
 
                 string path = FBSession.ActiveSession.User.Id + "/feed";
-                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPost>);
+                var factory = new FBJsonClassFactory((s) =>
+                {
+                    return JsonSerializer.Deserialize<FacebookPost>(s);
+                });
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
                 var result = await singleValue.PostAsync();
@@ -487,7 +496,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 };
 
                 string path = FBSession.ActiveSession.User.Id + "/photos";
-                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
+                var factory = new FBJsonClassFactory((s) =>
+                {
+                    return JsonSerializer.Deserialize<FacebookPicture>(s);
+                });
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
                 var result = await singleValue.PostAsync();

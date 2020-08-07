@@ -5,11 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Storage;
@@ -79,9 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal string GetSerializedList()
         {
             var exportModel = new InkCanvasExportModel { DrawableList = _drawableList, Version = 1 };
-            return JsonConvert.SerializeObject(exportModel, Formatting.Indented, new JsonSerializerSettings
+            return JsonSerializer.Serialize(exportModel, new JsonSerializerOptions
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                // TODO: Is this supported? -> TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true,
             });
         }
 
@@ -92,16 +92,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _undoCommands.Clear();
             _redoCommands.Clear();
 
-            var token = JToken.Parse(json);
+            var token = JsonDocument.Parse(json);
             List<IDrawable> newList;
-            if (token is JArray)
+            if (token.RootElement.ValueKind == JsonValueKind.Array)
             {
                 // first sin, because of creating a file without versioning so we have to be able to import without breaking changes.
-                newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+                newList = JsonSerializer.Deserialize<List<IDrawable>>(json, new JsonSerializerOptions
+                {
+                    // TODO: Is this supported? -> TypeNameHandling = TypeNameHandling.Auto
+                });
             }
             else
             {
-                newList = JsonConvert.DeserializeObject<InkCanvasExportModel>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }).DrawableList;
+                newList = JsonSerializer.Deserialize<InkCanvasExportModel>(json, new JsonSerializerOptions
+                {
+                    // TODO: Is this supported? -> TypeNameHandling = TypeNameHandling.Auto
+                }).DrawableList;
             }
 
             foreach (var drawable in newList)

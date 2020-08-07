@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using winsdkfb;
 using winsdkfb.Graph;
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
 
             _propertySet = new PropertySet { { "fields", _fields }, { "limit", _limit } };
 
-            _factory = new FBJsonClassFactory(s => JsonConvert.DeserializeObject(s, typeof(T)));
+            _factory = new FBJsonClassFactory(s => JsonSerializer.Deserialize(s, typeof(T)));
 
             // FBPaginatedArray does not allow us to set page size per request so we must go with first supplied - see https://github.com/Microsoft/winsdkfb/issues/221
             _paginatedArray = new FBPaginatedArray(_config.Query, _propertySet, _factory);

@@ -8,10 +8,9 @@ using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -79,17 +78,18 @@ namespace Microsoft.Toolkit.Services.Twitter
                 using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
                     response.ThrowIfNotValid();
-                    var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-
-                    using (var reader = new StreamReader(responseStream))
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                     {
-                        while (!_abort && !reader.EndOfStream)
+                        using (var reader = new StreamReader(responseStream))
                         {
-                            var result = reader.ReadLine();
-
-                            if (!string.IsNullOrEmpty(result))
+                            while (!_abort && !reader.EndOfStream)
                             {
-                                callback?.Invoke(result);
+                                var result = reader.ReadLine();
+
+                                if (!string.IsNullOrEmpty(result))
+                                {
+                                    callback?.Invoke(result);
+                                }
                             }
                         }
                     }
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content, ISignatureManager signatureManager)
         {
-            JToken mediaId = null;
+            JsonElement mediaId = default;
 
             try
             {
@@ -160,10 +160,11 @@ namespace Microsoft.Toolkit.Services.Twitter
                             using (var response = await client.SendAsync(request).ConfigureAwait(false))
                             {
                                 response.ThrowIfNotValid();
-                                string jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                                JObject jObj = JObject.Parse(jsonResult);
-                                mediaId = jObj["media_id_string"];
+                                using (var jsonResult = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                                {
+                                    var jObj = await JsonDocument.ParseAsync(jsonResult).ConfigureAwait(false);
+                                    mediaId = jObj.RootElement.GetProperty("media_id_string");
+                                }
                             }
                         }
                     }
@@ -182,7 +183,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             if (content.StartsWith("{\"errors\":"))
             {
-                var errors = JsonConvert.DeserializeObject<TwitterErrors>(content);
+                var errors = JsonSerializer.Deserialize<TwitterErrors>(content);
 
                 throw new TwitterException { Errors = errors };
             }
