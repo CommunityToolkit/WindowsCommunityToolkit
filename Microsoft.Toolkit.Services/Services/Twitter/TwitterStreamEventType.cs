@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
-    /// Describes the type of event that has occured on twitter
+    /// Describes the type of event that has occurred on twitter
     /// </summary>
     public enum TwitterStreamEventType
     {

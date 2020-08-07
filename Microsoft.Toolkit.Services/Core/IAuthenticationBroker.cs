@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Services.Core
         /// <summary>
         /// Returns the authentication status, it could be UserCancel, ErrorHttp and Success.
         /// </summary>
-        /// <param name="requestUri"> Autorization base url</param>
+        /// <param name="requestUri"> Authorization base url</param>
         /// <param name="callbackUri"> LinkedInOAuthTokens callbackUri</param>
         /// <returns> Returns a status </returns>
         Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri);

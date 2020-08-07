@@ -279,7 +279,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// even long sequences of values. For the reference implementation, see: <see href="http://www.cse.yorku.ca/~oz/hash.html"/>.
         /// For details on the used constants, see the details provided in this StackOverflow answer (as well as the accepted one):
         /// <see href="https://stackoverflow.com/questions/10696223/reason-for-5381-number-in-djb-hash-function/13809282#13809282"/>.
-        /// Additionally, a comparison between some common hashing algoriths can be found in the reply to this StackExchange question:
+        /// Additionally, a comparison between some common hashing algorithms can be found in the reply to this StackExchange question:
         /// <see href="https://softwareengineering.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed"/>.
         /// Note that the exact implementation is slightly different in this method when it is not called on a sequence of <see cref="byte"/>
         /// values: in this case the <see cref="object.GetHashCode"/> method will be invoked for each <typeparamref name="T"/> value in

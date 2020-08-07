@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Services
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigNullException"/> class.
-        /// Constructor accepting additonal message string and inner exception
+        /// Constructor accepting additional message string and inner exception
         /// </summary>
         /// <param name="message">Additional error information.</param>
         /// <param name="innerException">Reference to inner exception.</param>
