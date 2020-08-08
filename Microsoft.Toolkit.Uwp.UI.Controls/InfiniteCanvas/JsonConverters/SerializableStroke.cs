@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Numerics;
-using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Windows.UI.Input.Inking;
 
@@ -29,8 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public Matrix3x2 PointTransform { get; set; }
 
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context)
+        internal void Write(Utf8JsonWriter writer, JsonSerializerOptions options)
         {
             SerializableFinalPointList = new List<SerializablePoint>(FinalPointList.Count);
             foreach (var point in FinalPointList)
@@ -60,10 +59,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     DrawAsHighlighter = DrawingAttributesIgnored.DrawAsHighlighter
                 };
             }
+
+            JsonSerializer.Serialize(writer, this, options);
+
+            SerializableFinalPointList = null;
         }
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        internal void OnDeserialized()
         {
             var finalPointList = new List<InkPoint>(SerializableFinalPointList.Count);
 
@@ -107,12 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SerializableDrawingAttributesPencilProperties = null;
             SerializableFinalPointList = null;
             SerializableDrawingAttributesKind = null;
-        }
-
-        [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context)
-        {
-            SerializableFinalPointList = null;
         }
     }
 }

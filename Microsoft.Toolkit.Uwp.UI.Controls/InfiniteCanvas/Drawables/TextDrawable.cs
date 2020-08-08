@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Windows.Foundation;
@@ -13,6 +15,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class TextDrawable : IDrawable
     {
+        [JsonPropertyName("$type")]
+        public string Type => IDrawableConverter.GetDiscriminator(GetType());
+
         public string Text { get; set; }
 
         public Rect Bounds { get; set; }
@@ -26,6 +31,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsBold { get; set; }
 
         public bool IsItalic { get; set; }
+
+        public TextDrawable()
+        {
+        }
 
         public TextDrawable(double left, double top, double width, double height, float fontSize, string text, Color textColor, bool isBold, bool isItalic)
         {
@@ -74,6 +83,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 return ((100 - FontSize) / 10) + 5;
+            }
+        }
+
+        public void WriteJson(Utf8JsonWriter writer)
+        {
+            JsonSerializer.Serialize(writer, this);
+        }
+
+        public void OnDeserialized()
+        {
+        }
+
+        public void ReadProperty(string propertyName, ref Utf8JsonReader reader)
+        {
+            switch (propertyName)
+            {
+                case "Text":
+                    Text = reader.GetString();
+                    break;
+                case "FontSize":
+                    FontSize = reader.GetSingle();
+                    break;
+                case "TextColor":
+                    TextColor = JsonSerializer.Deserialize<Color>(ref reader);
+                    break;
+                case "IsBold":
+                    IsBold = reader.GetBoolean();
+                    break;
+                case "IsItalic":
+                    IsItalic = reader.GetBoolean();
+                    break;
+                default:
+                    break;
             }
         }
     }
