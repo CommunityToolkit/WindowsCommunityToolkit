@@ -18,7 +18,9 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_DangerousGetReference()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            using var owner = CreateRandomData<int>(12, default);
+
+            ReadOnlySpan<int> data = owner.GetSpan();
 
             ref int r0 = ref data.DangerousGetReference();
             ref int r1 = ref Unsafe.AsRef(data[0]);
@@ -30,7 +32,9 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_DangerousGetReferenceAt_Zero()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            using var owner = CreateRandomData<int>(12, default);
+
+            ReadOnlySpan<int> data = owner.GetSpan();
 
             ref int r0 = ref data.DangerousGetReference();
             ref int r1 = ref data.DangerousGetReferenceAt(0);
@@ -42,7 +46,9 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_DangerousGetReferenceAt_Index()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            using var owner = CreateRandomData<int>(12, default);
+
+            ReadOnlySpan<int> data = owner.GetSpan();
 
             ref int r0 = ref data.DangerousGetReferenceAt(5);
             ref int r1 = ref Unsafe.AsRef(data[5]);

@@ -6,6 +6,7 @@ using System;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers.Internals;
 
 namespace UnitTests.HighPerformance.Helpers
 {
@@ -19,15 +20,17 @@ namespace UnitTests.HighPerformance.Helpers
 
         [TestCategory("ParallelHelper")]
         [TestMethod]
-        public void Test_ParallelHelper_ForWithIndices()
+        public unsafe void Test_ParallelHelper_ForWithIndices()
         {
             foreach (int count in TestForCounts)
             {
-                int[] data = new int[count];
+                using UnmanagedSpanOwner<int> data = new UnmanagedSpanOwner<int>(count);
 
-                ParallelHelper.For(0, data.Length, new Assigner(data));
+                data.GetSpan().Clear();
 
-                foreach (var item in data.Enumerate())
+                ParallelHelper.For(0, data.Length, new Assigner(data.Length, data.Ptr));
+
+                foreach (var item in data.GetSpan().Enumerate())
                 {
                     if (item.Index != item.Value)
                     {
@@ -56,15 +59,17 @@ namespace UnitTests.HighPerformance.Helpers
 
         [TestCategory("ParallelHelper")]
         [TestMethod]
-        public void Test_ParallelHelper_ForWithRanges()
+        public unsafe void Test_ParallelHelper_ForWithRanges()
         {
             foreach (int count in TestForCounts)
             {
-                int[] data = new int[count];
+                using UnmanagedSpanOwner<int> data = new UnmanagedSpanOwner<int>(count);
 
-                ParallelHelper.For(..data.Length, new Assigner(data));
+                data.GetSpan().Clear();
 
-                foreach (var item in data.Enumerate())
+                ParallelHelper.For(..data.Length, new Assigner(data.Length, data.Ptr));
+
+                foreach (var item in data.GetSpan().Enumerate())
                 {
                     if (item.Index != item.Value)
                     {
@@ -78,21 +83,31 @@ namespace UnitTests.HighPerformance.Helpers
         /// <summary>
         /// A type implementing <see cref="IAction"/> to initialize an array
         /// </summary>
-        private readonly struct Assigner : IAction
+        private readonly unsafe struct Assigner : IAction
         {
-            private readonly int[] array;
+            private readonly int length;
+            private readonly int* ptr;
 
-            public Assigner(int[] array) => this.array = array;
+            public Assigner(int length, int* ptr)
+            {
+                this.length = length;
+                this.ptr = ptr;
+            }
 
             /// <inheritdoc/>
             public void Invoke(int i)
             {
-                if (this.array[i] != 0)
+                if ((uint)i >= (uint)this.length)
                 {
-                    throw new InvalidOperationException($"Invalid target position {i}, was {this.array[i]} instead of 0");
+                    throw new IndexOutOfRangeException($"The target position was out of range, was {i} and should've been in [0, {this.length})");
                 }
 
-                this.array[i] = i;
+                if (this.ptr[i] != 0)
+                {
+                    throw new InvalidOperationException($"Invalid target position {i}, was {this.ptr[i]} instead of 0");
+                }
+
+                this.ptr[i] = i;
             }
         }
     }

@@ -9,6 +9,7 @@
     <Import_RootNamespace>UnitTests.HighPerformance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Internals\UnmanagedSpanOwner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryBufferWriter{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_ArrayPoolBufferWriter{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryOwner{T}.cs" />
