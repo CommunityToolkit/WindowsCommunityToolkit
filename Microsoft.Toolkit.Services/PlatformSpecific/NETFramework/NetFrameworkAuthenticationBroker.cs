@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
             else if (Application.Current != null)
             {
-                return AutenticateWindow(requestUri, callbackUri);
+                return this.AuthenticateWindow(requestUri, callbackUri);
             }
             else
             {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
         }
 
-        public async Task<AuthenticationResult> AutenticateWindow(Uri requestUri, Uri callbackUri)
+        public async Task<AuthenticationResult> AuthenticateWindow(Uri requestUri, Uri callbackUri)
         {
             PopupWPF popupWindow;
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();

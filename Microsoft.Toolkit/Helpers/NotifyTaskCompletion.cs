@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Helpers
         public bool IsFaulted => Task.IsFaulted;
 
         /// <summary>
-        /// Gets the exception which occured on the task (if one occurred).
+        /// Gets the exception which occurred on the task (if one occurred).
         /// </summary>
         public AggregateException Exception => Task.Exception;
 

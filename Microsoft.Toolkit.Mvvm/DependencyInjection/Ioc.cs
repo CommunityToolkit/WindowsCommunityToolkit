@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
             // data elements no larger than the natural word size [...] shall be properly aligned.
             // Object references shall be treated as though they are stored in the native word size."
             // The field being accessed here is of native int size (reference type), and is only ever accessed
-            // directly and atomically by a compare exhange instruction (see below), or here. We can therefore
+            // directly and atomically by a compare exchange instruction (see below), or here. We can therefore
             // assume this read is thread safe with respect to accesses to this property or to invocations to one
             // of the available configuration methods. So we can just read the field directly and make the necessary
             // check with our local copy, without the need of paying the locking overhead from this get accessor.
