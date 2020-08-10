@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers.Internals;
 
 namespace UnitTests.HighPerformance.Helpers
 {
@@ -27,21 +28,23 @@ namespace UnitTests.HighPerformance.Helpers
 
         [TestCategory("ParallelHelper")]
         [TestMethod]
-        public void Test_ParallelHelper_For2DWithIndices()
+        public unsafe void Test_ParallelHelper_For2DWithIndices()
         {
             foreach (var size in TestFor2DSizes)
             {
-                int[,] data = new int[size.Height, size.Width];
+                using UnmanagedSpanOwner<int> data = new UnmanagedSpanOwner<int>(size.Height * size.Width);
 
-                ParallelHelper.For2D(0, size.Height, 0, size.Width, new Assigner2D(data));
+                data.GetSpan().Clear();
+
+                ParallelHelper.For2D(0, size.Height, 0, size.Width, new Assigner2D(size.Height, size.Width, data.Ptr));
 
                 for (int i = 0; i < size.Height; i++)
                 {
                     for (int j = 0; j < size.Width; j++)
                     {
-                        if (data[i, j] != unchecked(i * 397 ^ j))
+                        if (data.Ptr[(i * size.Width) + j] != unchecked(i * 397 ^ j))
                         {
-                            Assert.Fail($"Invalid item at position [{i},{j}], value was {data[i, j]} instead of {unchecked(i * 397 ^ j)}");
+                            Assert.Fail($"Invalid item at position [{i},{j}], value was {data.Ptr[(i * size.Width) + j]} instead of {unchecked(i * 397 ^ j)}");
                         }
                     }
                 }
@@ -67,21 +70,23 @@ namespace UnitTests.HighPerformance.Helpers
 
         [TestCategory("ParallelHelper")]
         [TestMethod]
-        public void Test_ParallelHelper_For2DWithRanges()
+        public unsafe void Test_ParallelHelper_For2DWithRanges()
         {
             foreach (var size in TestFor2DSizes)
             {
-                int[,] data = new int[size.Height, size.Width];
+                using UnmanagedSpanOwner<int> data = new UnmanagedSpanOwner<int>(size.Height * size.Width);
 
-                ParallelHelper.For2D(..size.Height, ..size.Width, new Assigner2D(data));
+                data.GetSpan().Clear();
+
+                ParallelHelper.For2D(..size.Height, ..size.Width, new Assigner2D(size.Height, size.Width, data.Ptr));
 
                 for (int i = 0; i < size.Height; i++)
                 {
                     for (int j = 0; j < size.Width; j++)
                     {
-                        if (data[i, j] != unchecked(i * 397 ^ j))
+                        if (data.Ptr[(i * size.Width) + j] != unchecked(i * 397 ^ j))
                         {
-                            Assert.Fail($"Invalid item at position [{i},{j}], value was {data[i, j]} instead of {unchecked(i * 397 ^ j)}");
+                            Assert.Fail($"Invalid item at position [{i},{j}], value was {data.Ptr[(i * size.Width) + j]} instead of {unchecked(i * 397 ^ j)}");
                         }
                     }
                 }
@@ -92,21 +97,34 @@ namespace UnitTests.HighPerformance.Helpers
         /// <summary>
         /// A type implementing <see cref="IAction"/> to initialize a 2D array
         /// </summary>
-        private readonly struct Assigner2D : IAction2D
+        private readonly unsafe struct Assigner2D : IAction2D
         {
-            private readonly int[,] array;
+            private readonly int height;
+            private readonly int width;
+            private readonly int* ptr;
 
-            public Assigner2D(int[,] array) => this.array = array;
+            public Assigner2D(int height, int width, int* ptr)
+            {
+                this.height = height;
+                this.width = width;
+                this.ptr = ptr;
+            }
 
             /// <inheritdoc/>
             public void Invoke(int i, int j)
             {
-                if (this.array[i, j] != 0)
+                if ((uint)i >= (uint)this.height ||
+                    (uint)j >= (uint)this.width)
                 {
-                    throw new InvalidOperationException($"Invalid target position [{i},{j}], was {this.array[i, j]} instead of 0");
+                    throw new IndexOutOfRangeException($"The target position was invalid, was [{i}, {j}], should've been in [0, {this.height}] and [0, {this.width}]");
                 }
 
-                this.array[i, j] = unchecked(i * 397 ^ j);
+                if (this.ptr[(i * this.width) + j] != 0)
+                {
+                    throw new InvalidOperationException($"Invalid target position [{i},{j}], was {this.ptr[(i * this.width) + j]} instead of 0");
+                }
+
+                this.ptr[(i * this.width) + j] = unchecked(i * 397 ^ j);
             }
         }
     }
