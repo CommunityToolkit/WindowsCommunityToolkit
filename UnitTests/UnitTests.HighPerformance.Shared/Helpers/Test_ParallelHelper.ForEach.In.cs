@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers.Internals;
 
 namespace UnitTests.HighPerformance.Helpers
 {
@@ -19,15 +20,15 @@ namespace UnitTests.HighPerformance.Helpers
         {
             foreach (int count in TestForCounts)
             {
-                int[] data = CreateRandomData(count);
+                using UnmanagedSpanOwner<int> data = CreateRandomData(count);
 
                 int sum = 0;
 
-                ParallelHelper.ForEach<int, Summer>(data.AsMemory(), new Summer(&sum));
+                ParallelHelper.ForEach<int, Summer>(data.Memory, new Summer(&sum));
 
                 int expected = 0;
 
-                foreach (int n in data)
+                foreach (int n in data.GetSpan())
                 {
                     expected += n;
                 }
@@ -55,13 +56,13 @@ namespace UnitTests.HighPerformance.Helpers
         /// <param name="count">The number of array items to create.</param>
         /// <returns>An array of random <see cref="int"/> elements.</returns>
         [Pure]
-        private static int[] CreateRandomData(int count)
+        private static UnmanagedSpanOwner<int> CreateRandomData(int count)
         {
             var random = new Random(count);
 
-            int[] data = new int[count];
+            UnmanagedSpanOwner<int> data = new UnmanagedSpanOwner<int>(count);
 
-            foreach (ref int n in data.AsSpan())
+            foreach (ref int n in data.GetSpan())
             {
                 n = random.Next(0, byte.MaxValue);
             }
