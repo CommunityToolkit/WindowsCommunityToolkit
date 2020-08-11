@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <Title>Windows Community Toolkit MVVM .NET Standard</Title>
     <Description>
-      This package includes MVVM .NET Standard code only helpers such as:
+      This package includes a .NET Standard MVVM library with helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
       - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
       - RelayCommand: a simple delegate command implementing the ICommand interface.
