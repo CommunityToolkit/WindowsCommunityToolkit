@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Reflection;
@@ -41,28 +40,21 @@ namespace Microsoft.Toolkit.Extensions
 #endif
             )
             {
-                Type taskType = task.GetType();
-
-                // Check if the task is actually some Task<T>
-                if (
+                // Try to get the Task<T>.Result property. This method would've
+                // been called anyway after the type checks, but using that to
+                // validate the input type saves some additional reflection calls.
+                // Furthermore, doing this also makes the method flexible enough to
+                // cases whether the input Task<T> is actually an instance of some
+                // runtime-specific type that inherits from Task<T>.
+                PropertyInfo? propertyInfo =
 #if NETSTANDARD1_4
-                    taskType.GetTypeInfo().IsGenericType &&
+                    task.GetType().GetRuntimeProperty(nameof(Task<object>.Result));
 #else
-                    taskType.IsGenericType &&
-#endif
-                    taskType.GetGenericTypeDefinition() == typeof(Task<>))
-                {
-                    // Get the Task<T>.Result property
-                    PropertyInfo propertyInfo =
-#if NETSTANDARD1_4
-                        taskType.GetRuntimeProperty(nameof(Task<object>.Result));
-#else
-                        taskType.GetProperty(nameof(Task<object>.Result));
+                    task.GetType().GetProperty(nameof(Task<object>.Result));
 #endif
 
-                    // Finally retrieve the result
-                    return propertyInfo!.GetValue(task);
-                }
+                // Return the result, if possible
+                return propertyInfo?.GetValue(task);
             }
 
             return null;
