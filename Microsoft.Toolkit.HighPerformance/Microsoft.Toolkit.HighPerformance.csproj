@@ -78,9 +78,9 @@
 
         <!-- NETCORE_RUNTIME: to avoid issues with APIs that assume a specific memory layout, we define a
              .NET Core runtime constant to indicate the either .NET Core 2.1 or .NET Core 3.1. These are
-             runtimes with the same overall memory layout for objects (in particular: strings, SZ arrays
+             runtimes with the same overall memory layout for objects (in particular: strings, SZ arrays,
              and 2D arrays). We can use this constant to make sure that APIs that are exclusively available
-             for .NET Standard targets do not make any assumtpion of any internals of the runtime being
+             for .NET Standard targets do not make any assumption of any internals of the runtime being
              actually used by the consumers. -->
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
       </PropertyGroup>
