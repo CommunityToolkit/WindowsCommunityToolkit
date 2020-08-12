@@ -4,16 +4,16 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Title>Windows Community Toolkit Mvvm .NET Standard</Title>
+    <Title>Windows Community Toolkit MVVM Toolkit</Title>
     <Description>
-      This package includes Mvvm .NET Standard code only helpers such as:
+      This package includes a .NET Standard MVVM library with helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
       - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
       - RelayCommand: a simple delegate command implementing the ICommand interface.
       - Messenger: a messaging system to exchange messages through different loosely-coupled objects.
       - Ioc: a helper class to configure dependency injection service containers.
     </Description>
-    <PackageTags>UWP Toolkit Windows Mvvm observable Ioc dependency injection services extensions helpers</PackageTags>
+    <PackageTags>UWP Toolkit Windows MVVM MVVMToolkit observable Ioc dependency injection services extensions helpers</PackageTags>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> type -->

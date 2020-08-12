@@ -51,16 +51,16 @@ namespace Microsoft.Toolkit.Services.Twitter
             var events = obj.SelectToken("event", false);
             if (events != null)
             {
-                var targetobject = obj.SelectToken("target_object", false);
-                Tweet endtargetobject = null;
-                if (targetobject?.SelectToken("user", false) != null)
+                var targetObject = obj.SelectToken("target_object", false);
+                Tweet endTargetObject = null;
+                if (targetObject?.SelectToken("user", false) != null)
                 {
-                    endtargetobject = JsonConvert.DeserializeObject<Tweet>(targetobject.ToString());
+                    endTargetObject = JsonConvert.DeserializeObject<Tweet>(targetObject.ToString());
                 }
 
-                var endevent = JsonConvert.DeserializeObject<TwitterStreamEvent>(obj.ToString());
-                endevent.TargetObject = endtargetobject;
-                return endevent;
+                var endEvent = JsonConvert.DeserializeObject<TwitterStreamEvent>(obj.ToString());
+                endEvent.TargetObject = endTargetObject;
+                return endEvent;
             }
 
             var user = obj.SelectToken("user", false);
