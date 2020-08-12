@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Generate authorization header.
         /// </summary>
-        /// <returns>Generated authorizatin header string.</returns>
+        /// <returns>Generated authorization header string.</returns>
         private string GenerateAuthorizationHeader()
         {
             StringBuilder authHeaderBuilder = new StringBuilder();
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Get list of auth header parameters.
         /// </summary>
-        /// <returns>List of auth header paramters.</returns>
+        /// <returns>List of auth header parameters.</returns>
         private IEnumerable<OAuthParameter> GetAuthHeaderParameters()
         {
             yield return Version;

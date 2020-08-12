@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         public class RSSIComparer : IComparer
         {
             /// <summary>
-            /// Compares two ObservableBluettothLEDevices and returns a value indicating
+            /// Compares two <see cref="ObservableBluetoothLEDevice"/> and returns a value indicating
             /// whether one is less than, equal to, or greater than the other.
             /// </summary>
             /// <param name="x">First object to compare</param>
@@ -401,7 +401,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// ConnectAsync to this bluetooth device
         /// </summary>
         /// <returns>Connection task</returns>
-        /// <exception cref="Exception">Thorws Exception when no permission to access device</exception>
+        /// <exception cref="Exception">Throws Exception when no permission to access device</exception>
         public async Task ConnectAsync()
         {
             await DispatcherQueue.ExecuteOnUIThreadAsync(
@@ -438,9 +438,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                     // In case we connected before, clear the service list and recreate it
                     Services.Clear();
 
-                    foreach (var serv in _result.Services)
+                    foreach (var service in _result.Services)
                     {
-                        Services.Add(new ObservableGattDeviceService(serv));
+                        Services.Add(new ObservableGattDeviceService(service));
                     }
 
                     ServiceCount = Services.Count;

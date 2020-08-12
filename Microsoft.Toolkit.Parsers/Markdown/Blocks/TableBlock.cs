@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the block should find the start of the block, find the end and parse out the middle. The end most of the time will not be
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
-            /// <returns>the postiion parsed to</returns>
+            /// <returns>the position parsed to</returns>
             internal int Parse(string markdown, int startingPos, int maxEndingPos, int quoteDepth)
             {
                 Cells = new List<TableCell>();
