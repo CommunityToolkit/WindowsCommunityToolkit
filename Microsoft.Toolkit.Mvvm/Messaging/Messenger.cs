@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TToken : IEquatable<TToken>
         {
             bool lockTaken = false;
-            IDictionarySlim<Recipient, IDictionarySlim<TToken>>[]? maps = null;
+            object[]? maps = null;
             int i = 0;
 
             // We use an explicit try/finally block here instead of the lock syntax so that we can use a single
@@ -243,11 +243,16 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return;
                 }
 
-                // Copy the candidate mappings for the target recipient to a local
-                // array, as we can't modify the contents of the set while iterating it.
-                // The rented buffer is oversized and will also include mappings for
-                // handlers of messages that are registered through a different token.
-                maps = ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Rent(set!.Count);
+                // Copy the candidate mappings for the target recipient to a local array, as we can't modify the
+                // contents of the set while iterating it. The rented buffer is oversized and will also include
+                // mappings for handlers of messages that are registered through a different token. Note that
+                // we're using just an object array to minimize the number of total rented buffers, that would
+                // just remain in the shared pool unused, other than when they are rented here. Instead, we're
+                // using a type that would possibly also be used by the users of the library, which increases
+                // the opportunities to reuse existing buffers for both. When we need to reference an item
+                // stored in the buffer with the type we know it will have, we use Unsafe.As<T> to avoid the
+                // expensive type check in the cast, since we already know the assignment will be valid.
+                maps = ArrayPool<object>.Shared.Rent(set!.Count);
 
                 foreach (IMapping item in set)
                 {
@@ -265,8 +270,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // without having to know the concrete type in advance, and without having
                 // to deal with reflection: we can just check if the type of the closed interface
                 // matches with the token type currently in use, and operate on those instances.
-                foreach (IDictionarySlim<Recipient, IDictionarySlim<TToken>> map in maps.AsSpan(0, i))
+                foreach (object obj in maps.AsSpan(0, i))
                 {
+                    var map = Unsafe.As<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>(obj);
+
                     // We don't need whether or not the map contains the recipient, as the
                     // sequence of maps has already been copied from the set containing all
                     // the mappings for the target recipients: it is guaranteed to be here.
@@ -324,7 +331,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 {
                     maps.AsSpan(0, i).Clear();
 
-                    ArrayPool<IDictionarySlim<Recipient, IDictionarySlim<TToken>>>.Shared.Return(maps);
+                    ArrayPool<object>.Shared.Return(maps);
                 }
             }
         }
@@ -382,7 +389,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            Action<TMessage>[] entries;
+            object[] entries;
             int i = 0;
 
             lock (this.recipientsMap)
@@ -398,7 +405,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // inside one of the currently existing handlers. We can use memory pooling
                 // to reuse arrays, to minimize the average memory usage. In practice,
                 // we usually just need to pay the small overhead of copying the items.
-                entries = ArrayPool<Action<TMessage>>.Shared.Rent(mapping!.TotalHandlersCount);
+                entries = ArrayPool<object>.Shared.Rent(mapping!.TotalHandlersCount);
 
                 // Copy the handlers to the local collection.
                 // Both types being enumerate expose a struct enumerator,
@@ -431,7 +438,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Invoke all the necessary handlers on the local copy of entries
                 foreach (var entry in entries.AsSpan(0, i))
                 {
-                    entry(message);
+                    // We're doing an unsafe cast to skip the type checks again.
+                    // See the comments in the UnregisterALl method for more info.
+                    Unsafe.As<Action<TMessage>>(entry)(message);
                 }
             }
             finally
@@ -440,7 +449,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // lasting memory leaks due to leftover references being stored in the pool.
                 entries.AsSpan(0, i).Clear();
 
-                ArrayPool<Action<TMessage>>.Shared.Return(entries);
+                ArrayPool<object>.Shared.Return(entries);
             }
 
             return message;
