@@ -31,10 +31,10 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 Type = CRED_TYPE.GENERIC,
                 Persist = CRED_PERSIST.LOCAL_MACHINE
             };
-            NativeCredential ncred = NativeCredential.GetNativeCredential(cred);
+            NativeCredential userCredential = NativeCredential.GetNativeCredential(cred);
 
             // Write the info into the CredMan storage.
-            bool written = CredWrite(ref ncred, 0);
+            bool written = CredWrite(ref userCredential, 0);
             int lastError = Marshal.GetLastWin32Error();
             if (!written)
             {
@@ -52,14 +52,14 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 return null;
             }
 
-            CriticalCredentialHandle critCred = new CriticalCredentialHandle(nCredPtr);
+            CriticalCredentialHandle credentialHandle = new CriticalCredentialHandle(nCredPtr);
 
-            Credential credential = critCred.GetCredential();
-            PasswordCredential passCred = new PasswordCredential();
-            passCred.UserName = credential.UserName;
-            passCred.Password = credential.CredentialBlob;
-
-            return passCred;
+            Credential credential = credentialHandle.GetCredential();
+            return new PasswordCredential
+            {
+                UserName = credential.UserName,
+                Password = credential.CredentialBlob
+            };
         }
 
         public void Remove(string key)
