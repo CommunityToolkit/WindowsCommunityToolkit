@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <summary>
         /// The <see cref="ServiceProvider"/> instance to use, if initialized.
         /// </summary>
-        private ServiceProvider? serviceProvider;
+        private volatile ServiceProvider? serviceProvider;
 
         /// <inheritdoc/>
         object? IServiceProvider.GetService(Type serviceType)

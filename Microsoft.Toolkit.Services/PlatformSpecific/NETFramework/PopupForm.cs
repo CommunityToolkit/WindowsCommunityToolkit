@@ -15,7 +15,7 @@ using System.Windows.Forms;
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     /// <summary>
-    /// Service WebView for winforms
+    /// Service WebView for windows forms
     /// </summary>
     public partial class PopupForm : Form
     {

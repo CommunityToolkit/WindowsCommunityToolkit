@@ -385,7 +385,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Set the tile's activation arguments for chasable tile notification.
+        /// Set the tile's activation arguments for tile notification.
         /// </summary>
         /// <param name="args">App-Defined custom arguments that will be passed in when the user click on the tile when this tile notification is being displayed.</param>
         /// <param name="size">The tile size that the custom argument should be applied to. Default to all currently supported tile size.</param>

@@ -129,7 +129,7 @@ namespace UnitTests.UI.Controls
 #endif
 
         /// <summary>
-        /// Tests the mapping indicies of the projected outer collection back to the inner source.
+        /// Tests the mapping indices of the projected outer collection back to the inner source.
         /// </summary>
         [TestMethod]
         public void TestIndexMappingInner()
@@ -150,7 +150,7 @@ namespace UnitTests.UI.Controls
         }
 
         /// <summary>
-        /// Tests the mapping indicies of the projected outer collection back to the inner source.
+        /// Tests the mapping indices of the projected outer collection back to the inner source.
         /// </summary>
         [TestMethod]
         public void TestIndexMappingInnerDifferentOrder()
@@ -176,7 +176,7 @@ namespace UnitTests.UI.Controls
 
 #if DEBUG
         /// <summary>
-        /// Tests the mapping indicies of the projected outer collection back to the inner source.
+        /// Tests the mapping indices of the projected outer collection back to the inner source.
         /// </summary>
         [TestMethod]
         public void TestIndexMappingInnerBounds()
@@ -265,7 +265,7 @@ namespace UnitTests.UI.Controls
             CollectionAssert.AreEqual(new object[] { "1", "2", 3 }, ioc, string.Format("Collection not as expected, received {0}", ioc.ToArray().ToArrayString()));
 
             Assert.AreEqual(0, ioc.IndexOf("1"), "Key didn't move backwards.");
-            Assert.AreEqual(1, ioc.IndexOf("2"), "Key didn't move backwards (2).");            
+            Assert.AreEqual(1, ioc.IndexOf("2"), "Key didn't move backwards (2).");
         }
 
         [TestMethod]
@@ -316,7 +316,7 @@ namespace UnitTests.UI.Controls
         }
 
         [TestMethod]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:Opening parenthesis should be spaced correctly", Justification = "Alignment/readibility")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:Opening parenthesis should be spaced correctly", Justification = "Alignment/readability")]
         public void TestBasicIndexing()
         {
             var originalSource = new List<object>(new object[] { 1, 3, 5 });

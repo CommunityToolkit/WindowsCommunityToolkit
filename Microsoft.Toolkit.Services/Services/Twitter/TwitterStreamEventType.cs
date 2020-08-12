@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         Favorite,
 
         /// <summary>
-        /// The source user has unfaovorited the target users tweet.
+        /// The source user has unfavorited the target users tweet.
         /// </summary>
         [EnumMemberAttribute(Value = "unfavorite")]
         Unfavorite,
