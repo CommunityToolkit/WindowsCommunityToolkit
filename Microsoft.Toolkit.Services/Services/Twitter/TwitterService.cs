@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public string UserScreenName => Provider.UserScreenName;
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <param name="authenticationBroker">Authentication result interface.</param>
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
 #if WINRT
         /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
+        /// Initialize underlying provider with relevant token information for Uwp.
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <returns>Success or failure.</returns>
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
 #if NET462
         /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
+        /// Initialize underlying provider with relevant token information for Uwp.
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <returns>Success or failure.</returns>

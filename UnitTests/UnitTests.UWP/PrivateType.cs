@@ -68,7 +68,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// Invokes static member
         /// </summary>
         /// <param name="name">Name of the member to InvokeHelper</param>
-        /// <param name="args">Arguements to the invoction</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, params object[] args)
         {
@@ -80,7 +80,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the member to InvokeHelper</param>
         /// <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
-        /// <param name="args">Arguements to the invoction</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, Type[] parameterTypes, object[] args)
         {
@@ -92,7 +92,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the member to InvokeHelper</param>
         /// <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
-        /// <param name="args">Arguements to the invoction</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, Type[] parameterTypes, object[] args, Type[] typeArguments)
@@ -104,7 +104,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// Invokes the static method
         /// </summary>
         /// <param name="name">Name of the member</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="culture">Culture</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, object[] args, CultureInfo culture)
@@ -117,7 +117,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the member</param>
         /// <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="culture">Culture info</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, Type[] parameterTypes, object[] args, CultureInfo culture)
@@ -130,7 +130,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional invocation attributes</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, BindingFlags bindingFlags, params object[] args)
         {
@@ -143,7 +143,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional invocation attributes</param>
         /// <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, BindingFlags bindingFlags, Type[] parameterTypes, object[] args)
         {
@@ -155,7 +155,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional invocation attributes</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="culture">Culture</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, BindingFlags bindingFlags, object[] args, CultureInfo culture)
@@ -169,7 +169,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional invocation attributes</param>
         /// /// <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="culture">Culture</param>
         /// <returns>Result of invocation</returns>
         public object InvokeStatic(string name, BindingFlags bindingFlags, Type[] parameterTypes, object[] args, CultureInfo culture)
@@ -183,7 +183,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional invocation attributes</param>
         /// /// <param name="parameterTypes">An array of <see cref="T:System.Type"/> objects representing the number, order, and type of the parameters for the method to invoke</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="culture">Culture</param>
         /// <param name="typeArguments">An array of types corresponding to the types of the generic arguments.</param>
         /// <returns>Result of invocation</returns>
@@ -241,7 +241,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         }
 
         /// <summary>
-        /// Sets the memeber of the static array
+        /// Sets the member of the static array
         /// </summary>
         /// <param name="name">Name of the array</param>
         /// <param name="value">value to set</param>
@@ -255,7 +255,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         }
 
         /// <summary>
-        /// Gets the element in satatic array
+        /// Gets the element in static array
         /// </summary>
         /// <param name="name">Name of the array</param>
         /// <param name="bindingFlags">Additional InvokeHelper attributes</param>
@@ -263,7 +263,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// A one-dimensional array of 32-bit integers that represent the indexes specifying
         /// the position of the element to get. For instance, to access a[10][11] the array would be {10,11}
         /// </param>
-        /// <returns>element at the spcified location</returns>
+        /// <returns>element at the specified location</returns>
         public object GetStaticArrayElement(string name, BindingFlags bindingFlags, params int[] indices)
         {
             Array arr = (Array)this.InvokeHelperStatic(name, BindingFlags.GetField | BindingFlags.GetProperty | bindingFlags, null, CultureInfo.InvariantCulture);
@@ -271,7 +271,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         }
 
         /// <summary>
-        /// Sets the memeber of the static array
+        /// Sets the member of the static array
         /// </summary>
         /// <param name="name">Name of the array</param>
         /// <param name="bindingFlags">Additional InvokeHelper attributes</param>
@@ -300,7 +300,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// Sets the static field
         /// </summary>
         /// <param name="name">Name of the field</param>
-        /// <param name="value">Arguement to the invocation</param>
+        /// <param name="value">Arguments to the invocation</param>
         public void SetStaticField(string name, object value)
         {
             this.SetStaticField(name, BindToEveryThing, value);
@@ -322,7 +322,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the field</param>
         /// <param name="bindingFlags">Additional InvokeHelper attributes</param>
-        /// <param name="value">Arguement to the invocation</param>
+        /// <param name="value">Arguments to the invocation</param>
         public void SetStaticField(string name, BindingFlags bindingFlags, object value)
         {
             this.InvokeHelperStatic(name, BindingFlags.SetField | bindingFlags | BindingFlags.Static, new[] { value }, CultureInfo.InvariantCulture);
@@ -374,7 +374,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// Gets the static property
         /// </summary>
         /// <param name="name">Name of the field or property</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <returns>The static property.</returns>
         public object GetStaticProperty(string name, params object[] args)
         {
@@ -489,7 +489,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// </summary>
         /// <param name="name">Name of the member</param>
         /// <param name="bindingFlags">Additional invocation attributes</param>
-        /// <param name="args">Arguements to the invocation</param>
+        /// <param name="args">Arguments to the invocation</param>
         /// <param name="culture">Culture</param>
         /// <returns>Result of invocation</returns>
         private object InvokeHelperStatic(string name, BindingFlags bindingFlags, object[] args, CultureInfo culture)

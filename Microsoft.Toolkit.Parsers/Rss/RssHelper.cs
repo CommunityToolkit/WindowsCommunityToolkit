@@ -23,9 +23,9 @@ namespace Microsoft.Toolkit.Parsers.Rss
         private const string ImagePattern = @"<img.*?src=[\""'](.+?)[\""'].*?>";
 
         /// <summary>
-        /// String for regular xpression for hyperlink pattern.
+        /// String for regular expression for hyperlink pattern.
         /// </summary>
-        private const string HiperlinkPattern = @"<a\s+(?:[^>]*?\s+)?href=""([^ ""]*)""";
+        private const string HyperlinkPattern = @"<a\s+(?:[^>]*?\s+)?href=""([^ ""]*)""";
 
         /// <summary>
         /// String for regular expression for height pattern.
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// <summary>
         /// Regular expression for hyperlink pattern.
         /// </summary>
-        private static readonly Regex RegexLinks = new Regex(HiperlinkPattern, RegexOptions.IgnoreCase);
+        private static readonly Regex RegexLinks = new Regex(HyperlinkPattern, RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Regular expression for height pattern.
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get item date from xelement and element name.
+        /// Get item date from <see cref="XElement"/> and element name.
         /// </summary>
         /// <param name="item">XElement item.</param>
         /// <param name="elementName">Name of element.</param>
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get item date from xelement, element name and namespace.
+        /// Get item date from <see cref="XElement"/>, element name and <see cref="XNamespace"/>.
         /// </summary>
         /// <param name="item">XElement item.</param>
         /// <param name="elementName">Name of element.</param>
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get item string value for xelement and element name.
+        /// Get item string value for <see cref="XElement"/> and element name.
         /// </summary>
         /// <param name="item">XElement item.</param>
         /// <param name="elementName">Name of element.</param>
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get item string values for xelement and element name.
+        /// Get item string values for <see cref="XElement"/> and element name.
         /// </summary>
         /// <param name="item">XElement item.</param>
         /// <param name="elementName">Name of the element.</param>
@@ -144,9 +144,9 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get item string values for xelement, element name and namespace.
+        /// Get item string values for <see cref="XElement"/>, element name and namespace.
         /// </summary>
-        /// <param name="item">XELement item.</param>
+        /// <param name="item">XElement item.</param>
         /// <param name="elementName">Name of element.</param>
         /// <param name="xNamespace">XNamespace namespace.</param>
         /// <returns>Safe list of string values.</returns>
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get item string value for xelement, element name and namespace.
+        /// Get item string value for <see cref="XElement"/>, element name and namespace.
         /// </summary>
         /// <param name="item">XElement item.</param>
         /// <param name="elementName">Name of element.</param>
@@ -387,7 +387,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
             { "AT", new[] { "+0200", "Azores" } },
             { "AWDT", new[] { "-0900", "Australian West Daylight" } },
             { "AWST", new[] { "-0800", "Australian West Standard" } },
-            { "BAT", new[] { "-0300", "Bhagdad" } },
+            { "BAT", new[] { "-0300", "Baghdad" } },
             { "BDST", new[] { "-0200", "British Double Summer" } },
             { "BET", new[] { "+1100", "Bering Standard" } },
             { "BST", new[] { "+0300", "Brazil Standard" } },
@@ -413,8 +413,8 @@ namespace Microsoft.Toolkit.Parsers.Rss
             { "GST", new[] { "-1000", "Guam Standard" } },
             { "HDT", new[] { "+0900", "Hawaii Daylight" } },
             { "HST", new[] { "+1000", "Hawaii Standard" } },
-            { "IDLE", new[] { "-1200", "Internation Date Line East" } },
-            { "IDLW", new[] { "+1200", "Internation Date Line West" } },
+            { "IDLE", new[] { "-1200", "International Date Line East" } },
+            { "IDLW", new[] { "+1200", "International Date Line West" } },
             { "IST", new[] { "-0530", "Indian Standard" } },
             { "IT", new[] { "-0330", "Iran" } },
             { "JST", new[] { "-0900", "Japan Standard" } },

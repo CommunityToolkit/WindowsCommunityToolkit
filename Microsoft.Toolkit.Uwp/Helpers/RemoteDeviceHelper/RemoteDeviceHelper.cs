@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteDeviceHelper"/> class.
         /// </summary>
-        /// <param name="filter">Initiate Enumeration with specific RemoteSysemKind with Filters</param>
+        /// <param name="filter">Initiate Enumeration with specific RemoteSystemKind with Filters</param>
         /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
         public RemoteDeviceHelper(List<IRemoteSystemFilter> filter, DispatcherQueue dispatcherQueue = null)
         {
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Initiate Enumeration with specific RemoteSysemKind with Filters
+        /// Initiate Enumeration with specific RemoteSystemKind with Filters
         /// </summary>
         private async void GenerateSystemsWithFilterAsync(List<IRemoteSystemFilter> filter)
         {

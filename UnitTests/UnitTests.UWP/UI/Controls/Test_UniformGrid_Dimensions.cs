@@ -19,7 +19,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetDimensions_NoElements()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -27,9 +27,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -47,7 +47,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetDimensions_AllVisible()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -63,9 +63,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -83,7 +83,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetDimensions_SomeVisible()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -99,9 +99,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -124,7 +124,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetDimensions_FirstColumn()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -140,9 +140,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -160,7 +160,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetDimensions_ElementLarger()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -176,9 +176,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -196,7 +196,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetDimensions_FirstColumnEqualsColumns()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
@@ -211,9 +211,9 @@ namespace UnitTests.UI.Controls
     </controls:UniformGrid>
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
