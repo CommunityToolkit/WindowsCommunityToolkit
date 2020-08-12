@@ -432,10 +432,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         {
                             unsafe
                             {
-                                // We spend quite a bit of time in this busy loop as we go through all
-                                // the existing mappings and registrations to find the handlers we're
-                                // interested in. We can save some time by skipping the bounds checks
-                                // when indexing the array (as the size is already verified anyway).
+                                // We spend quite a bit of time in these two busy loops as we go through all the
+                                // existing mappings and registrations to find the handlers we're interested in.
+                                // We can manually offset here to skip the bounds checks in this inner loop when
+                                // indexing the array (the size is already verified and guaranteed to be enough).
                                 Unsafe.Add(ref entriesRef, (IntPtr)(void*)(uint)i++) = pairsEnumerator.Value;
                             }
                         }
@@ -449,7 +449,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 foreach (var entry in entries.AsSpan(0, i))
                 {
                     // We're doing an unsafe cast to skip the type checks again.
-                    // See the comments in the UnregisterALl method for more info.
+                    // See the comments in the UnregisterAll method for more info.
                     Unsafe.As<Action<TMessage>>(entry)(message);
                 }
             }
