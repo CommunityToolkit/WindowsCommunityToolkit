@@ -6,6 +6,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Collections.Extensions;
 
@@ -407,6 +408,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // we usually just need to pay the small overhead of copying the items.
                 entries = ArrayPool<object>.Shared.Rent(mapping!.TotalHandlersCount);
 
+                ref object entriesRef = ref MemoryMarshal.GetReference(entries.AsSpan());
+
                 // Copy the handlers to the local collection.
                 // Both types being enumerate expose a struct enumerator,
                 // so we're not actually allocating the enumerator here.
@@ -427,7 +430,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // Only select the ones with a matching token
                         if (pairsEnumerator.Key.Equals(token))
                         {
-                            entries[i++] = pairsEnumerator.Value;
+                            unsafe
+                            {
+                                // We spend quite a bit of time in this busy loop as we go through all
+                                // the existing mappings and registrations to find the handlers we're
+                                // interested in. We can save some time by skipping the bounds checks
+                                // when indexing the array (as the size is already verified anyway).
+                                Unsafe.Add(ref entriesRef, (IntPtr)(void*)(uint)i++) = pairsEnumerator.Value;
+                            }
                         }
                     }
                 }
