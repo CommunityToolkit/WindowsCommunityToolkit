@@ -63,6 +63,18 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsBitwiseEqualTo{T}"/> fails.
+        /// </summary>
+        /// <typeparam name="T">The type of input values being compared.</typeparam>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
+        internal static void ThrowArgumentExceptionForBitwiseEqualTo<T>(T value, T target, string name)
+            where T : unmanaged
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) is not a bitwise match, was <{value.ToHexString()}> instead of <{target.ToHexString()}>");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsLessThan{T}"/> fails.
         /// </summary>
         /// <typeparam name="T">The type of values being tested.</typeparam>
