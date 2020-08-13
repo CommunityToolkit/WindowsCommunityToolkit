@@ -93,24 +93,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
                 return _storedTokenValue;
             }
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, ServiceUrl))
+            using var request = new HttpRequestMessage(HttpMethod.Post, ServiceUrl);
+            request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
+
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
             {
-                request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
-
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = JsonSerializer.Deserialize<ErrorResponse>(content);
-                    throw new TranslatorServiceException(error?.Error?.Message);
-                }
-
-                _storedTokenTime = DateTime.Now;
-                _storedTokenValue = $"Bearer {content}";
-
-                return _storedTokenValue;
+                var error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                throw new TranslatorServiceException(error?.Error?.Message);
             }
+
+            _storedTokenTime = DateTime.Now;
+            _storedTokenValue = $"Bearer {content}";
+
+            return _storedTokenValue;
         }
     }
 }

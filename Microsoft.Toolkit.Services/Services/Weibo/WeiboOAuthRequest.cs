@@ -41,26 +41,22 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <returns>String result.</returns>
         public async Task<string> ExecuteGetAsync(Uri requestUri, WeiboOAuthTokens tokens)
         {
-            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+            using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
+            if (requestUriBuilder.Query.StartsWith("?"))
             {
-                UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
-                if (requestUriBuilder.Query.StartsWith("?"))
-                {
-                    requestUriBuilder.Query = requestUriBuilder.Query.Substring(1) + "&access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
-                }
-                else
-                {
-                    requestUriBuilder.Query = requestUriBuilder.Query + "?access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
-                }
-
-                request.RequestUri = requestUriBuilder.Uri;
-
-                using (HttpResponseMessage response = await _client.SendAsync(request).ConfigureAwait(false))
-                {
-                    response.ThrowIfNotValid();
-                    return ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                }
+                requestUriBuilder.Query = requestUriBuilder.Query.Substring(1) + "&access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
             }
+            else
+            {
+                requestUriBuilder.Query = requestUriBuilder.Query + "?access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
+            }
+
+            request.RequestUri = requestUriBuilder.Uri;
+
+            using HttpResponseMessage response = await _client.SendAsync(request).ConfigureAwait(false);
+            response.ThrowIfNotValid();
+            return ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
         }
 
         /// <summary>
@@ -75,41 +71,33 @@ namespace Microsoft.Toolkit.Services.Weibo
             var contentDict = new Dictionary<string, string>();
             contentDict.Add("status", status);
 
-            using (var formUrlEncodedContent = new FormUrlEncodedContent(contentDict))
+            using var formUrlEncodedContent = new FormUrlEncodedContent(contentDict);
+            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
+            if (requestUriBuilder.Query.StartsWith("?"))
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
-                {
-                    UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
-                    if (requestUriBuilder.Query.StartsWith("?"))
-                    {
-                        requestUriBuilder.Query = requestUriBuilder.Query.Substring(1) + "&access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
-                    }
-                    else
-                    {
-                        requestUriBuilder.Query = requestUriBuilder.Query + "access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
-                    }
+                requestUriBuilder.Query = requestUriBuilder.Query.Substring(1) + "&access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
+            }
+            else
+            {
+                requestUriBuilder.Query = requestUriBuilder.Query + "access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
+            }
 
-                    request.RequestUri = requestUriBuilder.Uri;
+            request.RequestUri = requestUriBuilder.Uri;
 
-                    request.Content = formUrlEncodedContent;
+            request.Content = formUrlEncodedContent;
 
-                    using (var response = await _client.SendAsync(request).ConfigureAwait(false))
-                    {
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            {
-                                return await JsonSerializer.DeserializeAsync<WeiboStatus>(stream).ConfigureAwait(false);
-                            }
-                        }
-                        else
-                        {
-                            response.ThrowIfNotValid();
-                            ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                            return null;
-                        }
-                    }
-                }
+            using var response = await _client.SendAsync(request).ConfigureAwait(false);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                return await JsonSerializer.DeserializeAsync<WeiboStatus>(stream).ConfigureAwait(false);
+            }
+            else
+            {
+                response.ThrowIfNotValid();
+                ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                return null;
             }
         }
 
@@ -125,52 +113,41 @@ namespace Microsoft.Toolkit.Services.Weibo
         {
             try
             {
-                using (var multipartFormDataContent = new MultipartFormDataContent())
+                using var multipartFormDataContent = new MultipartFormDataContent();
+                using var stringContent = new StringContent(status);
+                multipartFormDataContent.Add(stringContent, "status");
+                using var byteContent = new ByteArrayContent(content);
+
+                // Somehow Weibo's backend requires a Filename field to work
+                byteContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { FileName = "attachment", Name = "pic" };
+                multipartFormDataContent.Add(byteContent, "pic");
+
+                using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+                UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
+                if (requestUriBuilder.Query.StartsWith("?"))
                 {
-                    using (var stringContent = new StringContent(status))
-                    {
-                        multipartFormDataContent.Add(stringContent, "status");
-                        using (var byteContent = new ByteArrayContent(content))
-                        {
-                            // Somehow Weibo's backend requires a Filename field to work
-                            byteContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { FileName = "attachment", Name = "pic" };
-                            multipartFormDataContent.Add(byteContent, "pic");
+                    requestUriBuilder.Query = requestUriBuilder.Query.Substring(1) + "&access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
+                }
+                else
+                {
+                    requestUriBuilder.Query = requestUriBuilder.Query + "access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
+                }
 
-                            using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
-                            {
-                                UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
-                                if (requestUriBuilder.Query.StartsWith("?"))
-                                {
-                                    requestUriBuilder.Query = requestUriBuilder.Query.Substring(1) + "&access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
-                                }
-                                else
-                                {
-                                    requestUriBuilder.Query = requestUriBuilder.Query + "access_token=" + OAuthEncoder.UrlEncode(tokens.AccessToken);
-                                }
+                request.RequestUri = requestUriBuilder.Uri;
 
-                                request.RequestUri = requestUriBuilder.Uri;
+                request.Content = multipartFormDataContent;
 
-                                request.Content = multipartFormDataContent;
-
-                                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
-                                {
-                                    if (response.StatusCode == HttpStatusCode.OK)
-                                    {
-                                        using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                                        {
-                                            return await JsonSerializer.DeserializeAsync<WeiboStatus>(stream).ConfigureAwait(false);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        response.ThrowIfNotValid();
-                                        ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                                        return null;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                using var response = await _client.SendAsync(request).ConfigureAwait(false);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    return await JsonSerializer.DeserializeAsync<WeiboStatus>(stream).ConfigureAwait(false);
+                }
+                else
+                {
+                    response.ThrowIfNotValid();
+                    ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                    return null;
                 }
             }
             catch (ObjectDisposedException)

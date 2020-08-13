@@ -592,18 +592,16 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(twitterUrl)))
             {
-                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
+                using var response = await _client.SendAsync(request).ConfigureAwait(false);
+                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        getResponse = data;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("HttpHelper call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
-                        return false;
-                    }
+                    getResponse = data;
+                }
+                else
+                {
+                    Debug.WriteLine("HttpHelper call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
+                    return false;
                 }
             }
 
@@ -676,10 +674,8 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
-                {
-                    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                }
+                using var response = await _client.SendAsync(request).ConfigureAwait(false);
+                data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
 
             var screenName = ExtractTokenFromResponse(data, TwitterOAuthTokenType.ScreenName);

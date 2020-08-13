@@ -107,14 +107,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
             await CheckUpdateTokenAsync().ConfigureAwait(false);
 
             var uriString = $"{BaseUrl}detect?{ApiVersion}";
-            using (var request = CreateHttpRequest(uriString, HttpMethod.Post, input.Select(t => new { Text = t.Substring(0, Math.Min(t.Length, _MaxTextLengthForDetection)) })))
-            {
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            using var request = CreateHttpRequest(uriString, HttpMethod.Post, input.Select(t => new { Text = t.Substring(0, Math.Min(t.Length, _MaxTextLengthForDetection)) }));
 
-                var responseContent = JsonSerializer.Deserialize<IEnumerable<DetectedLanguageResponse>>(content);
-                return responseContent;
-            }
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            var responseContent = JsonSerializer.Deserialize<IEnumerable<DetectedLanguageResponse>>(content);
+            return responseContent;
         }
 
         /// <inheritdoc/>
@@ -131,24 +130,23 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
             await CheckUpdateTokenAsync().ConfigureAwait(false);
 
             var uriString = $"{BaseUrl}languages?scope=translation&{ApiVersion}";
-            using (var request = CreateHttpRequest(uriString))
+            using var request = CreateHttpRequest(uriString);
+
+            language = language ?? Language;
+            if (!string.IsNullOrWhiteSpace(language))
             {
-                language = language ?? Language;
-                if (!string.IsNullOrWhiteSpace(language))
-                {
-                    // If necessary, adds the Accept-Language header in order to get localized language names.
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
-                }
-
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                var jsonContent = JsonDocument.Parse(content).RootElement.GetProperty("translation");
-                var responseContent = JsonSerializer.Deserialize<Dictionary<string, ServiceLanguage>>(jsonContent.ToString()).ToList();
-                responseContent.ForEach(r => r.Value.Code = r.Key);
-
-                return responseContent.Select(r => r.Value).OrderBy(r => r.Name).ToList();
+                // If necessary, adds the Accept-Language header in order to get localized language names.
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
             }
+
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            var jsonContent = JsonDocument.Parse(content).RootElement.GetProperty("translation");
+            var responseContent = JsonSerializer.Deserialize<Dictionary<string, ServiceLanguage>>(jsonContent.ToString()).ToList();
+            responseContent.ForEach(r => r.Value.Code = r.Key);
+
+            return responseContent.Select(r => r.Value).OrderBy(r => r.Name).ToList();
         }
 
         /// <inheritdoc/>
@@ -215,14 +213,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 
             var toQueryString = string.Join("&", to.Select(t => $"to={t}"));
             var uriString = (string.IsNullOrWhiteSpace(from) ? $"{BaseUrl}translate?{toQueryString}" : $"{BaseUrl}translate?from={from}&{toQueryString}") + $"&{ApiVersion}";
-            using (var request = CreateHttpRequest(uriString, HttpMethod.Post, input.Select(t => new { Text = t })))
-            {
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            using var request = CreateHttpRequest(uriString, HttpMethod.Post, input.Select(t => new { Text = t }));
 
-                var responseContent = JsonSerializer.Deserialize<IEnumerable<TranslationResponse>>(content);
-                return responseContent;
-            }
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            var responseContent = JsonSerializer.Deserialize<IEnumerable<TranslationResponse>>(content);
+            return responseContent;
         }
 
         /// <inheritdoc/>
