@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         /// <summary>
         /// Gets the first version of the app that was installed.
-        /// This will be the current version if a previous verison of the app was installed before accessing this property.
+        /// This will be the current version if a previous version of the app was installed before accessing this property.
         /// </summary>
         public PackageVersion FirstVersionInstalled { get; }
 
@@ -166,11 +166,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 if (LaunchCount > 0)
                 {
-                    var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+                    var subSessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
                     var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
 
-                    return new TimeSpan(uptimeSoFar + subsessionLength);
+                    return new TimeSpan(uptimeSoFar + subSessionLength);
                 }
 
                 return TimeSpan.MinValue;
@@ -245,11 +245,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             else
             {
-                var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+                var subSessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
                 var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
 
-                _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subsessionLength);
+                _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subSessionLength);
             }
         }
 

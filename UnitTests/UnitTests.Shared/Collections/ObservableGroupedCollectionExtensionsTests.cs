@@ -284,7 +284,7 @@ namespace UnitTests.Collections
 
         [TestCategory("Collections")]
         [TestMethod]
-        public void InsertItem_WhenGroupDoesNotExist_ShoudThrow()
+        public void InsertItem_WhenGroupDoesNotExist_ShouldThrow()
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();
             groupedCollection.AddGroup("A", 1, 2, 3);
@@ -298,7 +298,7 @@ namespace UnitTests.Collections
         [DataTestMethod]
         [DataRow(-1)]
         [DataRow(4)]
-        public void InsertItem_WhenIndexOutOfRange_ShoudThrow(int index)
+        public void InsertItem_WhenIndexOutOfRange_ShouldThrow(int index)
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();
             groupedCollection.AddGroup("A", 1, 2, 3);
@@ -340,7 +340,7 @@ namespace UnitTests.Collections
 
         [TestCategory("Collections")]
         [TestMethod]
-        public void SetItem_WhenGroupDoesNotExist_ShoudThrow()
+        public void SetItem_WhenGroupDoesNotExist_ShouldThrow()
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();
             groupedCollection.AddGroup("A", 1, 2, 3);
@@ -354,7 +354,7 @@ namespace UnitTests.Collections
         [DataTestMethod]
         [DataRow(-1)]
         [DataRow(3)]
-        public void SetItem_WhenIndexOutOfRange_ShoudThrow(int index)
+        public void SetItem_WhenIndexOutOfRange_ShouldThrow(int index)
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();
             groupedCollection.AddGroup("A", 1, 2, 3);
@@ -369,7 +369,7 @@ namespace UnitTests.Collections
         [DataRow(0, new[] { 23, 2, 3 })]
         [DataRow(1, new[] { 1, 23, 3 })]
         [DataRow(2, new[] { 1, 2, 23 })]
-        public void SetItem_WithValidIndex_WithSeveralGroups_ShoudReplaceItemInFirstGroup(int index, int[] expecteGroupValues)
+        public void SetItem_WithValidIndex_WithSeveralGroups_ShouldReplaceItemInFirstGroup(int index, int[] expectedGroupValues)
         {
             var groupedCollection = new ObservableGroupedCollection<string, int>();
             groupedCollection.AddGroup("A", 4, 5);
@@ -387,7 +387,7 @@ namespace UnitTests.Collections
 
             groupedCollection.ElementAt(1).Key.Should().Be("B");
             groupedCollection.ElementAt(1).Should().HaveCount(3);
-            groupedCollection.ElementAt(1).Should().ContainInOrder(expecteGroupValues);
+            groupedCollection.ElementAt(1).Should().ContainInOrder(expectedGroupValues);
 
             groupedCollection.ElementAt(2).Key.Should().Be("B");
             groupedCollection.ElementAt(2).Should().HaveCount(2);

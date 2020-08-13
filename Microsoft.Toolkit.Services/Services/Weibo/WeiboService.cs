@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
 #if WINRT
         /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
+        /// Initialize underlying provider with relevant token information for Uwp.
         /// </summary>
         /// <param name="appKey">App key.</param>
         /// <param name="appSecret">App secret.</param>
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <returns>Success or failure.</returns>

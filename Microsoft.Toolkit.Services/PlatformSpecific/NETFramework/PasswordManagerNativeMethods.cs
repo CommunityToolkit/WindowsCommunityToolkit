@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             /// instance.</returns>
             internal static NativeCredential GetNativeCredential(Credential cred)
             {
-                NativeCredential ncred = new NativeCredential
+                return new NativeCredential
                 {
                     AttributeCount = 0,
                     Attributes = IntPtr.Zero,
@@ -79,7 +79,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                     CredentialBlob = Marshal.StringToCoTaskMemUni(cred.CredentialBlob),
                     UserName = Marshal.StringToCoTaskMemUni(cred.UserName)
                 };
-                return ncred;
             }
         }
 
@@ -116,21 +115,20 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 if (!IsInvalid)
                 {
                     // Get the Credential from the mem location
-                    NativeCredential ncred = (NativeCredential)Marshal.PtrToStructure(handle, typeof(NativeCredential));
+                    NativeCredential nativeCredential = (NativeCredential)Marshal.PtrToStructure(handle, typeof(NativeCredential));
 
                     // Create a managed Credential type and fill it with data from the native counterpart.
-                    Credential cred = new Credential
+                    return new Credential
                     {
-                        CredentialBlobSize = ncred.CredentialBlobSize,
-                        CredentialBlob = Marshal.PtrToStringUni(ncred.CredentialBlob, (int)ncred.CredentialBlobSize / 2),
-                        UserName = Marshal.PtrToStringUni(ncred.UserName),
-                        TargetName = Marshal.PtrToStringUni(ncred.TargetName),
-                        TargetAlias = Marshal.PtrToStringUni(ncred.TargetAlias),
-                        Type = ncred.Type,
-                        Flags = ncred.Flags,
-                        Persist = (CRED_PERSIST)ncred.Persist
+                        CredentialBlobSize = nativeCredential.CredentialBlobSize,
+                        CredentialBlob = Marshal.PtrToStringUni(nativeCredential.CredentialBlob, (int)nativeCredential.CredentialBlobSize / 2),
+                        UserName = Marshal.PtrToStringUni(nativeCredential.UserName),
+                        TargetName = Marshal.PtrToStringUni(nativeCredential.TargetName),
+                        TargetAlias = Marshal.PtrToStringUni(nativeCredential.TargetAlias),
+                        Type = nativeCredential.Type,
+                        Flags = nativeCredential.Flags,
+                        Persist = (CRED_PERSIST)nativeCredential.Persist
                     };
-                    return cred;
                 }
                 else
                 {
@@ -139,14 +137,14 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
 
             // Perform any specific actions to release the handle in the ReleaseHandle method.
-            // Often, you need to use Pinvoke to make a call into the Win32 API to release the
+            // Often, you need to use PInvoke to make a call into the Win32 API to release the
             // handle. In this case, however, we can use the Marshal class to release the unmanaged memory.
             protected override bool ReleaseHandle()
             {
                 // If the handle was set, free it. Return success.
                 if (!IsInvalid)
                 {
-                    // NOTE: We should also ZERO out the memory allocated to the handle, before free'ing it
+                    // NOTE: We should also ZERO out the memory allocated to the handle, before freeing it
                     // so there are no traces of the sensitive data left in memory.
                     CredFree(handle);
 

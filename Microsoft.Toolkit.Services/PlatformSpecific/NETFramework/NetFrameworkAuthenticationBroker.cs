@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             int numberForms = ApplicationForm.OpenForms.Count;
             if (numberForms > 0)
             {
-                return AutenticateForm(requestUri, callbackUri);
+                return this.AuthenticateForm(requestUri, callbackUri);
             }
             else if (Application.Current != null)
             {
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             return await taskCompletionSource.Task;
         }
 
-        public async Task<AuthenticationResult> AutenticateForm(Uri requestUri, Uri callbackUri)
+        public async Task<AuthenticationResult> AuthenticateForm(Uri requestUri, Uri callbackUri)
         {
             PopupForm popupForm;
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();

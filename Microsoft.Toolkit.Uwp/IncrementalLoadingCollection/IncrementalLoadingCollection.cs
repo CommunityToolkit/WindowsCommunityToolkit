@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp
         public Action OnEndLoading { get; set; }
 
         /// <summary>
-        /// Gets or sets an <see cref="Action"/> that is called if an error occours during data retrieval. The actual <see cref="Exception"/> is passed as an argument.
+        /// Gets or sets an <see cref="Action"/> that is called if an error occurs during data retrieval. The actual <see cref="Exception"/> is passed as an argument.
         /// </summary>
         public Action<Exception> OnError { get; set; }
 
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp
         /// An <see cref="Action"/> that is called when a retrieval operation ends.
         /// </param>
         /// <param name="onError">
-        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
+        /// An <see cref="Action"/> that is called if an error occurs during data retrieval.
         /// </param>
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp
         /// An <see cref="Action"/> that is called when a retrieval operation ends.
         /// </param>
         /// <param name="onError">
-        /// An <see cref="Action"/> that is called if an error occours during data retrieval.
+        /// An <see cref="Action"/> that is called if an error occurs during data retrieval.
         /// </param>
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(TSource source, int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null)
