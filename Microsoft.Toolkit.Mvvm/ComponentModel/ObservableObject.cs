@@ -220,6 +220,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// be used to access properties of a model that is directly stored as a property of the current instance.
         /// Additionally, this method can only be used if the wrapped item is a reference type.
         /// </remarks>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
         protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, out _, propertyName);
@@ -238,6 +239,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
         protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(propertyExpression, newValue, comparer, out _, propertyName);
@@ -253,6 +255,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="oldValue">The resulting initial value for the target property.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
         private protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, out T oldValue, [CallerMemberName] string? propertyName = null)
         {
             PropertyInfo? parentPropertyInfo;
@@ -328,6 +331,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// indicates that the new value being assigned to <paramref name="field"/> is different than the previous one,
         /// and it does not mean the new <typeparamref name="TTask"/> instance passed as argument is in any particular state.
         /// </remarks>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="fieldExpression"/> is not valid.</exception>
         protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
@@ -360,6 +364,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="fieldExpression"/> is not valid.</exception>
         protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {

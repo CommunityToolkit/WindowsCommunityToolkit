@@ -54,6 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         private volatile ServiceProvider? serviceProvider;
 
         /// <inheritdoc/>
+        /// <exception cref="InvalidOperationException">Thrown if the current instance has not been configured yet.</exception>
         object? IServiceProvider.GetService(Type serviceType)
         {
             // As per section I.12.6.6 of the official CLI ECMA-335 spec:
@@ -81,6 +82,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
         /// <param name="setup">The configuration delegate to use to add services.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the current instance has already been configured.</exception>
         public void ConfigureServices(Action<IServiceCollection> setup)
         {
             ConfigureServices(setup, new ServiceProviderOptions());
@@ -91,6 +93,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// </summary>
         /// <param name="setup">The configuration delegate to use to add services.</param>
         /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the current instance has already been configured.</exception>
         public void ConfigureServices(Action<IServiceCollection> setup, ServiceProviderOptions options)
         {
             var collection = new ServiceCollection();
@@ -104,6 +107,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
         /// <param name="services">The input <see cref="IServiceCollection"/> instance to use.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the current instance has already been configured.</exception>
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureServices(services, new ServiceProviderOptions());
@@ -114,6 +118,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// </summary>
         /// <param name="services">The input <see cref="IServiceCollection"/> instance to use.</param>
         /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the current instance has already been configured.</exception>
         public void ConfigureServices(IServiceCollection services, ServiceProviderOptions options)
         {
             ServiceProvider newServices = services.BuildServiceProvider(options);

@@ -247,6 +247,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
         protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
@@ -268,6 +269,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
         protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(propertyExpression, newValue, comparer, out T oldValue, propertyName);
