@@ -60,8 +60,7 @@
       </StackPanel>
     </ScrollViewer>
 
-    <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Center:Left.Right.Center.Stretch]"
-                      VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]">
+    <controls:Loading x:Name="LoadingControl">
       <controls:Loading.Background>
         <SolidColorBrush Color="@[Background:Brush:Black]" Opacity="@[Background Opacity:DoubleSlider:0.7:0-1]" />
       </controls:Loading.Background>

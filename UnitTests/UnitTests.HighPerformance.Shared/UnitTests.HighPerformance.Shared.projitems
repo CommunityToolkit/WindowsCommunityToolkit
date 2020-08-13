@@ -9,6 +9,8 @@
     <Import_RootNamespace>UnitTests.HighPerformance.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Internals\UnmanagedSpanOwner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryBufferWriter{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_ArrayPoolBufferWriter{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryOwner{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
@@ -21,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IBufferWriterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StreamExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.Count.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.cs" />

@@ -50,7 +50,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return Owner.GetType().Name;
+            string classNameCore = Owner.GetType().Name;
+#if DEBUG_AUTOMATION
+            System.Diagnostics.Debug.WriteLine("DataGridColumnHeaderAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>

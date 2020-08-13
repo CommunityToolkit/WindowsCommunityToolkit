@@ -4,8 +4,10 @@
 
 using System;
 using System.Threading;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Devices.Input;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -15,7 +17,7 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="ScrollViewer"/> to scroll with middle click
+    /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
     /// </summary>
     public static partial class ScrollViewerExtensions
     {
@@ -90,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Function to set default value and subscribe to events
         /// </summary>
-        private static void SubscribeMiddleClickScrolling()
+        private static void SubscribeMiddleClickScrolling(DispatcherQueue dispatcherQueue)
         {
             _isPressed = true;
             _isMoved = false;
@@ -101,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _isCursorAvailable = IsCursorResourceAvailable();
 
             _timer?.Dispose();
-            _timer = new Timer(Scroll, null, 5, 5);
+            _timer = new Timer(Scroll, dispatcherQueue, 5, 5);
 
             Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
@@ -135,10 +137,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="state">Default param for <see cref="Timer"/>. In this function it will be `null`</param>
         private static void Scroll(object state)
         {
+            var dispatcherQueue = state as DispatcherQueue;
+            if (dispatcherQueue == null)
+            {
+                return;
+            }
+
             var offsetX = _currentPosition.X - _startPosition.X;
             var offsetY = _currentPosition.Y - _startPosition.Y;
 
-            SetCursorType(offsetX, offsetY);
+            SetCursorType(dispatcherQueue, offsetX, offsetY);
 
             if (Math.Abs(offsetX) > _threshold || Math.Abs(offsetY) > _threshold)
             {
@@ -154,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 offsetX = offsetX > _maxSpeed ? _maxSpeed : offsetX;
                 offsetY = offsetY > _maxSpeed ? _maxSpeed : offsetY;
 
-                RunInUIThread(() =>
+                RunInUIThread(dispatcherQueue, () =>
                 {
                     _scrollViewer?.ChangeView(_scrollViewer.HorizontalOffset + offsetX, _scrollViewer.VerticalOffset + offsetY, null, true);
                 });
@@ -190,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 // SubscribeMiddle if middle button is pressed
                 if (pointerPoint.Properties.IsMiddleButtonPressed)
                 {
-                    SubscribeMiddleClickScrolling();
+                    SubscribeMiddleClickScrolling(DispatcherQueue.GetForCurrentThread());
 
                     _startPosition = Window.Current.CoreWindow.PointerPosition;
                     _currentPosition = Window.Current.CoreWindow.PointerPosition;
@@ -242,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
 
-                SetCursorType(0, 0);
+                SetCursorType(DispatcherQueue.GetForCurrentThread(), 0, 0);
             }
             else
             {
@@ -270,12 +278,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             UnsubscribeMiddleClickScrolling();
         }
 
-        /// <summary>
-        /// Change cursor type depend upon offset from starting position
-        /// </summary>
-        /// <param name="offsetX">Horizontal offset from starting position</param>
-        /// <param name="offsetY">Vertical offset from starting position</param>
-        private static void SetCursorType(double offsetX, double offsetY)
+        private static void SetCursorType(DispatcherQueue dispatcherQueue, double offsetX, double offsetY)
         {
             if (!_isCursorAvailable)
             {
@@ -323,7 +326,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (_oldCursorID != cursorID)
             {
-                RunInUIThread(() =>
+                RunInUIThread(dispatcherQueue, () =>
                 {
                     Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID);
                 });
@@ -364,16 +367,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return isCursorAvailable;
         }
 
-        /// <summary>
-        /// Run the give input action in UIThread
-        /// </summary>
-        /// <param name="action">Action to be run on UIThread</param>
-        private static async void RunInUIThread(Action action)
+        private static async void RunInUIThread(DispatcherQueue dispatcherQueue, Action action)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                action();
-            });
+            await dispatcherQueue.ExecuteOnUIThreadAsync(action, DispatcherQueuePriority.Normal);
         }
     }
 }

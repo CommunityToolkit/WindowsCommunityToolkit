@@ -21,23 +21,9 @@ steps:
   displayName: Setup Environment Variables
   
 - task: NuGetToolInstaller@0
-  displayName: Use NuGet 5.0.0
+  displayName: Use NuGet 5.6.0
   inputs:
-    versionSpec: 5.0.0
-
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '2.1.202' # This SDK contains .Net Core 2.0.9, which we still need to run some of our .Net Core Tests
-    performMultiLevelLookup: true
-  displayName: Use .NET Core sdk 2
-
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '3.1.200'
-    performMultiLevelLookup: true
-  displayName: Use .NET Core sdk 3
+    versionSpec: 5.6.0
 
 - task: DotNetCoreCLI@2  
   inputs:
@@ -49,7 +35,7 @@ steps:
 - script: nbgv cloud
   displayName: Set Version
 
-#- powershell: .\build\Install-WindowsSdkISO.ps1 17763
+#- powershell: .\build\Install-WindowsSdkISO.ps1 18362
 #  displayName: Insider SDK
 
 - powershell: .\build\build.ps1 -target=Build

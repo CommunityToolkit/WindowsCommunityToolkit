@@ -5,8 +5,6 @@
 using System;
 using System.Buffers;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
@@ -40,11 +38,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return;
             }
 
-            /* Rent a new array with the specified size, and copy as many items from the current array
-             * as possible to the new array. This mirrors the behavior of the Array.Resize API from
-             * the BCL: if the new size is greater than the length of the current array, copy all the
-             * items from the original array into the new one. Otherwise, copy as many items as possible,
-             * until the new array is completely filled, and ignore the remaining items in the first array. */
+            // Rent a new array with the specified size, and copy as many items from the current array
+            // as possible to the new array. This mirrors the behavior of the Array.Resize API from
+            // the BCL: if the new size is greater than the length of the current array, copy all the
+            // items from the original array into the new one. Otherwise, copy as many items as possible,
+            // until the new array is completely filled, and ignore the remaining items in the first array.
             T[] newArray = pool.Rent(newSize);
             int itemsToCopy = Math.Min(array.Length, newSize);
 

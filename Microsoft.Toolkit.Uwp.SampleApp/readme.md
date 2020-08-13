@@ -6,7 +6,7 @@ This document describes how to add a new sample page for a new control you want 
 
 
 ## 1. Add Sample page and .bind template
-First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and containe code.
+First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and contain code.
 
 If providing 'live' XAML, a .bind file is loaded and dynamically fed to the XamlReader.Load method to convert into actual controls.  This changes a few things about how samples need to be written (detailed below), but allows developers to actually change the sample and see the results live.
 
@@ -39,11 +39,11 @@ You can define "interactive" values in this file. The value types can be:
 * String: You want the user to provide a text. The string is built like this @[Name:**String**:Default value]
 * Slider: You want the user to provide a double value. The string is built like this @[Name:**Slider**:Default value:min-max]
 * DoubleSlider: Same as slider but with double values (0.01 precision)
-* TimeSpan: You want the user to provide a duration. The string is built like this (all values in miliseconds) @[Name:**TimeSpan**:DefaultValue:min-max]
+* TimeSpan: You want the user to provide a duration. The string is built like this (all values in milliseconds) @[Name:**TimeSpan**:DefaultValue:min-max]
 * Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:EnumType.DefaultValue]
 * Brush: You want the user to select a color from a list. The string is built like this @[Name:**Brush**:Black]
 * Bool: You want the user to enable or disable a property. The string is built like this @[Name:**Bool**:True]
-* Thickness: You want the user to provide a Thicknes. The string is built like this @[Name:**Thickness**:0,20,10,0]
+* Thickness: You want the user to provide a Thickness. The string is built like this @[Name:**Thickness**:0,20,10,0]
 
 The `Property Name` can also contain spaces, but these will be removed from the property name used for accessing the value in the property bag for any binding/access, see below.
 
@@ -86,7 +86,7 @@ Value="@[Value:Slider:0:0-180]@"
 ## 3. Have a *'Shallow Copy'* of your example in the sample page
 Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)  
 
-Therefore, for any new control/extension, you should still have a simplified snippet of it contained in the sample page compiled/loaded by the app.  You should remove names, events, and properties (unless extensions) from these so the namespace isn't accidently polluted.  If you re-use the same control, you don't have to include it twice.
+Therefore, for any new control/extension, you should still have a simplified snippet of it contained in the sample page compiled/loaded by the app.  You should remove names, events, and properties (unless extensions) from these so the namespace isn't accidentally polluted.  If you re-use the same control, you don't have to include it twice.
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
@@ -111,7 +111,7 @@ protected override async void OnNavigatedTo(NavigationEventArgs e)
 {
     base.OnNavigatedTo(e);
 
-    Shell.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
+    SampleController.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
     {
         AddImage(false, true);
     });
@@ -163,7 +163,7 @@ Select the category where you want your page to be listed and add the following 
 
 Some features used by samples aren't available on all the OS versions that the Sample App runs on.  In order to make sure a sample is valid for the host OS, add the `ApiCheck` key/value in your JSON definition.
 
-The value is a string which is the fully-qualified typename to check for the presense of.  You can also accompany this with the `BadgeUpdateVersionRequred` which uses the string provided to show a short message on the sample information so uplevel implementors know the minimum version required.
+The value is a string which is the fully-qualified typename to check for the presence of.  You can also accompany this with the `BadgeUpdateVersionRequred` which uses the string provided to show a short message on the sample information so uplevel implementors know the minimum version required.
 
 ```json
     {
@@ -190,7 +190,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 > NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
 
-> NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For exaple, this folder structure works best:
+> NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For example, this folder structure works best:
 > ```
 > repositories
 > ├── WindowsCommunityToolkit
@@ -199,4 +199,4 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 ### CodeUrl
 
-The value of CodeUrl is modified when the app is built in release mode. The branch is automaticaly changed to **master**. This allows you to test the link in debug while pointing to dev.
+The value of CodeUrl is modified when the app is built in release mode. The branch is automatically changed to **master**. This allows you to test the link in debug while pointing to dev.

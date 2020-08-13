@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     public partial class EmojiInline
     {
         // Codes taken from https://gist.github.com/rxaviers/7360908
-        // Ignoring not implented symbols in Segoe UI Emoji font (e.g. :bowtie:)
+        // Ignoring not implemented symbols in Segoe UI Emoji font (e.g. :bowtie:)
         private static readonly Dictionary<string, int> _emojiCodesDictionary = new Dictionary<string, int>
         {
             { "smile", 0x1f604 },

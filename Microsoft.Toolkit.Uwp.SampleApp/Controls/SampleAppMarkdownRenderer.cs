@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 if (language != "XAML"
                     && prevIndex >= 0
                     && collection[prevIndex] is StackPanel prevPanel
-                    && prevPanel.Tag is CustCodeBlock block
+                    && prevPanel.Tag is CustomCodeBlock block
                     && !block.Languages.ContainsKey("XAML") // Prevent combining of XAML Code Blocks.
                     && !block.Languages.ContainsKey(language))
                 {
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 }
                 else
                 {
-                    block = new CustCodeBlock();
+                    block = new CustomCodeBlock();
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     block.Languages.Add(language, (viewer, element.Text));
 #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     headerGrid.Children.Add(copyButton);
                     Grid.SetColumn(copyButton, 1);
 
-                    // Collection the adornment and the standard UI, add them to a Stackpanel, and add it back to the collection.
+                    // Collection the adornment and the standard UI, add them to a StackPanel, and add it back to the collection.
                     var panel = new StackPanel
                     {
                         Background = viewer.Background,
@@ -236,9 +236,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             DocFXNote noteType = null;
             string header = null;
-            SolidColorBrush localforeground = null;
-            SolidColorBrush localbackground = null;
-            string symbolglyph = string.Empty;
+            SolidColorBrush localForeground = null;
+            SolidColorBrush localBackground = null;
+            string symbolGlyph = string.Empty;
 
             var theme = SampleController.Current.GetActualTheme();
 
@@ -255,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     {
                         noteType = style;
                         header = style.IdentifierReplacement;
-                        symbolglyph = style.Glyph;
+                        symbolGlyph = style.Glyph;
 
                         // Removes the identifier from the text
                         textInline.Text = textInline.Text.Replace(key, string.Empty);
@@ -266,39 +266,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         }
                     }
                 }
-                else if (firstInline is TextRunInline textinline)
+                else if (firstInline is TextRunInline textRunInline)
                 {
-                    var key = textinline.Text.Split(' ').FirstOrDefault();
+                    var key = textRunInline.Text.Split(' ').FirstOrDefault();
                     if (styles.TryGetValue(key, out var style) && !style.Ignore)
                     {
                         noteType = style;
                         header = style.IdentifierReplacement;
-                        symbolglyph = style.Glyph;
+                        symbolGlyph = style.Glyph;
 
                         // Removes the identifier from the text
-                        textinline.Text = textinline.Text.Replace(key, string.Empty);
+                        textRunInline.Text = textRunInline.Text.Replace(key, string.Empty);
 
                         if (theme == ElementTheme.Light)
                         {
-                            localforeground = style.LightForeground;
-                            localbackground = style.LightBackground;
+                            localForeground = style.LightForeground;
+                            localBackground = style.LightBackground;
                         }
                         else
                         {
-                            localforeground = new SolidColorBrush(Colors.White);
-                            localbackground = style.DarkBackground;
+                            localForeground = new SolidColorBrush(Colors.White);
+                            localBackground = style.DarkBackground;
                         }
 
                         // Apply special formatting context.
                         if (noteType != null)
                         {
-                            if (localContext?.Clone() is UIElementCollectionRenderContext newcontext)
+                            if (localContext?.Clone() is UIElementCollectionRenderContext newContext)
                             {
-                                localContext = newcontext;
+                                localContext = newContext;
 
                                 localContext.TrimLeadingWhitespace = true;
                                 QuoteForeground = Foreground;
-                                LinkForeground = localforeground;
+                                LinkForeground = localForeground;
                             }
                         }
                     }
@@ -306,7 +306,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     if (style.Ignore)
                     {
                         // Blank entire block
-                        textinline.Text = string.Empty;
+                        textRunInline.Text = string.Empty;
                     }
                 }
             }
@@ -336,12 +336,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     border.BorderThickness = new Thickness(0);
                     border.Padding = new Thickness(20);
                     border.Margin = new Thickness(0, 5, 0, 5);
-                    border.Background = localbackground;
+                    border.Background = localBackground;
 
                     if (theme == ElementTheme.Light)
                     {
                         border.BorderThickness = new Thickness(0.5);
-                        border.BorderBrush = localforeground;
+                        border.BorderBrush = localForeground;
                     }
 
                     var headerPanel = new StackPanel
@@ -353,15 +353,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     headerPanel.Children.Add(new TextBlock
                     {
                         FontSize = 18,
-                        Foreground = localforeground,
-                        Text = symbolglyph,
+                        Foreground = localForeground,
+                        Text = symbolGlyph,
                         FontFamily = new FontFamily("Segoe MDL2 Assets"),
                     });
 
                     headerPanel.Children.Add(new TextBlock
                     {
                         FontSize = 16,
-                        Foreground = localforeground,
+                        Foreground = localForeground,
                         Margin = new Thickness(5, 0, 0, 0),
                         Text = header,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -504,7 +504,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// <summary>
         /// Code Block Tag Information to track current Language and Alternate Views.
         /// </summary>
-        private class CustCodeBlock
+        private class CustomCodeBlock
         {
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
 #pragma warning disable SA1009 // Closing parenthesis must be spaced correctly

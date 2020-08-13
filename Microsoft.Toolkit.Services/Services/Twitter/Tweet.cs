@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public TwitterUser User { get; set; }
 
         /// <summary>
-        /// Gets or sets geo coordinates (latitude and logitude) returned by Twitter for some locations
+        /// Gets or sets geo coordinates (latitude and longitude) returned by Twitter for some locations
         /// </summary>
         [JsonProperty("coordinates")]
         [JsonConverter(typeof(TwitterCoordinatesConverter))]

@@ -3,10 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+#else
+using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance
@@ -15,14 +16,13 @@ namespace Microsoft.Toolkit.HighPerformance
     /// A <see langword="struct"/> that can store a readonly reference to a value of a specified type.
     /// </summary>
     /// <typeparam name="T">The type of value to reference.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     public readonly ref struct ReadOnlyRef<T>
     {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// The 1-length <see cref="ReadOnlySpan{T}"/> instance used to track the target <typeparamref name="T"/> value.
         /// </summary>
-        private readonly ReadOnlySpan<T> span;
+        internal readonly ReadOnlySpan<T> Span;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             ref T r0 = ref Unsafe.AsRef(value);
 
-            span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
+            Span = MemoryMarshal.CreateReadOnlySpan(ref r0, 1);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref MemoryMarshal.GetReference(span);
+            get => ref MemoryMarshal.GetReference(Span);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="offset">The target offset within <paramref name="owner"/> for the target reference.</param>
-        /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private ReadOnlyRef(object owner, IntPtr offset)
         {
@@ -83,18 +83,12 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="value">The target reference to point to (it must be within <paramref name="owner"/>).</param>
-        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlyRef(object owner, in T value)
         {
             this.owner = owner;
-
-            ref T valueRef = ref Unsafe.AsRef(value);
-            var data = Unsafe.As<RawObjectData>(owner);
-            ref byte r0 = ref data.Data;
-            ref byte r1 = ref Unsafe.As<T, byte>(ref valueRef);
-
-            offset = Unsafe.ByteOffset(ref r0, ref r1);
+            this.offset = owner.DangerousGetObjectDataByteOffset(ref Unsafe.AsRef(value));
         }
 
         /// <summary>
@@ -103,14 +97,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                var data = Unsafe.As<RawObjectData>(owner);
-                ref byte r0 = ref data.Data;
-                ref byte r1 = ref Unsafe.AddByteOffset(ref r0, offset);
-
-                return ref Unsafe.As<byte, T>(ref r1);
-            }
+            get => ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
         }
 
         /// <summary>

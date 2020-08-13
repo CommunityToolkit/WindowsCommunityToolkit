@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,101 +14,78 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that enumerates the items in a given <see cref="Span{T}"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public readonly ref struct SpanEnumerable<T>
+    public ref struct SpanEnumerable<T>
     {
         /// <summary>
-        /// The source <see cref="Span{T}"/> instance
+        /// The source <see cref="Span{T}"/> instance.
         /// </summary>
         private readonly Span<T> span;
 
         /// <summary>
+        /// The current index within <see cref="span"/>.
+        /// </summary>
+        private int index;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SpanEnumerable{T}"/> struct.
         /// </summary>
-        /// <param name="span">The source <see cref="Span{T}"/> to enumerate.</param>
+        /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public SpanEnumerable(Span<T> span)
         {
             this.span = span;
+            this.index = -1;
         }
 
         /// <summary>
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
-        /// <returns>An <see cref="Enumerator"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
+        /// <returns>An <see cref="SpanEnumerable{T}"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Enumerator GetEnumerator() => new Enumerator(this.span);
+        public SpanEnumerable<T> GetEnumerator() => this;
 
         /// <summary>
-        /// An enumerator for a source <see cref="Span{T}"/> instance.
+        /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public ref struct Enumerator
+        /// <returns><see langword="true"/> whether a new element is available, <see langword="false"/> otherwise</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
         {
-            /// <summary>
-            /// The source <see cref="Span{T}"/> instance.
-            /// </summary>
-            private readonly Span<T> span;
+            int newIndex = this.index + 1;
 
-            /// <summary>
-            /// The current index within <see cref="span"/>.
-            /// </summary>
-            private int index;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Enumerator"/> struct.
-            /// </summary>
-            /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Enumerator(Span<T> span)
+            if (newIndex < this.span.Length)
             {
-                this.span = span;
-                this.index = -1;
+                this.index = newIndex;
+
+                return true;
             }
 
-            /// <summary>
-            /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
-            /// </summary>
-            /// <returns><see langword="true"/> whether a new element is available, <see langword="false"/> otherwise</returns>
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
+        /// </summary>
+        public Item Current
+        {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public bool MoveNext()
+            get
             {
-                int newIndex = this.index + 1;
+#if SPAN_RUNTIME_SUPPORT
+                ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                ref T ri = ref Unsafe.Add(ref r0, this.index);
 
-                if (newIndex < this.span.Length)
-                {
-                    this.index = newIndex;
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            /// <summary>
-            /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
-            /// </summary>
-            public Item Current
-            {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get
-                {
-#if NETSTANDARD2_1
-                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                    ref T ri = ref Unsafe.Add(ref r0, this.index);
-
-                    /* On .NET Standard 2.1 we can save 4 bytes by piggybacking
-                     * the current index in the length of the wrapped span.
-                     * We're going to use the first item as the target reference,
-                     * and the length as a host for the current original offset.
-                     * This is not possible on .NET Standard 2.1 as we lack
-                     * the API to create spans from arbitrary references. */
-                    return new Item(ref ri, this.index);
+                // On .NET Standard 2.1 we can save 4 bytes by piggybacking
+                // the current index in the length of the wrapped span.
+                // We're going to use the first item as the target reference,
+                // and the length as a host for the current original offset.
+                // This is not possible on .NET Standard 2.1 as we lack
+                // the API to create spans from arbitrary references.
+                return new Item(ref ri, this.index);
 #else
-                    return new Item(this.span, this.index);
+                return new Item(this.span, this.index);
 #endif
-                }
             }
         }
 
@@ -124,7 +100,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// </summary>
             private readonly Span<T> span;
 
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
             /// <summary>
             /// Initializes a new instance of the <see cref="Item"/> struct.
             /// </summary>
@@ -162,7 +138,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
                     return ref MemoryMarshal.GetReference(this.span);
 #else
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
@@ -181,7 +157,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-#if NETSTANDARD2_1
+#if SPAN_RUNTIME_SUPPORT
                     return this.span.Length;
 #else
                     return this.index;
