@@ -20,8 +20,8 @@ var target = Argument("target", "Default");
 // VERSIONS
 //////////////////////////////////////////////////////////////////////
 
-var gitVersioningVersion = "2.1.65";
-var inheritDocVersion = "1.1.1.1";
+var gitVersioningVersion = "3.1.91";
+var inheritDocVersion = "2.5.2";
 
 //////////////////////////////////////////////////////////////////////
 // VARIABLES

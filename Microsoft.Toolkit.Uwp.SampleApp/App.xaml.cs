@@ -9,6 +9,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Microsoft.Toolkit.Uwp.SampleApp.Styles;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -76,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 await RunAppInitialization(e?.Arguments);
             }
 
-            SystemInformation.TrackAppUse(e);
+            SystemInformation.Instance.TrackAppUse(e);
         }
 
         /// <summary>
@@ -167,6 +168,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var deferral = e.SuspendingOperation.GetDeferral();
 
             // TODO: Save application state and stop any background activity
+            try
+            {
+                // Here we flush the Clipboard to make sure content in clipboard to remain available
+                // after the application shuts down.
+                Clipboard.Flush();
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
+
             deferral.Complete();
         }
     }

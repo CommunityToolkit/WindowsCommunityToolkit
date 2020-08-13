@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
 #pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
                               /// <summary>
-                              /// A cached dictionary mapping easings to bezier control points
+                              /// A cached dictionary mapping easings to bézier control points
                               /// </summary>
         private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode), (Vector2, Vector2)>();
 #pragma warning restore SA1009 // Closing parenthesis must be spaced correctly

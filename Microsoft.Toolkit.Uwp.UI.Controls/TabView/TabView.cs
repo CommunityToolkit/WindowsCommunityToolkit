@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// TabView is a control for displaying a set of tabs and their content.
     /// </summary>
+    [Obsolete("Please migrate to the TabView control from WinUI, this control will be removed in a future release. https://aka.ms/winui")]
     [TemplatePart(Name = TabContentPresenterName, Type = typeof(ContentPresenter))]
     [TemplatePart(Name = TabViewContainerName, Type = typeof(Grid))]
     [TemplatePart(Name = TabsItemsPresenterName, Type = typeof(ItemsPresenter))]
