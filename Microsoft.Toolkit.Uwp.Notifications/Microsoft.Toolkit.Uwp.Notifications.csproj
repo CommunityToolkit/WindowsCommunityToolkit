@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.1</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -52,7 +52,8 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--Native (C++) doesn't need System.ValueTuple (plus it's incompatible with this package)-->
+  <ItemGroup Condition=" '$(TargetFramework)' != 'native' ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   

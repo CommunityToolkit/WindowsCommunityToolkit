@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of input values being compared.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForsBitwiseEqualTo<T>(T value, T target, string name)
+        public static void ThrowArgumentExceptionForBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) is not a bitwise match, was <{value.ToHexString()}> instead of <{target.ToHexString()}>");

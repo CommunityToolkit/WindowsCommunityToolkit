@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Retieves strong type for passed item.
+        /// Retrieves strong type for passed item.
         /// </summary>
         /// <param name="item">XElement to parse.</param>
         /// <returns>Strong typed object.</returns>

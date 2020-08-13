@@ -1266,15 +1266,23 @@
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
       },
-	  {
-	    "Name": "IconExtensions",
-	    "Type": "IconExtensionsPage",
-	    "About": "Markup extensions to easily create various types of icons.",
-	    "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/FontIconExtension",
-	    "XamlCodeFile": "IconExtensionsXaml.bind",
-	    "Icon": "/Assets/Helpers.png", 
-	    "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/IconExtensions.md"
-	  }
+      {
+        "Name": "IconExtensions",
+        "Type": "IconExtensionsPage",
+        "About": "Markup extensions to easily create various types of icons.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/FontIconExtension",
+        "XamlCodeFile": "IconExtensionsXaml.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/IconExtensions.md"
+      },
+      {
+        "Name": "EnumValuesExtension",
+        "Type": "EnumValuesExtensionPage",
+        "About": "The EnumValuesExtension markup extension allows you to easily retrieve a collection of all values from an enum type.",
+        "Icon": "/Assets/Helpers.png",
+        "XamlCodeFile": "EnumValuesExtensionXaml.bind",
+        "CodeFile": "EnumValuesExtensionCode.bind"
+      }
     ]
   },
   {
