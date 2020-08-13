@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Gets the value of an input with the given key.
         /// </summary>
-        /// <param name="key">The key of the inpupt.</param>
+        /// <param name="key">The key of the input.</param>
         /// <returns>The value of the input.</returns>
         public string this[string key] => _data.First(i => i.Key == key).Value;
 
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public int Count => _data.Length;
 
         /// <summary>
-        /// Checks whether any inpupts have the given key.
+        /// Checks whether any inputs have the given key.
         /// </summary>
         /// <param name="key">The key to look for.</param>
         /// <returns>A boolean representing whether any inputs have the given key.</returns>

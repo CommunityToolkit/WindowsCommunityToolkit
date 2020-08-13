@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers.Internals;
 
 namespace UnitTests.HighPerformance.Helpers
 {
@@ -16,21 +17,26 @@ namespace UnitTests.HighPerformance.Helpers
         {
             foreach (int count in TestForCounts)
             {
-                int[] data = CreateRandomData(count);
-                int[] copy = data.AsSpan().ToArray();
+                using UnmanagedSpanOwner<int> data = CreateRandomData(count);
+                using UnmanagedSpanOwner<int> copy = new UnmanagedSpanOwner<int>(count);
 
-                foreach (ref int n in copy.AsSpan())
+                data.GetSpan().CopyTo(copy.GetSpan());
+
+                foreach (ref int n in copy.GetSpan())
                 {
                     n = unchecked(n * 397);
                 }
 
-                ParallelHelper.ForEach(data.AsMemory(), new Multiplier(397));
+                ParallelHelper.ForEach(data.Memory, new Multiplier(397));
+
+                Span<int> dataSpan = data.GetSpan();
+                Span<int> copySpan = copy.GetSpan();
 
                 for (int i = 0; i < data.Length; i++)
                 {
-                    if (data[i] != copy[i])
+                    if (dataSpan[i] != copySpan[i])
                     {
-                        Assert.Fail($"Item #{i} was not a match, was {data[i]} instead of {copy[i]}");
+                        Assert.Fail($"Item #{i} was not a match, was {dataSpan[i]} instead of {copySpan[i]}");
                     }
                 }
             }

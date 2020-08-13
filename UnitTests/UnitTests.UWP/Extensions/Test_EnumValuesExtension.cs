@@ -19,7 +19,7 @@ namespace UnitTests.Extensions
         [UITestMethod]
         public void Test_EnumValuesExtension_MarkupExtension()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
@@ -27,9 +27,9 @@ namespace UnitTests.Extensions
         <ListView x:Name=""Check"" ItemsSource=""{ex:EnumValues Type=local:Animal}""/>
 </Page>") as FrameworkElement;
 
-            var list = treeroot.FindChildByName("Check") as ListView;
+            var list = treeRoot.FindChildByName("Check") as ListView;
 
-            Assert.IsNotNull(list, "Could not find listview control in tree.");
+            Assert.IsNotNull(list, "Could not find ListView control in tree.");
 
             Animal[] items = list.ItemsSource as Animal[];
 

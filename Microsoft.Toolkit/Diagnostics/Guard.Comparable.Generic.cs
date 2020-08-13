@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     return;
                 }
 
-                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
             else if (sizeof(T) == 2)
             {
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     return;
                 }
 
-                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
             else if (sizeof(T) == 4)
             {
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     return;
                 }
 
-                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
             else if (sizeof(T) == 8)
             {
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     return;
                 }
 
-                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
             else if (sizeof(T) == 16)
             {
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     }
                 }
 
-                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
             else
             {
@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     return;
                 }
 
-                ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
         }
 

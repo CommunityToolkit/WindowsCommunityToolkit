@@ -201,7 +201,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <Border x:Name="Seperator"
+                        <Border x:Name="Separator"
                                 Grid.Row="4"
                                 Grid.Column="4"
                                 BorderThickness="0,1,0,0"
@@ -257,9 +257,9 @@
                         <Setter Target="NotesSection.(Grid.Column)" Value="1" />
                         <Setter Target="NotesSection.(Grid.RowSpan)" Value="1" />
                         <Setter Target="PrivacyButton.(Grid.Column)" Value="1" />
-                        <Setter Target="Seperator.(Grid.Row)" Value="6" />
-                        <Setter Target="Seperator.(Grid.Column)" Value="1" />
-                        <Setter Target="Seperator.Margin" Value="0,0,0,48" />
+                        <Setter Target="Separator.(Grid.Row)" Value="6" />
+                        <Setter Target="Separator.(Grid.Column)" Value="1" />
+                        <Setter Target="Separator.Margin" Value="0,0,0,48" />
 
                         <Setter Target="WhatNewPanel.MinWidth" Value="267" />
                         <Setter Target="ReleaseNotesPanel.MinWidth" Value="267" />
@@ -293,9 +293,9 @@
                         <Setter Target="NotesSection.(Grid.Column)" Value="4" />
                         <Setter Target="NotesSection.(Grid.RowSpan)" Value="3" />
                         <Setter Target="PrivacyButton.(Grid.Column)" Value="4" />
-                        <Setter Target="Seperator.(Grid.Row)" Value="4" />
-                        <Setter Target="Seperator.(Grid.Column)" Value="4" />
-                        <Setter Target="Seperator.Margin" Value="0,48" />
+                        <Setter Target="Separator.(Grid.Row)" Value="4" />
+                        <Setter Target="Separator.(Grid.Column)" Value="4" />
+                        <Setter Target="Separator.Margin" Value="0,48" />
 
                         <Setter Target="WhatNewPanel.MinWidth" Value="0" />
                         <Setter Target="ReleaseNotesPanel.MinWidth" Value="0" />

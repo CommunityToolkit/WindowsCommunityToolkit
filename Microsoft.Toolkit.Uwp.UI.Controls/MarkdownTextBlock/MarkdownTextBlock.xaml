@@ -44,15 +44,16 @@
         <Setter Property="CodeBackground" Value="{ThemeResource MarkdownBackgroundBrush}" />
         <Setter Property="CodeBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="CodeBorderThickness" Value="0" />
+        <Setter Property="CodeFontFamily" Value="Consolas" />
+        <Setter Property="CodeMargin" Value="0, 7, 0, 7" />
+        <Setter Property="CodePadding" Value="10, 6, 10, 6" />
         <Setter Property="InlineCodeBorderThickness" Value="0" />
         <Setter Property="InlineCodePadding" Value="4, 2, 4, 2" />
         <Setter Property="InlineCodeMargin" Value="2,0,2,-4"/>
         <Setter Property="InlineCodeBackground" Value="{ThemeResource MarkdownInlineCodeBackgroundBrush}" />
         <Setter Property="InlineCodeBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="InlineCodeForeground" Value="{ThemeResource MarkdownInlineCodeForegroundBrush}" />
-        <Setter Property="CodeFontFamily" Value="Consolas" />
-        <Setter Property="CodeMargin" Value="0, 7, 0, 7" />
-        <Setter Property="CodePadding" Value="10, 6, 10, 6" />
+        <Setter Property="InlineCodeFontFamily" Value="Consolas" />
         <Setter Property="EmojiFontFamily" Value="Segoe UI Emoji" />
         <Setter Property="Header1FontWeight" Value="Bold" />
         <Setter Property="Header1FontSize" Value="20" />
