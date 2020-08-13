@@ -7,6 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
@@ -36,12 +38,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// Validates a property with a specified name and a given input value.
         /// </summary>
-        /// <param name="propertyName">The name of the property to validate.</param>
         /// <param name="value">The value to test for the specified property.</param>
-        public void ValidateProperty(string propertyName, object value)
+        /// <param name="propertyName">The name of the property to validate.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
+        public void ValidateProperty(object value, [CallerMemberName] string? propertyName = null)
         {
+            if (propertyName is null)
+            {
+                ThrowArgumentNullExceptionForNullPropertyName();
+            }
+
             // Clear the errors for the specified property, if any
-            if (this.errors.TryGetValue(propertyName, out List<ValidationResult>? propertyErrors))
+            if (this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors) &&
+                propertyErrors.Count > 0)
             {
                 propertyErrors.Clear();
 
@@ -63,7 +72,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 // property already had some other logged errors instead, we can add the new ones as a range.
                 if (propertyErrors is null)
                 {
-                    this.errors.Add(propertyName, results);
+                    this.errors.Add(propertyName!, results);
                 }
                 else
                 {
@@ -72,6 +81,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentNullException"/> when a property name given as input is <see langword="null"/>.
+        /// </summary>
+        private static void ThrowArgumentNullExceptionForNullPropertyName()
+        {
+            throw new ArgumentNullException("propertyName", "The input property name cannot be null when validating a property");
         }
     }
 }
