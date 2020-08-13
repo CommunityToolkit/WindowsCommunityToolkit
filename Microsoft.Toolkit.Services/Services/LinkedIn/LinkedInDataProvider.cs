@@ -81,8 +81,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
                 throw new ArgumentException("Missing callback uri");
             }
 
-            // Check if outside the bounds of the LinkedInPermissions Enum
-            if (requiredPermissions < 0 || requiredPermissions > (LinkedInPermissions)15)
+            // Check if its a valid combination of LinkedInPermissions
+            if ((~(int)LinkedInPermissionsHelpers.AllPermissions & (int)requiredPermissions) == 0)
             {
                 throw new ArgumentException("Error retrieving required permissions");
             }
