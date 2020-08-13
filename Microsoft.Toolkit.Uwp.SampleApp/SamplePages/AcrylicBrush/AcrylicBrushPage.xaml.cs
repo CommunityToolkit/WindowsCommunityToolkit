@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the acrylic brushe.
+    /// A page that shows how to use the acrylic brush.
     /// </summary>
     public sealed partial class AcrylicBrushPage : Page
     {

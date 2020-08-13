@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 
 #if WINRT
         /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
+        /// Initialize underlying provider with relevant token information for Uwp.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="clientId">Client Id.</param>
         /// <param name="clientSecret">Client secret.</param>

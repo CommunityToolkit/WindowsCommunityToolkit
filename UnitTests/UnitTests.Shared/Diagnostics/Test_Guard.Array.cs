@@ -88,9 +88,9 @@ namespace UnitTests.Diagnostics
         [TestCategory("Guard")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_Guard_HasSizeGreaterThan_ArraSmallerFail()
+        public void Test_Guard_HasSizeGreaterThan_ArraySmallerFail()
         {
-            Guard.HasSizeGreaterThan(new int[1], 4, nameof(Test_Guard_HasSizeGreaterThan_ArraSmallerFail));
+            Guard.HasSizeGreaterThan(new int[1], 4, nameof(Test_Guard_HasSizeGreaterThan_ArraySmallerFail));
         }
 
         [TestCategory("Guard")]
