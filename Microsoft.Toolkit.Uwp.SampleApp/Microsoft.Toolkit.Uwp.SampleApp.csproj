@@ -125,7 +125,7 @@
       <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
@@ -272,6 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\CanvasPathGeometry\CanvasPathGeometry.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -519,6 +520,9 @@
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml.cs">
+      <DependentUpon>CanvasPathGeometryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
@@ -1004,6 +1008,10 @@
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1574,6 +1582,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
