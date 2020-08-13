@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             }
 
             // Check if its a valid combination of LinkedInPermissions
-            if ((~(int)LinkedInPermissionsHelpers.AllPermissions & (int)requiredPermissions) == 0)
+            if ((~(int)LinkedInPermissionsHelpers.AllPermissions & (int)requiredPermissions) != 0)
             {
                 throw new ArgumentException("Error retrieving required permissions");
             }
