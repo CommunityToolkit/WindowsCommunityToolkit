@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public bool IsItalic { get; set; }
 
+        // Don't remove! Used for deserialization.
         public TextDrawable()
         {
         }

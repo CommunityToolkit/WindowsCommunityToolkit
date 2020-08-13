@@ -18,11 +18,11 @@ namespace Microsoft.Toolkit.Services.Twitter
             return false;
         }
 
-        private readonly JsonConverter<double> _doubleConverter;
+        private readonly JsonConverter<double> doubleConverter;
 
         public TwitterCoordinatesConverter(JsonSerializerOptions options)
         {
-            _doubleConverter = options?.GetConverter(typeof(double)) as JsonConverter<double> ?? throw new InvalidOperationException();
+            doubleConverter = options?.GetConverter(typeof(double)) as JsonConverter<double> ?? throw new InvalidOperationException();
         }
 
         public override TwitterCoordinates Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         private double ReadProperty(ref Utf8JsonReader reader, JsonSerializerOptions options)
         {
             reader.Read();
-            return _doubleConverter.Read(ref reader, typeof(double), options);
+            return doubleConverter.Read(ref reader, typeof(double), options);
         }
 
         public override void Write(Utf8JsonWriter writer, TwitterCoordinates value, JsonSerializerOptions options)

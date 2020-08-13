@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal static readonly InkStrokeBuilder StrokeBuilder = new InkStrokeBuilder();
 
+        // Don't remove! Used for deserialization.
         public InkDrawable()
         {
         }

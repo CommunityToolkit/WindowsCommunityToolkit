@@ -11,10 +11,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class IDrawableConverter : JsonConverter<IDrawable>
     {
-        public IDrawableConverter()
-        {
-        }
-
         public override bool CanConvert(Type typeToConvert) => typeof(IDrawable).IsAssignableFrom(typeToConvert);
 
         public override IDrawable Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
