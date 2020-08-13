@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.1</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -52,7 +52,8 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--Native (C++) doesn't need System.ValueTuple (plus it's incompatible with this package)-->
+  <ItemGroup Condition=" '$(TargetFramework)' != 'native' ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   
@@ -64,7 +65,7 @@
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NugetTargetMoniker>
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>

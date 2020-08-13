@@ -227,12 +227,12 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var crendetials = _passwordManager.Get("TwitterAccessToken");
+            var credentials = _passwordManager.Get("TwitterAccessToken");
             var user = await _storageManager.GetAsync("TwitterScreenName");
-            if (!string.IsNullOrEmpty(user) && crendetials != null)
+            if (!string.IsNullOrEmpty(user) && credentials != null)
             {
-                _tokens.AccessToken = crendetials.UserName;
-                _tokens.AccessTokenSecret = crendetials.Password;
+                _tokens.AccessToken = credentials.UserName;
+                _tokens.AccessTokenSecret = credentials.Password;
                 UserScreenName = user;
                 LoggedIn = true;
                 return true;

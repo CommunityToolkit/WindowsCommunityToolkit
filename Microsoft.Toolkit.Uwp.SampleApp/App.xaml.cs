@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 await RunAppInitialization(e?.Arguments);
             }
 
-            SystemInformation.TrackAppUse(e);
+            SystemInformation.Instance.TrackAppUse(e);
         }
 
         /// <summary>
