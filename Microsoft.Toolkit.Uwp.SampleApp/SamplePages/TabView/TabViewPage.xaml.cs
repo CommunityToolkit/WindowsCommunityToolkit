@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Tabs_TabDraggedOutside(object sender, TabDraggedOutsideEventArgs e)
         {
             // The sample app let's you drag items from a static TabView with TabViewItem's pre-defined.
-            // In the case of databound scenarios e.Item should be your data item, and e.Tab should always be the TabViewItem.
+            // In the case of data bound scenarios e.Item should be your data item, and e.Tab should always be the TabViewItem.
             var str = e.Item.ToString();
 
             if (e.Tab != null)

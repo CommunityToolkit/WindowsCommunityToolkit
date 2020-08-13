@@ -18,7 +18,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_Clear()
         {
-            var treeroot = XamlReader.Load(
+            var treeRoot = XamlReader.Load(
 @"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -29,9 +29,9 @@ namespace UnitTests.UI.Controls
 
 </Page>") as FrameworkElement;
 
-            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var tokenBox = treeroot.FindChildByName("tokenboxname") as TokenizingTextBox;
+            var tokenBox = treeRoot.FindChildByName("tokenboxname") as TokenizingTextBox;
 
             Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
 

@@ -29,13 +29,13 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.Uwp
         /// <inheritdoc/>
         public Toolkit.Services.Core.PasswordCredential Get(string key)
         {
-            var crendentials = RetrievePasswordCredential(key);
-            if (crendentials == null)
+            var credentials = RetrievePasswordCredential(key);
+            if (credentials == null)
             {
                 return null;
             }
 
-            return new Toolkit.Services.Core.PasswordCredential { Password = crendentials.Password, UserName = crendentials.UserName };
+            return new Toolkit.Services.Core.PasswordCredential { Password = credentials.Password, UserName = credentials.UserName };
         }
 
         private Windows.Security.Credentials.PasswordCredential RetrievePasswordCredential(string key)

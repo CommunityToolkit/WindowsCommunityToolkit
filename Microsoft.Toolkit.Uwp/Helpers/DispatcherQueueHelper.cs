@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Extension method for <see cref="DispatcherQueue"/>. Offering an actual awaitable <see cref="Task"/> with optional result that will be executed on the given dispatcher.
         /// </summary>
         /// <param name="dispatcher">DispatcherQueue of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function">Asynchrounous function to be executed on the given dispatcher.</param>
+        /// <param name="function">Asynchronous function to be executed on the given dispatcher.</param>
         /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <typeparam name="T">Returned data type of the function.</typeparam>
         /// <param name="dispatcher">DispatcherQueue of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher.</param>
+        /// <param name="function">Asynchronous function to be executed Asynchronously on the given dispatcher.</param>
         /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>

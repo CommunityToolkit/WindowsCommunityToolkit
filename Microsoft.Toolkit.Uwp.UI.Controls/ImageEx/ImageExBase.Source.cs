@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 lock (LockObj)
                 {
-                    // If you have many imageEx in a virtualized listview for instance
+                    // If you have many imageEx in a virtualized ListView for instance
                     // controls will be recycled and the uri will change while waiting for the previous one to load
                     if (_uri == imageUri)
                     {

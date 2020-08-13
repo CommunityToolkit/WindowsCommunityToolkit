@@ -481,7 +481,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         if (existingOption == null && string.IsNullOrWhiteSpace(type))
                         {
-                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurence in {XamlCodeFile}.");
+                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurrence in {XamlCodeFile}.");
                         }
 
                         if (Enum.TryParse(type, out PropertyKind kind))

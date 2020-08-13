@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
-            DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
+            DocumentationTextBlock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
@@ -295,7 +295,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     documentationPath = path;
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
-                        DocumentationTextblock.Text = contents;
+                        DocumentationTextBlock.Text = contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
@@ -447,7 +447,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             });
         }
 
-        private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
+        private async void DocumentationTextBlock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", e.Link);
             var link = e.Link;
@@ -462,7 +462,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextBlock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
             var deferral = e.GetDeferral();
             BitmapImage image = null;
@@ -605,8 +605,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (XamlCodeEditor.TimeSampleEditedFirst != DateTime.MinValue &&
                     XamlCodeEditor.TimeSampleEditedLast != DateTime.MinValue)
                 {
-                    int secondsEdditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
-                    TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEdditingSample);
+                    int secondsEditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
+                    TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEditingSample);
                 }
                 else
                 {

@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 if (language != "XAML"
                     && prevIndex >= 0
                     && collection[prevIndex] is StackPanel prevPanel
-                    && prevPanel.Tag is CustCodeBlock block
+                    && prevPanel.Tag is CustomCodeBlock block
                     && !block.Languages.ContainsKey("XAML") // Prevent combining of XAML Code Blocks.
                     && !block.Languages.ContainsKey(language))
                 {
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 }
                 else
                 {
-                    block = new CustCodeBlock();
+                    block = new CustomCodeBlock();
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     block.Languages.Add(language, (viewer, element.Text));
 #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     headerGrid.Children.Add(copyButton);
                     Grid.SetColumn(copyButton, 1);
 
-                    // Collection the adornment and the standard UI, add them to a Stackpanel, and add it back to the collection.
+                    // Collection the adornment and the standard UI, add them to a StackPanel, and add it back to the collection.
                     var panel = new StackPanel
                     {
                         Background = viewer.Background,
@@ -266,9 +266,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         }
                     }
                 }
-                else if (firstInline is TextRunInline textinline)
+                else if (firstInline is TextRunInline textRunInline)
                 {
-                    var key = textinline.Text.Split(' ').FirstOrDefault();
+                    var key = textRunInline.Text.Split(' ').FirstOrDefault();
                     if (styles.TryGetValue(key, out var style) && !style.Ignore)
                     {
                         noteType = style;
@@ -276,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         symbolGlyph = style.Glyph;
 
                         // Removes the identifier from the text
-                        textinline.Text = textinline.Text.Replace(key, string.Empty);
+                        textRunInline.Text = textRunInline.Text.Replace(key, string.Empty);
 
                         if (theme == ElementTheme.Light)
                         {
@@ -292,9 +292,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         // Apply special formatting context.
                         if (noteType != null)
                         {
-                            if (localContext?.Clone() is UIElementCollectionRenderContext newcontext)
+                            if (localContext?.Clone() is UIElementCollectionRenderContext newContext)
                             {
-                                localContext = newcontext;
+                                localContext = newContext;
 
                                 localContext.TrimLeadingWhitespace = true;
                                 QuoteForeground = Foreground;
@@ -306,7 +306,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     if (style.Ignore)
                     {
                         // Blank entire block
-                        textinline.Text = string.Empty;
+                        textRunInline.Text = string.Empty;
                     }
                 }
             }
@@ -504,7 +504,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// <summary>
         /// Code Block Tag Information to track current Language and Alternate Views.
         /// </summary>
-        private class CustCodeBlock
+        private class CustomCodeBlock
         {
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
 #pragma warning disable SA1009 // Closing parenthesis must be spaced correctly

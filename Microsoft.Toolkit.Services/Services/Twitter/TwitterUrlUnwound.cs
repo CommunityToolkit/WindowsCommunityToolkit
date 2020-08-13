@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets or sets status of unwind; if anything but 200 the data's bad.
+        /// Gets or sets status of unwind; if anything but 200 is bad data.
         /// </summary>
         [JsonProperty("status")]
         public int Status { get; set; }

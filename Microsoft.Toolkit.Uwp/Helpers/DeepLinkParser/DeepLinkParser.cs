@@ -98,10 +98,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             var launchArgs = args as ILaunchActivatedEventArgs;
             if (launchArgs == null)
             {
-                var protcolArgs = args as IProtocolActivatedEventArgs;
-                if (protcolArgs != null)
+                var protocolArgs = args as IProtocolActivatedEventArgs;
+                if (protocolArgs != null)
                 {
-                    ParseUriString(protcolArgs.Uri.OriginalString);
+                    ParseUriString(protocolArgs.Uri.OriginalString);
                 }
                 else
                 {

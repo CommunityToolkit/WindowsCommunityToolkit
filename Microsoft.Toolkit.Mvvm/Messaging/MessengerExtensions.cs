@@ -17,9 +17,37 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     public static partial class MessengerExtensions
     {
         /// <summary>
-        /// The <see cref="MethodInfo"/> instance associated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
+        /// A class that acts as a container to load the <see cref="MethodInfo"/> instance linked to
+        /// the <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/> method.
+        /// This class is needed to avoid forcing the initialization code in the static constructor to run as soon as
+        /// the <see cref="MessengerExtensions"/> type is referenced, even if that is done just to use methods
+        /// that do not actually require this <see cref="MethodInfo"/> instance to be available.
+        /// We're effectively using this type to leverage the lazy loading of static constructors done by the runtime.
         /// </summary>
-        private static readonly MethodInfo RegisterIRecipientMethodInfo;
+        private static class MethodInfos
+        {
+            /// <summary>
+            /// Initializes static members of the <see cref="MethodInfos"/> class.
+            /// </summary>
+            static MethodInfos()
+            {
+                RegisterIRecipient = (
+                    from methodInfo in typeof(MessengerExtensions).GetMethods()
+                    where methodInfo.Name == nameof(Register) &&
+                          methodInfo.IsGenericMethod &&
+                          methodInfo.GetGenericArguments().Length == 2
+                    let parameters = methodInfo.GetParameters()
+                    where parameters.Length == 3 &&
+                          parameters[1].ParameterType.IsGenericType &&
+                          parameters[1].ParameterType.GetGenericTypeDefinition() == typeof(IRecipient<>)
+                    select methodInfo).First();
+            }
+
+            /// <summary>
+            /// The <see cref="MethodInfo"/> instance associated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
+            /// </summary>
+            public static readonly MethodInfo RegisterIRecipient;
+        }
 
         /// <summary>
         /// A class that acts as a static container to associate a <see cref="ConditionalWeakTable{TKey,TValue}"/> instance to each
@@ -37,23 +65,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// </summary>
             public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods
                 = new ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]>();
-        }
-
-        /// <summary>
-        /// Initializes static members of the <see cref="MessengerExtensions"/> class.
-        /// </summary>
-        static MessengerExtensions()
-        {
-            RegisterIRecipientMethodInfo = (
-                from methodInfo in typeof(MessengerExtensions).GetMethods()
-                where methodInfo.Name == nameof(Register) &&
-                      methodInfo.IsGenericMethod &&
-                      methodInfo.GetGenericArguments().Length == 2
-                let parameters = methodInfo.GetParameters()
-                where parameters.Length == 3 &&
-                      parameters[1].ParameterType.IsGenericType &&
-                      parameters[1].ParameterType.GetGenericTypeDefinition() == typeof(IRecipient<>)
-                select methodInfo).First();
         }
 
         /// <summary>
@@ -110,7 +121,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     where interfaceType.IsGenericType &&
                           interfaceType.GetGenericTypeDefinition() == typeof(IRecipient<>)
                     let messageType = interfaceType.GenericTypeArguments[0]
-                    let registrationMethod = RegisterIRecipientMethodInfo.MakeGenericMethod(messageType, typeof(TToken))
+                    let registrationMethod = MethodInfos.RegisterIRecipient.MakeGenericMethod(messageType, typeof(TToken))
                     let registrationAction = GetRegistrationAction(type, registrationMethod)
                     select registrationAction).ToArray();
             }
