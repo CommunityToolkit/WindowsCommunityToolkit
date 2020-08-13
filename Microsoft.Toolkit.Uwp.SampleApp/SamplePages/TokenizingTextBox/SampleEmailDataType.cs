@@ -8,14 +8,14 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// Sample of strongly-typed email address simulated data for <see cref="TokenizingTextBox"/>.
+    /// Sample of strongly-typed email address simulated data for <see cref="Microsoft.Toolkit.Uwp.UI.Controls.TokenizingTextBox"/>.
     /// </summary>
     public class SampleEmailDataType
     {
         /// <summary>
-        /// Gets or sets symbol to display.
+        /// Gets the initials to Display
         /// </summary>
-        public Symbol Icon { get; set; }
+        public string Initials => string.Empty + FirstName[0] + FamilyName[0];
 
         /// <summary>
         /// Gets or sets the first name .
@@ -30,24 +30,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// <summary>
         /// Gets the display text.
         /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return string.Format("{0} {1}", FirstName, FamilyName);
-            }
-        }
+        public string DisplayName => $"{FirstName} {FamilyName}";
 
         /// <summary>
         /// Gets the formatted email address
         /// </summary>
-        public string EmailAddress
-        {
-            get
-            {
-                return string.Format("{0} <{1}.{2}@contoso.com>", DisplayName, FirstName, FamilyName);
-            }
-        }
+        public string EmailAddress => $"{DisplayName} <{FirstName}.{FamilyName}@contoso.com>";
 
         public override string ToString()
         {

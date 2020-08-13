@@ -68,10 +68,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
         /// the currently focused element, which is updated synchronously.
         /// </summary>
         /// <param name="element">Parent DependencyObject</param>
+        /// <param name="uiElement">Parent UIElement. Used to query the element's XamlRoot.</param>
         /// <returns>True if the currently focused element is within the visual tree of the parent</returns>
-        internal static bool ContainsFocusedElement(this DependencyObject element)
+        internal static bool ContainsFocusedElement(this DependencyObject element, UIElement uiElement)
         {
-            return (element == null) ? false : element.ContainsChild(FocusManager.GetFocusedElement() as DependencyObject);
+            return (element == null) ? false : element.ContainsChild(GetFocusedElement(uiElement) as DependencyObject);
+        }
+
+        private static object GetFocusedElement(UIElement uiElement)
+        {
+            if (TypeHelper.IsXamlRootAvailable && uiElement.XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(uiElement.XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
+            }
         }
 
         /// <summary>

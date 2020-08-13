@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Services
         /// Initializes a new instance of the <see cref="ParserNullException"/> class.
         /// Constructor with additional message and inner exception.
         /// </summary>
-        /// <param name="message">Additonal message.</param>
+        /// <param name="message">Additional message.</param>
         /// <param name="innerException">Reference to inner exception.</param>
         public ParserNullException(string message, Exception innerException)
             : base(message, innerException)

@@ -11,13 +11,17 @@
     </Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
 
-    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
-    <DebugType>Full</DebugType>
     <NoWarn>CS8002;CS0618</NoWarn>
+    <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
+    <UseWpf>true</UseWpf>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,28 +45,9 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net462'">
-    <Reference Include="System.Data" />
-    <Reference Include="System.ComponentModel" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="[5.0.0-preview.gb86cb1c4cb,)" />
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="[5.0.0-preview.gb86cb1c4cb,)" />
-    <Page Update="PlatformSpecific\NetFramework\PopupWPF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Update="PlatformSpecific\NetFramework\PopupWPF.xaml.cs">
-      <DependentUpon>PlatformSpecific\NetFramework\PopupWPF.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0.16299')">

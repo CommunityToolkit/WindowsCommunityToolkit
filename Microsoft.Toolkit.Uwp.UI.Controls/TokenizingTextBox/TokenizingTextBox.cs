@@ -3,12 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -47,8 +48,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal bool IsClearingForClick { get; set; }
 
         private InterspersedObservableCollection _innerItemsSource;
-        private PretokenStringContainer _currentTextEdit; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
-        private PretokenStringContainer _lastTextEdit;
+        private ITokenStringContainer _currentTextEdit; // Don't update this directly outside of initialization, use UpdateCurrentTextEdit Method - in future see https://github.com/dotnet/csharplang/issues/140#issuecomment-625012514
+        private ITokenStringContainer _lastTextEdit;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
@@ -57,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Setup our base state of our collection
             _innerItemsSource = new InterspersedObservableCollection(new ObservableCollection<object>()); // TODO: Test this still will let us bind to ItemsSource in XAML?
-            _currentTextEdit = _lastTextEdit = new PretokenStringContainer();
+            _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
             _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
             ItemsSource = _innerItemsSource;
             //// TODO: Consolidate with callback below for ItemsSourceProperty changed?
@@ -70,8 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PreviewKeyUp += TokenizingTextBox_PreviewKeyUp;
             CharacterReceived += TokenizingTextBox_CharacterReceived;
             ItemClick += TokenizingTextBox_ItemClick;
-
-            PointerMoved += TokenizingTextBox_PointerMoved;
         }
 
         private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
@@ -80,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ItemsSource != null && ItemsSource.GetType() != typeof(InterspersedObservableCollection))
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
-                _currentTextEdit = _lastTextEdit = new PretokenStringContainer();
+                _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
                 _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
                 ItemsSource = _innerItemsSource;
             }
@@ -98,13 +97,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void TokenizingTextBox_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-        }
-
         private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            switch (e.Key)
+            TokenizingTextBox_PreviewKeyUp(e.Key);
+        }
+
+        internal void TokenizingTextBox_PreviewKeyUp(VirtualKey key)
+        {
+            switch (key)
             {
                 case VirtualKey.Escape:
                     {
@@ -129,14 +129,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            e.Handled = await TokenizingTextBox_PreviewKeyDown(e.Key);
+        }
+
+        internal async Task<bool> TokenizingTextBox_PreviewKeyDown(VirtualKey key)
+        {
             // Global handlers on control regardless if focused on item or in textbox.
-            switch (e.Key)
+            switch (key)
             {
                 case VirtualKey.C:
                     if (IsControlPressed)
                     {
                         CopySelectedToClipboard();
-                        e.Handled = true;
+                        return true;
                     }
 
                     break;
@@ -153,24 +158,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
 
                 // For moving between tokens
-                case Windows.System.VirtualKey.Left:
-                    e.Handled = MoveFocusAndSelection(MoveDirection.Previous);
-                    break;
+                case VirtualKey.Left:
+                    return MoveFocusAndSelection(MoveDirection.Previous);
 
-                case Windows.System.VirtualKey.Right:
-                    e.Handled = MoveFocusAndSelection(MoveDirection.Next);
-                    break;
+                case VirtualKey.Right:
+                    return MoveFocusAndSelection(MoveDirection.Next);
 
                 case VirtualKey.A:
                     // modify the select-all behaviour to ensure the text in the edit box gets selected.
                     if (IsControlPressed)
                     {
                         this.SelectAllTokensAndText();
-                        e.Handled = true;
+                        return true;
                     }
 
                     break;
             }
+
+            return false;
         }
 
         /// <inheritdoc/>
@@ -185,6 +190,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                menuFlyout.XamlRoot = XamlRoot;
+            }
+
             ContextFlyout = menuFlyout;
         }
 
@@ -205,10 +215,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
-            // TODO: check to see if the character came from one of the tokens, and its not a control character
             var container = ContainerFromItem(_currentTextEdit) as TokenizingTextBoxItem;
 
-            if (container != null && !(FocusManager.GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
+            if (container != null && !(GetFocusedElement().Equals(container._autoSuggestTextBox) || char.IsControl(args.Character)))
             {
                 if (SelectedItems.Count > 0)
                 {
@@ -274,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     //// TODO: Behavior question: if no items selected (just focus) does it just go to our last active textbox?
                     //// Community voted that typing in the end box made sense
 
-                    if (_innerItemsSource[_innerItemsSource.Count - 1] is PretokenStringContainer textToken)
+                    if (_innerItemsSource[_innerItemsSource.Count - 1] is ITokenStringContainer textToken)
                     {
                         var last = ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem; // Should be our last text box
                         var position = last._autoSuggestTextBox.SelectionStart;
@@ -286,6 +295,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         last._autoSuggestTextBox.Focus(FocusState.Keyboard);
                     }
                 }
+            }
+        }
+
+        private object GetFocusedElement()
+        {
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
             }
         }
 
@@ -333,6 +354,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
             menuFlyout.Items.Add(removeMenuItem);
+            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            {
+                menuFlyout.XamlRoot = XamlRoot;
+            }
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
@@ -349,7 +374,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TokenizingTextBoxItem_GotFocus(object sender, RoutedEventArgs e)
         {
             // Keep track of our currently focused textbox
-            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is PretokenStringContainer text)
+            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is ITokenStringContainer text)
             {
                 UpdateCurrentTextEdit(text);
             }
@@ -358,13 +383,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TokenizingTextBoxItem_LostFocus(object sender, RoutedEventArgs e)
         {
             // Keep track of our currently focused textbox
-            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is PretokenStringContainer text &&
+            if (sender is TokenizingTextBoxItem ttbi && ttbi.Content is ITokenStringContainer text &&
                 string.IsNullOrWhiteSpace(text.Text) && text != _lastTextEdit)
             {
                 // We're leaving an inner textbox that's blank, so we'll remove it
                 _innerItemsSource.Remove(text);
 
                 UpdateCurrentTextEdit(_lastTextEdit);
+
+                GuardAgainstPlaceholderTextLayoutIssue();
             }
         }
 
@@ -379,6 +406,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void AddTokenItem(object data, bool atEnd = false)
         {
             _ = AddTokenAsync(data, atEnd);
+        }
+
+        /// <summary>
+        /// Clears the whole collection, will raise the <see cref="TokenItemRemoving"/> event asynchronously for each item.
+        /// </summary>
+        /// <returns>async task</returns>
+        public async Task ClearAsync()
+        {
+            while (_innerItemsSource.Count > 1)
+            {
+                var container = ContainerFromItem(_innerItemsSource[0]) as TokenizingTextBoxItem;
+                if (!await RemoveTokenAsync(container, _innerItemsSource[0]))
+                {
+                    // if a removal operation fails then stop the clear process
+                    break;
+                }
+            }
+
+            // Clear the active pretoken string.
+            // Setting the text property directly avoids a delay when setting the text in the autosuggest box.
+            Text = string.Empty;
         }
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
@@ -419,21 +467,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Focus back to our end box as Outlook does.
             var last = ContainerFromItem(_lastTextEdit) as TokenizingTextBoxItem;
-            last._autoSuggestTextBox.Focus(FocusState.Keyboard);
+            last?._autoSuggestTextBox.Focus(FocusState.Keyboard);
 
             TokenItemAdded?.Invoke(this, data);
+
+            GuardAgainstPlaceholderTextLayoutIssue();
         }
 
-        private void UpdateCurrentTextEdit(PretokenStringContainer edit)
+        /// <summary>
+        /// Helper to change out the currently focused text element in the control.
+        /// </summary>
+        /// <param name="edit"><see cref="ITokenStringContainer"/> element which is now the main edited text.</param>
+        protected void UpdateCurrentTextEdit(ITokenStringContainer edit)
         {
             _currentTextEdit = edit;
 
             Text = edit.Text; // Update our text property.
         }
 
-        private async Task RemoveToken(TokenizingTextBoxItem item)
+        /// <summary>
+        /// Remove the specified token from the list.
+        /// </summary>
+        /// <param name="item">Item in the list to delete</param>
+        /// <param name="data">data </param>
+        /// <remarks>
+        /// the data parameter is passed in optionally to support UX UTs. When running in the UT the Container items are not manifest.
+        /// </remarks>
+        /// <returns><b>true</b> if the item was removed successfully, <b>false</b> otherwise</returns>
+        private async Task<bool> RemoveTokenAsync(TokenizingTextBoxItem item, object data = null)
         {
-            var data = ItemFromContainer(item);
+            if (data == null)
+            {
+                data = ItemFromContainer(item);
+            }
 
             if (TokenItemRemoving != null)
             {
@@ -442,28 +508,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (tirea.Cancel)
                 {
-                    return;
+                    return false;
                 }
             }
 
             _innerItemsSource.Remove(data);
 
             TokenItemRemoved?.Invoke(this, data);
+
+            GuardAgainstPlaceholderTextLayoutIssue();
+
+            return true;
         }
 
-        /// <summary>
-        /// Returns the string representation of each token item, concatenated and delimeted.
-        /// </summary>
-        /// <returns>Untokenized text string</returns>
-        public string GetUntokenizedText(string tokenDelimiter = ", ")
+        private void GuardAgainstPlaceholderTextLayoutIssue()
         {
-            var tokenStrings = new List<string>();
-            foreach (var item in Items)
-            {
-                tokenStrings.Add(item.ToString());
-            }
+            // If the *PlaceholderText is visible* on the last AutoSuggestBox, it can incorrectly layout itself
+            // when the *ASB has focus*. We think this is an optimization in the platform, but haven't been able to
+            // isolate a straight-reproduction of this issue outside of this control (though we have eliminated
+            // most Toolkit influences like ASB/TextBox Style, the InterspersedObservableCollection, etc...).
+            // The only Toolkit component involved here should be WrapPanel (which is a straight-forward Panel).
+            // We also know the ASB itself is adjusting it's size correctly, it's the inner component.
+            //
+            // To combat this issue:
+            //   We toggle the visibility of the Placeholder ContentControl in order to force it's layout to update properly
+            var placeholder = ContainerFromItem(_lastTextEdit).FindDescendantByName("PlaceholderTextContentPresenter");
 
-            return string.Join(tokenDelimiter, tokenStrings);
+            if (placeholder?.Visibility == Visibility.Visible)
+            {
+                placeholder.Visibility = Visibility.Collapsed;
+
+                // After we ensure we've hid the control, make it visible again (this is inperceptable to the user).
+                _ = CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
+                {
+                    placeholder.Visibility = Visibility.Visible;
+                });
+            }
         }
     }
 }

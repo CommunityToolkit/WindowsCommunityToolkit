@@ -24,10 +24,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNullOrEmpty(string? text, string name)
         {
-            if (!string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNullOrEmpty(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNullOrEmpty(text, name);
         }
 
         /// <summary>
@@ -39,10 +41,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotNullOrEmpty([NotNull] string? text, string name)
         {
-            if (string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(text))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
 #pragma warning disable CS8777 // Does not return when text is null (.NET Standard 2.0 string.IsNullOrEmpty lacks flow attribute)
         }
 #pragma warning restore CS8777
@@ -56,10 +60,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNullOrWhitespace(string? text, string name)
         {
-            if (!string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNullOrWhitespace(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNullOrWhitespace(text, name);
         }
 
         /// <summary>
@@ -71,10 +77,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotNullOrWhitespace([NotNull] string? text, string name)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhitespace(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhitespace(text, name);
 #pragma warning disable CS8777 // Does not return when text is null
         }
 #pragma warning restore CS8777
@@ -88,10 +96,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty(string text, string name)
         {
-            if (text.Length != 0)
+            if (text.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEmpty(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEmpty(text, name);
         }
 
         /// <summary>
@@ -103,10 +113,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty(string text, string name)
         {
-            if (text.Length == 0)
+            if (text.Length != 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(text, name);
         }
 
         /// <summary>
@@ -118,10 +130,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsWhitespace(string text, string name)
         {
-            if (!string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsWhitespace(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsWhitespace(text, name);
         }
 
         /// <summary>
@@ -133,10 +147,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotWhitespace(string text, string name)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotWhitespace(text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotWhitespace(text, name);
         }
 
         /// <summary>
@@ -149,10 +165,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo(string text, int size, string name)
         {
-            if (text.Length != size)
+            if (text.Length == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(text, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(text, size, name);
         }
 
         /// <summary>
@@ -165,10 +183,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo(string text, int size, string name)
         {
-            if (text.Length == size)
+            if (text.Length != size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(text, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(text, size, name);
         }
 
         /// <summary>
@@ -181,10 +201,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThan(string text, int size, string name)
         {
-            if (text.Length <= size)
+            if (text.Length > size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(text, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThan(text, size, name);
         }
 
         /// <summary>
@@ -197,10 +219,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeGreaterThanOrEqualTo(string text, int size, string name)
         {
-            if (text.Length < size)
+            if (text.Length >= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(text, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(text, size, name);
         }
 
         /// <summary>
@@ -213,10 +237,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan(string text, int size, string name)
         {
-            if (text.Length >= size)
+            if (text.Length < size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(text, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(text, size, name);
         }
 
         /// <summary>
@@ -229,10 +255,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo(string text, int size, string name)
         {
-            if (text.Length > size)
+            if (text.Length <= size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(text, size, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(text, size, name);
         }
 
         /// <summary>
@@ -246,10 +274,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo(string source, string destination, string name)
         {
-            if (source.Length != destination.Length)
+            if (source.Length == destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -263,10 +293,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo(string source, string destination, string name)
         {
-            if (source.Length > destination.Length)
+            if (source.Length <= destination.Length)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
         }
 
         /// <summary>
@@ -279,10 +311,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRangeFor(int index, string text, string name)
         {
-            if ((uint)index >= (uint)text.Length)
+            if ((uint)index < (uint)text.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, text, name);
         }
 
         /// <summary>
@@ -295,10 +329,12 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRangeFor(int index, string text, string name)
         {
-            if ((uint)index < (uint)text.Length)
+            if ((uint)index >= (uint)text.Length)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, text, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, text, name);
         }
     }
 }

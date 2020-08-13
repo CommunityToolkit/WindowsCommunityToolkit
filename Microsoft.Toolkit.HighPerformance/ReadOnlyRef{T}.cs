@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="offset">The target offset within <paramref name="owner"/> for the target reference.</param>
-        /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private ReadOnlyRef(object owner, IntPtr offset)
         {
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="value">The target reference to point to (it must be within <paramref name="owner"/>).</param>
-        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlyRef(object owner, in T value)
         {

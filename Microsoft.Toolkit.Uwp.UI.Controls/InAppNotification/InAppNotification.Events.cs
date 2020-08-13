@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -35,8 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event InAppNotificationClosedEventHandler Closed;
 
-        private AutomationPeer peer;
-
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
             Dismiss(InAppNotificationDismissKind.User);
@@ -47,41 +43,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dismiss(InAppNotificationDismissKind.Timeout);
         }
 
-        private void OpenAnimationTimer_Tick(object sender, object e)
+        private void OnCurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            lock (_openAnimationTimer)
+            switch (e.NewState.Name)
             {
-                _openAnimationTimer.Stop();
-                Opened?.Invoke(this, EventArgs.Empty);
-                SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
-                peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
-                if (Content?.GetType() == typeof(string))
-                {
-                    AutomateTextNotification(Content.ToString());
-                }
+                case StateContentVisible:
+                    OnNotificationVisible();
+                    break;
+                case StateContentCollapsed:
+                    OnNotificationCollapsed();
+                    break;
             }
         }
 
-        private void AutomateTextNotification(string message)
+        private void OnNotificationVisible()
         {
-            if (peer != null)
-            {
-                peer.SetFocus();
-                peer.RaiseNotificationEvent(
-                    AutomationNotificationKind.Other,
-                    AutomationNotificationProcessing.ImportantMostRecent,
-                    StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources") + message,
-                    Guid.NewGuid().ToString());
-            }
+            Opened?.Invoke(this, EventArgs.Empty);
         }
 
-        private void ClosingAnimationTimer_Tick(object sender, object e)
+        private void OnNotificationCollapsed()
         {
-            lock (_closingAnimationTimer)
+            Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+            Visibility = Visibility.Collapsed;
+        }
+
+        private void RaiseAutomationNotification()
+        {
+            if (!AutomationPeer.ListenerExists(AutomationEvents.LiveRegionChanged))
             {
-                _closingAnimationTimer.Stop();
-                Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+                return;
             }
+
+            var peer = FrameworkElementAutomationPeer.CreatePeerForElement(this);
+            peer.RaiseAutomationEvent(AutomationEvents.LiveRegionChanged);
         }
     }
 }

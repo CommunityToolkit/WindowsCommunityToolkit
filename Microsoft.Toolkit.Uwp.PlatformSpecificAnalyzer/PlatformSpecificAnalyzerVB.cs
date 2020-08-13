@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         }
 
         /// <summary>
-        /// Gets instance of symbol from sytax node
+        /// Gets instance of symbol from syntax node
         /// </summary>
         /// <param name="node">instance of <see cref="SyntaxNode"/></param>
         /// <param name="semanticModel"><see cref="SemanticModel"/></param>
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         }
 
         /// <summary>
-        /// Initialises the analyzer, registering for code analysis.
+        /// Initializes the analyzer, registering for code analysis.
         /// </summary>
         /// <param name="context"><see cref="AnalysisContext"/></param>
         public override void Initialize(AnalysisContext context)

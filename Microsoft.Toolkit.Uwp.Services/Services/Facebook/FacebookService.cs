@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
     /// <summary>
     /// Class for connecting to Facebook.
     /// </summary>
+    [Obsolete("The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.")]
     public class FacebookService
     {
         /// <summary>
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
@@ -62,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="appId">Application ID (Provided by Facebook developer site)</param>
         /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
@@ -205,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <typeparam name="T">Strong type of model.</typeparam>
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
-        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
+        /// <param name="fields">A comma separated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<T>> RequestAsync<T>(FacebookDataConfig config, int maxRecords = 20, string fields = "id,message,from,created_time,link,full_picture")
         {
@@ -246,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="pageSize">Upper limit of records to return.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
-        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
+        /// <param name="fields">A comma separated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<IncrementalLoadingCollection<FacebookRequestSource<T>, T>> RequestAsync<T>(FacebookDataConfig config, int pageSize, int maxPages, string fields = "id,message,from,created_time,link,full_picture")
         {

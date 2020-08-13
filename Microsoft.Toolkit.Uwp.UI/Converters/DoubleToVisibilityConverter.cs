@@ -10,7 +10,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// This class converts a double value into a Visibility enumeration.
     /// </summary>
-    [Bindable]
     public class DoubleToVisibilityConverter : DoubleToObjectConverter
     {
         /// <summary>
