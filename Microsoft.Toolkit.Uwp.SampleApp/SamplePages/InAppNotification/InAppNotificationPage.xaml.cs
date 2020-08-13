@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SampleController.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
-                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle readding it.
+                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle re-adding it.
 
                 object inAppNotificationWithButtonsTemplate = null;
                 bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);

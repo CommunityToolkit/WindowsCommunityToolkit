@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public bool Protected { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether account is verified (blue checkmark).
+        /// Gets or sets a value indicating whether account is verified (blue check mark).
         /// </summary>
         [JsonPropertyName("verified")]
         public bool Verified { get; set; }

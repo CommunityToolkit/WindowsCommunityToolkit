@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -140,7 +141,18 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(ref field, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+            T oldValue = field;
+
+            // We duplicate the code as in the base class here to leverage
+            // the intrinsics support for EqualityComparer<T>.Default.Equals.
+            bool propertyChanged = SetProperty(ref field, newValue, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
 
         /// <summary>
@@ -158,21 +170,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            if (!broadcast)
-            {
-                return SetProperty(ref field, newValue, comparer, propertyName);
-            }
-
             T oldValue = field;
 
-            if (SetProperty(ref field, newValue, comparer, propertyName))
+            bool propertyChanged = SetProperty(ref field, newValue, comparer, propertyName);
+
+            if (propertyChanged && broadcast)
             {
                 Broadcast(oldValue, newValue, propertyName);
-
-                return true;
             }
 
-            return false;
+            return propertyChanged;
         }
 
         /// <summary>
@@ -216,19 +223,61 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            if (!broadcast)
-            {
-                return SetProperty(oldValue, newValue, comparer, callback, propertyName);
-            }
+            bool propertyChanged = SetProperty(oldValue, newValue, comparer, callback, propertyName);
 
-            if (SetProperty(oldValue, newValue, comparer, callback, propertyName))
+            if (propertyChanged && broadcast)
             {
                 Broadcast(oldValue, newValue, propertyName);
-
-                return true;
             }
 
-            return false;
+            return propertyChanged;
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given nested property. If the value has changed,
+        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
+        /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>, with the difference being that this
+        /// method is used to relay properties from a wrapped model in the current instance. For more info, see the docs for
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of property to set.</typeparam>
+        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
+        {
+            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given nested property. If the value has changed,
+        /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
+        /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>,
+        /// with the difference being that this method is used to relay properties from a wrapped model in the
+        /// current instance. For more info, see the docs for
+        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of property to set.</typeparam>
+        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
+        {
+            bool propertyChanged = SetProperty(propertyExpression, newValue, comparer, out T oldValue, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
     }
 }

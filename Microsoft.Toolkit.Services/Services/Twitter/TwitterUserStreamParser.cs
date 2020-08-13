@@ -45,15 +45,15 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             if (obj.RootElement.TryGetProperty("event", out var events))
             {
-                Tweet endtargetobject = null;
-                if (obj.RootElement.TryGetProperty("target_object", out var targetobject) && targetobject.TryGetProperty("user", out _))
+                Tweet endTargetObject = null;
+                if (obj.RootElement.TryGetProperty("target_object", out var targetObject) && targetObject.TryGetProperty("user", out _))
                 {
-                    endtargetobject = JsonSerializer.Deserialize<Tweet>(targetobject.ToString());
+                    endTargetObject = JsonSerializer.Deserialize<Tweet>(targetObject.ToString());
                 }
 
-                var endevent = JsonSerializer.Deserialize<TwitterStreamEvent>(obj.ToString());
-                endevent.TargetObject = endtargetobject;
-                return endevent;
+                var endEvent = JsonSerializer.Deserialize<TwitterStreamEvent>(obj.ToString());
+                endEvent.TargetObject = endTargetObject;
+                return endEvent;
             }
 
             if (obj.RootElement.TryGetProperty("user", out var user) && user.GetArrayLength() > 0)
