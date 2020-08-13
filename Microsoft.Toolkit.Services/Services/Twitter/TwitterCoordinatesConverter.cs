@@ -22,14 +22,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
         public TwitterCoordinatesConverter(JsonSerializerOptions options)
         {
-            if (options?.GetConverter(typeof(double)) is JsonConverter<double> doubleConverter)
-            {
-                _doubleConverter = doubleConverter;
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+            _doubleConverter = options?.GetConverter(typeof(double)) as JsonConverter<double> ?? throw new InvalidOperationException();
         }
 
         public override TwitterCoordinates Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
