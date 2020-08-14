@@ -280,7 +280,6 @@
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
-    <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
@@ -318,7 +317,6 @@
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
     <Content Include="SamplePages\ImageCache\ImageCache.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
@@ -327,7 +325,6 @@
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.png" />
-    <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
     <Content Include="SamplePages\LiveTile\LiveTile.png" />
@@ -369,7 +366,6 @@
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
@@ -429,8 +425,6 @@
     <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
-    <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
-    <Content Include="SamplePages\Light\LightBehaviorXaml.bind" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
     <Content Include="SamplePages\TileControl\TileControl.bind">
       <SubType>Designer</SubType>
@@ -512,9 +506,6 @@
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
-    <Content Include="SamplePages\TabView\TabViewXaml.bind">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
@@ -656,9 +647,6 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
-    <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
-      <DependentUpon>TabViewPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>
@@ -867,9 +855,6 @@
     </Compile>
     <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
     <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
-    <Compile Include="SamplePages\Light\LightBehaviorPage.xaml.cs">
-      <DependentUpon>LightBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
       <DependentUpon>LinkedInPage.xaml</DependentUpon>
     </Compile>
@@ -920,9 +905,6 @@
     </Compile>
     <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
       <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
-      <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
@@ -1055,10 +1037,6 @@
     <Page Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\TabView\TabViewPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1352,10 +1330,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Light\LightBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\LinkedIn Service\LinkedInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1423,10 +1397,6 @@
     <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
