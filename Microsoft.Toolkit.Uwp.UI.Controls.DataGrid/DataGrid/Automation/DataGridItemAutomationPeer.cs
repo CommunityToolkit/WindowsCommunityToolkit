@@ -343,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <summary>
         /// Gets a value indicating whether the UIElement associated with this DataGridItemAutomationPeer contains protected content.
         /// </summary>
-        /// <returns>Trye if the UIElement contains protected content.</returns>
+        /// <returns>True if the UIElement contains protected content.</returns>
         protected override bool IsPasswordCore()
         {
             return this.OwningRowPeer != null ? this.OwningRowPeer.IsPassword() : false;

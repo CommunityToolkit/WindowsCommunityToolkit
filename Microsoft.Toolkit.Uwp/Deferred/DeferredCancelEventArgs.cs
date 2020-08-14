@@ -5,12 +5,12 @@
 namespace Microsoft.Toolkit.Uwp.Deferred
 {
     /// <summary>
-    /// <see cref="DeferredEventArgs"/> which can also be Cancelled.
+    /// <see cref="DeferredEventArgs"/> which can also be Canceled.
     /// </summary>
     public class DeferredCancelEventArgs : DeferredEventArgs
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the event should be cancelled.
+        /// Gets or sets a value indicating whether the event should be canceled.
         /// </summary>
         public bool Cancel { get; set; }
     }

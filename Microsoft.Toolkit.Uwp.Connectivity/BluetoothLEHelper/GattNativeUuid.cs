@@ -648,12 +648,12 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         String = 0x2A3D,
 
         /// <summary>
-        /// The temperature in celsius
+        /// The temperature in Celsius
         /// </summary>
         TemperatureInCelsius = 0x2A1F,
 
         /// <summary>
-        /// The temperature in fahrenheit
+        /// The temperature in Fahrenheit
         /// </summary>
         TemperatureInFahrenheit = 0x2A20,
 

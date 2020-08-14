@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// Enter a Defer Cycle.
         /// Defer cycles are used to coalesce changes to the ICollectionView.
         /// </summary>
-        /// <returns>An IDisposable deferal object.</returns>
+        /// <returns>An IDisposable deferral object.</returns>
         public virtual IDisposable DeferRefresh()
         {
 #if FEATURE_IEDITABLECOLLECTIONVIEW
@@ -611,7 +611,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         /// <summary>
-        /// Gets a value indicating whether the resulting (filtered) view is emtpy.
+        /// Gets a value indicating whether the resulting (filtered) view is empty.
         /// </summary>
         public abstract bool IsEmpty
         {
@@ -772,7 +772,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         /// <summary>
-        /// Raise a CurrentChanging event that is not cancelable.
+        /// Raise a CurrentChanging event that is not cancel-able.
         /// Internally, CurrentPosition is set to -1.
         /// This is called by CollectionChanges (Remove and Refresh) that affect the CurrentItem.
         /// </summary>
@@ -1258,7 +1258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         internal const string IsCurrentBeforeFirstPropertyName = "IsCurrentBeforeFirst";
         internal const string IsCurrentAfterLastPropertyName = "IsCurrentAfterLast";
 
-        // since there's nothing in the uncancelable event args that is mutable,
+        // since there's nothing in the uncancel-able event args that is mutable,
         // just create one instance to be used universally.
         private static readonly CurrentChangingEventArgs UncancelableCurrentChangingEventArgs = new CurrentChangingEventArgs(false);
         private static readonly string IEnumerableT = typeof(IEnumerable<>).Name;

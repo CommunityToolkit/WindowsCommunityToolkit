@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
-        /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
+        /// <param name="requiredPermissions">List of required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(FacebookOAuthTokens oAuthTokens, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts)
         {
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="appId">Application ID (Provided by Facebook developer site)</param>
-        /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
+        /// <param name="requiredPermissions">List of required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <param name="windowsStoreId">Windows Store SID</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string appId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts, string windowsStoreId = null)
