@@ -448,7 +448,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool IsEmpty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (Height | Width) == 0;
+            get => (Height | this.width) == 0;
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public int Size
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Height * Width;
+            get => Height * this.width;
         }
 
         /// <summary>
@@ -500,7 +500,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             get
             {
                 if ((uint)i >= (uint)Height ||
-                    (uint)j >= (uint)Width)
+                    (uint)j >= (uint)this.width)
                 {
                     ThrowHelper.ThrowIndexOutOfRangeException();
                 }
@@ -521,23 +521,38 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </summary>
         public void Clear()
         {
+            if (IsEmpty)
+            {
+                return;
+            }
+
             if (TryGetSpan(out Span<T> span))
             {
                 span.Clear();
             }
             else
             {
-#if SPAN_RUNTIME_SUPPORT
                 // Clear one row at a time
+#if SPAN_RUNTIME_SUPPORT
                 for (int i = 0; i < Height; i++)
                 {
                     GetRowSpan(i).Clear();
                 }
 #else
-                // Fallback to the enumerator
-                foreach (ref T item in this)
+                unsafe
                 {
-                    item = default!;
+                    int height = Height;
+                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        ref T r0 = ref DangerousGetReferenceAt(i, 0);
+
+                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
+                        {
+                            Unsafe.Add(ref r0, j) = default!;
+                        }
+                    }
                 }
 #endif
             }
@@ -552,6 +567,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public void CopyTo(Span<T> destination)
         {
+            if (IsEmpty)
+            {
+                return;
+            }
+
             if (TryGetSpan(out Span<T> span))
             {
                 span.CopyTo(destination);
@@ -563,22 +583,30 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     ThrowHelper.ThrowArgumentExceptionForDestinationTooShort();
                 }
 
-#if SPAN_RUNTIME_SUPPORT
                 // Copy each row individually
-                for (int i = 0, j = 0; i < Height; i++, j += Width)
+#if SPAN_RUNTIME_SUPPORT
+                for (int i = 0, j = 0; i < Height; i++, j += this.width)
                 {
                     GetRowSpan(i).CopyTo(destination.Slice(j));
                 }
 #else
-                ref T destinationRef = ref MemoryMarshal.GetReference(destination);
-                IntPtr offset = default;
-
-                // Fallback to the enumerator again
-                foreach (T item in this)
+                unsafe
                 {
-                    Unsafe.Add(ref destinationRef, offset) = item;
+                    int height = Height;
+                    IntPtr width = (IntPtr)(void*)(uint)this.width;
 
-                    offset += 1;
+                    ref T destinationRef = ref MemoryMarshal.GetReference(destination);
+                    IntPtr offset = default;
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+
+                        for (IntPtr j = default; (void*)j < (void*)width; j += 1, offset += 1)
+                        {
+                            Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
+                        }
+                    }
                 }
 #endif
             }
@@ -595,9 +623,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public void CopyTo(Span2D<T> destination)
         {
             if (destination.Height != Height ||
-                destination.width != Width)
+                destination.width != this.width)
             {
                 ThrowHelper.ThrowArgumentException();
+            }
+
+            if (IsEmpty)
+            {
+                return;
             }
 
             if (destination.TryGetSpan(out Span<T> span))
@@ -606,21 +639,28 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
             else
             {
-#if SPAN_RUNTIME_SUPPORT
                 // Copy each row individually
+#if SPAN_RUNTIME_SUPPORT
                 for (int i = 0; i < Height; i++)
                 {
                     GetRowSpan(i).CopyTo(destination.GetRowSpan(i));
                 }
 #else
-                Enumerator destinationEnumerator = destination.GetEnumerator();
-
-                // Fallback path with two enumerators
-                foreach (T item in this)
+                unsafe
                 {
-                    _ = destinationEnumerator.MoveNext();
+                    int height = Height;
+                    IntPtr width = (IntPtr)(void*)(uint)this.width;
 
-                    destinationEnumerator.Current = item;
+                    for (int i = 0; i < height; i++)
+                    {
+                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+                        ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
+
+                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
+                        {
+                            Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, j);
+                        }
+                    }
                 }
 #endif
             }
@@ -651,7 +691,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool TryCopyTo(Span2D<T> destination)
         {
             if (destination.Height == Height &&
-                destination.Width == Width)
+                destination.Width == this.width)
             {
                 CopyTo(destination);
 
@@ -673,17 +713,27 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
             else
             {
-#if SPAN_RUNTIME_SUPPORT
                 // Fill one row at a time
+#if SPAN_RUNTIME_SUPPORT
                 for (int i = 0; i < Height; i++)
                 {
                     GetRowSpan(i).Fill(value);
                 }
 #else
-                // Fill using the enumerator as above
-                foreach (ref T item in this)
+                unsafe
                 {
-                    item = value;
+                    int height = Height;
+                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        ref T r0 = ref DangerousGetReferenceAt(i, 0);
+
+                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
+                        {
+                            Unsafe.Add(ref r0, j) = value;
+                        }
+                    }
                 }
 #endif
             }
@@ -878,15 +928,23 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             // Skip the initialization if the array is empty
             if (Size > 0)
             {
-                ref T r0 = ref array.DangerousGetReference();
-                IntPtr offset = default;
-
-                // Fallback once again on the enumerator to copy the items
-                foreach (T item in this)
+                unsafe
                 {
-                    Unsafe.Add(ref r0, offset) = item;
+                    int height = Height;
+                    IntPtr width = (IntPtr)(void*)(uint)this.width;
 
-                    offset += 1;
+                    ref T destinationRef = ref array.DangerousGetReference();
+                    IntPtr offset = default;
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+
+                        for (IntPtr j = default; (void*)j < (void*)width; j += 1, offset += 1)
+                        {
+                            Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
+                        }
+                    }
                 }
             }
 #endif
