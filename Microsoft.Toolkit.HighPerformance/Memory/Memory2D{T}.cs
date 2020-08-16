@@ -486,7 +486,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Gets the length of the current <see cref="Span2D{T}"/> instance.
+        /// Gets the length of the current <see cref="Memory2D{T}"/> instance.
         /// </summary>
         public int Size
         {
