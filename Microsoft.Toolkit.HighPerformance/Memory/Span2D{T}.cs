@@ -707,6 +707,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="value">The value to assign to each element of the <see cref="Span2D{T}"/> instance.</param>
         public void Fill(T value)
         {
+            if (IsEmpty)
+            {
+                return;
+            }
+
             if (TryGetSpan(out Span<T> span))
             {
                 span.Fill(value);
