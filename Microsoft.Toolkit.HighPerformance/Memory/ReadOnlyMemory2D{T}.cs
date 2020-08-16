@@ -440,9 +440,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentException();
             }
 
-            // Access the array directly, if possible, just like in Memory2D<T>
-            if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            // Check whether the memory wraps a string we can directly access
+            if (typeof(T) == typeof(char) &&
+                MemoryMarshal.TryGetString(Unsafe.As<ReadOnlyMemory<T>, ReadOnlyMemory<char>>(ref memory), out string? text, out int start, out _))
             {
+                ref char r0 = ref text.DangerousGetReferenceAt(start + offset);
+
+                this.instance = text;
+                this.offset = text.DangerousGetObjectDataByteOffset(ref r0);
+            }
+            else if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            {
+                // Access the array directly, if possible, just like in Memory2D<T>
                 T[] array = segment.Array!;
 
                 this.instance = array;

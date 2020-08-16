@@ -369,13 +369,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentException();
             }
 
-            // Check if the input Memory<T> instance wraps an array we can access.
-            // This is fine, since Memory<T> on its own doesn't control the lifetime
-            // of the underlying array anyway, and this Memory2D<T> type would do the same.
-            // Using the array directly makes retrieving a Span2D<T> faster down the line,
-            // as we no longer have to jump through the boxed Memory<T> first anymore.
-            if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            // Check if the Memory<T> instance wraps a string. This is possible in case
+            // consumers do an unsafe cast for the entire Memory<T> object, and while not
+            // really safe it is still supported in CoreCLR too, so we're following suit here.
+            if (typeof(T) == typeof(char) &&
+                MemoryMarshal.TryGetString(Unsafe.As<Memory<T>, Memory<char>>(ref memory), out string? text, out int start, out _))
             {
+                ref char r0 = ref text.DangerousGetReferenceAt(start + offset);
+
+                this.instance = text;
+                this.offset = text.DangerousGetObjectDataByteOffset(ref r0);
+            }
+            else if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            {
+                // Check if the input Memory<T> instance wraps an array we can access.
+                // This is fine, since Memory<T> on its own doesn't control the lifetime
+                // of the underlying array anyway, and this Memory2D<T> type would do the same.
+                // Using the array directly makes retrieving a Span2D<T> faster down the line,
+                // as we no longer have to jump through the boxed Memory<T> first anymore.
                 T[] array = segment.Array!;
 
                 this.instance = array;
