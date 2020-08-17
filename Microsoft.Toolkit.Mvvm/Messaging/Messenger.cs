@@ -6,7 +6,6 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Collections.Extensions;
 
@@ -404,17 +403,19 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 // Check whether there are any registered recipients
-                if (!TryGetMapping(out Mapping<TMessage, TToken>? mapping))
-                {
-                    return message;
-                }
+                _ = TryGetMapping(out Mapping<TMessage, TToken>? mapping);
 
                 // We need to make a local copy of the currently registered handlers,
                 // since users might try to unregister (or register) new handlers from
                 // inside one of the currently existing handlers. We can use memory pooling
                 // to reuse arrays, to minimize the average memory usage. In practice,
                 // we usually just need to pay the small overhead of copying the items.
-                int totalHandlersCount = mapping!.TotalHandlersCount;
+                int totalHandlersCount = mapping?.TotalHandlersCount ?? 0;
+
+                if (totalHandlersCount == 0)
+                {
+                    return message;
+                }
 
                 handlers = ArrayPool<object>.Shared.Rent(totalHandlersCount);
                 recipients = ArrayPool<object>.Shared.Rent(totalHandlersCount);
@@ -428,7 +429,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // handlers for different tokens. We can reuse the same variable
                 // to count the number of matching handlers to invoke later on.
                 // This will be the array slice with valid actions in the rented buffer.
-                var mappingEnumerator = mapping.GetEnumerator();
+                var mappingEnumerator = mapping!.GetEnumerator();
 
                 // Explicit enumerator usage here as we're using a custom one
                 // that doesn't expose the single standard Current property.
