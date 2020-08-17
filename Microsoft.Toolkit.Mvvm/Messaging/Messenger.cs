@@ -23,11 +23,16 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// </code>
     /// Then, register your a recipient for this message:
     /// <code>
-    /// Messenger.Default.Register&lt;LoginCompletedMessage&gt;(this, m =>
+    /// Messenger.Default.Register&lt;LoginCompletedMessage&gt;(this, (r, m) =>
     /// {
     ///     // Handle the message here...
     /// });
     /// </code>
+    /// The message handler here is a lambda expression taking two parameters: the recipient and the message.
+    /// This is done to avoid the allocations for the closures that would've been generated if the expression
+    /// had captured the current instance - instead it is possible to just cast the recipient to the right type
+    /// and access private instance members from the handler directly. This allows the message handler to be a
+    /// static method, which enables the C# to perform a number of additional memory optimizations.
     /// Finally, send a message when needed, like so:
     /// <code>
     /// Messenger.Default.Send&lt;LoginCompletedMessage&gt;();
@@ -62,7 +67,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         //                    |   ________(recipients registrations)___________\________/            /          __/
         //                    |  /           _______(channel registrations)_____\___________________/          /
         //                    | /           /                                    \                            /
-        // DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>> mapping = Mapping<TMessage, TToken>
+        // DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<TMessage>>> mapping = Mapping<TMessage, TToken>
         //                                            /               / \        /                   /
         //                      ___(Type2.tToken)____/               /   \______/___________________/
         //                     /________________(Type2.tMessage)____/          /
@@ -133,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
+        public void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> action)
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
@@ -142,12 +147,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Get the <TMessage, TToken> registration list for this recipient
                 Mapping<TMessage, TToken> mapping = GetOrAddMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
-                ref DictionarySlim<TToken, Action<TMessage>>? map = ref mapping.GetOrAddValueRef(key);
+                ref DictionarySlim<TToken, MessageHandler<TMessage>>? map = ref mapping.GetOrAddValueRef(key);
 
-                map ??= new DictionarySlim<TToken, Action<TMessage>>();
+                map ??= new DictionarySlim<TToken, MessageHandler<TMessage>>();
 
                 // Add the new registration entry
-                ref Action<TMessage>? handler = ref map.GetOrAddValueRef(token);
+                ref MessageHandler<TMessage>? handler = ref map.GetOrAddValueRef(token);
 
                 if (!(handler is null))
                 {
@@ -352,7 +357,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 var key = new Recipient(recipient);
 
-                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, Action<TMessage>>? dictionary))
+                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, MessageHandler<TMessage>>? dictionary))
                 {
                     return;
                 }
@@ -386,11 +391,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public TMessage Send<TMessage, TToken>(TMessage message, TToken token)
+        public unsafe TMessage Send<TMessage, TToken>(TMessage message, TToken token)
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            object[] entries;
+            object[] handlers;
+            object[] recipients;
+            ref object handlersRef = ref Unsafe.AsRef<object>(null);
+            ref object recipientsRef = ref Unsafe.AsRef<object>(null);
             int i = 0;
 
             lock (this.recipientsMap)
@@ -406,9 +414,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // inside one of the currently existing handlers. We can use memory pooling
                 // to reuse arrays, to minimize the average memory usage. In practice,
                 // we usually just need to pay the small overhead of copying the items.
-                entries = ArrayPool<object>.Shared.Rent(mapping!.TotalHandlersCount);
+                int totalHandlersCount = mapping!.TotalHandlersCount;
 
-                ref object entriesRef = ref MemoryMarshal.GetReference(entries.AsSpan());
+                handlers = ArrayPool<object>.Shared.Rent(totalHandlersCount);
+                recipients = ArrayPool<object>.Shared.Rent(totalHandlersCount);
+                handlersRef = ref handlers[0];
+                recipientsRef = ref recipients[0];
 
                 // Copy the handlers to the local collection.
                 // Both types being enumerate expose a struct enumerator,
@@ -423,6 +434,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // that doesn't expose the single standard Current property.
                 while (mappingEnumerator.MoveNext())
                 {
+                    object recipient = mappingEnumerator.Key.Target;
                     var pairsEnumerator = mappingEnumerator.Value.GetEnumerator();
 
                     while (pairsEnumerator.MoveNext())
@@ -430,14 +442,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // Only select the ones with a matching token
                         if (pairsEnumerator.Key.Equals(token))
                         {
-                            unsafe
-                            {
-                                // We spend quite a bit of time in these two busy loops as we go through all the
-                                // existing mappings and registrations to find the handlers we're interested in.
-                                // We can manually offset here to skip the bounds checks in this inner loop when
-                                // indexing the array (the size is already verified and guaranteed to be enough).
-                                Unsafe.Add(ref entriesRef, (IntPtr)(void*)(uint)i++) = pairsEnumerator.Value;
-                            }
+                            // We spend quite a bit of time in these two busy loops as we go through all the
+                            // existing mappings and registrations to find the handlers we're interested in.
+                            // We can manually offset here to skip the bounds checks in this inner loop when
+                            // indexing the array (the size is already verified and guaranteed to be enough).
+                            Unsafe.Add(ref handlersRef, (IntPtr)(void*)(uint)i) = pairsEnumerator.Value;
+                            Unsafe.Add(ref recipientsRef, (IntPtr)(void*)(uint)i++) = recipient;
                         }
                     }
                 }
@@ -446,20 +456,24 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             try
             {
                 // Invoke all the necessary handlers on the local copy of entries
-                foreach (var entry in entries.AsSpan(0, i))
+                for (int j = 0; j < i; j++)
                 {
                     // We're doing an unsafe cast to skip the type checks again.
                     // See the comments in the UnregisterAll method for more info.
-                    Unsafe.As<Action<TMessage>>(entry)(message);
+                    MessageHandler<TMessage> handler = Unsafe.As<MessageHandler<TMessage>>(Unsafe.Add(ref handlersRef, (IntPtr)(void*)(uint)j));
+
+                    handler(Unsafe.Add(ref recipientsRef, (IntPtr)(void*)(uint)j), message);
                 }
             }
             finally
             {
                 // As before, we also need to clear it first to avoid having potentially long
                 // lasting memory leaks due to leftover references being stored in the pool.
-                entries.AsSpan(0, i).Clear();
+                handlers.AsSpan(0, i).Clear();
+                recipients.AsSpan(0, i).Clear();
 
-                ArrayPool<object>.Shared.Return(entries);
+                ArrayPool<object>.Shared.Return(handlers);
+                ArrayPool<object>.Shared.Return(recipients);
             }
 
             return message;
@@ -534,7 +548,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// This type is defined for simplicity and as a workaround for the lack of support for using type aliases
         /// over open generic types in C# (using type aliases can only be used for concrete, closed types).
         /// </remarks>
-        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, Action<TMessage>>>, IMapping
+        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<TMessage>>>, IMapping
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
@@ -586,7 +600,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// <summary>
             /// The registered recipient.
             /// </summary>
-            private readonly object target;
+            public readonly object Target;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="Recipient"/> struct.
@@ -595,14 +609,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public Recipient(object target)
             {
-                this.target = target;
+                Target = target;
             }
 
             /// <inheritdoc/>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Equals(Recipient other)
             {
-                return ReferenceEquals(this.target, other.target);
+                return ReferenceEquals(Target, other.Target);
             }
 
             /// <inheritdoc/>
@@ -615,7 +629,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public override int GetHashCode()
             {
-                return RuntimeHelpers.GetHashCode(this.target);
+                return RuntimeHelpers.GetHashCode(this.Target);
             }
         }
 

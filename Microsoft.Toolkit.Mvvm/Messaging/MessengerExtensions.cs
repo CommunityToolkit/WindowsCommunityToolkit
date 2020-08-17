@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static void Register<TMessage>(this IMessenger messenger, IRecipient<TMessage> recipient)
             where TMessage : class
         {
-            messenger.Register<TMessage, Unit>(recipient, default, recipient.Receive);
+            messenger.Register<TMessage, Unit>(recipient, default, (r, m) => Unsafe.As<IRecipient<TMessage>>(r).Receive(m));
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            messenger.Register<TMessage, TToken>(recipient, token, recipient.Receive);
+            messenger.Register<TMessage, TToken>(recipient, token, (r, m) => Unsafe.As<IRecipient<TMessage>>(r).Receive(m));
         }
 
         /// <summary>
@@ -200,13 +200,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
         /// <param name="recipient">The recipient that will receive the messages.</param>
-        /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
+        /// <param name="handler">The <see cref="MessageHandler{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
-        public static void Register<TMessage>(this IMessenger messenger, object recipient, Action<TMessage> action)
+        public static void Register<TMessage>(this IMessenger messenger, object recipient, MessageHandler<TMessage> handler)
             where TMessage : class
         {
-            messenger.Register(recipient, default(Unit), action);
+            messenger.Register(recipient, default(Unit), handler);
         }
 
         /// <summary>

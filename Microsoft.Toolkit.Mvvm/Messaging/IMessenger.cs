@@ -8,6 +8,17 @@ using System.Diagnostics.Contracts;
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
     /// <summary>
+    /// A <see langword="delegate"/> used to represent actions to invoke when a message is received.
+    /// The recipient is given as an input argument to allow message registrations to avoid creating
+    /// closures: if an instance method on a recipient needs to be invoked it is possible to just
+    /// cast the recipient to the right type and then access the local method from that instance.
+    /// </summary>
+    /// <typeparam name="TMessage">The type of message to receive.</typeparam>
+    /// <param name="recipient">The recipient that is receiving the message.</param>
+    /// <param name="message">The message being received.</param>
+    public delegate void MessageHandler<TMessage>(object recipient, TMessage message);
+
+    /// <summary>
     /// An interface for a type providing the ability to exchange messages between different objects.
     /// </summary>
     public interface IMessenger
@@ -32,9 +43,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="token">A token used to determine the receiving channel to use.</param>
-        /// <param name="action">The <see cref="Action{T}"/> to invoke when a message is received.</param>
+        /// <param name="action">The <see cref="MessageHandler{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
-        void Register<TMessage, TToken>(object recipient, TToken token, Action<TMessage> action)
+        void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> action)
             where TMessage : class
             where TToken : IEquatable<TToken>;
 
