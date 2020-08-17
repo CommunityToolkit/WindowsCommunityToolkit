@@ -633,7 +633,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         PositionQuality = 0x2A69,
 
         /// <summary>
-        /// The scientific temperature in celsius
+        /// The scientific temperature in Celsius
         /// </summary>
         ScientificTemperatureInCelsius = 0x2A3C,
 
