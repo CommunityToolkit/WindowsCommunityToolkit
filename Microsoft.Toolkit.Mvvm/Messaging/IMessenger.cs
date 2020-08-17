@@ -43,9 +43,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="token">A token used to determine the receiving channel to use.</param>
-        /// <param name="action">The <see cref="MessageHandler{T}"/> to invoke when a message is received.</param>
+        /// <param name="handler">The <see cref="MessageHandler{T}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
-        void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> action)
+        void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> handler)
             where TMessage : class
             where TToken : IEquatable<TToken>;
 

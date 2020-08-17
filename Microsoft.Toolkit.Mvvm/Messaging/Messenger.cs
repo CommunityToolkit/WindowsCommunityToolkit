@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <code>
     /// Messenger.Default.Send&lt;LoginCompletedMessage&gt;();
     /// </code>
-    /// Additionally, the method group syntax can also be used to specify the action
+    /// Additionally, the method group syntax can also be used to specify the message handler
     /// to invoke when receiving a message, if a method with the right signature is available
     /// in the current scope. This is helpful to keep the registration and handling logic separate.
     /// Following up from the previous example, consider a class having this method:
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> action)
+        public void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> handler)
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
@@ -151,14 +151,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 map ??= new DictionarySlim<TToken, MessageHandler<TMessage>>();
 
                 // Add the new registration entry
-                ref MessageHandler<TMessage>? handler = ref map.GetOrAddValueRef(token);
+                ref MessageHandler<TMessage>? registeredHandler = ref map.GetOrAddValueRef(token);
 
-                if (!(handler is null))
+                if (!(registeredHandler is null))
                 {
                     ThrowInvalidOperationExceptionForDuplicateRegistration();
                 }
 
-                handler = action;
+                registeredHandler = handler;
 
                 // Update the total counter for handlers for the current type parameters
                 mapping.TotalHandlersCount++;
@@ -428,7 +428,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // The array is oversized at this point, since it also includes
                 // handlers for different tokens. We can reuse the same variable
                 // to count the number of matching handlers to invoke later on.
-                // This will be the array slice with valid actions in the rented buffer.
+                // This will be the array slice with valid handler in the rented buffer.
                 var mappingEnumerator = mapping!.GetEnumerator();
 
                 // Explicit enumerator usage here as we're using a custom one
