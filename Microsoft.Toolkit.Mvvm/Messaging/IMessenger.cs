@@ -95,6 +95,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TToken : IEquatable<TToken>;
 
         /// <summary>
+        /// Performs a cleanup on the current messenger.
+        /// Invoking this method does not unregister any of the currently registered
+        /// recipient, and it can be used to perform cleanup operations such as
+        /// trimming the internal data structures of a messenger implementation.
+        /// </summary>
+        void Cleanup();
+
+        /// <summary>
         /// Resets the <see cref="IMessenger"/> instance and unregisters all the existing recipients.
         /// </summary>
         void Reset();

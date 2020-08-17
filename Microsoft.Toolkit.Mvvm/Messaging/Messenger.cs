@@ -481,6 +481,16 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
+        void IMessenger.Cleanup()
+        {
+            // The current implementation doesn't require any kind of cleanup operation, as
+            // all the internal data structures are already kept in sync whenever a recipient
+            // is added or removed. This method is implemented through an explicit interface
+            // implementation so that developers using this type directly will not see it in
+            // the API surface (as it wouldn't be useful anyway, since it's a no-op here).
+        }
+
+        /// <inheritdoc/>
         public void Reset()
         {
             lock (this.recipientsMap)
