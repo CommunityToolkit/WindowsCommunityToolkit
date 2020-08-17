@@ -91,24 +91,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
-        public Span2D(ref T value, int height, int width, int pitch)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Span2D(ref T value, int height, int width, int pitch)
         {
-            if (width < 0)
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
-            }
-
-            if (height < 0)
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
-            }
-
-            if (pitch < 0)
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
-            }
-
             this.span = MemoryMarshal.CreateSpan(ref value, height);
             this.width = width;
             this.Pitch = pitch;
@@ -148,24 +133,29 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.Pitch = pitch;
         }
-#else
+#endif
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
         /// </summary>
         /// <param name="instance">The target <see cref="object"/> instance.</param>
-        /// <param name="offset">The initial offset within <see cref="Instance"/>.</param>
+        /// <param name="offset">The initial offset within the target instance.</param>
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Span2D(object instance, IntPtr offset, int height, int width, int pitch)
         {
+#if SPAN_RUNTIME_SUPPORT
+            this.span = MemoryMarshal.CreateSpan(ref instance.DangerousGetObjectDataReferenceAt<T>(offset), height);
+#else
             this.Instance = instance;
             this.Offset = offset;
             this.height = height;
+#endif
             this.width = width;
             this.Pitch = pitch;
         }
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
@@ -436,6 +426,38 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.Pitch = columns - width;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Creates a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
+        /// </summary>
+        /// <param name="value">The reference to the first <typeparamref name="T"/> item to map.</param>
+        /// <param name="height">The height of the 2D memory area to map.</param>
+        /// <param name="width">The width of the 2D memory area to map.</param>
+        /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
+        /// <returns>A <see cref="Span2D{T}"/> instance with the specified parameters.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
+        [Pure]
+        public static Span2D<T> DangerousCreate(ref T value, int height, int width, int pitch)
+        {
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            return new Span2D<T>(ref value, height, width, pitch);
+        }
+#endif
 
         /// <summary>
         /// Gets an empty <see cref="Span2D{T}"/> instance.

@@ -62,24 +62,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
-        public ReadOnlySpan2D(in T value, int height, int width, int pitch)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal ReadOnlySpan2D(in T value, int height, int width, int pitch)
         {
-            if (width < 0)
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
-            }
-
-            if (height < 0)
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
-            }
-
-            if (pitch < 0)
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
-            }
-
             this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(value), height);
             this.width = width;
             this.pitch = pitch;
@@ -119,24 +104,29 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.pitch = pitch;
         }
-#else
+#endif
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct with the specified parameters.
         /// </summary>
         /// <param name="instance">The target <see cref="object"/> instance.</param>
-        /// <param name="offset">The initial offset within <see cref="instance"/>.</param>
+        /// <param name="offset">The initial offset within the target instance.</param>
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ReadOnlySpan2D(object instance, IntPtr offset, int height, int width, int pitch)
         {
+#if SPAN_RUNTIME_SUPPORT
+            this.span = MemoryMarshal.CreateReadOnlySpan(ref instance.DangerousGetObjectDataReferenceAt<T>(offset), height);
+#else
             this.instance = instance;
             this.offset = offset;
             this.height = height;
+#endif
             this.width = width;
             this.pitch = pitch;
         }
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct.
@@ -407,6 +397,38 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.pitch = columns - width;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Creates a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct with the specified parameters.
+        /// </summary>
+        /// <param name="value">The reference to the first <typeparamref name="T"/> item to map.</param>
+        /// <param name="height">The height of the 2D memory area to map.</param>
+        /// <param name="width">The width of the 2D memory area to map.</param>
+        /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
+        /// <returns>A <see cref="ReadOnlySpan2D{T}"/> instance with the specified parameters.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
+        [Pure]
+        public static ReadOnlySpan2D<T> DangerousCreate(in T value, int height, int width, int pitch)
+        {
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            return new ReadOnlySpan2D<T>(value, height, width, pitch);
+        }
+#endif
 
         /// <summary>
         /// Gets an empty <see cref="ReadOnlySpan2D{T}"/> instance.
