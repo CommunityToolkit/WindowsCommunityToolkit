@@ -622,16 +622,6 @@
     "Icon": "Icons/Services.png",
     "Samples": [
       {
-        "Name": "Facebook Service",
-        "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
-        "CodeFile": "FacebookCode.bind",
-        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
-      },
-      {
         "Name": "Microsoft Graph Service",
         "About": "These providers help you easily authenticate and connect to the Microsoft Graph.",
         "Icon": "/Assets/mslogo.png",
