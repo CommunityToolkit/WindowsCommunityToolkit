@@ -20,7 +20,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            void Receive(NumberRequestMessage m)
+            void Receive(object recipient, NumberRequestMessage m)
             {
                 Assert.IsFalse(m.HasReceivedResponse);
 
@@ -54,7 +54,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            void Receive(NumberRequestMessage m)
+            void Receive(object recipient, NumberRequestMessage m)
             {
                 m.Reply(42);
                 m.Reply(42);
@@ -76,7 +76,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            void Receive(AsyncNumberRequestMessage m)
+            void Receive(object recipient, AsyncNumberRequestMessage m)
             {
                 Assert.IsFalse(m.HasReceivedResponse);
 
@@ -106,7 +106,7 @@ namespace UnitTests.Mvvm
                 return 42;
             }
 
-            void Receive(AsyncNumberRequestMessage m)
+            void Receive(object recipient, AsyncNumberRequestMessage m)
             {
                 Assert.IsFalse(m.HasReceivedResponse);
 
@@ -140,7 +140,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            void Receive(AsyncNumberRequestMessage m)
+            void Receive(object recipient, AsyncNumberRequestMessage m)
             {
                 m.Reply(42);
                 m.Reply(42);
@@ -162,7 +162,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            void Receive(NumbersCollectionRequestMessage m)
+            void Receive(object recipient, NumbersCollectionRequestMessage m)
             {
             }
 
@@ -183,9 +183,9 @@ namespace UnitTests.Mvvm
                 recipient2 = new object(),
                 recipient3 = new object();
 
-            void Receive1(NumbersCollectionRequestMessage m) => m.Reply(1);
-            void Receive2(NumbersCollectionRequestMessage m) => m.Reply(2);
-            void Receive3(NumbersCollectionRequestMessage m) => m.Reply(3);
+            void Receive1(object recipient, NumbersCollectionRequestMessage m) => m.Reply(1);
+            void Receive2(object recipient, NumbersCollectionRequestMessage m) => m.Reply(2);
+            void Receive3(object recipient, NumbersCollectionRequestMessage m) => m.Reply(3);
 
             messenger.Register<NumbersCollectionRequestMessage>(recipient1, Receive1);
             messenger.Register<NumbersCollectionRequestMessage>(recipient2, Receive2);
@@ -212,7 +212,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            void Receive(AsyncNumbersCollectionRequestMessage m)
+            void Receive(object recipient, AsyncNumbersCollectionRequestMessage m)
             {
             }
 
@@ -241,10 +241,10 @@ namespace UnitTests.Mvvm
                 return 3;
             }
 
-            void Receive1(AsyncNumbersCollectionRequestMessage m) => m.Reply(1);
-            void Receive2(AsyncNumbersCollectionRequestMessage m) => m.Reply(Task.FromResult(2));
-            void Receive3(AsyncNumbersCollectionRequestMessage m) => m.Reply(GetNumberAsync());
-            void Receive4(AsyncNumbersCollectionRequestMessage m) => m.Reply(_ => GetNumberAsync());
+            void Receive1(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(1);
+            void Receive2(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(Task.FromResult(2));
+            void Receive3(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(GetNumberAsync());
+            void Receive4(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(_ => GetNumberAsync());
 
             messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient1, Receive1);
             messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient2, Receive2);

@@ -58,7 +58,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Register<MessageA>(recipient, m => { });
+            messenger.Register<MessageA>(recipient, (r, m) => { });
 
             messenger.Unregister<MessageA>(recipient);
 
@@ -72,7 +72,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
 
             messenger.Unregister<MessageA, string>(recipient, nameof(MessageA));
 
@@ -86,7 +86,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
 
             messenger.UnregisterAll(recipient, nameof(MessageA));
 
@@ -100,7 +100,7 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
 
             messenger.UnregisterAll(recipient);
 
@@ -116,7 +116,7 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Default.Register<MessageA>(a, m => result = m.Text);
+            Messenger.Default.Register<MessageA>(a, (r, m) => result = m.Text);
 
             Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
 
@@ -143,7 +143,7 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Default.Register<MessageA>(a, m => result = m.Text);
+            Messenger.Default.Register<MessageA>(a, (r, m) => result = m.Text);
 
             Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
 
@@ -170,7 +170,7 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Default.Register<MessageA, string>(a, nameof(MessageA), m => result = m.Text);
+            Messenger.Default.Register<MessageA, string>(a, nameof(MessageA), (r, m) => result = m.Text);
 
             Assert.IsTrue(Messenger.Default.IsRegistered<MessageA, string>(a, nameof(MessageA)));
 
@@ -195,11 +195,11 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Register<MessageA>(recipient, m => { });
+            messenger.Register<MessageA>(recipient, (r, m) => { });
 
             Assert.ThrowsException<InvalidOperationException>(() =>
             {
-                messenger.Register<MessageA>(recipient, m => { });
+                messenger.Register<MessageA>(recipient, (r, m) => { });
             });
         }
 
@@ -210,11 +210,11 @@ namespace UnitTests.Mvvm
             var messenger = new Messenger();
             var recipient = new object();
 
-            messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+            messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
 
             Assert.ThrowsException<InvalidOperationException>(() =>
             {
-                messenger.Register<MessageA, string>(recipient, nameof(MessageA), m => { });
+                messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
             });
         }
 

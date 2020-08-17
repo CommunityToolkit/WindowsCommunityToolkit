@@ -59,7 +59,7 @@ namespace UnitTests.Mvvm
 
             PropertyChangedMessage<int> message = null;
 
-            messenger.Register<PropertyChangedMessage<int>>(messenger, m => message = m);
+            messenger.Register<PropertyChangedMessage<int>>(messenger, (r, m) => message = m);
 
             viewmodel.Data = 42;
 
@@ -97,7 +97,7 @@ namespace UnitTests.Mvvm
             {
                 IsActivatedCheck = true;
 
-                Messenger.Register<SampleMessage>(this, m => { });
+                Messenger.Register<SampleMessage>(this, (r, m) => { });
             }
 
             protected override void OnDeactivated()
