@@ -898,14 +898,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
       },
       {
-        "Name": "PlatformSpecificAnalyzer",
-        "Subcategory": "Developer",
-        "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
-      },
-      {
         "Name": "CompareStateTrigger",
         "Type": "CompareStateTriggerPage",
         "Subcategory": "State Triggers",
