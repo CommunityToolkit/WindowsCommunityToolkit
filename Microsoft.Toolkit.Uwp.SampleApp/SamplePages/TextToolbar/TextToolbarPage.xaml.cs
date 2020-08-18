@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -57,6 +58,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 AddCustomButton();
             });
 
+            SampleController.Current.RegisterNewCommand("Use RichText Formatter", (sender, args) =>
+            {
+                UseRichTextFormatter();
+            });
+
+            SampleController.Current.RegisterNewCommand("Use MarkDown Formatter", (sender, args) =>
+            {
+                UseMarkDownFormatter();
+            });
+
             SampleController.Current.RegisterNewCommand("Use Custom Formatter", (sender, args) =>
             {
                 UseCustomFormatter();
@@ -86,6 +97,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             }
+        }
+
+        private void UseRichTextFormatter()
+        {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
+            var formatter = new RichTextFormatter();
+            _toolbar.Formatter = formatter;
+        }
+
+        private void UseMarkDownFormatter()
+        {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
+            var formatter = new MarkDownFormatter();
+            _toolbar.Formatter = formatter;
         }
 
         private void UseCustomFormatter()
