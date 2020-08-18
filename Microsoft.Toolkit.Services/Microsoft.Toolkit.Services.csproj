@@ -10,7 +10,6 @@
       - Facebook: Album, DataConfig, DataHost, OAuthTokens, Permissions, Photo, Picture, PictureData, PlatformImageSource, Post, RequestSource, Service.
     </Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
-
     <LangVersion>8.0</LangVersion>
     <NoWarn>CS8002;CS0618</NoWarn>
     <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
