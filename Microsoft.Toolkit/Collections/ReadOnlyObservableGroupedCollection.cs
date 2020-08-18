@@ -52,8 +52,16 @@ namespace Microsoft.Toolkit.Collections
             // reporting the changes one by one. We consider only this case for now.
             if (e.OldItems?.Count > 1 || e.NewItems?.Count > 1)
             {
-                Debug.Fail("OldItems and NewItems should contain at most 1 item");
-                throw new NotSupportedException();
+                static void ThrowNotSupportedException()
+                {
+                    throw new NotSupportedException(
+                        "ReadOnlyObservableGroupedCollection<TKey, TValue> doesn't support operations on multiple items at once.\n" +
+                        "If this exception was thrown, it likely means support for batched item updates has been added to the " +
+                        "underlying ObservableCollection<T> type, and this implementation doesn't support that feature yet.\n" +
+                        "Please consider opening an issue in https://github.com/windows-toolkit/WindowsCommunityToolkit to report this.");
+                }
+
+                ThrowNotSupportedException();
             }
 
             var newItem = e.NewItems?.Cast<ObservableGroup<TKey, TValue>>()?.FirstOrDefault();
