@@ -45,7 +45,7 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
-            Span2D<int> span2d = new Span2D<int>(ref span[0], 2, 3, 0);
+            Span2D<int> span2d = Span2D<int>.DangerousCreate(ref span[0], 2, 3, 0);
 
             Assert.IsFalse(span2d.IsEmpty);
             Assert.AreEqual(span2d.Size, 6);
@@ -58,9 +58,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(span[0], 99);
             Assert.AreEqual(span[5], 101);
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(ref Unsafe.AsRef<int>(null), -1, 0, 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(ref Unsafe.AsRef<int>(null), 1, -2, 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(ref Unsafe.AsRef<int>(null), 1, 0, -5));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), -1, 0, 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, -2, 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, 0, -5));
         }
 
         [TestCategory("Span2DT")]

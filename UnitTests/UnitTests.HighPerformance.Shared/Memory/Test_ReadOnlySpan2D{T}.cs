@@ -45,7 +45,7 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
-            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(span[0], 2, 3, 0);
+            ReadOnlySpan2D<int> span2d = ReadOnlySpan2D<int>.DangerousCreate(span[0], 2, 3, 0);
 
             Assert.IsFalse(span2d.IsEmpty);
             Assert.AreEqual(span2d.Size, 6);
@@ -54,9 +54,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(span2d[0, 0], 1);
             Assert.AreEqual(span2d[1, 2], 6);
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(Unsafe.AsRef<int>(null), -1, 0, 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(Unsafe.AsRef<int>(null), 1, -2, 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(Unsafe.AsRef<int>(null), 1, 0, -5));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), -1, 0, 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, -2, 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, 0, -5));
         }
 
         [TestCategory("ReadOnlySpan2DT")]
