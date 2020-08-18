@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Collections
                         "ReadOnlyObservableGroupedCollection<TKey, TValue> doesn't support operations on multiple items at once.\n" +
                         "If this exception was thrown, it likely means support for batched item updates has been added to the " +
                         "underlying ObservableCollection<T> type, and this implementation doesn't support that feature yet.\n" +
-                        "Please consider opening an issue in https://github.com/windows-toolkit/WindowsCommunityToolkit to report this.");
+                        "Please consider opening an issue in https://aka.ms/windowstoolkit to report this.");
                 }
 
                 ThrowNotSupportedException();
