@@ -4,8 +4,6 @@
 
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -33,23 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Creates one of the Default formatters.
-        /// </summary>
-        private void CreateFormatter()
-        {
-            switch (Format)
-            {
-                case TextToolbarFormats.Format.MarkDown:
-                    Formatter = new MarkDownFormatter(this);
-                    break;
-
-                case TextToolbarFormats.Format.RichText:
-                    Formatter = new RichTextFormatter(this);
-                    break;
-            }
         }
 
         /// <summary>

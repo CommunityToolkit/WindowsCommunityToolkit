@@ -18,8 +18,7 @@ private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs
 
 private void UseCustomFormatter()
 {
-    var formatter = new SampleFormatter(Toolbar);
-    Toolbar.Format = UI.Controls.TextToolbarFormats.Format.Custom;
+    var formatter = new SampleFormatter();
     Toolbar.Formatter = formatter;
 }
 

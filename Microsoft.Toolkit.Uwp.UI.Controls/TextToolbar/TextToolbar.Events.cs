@@ -6,6 +6,7 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -45,7 +46,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newEditor != null)
                 {
                     newEditor.AddHandler(KeyDownEvent, bar.KeyEventHandler, handledEventsToo: true);
-                    bar.CreateFormatter();
+                    bar.Formatter.SetModel(bar);
+                    bar.DefaultButtons = bar.Formatter.DefaultButtons;
                 }
 
                 var editorArgs = new EditorChangedArgs
@@ -59,20 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Creates a new formatter, if it is a built-in formatter.
-        /// </summary>
-        /// <param name="obj">TextToolbar</param>
-        /// <param name="args">Property Changed Args</param>
-        private static void OnFormatTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var bar = obj as TextToolbar;
-            if (bar != null)
-            {
-                bar.CreateFormatter();
-            }
-        }
-
-        /// <summary>
         /// Rebuilds the Toolbar if the formatter changes during operation
         /// </summary>
         /// <param name="obj">TextToolbar</param>
@@ -82,6 +70,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var bar = obj as TextToolbar;
             if (bar != null && bar.Formatter != null)
             {
+                if (args.OldValue is Formatter formatter)
+                {
+                    formatter.UnsetModel(bar);
+                }
+
+                bar.Formatter.SetModel(bar);
                 bar.DefaultButtons = bar.Formatter.DefaultButtons;
                 bar.BuildBar();
             }

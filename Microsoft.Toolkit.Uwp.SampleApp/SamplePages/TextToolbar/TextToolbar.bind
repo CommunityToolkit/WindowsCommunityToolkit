@@ -3,14 +3,17 @@
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:markDown="using:Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown"
+      xmlns:richText="using:Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText"
+      xmlns:textToolbarSamples="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
       mc:Ignorable="d">
 
   <Page.Resources>
-    <converters:ToolbarFormatActiveConverter x:Key="IsFormatMarkdown"
-                    Format="MarkDown" />
+    <converters:ToolbarFormatterActiveConverter x:Key="IsMarkdownFormatter"
+                                                 FormatterType="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown.MarkDownFormatter" />
   </Page.Resources>
 
   <Grid x:Name="MainGrid"
@@ -22,9 +25,15 @@
     <controls:TextToolbar x:Name="Toolbar"
                           Editor="{Binding ElementName=EditZone}"
                           IsEnabled="@[IsEnabled:Bool:True]"
-                          Format="@[Format:Enum:Format.RichText]@"
                           UseURIChecker="@[UseURIChecker:Bool:True]"
-                          Background="#4C4F4F4F" />
+                          Background="#4C4F4F4F">
+      <controls:TextToolbar.Formatter>
+        <!-- Choose one -->
+        <richText:RichTextFormatter />
+        <!--<markDown:MarkDownFormatter />-->
+        <!--<textToolbarSamples:SampleFormatter />-->
+      </controls:TextToolbar.Formatter>
+    </controls:TextToolbar>
 
     <ScrollViewer Grid.Row="1">
       <Grid>
@@ -46,7 +55,7 @@
         <Grid x:Name="MD"
               Grid.Row="1"
               Margin="0, 16"
-              Visibility="{Binding Format, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
+              Visibility="{Binding Formatter, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsMarkdownFormatter}}">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />

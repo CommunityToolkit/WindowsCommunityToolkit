@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,15 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// Compares if Formats are equal and returns bool
     /// </summary>
-    public class ToolbarFormatActiveConverter : IValueConverter
+    public class ToolbarFormatterActiveConverter : IValueConverter
     {
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is Format)
+            if (value is Formatter formatter)
             {
-                CurrentFormat = (Format)value;
-                return CurrentFormat == Format;
+                CurrentFormatter = formatter.GetType();
+                return CurrentFormatter.ToString() == FormatterType;
             }
             else
             {
@@ -30,19 +30,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (CurrentFormat != null)
+            if (CurrentFormatter != null)
             {
-                return CurrentFormat;
+                return CurrentFormatter;
             }
 
             return value;
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="Format"/> to compare
+        /// Gets or sets the <see cref="Formatter"/>'s <see cref="Type"/> to compare
         /// </summary>
-        public Format Format { get; set; }
+        public string FormatterType { get; set; }
 
-        private Format? CurrentFormat { get; set; }
+        private Type CurrentFormatter { get; set; }
     }
 }
