@@ -328,7 +328,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="radiusX">Corner Radius on the x-axis</param>
         /// <param name="radiusY">Corner Radius on the y-axis</param>
         public static void AddSquircleFigure(this CanvasPathBuilder pathBuilder, float x, float y, float width, float height, float radiusX, float radiusY)
-
         {
             // Sanitize the width by taking the absolute value
             width = Math.Abs(width);
