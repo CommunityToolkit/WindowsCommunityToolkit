@@ -16,11 +16,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// <summary>
     /// Text and selection values that the user entered on your notification. The Key is the ID of the input, and the Value is what the user entered.
     /// </summary>
-    public class NotificationUserInput : IReadOnlyDictionary<string, string>
+    internal class NotificationUserInput : IReadOnlyDictionary<string, string>
     {
-        private NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] _data;
+        private Internal.NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] _data;
 
-        internal NotificationUserInput(NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data)
+        internal NotificationUserInput(Internal.NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data)
         {
             _data = data;
         }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.0</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -39,9 +39,10 @@
 
   </Choose>
 
-  <!--NET Core desktop apps also need the Registry NuGet package-->
+  <!--NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically-->
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace Microsoft.Toolkit.Uwp.Notifications.Internal
 {
     /// <summary>
     /// Apps must implement this activator to handle notification activation.
@@ -21,16 +21,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <inheritdoc/>
         public void Activate(string appUserModelId, string invokedArgs, NOTIFICATION_USER_INPUT_DATA[] data, uint dataCount)
         {
-            OnActivated(invokedArgs, new NotificationUserInput(data), appUserModelId);
+            DesktopNotificationManagerCompat.OnActivatedInternal(invokedArgs, data, appUserModelId);
         }
-
-        /// <summary>
-        /// This method will be called when the user clicks on a foreground or background activation on a toast. Parent app must implement this method.
-        /// </summary>
-        /// <param name="arguments">The arguments from the original notification. This is either the launch argument if the user clicked the body of your toast, or the arguments from a button on your toast.</param>
-        /// <param name="userInput">Text and selection values that the user entered in your toast.</param>
-        /// <param name="appUserModelId">Your AUMID.</param>
-        public abstract void OnActivated(string arguments, NotificationUserInput userInput, string appUserModelId);
 
         /// <summary>
         /// A single user input key/value pair.
