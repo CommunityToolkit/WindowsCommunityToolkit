@@ -116,8 +116,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            var formatter = new MarkDownFormatter();
-            _toolbar.Formatter = formatter;
+            _toolbar.Formatter = new MarkDownFormatter();
         }
 
         private void UseCustomFormatter()
