@@ -67,8 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">Property Changed Args</param>
         private static void OnFormatterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var bar = obj as TextToolbar;
-            if (bar != null && bar.Formatter != null)
+            if (obj is TextToolbar bar && bar.Formatter != null)
             {
                 if (args.OldValue is Formatter formatter)
                 {
