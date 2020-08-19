@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span2D<T> AsSpan2D<T>(this T[,] array)
+        public static Span2D<T> AsSpan2D<T>(this T[,]? array)
         {
             return new Span2D<T>(array);
         }
