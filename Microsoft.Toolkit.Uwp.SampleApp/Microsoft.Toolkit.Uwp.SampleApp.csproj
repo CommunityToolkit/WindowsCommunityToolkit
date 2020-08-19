@@ -125,7 +125,7 @@
       <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
