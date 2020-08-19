@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (Formatter == null)
             {
-                throw new InvalidOperationException("No formatter specificed.");
+                throw new InvalidOperationException("No formatter specified.");
             }
             else
             {
