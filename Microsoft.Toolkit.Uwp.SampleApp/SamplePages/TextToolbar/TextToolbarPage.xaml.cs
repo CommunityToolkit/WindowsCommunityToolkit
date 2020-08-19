@@ -106,8 +106,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            var formatter = new RichTextFormatter();
-            _toolbar.Formatter = formatter;
+            _toolbar.Formatter = new RichTextFormatter();
         }
 
         private void UseMarkDownFormatter()
