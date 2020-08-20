@@ -145,14 +145,40 @@ namespace Microsoft.Toolkit.Extensions
         /// <returns>String representation of the array.</returns>
         public static string ToArrayString<T>(this T[][] mdarray)
         {
-            string[] inner = new string[mdarray.GetLength(0)];
+            // The returned string uses the same format as the overload for 2D arrays
+            StringBuilder builder = new StringBuilder();
 
-            for (int r = 0; r < mdarray.GetLength(0); r++)
+            builder.Append('[');
+
+            for (int i = 0; i < mdarray.Length; i++)
             {
-                inner[r] = string.Join(",\t", mdarray[r]);
+                if (i != 0)
+                {
+                    builder.Append(',');
+                    builder.Append(Environment.NewLine);
+                    builder.Append(' ');
+                }
+
+                builder.Append('[');
+
+                T[] row = mdarray[i];
+
+                for (int j = 0; j < row.Length; j++)
+                {
+                    if (j != 0)
+                    {
+                        builder.Append(",\t");
+                    }
+
+                    builder.Append(row[j].ToString());
+                }
+
+                builder.Append(']');
             }
 
-            return "[[" + string.Join("]," + Environment.NewLine + " [", inner) + "]]";
+            builder.Append(']');
+
+            return builder.ToString();
         }
 
         /// <summary>
