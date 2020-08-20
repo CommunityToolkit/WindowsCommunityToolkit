@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Microsoft.Toolkit.Extensions
 {
@@ -137,21 +138,52 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Returns a simple string representation of a rectangular array.
+        /// Returns a simple string representation of a 2D array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
-        /// <param name="rectarray">The source array.</param>
-        /// <returns>String representation of the array.</returns>
-        public static string ToArrayString<T>(this T[,] rectarray)
+        /// <param name="array">The source array.</param>
+        /// <returns>The <see cref="string"/> representation of the array.</returns>
+        public static string ToArrayString<T>(this T[,] array)
         {
-            string[] inner = new string[rectarray.GetLength(0)];
+            // The returned string will be in the following format:
+            // [[1, 2,  3],
+            //  [4, 5,  6],
+            //  [7, 8,  9]]
+            StringBuilder builder = new StringBuilder();
 
-            for (int r = 0; r < rectarray.GetLength(0); r++)
+            builder.Append('[');
+
+            int
+                height = array.GetLength(0),
+                width = array.GetLength(1);
+
+            for (int i = 0; i < height; i++)
             {
-                inner[r] = string.Join(",\t", rectarray.GetRow(r));
+                if (i != 0)
+                {
+                    builder.Append(',');
+                    builder.Append(Environment.NewLine);
+                    builder.Append(' ');
+                }
+
+                builder.Append('[');
+
+                for (int j = 0; j < width; j++)
+                {
+                    if (j != 0)
+                    {
+                        builder.Append(",\t");
+                    }
+
+                    builder.Append(array[i, j].ToString());
+                }
+
+                builder.Append(']');
             }
 
-            return "[[" + string.Join("]," + Environment.NewLine + " [", inner) + "]]";
+            builder.Append(']');
+
+            return builder.ToString();
         }
     }
 }
