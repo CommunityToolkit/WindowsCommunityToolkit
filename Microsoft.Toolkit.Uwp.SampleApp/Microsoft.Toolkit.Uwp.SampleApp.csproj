@@ -762,9 +762,6 @@
     <Compile Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml.cs">
       <DependentUpon>RemoteDevicePickerControlPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
-      <DependentUpon>RssParserPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml.cs">
       <DependentUpon>RadialGradientBrushPage.xaml</DependentUpon>
     </Compile>
@@ -1223,10 +1220,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\RssParser\RssParserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

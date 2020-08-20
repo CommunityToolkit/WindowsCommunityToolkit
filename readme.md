@@ -35,7 +35,7 @@ Once you do a search, you should see a list similar to the one below (versions m
 | --- | --- |
 | Microsoft.Toolkit | .NET Standard NuGet package containing common code |
 | Microsoft.Toolkit.HighPerformance | .NET Standard and .NET Core NuGet package with performance oriented helpers, extensions, etc. |
-| Microsoft.Toolkit.Parsers | .NET Standard NuGet package containing cross-platform parsers, such as Markdown and RSS |
+| Microsoft.Toolkit.Parsers | .NET Standard NuGet package containing cross-platform parsers, such as Markdown |
 | Microsoft.Toolkit.Services | .NET Standard NuGet package containing cross-platform services helpers, such as LinkedIn, Microsoft Graph, Twitter and more |
 | Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc. |
 | Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax |

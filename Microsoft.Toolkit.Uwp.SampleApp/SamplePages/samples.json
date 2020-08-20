@@ -856,14 +856,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/MarkdownParser.md"
       },
       {
-        "Name": "RSS Parser",
-        "Type": "RssParserPage",
-        "Subcategory": "Parser",
-        "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/RssParser.md"
-      },
-      {
         "Name": "LiveTile",
         "Type": "LiveTilePage",
         "Subcategory": "Notifications",
