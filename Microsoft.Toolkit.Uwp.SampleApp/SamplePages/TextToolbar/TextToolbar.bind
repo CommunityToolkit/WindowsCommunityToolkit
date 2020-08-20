@@ -12,8 +12,15 @@
       mc:Ignorable="d">
 
   <Page.Resources>
-    <converters:ToolbarFormatterActiveConverter x:Key="IsMarkdownFormatter"
-                                                 FormatterType="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown.MarkDownFormatter" />
+    <converters:TypeToObjectConverter x:Key="IsMarkdownFormatter"
+                                                 Type="markDown:MarkDownFormatter">
+            <converters:TypeToObjectConverter.TrueValue>
+                <Visibility>Visible</Visibility>
+            </converters:TypeToObjectConverter.TrueValue>
+            <converters:TypeToObjectConverter.FalseValue>
+                <Visibility>Collapsed</Visibility>
+            </converters:TypeToObjectConverter.FalseValue>
+        </converters:TypeToObjectConverter>
   </Page.Resources>
 
   <Grid x:Name="MainGrid"
