@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="col">Column to start on (inclusive, zero-index).</param>
         /// <param name="width">Positive width of area to fill.</param>
         /// <param name="height">Positive height of area to fill.</param>
+        [Obsolete("This helper will be removed in a future release, use the APIs from Microsoft.Toolkit.HighPerformance to replace it")]
         public static void Fill<T>(this T[,] array, T value, int row, int col, int width, int height)
         {
             for (int r = row; r < row + height; r++)
@@ -46,6 +47,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="rectarray">The source array.</param>
         /// <param name="row">Row record to retrieve, 0-based index.</param>
         /// <returns>Yielded row.</returns>
+        [Obsolete("This helper will be removed in a future release, use the APIs from Microsoft.Toolkit.HighPerformance to replace it")]
         public static IEnumerable<T> GetRow<T>(this T[,] rectarray, int row)
         {
             if (row < 0 || row >= rectarray.GetLength(0))
@@ -66,6 +68,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="rectarray">The source array.</param>
         /// <param name="column">Column record to retrieve, 0-based index.</param>
         /// <returns>Yielded column.</returns>
+        [Obsolete("This helper will be removed in a future release, use the APIs from Microsoft.Toolkit.HighPerformance to replace it")]
         public static IEnumerable<T> GetColumn<T>(this T[,] rectarray, int column)
         {
             if (column < 0 || column >= rectarray.GetLength(1))
@@ -88,6 +91,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="rectarray">The source array.</param>
         /// <param name="column">Column record to retrieve, 0-based index.</param>
         /// <returns>Yielded enumerable of column elements for given column, and default values for smaller inner arrays.</returns>
+        [Obsolete("This helper will be removed in a future release, use the APIs from Microsoft.Toolkit.HighPerformance to replace it")]
         public static IEnumerable<T> GetColumn<T>(this T[][] rectarray, int column)
         {
             if (column < 0 || column >= rectarray.Max(array => array.Length))
