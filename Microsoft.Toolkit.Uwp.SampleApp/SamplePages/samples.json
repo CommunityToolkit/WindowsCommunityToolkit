@@ -15,18 +15,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TextToolbar.md"
       },
       {
-        "Name": "TabView",
-        "Type": "TabViewPage",
-        "Subcategory": "Layout",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "Please migrate to the TabView control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
-        "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
-        "XamlCodeFile": "TabViewXaml.bind",
-        "Icon": "/SamplePages/TabView/TabView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabView.md"
-      },
-      {
         "Name": "DataGrid",
         "Type": "DataGridPage",
         "Subcategory": "Layout",
@@ -85,18 +73,6 @@
         "XamlCodeFile": "ImageExCode.bind",
         "Icon": "/SamplePages/ImageEx/ImageEx.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageEx.md"
-      },
-      {
-        "Name": "HeaderedTextBlock",
-        "Type": "HeaderedTextBlockPage",
-        "Subcategory": "Layout",
-        "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
-        "XamlCodeFile": "HeaderedTextBlockCode.bind",
-        "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedTextBlock.md",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The HeaderedTextBlock has been replaced with the HeaderedContentControl and will be removed in a future major release."
       },
       {
         "Name": "MasterDetailsView",
