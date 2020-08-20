@@ -19,7 +19,9 @@ namespace UnitTests.Extensions
         {
             bool[,] test = new bool[4, 5];
 
+#pragma warning disable CS0618 // Type or member is obsolete
             test.Fill(true, 1, 1, 3, 2);
+#pragma warning restore CS0618
 
             var expected = new bool[,]
                 {
@@ -43,8 +45,10 @@ namespace UnitTests.Extensions
         {
             bool[,] test = new bool[4, 5];
 
+#pragma warning disable CS0618 // Type or member is obsolete
             test.Fill(true, 0, 0, 1, 2);
             test.Fill(true, 1, 3, 2, 2);
+#pragma warning restore CS0618
 
             var expected = new bool[,]
                 {
@@ -68,7 +72,9 @@ namespace UnitTests.Extensions
         {
             bool[,] test = new bool[4, 5];
 
+#pragma warning disable CS0618 // Type or member is obsolete
             test.Fill(true, 3, 4, -3, -2);
+#pragma warning restore CS0618
 
             // TODO: We may want to think about this pattern in the future:
             /*var expected = new bool[,]
@@ -101,7 +107,9 @@ namespace UnitTests.Extensions
         {
             bool[,] test = new bool[4, 5];
 
+#pragma warning disable CS0618 // Type or member is obsolete
             test.Fill(true, 1, 2, 2, 4);
+#pragma warning restore CS0618
 
             var expected = new bool[,]
                 {
@@ -125,7 +133,9 @@ namespace UnitTests.Extensions
         {
             bool[,] test = new bool[4, 5];
 
+#pragma warning disable CS0618 // Type or member is obsolete
             test.Fill(true, -1, -1, 3, 3);
+#pragma warning restore CS0618
 
             var expected = new bool[,]
                 {
@@ -149,7 +159,9 @@ namespace UnitTests.Extensions
         {
             bool[,] test = new bool[5, 4];
 
+#pragma warning disable CS0618 // Type or member is obsolete
             test.Fill(true, 3, 2, 3, 3);
+#pragma warning restore CS0618
 
             var expected = new bool[,]
                 {
@@ -217,7 +229,9 @@ namespace UnitTests.Extensions
                 { 7, -1, 0 }
             };
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var col = array.GetColumn(1).ToArray();
+#pragma warning restore CS0618
 
             CollectionAssert.AreEquivalent(new int[] { 2, 3, -1 }, col);
         }
@@ -233,15 +247,10 @@ namespace UnitTests.Extensions
                 { 7, 0, 0 }
             };
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                array.GetColumn(-1).ToArray();
-            });
-
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                array.GetColumn(3).ToArray();
-            });
+#pragma warning disable CS0618 // Type or member is obsolete
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(-1).ToArray());
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(3).ToArray());
+#pragma warning restore CS0618
         }
 
         [TestCategory("ArrayExtensions")]
@@ -255,7 +264,9 @@ namespace UnitTests.Extensions
                 { 7, -1, 0 }
             };
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var col = array.GetRow(1).ToArray();
+#pragma warning restore CS0618
 
             CollectionAssert.AreEquivalent(new int[] { 6, 3, 9 }, col);
         }
@@ -271,15 +282,10 @@ namespace UnitTests.Extensions
                 { 7, 0, 0 }
             };
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                array.GetRow(-1).ToArray();
-            });
-
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            {
-                array.GetRow(3).ToArray();
-            });
+#pragma warning disable CS0618 // Type or member is obsolete
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(-1).ToArray());
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(3).ToArray());
+#pragma warning restore CS0618
         }
 
         [TestCategory("ArrayExtensions")]
