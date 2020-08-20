@@ -126,8 +126,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            var formatter = new SampleFormatter();
-            _toolbar.Formatter = formatter;
+            _toolbar.Formatter = new SampleFormatter();
         }
 
         private void AddCustomButton()
