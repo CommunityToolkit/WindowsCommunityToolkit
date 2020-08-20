@@ -182,6 +182,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler ImageLoaded;
 
         /// <summary>
+        /// Gets a value indicating whether the platform supports Composition.
+        /// </summary>
+        [Obsolete("This property is now obsolete and will be removed in a future version of the Toolkit.")]
+        public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
+                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TileControl"/> class.
         /// </summary>
         public TileControl()

@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TabViewItemMetadata.cs" />
     <Compile Include="BladeItemMetadata.cs" />
     <Compile Include="BladeViewMetadata.cs" />
     <Compile Include="CarouselMetadata.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="AdaptiveGridViewMetadata.cs" />
     <Compile Include="ExpanderMetadata.cs" />
     <Compile Include="GridSplitterMetadata.cs" />
+    <Compile Include="HeaderedTextBlockMetadata.cs" />
     <Compile Include="ImageExMetadata.cs" />
     <Compile Include="InAppNotificationMetadata.cs" />
     <Compile Include="LayoutTransitionControlMetadata.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
     <Compile Include="Common\PlatformTypes.cs" />
+    <Compile Include="TabViewMetadata.cs" />
     <Compile Include="OrbitViewMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

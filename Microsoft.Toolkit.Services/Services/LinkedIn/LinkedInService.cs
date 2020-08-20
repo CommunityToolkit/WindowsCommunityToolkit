@@ -95,6 +95,15 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <summary>
         /// Log user out of LinkedIn.
         /// </summary>
+        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
+        public void Logout()
+        {
+            Provider.Logout();
+        }
+
+        /// <summary>
+        /// Log user out of LinkedIn.
+        /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task LogoutAsync()
         {
