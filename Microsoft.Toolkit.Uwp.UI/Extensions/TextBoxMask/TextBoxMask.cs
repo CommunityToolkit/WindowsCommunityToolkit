@@ -340,7 +340,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (!isDeleteOrBackspace)
             {
-                // Case change happened due to user input
+                // In case the change happened due to user input
                 var selectedChar = textbox.SelectionStart > 0 ?
                                     textbox.Text[textbox.SelectionStart - 1] :
                                     placeHolder;

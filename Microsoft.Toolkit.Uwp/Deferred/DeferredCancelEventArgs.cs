@@ -5,7 +5,7 @@
 namespace Microsoft.Toolkit.Uwp.Deferred
 {
     /// <summary>
-    /// <see cref="DeferredEventArgs"/> which can also be Canceled.
+    /// <see cref="DeferredEventArgs"/> which can also be canceled.
     /// </summary>
     public class DeferredCancelEventArgs : DeferredEventArgs
     {
