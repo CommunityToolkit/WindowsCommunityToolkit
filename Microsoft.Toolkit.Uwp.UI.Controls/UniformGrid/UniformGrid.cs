@@ -5,12 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Extensions;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -61,7 +59,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     SetAutoLayout(child, false);
-                    spotref.SpotsTaken.Fill(true, row, col, colspan, rowspan); // row, col, width, height
+
+                    // Fill the area covered by the current element
+                    for (int i = 0; i < rowspan; i++)
+                    {
+                        for (int j = 0; j < colspan; j++)
+                        {
+                            spotref[row + i, col + j] = true;
+                        }
+                    }
                 }
             }
 
@@ -109,7 +115,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (rowspan > 1 || colspan > 1)
                         {
                             // TODO: Need to tie this into iterator
-                            spotref.SpotsTaken.Fill(true, row, column, GetColumnSpan(child), GetRowSpan(child)); // row, col, width, height
+
+                            // Fill the covered area as above
+                            for (int i = 0; i < rowspan; i++)
+                            {
+                                for (int j = 0; j < colspan; j++)
+                                {
+                                    spotref[row + i, column + j] = true;
+                                }
+                            }
                         }
                     }
                     else
@@ -144,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return our desired size based on the largest child we found, our dimensions, and spacing.
-            var desiredSize = new Size((maxWidth * (double)columns) + columnSpacingSize, (maxHeight * (double)rows) + rowSpacingSize);
+            var desiredSize = new Size((maxWidth * columns) + columnSpacingSize, (maxHeight * rows) + rowSpacingSize);
 
             // Required to perform regular grid measurement, but ignore result.
             base.MeasureOverride(desiredSize);

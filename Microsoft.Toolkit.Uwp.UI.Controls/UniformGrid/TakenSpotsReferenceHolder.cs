@@ -2,11 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
+using Microsoft.Toolkit.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -19,20 +16,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     internal class TakenSpotsReferenceHolder
     {
         /// <summary>
-        /// Gets or sets the array to hold taken spots.
-        /// True value indicates an item in the layout is fixed to that position.
-        /// False values indicate free openings where an item can be placed.
+        /// The <see cref="BitArray"/> instance used to efficiently track empty spots.
         /// </summary>
-        public bool[,] SpotsTaken { get; set; }
+        private readonly BitArray spotsTaken;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TakenSpotsReferenceHolder"/> class.
+        /// </summary>
+        /// <param name="rows">The number of rows to track.</param>
+        /// <param name="columns">The number of columns to track.</param>
         public TakenSpotsReferenceHolder(int rows, int columns)
         {
-            SpotsTaken = new bool[rows, columns];
+            Guard.IsGreaterThanOrEqualTo(rows, 0, nameof(rows));
+            Guard.IsGreaterThanOrEqualTo(columns, 0, nameof(columns));
+
+            Height = rows;
+            Width = columns;
+
+            this.spotsTaken = new BitArray(rows * columns);
         }
 
-        public TakenSpotsReferenceHolder(bool[,] array)
+        /// <summary>
+        /// Gets the height of the grid to monitor.
+        /// </summary>
+        public int Height { get; }
+
+        /// <summary>
+        /// Gets the width of the grid to monitor.
+        /// </summary>
+        public int Width { get; }
+
+        /// <summary>
+        /// Gets or sets the value of a specified grid cell.
+        /// </summary>
+        /// <param name="i">The vertical offset.</param>
+        /// <param name="j">The horizontal offset.</param>
+        public bool this[int i, int j]
         {
-            SpotsTaken = array;
+            get => spotsTaken[(i * Width) + j];
+            set => spotsTaken[(i * Width) + j] = value;
         }
     }
 }
