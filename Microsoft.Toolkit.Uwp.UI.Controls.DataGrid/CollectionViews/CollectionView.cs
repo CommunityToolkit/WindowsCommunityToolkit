@@ -1258,7 +1258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         internal const string IsCurrentBeforeFirstPropertyName = "IsCurrentBeforeFirst";
         internal const string IsCurrentAfterLastPropertyName = "IsCurrentAfterLast";
 
-        // since there's nothing in the uncancel-able event args that is mutable,
+        // since there's nothing in the uncancelable event args that is mutable,
         // just create one instance to be used universally.
         private static readonly CurrentChangingEventArgs UncancelableCurrentChangingEventArgs = new CurrentChangingEventArgs(false);
         private static readonly string IEnumerableT = typeof(IEnumerable<>).Name;
