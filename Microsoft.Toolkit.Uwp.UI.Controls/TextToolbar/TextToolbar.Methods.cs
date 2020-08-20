@@ -23,8 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Default Toolbar Button</returns>
         public ToolbarButton GetDefaultButton(ButtonType button)
         {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 var element = root.PrimaryCommands.OfType<ToolbarButton>().FirstOrDefault(item => ((FrameworkElement)item).Name == button.ToString());
                 return element;
@@ -38,8 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void BuildBar()
         {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 root.PrimaryCommands.Clear();
 
@@ -90,8 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!root.PrimaryCommands.Contains(item))
             {
-                var button = item as ToolbarButton;
-                if (button != null)
+                if (item is ToolbarButton button)
                 {
                     button.Model = this;
                 }
