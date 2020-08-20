@@ -113,10 +113,28 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="array">The source array.</param>
-        /// <returns>String representation of the array.</returns>
+        /// <returns>The <see cref="string"/> representation of the array.</returns>
         public static string ToArrayString<T>(this T[] array)
         {
-            return "[" + string.Join(",\t", array) + "]";
+            // The returned string will be in the following format:
+            // [1, 2,  3]
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append('[');
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i != 0)
+                {
+                    builder.Append(",\t");
+                }
+
+                builder.Append(array[i].ToString());
+            }
+
+            builder.Append(']');
+
+            return builder.ToString();
         }
 
         /// <summary>
