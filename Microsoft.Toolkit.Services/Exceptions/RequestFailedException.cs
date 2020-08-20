@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Services
         /// Initializes a new instance of the <see cref="RequestFailedException"/> class.
         /// Constructor with additional message.
         /// </summary>
-        /// <param name="message">Additional messsage.</param>
+        /// <param name="message">Additional message.</param>
         public RequestFailedException(string message)
             : base(message)
         {

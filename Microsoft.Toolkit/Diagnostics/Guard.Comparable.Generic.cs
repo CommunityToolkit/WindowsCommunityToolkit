@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -25,10 +26,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsDefault<T>(T value, string name)
             where T : struct, IEquatable<T>
         {
-            if (!value.Equals(default))
+            if (value.Equals(default))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsDefault(value, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsDefault(value, name);
         }
 
         /// <summary>
@@ -42,10 +45,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotDefault<T>(T value, string name)
             where T : struct, IEquatable<T>
         {
-            if (value.Equals(default))
+            if (!value.Equals(default))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotDefault<T>(name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotDefault<T>(name);
         }
 
         /// <summary>
@@ -61,10 +66,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsEqualTo<T>(T value, T target, string name)
             where T : notnull, IEquatable<T>
         {
-            if (!value.Equals(target))
+            if (value.Equals(target))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -80,10 +87,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotEqualTo<T>(T value, T target, string name)
             where T : notnull, IEquatable<T>
         {
-            if (value.Equals(target))
+            if (!value.Equals(target))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
         }
 
         /// <summary>
@@ -95,79 +104,110 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsBitwiseEqualTo<T>(T value, T target, string name)
+        public static unsafe void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            /* Include some fast paths if the input type is of size 1, 2, 4 or 8.
-             * In those cases, just reinterpret the bytes as values of an integer type,
-             * and compare them directly, which is much faster than having a loop over each byte.
-             * The conditional branches below are known at compile time by the JIT compiler,
-             * so that only the right one will actually be translated into native code. */
-            if (typeof(T) == typeof(byte) ||
-                typeof(T) == typeof(sbyte) ||
-                typeof(T) == typeof(bool))
+            // Include some fast paths if the input type is of size 1, 2, 4, 8, or 16.
+            // In those cases, just reinterpret the bytes as values of an integer type,
+            // and compare them directly, which is much faster than having a loop over each byte.
+            // The conditional branches below are known at compile time by the JIT compiler,
+            // so that only the right one will actually be translated into native code.
+            if (sizeof(T) == 1)
             {
                 byte valueByte = Unsafe.As<T, byte>(ref value);
                 byte targetByte = Unsafe.As<T, byte>(ref target);
 
-                if (valueByte != targetByte)
+                if (valueByte == targetByte)
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
-            else if (typeof(T) == typeof(ushort) ||
-                     typeof(T) == typeof(short) ||
-                     typeof(T) == typeof(char))
+            else if (sizeof(T) == 2)
             {
                 ushort valueUShort = Unsafe.As<T, ushort>(ref value);
                 ushort targetUShort = Unsafe.As<T, ushort>(ref target);
 
-                if (valueUShort != targetUShort)
+                if (valueUShort == targetUShort)
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
-            else if (typeof(T) == typeof(uint) ||
-                     typeof(T) == typeof(int) ||
-                     typeof(T) == typeof(float))
+            else if (sizeof(T) == 4)
             {
                 uint valueUInt = Unsafe.As<T, uint>(ref value);
                 uint targetUInt = Unsafe.As<T, uint>(ref target);
 
-                if (valueUInt != targetUInt)
+                if (valueUInt == targetUInt)
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
-            else if (typeof(T) == typeof(ulong) ||
-                     typeof(T) == typeof(long) ||
-                     typeof(T) == typeof(double))
+            else if (sizeof(T) == 8)
             {
                 ulong valueULong = Unsafe.As<T, ulong>(ref value);
                 ulong targetULong = Unsafe.As<T, ulong>(ref target);
 
-                if (valueULong != targetULong)
+                if (Bit64Compare(ref valueULong, ref targetULong))
                 {
-                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
+            }
+            else if (sizeof(T) == 16)
+            {
+                ulong valueULong0 = Unsafe.As<T, ulong>(ref value);
+                ulong targetULong0 = Unsafe.As<T, ulong>(ref target);
+
+                if (Bit64Compare(ref valueULong0, ref targetULong0))
+                {
+                    ulong valueULong1 = Unsafe.Add(ref Unsafe.As<T, ulong>(ref value), 1);
+                    ulong targetULong1 = Unsafe.Add(ref Unsafe.As<T, ulong>(ref target), 1);
+
+                    if (Bit64Compare(ref valueULong1, ref targetULong1))
+                    {
+                        return;
+                    }
+                }
+
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
             else
             {
-                ref byte valueRef = ref Unsafe.As<T, byte>(ref value);
-                ref byte targetRef = ref Unsafe.As<T, byte>(ref target);
-                int bytesCount = Unsafe.SizeOf<T>();
+                Span<byte> valueBytes = new Span<byte>(Unsafe.AsPointer(ref value), sizeof(T));
+                Span<byte> targetBytes = new Span<byte>(Unsafe.AsPointer(ref target), sizeof(T));
 
-                for (int i = 0; i < bytesCount; i++)
+                if (valueBytes.SequenceEqual(targetBytes))
                 {
-                    byte valueByte = Unsafe.Add(ref valueRef, i);
-                    byte targetByte = Unsafe.Add(ref targetRef, i);
-
-                    if (valueByte != targetByte)
-                    {
-                        ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
-                    }
+                    return;
                 }
+
+                ThrowHelper.ThrowArgumentExceptionForBitwiseEqualTo(value, target, name);
             }
+        }
+
+        // Compares 64 bits of data from two given memory locations for bitwise equality
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe bool Bit64Compare(ref ulong left, ref ulong right)
+        {
+            // Handles 32 bit case, because using ulong is inefficient
+            if (sizeof(IntPtr) == 4)
+            {
+                ref int r0 = ref Unsafe.As<ulong, int>(ref left);
+                ref int r1 = ref Unsafe.As<ulong, int>(ref right);
+
+                return r0 == r1 &&
+                       Unsafe.Add(ref r0, 1) == Unsafe.Add(ref r1, 1);
+            }
+
+            return left == right;
         }
 
         /// <summary>
@@ -183,10 +223,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsLessThan<T>(T value, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(maximum) >= 0)
+            if (value.CompareTo(maximum) < 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
         }
 
         /// <summary>
@@ -202,10 +244,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsLessThanOrEqualTo<T>(T value, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(maximum) > 0)
+            if (value.CompareTo(maximum) <= 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
         }
 
         /// <summary>
@@ -221,10 +265,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsGreaterThan<T>(T value, T minimum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) <= 0)
+            if (value.CompareTo(minimum) > 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
         }
 
         /// <summary>
@@ -240,10 +286,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsGreaterThanOrEqualTo<T>(T value, T minimum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) < 0)
+            if (value.CompareTo(minimum) >= 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
         }
 
         /// <summary>
@@ -263,10 +311,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsInRange<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) >= 0)
+            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) < 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -286,10 +336,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotInRange<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) < 0)
+            if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) >= 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -309,10 +361,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) <= 0 || value.CompareTo(maximum) >= 0)
+            if (value.CompareTo(minimum) > 0 && value.CompareTo(maximum) < 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -332,10 +386,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) > 0 && value.CompareTo(maximum) < 0)
+            if (value.CompareTo(minimum) <= 0 || value.CompareTo(maximum) >= 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -355,10 +411,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) > 0)
+            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
         }
 
         /// <summary>
@@ -378,10 +436,12 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) > 0)
             {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+                return;
             }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
         }
     }
 }

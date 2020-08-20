@@ -237,6 +237,11 @@ dotnet_naming_style.prefix_private_field_with_underscore.capitalization         
 dotnet_naming_style.prefix_private_field_with_underscore.required_prefix          = _
 
 # Code files
+
+# SA1009: Closing parenthesis should be spaced correctly
+# Needed for null forgiving operator after functions, "foo()!"
+dotnet_diagnostic.SA1009.severity = none
+
 [*.{cs,vb}]
 
 # Migrate back from old Toolkit.ruleset

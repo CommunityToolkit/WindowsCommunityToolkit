@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
-[assembly: InternalsVisibleTo("UnitTests, PublicKey=002400000480000094000000060200000024000052534131000400000100010041753af735ae6140c9508567666c51c6ab929806adb0d210694b30ab142a060237bc741f9682e7d8d4310364b4bba4ee89cc9d3d5ce7e5583587e8ea44dca09977996582875e71fb54fa7b170798d853d5d8010b07219633bdb761d01ac924da44576d6180cdceae537973982bb461c541541d58417a3794e34f45e6f2d129e2")]
+[assembly: InternalsVisibleTo("UnitTests.UWP, PublicKey=002400000480000094000000060200000024000052534131000400000100010041753af735ae6140c9508567666c51c6ab929806adb0d210694b30ab142a060237bc741f9682e7d8d4310364b4bba4ee89cc9d3d5ce7e5583587e8ea44dca09977996582875e71fb54fa7b170798d853d5d8010b07219633bdb761d01ac924da44576d6180cdceae537973982bb461c541541d58417a3794e34f45e6f2d129e2")]
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         }
 
                         russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
-                        int linestart = Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4));
+                        int lineStart = Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4));
 
                         // 0 spaces = end of the list.
                         // 1-4 spaces = first level.
@@ -177,20 +177,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                                 builder.Builder.AppendLine();
                             }
 
-                            AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine);
+                            AppendTextToListItem(currentListItem, markdown, lineStart, lineInfo.EndOfLine);
                         }
                         else
                         {
                             // Inline text. Ignores the 4 spaces that are used to continue the list.
-                            AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine, true);
+                            AppendTextToListItem(currentListItem, markdown, lineStart, lineInfo.EndOfLine, true);
                         }
                     }
 
                     // Check for Closing Code Blocks.
                     if (currentListItem.Blocks.Last() is ListItemBuilder currentBlock)
                     {
-                        var blockmatchcount = Regex.Matches(currentBlock.Builder.ToString(), "```").Count;
-                        if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
+                        var blockMatchCount = Regex.Matches(currentBlock.Builder.ToString(), "```").Count;
+                        if (blockMatchCount > 0 && blockMatchCount % 2 != 0)
                         {
                             inCodeBlock = true;
                         }
