@@ -91,7 +91,6 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="rectarray">The source array.</param>
         /// <param name="column">Column record to retrieve, 0-based index.</param>
         /// <returns>Yielded enumerable of column elements for given column, and default values for smaller inner arrays.</returns>
-        [Obsolete("This helper will be removed in a future release, use the APIs from Microsoft.Toolkit.HighPerformance to replace it")]
         public static IEnumerable<T> GetColumn<T>(this T[][] rectarray, int column)
         {
             if (column < 0 || column >= rectarray.Max(array => array.Length))
