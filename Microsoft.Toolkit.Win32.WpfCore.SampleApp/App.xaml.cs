@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
             // Listen to toast notification activations
             DesktopNotificationManagerCompat.OnActivated += this.DesktopNotificationManagerCompat_OnActivated;
 
-            if (!DesktopNotificationManagerCompat.WasProcessToastActivated())
+            if (!DesktopNotificationManagerCompat.WasCurrentProcessToastActivated())
             {
                 new MainWindow().Show();
             }

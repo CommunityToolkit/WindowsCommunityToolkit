@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 using Microsoft.Win32;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
@@ -26,10 +28,35 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public class DesktopNotificationManagerCompat
     {
+        private static bool _registeredOnActivated;
+        private static List<OnActivated> _onActivated = new List<OnActivated>();
         /// <summary>
         /// Event that is triggered when a notification or notification button is clicked.
         /// </summary>
-        public static event OnActivated OnActivated;
+        public static event OnActivated OnActivated
+        {
+            add
+            {
+                lock (_onActivated)
+                {
+                    if (!_registeredOnActivated)
+                    {
+                        // Desktop Bridge apps will dynamically register upon first subscription to event
+                        CreateAndRegisterActivator();
+                    }
+
+                    _onActivated.Add(value);
+                }
+            }
+
+            remove
+            {
+                lock (_onActivated)
+                {
+                    _onActivated.Remove(value);
+                }
+            }
+        }
 
         internal static void OnActivatedInternal(string args, Internal.NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] input, string aumid)
         {
@@ -43,16 +70,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 }
             }
 
-            try
+            var e = new DesktopNotificationActivatedEventArgs()
             {
-                OnActivated?.Invoke(new DesktopNotificationActivatedEventArgs()
-                {
-                    Argument = args,
-                    UserInput = userInput
-                });
+                Argument = args,
+                UserInput = userInput
+            };
+
+            OnActivated[] listeners;
+            lock (_onActivated)
+            {
+                listeners = _onActivated.ToArray();
             }
-            catch
+
+            foreach (var listener in listeners)
             {
+                listener(e);
             }
         }
 
@@ -69,6 +101,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
 
         private static string _aumid;
+        private static string _win32Aumid;
 
         static DesktopNotificationManagerCompat()
         {
@@ -77,24 +110,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static void Initialize()
         {
-            string aumid;
-
             if (DesktopBridgeHelpers.IsRunningAsUwp())
             {
-                aumid = Package.Current.Id.FamilyName;
+                _aumid = Package.Current.Id.FamilyName;
             }
             else
             {
                 // Win32 apps are uniquely identified based on their process name
-                aumid = GetAumidFromCurrentProcess(Process.GetCurrentProcess());
+                _aumid = GetAumidFromCurrentProcess(Process.GetCurrentProcess());
 
                 // Store the AUMID for Win32 apps since it'll be needed later
-                _aumid = aumid;
+                _win32Aumid = _aumid;
             }
-
-            // Create and register activator
-            var activatorType = CreateActivatorType(aumid);
-            RegisterActivator(activatorType);
 
             // If running as Desktop Bridge
             if (DesktopBridgeHelpers.IsRunningAsUwp())
@@ -102,6 +129,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // No need to do anything additional, already registered
                 return;
             }
+
+            // Create and register activator
+            var activatorType = CreateActivatorType(_aumid);
+            RegisterActivator(activatorType);
 
             // Otherwise, register via registry
             var currProcess = Process.GetCurrentProcess();
@@ -111,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             string iconPath = "C:\\icon.png"; // TODO: Need to grab icon from process name
 
-            using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + aumid))
+            using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + _aumid))
             {
                 rootKey.SetValue("DisplayName", displayName);
                 rootKey.SetValue("IconUri", iconPath);
@@ -161,9 +192,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 parent: typeof(Internal.NotificationActivator),
                 interfaces: new Type[0]);
 
+            string clsid;
+
+            if (DesktopBridgeHelpers.IsRunningAsUwp())
+            {
+                clsid = GetClsidFromPackageManifest();
+            }
+            else
+            {
+                clsid = GenerateGuid(aumid);
+            }
+
             tb.SetCustomAttribute(new CustomAttributeBuilder(
                 con: typeof(GuidAttribute).GetConstructor(new Type[] { typeof(string) }),
-                constructorArgs: new object[] { GenerateGuid(aumid) }));
+                constructorArgs: new object[] { clsid }));
 
             tb.SetCustomAttribute(new CustomAttributeBuilder(
                 con: typeof(ComVisibleAttribute).GetConstructor(new Type[] { typeof(bool) }),
@@ -180,6 +222,43 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 constructorArgs: new object[] { ClassInterfaceType.None }));
 
             return tb.CreateType();
+        }
+
+        private static string GetClsidFromPackageManifest()
+        {
+            var appxManifestPath = Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml");
+            XmlDocument doc = new XmlDocument();
+            doc.Load(appxManifestPath);
+
+            var namespaceManager = new XmlNamespaceManager(doc.NameTable);
+            namespaceManager.AddNamespace("default", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+            namespaceManager.AddNamespace("desktop", "http://schemas.microsoft.com/appx/manifest/desktop/windows10");
+            namespaceManager.AddNamespace("com", "http://schemas.microsoft.com/appx/manifest/com/windows10");
+
+            var activatorClsidNode = doc.SelectSingleNode("/default:Package/default:Applications/default:Application[1]/default:Extensions/desktop:Extension[@Category='windows.toastNotificationActivation']/desktop:ToastNotificationActivation/@ToastActivatorCLSID", namespaceManager);
+
+            if (activatorClsidNode == null)
+            {
+                throw new InvalidOperationException("Your app manifest must have a toastNotificationActivation extension with a valid ToastActivatorCLSID specified.");
+            }
+
+            var clsid = activatorClsidNode.Value;
+
+            // Make sure they have a COM class registration matching the CLSID
+            var comClassNode = doc.SelectSingleNode($"/default:Package/default:Applications/default:Application[1]/default:Extensions/com:Extension[@Category='windows.comServer']/com:ComServer/com:ExeServer/com:Class[@Id='{clsid}']", namespaceManager);
+
+            if (comClassNode == null)
+            {
+                throw new InvalidOperationException("Your app manifest must have a comServer extension with a class ID matching your toastNotificationActivator's CLSID.");
+            }
+
+            var argumentsNode = comClassNode.ParentNode.Attributes.GetNamedItem("Arguments");
+            if (argumentsNode == null || argumentsNode.Value != "-ToastActivated")
+            {
+                throw new InvalidOperationException("Your arguments on your comServer extension for toast activation must be set exactly to \"-ToastActivated\"");
+            }
+
+            return clsid;
         }
 
         /// <summary>
@@ -215,6 +294,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return guidS;
         }
 
+        private static void CreateAndRegisterActivator()
+        {
+            var activatorType = CreateActivatorType(_aumid);
+            RegisterActivator(activatorType);
+            _registeredOnActivated = true;
+        }
+
         private static void RegisterActivator(Type activatorType)
         {
             if (!DesktopBridgeHelpers.IsRunningAsUwp())
@@ -248,7 +334,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Gets whether the current process was activated due to a toast activation. If so, the OnActivated event will be triggered soon after process launch.
         /// </summary>
         /// <returns>True if the current process was activated due to a toast activation, otherwise false.</returns>
-        public static bool WasProcessToastActivated()
+        public static bool WasCurrentProcessToastActivated()
         {
             return Environment.GetCommandLineArgs().Contains(TOAST_ACTIVATED_LAUNCH_ARG);
         }
@@ -320,10 +406,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns><see cref="ToastNotifier"/></returns>
         public static ToastNotifier CreateToastNotifier()
         {
-            if (_aumid != null)
+            if (_win32Aumid != null)
             {
                 // Non-Desktop Bridge
-                return ToastNotificationManager.CreateToastNotifier(_aumid);
+                return ToastNotificationManager.CreateToastNotifier(_win32Aumid);
             }
             else
             {
@@ -335,7 +421,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Gets the <see cref="DesktopNotificationHistoryCompat"/> object.
         /// </summary>
-        public static DesktopNotificationHistoryCompat History => new DesktopNotificationHistoryCompat(_aumid);
+        public static DesktopNotificationHistoryCompat History => new DesktopNotificationHistoryCompat(_win32Aumid);
 
         /// <summary>
         /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (MSIX or sparse package).
