@@ -19,6 +19,16 @@ namespace Microsoft.Toolkit.Mvvm.Input
         Task? ExecutionTask { get; }
 
         /// <summary>
+        /// Gets a value indicating whether running operations for this command can be canceled.
+        /// </summary>
+        public bool CanBeCanceled { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether a cancelation request has been issued for the current operation.
+        /// </summary>
+        public bool IsCancellationRequested { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the command currently has a pending operation being executed.
         /// </summary>
         bool IsRunning { get; }
@@ -30,5 +40,14 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="parameter">The input parameter.</param>
         /// <returns>The <see cref="Task"/> representing the async operation being executed.</returns>
         Task ExecuteAsync(object? parameter);
+
+        /// <summary>
+        /// Communicates a request for cancelation.
+        /// </summary>
+        /// <remarks>
+        /// If the underlying command is not running, or if it does not support cancelation, this method will perform no action.
+        /// Note that even with a successful cancelation, the completion of the current operation might not be immediate.
+        /// </remarks>
+        void Cancel();
     }
 }
