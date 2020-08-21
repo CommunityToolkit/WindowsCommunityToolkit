@@ -15,8 +15,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Microsoft.Win32;
+using Toolbelt.Drawing;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
+using Windows.Devices.Haptics;
 using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Notifications;
@@ -138,12 +140,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // Win32 app display names come from their process name
             string displayName = GetDisplayNameFromCurrentProcess(currProcess);
 
-            string iconPath = "C:\\icon.png"; // TODO: Need to grab icon from process name
+            string iconPath = GetIconPathFromCurrentProcess(currProcess);
 
             using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + _aumid))
             {
                 rootKey.SetValue("DisplayName", displayName);
-                rootKey.SetValue("IconUri", iconPath);
+
+                if (iconPath != null)
+                {
+                    rootKey.SetValue("IconUri", iconPath);
+                }
+                else
+                {
+                    rootKey.DeleteValue("IconUri");
+                }
 
                 // Background color only appears in the settings page, format is
                 // hex without leading #, like "FFDDDDDD"
@@ -161,7 +171,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // the GUID is a hash of the exe path, launch args, and maybe display name (i'd have to double check)
 
             // Temporarily we'll just use a hash of the file name
-            return process.MainModule.FileName.GetHashCode().ToString();
+            var hashCode = process.MainModule.FileName.GetHashCode();
+            if (hashCode < 0)
+            {
+                return $"Neg{hashCode}";
+            }
+            else
+            {
+                return hashCode.ToString();
+            }
         }
 
         private static string GetDisplayNameFromCurrentProcess(Process process)
@@ -171,6 +189,36 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             // Temporarily we'll just use the process name
             return process.ProcessName;
+        }
+
+        private static string GetIconPathFromCurrentProcess(Process process)
+        {
+            try
+            {
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DesktopNotificationManagerCompat", "Apps", _aumid, "Icon.png");
+
+                // Ensure the directories exist
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                bool extracted = false;
+                using (var stream = File.Create(path))
+                {
+                    IconExtractor.Extract1stIconTo(Process.GetCurrentProcess().MainModule.FileName, stream);
+                    extracted = stream.Length > 0;
+                }
+
+                if (!extracted)
+                {
+                    File.Delete(path);
+                    return null;
+                }
+
+                return path;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private static Type CreateActivatorType(string aumid)
