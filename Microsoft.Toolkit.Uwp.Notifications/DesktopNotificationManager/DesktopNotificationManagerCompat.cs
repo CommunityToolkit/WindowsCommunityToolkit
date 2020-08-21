@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -195,9 +196,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // Extract the icon
                 var icon = Icon.ExtractAssociatedIcon(process.MainModule.FileName);
 
-                using (var stream = File.Create(path))
+                using (var bmp = icon.ToBitmap())
                 {
-                    icon.Save(stream);
+                    bmp.Save(path, ImageFormat.Png);
                 }
 
                 return path;
