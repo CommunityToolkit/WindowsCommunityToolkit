@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// The cancelable <see cref="Func{T,TResult}"/> to invoke when <see cref="Execute"/> is used.
         /// </summary>
         /// <remarks>Only one between this and <see cref="execute"/> is not <see langword="null"/>.</remarks>
-        private readonly Func<CancellationToken, Task>? cancellableExecute;
+        private readonly Func<CancellationToken, Task>? cancelableExecute;
 
         /// <summary>
         /// The optional action to invoke when <see cref="CanExecute"/> is used.
@@ -35,9 +35,9 @@ namespace Microsoft.Toolkit.Mvvm.Input
         private readonly Func<bool>? canExecute;
 
         /// <summary>
-        /// The <see cref="CancellationTokenSource"/> instance to use to cancel <see cref="cancellableExecute"/>.
+        /// The <see cref="CancellationTokenSource"/> instance to use to cancel <see cref="cancelableExecute"/>.
         /// </summary>
-        /// <remarks>This is only used when <see cref="cancellableExecute"/> is not <see langword="null"/>.</remarks>
+        /// <remarks>This is only used when <see cref="cancelableExecute"/> is not <see langword="null"/>.</remarks>
         private CancellationTokenSource? cancellationTokenSource;
 
         /// <inheritdoc/>
@@ -55,10 +55,10 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncRelayCommand"/> class that can always execute.
         /// </summary>
-        /// <param name="cancellableExecute">The cancelable execution logic.</param>
-        public AsyncRelayCommand(Func<CancellationToken, Task> cancellableExecute)
+        /// <param name="cancelableExecute">The cancelable execution logic.</param>
+        public AsyncRelayCommand(Func<CancellationToken, Task> cancelableExecute)
         {
-            this.cancellableExecute = cancellableExecute;
+            this.cancelableExecute = cancelableExecute;
         }
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncRelayCommand"/> class.
         /// </summary>
-        /// <param name="cancellableExecute">The cancelable execution logic.</param>
+        /// <param name="cancelableExecute">The cancelable execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public AsyncRelayCommand(Func<CancellationToken, Task> cancellableExecute, Func<bool> canExecute)
+        public AsyncRelayCommand(Func<CancellationToken, Task> cancelableExecute, Func<bool> canExecute)
         {
-            this.cancellableExecute = cancellableExecute;
+            this.cancelableExecute = cancelableExecute;
             this.canExecute = canExecute;
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public bool CanBeCanceled => !(this.cancellableExecute is null);
+        public bool CanBeCanceled => !(this.cancelableExecute is null);
 
         /// <inheritdoc/>
         public bool IsCancellationRequested => this.cancellationTokenSource?.IsCancellationRequested == true;
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 OnPropertyChanged(nameof(IsCancellationRequested));
 
                 // Invoke the cancelable command delegate with a new linked token
-                return ExecutionTask = this.cancellableExecute!(cancellationTokenSource.Token);
+                return ExecutionTask = this.cancelableExecute!(cancellationTokenSource.Token);
             }
 
             return Task.CompletedTask;
