@@ -16,7 +16,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Microsoft.Win32;
-using Toolbelt.Drawing;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
 using Windows.Devices.Haptics;
