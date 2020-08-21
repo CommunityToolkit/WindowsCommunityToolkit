@@ -23,6 +23,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
 
+        /// <summary>
+        /// The <see cref="TakenSpotsReferenceHolder"/> instance in use, if any.
+        /// </summary>
+        private TakenSpotsReferenceHolder _spotref;
+
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
@@ -39,7 +44,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetupRowDefinitions(rows);
             SetupColumnDefinitions(columns);
 
-            var spotref = new TakenSpotsReferenceHolder(rows, columns);
+            TakenSpotsReferenceHolder spotref;
+
+            // If the last spot holder matches the size currently in use, just reset
+            // that instance and reuse it to avoid allocating a new bit array.
+            if (_spotref != null && _spotref.Height == rows && _spotref.Width == columns)
+            {
+                spotref = _spotref;
+
+                spotref.Reset();
+            }
+            else
+            {
+                spotref = _spotref = new TakenSpotsReferenceHolder(rows, columns);
+            }
 
             // Figure out which children we should automatically layout and where available openings are.
             foreach (var child in visible)

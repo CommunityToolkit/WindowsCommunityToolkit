@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <see cref="UniformGrid.GetFreeSpot"/> iterator.
     /// This is used so we can better isolate our logic and make it easier to test.
     /// </summary>
-    internal class TakenSpotsReferenceHolder
+    internal sealed class TakenSpotsReferenceHolder
     {
         /// <summary>
         /// The <see cref="BitArray"/> instance used to efficiently track empty spots.
@@ -53,8 +53,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="j">The horizontal offset.</param>
         public bool this[int i, int j]
         {
-            get => spotsTaken[(i * Width) + j];
-            set => spotsTaken[(i * Width) + j] = value;
+            get => this.spotsTaken[(i * Width) + j];
+            set => this.spotsTaken[(i * Width) + j] = value;
+        }
+
+        /// <summary>
+        /// Resets the current reference holder.
+        /// </summary>
+        public void Reset()
+        {
+            this.spotsTaken.SetAll(false);
         }
     }
 }
