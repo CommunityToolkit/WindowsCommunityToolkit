@@ -4,13 +4,17 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Notifications;
@@ -64,71 +68,48 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private const int S_OK = 0;
         private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
 
-        private static bool _registeredAumidAndComServer;
         private static string _aumid;
 
-        /// <summary>
-        /// If you're not using UWP, MSIX, or sparse packages, you must call this method to register your AUMID
-        /// and display assets with the Compat library. Feel free to call this regardless, it will no-op if running
-        /// under MSIX/sparse/UWP. Call this upon application startup (every time), before calling any other APIs.
-        /// Note that the display name and icon will NOT update if changed until either all toasts are cleared,
-        /// or the system is rebooted.
-        /// </summary>
-        /// <param name="aumid">An AUMID that uniquely identifies your application.</param>
-        /// <param name="displayName">Your app's display name, which will appear on toasts and within Action Center.</param>
-        /// <param name="iconPath">Your app's icon, which will appear on toasts and within Action Center.</param>
-        public static void RegisterApplication(
-            string aumid,
-            string displayName,
-            string iconPath)
+        static DesktopNotificationManagerCompat()
         {
-            RegisterApplication(aumid, displayName, iconPath, Colors.LightGray);
+            Initialize();
         }
 
-        /// <summary>
-        /// If you're not using UWP, MSIX, or sparse packages, you must call this method to register your AUMID
-        /// and display assets with the Compat library. Feel free to call this regardless, it will no-op if running
-        /// under MSIX/sparse/UWP. Call this upon application startup (every time), before calling any other APIs.
-        /// Note that the display name and icon will NOT update if changed until either all toasts are cleared,
-        /// or the system is rebooted.
-        /// </summary>
-        /// <param name="aumid">An AUMID that uniquely identifies your application.</param>
-        /// <param name="displayName">Your app's display name, which will appear on toasts and within Action Center.</param>
-        /// <param name="iconPath">Your app's icon, which will appear on toasts and within Action Center.</param>
-        /// <param name="iconBackgroundColor">Your app's icon background color, which only appears in the system notification settings page (everywhere else your icon will have a transparent background). If you use the method without this parameter, we'll use light gray (which should look good on most icons). To use the accent color, pass in null for this parameter.</param>
-        public static void RegisterApplication(
-            string aumid,
-            string displayName,
-            string iconPath,
-            Color iconBackgroundColor)
+        private static void Initialize()
         {
-            if (string.IsNullOrWhiteSpace(aumid))
+            string aumid;
+
+            if (DesktopBridgeHelpers.IsRunningAsUwp())
             {
-                throw new ArgumentException("You must provide an AUMID.", nameof(aumid));
+                aumid = Package.Current.Id.FamilyName;
+            }
+            else
+            {
+                // Win32 apps are uniquely identified based on their process name
+                aumid = GetAumidFromCurrentProcess(Process.GetCurrentProcess());
+
+                // Store the AUMID for Win32 apps since it'll be needed later
+                _aumid = aumid;
             }
 
-            if (string.IsNullOrWhiteSpace(displayName))
-            {
-                throw new ArgumentException("You must provide a display name.", nameof(displayName));
-            }
-
-            if (string.IsNullOrWhiteSpace(iconPath))
-            {
-                throw new ArgumentException("You must provide an icon path.", nameof(iconPath));
-            }
+            // Create and register activator
+            var activatorType = CreateActivatorType(aumid);
+            RegisterActivator(activatorType);
 
             // If running as Desktop Bridge
             if (DesktopBridgeHelpers.IsRunningAsUwp())
             {
-                // Clear the AUMID since Desktop Bridge doesn't use it, and then we're done.
-                // Desktop Bridge apps are registered with platform through their manifest.
-                // Their LocalServer32 key is also registered through their manifest.
-                _aumid = null;
-                _registeredAumidAndComServer = true;
+                // No need to do anything additional, already registered
                 return;
             }
 
-            _aumid = aumid;
+            // Otherwise, register via registry
+            var currProcess = Process.GetCurrentProcess();
+
+            // Win32 app display names come from their process name
+            string displayName = GetDisplayNameFromCurrentProcess(currProcess);
+
+            string iconPath = "C:\\icon.png"; // TODO: Need to grab icon from process name
 
             using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + aumid))
             {
@@ -137,18 +118,34 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 // Background color only appears in the settings page, format is
                 // hex without leading #, like "FFDDDDDD"
-                if (iconBackgroundColor == null)
-                {
-                    rootKey.DeleteValue("IconBackgroundColor");
-                }
-                else
-                {
-                    rootKey.SetValue("IconBackgroundColor", $"{iconBackgroundColor.A:X2}{iconBackgroundColor.R:X2}{iconBackgroundColor.G:X2}{iconBackgroundColor.B:X2}");
-                }
+                rootKey.SetValue("IconBackgroundColor", "FFDDDDDD");
+
+                rootKey.SetValue("CustomActivator", string.Format("{{{0}}}", activatorType.GUID));
             }
+        }
 
-            _registeredAumidAndComServer = true;
+        private static string GetAumidFromCurrentProcess(Process process)
+        {
+            // TODO: Should actually do the following which is what Shell does...
+            // 1) check for a matching shortcut in a few designated folders; if there is a shortcut, check if the app developer specified an explicit app ID on it (there is also a bunch of logic to dedupe these shortcuts across different folders). 2) if there is no matching shortcut or if no expliit app id was provided on the shortcut that was found, appresolver generates an ID for the item.
+            // This generated app ID is either 1) the path to the exe if there are no launch arguments or 2) a GUID if there are launch arguments
+            // the GUID is a hash of the exe path, launch args, and maybe display name (i'd have to double check)
 
+            // Temporarily we'll just use a hash of the file name
+            return process.MainModule.FileName.GetHashCode().ToString();
+        }
+
+        private static string GetDisplayNameFromCurrentProcess(Process process)
+        {
+            // TODO: Should actually do the following which is what Shell does...
+            // They look for the AppResolver shortcut first and use that, otherwise they pull it from the EXE
+
+            // Temporarily we'll just use the process name
+            return process.ProcessName;
+        }
+
+        private static Type CreateActivatorType(string aumid)
+        {
             // https://stackoverflow.com/questions/24069352/c-sharp-typebuilder-generate-class-with-function-dynamically
             // For .NET Core we're going to need https://stackoverflow.com/questions/36937276/is-there-any-replace-of-assemblybuilder-definedynamicassembly-in-net-core
             AssemblyName aName = new AssemblyName("DynamicComActivator");
@@ -182,9 +179,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 con: typeof(ClassInterfaceAttribute).GetConstructor(new Type[] { typeof(ClassInterfaceType) }),
                 constructorArgs: new object[] { ClassInterfaceType.None }));
 
-            var activatorType = tb.CreateType();
-
-            RegisterActivator(activatorType);
+            return tb.CreateType();
         }
 
         /// <summary>
@@ -220,25 +215,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return guidS;
         }
 
-        /// <summary>
-        /// Registers the activator type as a COM server client so that Windows can launch your activator. If not using UWP/MSIX/sparse, you must call <see cref="RegisterApplication(string, string, string)"/> first.
-        /// </summary>
         private static void RegisterActivator(Type activatorType)
         {
             if (!DesktopBridgeHelpers.IsRunningAsUwp())
             {
-                if (_aumid == null)
-                {
-                    throw new InvalidOperationException("You must call RegisterApplication first.");
-                }
-
                 string exePath = Process.GetCurrentProcess().MainModule.FileName;
                 RegisterComServer(activatorType, exePath);
-
-                using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + _aumid))
-                {
-                    rootKey.SetValue("CustomActivator", string.Format("{{{0}}}", activatorType.GUID));
-                }
             }
 
             // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
@@ -333,13 +315,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             out uint lpdwRegister);
 
         /// <summary>
-        /// Creates a toast notifier. If you're a Win32 non-MSIX/sparse app, you must have called <see cref="RegisterApplication(string, string, string)"/> first), or this will throw an exception.
+        /// Creates a toast notifier.
         /// </summary>
         /// <returns><see cref="ToastNotifier"/></returns>
         public static ToastNotifier CreateToastNotifier()
         {
-            EnsureRegistered();
-
             if (_aumid != null)
             {
                 // Non-Desktop Bridge
@@ -353,44 +333,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Gets the <see cref="DesktopNotificationHistoryCompat"/> object. If you're a Win32 non-MISX/sparse app, you must call <see cref="RegisterApplication(string, string, string)"/> first, or this will throw an exception.
+        /// Gets the <see cref="DesktopNotificationHistoryCompat"/> object.
         /// </summary>
-        public static DesktopNotificationHistoryCompat History
-        {
-            get
-            {
-                EnsureRegistered();
-
-                return new DesktopNotificationHistoryCompat(_aumid);
-            }
-        }
-
-        private static void EnsureRegistered()
-        {
-            // If not registered AUMID yet
-            if (!_registeredAumidAndComServer)
-            {
-                // Check if Desktop Bridge
-                if (DesktopBridgeHelpers.IsRunningAsUwp())
-                {
-                    // Implicitly registered, all good!
-                    _registeredAumidAndComServer = true;
-                }
-                else
-                {
-                    // Otherwise, incorrect usage
-                    throw new Exception($"You must call {nameof(RegisterApplication)} first.");
-                }
-            }
-        }
+        public static DesktopNotificationHistoryCompat History => new DesktopNotificationHistoryCompat(_aumid);
 
         /// <summary>
         /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (MSIX or sparse package).
         /// </summary>
-        public static bool CanUseHttpImages
-        {
-            get { return DesktopBridgeHelpers.IsRunningAsUwp(); }
-        }
+        public static bool CanUseHttpImages => DesktopBridgeHelpers.IsRunningAsUwp();
 
         /// <summary>
         /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/edit/master/DesktopBridge.Helpers/Helpers.cs

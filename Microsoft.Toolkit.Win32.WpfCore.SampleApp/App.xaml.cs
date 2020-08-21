@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -11,13 +14,7 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            // Register the app to support toast notifications
-            DesktopNotificationManagerCompat.RegisterApplication(
-                aumid: "Microsoft.Toolkit.Win32.WpfCore",
-                displayName: "Toolkit Win32 WPF Core Sample App",
-                iconPath: "C:\\icon.png");
-
-            // And listen to toast notification activations
+            // Listen to toast notification activations
             DesktopNotificationManagerCompat.OnActivated += this.DesktopNotificationManagerCompat_OnActivated;
 
             if (!DesktopNotificationManagerCompat.WasProcessToastActivated())
