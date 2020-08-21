@@ -28,8 +28,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public class DesktopNotificationManagerCompat
     {
+        private const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
+
+        private const int CLASS_E_NOAGGREGATION = -2147221232;
+        private const int E_NOINTERFACE = -2147467262;
+        private const int CLSCTX_LOCAL_SERVER = 4;
+        private const int REGCLS_MULTIPLEUSE = 1;
+        private const int S_OK = 0;
+        private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
+
         private static bool _registeredOnActivated;
         private static List<OnActivated> _onActivated = new List<OnActivated>();
+
         /// <summary>
         /// Event that is triggered when a notification or notification button is clicked.
         /// </summary>
@@ -87,18 +97,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 listener(e);
             }
         }
-
-        /// <summary>
-        /// A constant that is used as the launch arg when your EXE is launched from a toast notification.
-        /// </summary>
-        private const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
-
-        private const int CLASS_E_NOAGGREGATION = -2147221232;
-        private const int E_NOINTERFACE = -2147467262;
-        private const int CLSCTX_LOCAL_SERVER = 4;
-        private const int REGCLS_MULTIPLEUSE = 1;
-        private const int S_OK = 0;
-        private static readonly Guid IUnknownGuid = new Guid("00000000-0000-0000-C000-000000000046");
 
         private static string _aumid;
         private static string _win32Aumid;
