@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -171,15 +172,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // the GUID is a hash of the exe path, launch args, and maybe display name (i'd have to double check)
 
             // Temporarily we'll just use a hash of the file name
-            var hashCode = process.MainModule.FileName.GetHashCode();
-            if (hashCode < 0)
-            {
-                return $"Neg{hashCode}";
-            }
-            else
-            {
-                return hashCode.ToString();
-            }
+            return GenerateGuid(process.MainModule.FileName);
         }
 
         private static string GetDisplayNameFromCurrentProcess(Process process)
@@ -200,17 +193,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // Ensure the directories exist
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-                bool extracted = false;
+                // Extract the icon
+                var icon = Icon.ExtractAssociatedIcon(process.MainModule.FileName);
+
                 using (var stream = File.Create(path))
                 {
-                    IconExtractor.Extract1stIconTo(Process.GetCurrentProcess().MainModule.FileName, stream);
-                    extracted = stream.Length > 0;
-                }
-
-                if (!extracted)
-                {
-                    File.Delete(path);
-                    return null;
+                    icon.Save(stream);
                 }
 
                 return path;
