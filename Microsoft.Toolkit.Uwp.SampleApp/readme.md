@@ -188,7 +188,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
 
-> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on gitHub, the sample app will use the packaged version
+> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on GitHub, the sample app will use the packaged version
 
 > NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For example, this folder structure works best:
 > ```
