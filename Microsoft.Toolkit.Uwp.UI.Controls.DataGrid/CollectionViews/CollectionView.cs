@@ -772,7 +772,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         /// <summary>
-        /// Raise a CurrentChanging event that is not cancel-able.
+        /// Raise a CurrentChanging event that is not cancelable.
         /// Internally, CurrentPosition is set to -1.
         /// This is called by CollectionChanges (Remove and Refresh) that affect the CurrentItem.
         /// </summary>
