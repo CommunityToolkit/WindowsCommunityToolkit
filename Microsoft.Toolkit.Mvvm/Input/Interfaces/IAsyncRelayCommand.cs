@@ -21,12 +21,12 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// Gets a value indicating whether running operations for this command can be canceled.
         /// </summary>
-        public bool CanBeCanceled { get; }
+        bool CanBeCanceled { get; }
 
         /// <summary>
         /// Gets a value indicating whether a cancelation request has been issued for the current operation.
         /// </summary>
-        public bool IsCancellationRequested { get; }
+        bool IsCancellationRequested { get; }
 
         /// <summary>
         /// Gets a value indicating whether the command currently has a pending operation being executed.
