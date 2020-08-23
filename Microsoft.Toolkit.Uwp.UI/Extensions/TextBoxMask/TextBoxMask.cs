@@ -296,7 +296,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         deleteBackspaceIndex++;
                     }
                 }
-
             }
 
             // case adding data at the end of the textbox
