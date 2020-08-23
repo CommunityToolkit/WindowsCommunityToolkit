@@ -98,8 +98,8 @@ namespace UnitTests.HighPerformance
             Ref<int> reference = CreateRefFromArray(array);
 
             Assert.IsTrue(Unsafe.AreSame(ref array[0], ref reference.Value));
-            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference.DangerousGetReferenceAt(3)));
-            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference.DangerousGetReferenceAt((IntPtr)3)));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference[3]));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference[(IntPtr)3]));
         }
     }
 }

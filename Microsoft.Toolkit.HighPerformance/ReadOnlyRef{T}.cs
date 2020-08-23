@@ -159,6 +159,58 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
+        /// Gets a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// </summary>
+        /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
+        /// <remarks>
+        /// This indexer offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does
+        /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// </remarks>
+        public unsafe ref readonly T this[int offset]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+#if NETCORE_RUNTIME
+                return ref Unsafe.Add(ref ByReference.Value, (IntPtr)(void*)(uint)offset);
+#elif SPAN_RUNTIME_SUPPORT
+                return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), (IntPtr)(void*)(uint)offset);
+#else
+                ref T r0 = ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
+
+                return ref r1;
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Gets a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// </summary>
+        /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
+        /// <remarks>
+        /// This indexer offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does
+        /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// </remarks>
+        public ref readonly T this[IntPtr offset]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+#if NETCORE_RUNTIME
+                return ref Unsafe.Add(ref ByReference.Value, offset);
+#elif SPAN_RUNTIME_SUPPORT
+                return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+#else
+                ref T r0 = ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                ref T r1 = ref Unsafe.Add(ref r0, offset);
+
+                return ref r1;
+#endif
+            }
+        }
+
+        /// <summary>
         /// Returns a mutable reference with the same target as <see cref="Value"/>.
         /// </summary>
         /// <returns>A mutable reference equivalent to the one returned by <see cref="Value"/>.</returns>
@@ -175,23 +227,14 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
         /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
         /// <remarks>
-        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does not does not do
-        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does
+        /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe ref T DangerousGetReferenceAt(int offset)
+        public ref T DangerousGetReferenceAt(int offset)
         {
-#if NETCORE_RUNTIME
-            return ref Unsafe.Add(ref ByReference.Value, (IntPtr)(void*)(uint)offset);
-#elif SPAN_RUNTIME_SUPPORT
-            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), (IntPtr)(void*)(uint)offset);
-#else
-            ref T r0 = ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
-
-            return ref r1;
-#endif
+            return ref Unsafe.AsRef(this[offset]);
         }
 
         /// <summary>
@@ -200,23 +243,14 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
         /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
         /// <remarks>
-        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does not does not do
-        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does
+        /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T DangerousGetReferenceAt(IntPtr offset)
         {
-#if NETCORE_RUNTIME
-            return ref Unsafe.Add(ref ByReference.Value, offset);
-#elif SPAN_RUNTIME_SUPPORT
-            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
-#else
-            ref T r0 = ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
-
-            return ref r1;
-#endif
+            return ref Unsafe.AsRef(this[offset]);
         }
 
         /// <summary>

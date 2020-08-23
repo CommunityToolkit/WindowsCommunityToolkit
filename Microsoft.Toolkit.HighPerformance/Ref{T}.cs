@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME
 #elif SPAN_RUNTIME_SUPPORT
@@ -125,53 +124,55 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// Gets a reference to an element at a specified offset with respect to <see cref="Value"/>.
         /// </summary>
         /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
-        /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
         /// <remarks>
-        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does not does not do
-        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// This indexer offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,int)"/>, and similarly it does
+        /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
         /// </remarks>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe ref T DangerousGetReferenceAt(int offset)
+        public unsafe ref T this[int offset]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
 #if NETCORE_RUNTIME
-            return ref Unsafe.Add(ref ByReference.Value, (IntPtr)(void*)(uint)offset);
+                return ref Unsafe.Add(ref ByReference.Value, (IntPtr)(void*)(uint)offset);
 #elif SPAN_RUNTIME_SUPPORT
-            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), (IntPtr)(void*)(uint)offset);
+                return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), (IntPtr)(void*)(uint)offset);
 #else
-            ref T r0 = ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
+                ref T r0 = ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
+                ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
 
-            return ref r1;
+                return ref r1;
 #endif
+            }
         }
 
         /// <summary>
-        /// Returns a reference to an element at a specified offset with respect to <see cref="Value"/>.
+        /// Gets a reference to an element at a specified offset with respect to <see cref="Value"/>.
         /// </summary>
         /// <param name="offset">The offset of the element to retrieve, starting from the reference provided by <see cref="Value"/>.</param>
-        /// <returns>A reference to the element at the specified offset from <see cref="Value"/>.</returns>
         /// <remarks>
-        /// This method offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does not does not do
-        /// any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
+        /// This indexer offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does
+        /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
         /// </remarks>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ref T DangerousGetReferenceAt(IntPtr offset)
+        public ref T this[IntPtr offset]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
 #if NETCORE_RUNTIME
-            return ref Unsafe.Add(ref ByReference.Value, offset);
+                return ref Unsafe.Add(ref ByReference.Value, offset);
 #elif SPAN_RUNTIME_SUPPORT
-            return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
+                return ref Unsafe.Add(ref MemoryMarshal.GetReference(Span), offset);
 #else
-            ref T r0 = ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+                ref T r0 = ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
+                ref T r1 = ref Unsafe.Add(ref r0, offset);
 
-            return ref r1;
+                return ref r1;
 #endif
+            }
         }
 
 #if SPAN_RUNTIME_SUPPORT

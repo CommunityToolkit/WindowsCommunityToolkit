@@ -86,6 +86,8 @@ namespace UnitTests.HighPerformance
             ReadOnlyRef<int> reference = CreateReadOnlyRefFromArray(array);
 
             Assert.IsTrue(Unsafe.AreSame(ref array[0], ref reference.DangerousGetReference()));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref Unsafe.AsRef(reference[3])));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref Unsafe.AsRef(reference[(IntPtr)3])));
             Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference.DangerousGetReferenceAt(3)));
             Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference.DangerousGetReferenceAt((IntPtr)3)));
         }
