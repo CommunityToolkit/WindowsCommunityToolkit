@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Gets the Type of Ancestor to look for from this element.
         /// </summary>
-        /// <returns>Blah blah</returns>
+        /// <returns>Type of Ancestor to look for from this element</returns>
         public static Type GetAncestorType(DependencyObject obj)
         {
             return (Type)obj.GetValue(AncestorTypeProperty);

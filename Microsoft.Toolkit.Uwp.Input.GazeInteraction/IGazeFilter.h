@@ -38,7 +38,7 @@ private:
     TimeSpan _timestamp;
 };
 
-// Every filter must provide an Wpdate method which transforms sample data 
+// Every filter must provide an Update method which transforms sample data 
 // and returns filtered output
 private interface class IGazeFilter
 {
