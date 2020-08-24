@@ -6,7 +6,7 @@ This document describes how to add a new sample page for a new control you want 
 
 
 ## 1. Add Sample page and .bind template
-First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and contain code.
+First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and contains code.
 
 If providing 'live' XAML, a .bind file is loaded and dynamically fed to the XamlReader.Load method to convert into actual controls.  This changes a few things about how samples need to be written (detailed below), but allows developers to actually change the sample and see the results live.
 
@@ -163,7 +163,7 @@ Select the category where you want your page to be listed and add the following 
 
 Some features used by samples aren't available on all the OS versions that the Sample App runs on.  In order to make sure a sample is valid for the host OS, add the `ApiCheck` key/value in your JSON definition.
 
-The value is a string which is the fully-qualified typename to check for the presence of.  You can also accompany this with the `BadgeUpdateVersionRequred` which uses the string provided to show a short message on the sample information so uplevel implementors know the minimum version required.
+The value is a string which is the fully-qualified typename to check for the presence of.  You can also accompany this with the `BadgeUpdateVersionRequred` which uses the string provided to show a short message on the sample information so up level implementors know the minimum version required.
 
 ```json
     {
@@ -188,7 +188,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
 
-> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on GitHub, the sample app will use the packaged version
 
 > NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For example, this folder structure works best:
 > ```

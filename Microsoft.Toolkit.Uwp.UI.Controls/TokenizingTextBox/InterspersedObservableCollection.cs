@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="amount">by how many</param>
         private void MoveKeysBackward(int pivot, int amount)
         {
-            // Sort in regular order to work from the earliest indicies onwards
+            // Sort in regular order to work from the earliest indices onwards
             var keys = _interspersedObjects.Keys.OrderBy(v => v).ToArray();
             foreach (var key in keys)
             {
@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Inserts an item to intersperse with the underlying collection, but not be part of the underyling collection itself.
+        /// Inserts an item to intersperse with the underlying collection, but not be part of the underlying collection itself.
         /// </summary>
         /// <param name="index">Position to insert the item at.</param>
         /// <param name="obj">Item to intersperse</param>

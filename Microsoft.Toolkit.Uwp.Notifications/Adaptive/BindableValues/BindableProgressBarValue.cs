@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Creates an <see cref="BindableProgressBarValue"/> that has tbe raw double value.
+        /// Creates an <see cref="BindableProgressBarValue"/> that has the raw double value.
         /// </summary>
         /// <param name="d">The raw value</param>
         public static implicit operator BindableProgressBarValue(double d)

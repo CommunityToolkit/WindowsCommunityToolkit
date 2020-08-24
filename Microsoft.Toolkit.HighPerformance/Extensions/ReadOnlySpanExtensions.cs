@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // The result is then negated, producing the value 0xFFFFFFFF
             // for valid indices, or 0 otherwise. The generated mask
             // is then combined with the original index. This leaves
-            // the index intact if it was valid, otherwise zeroes it.
+            // the index intact if it was valid, otherwise zeros it.
             // The computed offset is finally used to access the
             // lookup table, and it is guaranteed to never go out of
             // bounds unless the input span was just empty, which for a

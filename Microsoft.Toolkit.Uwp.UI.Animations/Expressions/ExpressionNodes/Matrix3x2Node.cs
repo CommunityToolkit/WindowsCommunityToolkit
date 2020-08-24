@@ -235,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s">The subchanel.</param>
+        /// <param name="s">The subchannel.</param>
         /// <returns>ScalarNode</returns>
         public ScalarNode GetSubchannels(Subchannel s)
         {
@@ -245,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s1">The first subchannel.</param>
         /// <param name="s2">The second subchannel.</param>
         /// <returns>Vector2Node</returns>
         public Vector2Node GetSubchannels(Subchannel s1, Subchannel s2)
@@ -256,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s1">The first subchannel.</param>
         /// <param name="s2">The second subchannel.</param>
         /// <param name="s3">The third subchannel.</param>
         /// <returns>Vector3Node</returns>
@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s1">The first subchannel.</param>
         /// <param name="s2">The second subchannel.</param>
         /// <param name="s3">The third subchannel.</param>
         /// <param name="s4">The fourth subchannel.</param>
@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s1">The first subchannel.</param>
         /// <param name="s2">The second subchannel.</param>
         /// <param name="s3">The third subchannel.</param>
         /// <param name="s4">The fourth subchannel.</param>
@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Create a new type by re-arranging the Matrix subchannels.
         /// </summary>
-        /// <param name="s1">The first subchanel.</param>
+        /// <param name="s1">The first subchannel.</param>
         /// <param name="s2">The second subchannel.</param>
         /// <param name="s3">The third subchannel.</param>
         /// <param name="s4">The fourth subchannel.</param>

@@ -9,7 +9,7 @@ using Microsoft.Toolkit.Extensions;
 namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Base class for Rss Parser(s).
+    /// Base class for RSS Parser(s).
     /// </summary>
     internal abstract class BaseRssParser
     {
