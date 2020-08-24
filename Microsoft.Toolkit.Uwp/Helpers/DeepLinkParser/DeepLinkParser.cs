@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             int queryStartPosition = origString.IndexOf('?');
             if (queryStartPosition == -1)
             {
-                // No querystring on the URI
+                // No query string on the URI
                 Root = origString;
             }
             else

@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public static readonly DependencyProperty LastResetTimeProperty =
             DependencyProperty.Register(nameof(LastResetTime), typeof(string), typeof(SystemInformationPage), new PropertyMetadata(string.Empty));
 
-        // To get the number of times the app has been launched sicne the last reset.
+        // To get the number of times the app has been launched since the last reset.
         public long LaunchCount
         {
             get { return (long)GetValue(LaunchCountProperty); }

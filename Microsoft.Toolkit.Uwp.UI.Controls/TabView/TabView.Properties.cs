@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(SelectedTabWidth), typeof(double), typeof(TabView), new PropertyMetadata(double.NaN, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the current <see cref="TabWidthMode"/> which determins how tab headers' width behave.
+        /// Gets or sets the current <see cref="TabWidthMode"/> which determines how tab headers' width behave.
         /// </summary>
         public TabWidthMode TabWidthBehavior
         {

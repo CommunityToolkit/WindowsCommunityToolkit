@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await new ContentDialog
                 {
                     Title = "Windows Community Toolkit Sample App",
-                    Content = $"An error occured finding your location. Message: {ex.Message}",
+                    Content = $"An error occurred finding your location. Message: {ex.Message}",
                     CloseButtonText = "Close",
                     XamlRoot = XamlRoot
                 }.ShowAsync();

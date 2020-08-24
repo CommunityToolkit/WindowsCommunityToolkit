@@ -347,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Debug.Assert(rowIndex != -1, "Expected rowIndex other than -1.");
             if (_showDetailsTable.Contains(rowIndex))
             {
-                // The user explicity set DetailsVisibility on a row so we should respect that
+                // The user explicitly set DetailsVisibility on a row so we should respect that
                 return _showDetailsTable.GetValueAt(rowIndex);
             }
             else
@@ -1423,7 +1423,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (this.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Visible)
             {
-                // Total rows minus ones which explicity turned details off
+                // Total rows minus ones which explicitly turned details off
                 return indexCount - _showDetailsTable.GetIndexCount(lowerBound, upperBound, Visibility.Collapsed);
             }
             else if (this.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Collapsed)
@@ -2253,7 +2253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnInsertedElement_Phase2(int slot, bool updateVerticalScrollBarOnly, bool isCollapsed)
         {
-            Debug.Assert(slot >= 0, "Expected positve slot.");
+            Debug.Assert(slot >= 0, "Expected positive slot.");
 
             if (!isCollapsed)
             {
@@ -2780,7 +2780,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (slot >= this.DisplayData.FirstScrollingSlot &&
                 slot <= this.DisplayData.LastScrollingSlot)
             {
-                // Additional row takes the spot of a displayed row - it is necessarilly displayed
+                // Additional row takes the spot of a displayed row - it is necessarily displayed
                 return true;
             }
             else if (this.DisplayData.FirstScrollingSlot == -1 &&
@@ -2974,7 +2974,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (DoubleUtil.LessThan(firstRowHeight, this.NegVerticalOffset))
                 {
                     // We've scrolled off more of the first row than what's possible.  This can happen
-                    // if the first row got shorter (Ex: Collpasing RowDetails) or if the user has a recycling
+                    // if the first row got shorter (Ex: Collapsing RowDetails) or if the user has a recycling
                     // cleanup issue.  In this case, simply try to display the next row as the first row instead
                     if (newFirstScrollingSlot < this.SlotCount - 1)
                     {

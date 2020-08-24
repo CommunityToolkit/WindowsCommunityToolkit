@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Tapp an item
+        /// Tap an item
         /// </summary>
         private void OnTapped(object sender, TappedRoutedEventArgs e)
         {
@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Apply projection
                 ApplyProjection(item, props, storyboard);
 
-                // Zindex and Opacity
+                // Z index and Opacity
                 var deltaFromSelectedIndex = Math.Abs(Carousel.SelectedIndex - i);
                 int zindex = (Carousel.Items.Count * 100) - deltaFromSelectedIndex;
                 Canvas.SetZIndex(item, zindex);
@@ -320,7 +320,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // apply the projection to the current object
                 ApplyProjection(container, proj);
 
-                // calculate zindex and opacity
+                // calculate z index and opacity
                 int zindex = (Children.Count * 100) - deltaFromSelectedIndex;
                 Canvas.SetZIndex(container, zindex);
             }
@@ -404,7 +404,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var rotationY = Carousel.ItemRotationY;
             var rotationZ = Carousel.ItemRotationZ;
 
-            // if the relativeposition is inside the bounds so calculate the proportionals
+            // if the relative position is inside the bounds so calculate the proportionals
             if (relativePosition <= maxBounds)
             {
                 depth = relativePosition * depth / maxBounds;
@@ -432,10 +432,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // margin
             var margin = Carousel.ItemMargin;
 
-            // we want the middle image to be indice 0, to be sure the centered image is with no rotation
+            // we want the middle image to be index 0, to be sure the centered image is with no rotation
             var relativeIndex = childIndex - Carousel.SelectedIndex;
 
-            // size beetween each element
+            // size between each element
             var widthOrHeight = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;
 
             // calculate the position with the margin applied

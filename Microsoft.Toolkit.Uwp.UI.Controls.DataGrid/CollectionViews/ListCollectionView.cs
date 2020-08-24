@@ -441,7 +441,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         /// <summary>
-        /// Gets a value indicating whether the resulting (filtered) view is emtpy.
+        /// Gets a value indicating whether the resulting (filtered) view is empty.
         /// </summary>
         public override bool IsEmpty
         {

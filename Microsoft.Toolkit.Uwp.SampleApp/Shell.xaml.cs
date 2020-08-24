@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         /// <summary>
-        /// Attach a ScrollViewer to Parallax hosting the backround image
+        /// Attach a ScrollViewer to Parallax hosting the background image
         /// </summary>
         /// <param name="viewer">The ScrollViewer</param>
         public void AttachScroll(ScrollViewer viewer)

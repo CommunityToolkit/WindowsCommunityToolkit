@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 /* CanvasComposition.CreateDrawingSession has an internal
                  * limit on the size of the updateRectInPixels parameter,
-                 * which we dont know, so we can get an ArgumentException
+                 * which we don't know, so we can get an ArgumentException
                  * if there is a lot of extreme zooming and panning
                  * Therefore, the only solution is to silently catch the
                  * exception and allow the app to continue

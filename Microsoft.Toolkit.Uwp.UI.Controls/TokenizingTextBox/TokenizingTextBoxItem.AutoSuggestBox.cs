@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Verify if the usual behaviour of clearing token selection is required
+            // Verify if the usual behavior of clearing token selection is required
             if (Owner.PauseTokenClearOnFocus == false && !TokenizingTextBox.IsShiftPressed)
             {
                 // Clear any selected tokens

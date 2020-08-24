@@ -5,7 +5,7 @@
 namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Type of Rss.
+    /// Type of RSS.
     /// </summary>
     internal enum RssType
     {

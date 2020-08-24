@@ -250,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 
         /// <summary>
         /// Gets a list of active bindings on the specified FrameworkElement.  Bindings are gathered
-        /// according to the same conditions BindingGroup uses to find bindings of descendent elements
+        /// according to the same conditions BindingGroup uses to find bindings of descendant elements
         /// within the visual tree.
         /// </summary>
         /// <param name="element">Root FrameworkElement to search under</param>

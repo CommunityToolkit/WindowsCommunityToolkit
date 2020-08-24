@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_isDragging)
             {
-                // if dragging don't update the curser just update the splitter cursor with the last window cursor,
+                // if dragging don't update the cursor just update the splitter cursor with the last window cursor,
                 // because the splitter is still using the arrow cursor and will revert to original case when drag completes
                 _splitterPreviousPointer = _previousCursor;
             }
