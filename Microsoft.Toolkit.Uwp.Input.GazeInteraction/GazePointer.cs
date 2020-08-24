@@ -546,8 +546,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 
         private GazeTargetItem ResolveHitTarget(Point gazePoint, TimeSpan timestamp)
         {
-            // TODO: The existance of a GazeTargetItem should be used to indicate that
-            // the target item is invokable. The method of invokation should be stored
+            // TODO: The existence of a GazeTargetItem should be used to indicate that
+            // the target item is invokable. The method of invocation should be stored
             // within the GazeTargetItem when it is created and not recalculated when
             // subsequently needed.
 

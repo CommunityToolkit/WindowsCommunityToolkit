@@ -6,7 +6,7 @@ using Windows.Foundation.Collections;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 {
-    // Every filter must provide an Wpdate method which transforms sample data
+    // Every filter must provide an Update method which transforms sample data
     // and returns filtered output
     internal interface IGazeFilter
     {

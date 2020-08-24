@@ -13,16 +13,16 @@ using Microsoft.Toolkit.Extensions;
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
-    /// Helper methods to throw exceptions
+    /// Helper methods to efficiently throw exceptions.
     /// </summary>
-    internal static partial class ThrowHelper
+    public static partial class ThrowHelper
     {
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanRead"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
+        internal static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support reading");
         }
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
+        internal static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support writing");
         }
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
+        internal static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support seeking");
         }
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
+        internal static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
         {
             ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) must be at position {0.ToAssertString()}, was at {stream.Position.ToAssertString()}");
         }

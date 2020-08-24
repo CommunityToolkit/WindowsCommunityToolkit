@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         Fixation = 3,
 
         /// <summary>
-        /// User is conciously dwelling on the control with an intent to invoke, e.g. click a button
+        /// User is consciously dwelling on the control with an intent to invoke, e.g. click a button
         /// </summary>
         Dwell = 4,
 
