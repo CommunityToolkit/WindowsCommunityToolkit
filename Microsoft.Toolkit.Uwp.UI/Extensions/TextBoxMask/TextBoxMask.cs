@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var textbox = (TextBox)sender;
 
-            // in case no value is provided, use it as normal textbox
+            // In case no value is provided, use it as normal textbox
             var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
