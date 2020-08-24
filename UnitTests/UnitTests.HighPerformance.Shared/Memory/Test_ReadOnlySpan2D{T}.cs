@@ -699,6 +699,33 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Pointer_GetRow()
+        {
+            int* array = stackalloc[]
+            {
+                1, 2, 3,
+                4, 5, 6
+            };
+
+            int i = 0;
+            foreach (ref readonly int value in new ReadOnlySpan2D<int>(array, 2, 3, 0).GetRow(1))
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(value), ref array[3 + i++]));
+            }
+
+            ReadOnlyRefEnumerable<int> enumerable = new ReadOnlySpan2D<int>(array, 2, 3, 0).GetRow(1);
+
+            int[] expected = { 4, 5, 6 };
+
+            CollectionAssert.AreEqual(enumerable.ToArray(), expected);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array, 2, 3, 0).GetRow(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array, 2, 3, 0).GetRow(2));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array, 2, 3, 0).GetRow(1000));
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
         public void Test_ReadOnlySpan2DT_GetColumn()
         {
             int[,] array =
@@ -726,6 +753,33 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Pointer_GetColumn()
+        {
+            int* array = stackalloc[]
+            {
+                1, 2, 3,
+                4, 5, 6
+            };
+
+            int i = 0;
+            foreach (ref readonly int value in new ReadOnlySpan2D<int>(array, 2, 3, 0).GetColumn(1))
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(value), ref array[(i++ * 3) + 1]));
+            }
+
+            ReadOnlyRefEnumerable<int> enumerable = new ReadOnlySpan2D<int>(array, 2, 3, 0).GetColumn(2);
+
+            int[] expected = { 3, 6 };
+
+            CollectionAssert.AreEqual(enumerable.ToArray(), expected);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array, 2, 3, 0).GetColumn(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array, 2, 3, 0).GetColumn(3));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array, 2, 3, 0).GetColumn(1000));
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
         public void Test_ReadOnlySpan2DT_GetEnumerator()
         {
             int[,] array =
@@ -738,6 +792,29 @@ namespace UnitTests.HighPerformance.Memory
             int i = 0;
 
             foreach (var item in new ReadOnlySpan2D<int>(array, 0, 1, 2, 2))
+            {
+                result[i++] = item;
+            }
+
+            int[] expected = { 2, 3, 5, 6 };
+
+            CollectionAssert.AreEqual(result, expected);
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Pointer_GetEnumerator()
+        {
+            int* array = stackalloc[]
+            {
+                1, 2, 3,
+                4, 5, 6
+            };
+
+            int[] result = new int[4];
+            int i = 0;
+
+            foreach (var item in new ReadOnlySpan2D<int>(array + 1, 2, 2, 1))
             {
                 result[i++] = item;
             }
