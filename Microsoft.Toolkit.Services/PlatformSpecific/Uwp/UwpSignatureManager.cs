@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 namespace Microsoft.Toolkit.Services.PlatformSpecific.Uwp
 {
     /// <summary>
-    /// Uwp specific signature generator using cryptographic library
+    /// UWP specific signature generator using cryptographic library
     /// </summary>
     internal class UwpSignatureManager : ISignatureManager
     {
