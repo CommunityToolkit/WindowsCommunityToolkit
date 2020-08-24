@@ -11,6 +11,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
+#if !SPAN_RUNTIME_SUPPORT
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
@@ -98,6 +101,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.Pitch = pitch;
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
@@ -129,11 +133,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
+#if SPAN_RUNTIME_SUPPORT
             this.span = new Span<T>(pointer, height);
+#else
+            this.Instance = null;
+            this.Offset = (IntPtr)pointer;
+            this.height = height;
+#endif
             this.width = width;
             this.Pitch = pitch;
         }
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
@@ -516,7 +525,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown when either <paramref name="i"/> or <paramref name="j"/> are invalid.
         /// </exception>
-        public unsafe ref T this[int i, int j]
+        public ref T this[int i, int j]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -527,14 +536,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     ThrowHelper.ThrowIndexOutOfRangeException();
                 }
 
-#if SPAN_RUNTIME_SUPPORT
-                ref T r0 = ref MemoryMarshal.GetReference(this.span);
-#else
-                ref T r0 = ref this.Instance!.DangerousGetObjectDataReferenceAt<T>(this.Offset);
-#endif
-                int index = (i * (this.width + this.Pitch)) + j;
-
-                return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
+                return ref DangerousGetReferenceAt(i, j);
             }
         }
 
@@ -784,7 +786,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
                 r0 = ref MemoryMarshal.GetReference(this.span);
 #else
-                r0 = ref this.Instance!.DangerousGetObjectDataReferenceAt<T>(this.Offset);
+                r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
 #endif
             }
 
@@ -802,7 +804,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             return ref MemoryMarshal.GetReference(this.span);
 #else
-            return ref this.GetPinnableReference();
+            return ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
 #endif
         }
 
@@ -819,7 +821,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
 #else
-            ref T r0 = ref this.Instance!.DangerousGetObjectDataReferenceAt<T>(this.Offset);
+            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
 #endif
             int index = (i * (this.width + this.Pitch)) + j;
 
@@ -909,18 +911,29 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
         public bool TryGetSpan(out Span<T> span)
         {
+            // We can only create a Span<T> if the buffer is contiguous
             if (this.Pitch == 0)
             {
 #if SPAN_RUNTIME_SUPPORT
-                // We can only create a Span<T> if the buffer is contiguous
                 span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size);
 
                 return true;
 #else
                 // An empty Span2D<T> is still valid
-                if (this.Instance is null)
+                if (IsEmpty)
                 {
                     span = default;
+
+                    return true;
+                }
+
+                // Pinned Span2D<T>
+                if (this.Instance is null)
+                {
+                    unsafe
+                    {
+                        span = new Span<T>((void*)this.Offset, Size);
+                    }
 
                     return true;
                 }

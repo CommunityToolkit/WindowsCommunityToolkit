@@ -11,15 +11,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
     /// </summary>
     internal static class ThrowHelper
     {
-#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when using the <see langword="void"/>* constructor with a managed type.
         /// </summary>
         public static void ThrowArgumentExceptionForManagedType()
         {
-            throw new ArgumentException("Can't create a Span2D<T> from a pointer when T is a managed type");
+            throw new ArgumentException("Can't use a void* constructor when T is a managed type");
         }
-#endif
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when the target span is too short.

@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Extensions;
+#if !SPAN_RUNTIME_SUPPORT
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Enumerables
 {
@@ -20,12 +23,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     [EditorBrowsable(EditorBrowsableState.Never)]
     public ref struct ReadOnlyRefEnumerable<T>
     {
-        /// <summary>
-        /// The distance between items in the sequence to enumerate.
-        /// </summary>
-        /// <remarks>The distance refers to <typeparamref name="T"/> items, not byte offset.</remarks>
-        private readonly int step;
-
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// The <see cref="ReadOnlySpan{T}"/> instance pointing to the first item in the target memory area.
@@ -48,6 +45,12 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         private readonly int length;
 #endif
+
+        /// <summary>
+        /// The distance between items in the sequence to enumerate.
+        /// </summary>
+        /// <remarks>The distance refers to <typeparamref name="T"/> items, not byte offset.</remarks>
+        private readonly int step;
 
         /// <summary>
         /// The current position in the sequence.
@@ -77,7 +80,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <param name="length">The number of items in the sequence.</param>
         /// <param name="step">The distance between items in the sequence to enumerate.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal ReadOnlyRefEnumerable(object instance, IntPtr offset, int length, int step)
+        internal ReadOnlyRefEnumerable(object? instance, IntPtr offset, int length, int step)
         {
             this.instance = instance;
             this.offset = offset;
@@ -125,7 +128,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #else
                 unsafe
                 {
-                    ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                    ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
                     ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.position);
 
                     return ref ri;
@@ -159,7 +162,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
             ref T sourceRef = ref this.span.DangerousGetReference();
 #else
-            ref T sourceRef = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
 
             T[] array = new T[length / this.step];

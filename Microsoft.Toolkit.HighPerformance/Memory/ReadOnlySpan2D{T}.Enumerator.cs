@@ -10,7 +10,7 @@ using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
@@ -34,13 +34,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int startIndex = (this.width + this.pitch) * row;
-            ref T r0 = ref this.DangerousGetReference();
+            ref T r0 = ref DangerousGetReference();
             ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)startIndex);
 
 #if SPAN_RUNTIME_SUPPORT
             return new ReadOnlyRefEnumerable<T>(r1, Width, 1);
 #else
-            IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
+            IntPtr offset = RuntimeHelpers.GetObjectDataOrReferenceByteOffset(this.instance, ref r1);
 
             return new ReadOnlyRefEnumerable<T>(this.instance!, offset, this.width, 1);
 #endif
@@ -61,13 +61,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
-            ref T r0 = ref this.DangerousGetReference();
+            ref T r0 = ref DangerousGetReference();
             ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)column);
 
 #if SPAN_RUNTIME_SUPPORT
             return new ReadOnlyRefEnumerable<T>(r1, Height, this.width + this.pitch);
 #else
-            IntPtr offset = this.instance!.DangerousGetObjectDataByteOffset(ref r1);
+            IntPtr offset = RuntimeHelpers.GetObjectDataOrReferenceByteOffset(this.instance, ref r1);
 
             return new ReadOnlyRefEnumerable<T>(this.instance!, offset, Height, this.width + this.pitch);
 #endif
@@ -197,7 +197,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
 #else
-                    ref T r0 = ref this.instance!.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                    ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
                     int index = (this.y * (this.width + this.pitch)) + this.x;
 

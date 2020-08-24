@@ -62,6 +62,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, -2, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, 0, -5));
         }
+#endif
 
         [TestCategory("Span2DT")]
         [TestMethod]
@@ -69,7 +70,12 @@ namespace UnitTests.HighPerformance.Memory
         {
             int* ptr = stackalloc[]
             {
-                1, 2, 3, 4, 5, 6
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
             };
 
             Span2D<int> span2d = new Span2D<int>(ptr, 2, 3, 0);
@@ -88,8 +94,8 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>((void*)0, -1, 0, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>((void*)0, 1, -2, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>((void*)0, 1, 0, -5));
+            Assert.ThrowsException<ArgumentException>(() => new Span2D<string>((void*)0, 2, 2, 0));
         }
-#endif
 
         [TestCategory("Span2DT")]
         [TestMethod]

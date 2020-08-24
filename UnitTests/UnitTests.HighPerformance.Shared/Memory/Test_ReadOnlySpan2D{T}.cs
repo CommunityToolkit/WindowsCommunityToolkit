@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -58,6 +57,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, -2, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, 0, -5));
         }
+#endif
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
@@ -65,7 +65,12 @@ namespace UnitTests.HighPerformance.Memory
         {
             int* ptr = stackalloc[]
             {
-                1, 2, 3, 4, 5, 6
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
             };
 
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(ptr, 2, 3, 0);
@@ -80,8 +85,8 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>((void*)0, -1, 0, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>((void*)0, 1, -2, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>((void*)0, 1, 0, -5));
+            Assert.ThrowsException<ArgumentException>(() => new ReadOnlySpan2D<string>((void*)0, 2, 2, 0));
         }
-#endif
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
