@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _isMiddleClick = true;
                 }
 
-                // Disable unwanted behaviour inherited by ListViewItem:
+                // Disable unwanted behavior inherited by ListViewItem:
                 // Disable "Ctrl + Left click" to deselect tab
                 // Or variant like "Ctrl + Shift + Left click"
                 // Or "Ctrl + Alt + Left click"
