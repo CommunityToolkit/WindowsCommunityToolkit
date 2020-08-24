@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _source = source;
 
-            // Bind to the property to be able to get its changes relayed as events throug the ValueChanged event.
+            // Bind to the property to be able to get its changes relayed as events through the ValueChanged event.
             var binding =
                 new Binding
                 {

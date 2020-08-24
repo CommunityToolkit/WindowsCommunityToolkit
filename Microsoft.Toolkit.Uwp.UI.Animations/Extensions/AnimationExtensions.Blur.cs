@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
-        /// Animates the gaussian blur of the UIElement.
+        /// Animates the Gaussian blur of the UIElement.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="value">The blur amount.</param>
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Animates the gaussian blur of the UIElement.
+        /// Animates the Gaussian blur of the UIElement.
         /// </summary>
         /// <param name="animationSet">The animation set.</param>
         /// <param name="value">The blur amount.</param>

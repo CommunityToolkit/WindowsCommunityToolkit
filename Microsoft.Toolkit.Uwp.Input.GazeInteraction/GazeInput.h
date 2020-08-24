@@ -35,27 +35,27 @@ namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
         static bool IsDeviceAvailable();
 
         /// <summary>
-        /// Identifyes the Interaction dependency property
+        /// Identifies the Interaction dependency property
         /// </summary>
         static Microsoft::UI::Xaml::DependencyProperty InteractionProperty();
 
         /// <summary>
-        /// Identifyes the IsCursorVisible dependency property
+        /// Identifies the IsCursorVisible dependency property
         /// </summary>
         static Microsoft::UI::Xaml::DependencyProperty IsCursorVisibleProperty();
 
         /// <summary>
-        /// Identifyes the CursorRadius dependency property
+        /// Identifies the CursorRadius dependency property
         /// </summary>
         static Microsoft::UI::Xaml::DependencyProperty CursorRadiusProperty();
 
         /// <summary>
-        /// Identifyes the GazeElement dependency property
+        /// Identifies the GazeElement dependency property
         /// </summary>
         static Microsoft::UI::Xaml::DependencyProperty GazeElementProperty();
 
         /// <summary>
-        /// Identifyes the FixationDuration dependency property
+        /// Identifies the FixationDuration dependency property
         /// </summary>
         static Microsoft::UI::Xaml::DependencyProperty FixationDurationProperty();
 
@@ -85,7 +85,7 @@ namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
         static Microsoft::UI::Xaml::DependencyProperty MaxDwellRepeatCountProperty();
 
         /// <summary>
-        /// Identifyes the IsSwitchEnabled dependency property
+        /// Identifies the IsSwitchEnabled dependency property
         /// </summary>
         static Microsoft::UI::Xaml::DependencyProperty IsSwitchEnabledProperty();
 
@@ -165,7 +165,7 @@ namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
         static TimeSpan GetFixationDuration(UIElement const& element);
 
         /// <summary>
-        /// Gets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typicaly achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
+        /// Gets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typically achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
         /// </summary>
         static TimeSpan GetDwellDuration(UIElement const& element);
 
@@ -220,7 +220,7 @@ namespace winrt::Microsoft::Toolkit::Uwp::Input::GazeInteraction::implementation
         static void SetFixationDuration(UIElement const& element, TimeSpan const& span);
 
         /// <summary>
-        /// Sets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typicaly achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
+        /// Sets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typically achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
         /// </summary>
         static void SetDwellDuration(UIElement const& element, TimeSpan const& span);
 

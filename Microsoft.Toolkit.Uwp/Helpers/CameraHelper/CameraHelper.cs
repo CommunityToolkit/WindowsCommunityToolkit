@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
 
-                // Get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
+                // Get only formats of a certain frame-rate and compatible subtype for previewing, order them by resolution
                 FrameFormatsAvailable = PreviewFrameSource.SupportedFormats.Where(format =>
                     format.FrameRate.Numerator / format.FrameRate.Denominator >= 15 // fps
                     && (string.Compare(format.Subtype, MediaEncodingSubtypes.Nv12, true) == 0

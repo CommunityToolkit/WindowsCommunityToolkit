@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class SurfaceLoader
     {
         /// <summary>
-        /// A flag to store the intialized state.
+        /// A flag to store the initialized state.
         /// </summary>
         private static bool _intialized;
 
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         */
 
         /// <summary>
-        /// The composition graphic device to determinde which GPU is handling the request.
+        /// The composition graphic device to determine which GPU is handling the request.
         /// </summary>
         private static CompositionGraphicsDevice _compositionDevice;
 

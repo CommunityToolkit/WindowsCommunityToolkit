@@ -246,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 measureSize = _childActualSize;
             }
 
-            // Perform a mesaure on the _layoutRoot (containing Child)
+            // Perform a measure on the _layoutRoot (containing Child)
             _layoutRoot.Measure(measureSize);
 
             // Transform DesiredSize to find its width/height

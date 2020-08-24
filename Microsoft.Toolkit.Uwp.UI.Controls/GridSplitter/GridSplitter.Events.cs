@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // change sibling row height to the new height relative to current row
                 // respect the other star row height by setting it's height to it's actual height with stars
 
-                // We need to validate current and sibling height to not cause any un expected behavior
+                // We need to validate current and sibling height to not cause any unexpected behavior
                 if (!IsValidRowHeight(CurrentRow, verticalChange) ||
                     !IsValidRowHeight(SiblingRow, verticalChange * -1))
                 {
@@ -295,7 +295,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // change sibling column width to the new width relative to current column
                 // respect the other star column width by setting it's width to it's actual width with stars
 
-                // We need to validate current and sibling width to not cause any un expected behavior
+                // We need to validate current and sibling width to not cause any unexpected behavior
                 if (!IsValidColumnWidth(CurrentColumn, horizontalChange) ||
                     !IsValidColumnWidth(SiblingColumn, horizontalChange * -1))
                 {
