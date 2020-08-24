@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
         {
-            // If condution that occures before scrolling begins
+            // If condition that occurs before scrolling begins
             if (_isPressed && !_isMoved)
             {
                 PointerPoint pointerPoint = args.CurrentPoint;
@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     var offsetX = _currentPosition.X - _startPosition.X;
                     var offsetY = _currentPosition.Y - _startPosition.Y;
 
-                    // Settign _isMoved if pointer goes out of threshold value
+                    // Setting _isMoved if pointer goes out of threshold value
                     if (Math.Abs(offsetX) > _threshold || Math.Abs(offsetY) > _threshold)
                     {
                         _isMoved = true;

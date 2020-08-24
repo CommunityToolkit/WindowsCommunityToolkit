@@ -10,17 +10,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
     public enum Format
     {
         /// <summary>
-        /// Utilises the Built-In RichText Formatter
+        /// Utilizes the Built-In RichText Formatter
         /// </summary>
         RichText,
 
         /// <summary>
-        /// Utilises the Built-In Markdown Formatter
+        /// Utilizes the Built-In Markdown Formatter
         /// </summary>
         MarkDown,
 
         /// <summary>
-        /// Utilises the provided Custom Formatter using the Formatter Property
+        /// Utilizes the provided Custom Formatter using the Formatter Property
         /// </summary>
         Custom
     }

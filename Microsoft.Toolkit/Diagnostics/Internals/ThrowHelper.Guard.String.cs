@@ -11,16 +11,16 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
-    /// Helper methods to throw exceptions
+    /// Helper methods to efficiently throw exceptions.
     /// </summary>
-    internal static partial class ThrowHelper
+    public static partial class ThrowHelper
     {
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNullOrEmpty"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNullOrEmpty(string? text, string name)
+        internal static void ThrowArgumentExceptionForIsNullOrEmpty(string? text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be null or empty, was {text.ToAssertString()}");
         }
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotNullOrEmpty(string? text, string name)
+        internal static void ThrowArgumentExceptionForIsNotNullOrEmpty(string? text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not be null or empty, was {(text is null ? "null" : "empty")}");
         }
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNullOrWhitespace(string? text, string name)
+        internal static void ThrowArgumentExceptionForIsNullOrWhitespace(string? text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be null or whitespace, was {text.ToAssertString()}");
         }
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotNullOrWhitespace(string? text, string name)
+        internal static void ThrowArgumentExceptionForIsNotNullOrWhitespace(string? text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not be null or whitespace, was {(text is null ? "null" : "whitespace")}");
         }
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsEmpty(string text, string name)
+        internal static void ThrowArgumentExceptionForIsEmpty(string text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be empty, was {text.ToAssertString()}");
         }
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotEmpty(string text, string name)
+        internal static void ThrowArgumentExceptionForIsNotEmpty(string text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not be empty");
         }
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsWhitespace(string text, string name)
+        internal static void ThrowArgumentExceptionForIsWhitespace(string text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be whitespace, was {text.ToAssertString()}");
         }
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotWhitespace(string text, string name)
+        internal static void ThrowArgumentExceptionForIsNotWhitespace(string text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not be whitespace, was {text.ToAssertString()}");
         }
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeEqualTo(string text, int size, string name)
+        internal static void ThrowArgumentExceptionForHasSizeEqualTo(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size equal to {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeNotEqualTo(string text, int size, string name)
+        internal static void ThrowArgumentExceptionForHasSizeNotEqualTo(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not have a size equal to {size}, was {text.ToAssertString()}");
         }
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeGreaterThan(string text, int size, string name)
+        internal static void ThrowArgumentExceptionForHasSizeGreaterThan(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size over {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(string text, int size, string name)
+        internal static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size of at least {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeLessThan(string text, int size, string name)
+        internal static void ThrowArgumentExceptionForHasSizeLessThan(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size less than {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(string text, int size, string name)
+        internal static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(string text, int size, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size less than or equal to {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeEqualTo(string source, string destination, string name)
+        internal static void ThrowArgumentExceptionForHasSizeEqualTo(string source, string destination, string name)
         {
             ThrowArgumentException(name, $"The source {name.ToAssertString()} (string) must have a size equal to {destination.Length.ToAssertString()} (the destination), had a size of {source.Length.ToAssertString()}");
         }
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(string source, string destination, string name)
+        internal static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(string source, string destination, string name)
         {
             ThrowArgumentException(name, $"The source {name.ToAssertString()} (string) must have a size less than or equal to {destination.Length.ToAssertString()} (the destination), had a size of {source.Length.ToAssertString()}");
         }
@@ -180,9 +180,9 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor(int index, string text, string name)
+        internal static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor(int index, string text, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {text.Length.ToAssertString()} to be a valid index for the target string, was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {text.Length.ToAssertString()} to be a valid index for the target string, was {index.ToAssertString()}");
         }
 
         /// <summary>
@@ -190,9 +190,9 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(int index, string text, string name)
+        internal static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(int index, string text, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {text.Length.ToAssertString()} to be an invalid index for the target string, was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {text.Length.ToAssertString()} to be an invalid index for the target string, was {index.ToAssertString()}");
         }
     }
 }
