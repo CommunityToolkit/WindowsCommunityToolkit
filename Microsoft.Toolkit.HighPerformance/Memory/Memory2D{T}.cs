@@ -730,7 +730,17 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object? obj)
         {
-            return obj is Memory2D<T> memory && Equals(memory);
+            if (obj is Memory2D<T> memory)
+            {
+                return Equals(memory);
+            }
+
+            if (obj is ReadOnlyMemory2D<T> readOnlyMemory)
+            {
+                return readOnlyMemory.Equals(this);
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>

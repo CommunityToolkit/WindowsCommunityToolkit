@@ -404,6 +404,11 @@ namespace UnitTests.HighPerformance.Memory
             Assert.IsFalse(memory2d.Equals(new Memory2D<int>(array, 0, 1, 2, 2)));
             Assert.IsTrue(memory2d.Equals(new Memory2D<int>(array)));
             Assert.IsTrue(memory2d.Equals(memory2d));
+
+            ReadOnlyMemory2D<int> readOnlyMemory2d = memory2d;
+
+            Assert.IsTrue(memory2d.Equals(readOnlyMemory2d));
+            Assert.IsFalse(memory2d.Equals(readOnlyMemory2d.Slice(0, 1, 2, 2)));
         }
 
         [TestCategory("Memory2DT")]

@@ -398,12 +398,17 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
-            ReadOnlyMemory2D<int> memory2d = new ReadOnlyMemory2D<int>(array);
+            ReadOnlyMemory2D<int> readOnlyMemory2D = new ReadOnlyMemory2D<int>(array);
 
-            Assert.IsFalse(memory2d.Equals(null));
-            Assert.IsFalse(memory2d.Equals(new ReadOnlyMemory2D<int>(array, 0, 1, 2, 2)));
-            Assert.IsTrue(memory2d.Equals(new ReadOnlyMemory2D<int>(array)));
-            Assert.IsTrue(memory2d.Equals(memory2d));
+            Assert.IsFalse(readOnlyMemory2D.Equals(null));
+            Assert.IsFalse(readOnlyMemory2D.Equals(new ReadOnlyMemory2D<int>(array, 0, 1, 2, 2)));
+            Assert.IsTrue(readOnlyMemory2D.Equals(new ReadOnlyMemory2D<int>(array)));
+            Assert.IsTrue(readOnlyMemory2D.Equals(readOnlyMemory2D));
+
+            Memory2D<int> memory2d = array;
+
+            Assert.IsTrue(readOnlyMemory2D.Equals((object)memory2d));
+            Assert.IsFalse(readOnlyMemory2D.Equals((object)memory2d.Slice(0, 1, 2, 2)));
         }
 
         [TestCategory("ReadOnlyMemory2DT")]
