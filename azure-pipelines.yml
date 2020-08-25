@@ -47,6 +47,9 @@ steps:
 - powershell: .\build\build.ps1 -target=Package
   displayName: Package
 
+- powershell: .\build\build.ps1 -target=SmokeTest
+  displayName: SmokeTest
+
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
@@ -70,3 +73,16 @@ steps:
     pathToPublish: .\bin\nupkg
     artifactType: container
     artifactName: Packages
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: .\SmokeTests\AppPackages
+    contents: '**\*.appxbundle'
+    targetFolder: $(build.artifactstagingdirectory)\SmokeTestBundles
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Smoke Test Artifacts
+  inputs:
+    pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
+    artifactType: container
+    artifactName: SmokeTestBundles
