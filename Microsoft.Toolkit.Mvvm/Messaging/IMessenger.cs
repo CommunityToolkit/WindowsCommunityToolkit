@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <typeparam name="TMessage">The type of message to receive.</typeparam>
     /// <param name="recipient">The recipient that is receiving the message.</param>
     /// <param name="message">The message being received.</param>
-    public delegate void MessageHandler<TMessage>(object recipient, TMessage message);
+    public delegate void MessageHandler<in TMessage>(object recipient, TMessage message);
 
     /// <summary>
     /// An interface for a type providing the ability to exchange messages between different objects.
