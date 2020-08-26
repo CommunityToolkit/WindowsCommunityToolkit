@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_visualStateGroup != null)
             {
+                _visualStateGroup.CurrentStateChanging -= OnCurrentStateChanging;
                 _visualStateGroup.CurrentStateChanged -= OnCurrentStateChanged;
             }
 
@@ -67,7 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_visualStateGroup != null)
             {
-                _visualStateGroup.CurrentStateChanged += OnCurrentStateChanged;
+                _visualStateGroup.CurrentStateChanging += OnCurrentStateChanging;
+                _visualStateGroup.CurrentStateChanged += OnCurrentStateChanged;                
             }
 
             var firstNotification = _stackedNotificationOptions.FirstOrDefault();
