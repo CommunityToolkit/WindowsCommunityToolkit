@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
+  <PropertyGroup Condition="'$(CurrentProject)' == ''">
+    <!-- When writting the SmokeTests, change this to whichever Toolkit project you want to build a test to, then reload the project -->
+    <CurrentProject>Microsoft.Toolkit.Uwp.UI.Controls</CurrentProject>
+  </PropertyGroup>
+  <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -22,29 +28,43 @@
     <AppxBundle>Always</AppxBundle>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
     <PlatformTarget>$(Platform)</PlatformTarget>
-    <NoWarn>;2008;SA0001</NoWarn>
+    <NoWarn>;2008;SA0001;SA1601</NoWarn>
+    <Prefer32Bit>true</Prefer32Bit>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(CurrentProject)' != ''">
     <AppxPackageName>SmokeTest_$(CurrentProject)</AppxPackageName>
     <IntermediateOutputPath>obj\$(CurrentProject)\</IntermediateOutputPath>
     <OutputPath>bin\$(CurrentProject)\$(Platform)\$(Configuration)\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'' == 'Debug'">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <DebugType>full</DebugType>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <!-- These empty PropertyGroup just make VS happy -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM64' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -75,10 +95,8 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup Condition="'$(CurrentProject)' != ''">
-    <Compile Include="MainPage.$(CurrentProject).xaml.cs">
-      <DependentUpon>MainPage.$(CurrentProject).xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainPage.$(CurrentProject).xaml">
+    <Compile Include="$(CurrentProject)\*.cs" />
+    <Page Include="$(CurrentProject)\*.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -86,6 +104,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
+    </PackageReference>
+  </ItemGroup>
+  <!-- Only the Layout package have a dependency on WinUI -->
+  <ItemGroup Condition="$(CurrentProject) == 'Microsoft.Toolkit.Uwp.UI.Controls.Layout'">
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.4.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition="'$(CurrentProject)' != ''">

@@ -9,6 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
+            <Button Content="Click" Click="Button_Click" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Center"/>
+        </StackPanel>
     </Grid>
 </Page>

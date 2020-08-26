@@ -9,6 +9,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+            <Button x:Name="ConnectButton"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Bottom"
+                    Click="ConnectButton_OnClick"
+                    Content="Connect" />
+            <TextBlock x:Name="textBlock"/>
+        </StackPanel>
     </Grid>
 </Page>

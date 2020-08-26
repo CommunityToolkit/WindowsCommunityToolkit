@@ -4,7 +4,8 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" 
+  IgnorableNamespaces="uap mp uap3">
 
   <Identity
     Name="96554a00-b926-4130-b09f-f2a0777f3d09"
@@ -45,5 +46,11 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
+    <uap3:Capability Name="remoteSystem" />
+    <DeviceCapability Name="location" />
+    <DeviceCapability Name="bluetooth" />
+    <DeviceCapability Name="webcam" />
+    <DeviceCapability Name="gazeInput" />
   </Capabilities>
 </Package>
