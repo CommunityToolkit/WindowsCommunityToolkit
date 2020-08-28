@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             // Create & show toast notification
             var toastNotification = new ToastNotification(toastContent.GetXml());
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(toastNotification);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static List<OnActivated> _onActivated = new List<OnActivated>();
 
         /// <summary>
-        /// Event that is triggered when a notification or notification button is clicked.
+        /// Event that is triggered when a notification or notification button is clicked. Subscribe to this event in your app's initial startup code.
         /// </summary>
         public static event OnActivated OnActivated
         {

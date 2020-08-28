@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void PopToast()
         {
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
         }
 
         private void Initialize()

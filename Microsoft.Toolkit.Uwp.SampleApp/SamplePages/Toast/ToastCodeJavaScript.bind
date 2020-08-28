@@ -49,5 +49,5 @@ var popToast = function () {
     // generate the toast notification content and pop the toast
     var content = generateToastContent();
     var toast = new Windows.UI.Notifications.ToastNotification(content.getXml());
-    Windows.UI.Notifications.ToastNotificationManager.createToastNotifier().show(toast);
+    Windows.UI.Notifications.ToastNotificationManagerCompat.createToastNotifier().show(toast);
 };
