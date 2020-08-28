@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
             var notif = new ToastNotification(content.GetXml());
 
-            DesktopNotificationManagerCompat.CreateToastNotifier().Show(notif);
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(notif);
         }
     }
 }

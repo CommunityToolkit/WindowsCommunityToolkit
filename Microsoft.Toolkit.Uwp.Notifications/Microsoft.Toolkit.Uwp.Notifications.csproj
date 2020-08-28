@@ -25,17 +25,9 @@
       </ItemGroup>
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
-        <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
+        <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
       </PropertyGroup>
     </When>
-
-    <!--Non-desktop apps (UWP, libraries, ASP.NET servers)-->
-    <Otherwise>
-      <ItemGroup>
-        <!--Remove the DesktopNotificationManager code-->
-        <Compile Remove="DesktopNotificationManager\**\*" />
-      </ItemGroup>
-    </Otherwise>
 
   </Choose>
 

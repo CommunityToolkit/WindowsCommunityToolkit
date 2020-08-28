@@ -15,15 +15,15 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
         protected override void OnStartup(StartupEventArgs e)
         {
             // Listen to toast notification activations
-            DesktopNotificationManagerCompat.OnActivated += this.DesktopNotificationManagerCompat_OnActivated;
+            ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
 
-            if (!DesktopNotificationManagerCompat.WasCurrentProcessToastActivated())
+            if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
             {
                 new MainWindow().Show();
             }
         }
 
-        private void DesktopNotificationManagerCompat_OnActivated(DesktopNotificationActivatedEventArgs e)
+        private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
         {
             Dispatcher.Invoke(() =>
             {

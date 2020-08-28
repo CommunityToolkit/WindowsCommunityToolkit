@@ -1,12 +1,12 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
+
+#if WINDOWS_UWP
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,23 +14,19 @@ using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
 using Microsoft.Win32;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Resources;
-using Windows.Devices.Haptics;
 using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// Helper for .NET Framework applications to display toast notifications and respond to toast events
+    /// Provides access to sending and managing toast notifications. Works for all types of apps, even Win32 non-MSIX/sparse apps.
     /// </summary>
-    public class DesktopNotificationManagerCompat
+    public static class ToastNotificationManagerCompat
     {
+#if WIN32
         private const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
 
         private const int CLASS_E_NOAGGREGATION = -2147221232;
@@ -71,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        internal static void OnActivatedInternal(string args, Internal.NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] input, string aumid)
+        internal static void OnActivatedInternal(string args, Internal.InternalNotificationActivator.NOTIFICATION_USER_INPUT_DATA[] input, string aumid)
         {
             ValueSet userInput = new ValueSet();
 
@@ -83,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 }
             }
 
-            var e = new DesktopNotificationActivatedEventArgs()
+            var e = new ToastNotificationActivatedEventArgsCompat()
             {
                 Argument = args,
                 UserInput = userInput
@@ -104,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static string _aumid;
         private static string _win32Aumid;
 
-        static DesktopNotificationManagerCompat()
+        static ToastNotificationManagerCompat()
         {
             Initialize();
         }
@@ -194,11 +190,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
                 // Extract the icon
-                var icon = Icon.ExtractAssociatedIcon(process.MainModule.FileName);
+                var icon = System.Drawing.Icon.ExtractAssociatedIcon(process.MainModule.FileName);
 
                 using (var bmp = icon.ToBitmap())
                 {
-                    bmp.Save(path, ImageFormat.Png);
+                    bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
                 }
 
                 return path;
@@ -212,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static Type CreateActivatorType(string aumid)
         {
             // https://stackoverflow.com/questions/24069352/c-sharp-typebuilder-generate-class-with-function-dynamically
-            // For .NET Core we're going to need https://stackoverflow.com/questions/36937276/is-there-any-replace-of-assemblybuilder-definedynamicassembly-in-net-core
+            // For .NET Core we use https://stackoverflow.com/questions/36937276/is-there-any-replace-of-assemblybuilder-definedynamicassembly-in-net-core
             AssemblyName aName = new AssemblyName("DynamicComActivator");
             AssemblyBuilder aBuilder = AssemblyBuilder.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
 
@@ -223,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             TypeBuilder tb = mb.DefineType(
                 name: "MyNotificationActivator",
                 attr: TypeAttributes.Public,
-                parent: typeof(Internal.NotificationActivator),
+                parent: typeof(Internal.InternalNotificationActivator),
                 interfaces: new Type[0]);
 
             string clsid;
@@ -249,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #pragma warning disable CS0618 // Type or member is obsolete
                 con: typeof(ComSourceInterfacesAttribute).GetConstructor(new Type[] { typeof(Type) }),
 #pragma warning restore CS0618 // Type or member is obsolete
-                constructorArgs: new object[] { typeof(Internal.NotificationActivator.INotificationActivationCallback) }));
+                constructorArgs: new object[] { typeof(Internal.InternalNotificationActivator.INotificationActivationCallback) }));
 
             tb.SetCustomAttribute(new CustomAttributeBuilder(
                 con: typeof(ClassInterfaceAttribute).GetConstructor(new Type[] { typeof(ClassInterfaceType) }),
@@ -261,10 +257,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static string GetClsidFromPackageManifest()
         {
             var appxManifestPath = Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml");
-            XmlDocument doc = new XmlDocument();
+            var doc = new System.Xml.XmlDocument();
             doc.Load(appxManifestPath);
 
-            var namespaceManager = new XmlNamespaceManager(doc.NameTable);
+            var namespaceManager = new System.Xml.XmlNamespaceManager(doc.NameTable);
             namespaceManager.AddNamespace("default", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
             namespaceManager.AddNamespace("desktop", "http://schemas.microsoft.com/appx/manifest/desktop/windows10");
             namespaceManager.AddNamespace("com", "http://schemas.microsoft.com/appx/manifest/com/windows10");
@@ -408,7 +404,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     // Create the instance of the .NET object
                     ppvObject = Marshal.GetComInterfaceForObject(
                         Activator.CreateInstance(_activatorType),
-                        typeof(Internal.NotificationActivator.INotificationActivationCallback));
+                        typeof(Internal.InternalNotificationActivator.INotificationActivationCallback));
                 }
                 else
                 {
@@ -433,6 +429,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             uint dwClsContext,
             uint flags,
             out uint lpdwRegister);
+#endif
 
         /// <summary>
         /// Creates a toast notifier.
@@ -440,6 +437,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns><see cref="ToastNotifier"/></returns>
         public static ToastNotifier CreateToastNotifier()
         {
+#if WIN32
             if (_win32Aumid != null)
             {
                 // Non-Desktop Bridge
@@ -450,64 +448,41 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // Desktop Bridge
                 return ToastNotificationManager.CreateToastNotifier();
             }
+#else
+            return ToastNotificationManager.CreateToastNotifier();
+#endif
         }
 
         /// <summary>
-        /// Gets the <see cref="DesktopNotificationHistoryCompat"/> object.
+        /// Gets the <see cref="ToastNotificationHistoryCompat"/> object.
         /// </summary>
-        public static DesktopNotificationHistoryCompat History => new DesktopNotificationHistoryCompat(_win32Aumid);
-
-        /// <summary>
-        /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (MSIX or sparse package).
-        /// </summary>
-        public static bool CanUseHttpImages => DesktopBridgeHelpers.IsRunningAsUwp();
-
-        /// <summary>
-        /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/edit/master/DesktopBridge.Helpers/Helpers.cs
-        /// </summary>
-        private class DesktopBridgeHelpers
+        public static ToastNotificationHistoryCompat History
         {
-            private const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
-
-            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-            private static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
-
-            private static bool? _isRunningAsUwp;
-
-            public static bool IsRunningAsUwp()
+            get
             {
-                if (_isRunningAsUwp == null)
-                {
-                    if (IsWindows7OrLower)
-                    {
-                        _isRunningAsUwp = false;
-                    }
-                    else
-                    {
-                        int length = 0;
-                        var sb = new StringBuilder(0);
-                        GetCurrentPackageFullName(ref length, sb);
-
-                        sb = new StringBuilder(length);
-                        int error = GetCurrentPackageFullName(ref length, sb);
-
-                        _isRunningAsUwp = error != APPMODEL_ERROR_NO_PACKAGE;
-                    }
-                }
-
-                return _isRunningAsUwp.Value;
+#if WIN32
+                return new ToastNotificationHistoryCompat(_win32Aumid);
+#else
+                return new ToastNotificationHistoryCompat(null);
+#endif
             }
+        }
 
-            private static bool IsWindows7OrLower
+        /// <summary>
+        /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (UWP, MSIX, or sparse package).
+        /// </summary>
+        public static bool CanUseHttpImages
+        {
+            get
             {
-                get
-                {
-                    int versionMajor = Environment.OSVersion.Version.Major;
-                    int versionMinor = Environment.OSVersion.Version.Minor;
-                    double version = versionMajor + ((double)versionMinor / 10);
-                    return version <= 6.1;
-                }
+#if WIN32
+                return DesktopBridgeHelpers.IsRunningAsUwp();
+#else
+                return true;
+#endif
             }
         }
     }
 }
+
+#endif

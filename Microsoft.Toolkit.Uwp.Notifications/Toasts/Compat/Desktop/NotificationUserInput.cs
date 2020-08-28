@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WIN32
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,11 +18,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// <summary>
     /// Text and selection values that the user entered on your notification. The Key is the ID of the input, and the Value is what the user entered.
     /// </summary>
-    internal class NotificationUserInput : IReadOnlyDictionary<string, string>
+    public class NotificationUserInput : IReadOnlyDictionary<string, string>
     {
-        private Internal.NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] _data;
+#pragma warning disable CS0618 // Type or member is obsolete
+        private NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] _data;
+#pragma warning restore CS0618 // Type or member is obsolete
 
-        internal NotificationUserInput(Internal.NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data)
+#pragma warning disable CS0618 // Type or member is obsolete
+        internal NotificationUserInput(NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data)
+#pragma warning restore CS0618 // Type or member is obsolete
         {
             _data = data;
         }
@@ -93,3 +99,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+
+#endif
