@@ -4,7 +4,6 @@
 
 using System.Collections;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
