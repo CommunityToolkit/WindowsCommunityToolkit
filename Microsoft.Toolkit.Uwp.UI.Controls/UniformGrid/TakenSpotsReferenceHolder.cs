@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -55,6 +57,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => this.spotsTaken[(i * Width) + j];
             set => this.spotsTaken[(i * Width) + j] = value;
+        }
+
+        /// <summary>
+        /// Fills the specified area in the current grid with a given value.
+        /// If invalid coordinates are given, they will simply be ignored and no exception will be thrown.
+        /// </summary>
+        /// <param name="value">The value to fill the target area with.</param>
+        /// <param name="row">The row to start on (inclusive, 0-based index).</param>
+        /// <param name="column">The column to start on (inclusive, 0-based index).</param>
+        /// <param name="width">The positive width of area to fill.</param>
+        /// <param name="height">The positive height of area to fill.</param>
+        public void Fill(bool value, int row, int column, int width, int height)
+        {
+            Rectangle bounds = new Rectangle(0, 0, Width, Height);
+
+            // Precompute bounds to skip branching in main loop
+            bounds.Intersect(new Rectangle(column, row, width, height));
+
+            for (int i = bounds.Top; i < bounds.Bottom; i++)
+            {
+                for (int j = 0; j < bounds.Width; j++)
+                {
+                    this[i, j] = value;
+                }
+            }
         }
 
         /// <summary>

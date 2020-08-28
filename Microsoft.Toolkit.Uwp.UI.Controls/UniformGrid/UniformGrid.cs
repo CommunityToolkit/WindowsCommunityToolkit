@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class UniformGrid : Grid
     {
         // Guard for 15063 as Grid Spacing only works on 16299+.
-        private static bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.Grid", "ColumnSpacing");
+        private static readonly bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.Grid", "ColumnSpacing");
 
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
@@ -78,14 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     SetAutoLayout(child, false);
 
-                    // Fill the area covered by the current element
-                    for (int i = 0; i < rowspan; i++)
-                    {
-                        for (int j = 0; j < colspan; j++)
-                        {
-                            spotref[row + i, col + j] = true;
-                        }
-                    }
+                    spotref.Fill(true, row, col, colspan, rowspan);
                 }
             }
 
@@ -133,15 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (rowspan > 1 || colspan > 1)
                         {
                             // TODO: Need to tie this into iterator
-
-                            // Fill the covered area as above
-                            for (int i = 0; i < rowspan; i++)
-                            {
-                                for (int j = 0; j < colspan; j++)
-                                {
-                                    spotref[row + i, column + j] = true;
-                                }
-                            }
+                            spotref.Fill(true, row, column, colspan, rowspan);
                         }
                     }
                     else
