@@ -2,11 +2,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current" DefaultTargets="Build">
 
   <PropertyGroup>
-    <!-- <BuildPlatforms>x86;x64;ARM;ARM64</BuildPlatforms> -->
-    <!-- <BuildConfigurations>Debug;Release</BuildConfigurations> -->
     <BuildPlatforms>x86</BuildPlatforms>
     <BuildConfigurations>Release</BuildConfigurations>
-    <ToolkitPackages>Microsoft.Toolkit;Microsoft.Toolkit.HighPerformance;Microsoft.Toolkit.Parsers;Microsoft.Toolkit.Services;Microsoft.Toolkit.Uwp;Microsoft.Toolkit.Uwp.Connectivity;Microsoft.Toolkit.Uwp.DeveloperTools;Microsoft.Toolkit.Uwp.Input.GazeInteraction;Microsoft.Toolkit.Uwp.Notifications;Microsoft.Toolkit.Uwp.UI;Microsoft.Toolkit.Uwp.UI.Animations;Microsoft.Toolkit.Uwp.UI.Controls;Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;Microsoft.Toolkit.Uwp.UI.Controls.Layout;Microsoft.Toolkit.Uwp.UI.Media</ToolkitPackages>
+    <ToolkitPackages>Microsoft.Toolkit;Microsoft.Toolkit.HighPerformance;Microsoft.Toolkit.Parsers;Microsoft.Toolkit.Mvvm;Microsoft.Toolkit.Services;Microsoft.Toolkit.Uwp;Microsoft.Toolkit.Uwp.Connectivity;Microsoft.Toolkit.Uwp.DeveloperTools;Microsoft.Toolkit.Uwp.Input.GazeInteraction;Microsoft.Toolkit.Uwp.Notifications;Microsoft.Toolkit.Uwp.UI;Microsoft.Toolkit.Uwp.UI.Animations;Microsoft.Toolkit.Uwp.UI.Controls;Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;Microsoft.Toolkit.Uwp.UI.Controls.Layout;Microsoft.Toolkit.Uwp.UI.Media;Microsoft.Toolkit.Uwp.Services</ToolkitPackages>
   </PropertyGroup>
 
   <Target Name="Build" 
