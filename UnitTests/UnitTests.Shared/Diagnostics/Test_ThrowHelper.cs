@@ -36,6 +36,7 @@ namespace UnitTests.Diagnostics
         [DataRow(typeof(ArgumentException))]
         [DataRow(typeof(ArgumentNullException))]
         [DataRow(typeof(ArgumentOutOfRangeException))]
+        [DataRow(typeof(COMException))]
         [DataRow(typeof(ExternalException))]
         [DataRow(typeof(FormatException))]
         [DataRow(typeof(InsufficientMemoryException))]

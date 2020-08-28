@@ -202,6 +202,47 @@ namespace Microsoft.Toolkit.Diagnostics
 
 #if !NETSTANDARD1_4
         /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="COMException">Thrown with the specified parameter.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowCOMException<T>(string message)
+        {
+            throw new COMException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <param name="message">The argument name.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="COMException">Thrown with the specified parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowCOMException<T>(string message, Exception innerException)
+        {
+            throw new COMException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <param name="message">The argument name.</param>
+        /// <param name="error">The HRESULT of the errror to include.</param>
+        /// <exception cref="COMException">Thrown with the specified parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowCOMException<T>(string message, int error)
+        {
+            throw new COMException(message, error);
+        }
+
+        /// <summary>
         /// Throws a new <see cref="ExternalException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
