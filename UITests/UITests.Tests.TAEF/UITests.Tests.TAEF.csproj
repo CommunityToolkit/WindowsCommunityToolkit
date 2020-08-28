@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v2.1</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
+
+    <TaefRootDirectory>$(PkgTAEF_Redist_Wlk)\build\Binaries\x86\CoreClr\</TaefRootDirectory>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>$(DefineConstants);USING_TAEF</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="TE.Managed">
+      <HintPath>$(TaefRootDirectory)TE.Managed.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="TE.ManagedTestMode">
+      <HintPath>$(TaefRootDirectory)TE.ManagedTestMode.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Wex.Common.Managed">
+      <HintPath>$(TaefRootDirectory)Wex.Common.Managed.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Wex.Logger.Interop">
+      <HintPath>$(TaefRootDirectory)Wex.Logger.Interop.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.2" />
+    <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
+    <PackageReference Include="runtime.win-x86.microsoft.netcore.app" Version="2.1.0" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(Pkgruntime_win-x86_microsoft_netcore_app)\runtimes\win-x86\lib\netcoreapp2.1\*" Link=".NETCoreApp2.1\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(Pkgruntime_win-x86_microsoft_netcore_app)\runtimes\win-x86\native\*" Link=".NETCoreApp2.1\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" />
+</Project>
