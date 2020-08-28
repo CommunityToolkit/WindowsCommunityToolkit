@@ -22,9 +22,8 @@
     <AppxBundle>Never</AppxBundle>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>78851A63D7F5E9D97F416A5CE3FFAE6D1C38744F</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>UITests.App.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>24D62F3B13B8B9514EAD9C4DE48CC30F7CC6151D</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
@@ -168,7 +167,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="UITests.App_TemporaryKey.pfx" />
+    <None Include="UITests.App.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

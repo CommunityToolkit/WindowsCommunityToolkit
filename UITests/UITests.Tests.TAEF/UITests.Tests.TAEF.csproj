@@ -43,6 +43,7 @@
     <None Include="$(Pkgruntime_win-x86_microsoft_netcore_app)\runtimes\win-x86\native\*" Link=".NETCoreApp2.1\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 
     <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" />

@@ -17,7 +17,7 @@ namespace UITests.Tests
         [TestProperty("RunFixtureAs:Assembly", "ElevatedUserOrSystem")]
         public static void AssemblyInitialize(TestContext testContext)
         {
-            TestEnvironment.AssemblyInitialize(testContext);
+            TestEnvironment.AssemblyInitialize(testContext, "UITests.App.pfx");
         }
 
         [AssemblyCleanup]
