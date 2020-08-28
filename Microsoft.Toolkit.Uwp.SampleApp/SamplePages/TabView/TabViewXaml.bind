@@ -47,7 +47,7 @@
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Tab 2 Has Longer Text" Icon="Audio">
-        <TextBlock Padding="16">It has a lot of versitility out of the box for different scenarios.</TextBlock>
+        <TextBlock Padding="16">It has a lot of versatility out of the box for different scenarios.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Tab 3" Icon="Video">
         <TextBlock Padding="16">You can enable drag-and-drop and reorder the tabs too.</TextBlock>

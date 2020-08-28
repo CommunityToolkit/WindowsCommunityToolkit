@@ -292,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                 }
 
-                // Hide the Github button if there isn't a CodeUrl.
+                // Hide the GitHub button if there isn't a CodeUrl.
                 if (string.IsNullOrEmpty(CurrentSample.CodeUrl))
                 {
                     GithubButton.Visibility = Visibility.Collapsed;
