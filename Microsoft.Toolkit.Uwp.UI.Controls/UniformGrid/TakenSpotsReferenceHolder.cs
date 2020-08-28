@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             for (int i = bounds.Top; i < bounds.Bottom; i++)
             {
-                for (int j = 0; j < bounds.Width; j++)
+                for (int j = bounds.Left; j < bounds.Right; j++)
                 {
                     this[i, j] = value;
                 }
