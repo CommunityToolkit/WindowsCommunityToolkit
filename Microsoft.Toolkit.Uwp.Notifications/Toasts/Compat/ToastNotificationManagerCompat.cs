@@ -282,10 +282,24 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 throw new InvalidOperationException("Your app manifest must have a comServer extension with a class ID matching your toastNotificationActivator's CLSID.");
             }
 
-            var argumentsNode = comClassNode.ParentNode.Attributes.GetNamedItem("Arguments");
+            // Make sure they have a COM class registration matching their current process executable
+            var comExeServerNode = comClassNode.ParentNode;
+
+            var specifiedExeRelativePath = comExeServerNode.Attributes["Executable"].Value;
+            var specifiedExeFullPath = Path.Combine(Package.Current.InstalledLocation.Path, specifiedExeRelativePath);
+            var actualExeFullPath = Process.GetCurrentProcess().MainModule.FileName;
+
+            if (specifiedExeFullPath != actualExeFullPath)
+            {
+                var correctExeRelativePath = actualExeFullPath.Substring(Package.Current.InstalledLocation.Path.Length + 1);
+                throw new InvalidOperationException($"Your app manifest's comServer extension's Executable value is incorrect. It should be \"{correctExeRelativePath}\".");
+            }
+
+            // Make sure their arguments are set correctly
+            var argumentsNode = comExeServerNode.Attributes.GetNamedItem("Arguments");
             if (argumentsNode == null || argumentsNode.Value != "-ToastActivated")
             {
-                throw new InvalidOperationException("Your arguments on your comServer extension for toast activation must be set exactly to \"-ToastActivated\"");
+                throw new InvalidOperationException("Your app manifest's comServer extension for toast activation must have its Arguments set exactly to \"-ToastActivated\"");
             }
 
             return clsid;
