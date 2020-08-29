@@ -176,7 +176,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // TODO: Should actually do the following which is what Shell does...
             // They look for the AppResolver shortcut first and use that, otherwise they pull it from the EXE
 
-            // Temporarily we'll just use the process name
+            // If AssemblyTitle is set, use that
+            var assemblyTitleAttr = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyTitleAttribute>();
+            if (assemblyTitleAttr != null)
+            {
+                return assemblyTitleAttr.Title;
+            }
+
+            // Otherwise, fall back to process name
             return process.ProcessName;
         }
 
