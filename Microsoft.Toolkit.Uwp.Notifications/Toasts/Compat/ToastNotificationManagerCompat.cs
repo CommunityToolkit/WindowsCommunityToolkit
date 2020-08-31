@@ -515,10 +515,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
 #if WIN32
         /// <summary>
-        /// Call this when your app is being uninstalled to properly clean up all notifications and notification-related resources. Note that this must be called from your app's main EXE (the one that you used notifications for) and not a separate uninstall EXE.
+        /// If you're not using MSIX, call this when your app is being uninstalled to properly clean up all notifications and notification-related resources. Note that this must be called from your app's main EXE (the one that you used notifications for) and not a separate uninstall EXE. If called from a MSIX app, this method no-ops.
         /// </summary>
         public static void Uninstall()
         {
+            if (DesktopBridgeHelpers.IsRunningAsUwp())
+            {
+                // Packaged apps automatically clean everything up already
+                return;
+            }
 
             try
             {
