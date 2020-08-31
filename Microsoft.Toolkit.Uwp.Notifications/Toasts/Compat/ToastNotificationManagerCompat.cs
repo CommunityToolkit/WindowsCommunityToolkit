@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             try
             {
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DesktopNotificationManagerCompat", "Apps", _aumid, "Icon.png");
+                var path = Path.Combine(GetAppDataFolderPath(), "Icon.png");
 
                 // Ensure the directories exist
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -210,6 +210,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Gets the app data folder path within the ToastNotificationManagerCompat folder, used for storing icon assets and any additional data.
+        /// </summary>
+        /// <returns>Returns a string of the absolute folder path.</returns>
+        private static string GetAppDataFolderPath()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", _aumid);
         }
 
         private static Type CreateActivatorType(string aumid)
@@ -503,6 +512,65 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #endif
             }
         }
+
+#if WIN32
+        /// <summary>
+        /// Call this when your app is being uninstalled to properly clean up all notifications and notification-related resources. Note that this must be called from your app's main EXE (the one that you used notifications for) and not a separate uninstall EXE.
+        /// </summary>
+        public static void Uninstall()
+        {
+
+            try
+            {
+                // Remove all scheduled notifications (do this first before clearing current notifications)
+                var notifier = CreateToastNotifier();
+                foreach (var scheduled in CreateToastNotifier().GetScheduledToastNotifications())
+                {
+                    try
+                    {
+                        notifier.RemoveFromSchedule(scheduled);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Clear all current notifications
+                History.Clear();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Remove registry key
+                Registry.CurrentUser.DeleteSubKey(@"Software\Classes\AppUserModelId\" + _aumid);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Delete any of the app files
+                var appDataFolderPath = GetAppDataFolderPath();
+                if (Directory.Exists(appDataFolderPath))
+                {
+                    Directory.Delete(appDataFolderPath, recursive: true);
+                }
+            }
+            catch
+            {
+            }
+        }
+#endif
     }
 }
 

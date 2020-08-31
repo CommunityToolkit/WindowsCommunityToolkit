@@ -49,5 +49,11 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
             // And make sure to maximize the window too, in case it was currently minimized
             App.Current.Windows[0].WindowState = WindowState.Normal;
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            // If your app has an installer, you should call this when your app is uninstalled. Otherwise, if your app is a "portable app" and you no longer need notifications while the app is closed, you can call this upon exit.
+            ToastNotificationManagerCompat.Uninstall();
+        }
     }
 }
