@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             get => this.executionTask;
             private set
             {
-                if (SetPropertyAndNotifyOnCompletion(() => ref this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
+                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, () => this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
                 {
                     OnPropertyChanged(nameof(IsRunning));
                 }

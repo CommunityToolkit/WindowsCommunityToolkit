@@ -312,22 +312,26 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// public Task MyTask
         /// {
         ///     get => myTask;
-        ///     private set => SetAndNotifyOnCompletion(() => ref myTask, value);
+        ///     private set => SetAndNotifyOnCompletion(ref myTask, () => myTask, value);
         /// }
         /// </code>
         /// </summary>
         /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
-        /// <param name="fieldAccessor">The <see cref="FieldAccessor{T}"/> instance to access the backing field for the property.</param>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="fieldExpression">
+        /// An <see cref="Expression{TDelegate}"/> returning the field to update. This is needed to be
+        /// able to raise the <see cref="PropertyChanged"/> to notify the completion of the input task.
+        /// </param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current and new
-        /// value for the target property are the same. The return value being <see langword="true"/> only indicates that the
-        /// new value being assigned to field provided by <paramref name="fieldAccessor"/> is different than the previous one,
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current
+        /// and new value for the target property are the same. The return value being <see langword="true"/> only
+        /// indicates that the new value being assigned to <paramref name="field"/> is different than the previous one,
         /// and it does not mean the new <typeparamref name="TTask"/> instance passed as argument is in any particular state.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<TTask>(FieldAccessor<TTask?> fieldAccessor, TTask? newValue, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
             // We invoke the overload with a callback here to avoid code duplication, and simply pass an empty callback.
@@ -336,19 +340,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // instance. This will result in no further allocations after the first time this method is called for a given
             // generic type. We only pay the cost of the virtual call to the delegate, but this is not performance critical
             // code and that overhead would still be much lower than the rest of the method anyway, so that's fine.
-            return SetPropertyAndNotifyOnCompletion(fieldAccessor, newValue, _ => { }, propertyName);
+            return SetPropertyAndNotifyOnCompletion(ref field, fieldExpression, newValue, _ => { }, propertyName);
         }
 
         /// <summary>
         /// Compares the current and new values for a given field (which should be the backing
         /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
         /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
-        /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion{TTask}(FieldAccessor{TTask},TTask,string)"/>,
+        /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion{TTask}(ref TTask,Expression{Func{TTask}},TTask,string)"/>,
         /// with the difference being an extra <see cref="Action{T}"/> parameter with a callback being invoked
         /// either immediately, if the new task has already completed or is <see langword="null"/>, or upon completion.
         /// </summary>
         /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
-        /// <param name="fieldAccessor">The <see cref="FieldAccessor{T}"/> instance to access the backing field for the property.</param>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="fieldExpression">
+        /// An <see cref="Expression{TDelegate}"/> returning the field to update.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="callback">A callback to invoke to update the property value.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
@@ -357,12 +363,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<TTask>(FieldAccessor<TTask?> fieldAccessor, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
-            // Invoke the accessor once to get a field reference for the synchronous part
-            ref TTask? field = ref fieldAccessor();
-
             if (ReferenceEquals(field, newValue))
             {
                 return false;
@@ -393,6 +396,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return true;
             }
 
+            // Get the target field to set. This is needed because we can't
+            // capture the ref field in a closure (for the async method).
+            if (!((fieldExpression.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
+            {
+                ThrowArgumentExceptionForInvalidFieldExpression();
+
+                // This is never executed, as the method above always throws
+                return false;
+            }
+
             // We use a local async function here so that the main method can
             // remain synchronous and return a value that can be immediately
             // used by the caller. This mirrors Set<T>(ref T, T, string).
@@ -412,7 +425,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 {
                 }
 
-                TTask? currentTask = fieldAccessor();
+                TTask? currentTask = (TTask?)fieldInfo.GetValue(this);
 
                 // Only notify if the property hasn't changed
                 if (ReferenceEquals(newValue, currentTask))
@@ -429,18 +442,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// A custom <see langword="delegate"/> that returns a reference to a backing field to a property.
-        /// </summary>
-        /// <typeparam name="T">The type of reference to return.</typeparam>
-        /// <returns>A reference to the backing field of a property.</returns>
-        protected delegate ref T FieldAccessor<T>();
-
-        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property.
         /// </summary>
         private static void ThrowArgumentExceptionForInvalidPropertyExpression()
         {
             throw new ArgumentException("The given expression must be in the form () => MyModel.MyProperty");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property field.
+        /// </summary>
+        private static void ThrowArgumentExceptionForInvalidFieldExpression()
+        {
+            throw new ArgumentException("The given expression must be in the form () => field");
         }
     }
 }
