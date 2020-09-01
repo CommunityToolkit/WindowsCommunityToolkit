@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Triggers
 {
     /// <summary>
-    /// Trigger for switching UI based on whether the user favours their left or right hand.
+    /// Trigger for switching UI based on whether the user favors their left or right hand.
     /// </summary>
     public class UserHandPreferenceStateTrigger : StateTriggerBase
     {

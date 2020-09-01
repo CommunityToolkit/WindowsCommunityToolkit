@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 throw new ArgumentNullException("binding cannot be null");
             }
 
-            // If a text element already has an id with the line number (only look at immediate children, since the lockscreen will ignore things under groups/subgroups)
+            // If a text element already has an id with the line number (only look at immediate children, since the lock screen will ignore things under groups/subgroups)
             Element_AdaptiveText matchingIdTextElement = binding.Children.OfType<Element_AdaptiveText>().FirstOrDefault(i => i.Id != null && i.Id.Equals(lineNumber.ToString()));
 
             if (matchingIdTextElement != null)
