@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Adjust the selected item and range based on keyboard input.
-        /// This is used to override the listview behavious for up/down arrow manipulation vs left/right for a horizontal control
+        /// This is used to override the listview behaviors for up/down arrow manipulation vs left/right for a horizontal control
         /// </summary>
         /// <param name="direction">direction to move the selection</param>
         /// <returns>True if the focus was moved, false otherwise</returns>
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         SelectedIndex = index;
 
                         // This looks like a bug in the underlying ListViewBase control.
-                        // Might need to be reviewed if the base behaviour is fixed
+                        // Might need to be reviewed if the base behavior is fixed
                         // When two consecutive items are selected and the navigation moves between them,
                         // the first time that happens the old focused item is not unselected
                         if (SelectedItems.Count > 1)
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 this.SelectAllSafe();
 
-                // need to synchronize the select all and the focus behaviour on the text box
+                // need to synchronize the select all and the focus behavior on the text box
                 // because there is no way to identify that the focus has been set from this point
                 // to avoid instantly clearing the selection of tokens
                 PauseTokenClearOnFocus = true;

@@ -47,7 +47,7 @@ Once merged, you can get a pre-release package of the toolkit by adding this ([N
 
 ### <a name="docs"></a> Adding Documentation
 
-Documentation is **required** when adding, removing, or updating a control or an API. To update the documentation, you must submit a seperate Pull Request in the [documentation repository](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs) (use the *master* branch). **Both Pull Requests (code and docs) must be approved by the core team before either one is merged.**
+Documentation is **required** when adding, removing, or updating a control or an API. To update the documentation, you must submit a separate Pull Request in the [documentation repository](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs) (use the *master* branch). **Both Pull Requests (code and docs) must be approved by the core team before either one is merged.**
 
 Make sure to update both Pull Requests with a link to each other.
 
@@ -82,7 +82,7 @@ This is to help as part of our effort to build an accessible toolkit (starting w
 * DO declare static dependency properties at the top of their file.
 * DO NOT seal controls.
 * DO use extension methods over static methods where possible.
-* DO NOT return true or false to give sucess status. Throw exceptions if there was a failure.
+* DO NOT return true or false to give success status. Throw exceptions if there was a failure.
 * DO use verbs like GET.
 * DO NOT use verbs that are not already used like fetch.
 
