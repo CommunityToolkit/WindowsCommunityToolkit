@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         }
 
         /// <summary>
-        /// Called for Changes to Selction (Requires unhook if switching RichEditBox).
+        /// Called for Changes to Selection (Requires unhook if switching RichEditBox).
         /// </summary>
         /// <param name="sender">Editor</param>
         /// <param name="e">Args</param>

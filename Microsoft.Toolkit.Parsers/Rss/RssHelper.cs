@@ -13,7 +13,7 @@ using System.Xml.Linq;
 namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Class with utilities for Rss related works.
+    /// Class with utilities for RSS related works.
     /// </summary>
     internal static class RssHelper
     {
