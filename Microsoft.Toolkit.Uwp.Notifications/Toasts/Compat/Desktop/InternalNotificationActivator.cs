@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Internal
     /// <summary>
     /// Do not use this class. It must be public so that reflection can properly activate it, but consider it internal.
     /// </summary>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public abstract class InternalNotificationActivator : InternalNotificationActivator.INotificationActivationCallback
     {
         /// <inheritdoc/>
