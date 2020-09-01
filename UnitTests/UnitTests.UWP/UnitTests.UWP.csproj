@@ -176,6 +176,7 @@
     <Compile Include="PrivateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
+    <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_General.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_InterspersedCollection.cs" />
     <Compile Include="UI\Controls\Test_MasterDetailsView.cs" />
@@ -200,6 +201,10 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include=".editorconfig" />
+    <PRIResource Include="Strings\fr\Resources.resw" />
+    <PRIResource Include="Strings\en-us\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />
