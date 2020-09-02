@@ -221,12 +221,12 @@ namespace UnitTests.Mvvm
 
         public class SampleModelWithTask<T> : ObservableObject
         {
-            private Task<T> data;
+            private TaskAccessor<Task<T>> data;
 
             public Task<T> Data
             {
                 get => data;
-                set => SetPropertyAndNotifyOnCompletion(ref data, () => data, value);
+                set => SetPropertyAndNotifyOnCompletion(ref data, value);
             }
         }
     }

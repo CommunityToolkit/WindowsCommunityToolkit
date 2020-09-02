@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             this.canExecute = canExecute;
         }
 
-        private Task? executionTask;
+        private TaskAccessor<Task>? executionTask;
 
         /// <inheritdoc/>
         public Task? ExecutionTask
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             get => this.executionTask;
             private set
             {
-                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, () => this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
+                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
                 {
                     OnPropertyChanged(nameof(IsRunning));
                 }
