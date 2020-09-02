@@ -128,8 +128,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             // Create and register activator
-            var activatorType = CreateActivatorType(_aumid);
-            RegisterActivator(activatorType);
+            var activatorType = CreateAndRegisterActivator();
 
             // Otherwise, register via registry
             var currProcess = Process.GetCurrentProcess();
@@ -354,11 +353,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return guidS;
         }
 
-        private static void CreateAndRegisterActivator()
+        private static Type CreateAndRegisterActivator()
         {
             var activatorType = CreateActivatorType(_aumid);
             RegisterActivator(activatorType);
             _registeredOnActivated = true;
+            return activatorType;
         }
 
         private static void RegisterActivator(Type activatorType)
