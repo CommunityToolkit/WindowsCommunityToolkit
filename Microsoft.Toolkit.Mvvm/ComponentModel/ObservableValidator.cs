@@ -29,9 +29,15 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         public bool HasErrors => this.errors.Count > 0;
 
         /// <inheritdoc/>
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
         {
-            return this.errors[propertyName];
+            if (!(propertyName is null) &&
+                this.errors.TryGetValue(propertyName, out List<ValidationResult> errors))
+            {
+                return errors;
+            }
+
+            return null!;
         }
 
         /// <summary>
