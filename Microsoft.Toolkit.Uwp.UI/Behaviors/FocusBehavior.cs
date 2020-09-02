@@ -112,8 +112,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             }
         }
 
-        private void OnControlPropertyChanged(DependencyObject sender, DependencyProperty dp) => ApplyFocus();
-
         private void OnEngagementTimerTick(object sender, object e)
         {
             ApplyFocus();

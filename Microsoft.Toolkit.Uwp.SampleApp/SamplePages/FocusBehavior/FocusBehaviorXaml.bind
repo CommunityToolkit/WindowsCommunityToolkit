@@ -8,9 +8,9 @@
 
   <interactivity:Interaction.Behaviors>
     <behaviors:FocusBehavior>
-      <behaviors:FocusTarget Control="{Binding ElementName=disabledItem}" />
-      <behaviors:FocusTarget Control="{Binding ElementName=emptyList}" />
-      <behaviors:FocusTarget Control="{Binding ElementName=enabledItem}" />
+      <behaviors:FocusTarget Control="{x:Bind disabledItem}" />
+      <behaviors:FocusTarget Control="{x:Bind emptyList}" />
+      <behaviors:FocusTarget Control="{x:Bind enabledItem}" />
     </behaviors:FocusBehavior>
   </interactivity:Interaction.Behaviors>
 
