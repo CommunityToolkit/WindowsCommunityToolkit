@@ -47,13 +47,15 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 ThrowArgumentNullExceptionForNullPropertyName();
             }
 
+            bool errorsChanged = false;
+
             // Clear the errors for the specified property, if any
             if (this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors) &&
                 propertyErrors.Count > 0)
             {
                 propertyErrors.Clear();
 
-                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+                errorsChanged = true;
             }
 
             List<ValidationResult> results = new List<ValidationResult>();
@@ -78,6 +80,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                     propertyErrors.AddRange(results);
                 }
 
+                errorsChanged = true;
+            }
+
+            // Only raise the event once if needed. This happens either when the target property
+            // had existing errors and is now valid, or if the validation has failed and there are
+            // new errors to broadcast, regardless of the previous validation state for the property.
+            if (errorsChanged)
+            {
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             }
         }
