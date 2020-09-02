@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />
   </ItemGroup>
 
   <ItemGroup>

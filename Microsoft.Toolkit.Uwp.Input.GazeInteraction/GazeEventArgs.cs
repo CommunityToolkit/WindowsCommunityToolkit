@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
@@ -10,22 +11,17 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
     /// <summary>
     /// EventArgs used to send Gaze events. See <see cref="GazePointer.GazeEvent"/>
     /// </summary>
-    public class GazeEventArgs
+    public sealed class GazeEventArgs : HandledEventArgs
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the application handled the event. If this parameter is set to true, the library prevents handling the events on that particular gaze event.
+        /// Gets the location of the Gaze event
         /// </summary>
-        public bool Handled { get; set; }
+        public Point Location { get; private set; }
 
         /// <summary>
-        /// Gets or sets the location of the Gaze event
+        /// Gets the timestamp of the gaze event
         /// </summary>
-        public Point Location { get; set; }
-
-        /// <summary>
-        /// Gets or sets the timestamp of the gaze event
-        /// </summary>
-        public TimeSpan Timestamp { get; set; }
+        public TimeSpan Timestamp { get; private set; }
 
         internal void Set(Point location, TimeSpan timestamp)
         {

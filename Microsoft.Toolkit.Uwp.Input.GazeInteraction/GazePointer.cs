@@ -60,50 +60,42 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             Filter.LoadSettings(settings);
 
             // TODO Add logic to protect against missing settings
-            if (settings.ContainsKey("GazePointer.FixationDelay"))
+            if (settings.TryGetValue("GazePointer.FixationDelay", out var fixationDelay))
             {
-                _defaultFixation = new TimeSpan((int)settings["GazePointer.FixationDelay"] * 10);
+                _defaultFixation = new TimeSpan((int)fixationDelay * 10);
+                SetElementStateDelay(_offScreenElement, PointerState.Fixation, new TimeSpan((int)fixationDelay * 10));
             }
 
-            if (settings.ContainsKey("GazePointer.DwellDelay"))
+            if (settings.TryGetValue("GazePointer.DwellDelay", out var dwellDelay))
             {
-                _defaultDwell = new TimeSpan((int)settings["GazePointer.DwellDelay"] * 10);
+                _defaultDwell = new TimeSpan((int)dwellDelay * 10);
+                SetElementStateDelay(_offScreenElement, PointerState.Dwell, new TimeSpan((int)dwellDelay * 10));
             }
 
-            if (settings.ContainsKey("GazePointer.DwellRepeatDelay"))
+            if (settings.TryGetValue("GazePointer.DwellRepeatDelay", out var dwellRepeatDelay))
             {
-                _defaultDwellRepeatDelay = new TimeSpan((int)settings["GazePointer.DwellRepeatDelay"] * 10);
+                _defaultDwellRepeatDelay = new TimeSpan((int)dwellRepeatDelay * 10);
             }
 
-            if (settings.ContainsKey("GazePointer.RepeatDelay"))
+            if (settings.TryGetValue("GazePointer.RepeatDelay", out var repeatDelay))
             {
-                _defaultRepeatDelay = new TimeSpan((int)settings["GazePointer.RepeatDelay"] * 10);
+                _defaultRepeatDelay = new TimeSpan((int)repeatDelay * 10);
             }
 
-            if (settings.ContainsKey("GazePointer.ThresholdDelay"))
+            if (settings.TryGetValue("GazePointer.ThresholdDelay", out var thresholdDelay))
             {
-                _defaultThreshold = new TimeSpan((int)settings["GazePointer.ThresholdDelay"] * 10);
+                _defaultThreshold = new TimeSpan((int)thresholdDelay * 10);
             }
 
             // TODO need to set fixation and dwell for all elements
-            if (settings.ContainsKey("GazePointer.FixationDelay"))
+            if (settings.TryGetValue("GazePointer.GazeIdleTime", out var gazeIdleTime))
             {
-                SetElementStateDelay(_offScreenElement, PointerState.Fixation, new TimeSpan((int)settings["GazePointer.FixationDelay"] * 10));
+                EyesOffDelay = new TimeSpan((int)gazeIdleTime * 10);
             }
 
-            if (settings.ContainsKey("GazePointer.DwellDelay"))
+            if (settings.TryGetValue("GazePointer.IsSwitchEnabled", out var isSwitchEnabled))
             {
-                SetElementStateDelay(_offScreenElement, PointerState.Dwell, new TimeSpan((int)settings["GazePointer.DwellDelay"] * 10));
-            }
-
-            if (settings.ContainsKey("GazePointer.GazeIdleTime"))
-            {
-                EyesOffDelay = new TimeSpan((int)settings["GazePointer.GazeIdleTime"] * 10);
-            }
-
-            if (settings.ContainsKey("GazePointer.IsSwitchEnabled"))
-            {
-                IsSwitchEnabled = (bool)settings["GazePointer.IsSwitchEnabled"];
+                IsSwitchEnabled = (bool)isSwitchEnabled;
             }
         }
 
@@ -671,17 +663,16 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             var gpea = new StateChangedEventArgs(control, state, elapsedTime);
 
             /*
-             * var buttonObj = dynamic_cast<Button >(target);
-             * if (buttonObj && buttonObj.Content)
+             * if (control is Button buttonObj && buttonObj.Content != null)
              * {
-             *     String buttonText = dynamic_cast<String>(buttonObj.Content);
-             *     Debug.WriteLine("GPE: %s . %s, %d", buttonText, PointerStates[(int)state], elapsedTime);
+             *     var buttonText = buttonObj.Content as string;
+             *     Debug.WriteLine("GPE: {0} . {1}, {2}", buttonText, PointerStates[(int)state], elapsedTime);
              * }
              * else
              * {
              *     Debug.WriteLine("GPE: 0x%08x . %s, %d", target != null ? target.GetHashCode() : 0, PointerStates[(int)state], elapsedTime);
              * }
-            */
+             */
 
             var gazeElement = target != null ? GazeInput.GetGazeElement(control) : null;
 

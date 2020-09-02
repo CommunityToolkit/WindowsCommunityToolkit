@@ -145,7 +145,17 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             }
             else if (isOpen)
             {
-                var topmost = VisualTreeHelper.GetOpenPopups(Window.Current).First();
+                Popup topmost;
+
+                if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && _gazePopup.XamlRoot != null)
+                {
+                    topmost = VisualTreeHelper.GetOpenPopupsForXamlRoot(_gazePopup.XamlRoot).First();
+                }
+                else
+                {
+                    topmost = VisualTreeHelper.GetOpenPopups(Window.Current).First();
+                }
+
                 if (_gazePopup != topmost)
                 {
                     _gazePopup.IsOpen = false;

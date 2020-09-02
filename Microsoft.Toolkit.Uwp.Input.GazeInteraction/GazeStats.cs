@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
     /// <summary>
     /// Provides basic stats for eye gaze
     /// </summary>
-    public class GazeStats
+    internal class GazeStats
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GazeStats"/> class.
@@ -70,6 +70,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             get
             {
                 var count = _history.Count;
+                if (count < _maxHistoryLen)
+                {
+                    return new Point(0.0f, 0.0f);
+                }
+
                 return new Point((float)_sumX / count, (float)_sumY / count);
             }
         }

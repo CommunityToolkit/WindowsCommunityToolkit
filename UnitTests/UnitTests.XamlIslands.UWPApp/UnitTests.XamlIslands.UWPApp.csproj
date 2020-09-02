@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="XamlIslandsTest_TokenizingTextBox.cs" />
     <Compile Include="XamlIslandsTest_TextToolbar.cs" />
+    <Compile Include="XamlIslandsTest_Gaze.cs" />
     <Compile Include="XamlIslandsTest_WrapPanel.cs" />
     <Compile Include="XamlIslandsTest_DropShadowPanel.cs" />
     <Compile Include="XamlIslandsTest_Eyedropper.cs" />
@@ -169,7 +170,7 @@
       <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Win32.UI.XamlApplication">
-      <Version>6.0.0</Version>
+      <Version>6.1.2</Version>
     </PackageReference>
     <!-- Ignored for now, until it supports Xaml Islands
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -181,6 +182,10 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
       <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj">
+      <Project>{5bf75694-798a-43a0-8150-415de195359c}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
