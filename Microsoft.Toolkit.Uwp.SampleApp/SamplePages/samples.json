@@ -875,11 +875,31 @@
         "Type": "ViewportBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior for listening element enter or exit viewport",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ViewportBehavior",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors",
         "CodeFile": "ViewportBehaviorCode.bind",
         "XamlCodeFile": "ViewportBehaviorXaml.bind",
         "Icon": "/SamplePages/ViewportBehavior/ViewportBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ViewportBehavior.md"
+      },
+      {
+        "Name": "AutoFocusBehavior",
+        "Type": "AutoFocusBehaviorPage",
+        "Subcategory": "Systems",
+        "About": "Behavior to automatically set the focus on a control when it loads",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "XamlCodeFile": "AutoFocusBehaviorXaml.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoFocusBehavior.md"
+      },
+      {
+        "Name": "FocusBehavior",
+        "Type": "FocusBehaviorPage",
+        "Subcategory": "Systems",
+        "About": "Behavior to automatically set the focus on the first control which accepts it",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "XamlCodeFile": "FocusBehaviorXaml.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehavior.md"
       },
       {
         "Name": "Markdown Parser",
