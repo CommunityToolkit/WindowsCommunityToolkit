@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             typeof(FocusBehavior),
             new PropertyMetadata(null, OnTargetsPropertyChanged));
 
-
         /// <summary>
         /// The DP to store the <see cref="FocusEngagementTimeout"/> property value.
         /// </summary>
