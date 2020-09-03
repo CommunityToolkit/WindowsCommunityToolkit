@@ -136,7 +136,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, propertyName);
+            // We avoid calling the overload again to ensure the comparison is inlined
+            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            {
+                return false;
+            }
+
+            OnPropertyChanging(propertyName);
+
+            callback(newValue);
+
+            OnPropertyChanged(propertyName);
+
+            return true;
         }
 
         /// <summary>
