@@ -3,8 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -63,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
         /// <param name="activationType">Set the activation type that will be used when the user click on this toast</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddToastActivationInfo(string launchArgs, ToastActivationType activationType)
+        public ToastContentBuilder AddToastActivationInfo(string launchArgs, ToastActivationType activationType = ToastActivationType.Foreground)
         {
             Content.Launch = launchArgs;
             Content.ActivationType = activationType;
@@ -124,6 +122,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Set custom audio to go along with the toast.
+        /// </summary>
+        /// <param name="audio">The <see cref="ToastAudio"/> to set.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddAudio(ToastAudio audio)
+        {
+            Content.Audio = audio;
+            return this;
+        }
+
+        /// <summary>
         /// Get the instance of <see cref="ToastContent"/> that has been built by the builder with specified configuration so far.
         /// </summary>
         /// <returns>An instance of <see cref="ToastContent"/> that can be used to create tile notification.</returns>
@@ -131,6 +140,42 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             return Content;
         }
+
+#if WINDOWS_UWP
+        /// <summary>
+        /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Toast notification's constructor on either <see cref="Windows.UI.Notifications.ToastNotification"/> or <see cref="Windows.UI.Notifications.ScheduledToastNotification"/>.
+        /// </summary>
+        /// <returns>The notification XML content as a WinRT XmlDocument.</returns>
+        public Windows.Data.Xml.Dom.XmlDocument GetXml()
+        {
+            return GetToastContent().GetXml();
+        }
+
+        /// <summary>
+        /// Shows a new toast notification with the current content.
+        /// </summary>
+        /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ToastNotification"/> object.</param>
+        public void Show(Action<Windows.UI.Notifications.ToastNotification> customize = null)
+        {
+            var notif = new Windows.UI.Notifications.ToastNotification(GetToastContent().GetXml());
+            customize?.Invoke(notif);
+
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(notif);
+        }
+
+        /// <summary>
+        /// Schedules the notification.
+        /// </summary>
+        /// <param name="deliveryTime">The date and time that Windows should display the toast notification. This time must be in the future.</param>
+        /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ScheduledToastNotification"/> object.</param>
+        public void Schedule(DateTimeOffset deliveryTime, Action<Windows.UI.Notifications.ScheduledToastNotification> customize = null)
+        {
+            var notif = new Windows.UI.Notifications.ScheduledToastNotification(GetToastContent().GetXml(), deliveryTime);
+            customize?.Invoke(notif);
+
+            ToastNotificationManagerCompat.CreateToastNotifier().AddToSchedule(notif);
+        }
+#endif
     }
 
 #endif
