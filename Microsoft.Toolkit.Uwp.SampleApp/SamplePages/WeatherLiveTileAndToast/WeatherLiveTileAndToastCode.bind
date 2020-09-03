@@ -1,40 +1,10 @@
 private void PopToast()
 {
-    // Generate the toast notification content and pop the toast
-    ToastContent content = GenerateToastContent();
-    ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
-}
-
-private async void PinTile()
-{
-    SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString())
-    {
-        DisplayName = "WeatherSample",
-        Arguments = "args"
-    };
-    tile.VisualElements.ShowNameOnSquare150x150Logo = true;
-    tile.VisualElements.ShowNameOnSquare310x310Logo = true;
-    tile.VisualElements.ShowNameOnWide310x150Logo = true;
-    tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
-    tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
-    tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
-
-    if (!await tile.RequestCreateAsync())
-    {
-        return;
-    }
-    
-    // Generate the tile notification content and update the tile
-    TileContent content = GenerateTileContent();
-    TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
-}
-
-public static ToastContent GenerateToastContent()
-{        
+    // Generate the toast notification content
     ToastContentBuilder builder = new ToastContentBuilder();        
 
     // Include launch string so we know what to open when user clicks toast        
-    builder.AddToastActivationInfo("action=viewForecast&zip=98008", ToastActivationType.Foreground);        
+    builder.AddToastActivationInfo("action=viewForecast&zip=98008");        
 
     // We'll always have this summary text on our toast notification        
     // (it is required that your toast starts with a text element)        
@@ -68,8 +38,33 @@ public static ToastContent GenerateToastContent()
     // Set the base URI for the images, so we don't redundantly specify the entire path        
     builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);        
 
-    return builder.Content;        
-}        
+    // Show the toast
+    builder.Show();
+}
+
+private async void PinTile()
+{
+    SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString())
+    {
+        DisplayName = "WeatherSample",
+        Arguments = "args"
+    };
+    tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+    tile.VisualElements.ShowNameOnSquare310x310Logo = true;
+    tile.VisualElements.ShowNameOnWide310x150Logo = true;
+    tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
+    tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
+    tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
+
+    if (!await tile.RequestCreateAsync())
+    {
+        return;
+    }
+    
+    // Generate the tile notification content and update the tile
+    TileContent content = GenerateTileContent();
+    TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
+}
 
 public static TileContent GenerateTileContent()
 {        
