@@ -65,6 +65,22 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void AddToastActivationInfoDefaultTest_WithExpectedArgs_ReturnSelfWithActivationInfoAdded()
+        {
+            // Arrange
+            string testToastLaunchArugments = "Test Toast Launch Args";
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddToastActivationInfo(testToastLaunchArugments);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreEqual(testToastLaunchArugments, builder.Content.Launch);
+            Assert.AreEqual(ToastActivationType.Foreground, builder.Content.ActivationType);
+        }
+
+        [TestMethod]
         public void SetToastDurationTest_WithCustomToastDuration_ReturnSelfWithCustomToastDurationSet()
         {
             // Arrange
@@ -126,6 +142,24 @@ namespace UnitTests.Notifications
             Assert.AreEqual(testAudioUriSrc.OriginalString, builder.Content.Audio.Src.OriginalString);
             Assert.AreEqual(testToastAudioLoop, builder.Content.Audio.Loop);
             Assert.AreEqual(testToastAudioSilent, builder.Content.Audio.Silent);
+        }
+
+        [TestMethod]
+        public void AddAudioTest_WithAudioObject_ReturnSelfWithCustomAudioAdded()
+        {
+            // Arrange
+            var audio = new ToastAudio()
+            {
+                Silent = true
+            };
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddAudio(audio);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreSame(audio, builder.Content.Audio);
         }
 
         [TestMethod]
