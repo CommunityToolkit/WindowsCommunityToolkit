@@ -123,6 +123,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// This overload is much less efficient than <see cref="SetProperty{T}(ref T,T,string)"/> and it
         /// should only be used when the former is not viable (eg. when the target property being
         /// updated does not directly expose a backing field that can be passed by reference).
+        /// For performance reasons, it is recommended to use a stateful callback if possible through
+        /// the <see cref="SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string?)"/> whenever possible
+        /// instead of this overload, as that will allow the C# compiler to cache the input callback and
+        /// reduce the memory allocations. More info on that overload are available in the related XML
+        /// docs. This overload is here for completeness and in cases where that is not applicable.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="oldValue">The current property value.</param>
@@ -209,33 +214,43 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         ///     public string Name
         ///     {
         ///         get => Model.Name;
-        ///         set => Set(() => Model.Name, value);
+        ///         set => Set(Model.Name, value, Model, (model, name) => model.Name = name);
         ///     }
         /// }
         /// </code>
         /// This way we can then use the wrapping object in our application, and all those "proxy" properties will
         /// also raise notifications when changed. Note that this method is not meant to be a replacement for
-        /// <see cref="SetProperty{T}(ref T,T,string)"/>, which offers better performance and less memory usage. Only use this
-        /// overload when relaying properties to a model that doesn't support notifications, and only if you can't
-        /// implement notifications to that model directly (eg. by having it inherit from <see cref="ObservableObject"/>).
+        /// <see cref="SetProperty{T}(ref T,T,string)"/>, and it should only be used when relaying properties to a model that
+        /// doesn't support notifications, and only if you can't implement notifications to that model directly (eg. by having
+        /// it inherit from <see cref="ObservableObject"/>). The syntax relies on passing the target model and a stateless callback
+        /// to allow the C# compiler to cache the function, which results in much better performance and no memory usage.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same. Additionally, <paramref name="propertyExpression"/>
-        /// must return a property from a model that is stored as another property in the current instance.
-        /// This method only supports one level of indirection: <paramref name="propertyExpression"/> can only
-        /// be used to access properties of a model that is directly stored as a property of the current instance.
-        /// Additionally, this method can only be used if the wrapped item is a reference type.
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not
+        /// raised if the current and new value for the target property are the same.
         /// </remarks>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, out _, propertyName);
+            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            {
+                return false;
+            }
+
+            OnPropertyChanging(propertyName);
+
+            callback(model, newValue);
+
+            OnPropertyChanged(propertyName);
+
+            return true;
         }
 
         /// <summary>
@@ -243,58 +258,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// raises the <see cref="PropertyChanging"/> event, updates the property and then raises the
         /// <see cref="PropertyChanged"/> event. The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>,
         /// with the difference being that this method is used to relay properties from a wrapped model in the
-        /// current instance. See additional notes about this overload in <see cref="SetProperty{T}(Expression{Func{T}},T,string)"/>.
+        /// current instance. See additional notes about this overload in <see cref="SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(propertyExpression, newValue, comparer, out _, propertyName);
-        }
-
-        /// <summary>
-        /// Implements the shared logic for <see cref="SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>
-        /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
-        /// <param name="newValue">The property's value after the change occurred.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
-        /// <param name="oldValue">The resulting initial value for the target property.</param>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
-        private protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, out T oldValue, [CallerMemberName] string? propertyName = null)
-        {
-            PropertyInfo? parentPropertyInfo;
-            FieldInfo? parentFieldInfo = null;
-
-            // Get the target property info
-            if (!(propertyExpression.Body is MemberExpression targetExpression &&
-                  targetExpression.Member is PropertyInfo targetPropertyInfo &&
-                  targetExpression.Expression is MemberExpression parentExpression &&
-                  (!((parentPropertyInfo = parentExpression.Member as PropertyInfo) is null) ||
-                   !((parentFieldInfo = parentExpression.Member as FieldInfo) is null)) &&
-                  parentExpression.Expression is ConstantExpression instanceExpression &&
-                  instanceExpression.Value is object instance))
-            {
-                ThrowArgumentExceptionForInvalidPropertyExpression();
-
-                // This is never executed, as the method above always throws
-                oldValue = default!;
-
-                return false;
-            }
-
-            object parent = parentPropertyInfo is null
-                ? parentFieldInfo!.GetValue(instance)
-                : parentPropertyInfo.GetValue(instance);
-            oldValue = (T)targetPropertyInfo.GetValue(parent);
-
             if (comparer.Equals(oldValue, newValue))
             {
                 return false;
@@ -302,7 +278,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             OnPropertyChanging(propertyName);
 
-            targetPropertyInfo.SetValue(parent, newValue);
+            callback(model, newValue);
 
             OnPropertyChanged(propertyName);
 
@@ -451,14 +427,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             MonitorTask();
 
             return true;
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property.
-        /// </summary>
-        private static void ThrowArgumentExceptionForInvalidPropertyExpression()
-        {
-            throw new ArgumentException("The given expression must be in the form () => MyModel.MyProperty");
         }
 
         /// <summary>

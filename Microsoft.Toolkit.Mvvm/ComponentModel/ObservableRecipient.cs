@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -237,42 +236,46 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Compares the current and new values for a given nested property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
         /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>, with the difference being that this
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>, with the difference being that this
         /// method is used to relay properties from a wrapped model in the current instance. For more info, see the docs for
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>.
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel,T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, model, callback, broadcast, propertyName);
         }
 
         /// <summary>
         /// Compares the current and new values for a given nested property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
         /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>,
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,IEqualityComparer{T},TModel,Action{TModel,T},string)"/>,
         /// with the difference being that this method is used to relay properties from a wrapped model in the
         /// current instance. For more info, see the docs for
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>.
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,IEqualityComparer{T},TModel,Action{TModel,T},string)"/>.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="propertyExpression"/> is not valid.</exception>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            bool propertyChanged = SetProperty(propertyExpression, newValue, comparer, out T oldValue, propertyName);
+            bool propertyChanged = SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
 
             if (propertyChanged && broadcast)
             {

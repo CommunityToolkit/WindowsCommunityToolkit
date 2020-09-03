@@ -114,7 +114,7 @@ namespace UnitTests.Mvvm
             public string Name
             {
                 get => Person.Name;
-                set => SetProperty(() => Person.Name, value);
+                set => SetProperty(Person.Name, value, Person, (person, name) => person.Name = name);
             }
         }
 
@@ -164,7 +164,7 @@ namespace UnitTests.Mvvm
             public string Name
             {
                 get => this.person.Name;
-                set => SetProperty(() => this.person.Name, value);
+                set => SetProperty(this.person.Name, value, this.person, (person, name) => person.Name = name);
             }
         }
 
