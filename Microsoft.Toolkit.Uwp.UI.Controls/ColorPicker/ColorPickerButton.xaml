@@ -3,7 +3,7 @@
                     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerButtonConverters"
+                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
 
     <!-- The XAML compiler has a serious bug that doesn't allow using conditional XAML on Setters...
@@ -41,183 +41,6 @@
                             </SolidColorBrush>
                             <SolidColorBrush x:Name="CheckerColorBrush"
                                              Color="{ThemeResource SystemListLowColor}" />
-                            <Style x:Key="ColorPickerButtonSliderStyle"
-                                   TargetType="controls:ColorPickerButtonSlider">
-                                <Setter Property="VerticalAlignment"
-                                        Value="Center" />
-                                <Setter Property="IsThumbToolTipEnabled"
-                                        Value="False" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <!-- Based on WinUI version 2.4.2 -->
-                                        <ControlTemplate TargetType="controls:ColorPickerButtonSlider">
-                                            <Grid Margin="{TemplateBinding Padding}">
-                                                <Grid.Resources>
-                                                    <Style TargetType="Thumb"
-                                                           x:Key="SliderThumbStyle">
-                                                        <Setter Property="BorderThickness"
-                                                                Value="3" />
-                                                        <Setter Property="Background"
-                                                                Value="Transparent" />
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="Thumb">
-                                                                    <Border Background="{TemplateBinding Background}"
-                                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                                            CornerRadius="{ThemeResource SliderThumbCornerRadius}" />
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </Grid.Resources>
-
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup x:Name="CommonStates">
-                                                        <VisualState x:Name="Normal" />
-
-                                                        <!-- The Pressed state is purposely the same as normal.
-                                                             This ensures that the thumb always has the correct contrast with 
-                                                             the selected color underneath it when dragging or moving. -->
-                                                        <VisualState x:Name="Pressed" />
-
-                                                        <VisualState x:Name="Disabled">
-                                                            <VisualState.Setters>
-                                                                <Setter Target="HorizontalThumb.BorderBrush"
-                                                                        Value="{ThemeResource SliderThumbBackgroundDisabled}" />
-                                                                <Setter Target="VerticalThumb.BorderBrush"
-                                                                        Value="{ThemeResource SliderThumbBackgroundDisabled}" />
-                                                                <Setter Target="SliderContainer.Background"
-                                                                        Value="{ThemeResource SliderContainerBackgroundDisabled}" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-
-                                                        <VisualState x:Name="PointerOver">
-                                                            <VisualState.Setters>
-                                                                <Setter Target="HorizontalThumb.BorderBrush"
-                                                                        Value="{ThemeResource SliderThumbBackgroundPointerOver}" />
-                                                                <Setter Target="VerticalThumb.BorderBrush"
-                                                                        Value="{ThemeResource SliderThumbBackgroundPointerOver}" />
-                                                                <Setter Target="SliderContainer.Background"
-                                                                        Value="{ThemeResource SliderContainerBackgroundPointerOver}" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-
-                                                    </VisualStateGroup>
-                                                    <VisualStateGroup x:Name="FocusEngagementStates">
-                                                        <VisualState x:Name="FocusDisengaged" />
-                                                        <VisualState x:Name="FocusEngagedHorizontal">
-                                                            <VisualState.Setters>
-                                                                <Setter Target="SliderContainer.(Control.IsTemplateFocusTarget)"
-                                                                        Value="False" />
-                                                                <Setter Target="HorizontalThumb.(Control.IsTemplateFocusTarget)"
-                                                                        Value="True" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-                                                        <VisualState x:Name="FocusEngagedVertical">
-                                                            <VisualState.Setters>
-                                                                <Setter Target="SliderContainer.(Control.IsTemplateFocusTarget)"
-                                                                        Value="False" />
-                                                                <Setter Target="VerticalThumb.(Control.IsTemplateFocusTarget)"
-                                                                        Value="True" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-
-                                                    </VisualStateGroup>
-
-                                                </VisualStateManager.VisualStateGroups>
-
-                                                <Grid x:Name="SliderContainer"
-                                                      Background="{ThemeResource SliderContainerBackground}"
-                                                      Control.IsTemplateFocusTarget="True">
-                                                    <Grid x:Name="HorizontalTemplate"
-                                                          MinHeight="20">
-
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="*" />
-                                                        </Grid.ColumnDefinitions>
-
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="0" />
-                                                            <RowDefinition Height="*" />
-                                                            <RowDefinition Height="0" />
-                                                        </Grid.RowDefinitions>
-
-                                                        <Rectangle x:Name="HorizontalTrackRect"
-                                                                   Fill="{TemplateBinding Background}"
-                                                                   Height="20"
-                                                                   Grid.Row="1"
-                                                                   Grid.ColumnSpan="3"
-                                                                   RadiusX="10"
-                                                                   RadiusY="10" />
-                                                        <Rectangle x:Name="HorizontalDecreaseRect"
-                                                                   Fill="Transparent"
-                                                                   Grid.Row="1"
-                                                                   RadiusX="8"
-                                                                   RadiusY="8" />
-                                                        <Thumb x:Name="HorizontalThumb"
-                                                               Style="{StaticResource SliderThumbStyle}"
-                                                               DataContext="{TemplateBinding Value}"
-                                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                                               Height="20"
-                                                               Width="20"
-                                                               contract7Present:CornerRadius="10"
-                                                               Grid.Row="0"
-                                                               Grid.RowSpan="3"
-                                                               Grid.Column="1"
-                                                               FocusVisualMargin="-14,-6,-14,-6"
-                                                               AutomationProperties.AccessibilityView="Raw" />
-                                                    </Grid>
-                                                    <Grid x:Name="VerticalTemplate"
-                                                          MinWidth="20"
-                                                          Visibility="Collapsed">
-
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*" />
-                                                            <RowDefinition Height="Auto" />
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="0" />
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="0" />
-                                                        </Grid.ColumnDefinitions>
-
-                                                        <Rectangle x:Name="VerticalTrackRect"
-                                                                   Fill="{TemplateBinding Background}"
-                                                                   Width="20"
-                                                                   Grid.Column="1"
-                                                                   Grid.RowSpan="3"
-                                                                   RadiusX="10"
-                                                                   RadiusY="10" />
-                                                        <Rectangle x:Name="VerticalDecreaseRect"
-                                                                   Fill="Transparent"
-                                                                   Grid.Column="1"
-                                                                   Grid.Row="2"
-                                                                   RadiusX="8"
-                                                                   RadiusY="8" />
-                                                        <Thumb x:Name="VerticalThumb"
-                                                               Style="{StaticResource SliderThumbStyle}"
-                                                               DataContext="{TemplateBinding Value}"
-                                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                                               Height="20"
-                                                               Width="20"
-                                                               contract7Present:CornerRadius="10"
-                                                               Grid.Row="1"
-                                                               Grid.Column="0"
-                                                               Grid.ColumnSpan="3"
-                                                               FocusVisualMargin="-6,-14,-6,-14"
-                                                               AutomationProperties.AccessibilityView="Raw" />
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
                             <contract7NotPresent:Style TargetType="TextBox"
                                                        x:Key="InputTextBoxStyle">
                                 <!-- Currently not used -->
@@ -496,11 +319,10 @@
                                                             <RowDefinition Height="Auto" />
                                                             <RowDefinition Height="*" />
                                                         </Grid.RowDefinitions>
-                                                        <controls:ColorPickerButtonSlider x:Name="ColorSpectrumThirdDimensionSlider"
+                                                        <controls:ColorPickerSlider x:Name="ColorSpectrumThirdDimensionSlider"
                                                                                           Grid.Column="0"
                                                                                           Grid.Row="1"
                                                                                           Grid.RowSpan="2"
-                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Orientation="Vertical"
                                                                                           Width="20"
@@ -524,12 +346,11 @@
                                                                        Shape="{TemplateBinding ColorSpectrumShape}"
                                                                        HorizontalAlignment="Stretch"
                                                                        VerticalAlignment="Stretch" />
-                                                        <controls:ColorPickerButtonSlider x:Name="ColorSpectrumAlphaSlider"
+                                                        <controls:ColorPickerSlider x:Name="ColorSpectrumAlphaSlider"
                                                                                           AutomationProperties.Name="Alpha Channel"
                                                                                           Grid.Column="2"
                                                                                           Grid.Row="1"
                                                                                           Grid.RowSpan="2"
-                                                                                          Style="{StaticResource ColorPickerButtonSliderStyle}"
                                                                                           BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrush}, ConverterParameter={ThemeResource TextControlForeground}}"
                                                                                           Orientation="Vertical"
                                                                                           Width="20"

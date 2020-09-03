@@ -46,6 +46,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ColorPicker\ColorPicker - Copy.xaml" />
+    <None Remove="ColorPicker\ColorPickerButton.xaml" />
+    <None Remove="ColorPicker\ColorPickerButtonm.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="ColorPicker\ColorPickerButton.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
@@ -59,6 +69,9 @@
   </ItemGroup>
  
   <ItemGroup>
+    <Page Update="ColorPicker\ColorPicker - Copy.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ImageCropper\ImageCropper.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

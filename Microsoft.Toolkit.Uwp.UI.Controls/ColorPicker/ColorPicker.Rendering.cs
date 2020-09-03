@@ -15,9 +15,9 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Contains the rendering methods used within <see cref="ColorPickerButton"/>.
+    /// Contains the rendering methods used within <see cref="ColorPicker"/>.
     /// </summary>
-    public partial class ColorPickerButton
+    public partial class ColorPicker
     {
         /// <summary>
         /// Generates a new bitmap of the specified size by changing a specific color channel.

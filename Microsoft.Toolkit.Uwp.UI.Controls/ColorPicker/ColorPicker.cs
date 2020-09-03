@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerButtonConverters;
+using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
@@ -22,39 +22,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Presents a color spectrum, a palette of colors, and color channel sliders for user selection of a color.
     /// </summary>
-    [TemplatePart(Name = nameof(ColorPickerButton.AlphaChannelSlider),          Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.AlphaChannelTextBox),         Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.Channel1Slider),              Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.Channel1TextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.Channel2Slider),              Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.Channel2TextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.Channel3Slider),              Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.Channel3TextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground1Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground2Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground3Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground4Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground5Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground6Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground7Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground8Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground9Border),  Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.CheckeredBackground10Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
-    [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumAlphaSlider),    Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.ColorSpectrumThirdDimensionSlider), Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPickerButton.PaletteGridView),             Type = typeof(GridView))]
-    [TemplatePart(Name = nameof(ColorPickerButton.HexInputTextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPickerButton.HsvToggleButton),             Type = typeof(ToggleButton))]
-    [TemplatePart(Name = nameof(ColorPickerButton.RgbToggleButton),             Type = typeof(ToggleButton))]
-    [TemplatePart(Name = nameof(ColorPickerButton.P1PreviewBorder),             Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.P2PreviewBorder),             Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.N1PreviewBorder),             Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPickerButton.N2PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelSlider),          Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelTextBox),         Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel1Slider),              Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel1TextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel2Slider),              Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel2TextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel3Slider),              Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel3TextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground1Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground2Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground3Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground4Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground5Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground6Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground7Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground8Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground10Border), Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.HexInputTextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.HsvToggleButton),             Type = typeof(ToggleButton))]
+    [TemplatePart(Name = nameof(ColorPicker.RgbToggleButton),             Type = typeof(ToggleButton))]
+    [TemplatePart(Name = nameof(ColorPicker.P1PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.P2PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.N1PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.N2PreviewBorder),             Type = typeof(Border))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "Inline brackets are used to improve code readability with repeated null checks.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:Code should not contain multiple whitespace in a row", Justification = "Whitespace is used to align code in columns for readability.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
-    public partial class ColorPickerButton : Windows.UI.Xaml.Controls.ColorPicker
+    public partial class ColorPicker : Windows.UI.Xaml.Controls.ColorPicker
     {
         /// <summary>
         /// The period that scheduled color updates will be applied.
@@ -124,7 +123,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ColorSpectrum ColorSpectrumControl;
         private Slider        ColorSpectrumAlphaSlider;
         private Slider        ColorSpectrumThirdDimensionSlider;
-        private GridView      PaletteGridView;
         private TextBox       HexInputTextBox;
         private ToggleButton  HsvToggleButton;
         private ToggleButton  RgbToggleButton;
@@ -162,11 +160,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          ***************************************************************************************/
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ColorPickerButton"/> class.
+        /// Initializes a new instance of the <see cref="ColorPicker"/> class.
         /// </summary>
-        public ColorPickerButton()
+        public ColorPicker()
         {
-            this.DefaultStyleKey = typeof(ColorPickerButton);
+            this.DefaultStyleKey = typeof(ColorPicker);
 
             // Setup collections
             this.SetValue(CustomPaletteColorsProperty, new ObservableCollection<Color>());
@@ -184,9 +182,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="ColorPickerButton"/> class.
+        /// Finalizes an instance of the <see cref="ColorPicker"/> class.
         /// </summary>
-        ~ColorPickerButton()
+        ~ColorPicker()
         {
             this.StopDispatcherTimer();
             this.CustomPaletteColors.CollectionChanged -= CustomPaletteColors_CollectionChanged;
@@ -220,8 +218,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>("ColorSpectrumControl", false);
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>("ColorSpectrumAlphaSlider", false);
             this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<Slider>("ColorSpectrumThirdDimensionSlider", false);
-
-            this.PaletteGridView = this.GetTemplateChild<GridView>("PaletteGridView", false);
 
             this.HexInputTextBox = this.GetTemplateChild<TextBox>("HexInputTextBox", false);
             this.HsvToggleButton = this.GetTemplateChild<ToggleButton>("HsvToggleButton", false);
@@ -323,7 +319,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Add all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged += ColorSpectrum_ColorChanged; }
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus     += ColorSpectrum_GotFocus; }
-                if (this.PaletteGridView      != null) { this.PaletteGridView.Loaded            += PaletteGridView_Loaded; }
                 if (this.HexInputTextBox      != null) { this.HexInputTextBox.KeyDown           += HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox      != null) { this.HexInputTextBox.LostFocus         += HexInputTextBox_LostFocus; }
                 if (this.HsvToggleButton      != null) { this.HsvToggleButton.Checked           += ColorRepToggleButton_CheckedUnchecked; }
@@ -378,7 +373,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Remove all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged -= ColorSpectrum_ColorChanged; }
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus     -= ColorSpectrum_GotFocus; }
-                if (this.PaletteGridView      != null) { this.PaletteGridView.Loaded            -= PaletteGridView_Loaded; }
                 if (this.HexInputTextBox      != null) { this.HexInputTextBox.KeyDown           -= HexInputTextBox_KeyDown; }
                 if (this.HexInputTextBox      != null) { this.HexInputTextBox.LostFocus         -= HexInputTextBox_LostFocus; }
                 if (this.HsvToggleButton      != null) { this.HsvToggleButton.Checked           -= ColorRepToggleButton_CheckedUnchecked; }
@@ -1254,7 +1248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          ***************************************************************************************/
 
         /// <summary>
-        /// Callback for when the <see cref="ColorPicker.Color"/> dependency property value changes.
+        /// Callback for when the <see cref="Windows.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
         /// </summary>
         private void OnColorChanged(DependencyObject d, DependencyProperty e)
         {
@@ -1353,24 +1347,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     border.Background = await this.BitmapToBrushAsync(bitmap, width, height);
                 }
-            }
-
-            return;
-        }
-
-        /// <summary>
-        /// Event handler for when the grid view showing all colors in the palette is loaded.
-        /// This will set the correct column count to any UniformGrid panel.
-        /// </summary>
-        private void PaletteGridView_Loaded(object sender, RoutedEventArgs e)
-        {
-            // RelativeSource binding of an ancestor type doesn't work in UWP.
-            // Therefore, setting this property must be done here in code-behind.
-            var palettePanel = (sender as DependencyObject)?.FindDescendant<UniformGrid>();
-
-            if (palettePanel != null)
-            {
-                palettePanel.Columns = this.CustomPaletteColumnCount;
             }
 
             return;

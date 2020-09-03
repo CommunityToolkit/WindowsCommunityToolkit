@@ -47,15 +47,25 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Carousel.md"
       },
       {
-        "Name": "ColorPickerButton",
-        "Type": "ColorPickerButtonPage",
+        "Name": "ColorPicker",
+        "Type": "ColorPickerPage",
         "Subcategory": "Input",
-        "About": "A color picker within a flyout opened by pressing a drop down button containing the selected color.",
+        "About": "An improved color picker control providing more options to select colors.",
         "CodeUrl": "TBD",
-        "XamlCodeFile": "ColorPickerButtonXaml.bind",
-        "Icon": "/SamplePages/ColorPickerButton/ColorPickerButton.png",
+        "XamlCodeFile": "ColorPickerXaml.bind",
+        "Icon": "/SamplePages/ColorPicker/ColorPicker.png",
         "DocumentationUrl": "TBD"
       },
+      //{
+      //  "Name": "ColorPickerButton",
+      //  "Type": "ColorPickerButtonPage",
+      //  "Subcategory": "Input",
+      //  "About": "A color picker within a flyout opened by pressing a drop down button containing the selected color.",
+      //  "CodeUrl": "TBD",
+      //  "XamlCodeFile": "ColorPickerButtonXaml.bind",
+      //  "Icon": "/SamplePages/ColorPicker/ColorPicker.png",
+      //  "DocumentationUrl": "TBD"
+      //},
       {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",

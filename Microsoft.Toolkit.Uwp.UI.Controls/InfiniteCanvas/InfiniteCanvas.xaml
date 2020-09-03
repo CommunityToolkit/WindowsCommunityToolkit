@@ -63,6 +63,7 @@
                                     <Grid Width="2"
                                           Height="48"
                                           Background="Black" />
+                                    <!-- TODO: Replace this with ColorPickerButton -->
                                     <Button Padding="0,2,0,0"
                                             Style="{StaticResource CanvasTextBoxButtonStyle}"
                                             ToolTipService.ToolTip="Text Color">

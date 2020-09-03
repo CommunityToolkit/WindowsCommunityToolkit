@@ -8,11 +8,11 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the <see cref="ColorPickerButton"/> control.
+    /// A page that shows how to use the <see cref="UI.Controls.ColorPicker"/> control.
     /// </summary>
-    public sealed partial class ColorPickerButtonPage : Page
+    public sealed partial class ColorPickerPage : Page
     {
-        public ColorPickerButtonPage()
+        public ColorPickerPage()
         {
             this.InitializeComponent();
         }

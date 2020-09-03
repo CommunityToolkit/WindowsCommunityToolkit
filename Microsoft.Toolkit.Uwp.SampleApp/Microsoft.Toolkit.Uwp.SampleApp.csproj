@@ -272,7 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
-    <Content Include="SamplePages\ColorPickerButton\ColorPickerButton.png" />
+    <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -518,8 +518,8 @@
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
-    <Compile Include="SamplePages\ColorPickerButton\ColorPickerButtonPage.xaml.cs">
-      <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ColorPicker\ColorPickerPage.xaml.cs">
+      <DependentUpon>ColorPickerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
@@ -625,9 +625,9 @@
     <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
     <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
-    <Content Include="SamplePages\ColorPickerButton\ColorPickerButtonXaml.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionXaml.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
+    <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1006,9 +1006,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ColorPickerButton\ColorPickerButtonPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="SamplePages\ColorPicker\ColorPickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>

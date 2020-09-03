@@ -5,10 +5,11 @@
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
+// TODO: Do we want this in a subnamespace at least?
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A <see cref="Slider"/> implementation for use in the <see cref="ColorPickerButton"/>.
+    /// A <see cref="Slider"/> implementation for use in the <see cref="ColorPicker"/>.
     /// </summary>
     /// <remarks>
     ///
@@ -22,10 +23,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// here in the future just like ColorPicker.
     ///
     /// </remarks>
-    public class ColorPickerButtonSlider : Slider
+    public class ColorPickerSlider : Slider
     {
         private Size oldSize;
         private Size measuredSize;
+
+        /// <inheritdoc/>
+        public ColorPickerSlider()
+            : base()
+        {
+            this.DefaultStyleKey = typeof(ColorPickerSlider);
+        }
 
         /// <summary>
         /// Measures the size in layout required for child elements and determines a size for the

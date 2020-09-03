@@ -8,9 +8,9 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Contains all properties for the <see cref="ColorPickerButton"/>.
+    /// Contains all properties for the <see cref="ColorPicker"/>.
     /// </summary>
-    public partial class ColorPickerButton
+    public partial class ColorPicker
     {
         /// <summary>
         /// Identifies the <see cref="CustomPaletteColors"/> dependency property.
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
                 nameof(CustomPaletteColors),
                 typeof(ObservableCollection<Windows.UI.Color>),
-                typeof(ColorPickerButton),
+                typeof(ColorPicker),
                 new PropertyMetadata(Windows.UI.Color.FromArgb(0x00, 0x00, 0x00, 0x00)));
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
                 nameof(CustomPaletteColumnCount),
                 typeof(int),
-                typeof(ColorPickerButton),
+                typeof(ColorPicker),
                 new PropertyMetadata(4));
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
                 nameof(CustomPalette),
                 typeof(IColorPalette),
-                typeof(ColorPickerButton),
+                typeof(ColorPicker),
                 new PropertyMetadata(DependencyProperty.UnsetValue));
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
                 nameof(IsColorPaletteVisible),
                 typeof(bool),
-                typeof(ColorPickerButton),
+                typeof(ColorPicker),
                 new PropertyMetadata(true));
 
         /// <summary>
