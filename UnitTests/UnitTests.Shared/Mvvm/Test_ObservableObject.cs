@@ -221,7 +221,7 @@ namespace UnitTests.Mvvm
 
         public class SampleModelWithTask<T> : ObservableObject
         {
-            private TaskAccessor<Task<T>> data;
+            private TaskNotifier<T> data;
 
             public Task<T> Data
             {

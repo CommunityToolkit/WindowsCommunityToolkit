@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             this.canExecute = canExecute;
         }
 
-        private TaskAccessor<Task>? executionTask;
+        private TaskNotifier? executionTask;
 
         /// <inheritdoc/>
         public Task? ExecutionTask
