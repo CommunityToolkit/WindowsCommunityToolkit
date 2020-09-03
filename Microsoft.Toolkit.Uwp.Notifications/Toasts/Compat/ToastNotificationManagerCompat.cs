@@ -97,8 +97,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        private static string _aumid;
         private static string _win32Aumid;
+        private static string _clsid;
 
         static ToastNotificationManagerCompat()
         {
@@ -107,53 +107,55 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static void Initialize()
         {
-            if (DesktopBridgeHelpers.IsRunningAsUwp())
+            // If containerized
+            if (DesktopBridgeHelpers.IsContainerized())
             {
-                _aumid = Package.Current.Id.FamilyName;
+                // No need to do anything additional, already registered through manifest
+                return;
+            }
+
+            // If sparse
+            if (DesktopBridgeHelpers.HasIdentity())
+            {
+                _win32Aumid = GetAumidFromPackageManifest();
             }
             else
             {
                 // Win32 apps are uniquely identified based on their process name
-                _aumid = GetAumidFromCurrentProcess(Process.GetCurrentProcess());
-
-                // Store the AUMID for Win32 apps since it'll be needed later
-                _win32Aumid = _aumid;
-            }
-
-            // If running as Desktop Bridge
-            if (DesktopBridgeHelpers.IsRunningAsUwp())
-            {
-                // No need to do anything additional, already registered
-                return;
+                _win32Aumid = GetAumidFromCurrentProcess(Process.GetCurrentProcess());
             }
 
             // Create and register activator
             var activatorType = CreateAndRegisterActivator();
 
-            // Otherwise, register via registry
+            // Register via registry
             var currProcess = Process.GetCurrentProcess();
 
-            // Win32 app display names come from their process name
-            string displayName = GetDisplayNameFromCurrentProcess(currProcess);
-
-            string iconPath = GetIconPathFromCurrentProcess(currProcess);
-
-            using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + _aumid))
+            using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + _win32Aumid))
             {
-                rootKey.SetValue("DisplayName", displayName);
-
-                if (iconPath != null)
+                // If they don't have identity, we need to specify the display assets
+                if (!DesktopBridgeHelpers.HasIdentity())
                 {
-                    rootKey.SetValue("IconUri", iconPath);
-                }
-                else
-                {
-                    rootKey.DeleteValue("IconUri");
-                }
+                    // Win32 app display names come from their process name
+                    string displayName = GetDisplayNameFromCurrentProcess(currProcess);
 
-                // Background color only appears in the settings page, format is
-                // hex without leading #, like "FFDDDDDD"
-                rootKey.SetValue("IconBackgroundColor", "FFDDDDDD");
+                    string iconPath = GetIconPathFromCurrentProcess(currProcess);
+
+                    rootKey.SetValue("DisplayName", displayName);
+
+                    if (iconPath != null)
+                    {
+                        rootKey.SetValue("IconUri", iconPath);
+                    }
+                    else
+                    {
+                        rootKey.DeleteValue("IconUri");
+                    }
+
+                    // Background color only appears in the settings page, format is
+                    // hex without leading #, like "FFDDDDDD"
+                    rootKey.SetValue("IconBackgroundColor", "FFDDDDDD");
+                }
 
                 rootKey.SetValue("CustomActivator", string.Format("{{{0}}}", activatorType.GUID));
             }
@@ -217,10 +219,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>Returns a string of the absolute folder path.</returns>
         private static string GetAppDataFolderPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", _aumid);
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", _win32Aumid);
         }
 
-        private static Type CreateActivatorType(string aumid)
+        private static Type CreateActivatorType()
         {
             // https://stackoverflow.com/questions/24069352/c-sharp-typebuilder-generate-class-with-function-dynamically
             // For .NET Core we use https://stackoverflow.com/questions/36937276/is-there-any-replace-of-assemblybuilder-definedynamicassembly-in-net-core
@@ -237,20 +239,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 parent: typeof(Internal.InternalNotificationActivator),
                 interfaces: new Type[0]);
 
-            string clsid;
-
-            if (DesktopBridgeHelpers.IsRunningAsUwp())
+            if (DesktopBridgeHelpers.IsContainerized())
             {
-                clsid = GetClsidFromPackageManifest();
+                _clsid = GetClsidFromPackageManifest();
             }
             else
             {
-                clsid = GenerateGuid(aumid);
+                _clsid = GenerateGuid(_win32Aumid);
             }
 
             tb.SetCustomAttribute(new CustomAttributeBuilder(
                 con: typeof(GuidAttribute).GetConstructor(new Type[] { typeof(string) }),
-                constructorArgs: new object[] { clsid }));
+                constructorArgs: new object[] { _clsid }));
 
             tb.SetCustomAttribute(new CustomAttributeBuilder(
                 con: typeof(ComVisibleAttribute).GetConstructor(new Type[] { typeof(bool) }),
@@ -267,6 +267,27 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 constructorArgs: new object[] { ClassInterfaceType.None }));
 
             return tb.CreateType();
+        }
+
+        private static string GetAumidFromPackageManifest()
+        {
+            var appxManifestPath = Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml");
+            var doc = new System.Xml.XmlDocument();
+            doc.Load(appxManifestPath);
+
+            var namespaceManager = new System.Xml.XmlNamespaceManager(doc.NameTable);
+            namespaceManager.AddNamespace("default", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+            namespaceManager.AddNamespace("desktop", "http://schemas.microsoft.com/appx/manifest/desktop/windows10");
+            namespaceManager.AddNamespace("com", "http://schemas.microsoft.com/appx/manifest/com/windows10");
+
+            var appNode = doc.SelectSingleNode("/default:Package/default:Applications/default:Application[1]", namespaceManager);
+
+            if (appNode == null)
+            {
+                throw new InvalidOperationException("Your MSIX app manifest must have an <Application> entry.");
+            }
+
+            return Package.Current.Id.FamilyName + "!" + appNode.Attributes["Id"].Value;
         }
 
         private static string GetClsidFromPackageManifest()
@@ -355,7 +376,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static Type CreateAndRegisterActivator()
         {
-            var activatorType = CreateActivatorType(_aumid);
+            var activatorType = CreateActivatorType();
             RegisterActivator(activatorType);
             _registeredOnActivated = true;
             return activatorType;
@@ -363,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static void RegisterActivator(Type activatorType)
         {
-            if (!DesktopBridgeHelpers.IsRunningAsUwp())
+            if (!DesktopBridgeHelpers.IsContainerized())
             {
                 string exePath = Process.GetCurrentProcess().MainModule.FileName;
                 RegisterComServer(activatorType, exePath);
@@ -468,15 +489,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public static ToastNotifier CreateToastNotifier()
         {
 #if WIN32
-            if (_win32Aumid != null)
+            if (DesktopBridgeHelpers.HasIdentity())
             {
-                // Non-Desktop Bridge
-                return ToastNotificationManager.CreateToastNotifier(_win32Aumid);
+                return ToastNotificationManager.CreateToastNotifier();
             }
             else
             {
-                // Desktop Bridge
-                return ToastNotificationManager.CreateToastNotifier();
+                return ToastNotificationManager.CreateToastNotifier(_win32Aumid);
             }
 #else
             return ToastNotificationManager.CreateToastNotifier();
@@ -491,7 +510,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             get
             {
 #if WIN32
-                return new ToastNotificationHistoryCompat(_win32Aumid);
+                return new ToastNotificationHistoryCompat(DesktopBridgeHelpers.HasIdentity() ? null : _win32Aumid);
 #else
                 return new ToastNotificationHistoryCompat(null);
 #endif
@@ -506,7 +525,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             get
             {
 #if WIN32
-                return DesktopBridgeHelpers.IsRunningAsUwp();
+                return DesktopBridgeHelpers.HasIdentity();
 #else
                 return true;
 #endif
@@ -519,44 +538,50 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public static void Uninstall()
         {
-            if (DesktopBridgeHelpers.IsRunningAsUwp())
+            if (DesktopBridgeHelpers.IsContainerized())
             {
-                // Packaged apps automatically clean everything up already
+                // Packaged containerized apps automatically clean everything up already
                 return;
             }
 
-            try
+            if (!DesktopBridgeHelpers.HasIdentity())
             {
-                // Remove all scheduled notifications (do this first before clearing current notifications)
-                var notifier = CreateToastNotifier();
-                foreach (var scheduled in CreateToastNotifier().GetScheduledToastNotifications())
+                try
                 {
-                    try
+                    // Remove all scheduled notifications (do this first before clearing current notifications)
+                    var notifier = CreateToastNotifier();
+                    foreach (var scheduled in CreateToastNotifier().GetScheduledToastNotifications())
                     {
-                        notifier.RemoveFromSchedule(scheduled);
-                    }
-                    catch
-                    {
+                        try
+                        {
+                            notifier.RemoveFromSchedule(scheduled);
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
-            }
-            catch
-            {
-            }
+                catch
+                {
+                }
 
-            try
-            {
-                // Clear all current notifications
-                History.Clear();
-            }
-            catch
-            {
+                try
+                {
+                    // Clear all current notifications
+                    History.Clear();
+                }
+                catch
+                {
+                }
             }
 
             try
             {
                 // Remove registry key
-                Registry.CurrentUser.DeleteSubKey(@"Software\Classes\AppUserModelId\" + _aumid);
+                if (_win32Aumid != null)
+                {
+                    Registry.CurrentUser.DeleteSubKey(@"Software\Classes\AppUserModelId\" + _win32Aumid);
+                }
             }
             catch
             {
@@ -564,15 +589,29 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             try
             {
-                // Delete any of the app files
-                var appDataFolderPath = GetAppDataFolderPath();
-                if (Directory.Exists(appDataFolderPath))
+                if (_clsid != null)
                 {
-                    Directory.Delete(appDataFolderPath, recursive: true);
+                    Registry.CurrentUser.DeleteSubKey(string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}\\LocalServer32", _clsid));
                 }
             }
             catch
             {
+            }
+
+            if (!DesktopBridgeHelpers.HasIdentity())
+            {
+                try
+                {
+                    // Delete any of the app files
+                    var appDataFolderPath = GetAppDataFolderPath();
+                    if (Directory.Exists(appDataFolderPath))
+                    {
+                        Directory.Delete(appDataFolderPath, recursive: true);
+                    }
+                }
+                catch
+                {
+                }
             }
         }
 #endif
