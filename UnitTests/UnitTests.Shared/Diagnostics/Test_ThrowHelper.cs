@@ -36,6 +36,7 @@ namespace UnitTests.Diagnostics
         [DataRow(typeof(ArgumentException))]
         [DataRow(typeof(ArgumentNullException))]
         [DataRow(typeof(ArgumentOutOfRangeException))]
+        [DataRow(typeof(COMException))]
         [DataRow(typeof(ExternalException))]
         [DataRow(typeof(FormatException))]
         [DataRow(typeof(InsufficientMemoryException))]
@@ -57,7 +58,8 @@ namespace UnitTests.Diagnostics
         {
             var methods = (
                 from method in typeof(ThrowHelper).GetMethods(BindingFlags.Public | BindingFlags.Static)
-                where method.Name == $"Throw{exceptionType.Name}"
+                where method.Name == $"Throw{exceptionType.Name}" &&
+                      !method.IsGenericMethod
                 select method).ToArray();
 
             foreach (var method in methods)
@@ -71,6 +73,67 @@ namespace UnitTests.Diagnostics
                 try
                 {
                     method.Invoke(null, parameters);
+                }
+                catch (TargetInvocationException e)
+                {
+                    Assert.IsInstanceOfType(e.InnerException, exceptionType);
+                }
+            }
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [DataRow(typeof(ArrayTypeMismatchException))]
+        [DataRow(typeof(ArgumentException))]
+        [DataRow(typeof(ArgumentNullException))]
+        [DataRow(typeof(ArgumentOutOfRangeException))]
+        [DataRow(typeof(COMException))]
+        [DataRow(typeof(ExternalException))]
+        [DataRow(typeof(FormatException))]
+        [DataRow(typeof(InsufficientMemoryException))]
+        [DataRow(typeof(InvalidDataException))]
+        [DataRow(typeof(InvalidOperationException))]
+        [DataRow(typeof(LockRecursionException))]
+        [DataRow(typeof(MissingFieldException))]
+        [DataRow(typeof(MissingMemberException))]
+        [DataRow(typeof(MissingMethodException))]
+        [DataRow(typeof(NotSupportedException))]
+        [DataRow(typeof(ObjectDisposedException))]
+        [DataRow(typeof(OperationCanceledException))]
+        [DataRow(typeof(PlatformNotSupportedException))]
+        [DataRow(typeof(SynchronizationLockException))]
+        [DataRow(typeof(TimeoutException))]
+        [DataRow(typeof(UnauthorizedAccessException))]
+        [DataRow(typeof(Win32Exception))]
+        public void Test_ThrowHelper_Generic_Throw(Type exceptionType)
+        {
+            var methods = (
+                from method in typeof(ThrowHelper).GetMethods(BindingFlags.Public | BindingFlags.Static)
+                where method.Name == $"Throw{exceptionType.Name}" &&
+                      method.IsGenericMethod
+                select method).ToArray();
+
+            foreach (var method in methods)
+            {
+                // Prepare the parameters with the default value
+                var parameters = (
+                    from parameter in method.GetParameters()
+                    select DefaultValues[parameter.ParameterType]).ToArray();
+
+                // Invoke with value type
+                try
+                {
+                    method.MakeGenericMethod(typeof(int)).Invoke(null, parameters);
+                }
+                catch (TargetInvocationException e)
+                {
+                    Assert.IsInstanceOfType(e.InnerException, exceptionType);
+                }
+
+                // Invoke with reference type
+                try
+                {
+                    method.MakeGenericMethod(typeof(string)).Invoke(null, parameters);
                 }
                 catch (TargetInvocationException e)
                 {
