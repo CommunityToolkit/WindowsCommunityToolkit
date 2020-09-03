@@ -487,7 +487,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 }
 
                 // Only notify if the property hasn't changed
-                if (ReferenceEquals(newValue, taskNotifier.Task))
+                if (ReferenceEquals(taskNotifier.Task, newValue))
                 {
                     OnPropertyChanged(propertyName);
                 }
@@ -525,8 +525,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             {
             }
 
+            private Task? task;
+
             /// <inheritdoc/>
-            Task? ITaskNotifier<Task>.Task { get; set; }
+            Task? ITaskNotifier<Task>.Task
+            {
+                get => this.task;
+                set => this.task = value;
+            }
 
             /// <summary>
             /// Unwraps the <see cref="Task"/> value stored in the current instance.
@@ -534,7 +540,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             /// <param name="notifier">The input <see cref="TaskNotifier{TTask}"/> instance.</param>
             public static implicit operator Task?(TaskNotifier? notifier)
             {
-                return Unsafe.As<ITaskNotifier<Task>>(notifier)?.Task;
+                return notifier?.task;
             }
         }
 
@@ -551,8 +557,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             {
             }
 
+            private Task<T>? task;
+
             /// <inheritdoc/>
-            Task<T>? ITaskNotifier<Task<T>>.Task { get; set; }
+            Task<T>? ITaskNotifier<Task<T>>.Task
+            {
+                get => this.task;
+                set => this.task = value;
+            }
 
             /// <summary>
             /// Unwraps the <see cref="Task{T}"/> value stored in the current instance.
@@ -560,7 +572,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             /// <param name="notifier">The input <see cref="TaskNotifier{TTask}"/> instance.</param>
             public static implicit operator Task<T>?(TaskNotifier<T>? notifier)
             {
-                return Unsafe.As<ITaskNotifier<Task<T>>>(notifier)?.Task;
+                return notifier?.task;
             }
         }
 
