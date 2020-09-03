@@ -203,7 +203,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, broadcast, propertyName);
+            bool propertyChanged = SetProperty(oldValue, newValue, callback, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
 
         /// <summary>
@@ -249,9 +256,16 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<TModel,T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, model, callback, broadcast, propertyName);
+            bool propertyChanged = SetProperty(oldValue, newValue, model, callback, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
 
         /// <summary>
