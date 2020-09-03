@@ -12,6 +12,6 @@ private void PopToast()
                                          ("240", "4 hours"),        
                                          ("1440", "1 day"))        
         .AddButton(new ToastButtonSnooze() { SelectionBoxId = "snoozeTime" })        
-        .AddButton(new ToastButtonDismiss());
+        .AddButton(new ToastButtonDismiss())
         .Show();
 }
