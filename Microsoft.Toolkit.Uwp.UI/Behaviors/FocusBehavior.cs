@@ -30,7 +30,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             typeof(FocusBehavior),
             new PropertyMetadata(null, OnTargetsPropertyChanged));
 
-        private static readonly TimeSpan FocusEngagementTimeout = TimeSpan.FromMilliseconds(100);
+
+        /// <summary>
+        /// The DP to store the <see cref="FocusEngagementTimeout"/> property value.
+        /// </summary>
+        public static readonly DependencyProperty FocusEngagementTimeoutProperty = DependencyProperty.Register(
+            nameof(FocusEngagementTimeout),
+            typeof(TimeSpan),
+            typeof(FocusBehavior),
+            new PropertyMetadata(TimeSpan.FromMilliseconds(100)));
+
         private DispatcherTimer _timer;
 
         /// <summary>
@@ -45,6 +54,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         {
             get => (FocusTargetList)GetValue(TargetsProperty);
             set => SetValue(TargetsProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the timeout before the <see cref="FocusBehavior"/> stops trying to set the focus to a control with
+        /// a higher priority.
+        /// </summary>
+        public TimeSpan FocusEngagementTimeout
+        {
+            get => (TimeSpan)GetValue(FocusEngagementTimeoutProperty);
+            set => SetValue(FocusEngagementTimeoutProperty, value);
         }
 
         /// <inheritdoc/>
