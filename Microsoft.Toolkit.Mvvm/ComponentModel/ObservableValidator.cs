@@ -22,11 +22,18 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         private readonly Dictionary<string, List<ValidationResult>> errors = new Dictionary<string, List<ValidationResult>>();
 
+        /// <summary>
+        /// Indicates the total number of properties with errors (not total errors).
+        /// This is used to allow <see cref="HasErrors"/> to operate in O(1) time, as it can just
+        /// check whether this value is not 0 instead of having to traverse <see cref="errors"/>.
+        /// </summary>
+        private int totalErrors;
+
         /// <inheritdoc/>
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         /// <inheritdoc/>
-        public bool HasErrors => this.errors.Count > 0;
+        public bool HasErrors => this.totalErrors > 0;
 
         /// <inheritdoc/>
         public IEnumerable GetErrors(string? propertyName)
@@ -46,7 +53,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="value">The value to test for the specified property.</param>
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
-        public void ValidateProperty(object value, [CallerMemberName] string? propertyName = null)
+        protected void ValidateProperty(object value, [CallerMemberName] string? propertyName = null)
         {
             if (propertyName is null)
             {
@@ -67,11 +74,23 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             List<ValidationResult> results = new List<ValidationResult>();
 
             // Validate the property
-            if (!Validator.TryValidateProperty(
+            if (Validator.TryValidateProperty(
                 value,
                 new ValidationContext(this, null, null) { MemberName = propertyName },
                 results))
             {
+                if (errorsChanged)
+                {
+                    this.totalErrors--;
+                }
+            }
+            else
+            {
+                if (!errorsChanged)
+                {
+                    this.totalErrors++;
+                }
+
                 // We can avoid the repeated dictionary lookup if we just check the result of the previous
                 // one here. If the retrieved errors collection is null, we can log the ones produced by
                 // the validation we just performed. We also don't need to create a new list and add them
