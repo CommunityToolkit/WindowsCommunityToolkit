@@ -7,6 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
@@ -36,10 +38,17 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         public bool HasErrors => this.totalErrors > 0;
 
         /// <inheritdoc/>
+        [Pure]
         public IEnumerable GetErrors(string? propertyName)
         {
-            if (!(propertyName is null) &&
-                this.errors.TryGetValue(propertyName, out List<ValidationResult> errors))
+            // Entity-level errors when the target property is null or empty
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return this.GetAllErrors();
+            }
+
+            // Property-level errors, if any
+            if (this.errors.TryGetValue(propertyName, out List<ValidationResult> errors))
             {
                 return errors;
             }
@@ -47,9 +56,20 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // The INotifyDataErrorInfo.GetErrors method doesn't specify exactly what to
             // return when the input property name is invalid, but given that the return
             // type is marked as a non-nullable reference type, here we're returning an
-            // empty array to respect the contract. We do the same when the input property
-            // is null as well, as we don't support entity-level errors at the moment.
+            // empty array to respect the contract. This also matches the behavior of
+            // this method whenever errors for a valid properties are retrieved.
             return Array.Empty<ValidationResult>();
+        }
+
+        /// <summary>
+        /// Implements the logic for entity-level errors gathering for <see cref="GetErrors"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable"/> instance with all the errors in <see cref="errors"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private IEnumerable GetAllErrors()
+        {
+            return this.errors.Values.SelectMany(errors => errors);
         }
 
         /// <summary>

@@ -87,6 +87,34 @@ namespace UnitTests.Mvvm
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
+
+            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Cast<object>().Count(), 0);
+
+            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+
+            Assert.AreEqual(errors.Length, 1);
+            Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
+
+            errors = model.GetErrors(string.Empty).Cast<ValidationResult>().ToArray();
+
+            Assert.AreEqual(errors.Length, 1);
+            Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
+
+            model.Age = -1;
+
+            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+
+            Assert.AreEqual(errors.Length, 2);
+            Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Name))));
+            Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Age))));
+
+            model.Age = 26;
+
+            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+
+            Assert.AreEqual(errors.Length, 1);
+            Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Name))));
+            Assert.IsFalse(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Age))));
         }
 
         public class Person : ObservableValidator
@@ -103,6 +131,20 @@ namespace UnitTests.Mvvm
                     ValidateProperty(value);
 
                     SetProperty(ref this.name, value);
+                }
+            }
+
+            private int age;
+
+            [Range(0, 100)]
+            public int Age
+            {
+                get => this.age;
+                set
+                {
+                    ValidateProperty(value);
+
+                    SetProperty(ref this.age, value);
                 }
             }
         }
