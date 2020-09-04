@@ -12,9 +12,9 @@ using Microsoft.Toolkit.Extensions;
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
-    /// Helper methods to throw exceptions
+    /// Helper methods to efficiently throw exceptions.
     /// </summary>
-    internal static partial class ThrowHelper
+    public static partial class ThrowHelper
     {
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotEmpty{T}(Span{T},string)"/> fails.
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <remarks>This method is needed because <see cref="Span{T}"/> can't be used as a generic type parameter.</remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(string name)
+        internal static void ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(Span<T>).ToTypeString()}) must not be empty");
         }
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <remarks>This method is needed because <see cref="ReadOnlySpan{T}"/> can't be used as a generic type parameter.</remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(string name)
+        internal static void ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(ReadOnlySpan<T>).ToTypeString()}) must not be empty");
         }
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The item of items in the input collection.</typeparam>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsNotEmpty<T>(string name)
+        internal static void ThrowArgumentExceptionForIsNotEmpty<T>(string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be empty");
         }

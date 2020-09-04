@@ -518,11 +518,17 @@
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
+    <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
+      <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml.cs">
       <DependentUpon>CanvasPathGeometryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
+      <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
@@ -627,6 +633,8 @@
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionXaml.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
+    <Content Include="SamplePages\FocusBehavior\FocusBehaviorXaml.bind" />
+    <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1005,6 +1013,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1012,6 +1024,10 @@
     <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page> 
+    <Page Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>

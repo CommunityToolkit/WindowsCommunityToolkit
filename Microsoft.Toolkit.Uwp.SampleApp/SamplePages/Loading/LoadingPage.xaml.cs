@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Loading control with logo and bluring when requested", async (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Loading control with logo and blurring when requested", async (sender, args) =>
             {
                 if (loadingContentControl != null)
                 {
