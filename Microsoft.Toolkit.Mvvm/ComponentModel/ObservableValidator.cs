@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             }
 
             // Property-level errors, if any
-            if (this.errors.TryGetValue(propertyName, out List<ValidationResult> errors))
+            if (this.errors.TryGetValue(propertyName!, out List<ValidationResult> errors))
             {
                 return errors;
             }
