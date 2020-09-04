@@ -44,7 +44,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 return errors;
             }
 
-            return null!;
+            // The INotifyDataErrorInfo.GetErrors method doesn't specify exactly what to
+            // return when the input property name is invalid, but given that the return
+            // type is marked as a non-nullable reference type, here we're returning an
+            // empty array to respect the contract. We do the same when the input property
+            // is null as well, as we don't support entity-level errors at the moment.
+            return Array.Empty<ValidationResult>();
         }
 
         /// <summary>
