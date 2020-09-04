@@ -11,7 +11,7 @@ using Microsoft.Toolkit.Extensions;
 namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Rss reader implementation to parse Rss content.
+    /// RSS reader implementation to parse RSS content.
     /// </summary>
     internal class Rss2Parser : BaseRssParser
     {

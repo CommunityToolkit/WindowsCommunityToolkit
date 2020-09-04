@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// An alternative impementation of a progress bar.
+    /// An alternative implementation of a progress bar.
     /// Progression is represented by a loop filling up in a clockwise fashion.
     /// Like the traditional progress bar, it inherits from RangeBase, so Minimum, Maximum and Value properties work the same way.
     /// </summary>
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the thickness of the circular ouline and segment
+        /// Gets or sets the thickness of the circular outline and segment
         /// </summary>
         public double Thickness
         {
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(RadialProgressBar), new PropertyMetadata(0.0, ThicknessChangedHandler));
 
         /// <summary>
-        /// Gets or sets the color of the circular ouline on which the segment is drawn
+        /// Gets or sets the color of the circular outline on which the segment is drawn
         /// </summary>
         public Brush Outline
         {

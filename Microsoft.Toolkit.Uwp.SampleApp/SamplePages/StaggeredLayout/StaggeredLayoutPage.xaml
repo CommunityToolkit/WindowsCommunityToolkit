@@ -13,7 +13,7 @@
         <controls:StaggeredLayout x:Key="WrapLayoutPlaceholder"/>
     </Page.Resources>
 
-    <!-- Needed fpr 1803 and below -->
+    <!-- Needed for 1803 and below -->
     <winui:ItemsRepeaterScrollHost>
         <ScrollViewer>
             <winui:ItemsRepeater/>

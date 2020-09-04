@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialGradientBrush"/> class
-        /// with with two colors specified for GradientStops at
+        /// with two colors specified for GradientStops at
         /// offsets 0.0 and 1.0.
         /// </summary>
         /// <param name="startColor"> The Color at offset 0.0. </param>
