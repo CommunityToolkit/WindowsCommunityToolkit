@@ -117,12 +117,28 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Age))));
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidateReturn()
+        {
+            var model = new Person();
+
+            Assert.IsFalse(model.ValidateName(null));
+            Assert.IsFalse(model.ValidateName(string.Empty));
+            Assert.IsFalse(model.ValidateName("No"));
+            Assert.IsFalse(model.ValidateName("This text is really, really too long for the target property"));
+            Assert.IsTrue(model.ValidateName("1234"));
+            Assert.IsTrue(model.ValidateName("01234567890123456789"));
+            Assert.IsTrue(model.ValidateName("Hello world"));
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
 
             [MinLength(4)]
             [MaxLength(20)]
+            [Required]
             public string Name
             {
                 get => this.name;
@@ -132,6 +148,11 @@ namespace UnitTests.Mvvm
 
                     SetProperty(ref this.name, value);
                 }
+            }
+
+            public bool ValidateName(string value)
+            {
+                return ValidateProperty(value, nameof(Name));
             }
 
             private int age;

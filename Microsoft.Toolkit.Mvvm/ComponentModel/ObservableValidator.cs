@@ -77,8 +77,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="value">The value to test for the specified property.</param>
         /// <param name="propertyName">The name of the property to validate.</param>
+        /// <returns>Whether or not the validation was successful.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
-        protected void ValidateProperty(object value, [CallerMemberName] string? propertyName = null)
+        protected bool ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
         {
             if (propertyName is null)
             {
@@ -99,10 +100,13 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             List<ValidationResult> results = new List<ValidationResult>();
 
             // Validate the property
-            if (Validator.TryValidateProperty(
+            bool isValid = Validator.TryValidateProperty(
                 value,
                 new ValidationContext(this, null, null) { MemberName = propertyName },
-                results))
+                results);
+
+            // Update the state and/or the errors for the property
+            if (isValid)
             {
                 if (errorsChanged)
                 {
@@ -140,6 +144,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             {
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             }
+
+            return isValid;
         }
 
         /// <summary>
