@@ -297,8 +297,25 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_Messenger_RegisterWithTypeParameter()
+        {
+            var messenger = new Messenger();
+            var recipient = new RecipientWithNoMessages { Number = 42 };
+
+            int number = 0;
+
+            messenger.Register<RecipientWithNoMessages, MessageA>(recipient, (r, m) => number = r.Number);
+
+            messenger.Send<MessageA>();
+
+            Assert.AreEqual(number, 42);
+        }
+
         public sealed class RecipientWithNoMessages
         {
+            public int Number { get; set; }
         }
 
         public sealed class RecipientWithSomeMessages

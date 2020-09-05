@@ -13,10 +13,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// closures: if an instance method on a recipient needs to be invoked it is possible to just
     /// cast the recipient to the right type and then access the local method from that instance.
     /// </summary>
+    /// <typeparam name="TRecipient">The type of recipient for the message.</typeparam>
     /// <typeparam name="TMessage">The type of message to receive.</typeparam>
     /// <param name="recipient">The recipient that is receiving the message.</param>
     /// <param name="message">The message being received.</param>
-    public delegate void MessageHandler<in TMessage>(object recipient, TMessage message);
+    public delegate void MessageHandler<in TRecipient, in TMessage>(TRecipient recipient, TMessage message)
+        where TRecipient : class
+        where TMessage : class;
 
     /// <summary>
     /// An interface for a type providing the ability to exchange messages between different objects.
@@ -39,13 +42,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// Registers a recipient for a given type of message.
         /// </summary>
+        /// <typeparam name="TRecipient">The type of recipient for the message.</typeparam>
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
         /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
         /// <param name="recipient">The recipient that will receive the messages.</param>
         /// <param name="token">A token used to determine the receiving channel to use.</param>
-        /// <param name="handler">The <see cref="MessageHandler{T}"/> to invoke when a message is received.</param>
+        /// <param name="handler">The <see cref="MessageHandler{TRecipient,TMessage}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
-        void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> handler)
+        void Register<TRecipient, TMessage, TToken>(TRecipient recipient, TToken token, MessageHandler<TRecipient, TMessage> handler)
+            where TRecipient : class
             where TMessage : class
             where TToken : IEquatable<TToken>;
 

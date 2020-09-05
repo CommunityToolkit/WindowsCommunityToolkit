@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static void Register<TMessage>(this IMessenger messenger, IRecipient<TMessage> recipient)
             where TMessage : class
         {
-            messenger.Register<TMessage, Unit>(recipient, default, (r, m) => Unsafe.As<IRecipient<TMessage>>(r).Receive(m));
+            messenger.Register<IRecipient<TMessage>, TMessage, Unit>(recipient, default, (r, m) => r.Receive(m));
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            messenger.Register<TMessage, TToken>(recipient, token, (r, m) => Unsafe.As<IRecipient<TMessage>>(r).Receive(m));
+            messenger.Register<IRecipient<TMessage>, TMessage, TToken>(recipient, token, (r, m) => r.Receive(m));
         }
 
         /// <summary>
@@ -200,13 +200,47 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <typeparam name="TMessage">The type of message to receive.</typeparam>
         /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
         /// <param name="recipient">The recipient that will receive the messages.</param>
-        /// <param name="handler">The <see cref="MessageHandler{T}"/> to invoke when a message is received.</param>
+        /// <param name="handler">The <see cref="MessageHandler{TRecipient,TMessage}"/> to invoke when a message is received.</param>
         /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
         /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
-        public static void Register<TMessage>(this IMessenger messenger, object recipient, MessageHandler<TMessage> handler)
+        public static void Register<TMessage>(this IMessenger messenger, object recipient, MessageHandler<object, TMessage> handler)
             where TMessage : class
         {
             messenger.Register(recipient, default(Unit), handler);
+        }
+
+        /// <summary>
+        /// Registers a recipient for a given type of message.
+        /// </summary>
+        /// <typeparam name="TRecipient">The type of recipient for the message.</typeparam>
+        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
+        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
+        /// <param name="recipient">The recipient that will receive the messages.</param>
+        /// <param name="handler">The <see cref="MessageHandler{TRecipient,TMessage}"/> to invoke when a message is received.</param>
+        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
+        /// <remarks>This method will use the default channel to perform the requested registration.</remarks>
+        public static void Register<TRecipient, TMessage>(this IMessenger messenger, TRecipient recipient, MessageHandler<TRecipient, TMessage> handler)
+            where TRecipient : class
+            where TMessage : class
+        {
+            messenger.Register(recipient, default(Unit), handler);
+        }
+
+        /// <summary>
+        /// Registers a recipient for a given type of message.
+        /// </summary>
+        /// <typeparam name="TMessage">The type of message to receive.</typeparam>
+        /// <typeparam name="TToken">The type of token to use to pick the messages to receive.</typeparam>
+        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to register the recipient.</param>
+        /// <param name="recipient">The recipient that will receive the messages.</param>
+        /// <param name="token">A token used to determine the receiving channel to use.</param>
+        /// <param name="handler">The <see cref="MessageHandler{TRecipient,TMessage}"/> to invoke when a message is received.</param>
+        /// <exception cref="InvalidOperationException">Thrown when trying to register the same message twice.</exception>
+        public static void Register<TMessage, TToken>(this IMessenger messenger, object recipient, TToken token, MessageHandler<object, TMessage> handler)
+            where TMessage : class
+            where TToken : IEquatable<TToken>
+        {
+            messenger.Register(recipient, token, handler);
         }
 
         /// <summary>

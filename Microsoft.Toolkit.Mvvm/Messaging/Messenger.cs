@@ -50,8 +50,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// <code>
     /// Messenger.Default.Register&lt;LoginCompletedMessage&gt;(this, Receive);
     /// </code>
-    /// The C# compiler will automatically convert that expression to a <see cref="MessageHandler{TMessage}"/> instance
-    /// compatible with the <see cref="MessengerExtensions.Register{T}(IMessenger,object,MessageHandler{T})"/> method.
+    /// The C# compiler will automatically convert that expression to a <see cref="MessageHandler{TRecipient,TMessage}"/> instance
+    /// compatible with <see cref="MessengerExtensions.Register{TRecipient,TMessage}(IMessenger,TRecipient,MessageHandler{TRecipient,TMessage})"/>.
     /// This will also work if multiple overloads of that method are available, each handling a different
     /// message type: the C# compiler will automatically pick the right one for the current message type.
     /// For info on the other available features, check the <see cref="IMessenger"/> interface.
@@ -66,18 +66,23 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         //                    |   ________(recipients registrations)___________\________/            /          __/
         //                    |  /           _______(channel registrations)_____\___________________/          /
         //                    | /           /                                    \                            /
-        // DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<TMessage>>> mapping = Mapping<TMessage, TToken>
-        //                                            /               / \        /                   /
-        //                      ___(Type2.tToken)____/               /   \______/___________________/
+        // DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<object, TMessage>>> mapping = Mapping<TMessage, TToken>
+        //                                            /               / \        /                         /
+        //                      ___(Type2.tToken)____/               /   \______/_________________________/
         //                     /________________(Type2.tMessage)____/          /
         //                    /       ________________________________________/
         //                   /       /
         // DictionarySlim<Type2, IMapping> typesMap;
         // --------------------------------------------------------------------------------------------------------
-        // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds
-        // the references from registered recipients to handlers. The handlers are stored in a <TToken, Action<TMessage>>
-        // dictionary, so that each recipient can have up to one registered handler for a given token, for each
-        // message type. Each mapping is stored in the types map, which associates each pair of concrete types to its
+        // Each combination of <TMessage, TToken> results in a concrete Mapping<TMessage, TToken> type, which holds the references
+        // from registered recipients to handlers. The handlers are stored in a <TToken, MessageHandler<object, TMessage>>
+        // dictionary, so that each recipient can have up to one registered handler for a given token, for each message type.
+        // Note that the registered handlers are unsafe-cast to a MessageHandler<object, TMessage> instance even if they were
+        // actually of type MessageHandler<TRecipient, TMessage>. This allows the messenger to track and invoke type-specific
+        // handlers without using reflection and without having to capture the input handler in a proxy delegate, causing one
+        // extra memory allocations and adding overhead. The type conversion is guaranteed to be respected due to how the
+        // messenger type itself works - as registered handlers are always invoked on their respective recipients.
+        // Each mapping is stored in the types map, which associates each pair of concrete types to its
         // mapping instance. Mapping instances are exposed as IMapping items, as each will be a closed type over
         // a different combination of TMessage and TToken generic type parameters. Each existing recipient is also stored in
         // the main recipients map, along with a set of all the existing dictionaries of handlers for that recipient (for all
@@ -137,7 +142,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        public void Register<TMessage, TToken>(object recipient, TToken token, MessageHandler<TMessage> handler)
+        public void Register<TRecipient, TMessage, TToken>(TRecipient recipient, TToken token, MessageHandler<TRecipient, TMessage> handler)
+            where TRecipient : class
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
@@ -146,19 +152,20 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Get the <TMessage, TToken> registration list for this recipient
                 Mapping<TMessage, TToken> mapping = GetOrAddMapping<TMessage, TToken>();
                 var key = new Recipient(recipient);
-                ref DictionarySlim<TToken, MessageHandler<TMessage>>? map = ref mapping.GetOrAddValueRef(key);
+                ref DictionarySlim<TToken, MessageHandler<object, TMessage>>? map = ref mapping.GetOrAddValueRef(key);
 
-                map ??= new DictionarySlim<TToken, MessageHandler<TMessage>>();
+                map ??= new DictionarySlim<TToken, MessageHandler<object, TMessage>>();
 
                 // Add the new registration entry
-                ref MessageHandler<TMessage>? registeredHandler = ref map.GetOrAddValueRef(token);
+                ref MessageHandler<object, TMessage>? registeredHandler = ref map.GetOrAddValueRef(token);
 
                 if (!(registeredHandler is null))
                 {
                     ThrowInvalidOperationExceptionForDuplicateRegistration();
                 }
 
-                registeredHandler = handler;
+                // Treat the input delegate as if it was covariant (see comments below in the Send method)
+                registeredHandler = Unsafe.As<MessageHandler<object, TMessage>>(handler);
 
                 // Update the total counter for handlers for the current type parameters
                 mapping.TotalHandlersCount++;
@@ -356,7 +363,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 var key = new Recipient(recipient);
 
-                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, MessageHandler<TMessage>>? dictionary))
+                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, MessageHandler<object, TMessage>>? dictionary))
                 {
                     return;
                 }
@@ -461,9 +468,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 {
                     // We're doing an unsafe cast to skip the type checks again.
                     // See the comments in the UnregisterAll method for more info.
-                    MessageHandler<TMessage> handler = Unsafe.As<MessageHandler<TMessage>>(Unsafe.Add(ref handlersRef, (IntPtr)(void*)(uint)j));
+                    object handler = Unsafe.Add(ref handlersRef, (IntPtr)(void*)(uint)j);
+                    object recipient = Unsafe.Add(ref recipientsRef, (IntPtr)(void*)(uint)j);
 
-                    handler(Unsafe.Add(ref recipientsRef, (IntPtr)(void*)(uint)j), message);
+                    // Here we perform an unsafe cast to enable covariance for delegate types.
+                    // We know that the input recipient will always respect the type constraints
+                    // of each original input delegate, and doing so allows us to still invoke
+                    // them all from here without worrying about specific generic type arguments.
+                    Unsafe.As<MessageHandler<object, TMessage>>(handler)(recipient, message);
                 }
             }
             finally
@@ -559,7 +571,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// This type is defined for simplicity and as a workaround for the lack of support for using type aliases
         /// over open generic types in C# (using type aliases can only be used for concrete, closed types).
         /// </remarks>
-        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<TMessage>>>, IMapping
+        private sealed class Mapping<TMessage, TToken> : DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<object, TMessage>>>, IMapping
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
