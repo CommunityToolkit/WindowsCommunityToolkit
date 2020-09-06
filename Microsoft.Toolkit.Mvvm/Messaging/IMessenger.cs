@@ -23,6 +23,54 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
     /// <summary>
     /// An interface for a type providing the ability to exchange messages between different objects.
+    /// This can be useful to decouple different modules of an application without having to keep strong
+    /// references to types being referenced. It is also possible to send messages to specific channels, uniquely
+    /// identified by a token, and to have different messengers in different sections of an applications.
+    /// In order to use the <see cref="IMessenger"/> functionalities, first define a message type, like so:
+    /// <code>
+    /// public sealed class LoginCompletedMessage { }
+    /// </code>
+    /// Then, register your a recipient for this message:
+    /// <code>
+    /// Messenger.Default.Register&lt;MyRecipientType, LoginCompletedMessage&gt;(this, (r, m) =>
+    /// {
+    ///     // Handle the message here...
+    /// });
+    /// </code>
+    /// The message handler here is a lambda expression taking two parameters: the recipient and the message.
+    /// This is done to avoid the allocations for the closures that would've been generated if the expression
+    /// had captured the current instance. The recipient type parameter is used so that the recipient can be
+    /// directly accessed within the handler without the need to manually perform type casts. This allows the
+    /// code to be less verbose and more reliable, as all the checks are done just at build time. If the handler
+    /// is defined within the same type as the recipient, it is also possible to directly access private members.
+    /// This allows the message handler to be a static method, which enables the C# compiler to perform a number
+    /// of additional memory optimizations (such as caching the delegate, avoiding unnecessary memory allocations).
+    /// Finally, send a message when needed, like so:
+    /// <code>
+    /// Messenger.Default.Send&lt;LoginCompletedMessage&gt;();
+    /// </code>
+    /// Additionally, the method group syntax can also be used to specify the message handler
+    /// to invoke when receiving a message, if a method with the right signature is available
+    /// in the current scope. This is helpful to keep the registration and handling logic separate.
+    /// Following up from the previous example, consider a class having this method:
+    /// <code>
+    /// private static void Receive(MyRecipientType recipient, LoginCompletedMessage message)
+    /// {
+    ///     // Handle the message there
+    /// }
+    /// </code>
+    /// The registration can then be performed in a single line like so:
+    /// <code>
+    /// Messenger.Default.Register(this, Receive);
+    /// </code>
+    /// The C# compiler will automatically convert that expression to a <see cref="MessageHandler{TRecipient,TMessage}"/> instance
+    /// compatible with <see cref="MessengerExtensions.Register{TRecipient,TMessage}(IMessenger,TRecipient,MessageHandler{TRecipient,TMessage})"/>.
+    /// This will also work if multiple overloads of that method are available, each handling a different
+    /// message type: the C# compiler will automatically pick the right one for the current message type.
+    /// It is also possible to register message handlers explicitly using the <see cref="IRecipient{TMessage}"/> interface.
+    /// To do so, the recipient just needs to implement the interface and then call the
+    /// <see cref="MessengerExtensions.RegisterAll(IMessenger,object)"/> extension, which will automatically register
+    /// all the handlers that are declared by the recipient type. Registration for individual handlers is supported as well.
     /// </summary>
     public interface IMessenger
     {
