@@ -159,9 +159,9 @@ namespace Microsoft.Toolkit.Extensions
                 // By-ref types are displayed as T&
                 if (t.IsByRef)
                 {
-                    t = t.GetElementType();
+                    t = t.GetElementType()!;
 
-                    return $"{FormatDisplayString(t, 0, type.GetGenericArguments())}&";
+                    return $"{FormatDisplayString(t, 0, t.GetGenericArguments())}&";
                 }
 
                 // Pointer types are displayed as T*
@@ -173,14 +173,14 @@ namespace Microsoft.Toolkit.Extensions
                     while (t.IsPointer)
                     {
                         depth++;
-                        t = t.GetElementType();
+                        t = t.GetElementType()!;
                     }
 
-                    return $"{FormatDisplayString(t, 0, type.GetGenericArguments())}{new string('*', depth)}";
+                    return $"{FormatDisplayString(t, 0, t.GetGenericArguments())}{new string('*', depth)}";
                 }
 
                 // Standard path for concrete types
-                return FormatDisplayString(t, 0, type.GetGenericArguments());
+                return FormatDisplayString(t, 0, t.GetGenericArguments());
             });
         }
 
