@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// The <see cref="GetOrAdd(ReadOnlySpan{char})"/> method provides a best-effort alternative to just creating
     /// a new <see cref="string"/> instance every time, in order to minimize the number of duplicated instances.
     /// The <see cref="StringPool"/> type will internally manage a highly efficient priority queue for the
-    /// cached <see cref="string"/> instances, so that when the full capacity is reached, the last recently
+    /// cached <see cref="string"/> instances, so that when the full capacity is reached, the least frequently
     /// used values will be automatically discarded to leave room for new values to cache.
     /// </summary>
     public sealed class StringPool
