@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
@@ -9,7 +10,10 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Globalization;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
@@ -69,26 +73,37 @@ namespace UnitTests.UI.Controls
         /// <summary>
         /// Tests the ability to have different overrides in different languages.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [TestCategory("Test_TextToolbar_Localization")]
-        [UITestMethod]
-        public void Test_Override_Fr()
+        [TestMethod]
+        public async Task Test_Override_Fr()
         {
-            // Just double-check we've got the right environment setup in our tests.
-            CollectionAssert.AreEquivalent(new string[] { "en-US", "fr" }, ApplicationLanguages.ManifestLanguages.ToArray(), "Missing locales for test");
+            await CoreApplication.MainView.DispatcherQueue.ExecuteOnUIThreadAsync(async () =>
+            {
+                // Just double-check we've got the right environment setup in our tests.
+                CollectionAssert.AreEquivalent(new string[] { "en-US", "fr" }, ApplicationLanguages.ManifestLanguages.ToArray(), "Missing locales for test");
 
-            // Override the default language for this test only (we'll set it back after).
-            var defaultLanguage = ApplicationLanguages.PrimaryLanguageOverride;
-            ApplicationLanguages.PrimaryLanguageOverride = "fr";
+                // Override the default language for this test only (we'll set it back after).
+                var defaultLanguage = ApplicationLanguages.PrimaryLanguageOverride;
+                ApplicationLanguages.PrimaryLanguageOverride = "fr";
 
-            var commonButtons = new CommonButtons(new TextToolbar());
-            var italicsButton = commonButtons.Italics;
+                // Need to add a delay for release mode as otherwise the language switch doesn't kickover quick enough
+                // This should be sufficient as we're just using this as a test-harness.
+                await Task.Delay(3000);
 
-            ApplicationLanguages.PrimaryLanguageOverride = defaultLanguage;
+                var commonButtons = new CommonButtons(new TextToolbar());
+                var italicsButton = commonButtons.Italics;
 
-            // Check for expected values.
-            Assert.IsNotNull(italicsButton, "Italics Button not found.");
+                // Note: When running locally if the test somehow fails before the default is reset, then
+                // the tests will be in a bad state as PrimaryLanguageOverride is persisted.
+                // To fix this, uninstall the UnitTests UWP app and run the tests again.
+                ApplicationLanguages.PrimaryLanguageOverride = defaultLanguage;
 
-            Assert.AreEqual("ItalicsFr", italicsButton.ToolTip, "Label doesn't match expected default value.");
+                // Check for expected values.
+                Assert.IsNotNull(italicsButton, "Italics Button not found.");
+
+                Assert.AreEqual("ItalicsFr", italicsButton.ToolTip, "Label doesn't match expected default value.");
+            });
         }
     }
 }
