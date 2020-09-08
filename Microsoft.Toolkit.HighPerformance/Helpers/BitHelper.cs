@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <returns>Whether <paramref name="value"/> has any bytes set to 0.</returns>
         /// <remarks>
         /// This method contains no branches.
-        /// For more info, see <see href="https://graphics.stanford.edu/~seander/bithacks.html"/>.
+        /// For more background on this subject, see <see href="https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord"/>.
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <returns>Whether <paramref name="value"/> has any bytes set to <paramref name="target"/>.</returns>
         /// <remarks>
         /// This method contains no branches.
-        /// For more info, see <see href="https://graphics.stanford.edu/~seander/bithacks.html"/>.
+        /// For more info, see <see href="https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord"/>.
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
