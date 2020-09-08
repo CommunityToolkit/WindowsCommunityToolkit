@@ -39,7 +39,8 @@ namespace Microsoft.Toolkit.Extensions
             [typeof(double)] = "double",
             [typeof(decimal)] = "decimal",
             [typeof(object)] = "object",
-            [typeof(string)] = "string"
+            [typeof(string)] = "string",
+            [typeof(void)] = "void"
         };
 
         /// <summary>

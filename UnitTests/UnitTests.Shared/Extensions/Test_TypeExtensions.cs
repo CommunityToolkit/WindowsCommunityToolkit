@@ -21,6 +21,7 @@ namespace UnitTests.Extensions
         [DataRow("decimal", typeof(decimal))]
         [DataRow("object", typeof(object))]
         [DataRow("string", typeof(string))]
+        [DataRow("void", typeof(void))]
         public void Test_TypeExtensions_BuiltInTypes(string name, Type type)
         {
             Assert.AreEqual(name, type.ToTypeString());
