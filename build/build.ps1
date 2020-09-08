@@ -169,7 +169,7 @@ if(-Not $SkipToolPackageRestore.IsPresent) {
     $NuGetOutput = Invoke-Expression "&`"$NUGET_EXE`" install -ExcludeVersion -OutputDirectory `"$TOOLS_DIR`""
 
     if ($LASTEXITCODE -ne 0) {
-        Throw "An error occured while restoring NuGet tools."
+        Throw "An error occurred while restoring NuGet tools."
     }
     else
     {
@@ -207,7 +207,7 @@ if(-Not $SkipToolPackageRestore.IsPresent) {
     $NuGetOutput = Invoke-Expression "&`"$NUGET_EXE`" install -ExcludeVersion -OutputDirectory `"$MODULES_DIR`""
 
     if ($LASTEXITCODE -ne 0) {
-        Throw "An error occured while restoring NuGet modules."
+        Throw "An error occurred while restoring NuGet modules."
     }
     else
     {
@@ -224,7 +224,7 @@ $Script = "$path/build.cake"
 Write-Host "Bootstrapping Cake..."
 Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" --bootstrap"
 if ($LASTEXITCODE -ne 0) {
-    throw "An error occured while bootstrapping Cake."
+    throw "An error occurred while bootstrapping Cake."
 }
 
 Write-Host "Running build script..."

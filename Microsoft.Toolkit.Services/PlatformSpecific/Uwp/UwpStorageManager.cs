@@ -11,7 +11,7 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Services.PlatformSpecific.Uwp
 {
     /// <summary>
-    /// Uwp specific implementation for IStorageManager using ApplicationData and LocalSettings
+    /// UWP specific implementation for IStorageManager using ApplicationData and LocalSettings
     /// </summary>
     internal class UwpStorageManager : IStorageManager
     {

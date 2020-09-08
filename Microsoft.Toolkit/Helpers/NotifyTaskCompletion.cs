@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Helpers
         public bool IsSuccessfullyCompleted => Task.Status == TaskStatus.RanToCompletion;
 
         /// <summary>
-        /// Gets a value indicating whether the task was cancelled.
+        /// Gets a value indicating whether the task was canceled.
         /// </summary>
         public bool IsCanceled => Task.IsCanceled;
 

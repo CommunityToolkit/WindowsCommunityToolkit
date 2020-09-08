@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// decrement the input parameter <paramref name="x"/> to ensure that the range of accepted
         /// values fits within the available 32 bits of the lookup table in use.
         /// For more info on this optimization technique, see <see href="https://egorbo.com/llvm-range-checks.html"/>.
-        /// Here is how the code from the lik above would be implemented using this method:
+        /// Here is how the code from the link above would be implemented using this method:
         /// <code>
         /// bool IsReservedCharacter(char c)
         /// {

@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // and the final loop to combine the partial hash values.
             // Note that even when we use the vectorized path we don't need to do
             // any preprocessing to try to get memory aligned, as that would cause
-            // the hashcodes to potentially be different for the same data.
+            // the hash codes to potentially be different for the same data.
             if (Vector.IsHardwareAccelerated &&
                 (byte*)length >= (byte*)(Vector<byte>.Count << 3))
             {

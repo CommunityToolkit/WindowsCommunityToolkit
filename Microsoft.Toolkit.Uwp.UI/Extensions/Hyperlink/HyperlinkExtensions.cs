@@ -25,28 +25,28 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(Hyperlink), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets the <see cref="ICommand"/> instance assocaited with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
+        /// Gets the <see cref="ICommand"/> instance associated with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> from which to get the associated <see cref="ICommand"/> instance</param>
-        /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> or null</returns>
+        /// <returns>The <see cref="ICommand"/> instance associated with the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> or null</returns>
         public static ICommand GetCommand(Hyperlink obj) => (ICommand)obj.GetValue(CommandProperty);
 
         /// <summary>
-        /// Sets the <see cref="ICommand"/> instance assocaited with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
+        /// Sets the <see cref="ICommand"/> instance associated with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> to associated the <see cref="ICommand"/> instance to</param>
         /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/></param>
         public static void SetCommand(Hyperlink obj, ICommand value) => obj.SetValue(CommandProperty, value);
 
         /// <summary>
-        /// Gets the <see cref="CommandProperty"/> instance assocaited with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
+        /// Gets the <see cref="CommandProperty"/> instance associated with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> from which to get the associated <see cref="CommandProperty"/> value</param>
-        /// <returns>The <see cref="CommandProperty"/> value associated with the the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> or null</returns>
+        /// <returns>The <see cref="CommandProperty"/> value associated with the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> or null</returns>
         public static object GetCommandParameter(Hyperlink obj) => obj.GetValue(CommandParameterProperty);
 
         /// <summary>
-        /// Sets the <see cref="CommandProperty"/> assocaited with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
+        /// Sets the <see cref="CommandProperty"/> associated with the specified <see cref="Windows.UI.Xaml.Documents.Hyperlink"/>
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> to associated the <see cref="CommandProperty"/> instance to</param>
         /// <param name="value">The <see cref="object"/> to set the <see cref="CommandProperty"/> to</param>
