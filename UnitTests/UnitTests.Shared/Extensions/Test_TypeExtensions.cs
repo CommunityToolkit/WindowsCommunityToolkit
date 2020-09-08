@@ -57,17 +57,17 @@ namespace UnitTests.Extensions
         [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Rabbit<int>.Foo<int[]>", typeof(Animal.Rabbit<int>.Foo<int[]>))]
         [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Rabbit<string[]>.Foo<object>", typeof(Animal.Rabbit<string[]>.Foo<object>))]
         [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Rabbit<(string, int)?>.Foo<(int, int?)>", typeof(Animal.Rabbit<(string, int)?>.Foo<(int, int?)>))]
-        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<float, System.DateTime>", typeof(Animal.Giraffe<float, DateTime>))]
-        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<string, (int?, object)>", typeof(Animal.Giraffe<string, (int?, object)>))]
-        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<string, (int?, object)?>.Foo", typeof(Animal.Giraffe<string, (int?, object)?>.Foo))]
-        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<float, System.DateTime>.Foo", typeof(Animal.Giraffe<float, DateTime>.Foo))]
-        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<string, (int?, object)?>.Foo<string>", typeof(Animal.Giraffe<string, (int?, object)?>.Foo<string>))]
-        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<float, System.DateTime>.Foo<(float?, int)?>", typeof(Animal.Giraffe<float, DateTime>.Foo<(float?, int)?>))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<float, System.DateTime>", typeof(Animal.Llama<float, DateTime>))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<string, (int?, object)>", typeof(Animal.Llama<string, (int?, object)>))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<string, (int?, object)?>.Foo", typeof(Animal.Llama<string, (int?, object)?>.Foo))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<float, System.DateTime>.Foo", typeof(Animal.Llama<float, DateTime>.Foo))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<string, (int?, object)?>.Foo<string>", typeof(Animal.Llama<string, (int?, object)?>.Foo<string>))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<float, System.DateTime>.Foo<(float?, int)?>", typeof(Animal.Llama<float, DateTime>.Foo<(float?, int)?>))]
         [DataRow("UnitTests.Extensions.Test_TypeExtensions.Vehicle<double>", typeof(Vehicle<double>))]
         [DataRow("UnitTests.Extensions.Test_TypeExtensions.Vehicle<int?>[]", typeof(Vehicle<int?>[]))]
         [DataRow("System.Collections.Generic.List<UnitTests.Extensions.Test_TypeExtensions.Vehicle<int>>", typeof(List<Vehicle<int>>))]
         [DataRow("System.Collections.Generic.List<UnitTests.Extensions.Test_TypeExtensions.Animal.Rabbit<int?>>", typeof(List<Animal.Rabbit<int?>>))]
-        [DataRow("System.Collections.Generic.List<UnitTests.Extensions.Test_TypeExtensions.Animal.Giraffe<float, System.DateTime[]>>", typeof(List<Animal.Giraffe<float, DateTime[]>>))]
+        [DataRow("System.Collections.Generic.List<UnitTests.Extensions.Test_TypeExtensions.Animal.Llama<float, System.DateTime[]>>", typeof(List<Animal.Llama<float, DateTime[]>>))]
         public void Test_TypeExtensions_NestedTypes(string name, Type type)
         {
             Assert.AreEqual(name, type.ToTypeString());
@@ -138,7 +138,7 @@ namespace UnitTests.Extensions
                 }
             }
 
-            public class Giraffe<T1, T2>
+            public class Llama<T1, T2>
             {
                 public class Foo
                 {
