@@ -154,10 +154,34 @@ namespace Microsoft.Toolkit.Extensions
             }
 
             // Atomically get or build the display string for the current type.
-            // Manually create a static lambda here to enable caching of the generated closure.
-            // This is a workaround for the missing caching for method group conversions, and should
-            // be removed once this issue is resolved: https://github.com/dotnet/roslyn/issues/5835.
-            return DisplayNames.GetValue(type, t => FormatDisplayString(t, 0, type.GetGenericArguments()));
+            return DisplayNames.GetValue(type, t =>
+            {
+                // By-ref types are displayed as T&
+                if (t.IsByRef)
+                {
+                    t = t.GetElementType();
+
+                    return $"{FormatDisplayString(t, 0, type.GetGenericArguments())}&";
+                }
+
+                // Pointer types are displayed as T*
+                if (t.IsPointer)
+                {
+                    int depth = 0;
+
+                    // Calculate the pointer indirection level
+                    while (t.IsPointer)
+                    {
+                        depth++;
+                        t = t.GetElementType();
+                    }
+
+                    return $"{FormatDisplayString(t, 0, type.GetGenericArguments())}{new string('*', depth)}";
+                }
+
+                // Standard path for concrete types
+                return FormatDisplayString(t, 0, type.GetGenericArguments());
+            });
         }
 
         /// <summary>

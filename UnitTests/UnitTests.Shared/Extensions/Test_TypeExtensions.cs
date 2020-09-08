@@ -73,6 +73,39 @@ namespace UnitTests.Extensions
             Assert.AreEqual(name, type.ToTypeString());
         }
 
+#pragma warning disable SA1015 // Closing generic brackets should be spaced correctly
+        [TestCategory("TypeExtensions")]
+        [TestMethod]
+        [DataRow("void*", typeof(void*))]
+        [DataRow("int**", typeof(int**))]
+        [DataRow("byte***", typeof(byte***))]
+        [DataRow("System.Guid*", typeof(Guid*))]
+        [DataRow("UnitTests.Extensions.Foo<int>*", typeof(Foo<int>*))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat**", typeof(Animal.Cat**))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat<int>*", typeof(Animal.Cat<int>*))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat<float>.Bar**", typeof(Animal.Cat<float>.Bar**))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat<double>.Bar<int>***", typeof(Animal.Cat<double>.Bar<int>***))]
+        public void Test_TypeExtensions_PointerTypes(string name, Type type)
+        {
+            Assert.AreEqual(name, type.ToTypeString());
+        }
+#pragma warning restore SA1015
+
+        [TestCategory("TypeExtensions")]
+        [TestMethod]
+        [DataRow("int&", typeof(int))]
+        [DataRow("byte&", typeof(byte))]
+        [DataRow("System.Guid&", typeof(Guid))]
+        [DataRow("UnitTests.Extensions.Foo<int>&", typeof(Foo<int>))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat&", typeof(Animal.Cat))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat<int>&", typeof(Animal.Cat<int>))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat<float>.Bar&", typeof(Animal.Cat<float>.Bar))]
+        [DataRow("UnitTests.Extensions.Test_TypeExtensions.Animal.Cat<double>.Bar<int>&", typeof(Animal.Cat<double>.Bar<int>))]
+        public void Test_TypeExtensions_RefTypes(string name, Type type)
+        {
+            Assert.AreEqual(name, type.MakeByRefType().ToTypeString());
+        }
+
         private class Animal
         {
             public struct Cat
