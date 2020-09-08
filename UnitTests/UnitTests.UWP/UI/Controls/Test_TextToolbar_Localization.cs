@@ -27,7 +27,7 @@ namespace UnitTests.UI.Controls
         /// </summary>
         [TestCategory("Test_TextToolbar_Localization")]
         [UITestMethod]
-        public void Test_Retrieve()
+        public void Test_TextToolbar_Localization_Retrieve()
         {
             var treeRoot = XamlReader.Load(
 @"<Page
@@ -60,7 +60,7 @@ namespace UnitTests.UI.Controls
         /// </summary>
         [TestCategory("Test_TextToolbar_Localization")]
         [UITestMethod]
-        public void Test_Override()
+        public void Test_TextToolbar_Localization_Override()
         {
             var commonButtons = new CommonButtons(new TextToolbar());
             var italicsButton = commonButtons.Italics;
@@ -76,7 +76,7 @@ namespace UnitTests.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [TestCategory("Test_TextToolbar_Localization")]
         [TestMethod]
-        public async Task Test_Override_Fr()
+        public async Task Test_TextToolbar_Localization_Override_Fr()
         {
             await CoreApplication.MainView.DispatcherQueue.ExecuteOnUIThreadAsync(async () =>
             {
