@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,32 +14,33 @@ namespace UnitTests.Extensions
     {
         [TestCategory("TypeExtensions")]
         [TestMethod]
-        public void Test_TypeExtensions_BuiltInTypes()
+        [DataRow("bool", typeof(bool))]
+        [DataRow("int", typeof(int))]
+        [DataRow("float", typeof(float))]
+        [DataRow("double", typeof(double))]
+        [DataRow("decimal", typeof(decimal))]
+        [DataRow("object", typeof(object))]
+        [DataRow("string", typeof(string))]
+        public void Test_TypeExtensions_BuiltInTypes(string name, Type type)
         {
-            Assert.AreEqual("bool", typeof(bool).ToTypeString());
-            Assert.AreEqual("int", typeof(int).ToTypeString());
-            Assert.AreEqual("float", typeof(float).ToTypeString());
-            Assert.AreEqual("double", typeof(double).ToTypeString());
-            Assert.AreEqual("decimal", typeof(decimal).ToTypeString());
-            Assert.AreEqual("object", typeof(object).ToTypeString());
-            Assert.AreEqual("string", typeof(string).ToTypeString());
+            Assert.AreEqual(name, type.ToTypeString());
         }
 
         [TestCategory("TypeExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "Nullable value tuple type")]
-        public void Test_TypeExtensions_GenericTypes()
+        [DataRow("int?", typeof(int?))]
+        [DataRow("System.DateTime?", typeof(DateTime?))]
+        [DataRow("(int, float)", typeof((int, float)))]
+        [DataRow("(double?, string, int)?", typeof((double?, string, int)?))]
+        [DataRow("int[]", typeof(int[]))]
+        [DataRow("int[,]", typeof(int[,]))]
+        [DataRow("System.Span<float>", typeof(Span<float>))]
+        [DataRow("System.Memory<char>", typeof(Memory<char>))]
+        [DataRow("System.Collections.Generic.IEnumerable<int>", typeof(IEnumerable<int>))]
+        [DataRow("System.Collections.Generic.Dictionary<int, System.Collections.Generic.List<float>>", typeof(Dictionary<int, List<float>>))]
+        public void Test_TypeExtensions_GenericTypes(string name, Type type)
         {
-            Assert.AreEqual("int?", typeof(int?).ToTypeString());
-            Assert.AreEqual("System.DateTime?", typeof(DateTime?).ToTypeString());
-            Assert.AreEqual("(int, float)", typeof((int, float)).ToTypeString());
-            Assert.AreEqual("(double?, string, int)?", typeof((double?, string, int)?).ToTypeString());
-            Assert.AreEqual("int[]", typeof(int[]).ToTypeString());
-            Assert.AreEqual(typeof(int[,]).ToTypeString(), "int[,]");
-            Assert.AreEqual("System.Span<float>", typeof(Span<float>).ToTypeString());
-            Assert.AreEqual("System.Memory<char>", typeof(Memory<char>).ToTypeString());
-            Assert.AreEqual("System.Collections.Generic.IEnumerable<int>", typeof(IEnumerable<int>).ToTypeString());
-            Assert.AreEqual(typeof(Dictionary<int, List<float>>).ToTypeString(), "System.Collections.Generic.Dictionary<int, System.Collections.Generic.List<float>>");
+            Assert.AreEqual(name, type.ToTypeString());
         }
     }
 }
