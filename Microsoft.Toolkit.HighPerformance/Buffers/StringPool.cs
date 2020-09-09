@@ -311,6 +311,15 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// A configurable map containing a group of cached <see cref="string"/> instances.
         /// </summary>
+        /// <remarks>
+        /// Instances of this type are stored in an array within <see cref="StringPool"/> and they are
+        /// always accessed by reference - essentially as if this type had been a class. The type is
+        /// also private, so there's no risk for users to directly access it and accidentally copy an
+        /// instance, which would lead to bugs due to values becoming out of sync with the internal state
+        /// (that is, because instances would be copied by value, so primitive fields would not be shared).
+        /// The reason why we're using a struct here is to remove an indirection level and improve cache
+        /// locality when accessing individual buckets from the methods in the <see cref="StringPool"/> type.
+        /// </remarks>
         private struct FixedSizePriorityMap
         {
             /// <summary>
