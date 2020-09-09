@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using Windows.UI.Xaml;
 
 namespace Microsoft.VisualStudio.TestTools.UnitTesting
 {
