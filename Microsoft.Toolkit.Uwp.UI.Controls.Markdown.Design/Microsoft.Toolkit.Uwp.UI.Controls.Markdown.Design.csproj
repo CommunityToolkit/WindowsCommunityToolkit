@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}</ProjectGuid>
+    <ProjectGuid>{67FE47A0-CA93-4680-B770-A0A48C1DBC40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.Design</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -20,14 +20,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Debug\uap10.0.16299\Design\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\bin\Debug\uap10.0.16299\Design\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Release\uap10.0.16299\Design\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\bin\Release\uap10.0.16299\Design\</OutputPath>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
@@ -63,9 +63,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" Condition="'$(ExcludeRestorePackageImports)' != 'true'">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj" Condition="'$(ExcludeRestorePackageImports)' != 'true'">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
       <Private>False</Private>
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
     </ProjectReference>
@@ -85,27 +85,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TabViewItemMetadata.cs" />
-    <Compile Include="BladeItemMetadata.cs" />
-    <Compile Include="BladeViewMetadata.cs" />
-    <Compile Include="CarouselMetadata.cs" />
-    <Compile Include="DropShadowPanelMetadata.cs" />
-    <Compile Include="AdaptiveGridViewMetadata.cs" />
-    <Compile Include="ExpanderMetadata.cs" />
-    <Compile Include="GridSplitterMetadata.cs" />
-    <Compile Include="HeaderedTextBlockMetadata.cs" />
-    <Compile Include="ImageExMetadata.cs" />
-    <Compile Include="InAppNotificationMetadata.cs" />
-    <Compile Include="LayoutTransitionControlMetadata.cs" />
-    <Compile Include="LoadingMetadata.cs" />
-    <Compile Include="MasterDetailsViewMetadata.cs" />
-    <Compile Include="MenuItemMetadata.cs" />
-    <Compile Include="MenuMetadata.cs" />
+    <Compile Include="MarkdownTextBlockMetadata.cs" />
     <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
     <Compile Include="Common\PlatformTypes.cs" />
-    <Compile Include="TabViewMetadata.cs" />
-    <Compile Include="OrbitViewMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,14 +103,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Common\ToolboxCategoryPaths.cs" />
-    <Compile Include="RadialGaugeMetadata.cs" />
-    <Compile Include="RadialProgressBarMetadata.cs" />
-    <Compile Include="RangeSelectorMetadata.cs" />
-    <Compile Include="RotatorTileMetadata.cs" />
-    <Compile Include="ScrollHeaderMetadata.cs" />
-    <Compile Include="TextToolbarMetadata.cs" />
-    <Compile Include="TileControlMetadata.cs" />
-    <Compile Include="WrapPanelMetadata.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -139,14 +114,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0.16299\Microsoft.Toolkit.Uwp.UI.Controls.xml">
-      <Link>Microsoft.Toolkit.Uwp.UI.Controls.xml</Link>
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\bin\$(Configuration)\uap10.0.16299\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.xml">
+      <Link>Microsoft.Toolkit.Uwp.UI.Controls.Markdown.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icons\Microsoft.Toolkit.Uwp.UI.Controls.Menu.icon.png" />
-    <EmbeddedResource Include="Icons\Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile.icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="Pack">
