@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -173,7 +174,7 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
-            ReadOnlyMemory2D<int> memory2d = new ReadOnlyMemory2D<int>(memory, 1, 2, 2, 1);
+            ReadOnlyMemory2D<int> memory2d = memory.AsMemory2D(1, 2, 2, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
             Assert.AreEqual(memory2d.Size, 4);
@@ -182,11 +183,11 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 0], 2);
             Assert.AreEqual(memory2d.Span[1, 1], 6);
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(memory, -99, 1, 1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(memory, 0, -10, 1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(memory, 0, 1, 1, -1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(memory, 0, 1, -100, 1));
-            Assert.ThrowsException<ArgumentException>(() => new ReadOnlyMemory2D<int>(memory, 0, 10, 1, 120));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(-99, 1, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(0, -10, 1, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(0, 1, 1, -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(0, 1, -100, 1));
+            Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(0, 10, 1, 120));
         }
 #endif
 
@@ -304,7 +305,7 @@ namespace UnitTests.HighPerformance.Memory
         {
             ReadOnlyMemory<int> data = new[] { 1, 2, 3, 4 };
 
-            ReadOnlyMemory2D<int> memory2d = new ReadOnlyMemory2D<int>(data, 2, 2);
+            ReadOnlyMemory2D<int> memory2d = data.AsMemory2D(2, 2);
 
             bool success = memory2d.TryGetMemory(out ReadOnlyMemory<int> memory);
 
