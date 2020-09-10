@@ -49,7 +49,7 @@ namespace UITests.Tests
                 }
 
                 return new TestApplicationInfo(
-                    "3568ebdf-5b6b-4ddd-bb17-462d614ba50f",
+                    "UITests.App",
                     "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App",
                     "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
                     "UITests.App",
