@@ -35,6 +35,8 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
+var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp2.1";
+
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
 
@@ -277,21 +279,23 @@ Task("Test")
 	.Description("Runs all Tests")
     .Does(() =>
 {
-	var vswhere = VSWhereLatest(new VSWhereLatestSettings
-	{
-		IncludePrerelease = false
-	});
+    Information("\nRunning Unit Tests");
+    var vswhere = VSWhereLatest(new VSWhereLatestSettings
+    {
+        IncludePrerelease = false
+    });
 
-	var testSettings = new VSTestSettings
-	{
-	    ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
-		TestAdapterPath = getMSTestAdapterPath(),
+    var testSettings = new VSTestSettings
+    {
+        ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
+        TestAdapterPath = getMSTestAdapterPath(),
         ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10"),
-	};
+    };
 
-	VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
+    VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
 }).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*.NetCore.csproj"), (file) => 
 {
+    Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings
 	{
 		Configuration = "Release",
@@ -301,6 +305,14 @@ Task("Test")
 		ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
 	};
     DotNetCoreTest(file.FullPath, testSettings);
+}).Does(() =>
+{
+    Information("\nRunning TAEF Interaction Tests");
+    var result = StartProcess(taefBinDir + "/TE.exe", taefBinDir + "/UITests.Tests.TAEF.dll /screenCaptureOnError");
+    if (result != 0)
+    {
+        throw new InvalidOperationException("TAEF Tests failed!");
+    }
 }).DeferOnError();
 
 
