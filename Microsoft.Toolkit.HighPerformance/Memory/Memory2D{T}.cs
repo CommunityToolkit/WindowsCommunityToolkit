@@ -382,6 +382,118 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.width = width;
             this.pitch = pitch;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="memory">The target <see cref="Memory{T}"/> to wrap.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// </exception>
+        /// <remarks>The total area must match the lenght of <paramref name="memory"/>.</remarks>
+        internal Memory2D(Memory<T> memory, int height, int width)
+            : this(memory, 0, height, width, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Memory2D{T}"/> struct.
+        /// </summary>
+        /// <param name="memory">The target <see cref="Memory{T}"/> to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="memory"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="memory"/>.
+        /// </exception>
+        internal Memory2D(Memory<T> memory, int offset, int height, int width, int pitch)
+        {
+            if ((uint)offset > (uint)memory.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            if (width == 0 || height == 0)
+            {
+                this = default;
+
+                return;
+            }
+
+            int
+                remaining = memory.Length - offset,
+                area = ((width + pitch) * (height - 1)) + width;
+
+            if (area > remaining)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
+
+            // Check if the Memory<T> instance wraps a string. This is possible in case
+            // consumers do an unsafe cast for the entire Memory<T> object, and while not
+            // really safe it is still supported in CoreCLR too, so we're following suit here.
+            if (typeof(T) == typeof(char) &&
+                MemoryMarshal.TryGetString(Unsafe.As<Memory<T>, Memory<char>>(ref memory), out string? text, out int textStart, out _))
+            {
+                ref char r0 = ref text.DangerousGetReferenceAt(textStart + offset);
+
+                this.instance = text;
+                this.offset = text.DangerousGetObjectDataByteOffset(ref r0);
+            }
+            else if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
+            {
+                // Check if the input Memory<T> instance wraps an array we can access.
+                // This is fine, since Memory<T> on its own doesn't control the lifetime
+                // of the underlying array anyway, and this Memory2D<T> type would do the same.
+                // Using the array directly makes retrieving a Span2D<T> faster down the line,
+                // as we no longer have to jump through the boxed Memory<T> first anymore.
+                T[] array = segment.Array!;
+
+                this.instance = array;
+                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(segment.Offset + offset));
+            }
+            else if (MemoryMarshal.TryGetMemoryManager<T, MemoryManager<T>>(memory, out var memoryManager, out int memoryManagerStart, out _))
+            {
+                this.instance = memoryManager;
+
+                unsafe
+                {
+                    this.offset = (IntPtr)(void*)(uint)(memoryManagerStart + offset);
+                }
+            }
+            else
+            {
+                ThrowHelper.ThrowArgumentExceptionForUnsupportedType();
+
+                this.instance = null;
+                this.offset = default;
+            }
+
+            this.height = height;
+            this.width = width;
+            this.pitch = pitch;
+        }
 #endif
 
         /// <summary>
