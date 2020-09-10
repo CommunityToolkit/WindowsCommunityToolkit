@@ -11,9 +11,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
 {
     public class SampleFormatter : Formatter
     {
-        public SampleFormatter(TextToolbar model)
-            : base(model)
+        public override void SetModel(TextToolbar model)
         {
+            base.SetModel(model);
+
             CommonButtons = new CommonButtons(model);
         }
 
@@ -31,6 +32,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
             }
         }
 
-        private CommonButtons CommonButtons { get; }
+        private CommonButtons CommonButtons { get; set; }
     }
 }
