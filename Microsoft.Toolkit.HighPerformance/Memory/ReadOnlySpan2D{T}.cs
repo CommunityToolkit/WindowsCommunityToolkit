@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal ReadOnlySpan2D(object instance, IntPtr offset, int height, int width, int pitch)
+        internal ReadOnlySpan2D(object? instance, IntPtr offset, int height, int width, int pitch)
         {
 #if SPAN_RUNTIME_SUPPORT
             this.span = MemoryMarshal.CreateReadOnlySpan(ref instance.DangerousGetObjectDataReferenceAt<T>(offset), height);
@@ -754,16 +754,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 pitch = this.pitch + (this.width - width);
 
 #if SPAN_RUNTIME_SUPPORT
-            unsafe
-            {
-                ref T r0 = ref Unsafe.Add(ref MemoryMarshal.GetReference(this.span), (IntPtr)(void*)(uint)shift);
+            ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
 
-                return new ReadOnlySpan2D<T>(r0, height, width, pitch);
-            }
+            return new ReadOnlySpan2D<T>(r0, height, width, pitch);
 #else
             IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
 
-            return new ReadOnlySpan2D<T>(this.instance!, offset, height, width, pitch);
+            return new ReadOnlySpan2D<T>(this.instance, offset, height, width, pitch);
 #endif
         }
 
