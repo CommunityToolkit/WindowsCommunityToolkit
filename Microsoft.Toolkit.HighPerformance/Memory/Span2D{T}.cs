@@ -144,6 +144,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.Pitch = pitch;
         }
 
+#if !SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct with the specified parameters.
         /// </summary>
@@ -155,16 +156,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Span2D(object? instance, IntPtr offset, int height, int width, int pitch)
         {
-#if SPAN_RUNTIME_SUPPORT
-            this.span = MemoryMarshal.CreateSpan(ref instance.DangerousGetObjectDataReferenceAt<T>(offset), height);
-#else
             this.Instance = instance;
             this.Offset = offset;
             this.height = height;
-#endif
             this.width = width;
             this.Pitch = pitch;
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Span2D{T}"/> struct.
