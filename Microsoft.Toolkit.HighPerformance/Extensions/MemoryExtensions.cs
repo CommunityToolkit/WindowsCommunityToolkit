@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     public static class MemoryExtensions
     {
+#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Returns a <see cref="Memory2D{T}"/> instance wrapping the underlying data for the given <see cref="Memory{T}"/> instance.
         /// </summary>
@@ -59,6 +60,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             return new Memory2D<T>(memory, offset, height, width, pitch);
         }
+#endif
 
         /// <summary>
         /// Returns a <see cref="Stream"/> wrapping the contents of the given <see cref="Memory{T}"/> of <see cref="byte"/> instance.
