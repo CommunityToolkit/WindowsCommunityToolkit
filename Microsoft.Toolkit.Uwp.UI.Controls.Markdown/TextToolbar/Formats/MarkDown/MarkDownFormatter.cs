@@ -20,13 +20,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
     /// </summary>
     public class MarkDownFormatter : Formatter
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MarkDownFormatter"/> class.
-        /// </summary>
-        /// <param name="model"><see cref="TextToolbar"/> where formatter will be used</param>
-        public MarkDownFormatter(TextToolbar model)
-            : base(model)
+        internal const string QuoteElement = "Quote";
+        internal const string HeadersElement = "Headers";
+        internal const string CodeElement = "Code";
+
+        /// <inheritdoc/>
+        public override void SetModel(TextToolbar model)
         {
+            base.SetModel(model);
+
             CommonButtons = new CommonButtons(model);
             ButtonActions = new MarkDownButtonActions(this);
         }
@@ -40,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
             headerFlyout = new Flyout { Content = list };
 
-            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && button.XamlRoot != null)
             {
                 headerFlyout.XamlRoot = button.XamlRoot;
             }
@@ -438,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             return ListLineIterator + ". ";
         }
 
-        private CommonButtons CommonButtons { get; }
+        private CommonButtons CommonButtons { get; set; }
 
         /// <inheritdoc/>
         public override string Text
@@ -459,7 +461,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 OrderedListButton = OrderedListButton ?? CommonButtons.OrderedList;
                 QuoteButton = new ToolbarButton
                 {
-                    Name = TextToolbar.QuoteElement,
+                    Name = QuoteElement,
                     ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_QuoteLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Message },
                     Activation = FormatQuote
@@ -475,14 +477,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
                     new ToolbarButton
                     {
-                        Name = TextToolbar.HeadersElement,
+                        Name = HeadersElement,
                         Icon = new SymbolIcon { Symbol = Symbol.FontSize },
                         ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_HeaderLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                         Activation = StyleHeader
                     },
                     new ToolbarButton
                     {
-                        Name = TextToolbar.CodeElement,
+                        Name = CodeElement,
                         ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_CodeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                         Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                         Activation = FormatCode

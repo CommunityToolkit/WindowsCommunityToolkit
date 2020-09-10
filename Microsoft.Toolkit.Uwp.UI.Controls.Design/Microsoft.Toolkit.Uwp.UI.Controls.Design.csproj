@@ -96,7 +96,6 @@
     <Compile Include="InAppNotificationMetadata.cs" />
     <Compile Include="LayoutTransitionControlMetadata.cs" />
     <Compile Include="LoadingMetadata.cs" />
-    <Compile Include="MarkdownTextBlockMetadata.cs" />
     <Compile Include="MasterDetailsViewMetadata.cs" />
     <Compile Include="MenuItemMetadata.cs" />
     <Compile Include="MenuMetadata.cs" />

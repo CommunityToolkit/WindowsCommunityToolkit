@@ -23,7 +23,6 @@
         - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
         - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
-        - MarkdownTextBlock: An efficient and extensible control that can parse and render markdown.
         - MasterDetailsView: Implements the Master/Details design pattern.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
         - RadialGauge: Displays a value within a range, using a needle on a circular face.
@@ -45,11 +44,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
  
   <ItemGroup>

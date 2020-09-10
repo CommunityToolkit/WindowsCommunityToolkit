@@ -16,13 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
     /// </summary>
     public class RichTextFormatter : Formatter
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextFormatter"/> class.
-        /// </summary>
-        /// <param name="model">The <see cref="TextToolbar"/></param>
-        public RichTextFormatter(TextToolbar model)
-            : base(model)
+        /// <inheritdoc/>
+        public override void SetModel(TextToolbar model)
         {
+            base.SetModel(model);
+
             CommonButtons = new CommonButtons(model);
             ButtonActions = new RichTextButtonActions(this);
         }
@@ -88,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             base.OnSelectionChanged();
         }
 
-        private CommonButtons CommonButtons { get; }
+        private CommonButtons CommonButtons { get; set; }
 
         /// <inheritdoc/>
         public override string Text
