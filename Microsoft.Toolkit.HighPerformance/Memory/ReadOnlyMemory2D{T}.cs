@@ -743,7 +743,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 else if (typeof(T) == typeof(char) && this.instance.GetType() == typeof(string))
                 {
                     string text = Unsafe.As<string>(this.instance);
-                    int index = text.AsSpan().IndexOf(text.DangerousGetObjectDataReferenceAt<char>(this.offset));
+                    int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, Size);
 
                     memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
