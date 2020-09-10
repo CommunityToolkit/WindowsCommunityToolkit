@@ -115,22 +115,32 @@ namespace UnitTests.Mvvm
 
             Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
+            object recipient = null;
             string result = null;
-            Messenger.Default.Register<MessageA>(a, (r, m) => result = m.Text);
+
+            Messenger.Default.Register<MessageA>(a, (r, m) =>
+            {
+                recipient = r;
+                result = m.Text;
+            });
 
             Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
 
             Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
 
+            Assert.AreSame(recipient, a);
             Assert.AreEqual(result, nameof(MessageA));
 
             Messenger.Default.Unregister<MessageA>(a);
 
             Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
 
+            recipient = null;
             result = null;
+
             Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
 
+            Assert.IsNull(recipient);
             Assert.IsNull(result);
         }
 

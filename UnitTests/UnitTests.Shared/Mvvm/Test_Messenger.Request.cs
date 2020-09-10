@@ -19,9 +19,12 @@ namespace UnitTests.Mvvm
         {
             var messenger = new Messenger();
             var recipient = new object();
+            object test = null;
 
             void Receive(object recipient, NumberRequestMessage m)
             {
+                test = recipient;
+
                 Assert.IsFalse(m.HasReceivedResponse);
 
                 m.Reply(42);
@@ -33,6 +36,7 @@ namespace UnitTests.Mvvm
 
             int result = messenger.Send<NumberRequestMessage>();
 
+            Assert.AreSame(test, recipient);
             Assert.AreEqual(result, 42);
         }
 
@@ -181,11 +185,28 @@ namespace UnitTests.Mvvm
             object
                 recipient1 = new object(),
                 recipient2 = new object(),
-                recipient3 = new object();
+                recipient3 = new object(),
+                r1 = null,
+                r2 = null,
+                r3 = null;
 
-            void Receive1(object recipient, NumbersCollectionRequestMessage m) => m.Reply(1);
-            void Receive2(object recipient, NumbersCollectionRequestMessage m) => m.Reply(2);
-            void Receive3(object recipient, NumbersCollectionRequestMessage m) => m.Reply(3);
+            void Receive1(object recipient, NumbersCollectionRequestMessage m)
+            {
+                r1 = recipient;
+                m.Reply(1);
+            }
+
+            void Receive2(object recipient, NumbersCollectionRequestMessage m)
+            {
+                r2 = recipient;
+                m.Reply(2);
+            }
+
+            void Receive3(object recipient, NumbersCollectionRequestMessage m)
+            {
+                r3 = recipient;
+                m.Reply(3);
+            }
 
             messenger.Register<NumbersCollectionRequestMessage>(recipient1, Receive1);
             messenger.Register<NumbersCollectionRequestMessage>(recipient2, Receive2);
@@ -197,6 +218,10 @@ namespace UnitTests.Mvvm
             {
                 responses.Add(response);
             }
+
+            Assert.AreSame(r1, recipient1);
+            Assert.AreSame(r2, recipient2);
+            Assert.AreSame(r3, recipient3);
 
             CollectionAssert.AreEquivalent(responses, new[] { 1, 2, 3 });
         }
