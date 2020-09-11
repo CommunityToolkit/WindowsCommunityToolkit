@@ -517,8 +517,14 @@
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
+    <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
+      <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
+      <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
@@ -623,6 +629,8 @@
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionXaml.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
+    <Content Include="SamplePages\FocusBehavior\FocusBehaviorXaml.bind" />
+    <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1001,7 +1009,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1541,6 +1557,10 @@
       <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+      <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
@@ -1574,6 +1594,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

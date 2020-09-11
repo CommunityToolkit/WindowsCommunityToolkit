@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Field-by-field comparison to avoid reflection-based ValueType.Equals.
         /// </summary>
         /// <param name="obj">DataGridClipboardCellContent to compare.</param>
-        /// <returns>True iff this and data are equal</returns>
+        /// <returns>True if this and data are equal</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is DataGridClipboardCellContent))
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="clipboardCellContent1">The first DataGridClipboardCellContent.</param>
         /// <param name="clipboardCellContent2">The second DataGridClipboardCellContent.</param>
-        /// <returns>True iff clipboardCellContent1 and clipboardCellContent2 are NOT equal.</returns>
+        /// <returns>True if clipboardCellContent1 and clipboardCellContent2 are NOT equal.</returns>
         public static bool operator !=(DataGridClipboardCellContent clipboardCellContent1, DataGridClipboardCellContent clipboardCellContent2)
         {
             if (clipboardCellContent1._column == clipboardCellContent2._column && clipboardCellContent1._content == clipboardCellContent2._content)

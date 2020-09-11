@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public string Text { get; set; }
 
         /// <summary>
-        /// Gets or sets the Language specified in prefix, e.g. ```c# (Github Style Parsing).<para/>
+        /// Gets or sets the Language specified in prefix, e.g. ```c# (GitHub Style Parsing).<para/>
         /// This does not guarantee that the Code Block has a language, or no language, some valid code might not have been prefixed, and this will still return null. <para/>
         /// To ensure all Code is Highlighted (If desired), you might have to determine the language from the provided string, such as looking for key words.
         /// </summary>
