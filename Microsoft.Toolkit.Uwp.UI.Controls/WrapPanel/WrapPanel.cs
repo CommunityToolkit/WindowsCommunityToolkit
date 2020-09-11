@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -72,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(VerticalContentAlignment),
             typeof(VerticalAlignment),
             typeof(WrapPanel),
-            new PropertyMetadata(VerticalAlignment.Top));
+            new PropertyMetadata(VerticalAlignment.Top, LayoutPropertyChanged));
 
         /// <summary>
         /// Gets or sets the orientation of the WrapPanel.
@@ -219,6 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
+            var rows = new List<Row>();
             if (Children.Count > 0)
             {
                 var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
@@ -227,14 +227,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
                 var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
-                var allMeasures = Children.Select(c => new UvMeasure(Orientation, c.DesiredSize)).ToList();
-                var allData = new List<(UvMeasure position, UvMeasure size)>();
-
-                var currentV = 0.0;
-                void Arrange(int childIndex, bool isLast = false)
+                var currentRow = new Row();
+                void Arrange(UIElement child, bool isLast = false)
                 {
-                    var child = Children[childIndex];
-                    var desiredMeasure = allMeasures[childIndex];
+                    var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize);
                     if (desiredMeasure.U == 0)
                     {
                         return; // if an item is collapsed, avoid adding the spacing
@@ -244,8 +240,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // next row!
                         position.U = paddingStart.U;
-                        position.V += currentV + spacingMeasure.V;
-                        currentV = 0;
+                        position.V += currentRow.Size.V + spacingMeasure.V;
+
+                        rows.Add(currentRow);
+                        currentRow = new Row();
                     }
 
                     // Stretch the last item to fill the available space
@@ -254,69 +252,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         desiredMeasure.U = parentMeasure.U - position.U;
                     }
 
-                    allData.Add((position, desiredMeasure));
+                    currentRow.Add(position, desiredMeasure);
 
                     // adjust the location for the next items
                     position.U += desiredMeasure.U + spacingMeasure.U;
-                    currentV = Math.Max(desiredMeasure.V, currentV);
                 }
 
                 var lastIndex = Children.Count - 1;
                 for (var i = 0; i < lastIndex; i++)
                 {
-                    Arrange(i);
+                    Arrange(Children[i]);
                 }
 
-                Arrange(lastIndex, StretchChild == StretchChild.Last);
-
-                // Now that we have all the data, we do the actual arrange pass
-                var lastArrangeV = -1.0;
-                var maxRowHeight = 0.0;
-                for (var i = 0; i < Children.Count; i++)
+                Arrange(Children[lastIndex], StretchChild == StretchChild.Last);
+                if (currentRow.ChildrenRects.Count > 0)
                 {
-                    // place the item
-                    var child = Children[i];
-                    (UvMeasure arrangePosition, UvMeasure arrangeMeasure) = allData[i];
+                    rows.Add(currentRow);
+                }
+            }
 
-                    if (lastArrangeV != arrangePosition.V)
+            if (rows.Count > 0)
+            {
+                // Now that we have all the data, we do the actual arrange pass
+                var childIndex = 0;
+                foreach (var row in rows)
+                {
+                    foreach (var rect in row.ChildrenRects)
                     {
-                        // We are on a new row, we scan all the items to get the max row height
-                        maxRowHeight = allData
-                            .Skip(i) // ignore what has already being processed
-                            .TakeWhile(d => d.position.V == arrangePosition.V) // we are still on the same row
-                            .Max(d => d.size.V); // We want the max.
-                    }
-
-                    if (Orientation == Orientation.Horizontal)
-                    {
-                        switch (VerticalContentAlignment)
+                        var child = Children[childIndex++];
+                        UvRect arrangeRect;
+                        if (Orientation == Orientation.Horizontal)
                         {
-                            case VerticalAlignment.Center:
-                            {
-                                var vOffset = Math.Max((maxRowHeight - arrangeMeasure.V) / 2.0, 0.0);
-                                child.Arrange(new Rect(arrangePosition.U, arrangePosition.V + vOffset, arrangeMeasure.U, arrangeMeasure.V));
-                                break;
-                            }
-
-                            case VerticalAlignment.Bottom:
-                            {
-                                var vOffset = Math.Max(maxRowHeight - arrangeMeasure.V, 0.0);
-                                child.Arrange(new Rect(arrangePosition.U, arrangePosition.V + vOffset, arrangeMeasure.U, arrangeMeasure.V));
-                                break;
-                            }
-
-                            case VerticalAlignment.Stretch:
-                                child.Arrange(new Rect(arrangePosition.U, arrangePosition.V, arrangeMeasure.U, maxRowHeight));
-                                break;
-                            case VerticalAlignment.Top:
-                            default:
-                                child.Arrange(new Rect(arrangePosition.U, arrangePosition.V, arrangeMeasure.U, arrangeMeasure.V));
-                                break;
+                            arrangeRect = rect.WithVerticalAlignment(VerticalContentAlignment, row.Size.V);
                         }
-                    }
-                    else
-                    {
-                        child.Arrange(new Rect(arrangePosition.V, arrangePosition.U, arrangeMeasure.V, arrangeMeasure.U));
+                        else
+                        {
+                            arrangeRect = rect;
+                        }
+
+                        child.Arrange(arrangeRect.ToRect(Orientation));
                     }
                 }
             }

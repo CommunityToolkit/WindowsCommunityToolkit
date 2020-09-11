@@ -46,9 +46,16 @@
           <controls:WrapPanel Background="{ThemeResource Brush-Grey-04}"
                               Padding="@[Padding:Thickness:0,0,0,0]@"
                               VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
-                              HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@" />
+                              HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"
+                              VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Top]"/>
         </ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
+      <ListView.ItemContainerStyle>
+        <Style TargetType="ListViewItem">
+          <Setter Property="VerticalContentAlignment" Value="Stretch" />
+          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+      </ListView.ItemContainerStyle>
     </ListView>
   </Grid>
 </Page>
