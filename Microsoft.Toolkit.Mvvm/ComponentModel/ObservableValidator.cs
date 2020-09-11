@@ -86,24 +86,32 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 ThrowArgumentNullExceptionForNullPropertyName();
             }
 
+            // Check if the property had already been previously validated, and if so retrieve
+            // the reusable list of validation errors from the errors dictionary. This list is
+            // used to add new validation errors below, if any are produced by the validator.
+            // If the property isn't present in the dictionary, add it now to avoid allocations.
+            if (!this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors))
+            {
+                propertyErrors = new List<ValidationResult>();
+
+                this.errors.Add(propertyName!, propertyErrors);
+            }
+
             bool errorsChanged = false;
 
             // Clear the errors for the specified property, if any
-            if (this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors) &&
-                propertyErrors.Count > 0)
+            if (propertyErrors.Count > 0)
             {
                 propertyErrors.Clear();
 
                 errorsChanged = true;
             }
 
-            List<ValidationResult> results = new List<ValidationResult>();
-
-            // Validate the property
+            // Validate the property, by adding new errors to the existing list
             bool isValid = Validator.TryValidateProperty(
                 value,
                 new ValidationContext(this, null, null) { MemberName = propertyName },
-                results);
+                propertyErrors);
 
             // Update the state and/or the errors for the property
             if (isValid)
@@ -118,20 +126,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 if (!errorsChanged)
                 {
                     this.totalErrors++;
-                }
-
-                // We can avoid the repeated dictionary lookup if we just check the result of the previous
-                // one here. If the retrieved errors collection is null, we can log the ones produced by
-                // the validation we just performed. We also don't need to create a new list and add them
-                // to that, as we can directly set the resulting list as value in the mapping. If the
-                // property already had some other logged errors instead, we can add the new ones as a range.
-                if (propertyErrors is null)
-                {
-                    this.errors.Add(propertyName!, results);
-                }
-                else
-                {
-                    propertyErrors.AddRange(results);
                 }
 
                 errorsChanged = true;
