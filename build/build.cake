@@ -297,22 +297,26 @@ Task("Test")
 {
     Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings
-	{
-		Configuration = "Release",
-		NoBuild = true,
-		Logger = "trx;LogFilePrefix=VsTestResults",
-		Verbosity = DotNetCoreVerbosity.Normal,
-		ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
-	};
-    DotNetCoreTest(file.FullPath, testSettings);
-}).Does(() =>
-{
-    Information("\nRunning TAEF Interaction Tests");
-    var result = StartProcess(taefBinDir + "/TE.exe", taefBinDir + "/UITests.Tests.TAEF.dll /screenCaptureOnError");
-    if (result != 0)
     {
-        throw new InvalidOperationException("TAEF Tests failed!");
-    }
+        Configuration = "Release",
+        NoBuild = true,
+        Logger = "trx;LogFilePrefix=VsTestResults",
+        Verbosity = DotNetCoreVerbosity.Normal,
+        ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
+    };
+    DotNetCoreTest(file.FullPath, testSettings);
+}).DoesForEach(GetFiles(baseDir + "/**/UITests.*.MSTest.csproj"), (file) => 
+{
+    Information("\nRunning UI Interaction Tests");
+
+    var testSettings = new DotNetCoreTestSettings
+    {
+        Configuration = "Release",
+        NoBuild = true,
+        Logger = "trx;LogFilePrefix=VsTestResults",
+        Verbosity = DotNetCoreVerbosity.Normal
+    };
+    DotNetCoreTest(file.FullPath, testSettings);
 }).DeferOnError();
 
 
