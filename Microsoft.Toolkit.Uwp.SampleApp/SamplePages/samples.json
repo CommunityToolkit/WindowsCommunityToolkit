@@ -15,18 +15,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TextToolbar.md"
       },
       {
-        "Name": "TabView",
-        "Type": "TabViewPage",
-        "Subcategory": "Layout",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "Please migrate to the TabView control from WinUI, this control will be removed in a future release. https://aka.ms/winui",
-        "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
-        "XamlCodeFile": "TabViewXaml.bind",
-        "Icon": "/SamplePages/TabView/TabView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabView.md"
-      },
-      {
         "Name": "DataGrid",
         "Type": "DataGridPage",
         "Subcategory": "Layout",
@@ -85,18 +73,6 @@
         "XamlCodeFile": "ImageExCode.bind",
         "Icon": "/SamplePages/ImageEx/ImageEx.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageEx.md"
-      },
-      {
-        "Name": "HeaderedTextBlock",
-        "Type": "HeaderedTextBlockPage",
-        "Subcategory": "Layout",
-        "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
-        "XamlCodeFile": "HeaderedTextBlockCode.bind",
-        "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedTextBlock.md",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The HeaderedTextBlock has been replaced with the HeaderedContentControl and will be removed in a future major release."
       },
       {
         "Name": "MasterDetailsView",
@@ -659,16 +635,6 @@
     "Icon": "Icons/Services.png",
     "Samples": [
       {
-        "Name": "Facebook Service",
-        "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
-        "CodeFile": "FacebookCode.bind",
-        "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The underlying library, winsdkfb, which the FacebookService relies on is not currently maintained.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
-      },
-      {
         "Name": "Microsoft Graph Service",
         "About": "These providers help you easily authenticate and connect to the Microsoft Graph.",
         "Icon": "/Assets/mslogo.png",
@@ -910,14 +876,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/MarkdownParser.md"
       },
       {
-        "Name": "RSS Parser",
-        "Type": "RssParserPage",
-        "Subcategory": "Parser",
-        "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/RssParser.md"
-      },
-      {
         "Name": "LiveTile",
         "Type": "LiveTilePage",
         "Subcategory": "Notifications",
@@ -963,14 +921,6 @@
         "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
-      },
-      {
-        "Name": "PlatformSpecificAnalyzer",
-        "Subcategory": "Developer",
-        "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
       },
       {
         "Name": "CompareStateTrigger",
