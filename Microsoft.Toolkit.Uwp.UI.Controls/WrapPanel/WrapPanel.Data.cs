@@ -85,6 +85,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            public UvRect WithHorizontalAlignment(HorizontalAlignment alignment, double maxHeight)
+            {
+                switch (alignment)
+                {
+                    case HorizontalAlignment.Center:
+                        return new UvRect
+                        {
+                            Position = Position.Add(
+                                u: 0,
+                                v: Math.Max((maxHeight - Size.V) / 2.0, 0.0)),
+                            Size = Size,
+                        };
+                    case HorizontalAlignment.Right:
+                        return new UvRect
+                        {
+                            Position = Position.Add(
+                                u: 0,
+                                v: Math.Max(maxHeight - Size.V, 0.0)),
+                            Size = Size,
+                        };
+                    case HorizontalAlignment.Stretch:
+                        return new UvRect
+                        {
+                            Position = Position,
+                            Size = new UvMeasure { U = Size.U, V = maxHeight },
+                        };
+                    case HorizontalAlignment.Left:
+                    default:
+                        return this;
+                }
+            }
+
             public Rect ToRect(Orientation orientation)
             {
                 switch (orientation)

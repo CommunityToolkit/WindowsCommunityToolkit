@@ -74,6 +74,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(VerticalAlignment.Top, LayoutPropertyChanged));
 
         /// <summary>
+        /// Gets or sets the horizontal alignment to use when the control <see cref="Orientation"/> is set to <see cref="Orientation.Vertical"/>.
+        /// </summary>
+        public HorizontalAlignment HorizontalContentAlignment
+        {
+            get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
+            set => SetValue(HorizontalContentAlignmentProperty, value);
+        }
+
+        /// <summary>
+        /// The DP to store the <see cref="HorizontalContentAlignment"/> property value.
+        /// </summary>
+        public static readonly DependencyProperty HorizontalContentAlignmentProperty = DependencyProperty.Register(
+            nameof(HorizontalContentAlignment),
+            typeof(HorizontalAlignment),
+            typeof(WrapPanel),
+            new PropertyMetadata(HorizontalAlignment.Left, LayoutPropertyChanged));
+
+        /// <summary>
         /// Gets or sets the orientation of the WrapPanel.
         /// Horizontal means that child controls will be added horizontally until the width of the panel is reached, then a new row is added to add new child controls.
         /// Vertical means that children will be added vertically until the height of the panel is reached, then a new column is added.
@@ -287,10 +305,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                         else
                         {
-                            arrangeRect = rect;
+                            arrangeRect = rect.WithHorizontalAlignment(HorizontalContentAlignment, row.Size.V);
                         }
 
-                        child.Arrange(arrangeRect.ToRect(Orientation));
+                        var finalRect = arrangeRect.ToRect(Orientation);
+                        child.Arrange(finalRect);
                     }
                 }
             }

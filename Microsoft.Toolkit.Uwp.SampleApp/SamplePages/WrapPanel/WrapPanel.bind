@@ -47,13 +47,15 @@
                               Padding="@[Padding:Thickness:0,0,0,0]@"
                               VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
                               HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"
-                              VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Top]"/>
+                              VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Top]@"
+                              HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Left]@" />
         </ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
       <ListView.ItemContainerStyle>
         <Style TargetType="ListViewItem">
           <Setter Property="VerticalContentAlignment" Value="Stretch" />
           <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+          <Setter Property="Padding" Value="0" />
         </Style>
       </ListView.ItemContainerStyle>
     </ListView>
