@@ -56,6 +56,8 @@
           <Setter Property="VerticalContentAlignment" Value="Stretch" />
           <Setter Property="HorizontalContentAlignment" Value="Stretch" />
           <Setter Property="Padding" Value="0" />
+          <Setter Property="MinWidth" Value="0" />
+          <Setter Property="MinHeight" Value="0" />
         </Style>
       </ListView.ItemContainerStyle>
     </ListView>
