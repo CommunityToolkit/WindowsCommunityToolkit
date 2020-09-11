@@ -28,7 +28,9 @@ namespace UITests.Tests
             get
             {
                 string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.FullName, "UITests.App");
+                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
+
+                Log.Comment($"Base Appx Search Directory = \"{baseDirectory}\"");
 
                 var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs" };
                 var files = Directory.GetFiles(baseDirectory, "*.appx", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
