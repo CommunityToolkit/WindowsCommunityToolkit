@@ -394,8 +394,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 recipientsRef = ref recipients[0];
 
                 // Copy the handlers to the local collection.
-                // Both types being enumerate expose a struct enumerator,
-                // so we're not actually allocating the enumerator here.
                 // The array is oversized at this point, since it also includes
                 // handlers for different tokens. We can reuse the same variable
                 // to count the number of matching handlers to invoke later on.
@@ -407,20 +405,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 while (mappingEnumerator.MoveNext())
                 {
                     object recipient = mappingEnumerator.Key.Target;
-                    var pairsEnumerator = mappingEnumerator.Value.GetEnumerator();
 
-                    while (pairsEnumerator.MoveNext())
+                    // Pick the target handler, if the token is a match for the recipient
+                    if (mappingEnumerator.Value.TryGetValue(token, out object? handler))
                     {
-                        // Only select the ones with a matching token
-                        if (pairsEnumerator.Key.Equals(token))
-                        {
-                            // We spend quite a bit of time in these two busy loops as we go through all the
-                            // existing mappings and registrations to find the handlers we're interested in.
-                            // We can manually offset here to skip the bounds checks in this inner loop when
-                            // indexing the array (the size is already verified and guaranteed to be enough).
-                            Unsafe.Add(ref handlersRef, (IntPtr)(void*)(uint)i) = pairsEnumerator.Value;
-                            Unsafe.Add(ref recipientsRef, (IntPtr)(void*)(uint)i++) = recipient;
-                        }
+                        // We can manually offset here to skip the bounds checks in this inner loop when
+                        // indexing the array (the size is already verified and guaranteed to be enough).
+                        Unsafe.Add(ref handlersRef, (IntPtr)(void*)(uint)i) = handler!;
+                        Unsafe.Add(ref recipientsRef, (IntPtr)(void*)(uint)i++) = recipient;
                     }
                 }
             }
