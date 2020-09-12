@@ -130,7 +130,7 @@ namespace Microsoft.Collections.Extensions
             this.entries = InitialEntries;
         }
 
-        /// <inheritdoc cref="Dictionary{TKey,TValue}.ContainsKey"/>
+        /// <inheritdoc/>
         public bool ContainsKey(TKey key)
         {
             Entry[] entries = this.entries;
