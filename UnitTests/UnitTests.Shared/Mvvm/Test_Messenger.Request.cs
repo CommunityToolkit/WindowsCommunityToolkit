@@ -15,9 +15,10 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_RequestMessage_Ok()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_RequestMessage_Ok(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
             object test = null;
 
@@ -42,20 +43,22 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
+        [DataRow(typeof(Messenger))]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Test_Messenger_RequestMessage_Fail_NoReply()
+        public void Test_Messenger_RequestMessage_Fail_NoReply(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
 
             int result = messenger.Send<NumberRequestMessage>();
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
+        [DataRow(typeof(Messenger))]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Test_Messenger_RequestMessage_Fail_MultipleReplies()
+        public void Test_Messenger_RequestMessage_Fail_MultipleReplies(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             void Receive(object recipient, NumberRequestMessage m)
@@ -75,9 +78,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public async Task Test_Messenger_AsyncRequestMessage_Ok_Sync()
+        [DataRow(typeof(Messenger))]
+        public async Task Test_Messenger_AsyncRequestMessage_Ok_Sync(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             void Receive(object recipient, AsyncNumberRequestMessage m)
@@ -98,9 +102,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public async Task Test_Messenger_AsyncRequestMessage_Ok_Async()
+        [DataRow(typeof(Messenger))]
+        public async Task Test_Messenger_AsyncRequestMessage_Ok_Async(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             async Task<int> GetNumberAsync()
@@ -128,20 +133,22 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
+        [DataRow(typeof(Messenger))]
         [ExpectedException(typeof(InvalidOperationException))]
-        public async Task Test_Messenger_AsyncRequestMessage_Fail_NoReply()
+        public async Task Test_Messenger_AsyncRequestMessage_Fail_NoReply(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
 
             int result = await messenger.Send<AsyncNumberRequestMessage>();
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
+        [DataRow(typeof(Messenger))]
         [ExpectedException(typeof(InvalidOperationException))]
-        public async Task Test_Messenger_AsyncRequestMessage_Fail_MultipleReplies()
+        public async Task Test_Messenger_AsyncRequestMessage_Fail_MultipleReplies(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             void Receive(object recipient, AsyncNumberRequestMessage m)
@@ -161,9 +168,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_CollectionRequestMessage_Ok_NoReplies()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_CollectionRequestMessage_Ok_NoReplies(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             void Receive(object recipient, NumbersCollectionRequestMessage m)
@@ -179,9 +187,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_CollectionRequestMessage_Ok_MultipleReplies()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_CollectionRequestMessage_Ok_MultipleReplies(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             object
                 recipient1 = new object(),
                 recipient2 = new object(),
@@ -232,9 +241,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_NoReplies()
+        [DataRow(typeof(Messenger))]
+        public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_NoReplies(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             void Receive(object recipient, AsyncNumbersCollectionRequestMessage m)
@@ -250,9 +260,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_MultipleReplies()
+        [DataRow(typeof(Messenger))]
+        public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_MultipleReplies(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             object
                 recipient1 = new object(),
                 recipient2 = new object(),

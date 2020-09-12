@@ -13,9 +13,10 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_UnregisterRecipientWithMessageType()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_UnregisterRecipientWithMessageType(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Unregister<MessageA>(recipient);
@@ -23,9 +24,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_UnregisterRecipientWithMessageTypeAndToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_UnregisterRecipientWithMessageTypeAndToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Unregister<MessageA, string>(recipient, nameof(MessageA));
@@ -33,9 +35,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_UnregisterRecipientWithToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_UnregisterRecipientWithToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.UnregisterAll(recipient, nameof(MessageA));
@@ -43,9 +46,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_UnregisterRecipientWithRecipient()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_UnregisterRecipientWithRecipient(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.UnregisterAll(recipient);
@@ -53,9 +57,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_RegisterAndUnregisterRecipientWithMessageType()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_RegisterAndUnregisterRecipientWithMessageType(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Register<MessageA>(recipient, (r, m) => { });
@@ -67,9 +72,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_RegisterAndUnregisterRecipientWithMessageTypeAndToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_RegisterAndUnregisterRecipientWithMessageTypeAndToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
@@ -81,9 +87,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_RegisterAndUnregisterRecipientWithToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_RegisterAndUnregisterRecipientWithToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
@@ -95,9 +102,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_RegisterAndUnregisterRecipientWithRecipient()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_RegisterAndUnregisterRecipientWithRecipient(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
@@ -109,36 +117,38 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithNoToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithNoToken(Type type)
         {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             object a = new object();
 
-            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(a));
 
             object recipient = null;
             string result = null;
 
-            Messenger.Default.Register<MessageA>(a, (r, m) =>
+            messenger.Register<MessageA>(a, (r, m) =>
             {
                 recipient = r;
                 result = m.Text;
             });
 
-            Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsTrue(messenger.IsRegistered<MessageA>(a));
 
-            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
+            messenger.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.AreSame(recipient, a);
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Default.Unregister<MessageA>(a);
+            messenger.Unregister<MessageA>(a);
 
-            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(a));
 
             recipient = null;
             result = null;
 
-            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
+            messenger.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.IsNull(recipient);
             Assert.IsNull(result);
@@ -146,63 +156,68 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_IsRegistered_Register_Send_UnregisterRecipient_WithNoToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_IsRegistered_Register_Send_UnregisterRecipient_WithNoToken(Type type)
         {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             object a = new object();
 
-            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Default.Register<MessageA>(a, (r, m) => result = m.Text);
+            messenger.Register<MessageA>(a, (r, m) => result = m.Text);
 
-            Assert.IsTrue(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsTrue(messenger.IsRegistered<MessageA>(a));
 
-            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
+            messenger.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Default.UnregisterAll(a);
+            messenger.UnregisterAll(a);
 
-            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(a));
 
             result = null;
-            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) });
+            messenger.Send(new MessageA { Text = nameof(MessageA) });
 
             Assert.IsNull(result);
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithToken(Type type)
         {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             object a = new object();
 
-            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA>(a));
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(a));
 
             string result = null;
-            Messenger.Default.Register<MessageA, string>(a, nameof(MessageA), (r, m) => result = m.Text);
+            messenger.Register<MessageA, string>(a, nameof(MessageA), (r, m) => result = m.Text);
 
-            Assert.IsTrue(Messenger.Default.IsRegistered<MessageA, string>(a, nameof(MessageA)));
+            Assert.IsTrue(messenger.IsRegistered<MessageA, string>(a, nameof(MessageA)));
 
-            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
+            messenger.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
 
             Assert.AreEqual(result, nameof(MessageA));
 
-            Messenger.Default.Unregister<MessageA, string>(a, nameof(MessageA));
+            messenger.Unregister<MessageA, string>(a, nameof(MessageA));
 
-            Assert.IsFalse(Messenger.Default.IsRegistered<MessageA, string>(a, nameof(MessageA)));
+            Assert.IsFalse(messenger.IsRegistered<MessageA, string>(a, nameof(MessageA)));
 
             result = null;
-            Messenger.Default.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
+            messenger.Send(new MessageA { Text = nameof(MessageA) }, nameof(MessageA));
 
             Assert.IsNull(result);
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_DuplicateRegistrationWithMessageType()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_DuplicateRegistrationWithMessageType(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Register<MessageA>(recipient, (r, m) => { });
@@ -215,9 +230,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_DuplicateRegistrationWithMessageTypeAndToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_DuplicateRegistrationWithMessageTypeAndToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new object();
 
             messenger.Register<MessageA, string>(recipient, nameof(MessageA), (r, m) => { });
@@ -230,9 +246,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_IRecipient_NoMessages()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_IRecipient_NoMessages(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new RecipientWithNoMessages();
 
             messenger.RegisterAll(recipient);
@@ -243,9 +260,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_IRecipient_SomeMessages_NoToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_IRecipient_SomeMessages_NoToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new RecipientWithSomeMessages();
 
             messenger.RegisterAll(recipient);
@@ -274,9 +292,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_IRecipient_SomeMessages_WithToken()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_IRecipient_SomeMessages_WithToken(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new RecipientWithSomeMessages();
             var token = nameof(Test_Messenger_IRecipient_SomeMessages_WithToken);
 
@@ -309,9 +328,10 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_Messenger_RegisterWithTypeParameter()
+        [DataRow(typeof(Messenger))]
+        public void Test_Messenger_RegisterWithTypeParameter(Type type)
         {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var recipient = new RecipientWithNoMessages { Number = 42 };
 
             int number = 0;
