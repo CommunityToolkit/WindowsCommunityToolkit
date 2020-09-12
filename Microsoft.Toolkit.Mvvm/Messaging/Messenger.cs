@@ -131,9 +131,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Treat the input delegate as if it was covariant (see comments below in the Send method)
                 registeredHandler = handler;
 
-                // Update the total counter for handlers for the current type parameters
-                mapping.TotalHandlersCount++;
-
                 // Make sure this registration map is tracked for the current recipient
                 ref HashSet<IMapping>? set = ref this.recipientsMap.GetOrAddValueRef(key);
 
@@ -170,8 +167,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // property directly gives us O(1) access time to retrieve this count.
                         // The handlers map is the IDictionary<TToken, TMessage> instance for the mapping.
                         int handlersCount = Unsafe.As<IDictionarySlim>(handlersMap).Count;
-
-                        mapping.TotalHandlersCount -= handlersCount;
 
                         if (mapping.Count == 0)
                         {
@@ -259,15 +254,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     // for the current message type (unknown from here).
                     if (holder.Remove(token))
                     {
-                        // As above, we need to update the total number of registered handlers for the map.
-                        // In this case we also know that the current TToken type parameter is of interest
-                        // for the current method, as we're only unsubscribing handlers using that token.
-                        // This is because we're already working on the final <TToken, TMessage> mapping,
-                        // which associates a single handler with a given token, for a given recipient.
-                        // This means that we don't have to retrieve the count to subtract in this case,
-                        // we're just removing a single handler at a time. So, we just decrement the total.
-                        Unsafe.As<IMapping>(map).TotalHandlersCount--;
-
                         if (holder.Count == 0)
                         {
                             // If the map is empty, remove the recipient entirely from its container
@@ -335,9 +321,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove the target handler
                 if (dictionary!.Remove(token))
                 {
-                    // Decrement the total count, as above
-                    mapping.TotalHandlersCount--;
-
                     // If the map is empty, it means that the current recipient has no remaining
                     // registered handlers for the current <TMessage, TToken> combination, regardless,
                     // of the specific token value (ie. the channel used to receive messages of that type).
@@ -376,12 +359,18 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Check whether there are any registered recipients
                 _ = TryGetMapping(out Mapping<TMessage, TToken>? mapping);
 
-                // We need to make a local copy of the currently registered handlers,
-                // since users might try to unregister (or register) new handlers from
-                // inside one of the currently existing handlers. We can use memory pooling
-                // to reuse arrays, to minimize the average memory usage. In practice,
-                // we usually just need to pay the small overhead of copying the items.
-                int totalHandlersCount = mapping?.TotalHandlersCount ?? 0;
+                // We need to make a local copy of the currently registered handlers, since users might
+                // try to unregister (or register) new handlers from inside one of the currently existing
+                // handlers. We can use memory pooling to reuse arrays, to minimize the average memory
+                // usage. In practice, we usually just need to pay the small overhead of copying the items.
+                // The current mapping contains all the currently registered recipients and handlers for
+                // the <TMessage, TToken> combination in use. In the worst case scenario, all recipients
+                // will have a registered handler with a token matching the input one, meaning that we could
+                // have at worst a number of pending handlers to invoke equal to the total number of recipient
+                // in the mapping. This relies on the fact that tokens are unique, and that there is only
+                // one handler associated with a given token. We can use this upper bound as the requested
+                // size for each array rented from the pool, which guarantees that we'll have enough space.
+                int totalHandlersCount = mapping?.Count ?? 0;
 
                 if (totalHandlersCount == 0)
                 {
@@ -541,9 +530,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             /// <inheritdoc/>
             public Type2 TypeArguments { get; }
-
-            /// <inheritdoc/>
-            public int TotalHandlersCount { get; set; }
         }
 
         /// <summary>
@@ -556,11 +542,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// Gets the <see cref="Type2"/> instance representing the current type arguments.
             /// </summary>
             Type2 TypeArguments { get; }
-
-            /// <summary>
-            /// Gets or sets the total number of handlers in the current instance.
-            /// </summary>
-            int TotalHandlersCount { get; set; }
         }
 
         /// <summary>
