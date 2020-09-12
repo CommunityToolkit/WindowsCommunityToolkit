@@ -156,18 +156,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Removes all the lists of registered handlers for the recipient
                 foreach (IMapping mapping in set!)
                 {
-                    if (mapping.TryRemove(key, out object? handlersMap))
+                    if (mapping.TryRemove(key, out _))
                     {
-                        // If this branch is taken, it means the target recipient to unregister
-                        // had at least one registered handler for the current <TToken, TMessage>
-                        // pair of type parameters, which here is masked out by the IMapping interface.
-                        // Before removing the handlers, we need to retrieve the count of how many handlers
-                        // are being removed, in order to update the total counter for the mapping.
-                        // Just casting the dictionary to the base interface and accessing the Count
-                        // property directly gives us O(1) access time to retrieve this count.
-                        // The handlers map is the IDictionary<TToken, TMessage> instance for the mapping.
-                        int handlersCount = Unsafe.As<IDictionarySlim>(handlersMap).Count;
-
                         if (mapping.Count == 0)
                         {
                             // Maps here are really of type Mapping<,> and with unknown type arguments.
