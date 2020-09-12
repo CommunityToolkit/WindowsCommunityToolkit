@@ -8,19 +8,20 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Mvvm.Messaging.Internals;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
     /// <summary>
     /// Extensions for the <see cref="IMessenger"/> type.
     /// </summary>
-    public static partial class MessengerExtensions
+    public static class IMessengerExtensions
     {
         /// <summary>
         /// A class that acts as a container to load the <see cref="MethodInfo"/> instance linked to
         /// the <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/> method.
         /// This class is needed to avoid forcing the initialization code in the static constructor to run as soon as
-        /// the <see cref="MessengerExtensions"/> type is referenced, even if that is done just to use methods
+        /// the <see cref="IMessengerExtensions"/> type is referenced, even if that is done just to use methods
         /// that do not actually require this <see cref="MethodInfo"/> instance to be available.
         /// We're effectively using this type to leverage the lazy loading of static constructors done by the runtime.
         /// </summary>
@@ -32,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             static MethodInfos()
             {
                 RegisterIRecipient = (
-                    from methodInfo in typeof(MessengerExtensions).GetMethods()
+                    from methodInfo in typeof(IMessengerExtensions).GetMethods()
                     where methodInfo.Name == nameof(Register) &&
                           methodInfo.IsGenericMethod &&
                           methodInfo.GetGenericArguments().Length == 2
