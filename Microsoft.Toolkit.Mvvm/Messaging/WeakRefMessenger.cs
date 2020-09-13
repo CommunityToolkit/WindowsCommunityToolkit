@@ -206,16 +206,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 ReadOnlySpan<object>
                     recipientsSpan = recipients.Span,
                     handlersSpan = handlers.Span;
-                int handlersCount = recipients.Count;
 
-                for (int i = 0; i < handlersCount; i++)
+                for (int i = 0; i < recipientsSpan.Length; i++)
                 {
                     // Just like in the other messenger, here we need an unsafe cast to be able to
                     // invoke a generic delegate with a contravariant input argument, with a less
                     // derived reference, without reflection. This is guaranteed to work by how the
                     // messenger tracks registered recipients and their associated handlers, so the
                     // type conversion will always be valid (the recipients are the rigth instances).
-                    Unsafe.As<MessageHandler<object, TMessage>>(handlersSpan[i])(recipientsSpan![i], message);
+                    Unsafe.As<MessageHandler<object, TMessage>>(handlersSpan[i])(recipientsSpan[i], message);
                 }
             }
             finally
