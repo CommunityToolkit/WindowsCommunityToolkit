@@ -8,7 +8,6 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Microsoft.Collections.Extensions;
 using Microsoft.Toolkit.Mvvm.Messaging.Internals;
 
@@ -293,7 +292,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// A simple buffer writer implementation using pooled arrays.
         /// </summary>
         /// <typeparam name="T">The type of items to store in the list.</typeparam>
-        public sealed class ArrayPoolBufferWriter<T> : IDisposable
+        private sealed class ArrayPoolBufferWriter<T> : IDisposable
         {
             /// <summary>
             /// The default buffer size to use to expand empty arrays.
@@ -325,17 +324,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             public ReadOnlySpan<T> Span
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get
-                {
-                    T[] array = this.array;
-
-                    if (this.index > 0)
-                    {
-                        return MemoryMarshal.CreateReadOnlySpan(ref array[0], this.index);
-                    }
-
-                    return default;
-                }
+                get => this.array.AsSpan(0, this.index);
             }
 
             /// <summary>
