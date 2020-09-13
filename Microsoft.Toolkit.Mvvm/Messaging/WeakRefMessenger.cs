@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
 
         /// <inheritdoc/>
-        void IMessenger.Cleanup()
+        public void Cleanup()
         {
             lock (this.recipientsMap)
             {
