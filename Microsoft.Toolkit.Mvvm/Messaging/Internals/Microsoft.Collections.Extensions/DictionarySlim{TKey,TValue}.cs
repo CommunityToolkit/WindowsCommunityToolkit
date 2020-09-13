@@ -218,13 +218,6 @@ namespace Microsoft.Collections.Extensions
             return false;
         }
 
-        /// <inheritdoc/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Remove(TKey key)
-        {
-            return TryRemove(key, out _);
-        }
-
         /// <summary>
         /// Gets the value for the specified key, or, if the key is not present,
         /// adds an entry and returns the value by ref. This makes it possible to

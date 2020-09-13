@@ -157,18 +157,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Removes all the lists of registered handlers for the recipient
                 foreach (IMapping mapping in set!)
                 {
-                    if (mapping.TryRemove(key, out object? handlersMap))
+                    if (mapping.TryRemove(key, out _))
                     {
-                        // If this branch is taken, it means the target recipient to unregister
-                        // had at least one registered handler for the current <TToken, TMessage>
-                        // pair of type parameters, which here is masked out by the IMapping interface.
-                        // Before removing the handlers, we need to retrieve the count of how many handlers
-                        // are being removed, in order to update the total counter for the mapping.
-                        // Just casting the dictionary to the base interface and accessing the Count
-                        // property directly gives us O(1) access time to retrieve this count.
-                        // The handlers map is the IDictionary<TToken, TMessage> instance for the mapping.
-                        int handlersCount = Unsafe.As<IDictionarySlim>(handlersMap).Count;
-
                         if (mapping.Count == 0)
                         {
                             // Maps here are really of type Mapping<,> and with unknown type arguments.
@@ -179,13 +169,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                             // dictionary (a hashed collection) only costs O(1) in the best case, while
                             // if we had tried to iterate the whole dictionary every time we would have
                             // paid an O(n) minimum cost for each single remove operation.
-                            this.typesMap.Remove(mapping.TypeArguments);
+                            this.typesMap.TryRemove(mapping.TypeArguments, out _);
                         }
                     }
                 }
 
                 // Remove the associated set in the recipients map
-                this.recipientsMap.Remove(key);
+                this.recipientsMap.TryRemove(key, out _);
             }
         }
 
@@ -253,26 +243,24 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     // Try to remove the registered handler for the input token,
                     // for the current message type (unknown from here).
-                    if (holder.Remove(token))
+                    if (holder.TryRemove(token, out _) &&
+                        holder.Count == 0)
                     {
-                        if (holder.Count == 0)
+                        // If the map is empty, remove the recipient entirely from its container
+                        map.TryRemove(key, out _);
+
+                        if (map.Count == 0)
                         {
-                            // If the map is empty, remove the recipient entirely from its container
-                            map.Remove(key);
+                            // If no handlers are left at all for the recipient, across all
+                            // message types and token types, remove the set of mappings
+                            // entirely for the current recipient, and lost the strong
+                            // reference to it as well. This is the same situation that
+                            // would've been achieved by just calling UnregisterAll(recipient).
+                            set.Remove(Unsafe.As<IMapping>(map));
 
-                            if (map.Count == 0)
+                            if (set.Count == 0)
                             {
-                                // If no handlers are left at all for the recipient, across all
-                                // message types and token types, remove the set of mappings
-                                // entirely for the current recipient, and lost the strong
-                                // reference to it as well. This is the same situation that
-                                // would've been achieved by just calling UnregisterAll(recipient).
-                                set.Remove(Unsafe.As<IMapping>(map));
-
-                                if (set.Count == 0)
-                                {
-                                    this.recipientsMap.Remove(key);
-                                }
+                                this.recipientsMap.TryRemove(key, out _);
                             }
                         }
                     }
@@ -320,25 +308,23 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Remove the target handler
-                if (dictionary!.Remove(token))
+                if (dictionary!.TryRemove(token, out _) &&
+                    dictionary.Count == 0)
                 {
                     // If the map is empty, it means that the current recipient has no remaining
                     // registered handlers for the current <TMessage, TToken> combination, regardless,
                     // of the specific token value (ie. the channel used to receive messages of that type).
                     // We can remove the map entirely from this container, and remove the link to the map itself
                     // to the current mapping between existing registered recipients (or entire recipients too).
-                    if (dictionary.Count == 0)
+                    mapping.TryRemove(key, out _);
+
+                    HashSet<IMapping> set = this.recipientsMap[key];
+
+                    set.Remove(mapping);
+
+                    if (set.Count == 0)
                     {
-                        mapping.Remove(key);
-
-                        HashSet<IMapping> set = this.recipientsMap[key];
-
-                        set.Remove(mapping);
-
-                        if (set.Count == 0)
-                        {
-                            this.recipientsMap.Remove(key);
-                        }
+                        this.recipientsMap.TryRemove(key, out _);
                     }
                 }
             }
