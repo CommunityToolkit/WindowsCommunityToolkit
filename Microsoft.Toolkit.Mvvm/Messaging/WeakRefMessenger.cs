@@ -271,6 +271,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     {
                         type2s.Add(enumerator.Key);
                     }
+
+#if !NETSTANDARD2_1
+                    // Do the cleanup for the list of keys that are weakly tracked too
+                    enumerator.Value.Cleanup();
+#endif
                 }
 
                 // Remove all the mappings with no handlers left
@@ -366,6 +371,25 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     {
                         yield return new KeyValuePair<TKey, TValue>(target, value);
                     }
+                }
+            }
+
+            /// <summary>
+            /// Trims the list of tracked <typeparamref name="TKey"/> instances.
+            /// </summary>
+            public void Cleanup()
+            {
+                for (LinkedListNode<WeakReference<TKey>>? node = this.keys.First; !(node is null);)
+                {
+                    LinkedListNode<WeakReference<TKey>>? next = node.Next;
+
+                    // Remove all the nodes with a target that has been collected
+                    if (!node.Value.TryGetTarget(out _))
+                    {
+                        this.keys.Remove(node);
+                    }
+
+                    node = next;
                 }
             }
         }
