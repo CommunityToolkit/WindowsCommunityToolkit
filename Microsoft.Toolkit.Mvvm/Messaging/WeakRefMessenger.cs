@@ -2,14 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETSTANDARD2_1
-
 using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
 using Microsoft.Toolkit.Mvvm.Messaging.Internals;
+#if NETSTANDARD2_1
+using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+#else
+using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.WeakRefMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+#endif
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
@@ -42,8 +45,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// The map of currently registered recipients for all message types.
         /// </summary>
-        private readonly DictionarySlim<Type2, ConditionalWeakTable<object, IDictionarySlim>> recipientsMap
-            = new DictionarySlim<Type2, ConditionalWeakTable<object, IDictionarySlim>>();
+        private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new DictionarySlim<Type2, RecipientsTable>();
 
         /// <summary>
         /// Gets the default <see cref="WeakRefMessenger"/> instance.
@@ -62,8 +64,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Get the conditional table associated with the target recipient, for the current pair
                 // of token and message types. If it exists, check if there is a matching token.
                 return
-                    this.recipientsMap.TryGetValue(type2, out ConditionalWeakTable<object, IDictionarySlim>? table) &&
-                    table!.TryGetValue(recipient, out IDictionarySlim mapping) &&
+                    this.recipientsMap.TryGetValue(type2, out RecipientsTable? table) &&
+                    table!.TryGetValue(recipient, out IDictionarySlim? mapping) &&
                     Unsafe.As<DictionarySlim<TToken, object>>(mapping).ContainsKey(token);
             }
         }
@@ -79,9 +81,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
 
                 // Get the conditional table for the pair of type arguments, or create it if it doesn't exist
-                ref ConditionalWeakTable<object, IDictionarySlim>? mapping = ref this.recipientsMap.GetOrAddValueRef(type2);
+                ref RecipientsTable? mapping = ref this.recipientsMap.GetOrAddValueRef(type2);
 
-                mapping ??= new ConditionalWeakTable<object, IDictionarySlim>();
+                mapping ??= new RecipientsTable();
 
                 // Get or create the handlers dictionary for the target recipient
                 var map = Unsafe.As<DictionarySlim<TToken, object>>(mapping.GetValue(recipient, _ => new DictionarySlim<TToken, object>()));
@@ -174,7 +176,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
 
                 // Try to get the target table
-                if (!this.recipientsMap.TryGetValue(type2, out ConditionalWeakTable<object, IDictionarySlim>? table))
+                if (!this.recipientsMap.TryGetValue(type2, out RecipientsTable? table))
                 {
                     return message;
                 }
@@ -288,6 +290,87 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
         }
 
+#if !NETSTANDARD2_1
+        /// <summary>
+        /// A wrapper for <see cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}"/>
+        /// that backports the enumerable support to .NET Standard 2.0 through an auxiliary list.
+        /// </summary>
+        /// <typeparam name="TKey">Tke key of items to store in the table.</typeparam>
+        /// <typeparam name="TValue">The values to store in the table.</typeparam>
+        internal sealed class ConditionalWeakTable<TKey, TValue>
+            where TKey : class
+            where TValue : class?
+        {
+            /// <summary>
+            /// The underlying <see cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}"/> instance.
+            /// </summary>
+            private readonly System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue> table;
+
+            /// <summary>
+            /// A supporting linked list to store keys in <see cref="table"/>. This is needed to expose
+            /// the ability to enumerate existing keys when there is no support for that in the BCL.
+            /// </summary>
+            private readonly LinkedList<WeakReference<TKey>> keys;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ConditionalWeakTable{TKey, TValue}"/> class.
+            /// </summary>
+            public ConditionalWeakTable()
+            {
+                this.table = new System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue>();
+                this.keys = new LinkedList<WeakReference<TKey>>();
+            }
+
+            /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.TryGetValue"/>
+            public bool TryGetValue(TKey key, out TValue value)
+            {
+                return this.table.TryGetValue(key, out value);
+            }
+
+            /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.GetValue"/>
+            public TValue GetValue(TKey key, System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue>.CreateValueCallback createValueCallback)
+            {
+                // Get or create the value. When this method returns, the key will be present in the table
+                TValue value = this.table.GetValue(key, createValueCallback);
+
+                // Check if the list of keys contains the given key.
+                // If it does, we can just stop here and return the result.
+                foreach (WeakReference<TKey> node in this.keys)
+                {
+                    if (node.TryGetTarget(out TKey? target) &&
+                        ReferenceEquals(target, key))
+                    {
+                        return value;
+                    }
+                }
+
+                // Add the key to the list of weak references to track it
+                this.keys.AddFirst(new WeakReference<TKey>(key));
+
+                return value;
+            }
+
+            /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.Remove"/>
+            public bool Remove(TKey key)
+            {
+                return this.table.Remove(key);
+            }
+
+            /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+            {
+                foreach (WeakReference<TKey> node in this.keys)
+                {
+                    if (node.TryGetTarget(out TKey? target) &&
+                        this.table.TryGetValue(target, out TValue value))
+                    {
+                        yield return new KeyValuePair<TKey, TValue>(target, value);
+                    }
+                }
+            }
+        }
+#endif
+
         /// <summary>
         /// A simple buffer writer implementation using pooled arrays.
         /// </summary>
@@ -395,5 +478,3 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         }
     }
 }
-
-#endif
