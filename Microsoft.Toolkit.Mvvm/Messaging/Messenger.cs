@@ -168,13 +168,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                             // dictionary (a hashed collection) only costs O(1) in the best case, while
                             // if we had tried to iterate the whole dictionary every time we would have
                             // paid an O(n) minimum cost for each single remove operation.
-                            this.typesMap.Remove(mapping.TypeArguments);
+                            this.typesMap.TryRemove(mapping.TypeArguments, out _);
                         }
                     }
                 }
 
                 // Remove the associated set in the recipients map
-                this.recipientsMap.Remove(key);
+                this.recipientsMap.TryRemove(key, out _);
             }
         }
 
@@ -242,26 +242,24 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     // Try to remove the registered handler for the input token,
                     // for the current message type (unknown from here).
-                    if (holder.Remove(token))
+                    if (holder.TryRemove(token, out _) &&
+                        holder.Count == 0)
                     {
-                        if (holder.Count == 0)
+                        // If the map is empty, remove the recipient entirely from its container
+                        map.TryRemove(key, out _);
+
+                        if (map.Count == 0)
                         {
-                            // If the map is empty, remove the recipient entirely from its container
-                            map.Remove(key);
+                            // If no handlers are left at all for the recipient, across all
+                            // message types and token types, remove the set of mappings
+                            // entirely for the current recipient, and lost the strong
+                            // reference to it as well. This is the same situation that
+                            // would've been achieved by just calling UnregisterAll(recipient).
+                            set.Remove(Unsafe.As<IMapping>(map));
 
-                            if (map.Count == 0)
+                            if (set.Count == 0)
                             {
-                                // If no handlers are left at all for the recipient, across all
-                                // message types and token types, remove the set of mappings
-                                // entirely for the current recipient, and lost the strong
-                                // reference to it as well. This is the same situation that
-                                // would've been achieved by just calling UnregisterAll(recipient).
-                                set.Remove(Unsafe.As<IMapping>(map));
-
-                                if (set.Count == 0)
-                                {
-                                    this.recipientsMap.Remove(key);
-                                }
+                                this.recipientsMap.TryRemove(key, out _);
                             }
                         }
                     }
@@ -309,25 +307,23 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Remove the target handler
-                if (dictionary!.Remove(token))
+                if (dictionary!.TryRemove(token, out _) &&
+                    dictionary.Count == 0)
                 {
                     // If the map is empty, it means that the current recipient has no remaining
                     // registered handlers for the current <TMessage, TToken> combination, regardless,
                     // of the specific token value (ie. the channel used to receive messages of that type).
                     // We can remove the map entirely from this container, and remove the link to the map itself
                     // to the current mapping between existing registered recipients (or entire recipients too).
-                    if (dictionary.Count == 0)
+                    mapping.TryRemove(key, out _);
+
+                    HashSet<IMapping> set = this.recipientsMap[key];
+
+                    set.Remove(mapping);
+
+                    if (set.Count == 0)
                     {
-                        mapping.Remove(key);
-
-                        HashSet<IMapping> set = this.recipientsMap[key];
-
-                        set.Remove(mapping);
-
-                        if (set.Count == 0)
-                        {
-                            this.recipientsMap.Remove(key);
-                        }
+                        this.recipientsMap.TryRemove(key, out _);
                     }
                 }
             }
