@@ -16,9 +16,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_ObservableRecipient_Activation(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -40,9 +38,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_ObservableRecipient_IsSame(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -63,9 +59,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_ObservableRecipient_Injection(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -77,9 +71,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_ObservableRecipient_Broadcast(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);

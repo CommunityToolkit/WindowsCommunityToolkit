@@ -14,9 +14,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_UnregisterRecipientWithMessageType(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -28,9 +26,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_UnregisterRecipientWithMessageTypeAndToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -42,9 +38,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_UnregisterRecipientWithToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -56,9 +50,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_UnregisterRecipientWithRecipient(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -70,9 +62,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_RegisterAndUnregisterRecipientWithMessageType(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -88,9 +78,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_RegisterAndUnregisterRecipientWithMessageTypeAndToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -106,9 +94,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_RegisterAndUnregisterRecipientWithToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -124,9 +110,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_RegisterAndUnregisterRecipientWithRecipient(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -142,9 +126,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithNoToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -184,9 +166,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_IsRegistered_Register_Send_UnregisterRecipient_WithNoToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -216,9 +196,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_IsRegistered_Register_Send_UnregisterOfTMessage_WithToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -248,9 +226,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_DuplicateRegistrationWithMessageType(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -267,9 +243,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_DuplicateRegistrationWithMessageTypeAndToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -286,9 +260,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_IRecipient_NoMessages(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -303,9 +275,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_IRecipient_SomeMessages_NoToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -338,9 +308,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_IRecipient_SomeMessages_WithToken(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -377,9 +345,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_RegisterWithTypeParameter(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);

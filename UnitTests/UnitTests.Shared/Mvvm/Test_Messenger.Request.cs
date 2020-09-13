@@ -16,9 +16,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_RequestMessage_Ok(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -47,9 +45,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         [ExpectedException(typeof(InvalidOperationException))]
         public void Test_Messenger_RequestMessage_Fail_NoReply(Type type)
         {
@@ -61,9 +57,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         [ExpectedException(typeof(InvalidOperationException))]
         public void Test_Messenger_RequestMessage_Fail_MultipleReplies(Type type)
         {
@@ -88,9 +82,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public async Task Test_Messenger_AsyncRequestMessage_Ok_Sync(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -115,9 +107,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public async Task Test_Messenger_AsyncRequestMessage_Ok_Async(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -149,9 +139,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task Test_Messenger_AsyncRequestMessage_Fail_NoReply(Type type)
         {
@@ -163,9 +151,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task Test_Messenger_AsyncRequestMessage_Fail_MultipleReplies(Type type)
         {
@@ -190,9 +176,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_CollectionRequestMessage_Ok_NoReplies(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -212,9 +196,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public void Test_Messenger_CollectionRequestMessage_Ok_MultipleReplies(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -269,9 +251,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_NoReplies(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -291,9 +271,7 @@ namespace UnitTests.Mvvm
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(Messenger))]
-#if NETCOREAPP3_1
         [DataRow(typeof(WeakRefMessenger))]
-#endif
         public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_MultipleReplies(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
