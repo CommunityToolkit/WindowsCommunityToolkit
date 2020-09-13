@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 return
                     this.recipientsMap.TryGetValue(type2, out ConditionalWeakTable<object, IDictionarySlim>? table) &&
                     table!.TryGetValue(recipient, out IDictionarySlim mapping) &&
-                    Unsafe.As<IDictionarySlim<TToken>>(mapping).ContainsKey(token);
+                    Unsafe.As<DictionarySlim<TToken, object>>(mapping).ContainsKey(token);
             }
         }
 
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     if (enumerator.Key.TToken == typeof(TToken) &&
                         enumerator.Value.TryGetValue(recipient, out IDictionarySlim mapping))
                     {
-                        Unsafe.As<IDictionarySlim<TToken>>(mapping).TryRemove(token, out _);
+                        Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token, out _);
                     }
                 }
             }
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     if (enumerator.Key.Equals(type2) &&
                         enumerator.Value.TryGetValue(recipient, out IDictionarySlim mapping))
                     {
-                        Unsafe.As<IDictionarySlim<TToken>>(mapping).TryRemove(token, out _);
+                        Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token, out _);
                     }
                 }
             }
@@ -275,7 +275,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove all the mappings with no handlers left
                 foreach (Type2 key in type2s.Span)
                 {
-                    this.recipientsMap.Remove(key);
+                    this.recipientsMap.TryRemove(key, out _);
                 }
             }
         }

@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Removes all the lists of registered handlers for the recipient
                 foreach (IMapping mapping in set!)
                 {
-                    if (mapping.TryRemove(key, out _))
+                    if (mapping.TryRemove(key))
                     {
                         if (mapping.Count == 0)
                         {
@@ -243,11 +243,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     // Try to remove the registered handler for the input token,
                     // for the current message type (unknown from here).
-                    if (holder.TryRemove(token, out _) &&
+                    if (holder.TryRemove(token) &&
                         holder.Count == 0)
                     {
                         // If the map is empty, remove the recipient entirely from its container
-                        map.TryRemove(key, out _);
+                        map.TryRemove(key);
 
                         if (map.Count == 0)
                         {

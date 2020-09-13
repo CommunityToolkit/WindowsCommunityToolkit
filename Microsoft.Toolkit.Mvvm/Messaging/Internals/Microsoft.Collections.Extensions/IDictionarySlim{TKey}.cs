@@ -14,18 +14,10 @@ namespace Microsoft.Collections.Extensions
         where TKey : IEquatable<TKey>
     {
         /// <summary>
-        /// Checks whether or not the dictionary contains a pair with a specified key.
-        /// </summary>
-        /// <param name="key">The key to look for.</param>
-        /// <returns>Whether or not the key was present in the dictionary.</returns>
-        public bool ContainsKey(TKey key);
-
-        /// <summary>
         /// Tries to remove a value with a specified key, if present.
         /// </summary>
         /// <param name="key">The key of the value to remove.</param>
-        /// <param name="result">The removed value, if it was present.</param>
         /// <returns>Whether or not the key was present.</returns>
-        bool TryRemove(TKey key, out object? result);
+        bool TryRemove(TKey key);
     }
 }
