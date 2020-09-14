@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -124,6 +125,40 @@ namespace UnitTests.HighPerformance.Buffers
             Assert.AreSame(hello, hello2);
             Assert.AreSame(helloworld, world2);
             Assert.AreSame(windowsCommunityToolkit, windowsCommunityToolkit2);
+        }
+
+        [TestCategory("StringPool")]
+        [TestMethod]
+        public void Test_StringPool_Add_Overwrite()
+        {
+            var pool = new StringPool();
+
+            var today = DateTime.Today;
+
+            var text1 = ToStringNoInlining(today);
+
+            pool.Add(text1);
+
+            Assert.IsTrue(pool.TryGet(text1.AsSpan(), out string? result));
+
+            Assert.AreSame(text1, result);
+
+            var text2 = ToStringNoInlining(today);
+
+            pool.Add(text2);
+
+            Assert.IsTrue(pool.TryGet(text2.AsSpan(), out result));
+
+            Assert.AreNotSame(text1, result);
+            Assert.AreSame(text2, result);
+        }
+
+        // Separate method just to ensure the JIT can't optimize things away
+        // and make the test fail because different string instances are interned
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static string ToStringNoInlining(object obj)
+        {
+            return obj.ToString();
         }
 
         [TestCategory("StringPool")]
