@@ -17,7 +17,6 @@
         - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
         - HeaderedContentControl: Provides a header to content.
         - HeaderedItemsControl: Provides a header to items.
-        - HeaderedTextBlock: Provide a header for read-only text.
         - ImageCropper: ImageCropper control allows user to crop image freely.
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
