@@ -360,6 +360,36 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(number, 42);
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(Messenger), false)]
+        [DataRow(typeof(WeakRefMessenger), true)]
+        public void Test_Messenger_Collect_Test(Type type, bool isWeak)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+
+            WeakReference weakRecipient;
+
+            void Test()
+            {
+                var recipient = new RecipientWithNoMessages { Number = 42 };
+                weakRecipient = new WeakReference(recipient);
+
+                messenger.Register<MessageA>(recipient, (r, m) => { });
+
+                Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+                Assert.IsTrue(weakRecipient.IsAlive);
+
+                GC.KeepAlive(recipient);
+            }
+
+            Test();
+
+            GC.Collect();
+
+            Assert.AreEqual(!isWeak, weakRecipient.IsAlive);
+        }
+
         public sealed class RecipientWithNoMessages
         {
             public int Number { get; set; }
