@@ -12,6 +12,7 @@ using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 #endif
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -37,8 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var bar = obj as TextToolbar;
-            if (bar != null)
+            if (obj is TextToolbar bar)
             {
                 var oldEditor = args.OldValue as RichEditBox;
                 var newEditor = args.NewValue as RichEditBox;
@@ -51,7 +51,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newEditor != null)
                 {
                     newEditor.AddHandler(KeyDownEvent, bar.KeyEventHandler, handledEventsToo: true);
-                    bar.CreateFormatter();
+                    if (bar.Formatter != null)
+                    {
+                        bar.Formatter.SetModel(bar);
+                        bar.DefaultButtons = bar.Formatter.DefaultButtons;
+                    }
+                    else
+                    {
+                        bar.DefaultButtons = null;
+                    }
                 }
 
                 var editorArgs = new EditorChangedArgs
@@ -65,31 +73,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Creates a new formatter, if it is a built-in formatter.
-        /// </summary>
-        /// <param name="obj">TextToolbar</param>
-        /// <param name="args">Property Changed Args</param>
-        private static void OnFormatTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var bar = obj as TextToolbar;
-            if (bar != null)
-            {
-                bar.CreateFormatter();
-            }
-        }
-
-        /// <summary>
         /// Rebuilds the Toolbar if the formatter changes during operation
         /// </summary>
         /// <param name="obj">TextToolbar</param>
         /// <param name="args">Property Changed Args</param>
         private static void OnFormatterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var bar = obj as TextToolbar;
-            if (bar != null && bar.Formatter != null)
+            if (obj is TextToolbar bar)
             {
-                bar.DefaultButtons = bar.Formatter.DefaultButtons;
-                bar.BuildBar();
+                if (args.OldValue is Formatter formatter)
+                {
+                    formatter.UnsetModel(bar);
+                }
+
+                if (bar.Formatter != null)
+                {
+                    bar.Formatter.SetModel(bar);
+                    bar.DefaultButtons = bar.Formatter.DefaultButtons;
+                    bar.BuildBar();
+                }
             }
         }
 
@@ -100,14 +102,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">Property Changed Args</param>
         private static void OnButtonMapChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var bar = obj as TextToolbar;
-            if (bar != null)
+            if (obj is TextToolbar bar)
             {
-                var oldSource = args.OldValue as ButtonMap;
-                var newSource = args.NewValue as ButtonMap;
                 var root = bar.GetTemplateChild(RootControl) as CommandBar;
 
-                if (oldSource != null)
+                if (args.OldValue is ButtonMap oldSource)
                 {
                     oldSource.CollectionChanged -= bar.OnButtonMapModified;
 
@@ -120,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                if (newSource != null)
+                if (args.NewValue is ButtonMap newSource)
                 {
                     newSource.CollectionChanged += bar.OnButtonMapModified;
 
@@ -139,19 +138,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">Property Changed Args</param>
         private static void OnDefaultButtonModificationsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var bar = obj as TextToolbar;
-            if (bar != null)
+            if (obj is TextToolbar bar)
             {
-                var oldSource = args.OldValue as DefaultButtonModificationList;
-                var newSource = args.NewValue as DefaultButtonModificationList;
                 var root = bar.GetTemplateChild(RootControl) as CommandBar;
 
-                if (oldSource != null)
+                if (args.OldValue is DefaultButtonModificationList oldSource)
                 {
                     oldSource.CollectionChanged -= bar.OnDefaultButtonModificationListChanged;
                 }
 
-                if (newSource != null)
+                if (args.NewValue is DefaultButtonModificationList newSource)
                 {
                     newSource.CollectionChanged += bar.OnDefaultButtonModificationListChanged;
 
@@ -171,8 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Collection Changed Args</param>
         private void OnButtonMapModified(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 switch (e.Action)
                 {
@@ -181,8 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             AddToolbarItem(item, root);
 
-                            var button = item as ToolbarButton;
-                            if (button != null)
+                            if (item is ToolbarButton button)
                             {
                                 button.PropertyChanged += ToolbarItemPropertyChanged;
                             }
@@ -195,8 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             RemoveToolbarItem(item);
 
-                            var button = item as ToolbarButton;
-                            if (button != null)
+                            if (item is ToolbarButton button)
                             {
                                 button.PropertyChanged -= ToolbarItemPropertyChanged;
                             }
@@ -238,8 +231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Property Changed Event</param>
         private void ToolbarItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 if (e.PropertyName == nameof(IToolbarItem.Position))
                 {
@@ -262,8 +254,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             LastKeyPress = e.Key;
 
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 if (ControlKeyDown && e.Key != VirtualKey.Control)
                 {

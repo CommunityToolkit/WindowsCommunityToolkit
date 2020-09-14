@@ -4,8 +4,6 @@
 
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.System;
@@ -25,8 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Default Toolbar Button</returns>
         public ToolbarButton GetDefaultButton(ButtonType button)
         {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 var element = root.PrimaryCommands.OfType<ToolbarButton>().FirstOrDefault(item => ((FrameworkElement)item).Name == button.ToString());
                 return element;
@@ -36,29 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Creates one of the Default formatters.
-        /// </summary>
-        private void CreateFormatter()
-        {
-            switch (Format)
-            {
-                case TextToolbarFormats.Format.MarkDown:
-                    Formatter = new MarkDownFormatter(this);
-                    break;
-
-                case TextToolbarFormats.Format.RichText:
-                    Formatter = new RichTextFormatter(this);
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Attaches all of the Default Buttons, Removing any that are to be removed, and inserting Custom buttons.
         /// </summary>
         private void BuildBar()
         {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
+            if (GetTemplateChild(RootControl) is CommandBar root)
             {
                 root.PrimaryCommands.Clear();
 
@@ -109,8 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!root.PrimaryCommands.Contains(item))
             {
-                var button = item as ToolbarButton;
-                if (button != null)
+                if (item is ToolbarButton button)
                 {
                     button.Model = this;
                 }
