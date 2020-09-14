@@ -271,11 +271,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     {
                         type2s.Add(enumerator.Key);
                     }
-
-#if !NETSTANDARD2_1
-                    // Do the cleanup for the list of keys that are weakly tracked too
-                    enumerator.Value.Cleanup();
-#endif
                 }
 
                 // Remove all the mappings with no handlers left
@@ -364,28 +359,19 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
             public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
             {
-                foreach (WeakReference<TKey> node in this.keys)
-                {
-                    if (node.TryGetTarget(out TKey? target) &&
-                        this.table.TryGetValue(target, out TValue value))
-                    {
-                        yield return new KeyValuePair<TKey, TValue>(target, value);
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Trims the list of tracked <typeparamref name="TKey"/> instances.
-            /// </summary>
-            public void Cleanup()
-            {
                 for (LinkedListNode<WeakReference<TKey>>? node = this.keys.First; !(node is null);)
                 {
                     LinkedListNode<WeakReference<TKey>>? next = node.Next;
 
-                    // Remove all the nodes with a target that has been collected
-                    if (!node.Value.TryGetTarget(out _))
+                    // Get the key and value for the current node
+                    if (node.Value.TryGetTarget(out TKey? target) &&
+                        this.table.TryGetValue(target!, out TValue value))
                     {
+                        yield return new KeyValuePair<TKey, TValue>(target, value);
+                    }
+                    else
+                    {
+                        // If the current key has been collected, trim the list
                         this.keys.Remove(node);
                     }
 
