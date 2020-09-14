@@ -328,11 +328,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             private const int EndOfList = -1;
 
             /// <summary>
-            /// The index representing the negative offset for the start of the free list.
-            /// </summary>
-            private const int StartOfFreeList = -3;
-
-            /// <summary>
             /// The array of 1-based indices for the <see cref="MapEntry"/> items stored in <see cref="mapEntries"/>.
             /// </summary>
             private readonly int[] buckets;
@@ -351,11 +346,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// The current number of items stored in the map.
             /// </summary>
             private int count;
-
-            /// <summary>
-            /// The 1-based index for the start of the free list within <see cref="mapEntries"/>.
-            /// </summary>
-            private int freeList;
 
             /// <summary>
             /// The current incremental timestamp for the items stored in <see cref="heapEntries"/>.
@@ -414,7 +404,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 this.mapEntries = new MapEntry[capacity];
                 this.heapEntries = new HeapEntry[capacity];
                 this.count = 0;
-                this.freeList = EndOfList;
                 this.timestamp = 0;
             }
 
@@ -525,7 +514,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 this.mapEntries.AsSpan().Clear();
                 this.heapEntries.AsSpan().Clear();
                 this.count = 0;
-                this.freeList = EndOfList;
                 this.timestamp = 0;
             }
 
@@ -575,22 +563,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
                 int entryIndex, heapIndex;
 
-                // If the free list is not empty, get that map node and update the field
-                if (this.freeList != EndOfList)
+                // If the current map is full, first get the oldest value, which is
+                // always the first item in the heap. Then, free up a slot by
+                // removing that, and insert the new value in that empty location.
+                if (this.count == this.mapEntries.Length)
                 {
-                    entryIndex = this.freeList;
-                    heapIndex = this.count;
-
-                    int nextIndex = Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex).NextIndex;
-
-                    // Update the free list pointer: either to the next free node or to the invalid marker
-                    this.freeList = StartOfFreeList - nextIndex;
-                }
-                else if (this.count == this.mapEntries.Length)
-                {
-                    // If the current map is full, first get the oldest value, which is
-                    // always the first item in the heap. Then, free up a slot by
-                    // removing that, and insert the new value in that empty location.
                     entryIndex = heapEntriesRef.MapIndex;
                     heapIndex = 0;
 
@@ -605,6 +582,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 }
                 else
                 {
+                    // If the free list is not empty, get that map node and update the field
                     entryIndex = this.count;
                     heapIndex = this.count;
                 }
