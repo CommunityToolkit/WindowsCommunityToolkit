@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_AsyncRelayCommand{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Ioc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Messenger.Request.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Messenger.cs" />

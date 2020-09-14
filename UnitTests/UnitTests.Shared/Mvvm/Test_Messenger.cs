@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -390,13 +392,134 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(!isWeak, weakRecipient.IsAlive);
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(Messenger))]
+        [DataRow(typeof(WeakRefMessenger))]
+        public void Test_Messenger_Reset(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+            var recipient = new RecipientWithSomeMessages();
+
+            messenger.RegisterAll(recipient);
+
+            Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+            Assert.IsTrue(messenger.IsRegistered<MessageB>(recipient));
+
+            messenger.Reset();
+
+            Assert.IsFalse(messenger.IsRegistered<MessageA>(recipient));
+            Assert.IsFalse(messenger.IsRegistered<MessageB>(recipient));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(Messenger))]
+        [DataRow(typeof(WeakRefMessenger))]
+        public void Test_Messenger_Default(Type type)
+        {
+            PropertyInfo defaultInfo = type.GetProperty("Default");
+
+            var default1 = defaultInfo!.GetValue(null);
+            var default2 = defaultInfo!.GetValue(null);
+
+            Assert.IsNotNull(default1);
+            Assert.IsNotNull(default2);
+            Assert.AreSame(default1, default2);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(Messenger))]
+        [DataRow(typeof(WeakRefMessenger))]
+        public void Test_Messenger_Cleanup(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+            var recipient = new RecipientWithSomeMessages();
+
+            messenger.Register<MessageA>(recipient);
+
+            Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+
+            void Test()
+            {
+                var recipient2 = new RecipientWithSomeMessages();
+
+                messenger.Register<MessageB>(recipient2);
+
+                Assert.IsTrue(messenger.IsRegistered<MessageB>(recipient2));
+
+                GC.KeepAlive(recipient2);
+            }
+
+            Test();
+
+            GC.Collect();
+
+            // Here we just check that calling Cleanup doesn't alter the state
+            // of the messenger. This method shouldn't really do anything visible
+            // to consumers, it's just a way for messengers to compact their data.
+            messenger.Cleanup();
+
+            Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(Messenger))]
+        [DataRow(typeof(WeakRefMessenger))]
+        public void Test_Messenger_ManyRecipients(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+
+            void Test()
+            {
+                var recipients = Enumerable.Range(0, 512).Select(_ => new RecipientWithSomeMessages()).ToArray();
+
+                foreach (var recipient in recipients)
+                {
+                    messenger.RegisterAll(recipient);
+                }
+
+                foreach (var recipient in recipients)
+                {
+                    Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+                    Assert.IsTrue(messenger.IsRegistered<MessageB>(recipient));
+                }
+
+                messenger.Send<MessageA>();
+                messenger.Send<MessageB>();
+                messenger.Send<MessageB>();
+
+                foreach (var recipient in recipients)
+                {
+                    Assert.AreEqual(recipient.As, 1);
+                    Assert.AreEqual(recipient.Bs, 2);
+                }
+
+                foreach (ref var recipient in recipients.AsSpan())
+                {
+                    recipient = null;
+                }
+            }
+
+            Test();
+
+            GC.Collect();
+
+            // Just invoke a final cleanup to improve coverage, this is unrelated to this test in particular
+            messenger.Cleanup();
+        }
+
         public sealed class RecipientWithNoMessages
         {
             public int Number { get; set; }
         }
 
-        public sealed class RecipientWithSomeMessages
-             : IRecipient<MessageA>, ICloneable, IRecipient<MessageB>
+        public sealed class RecipientWithSomeMessages :
+            IRecipient<MessageA>,
+            IRecipient<MessageB>,
+            ICloneable
         {
             public int As { get; private set; }
 
