@@ -5,9 +5,6 @@
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>
       This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.
-      
-      Namespace:
-      - Facebook: Album, DataConfig, DataHost, OAuthTokens, Permissions, Photo, Picture, PictureData, PlatformImageSource, Post, RequestSource, Service.
     </Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
     <LangVersion>8.0</LangVersion>
