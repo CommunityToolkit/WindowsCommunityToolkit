@@ -17,14 +17,12 @@
         - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
         - HeaderedContentControl: Provides a header to content.
         - HeaderedItemsControl: Provides a header to items.
-        - HeaderedTextBlock: Provide a header for read-only text.
         - ImageCropper: ImageCropper control allows user to crop image freely.
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
         - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
         - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
-        - MarkdownTextBlock: An efficient and extensible control that can parse and render markdown.
         - MasterDetailsView: Implements the Master/Details design pattern.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
         - RadialGauge: Displays a value within a range, using a needle on a circular face.
@@ -44,11 +42,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
  
   <ItemGroup>

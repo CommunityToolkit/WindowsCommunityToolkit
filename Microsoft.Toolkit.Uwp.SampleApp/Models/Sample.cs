@@ -758,6 +758,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Markdown
+            var markdownTextBlockType = typeof(MarkdownTextBlock);
+            assembly = markdownTextBlockType.GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
             return null;
         }
 

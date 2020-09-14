@@ -34,8 +34,7 @@ namespace UnitTests.XamlIslands.UWPApp
                 _textToolbar = new TextToolbar
                 {
                     Editor = richEditBox,
-                    IsEnabled = true,
-                    Format = Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.Format.RichText
+                    IsEnabled = true
                 };
 
                 var grid = new Grid

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Microsoft.UI.Xaml;
@@ -20,12 +21,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const string BoldElement = "Bold";
         internal const string ItalicsElement = "Italics";
         internal const string StrikethoughElement = "Strikethrough";
-        internal const string CodeElement = "Code";
-        internal const string QuoteElement = "Quote";
         internal const string LinkElement = "Link";
         internal const string ListElement = "List";
         internal const string OrderedElement = "OrderedList";
-        internal const string HeadersElement = "Headers";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextToolbar"/> class.
@@ -48,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (Formatter == null)
             {
-                CreateFormatter();
+                throw new InvalidOperationException("No formatter specified.");
             }
             else
             {
