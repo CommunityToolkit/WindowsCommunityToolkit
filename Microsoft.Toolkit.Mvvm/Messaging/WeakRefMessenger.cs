@@ -421,15 +421,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
 
             /// <summary>
-            /// Gets the current number of items.
-            /// </summary>
-            public int Count
-            {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => this.index;
-            }
-
-            /// <summary>
             /// Adds a new item to the current collection.
             /// </summary>
             /// <param name="item">The item to add.</param>
