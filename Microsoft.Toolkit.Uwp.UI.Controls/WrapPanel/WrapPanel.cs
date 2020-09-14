@@ -56,42 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(0d, LayoutPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the vertical alignment to use when the control <see cref="Orientation"/> is set to <see cref="Orientation.Horizontal"/>.
-        /// </summary>
-        public VerticalAlignment VerticalContentAlignment
-        {
-            get => (VerticalAlignment)GetValue(VerticalContentAlignmentProperty);
-            set => SetValue(VerticalContentAlignmentProperty, value);
-        }
-
-        /// <summary>
-        /// The DP to store the <see cref="VerticalContentAlignment"/> property value.
-        /// </summary>
-        public static readonly DependencyProperty VerticalContentAlignmentProperty = DependencyProperty.Register(
-            nameof(VerticalContentAlignment),
-            typeof(VerticalAlignment),
-            typeof(WrapPanel),
-            new PropertyMetadata(VerticalAlignment.Top, LayoutPropertyChanged));
-
-        /// <summary>
-        /// Gets or sets the horizontal alignment to use when the control <see cref="Orientation"/> is set to <see cref="Orientation.Vertical"/>.
-        /// </summary>
-        public HorizontalAlignment HorizontalContentAlignment
-        {
-            get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
-            set => SetValue(HorizontalContentAlignmentProperty, value);
-        }
-
-        /// <summary>
-        /// The DP to store the <see cref="HorizontalContentAlignment"/> property value.
-        /// </summary>
-        public static readonly DependencyProperty HorizontalContentAlignmentProperty = DependencyProperty.Register(
-            nameof(HorizontalContentAlignment),
-            typeof(HorizontalAlignment),
-            typeof(WrapPanel),
-            new PropertyMetadata(HorizontalAlignment.Left, LayoutPropertyChanged));
-
-        /// <summary>
         /// Gets or sets the orientation of the WrapPanel.
         /// Horizontal means that child controls will be added horizontally until the width of the panel is reached, then a new row is added to add new child controls.
         /// Vertical means that children will be added vertically until the height of the panel is reached, then a new column is added.
@@ -301,11 +265,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         UvRect arrangeRect;
                         if (Orientation == Orientation.Horizontal)
                         {
-                            arrangeRect = rect.WithVerticalAlignment(VerticalContentAlignment, row.Size.V);
+                            var verticalAlignment = (child as FrameworkElement)?.VerticalAlignment ?? VerticalAlignment.Top;
+                            arrangeRect = rect.WithVerticalAlignment(verticalAlignment, row.Size.V);
                         }
                         else
                         {
-                            arrangeRect = rect.WithHorizontalAlignment(HorizontalContentAlignment, row.Size.V);
+                            var horizontalAlignment = (child as FrameworkElement)?.HorizontalAlignment ?? HorizontalAlignment.Left;
+                            arrangeRect = rect.WithHorizontalAlignment(horizontalAlignment, row.Size.V);
                         }
 
                         var finalRect = arrangeRect.ToRect(Orientation);
