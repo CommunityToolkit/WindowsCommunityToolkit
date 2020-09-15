@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// Enter a Defer Cycle.
         /// Defer cycles are used to coalesce changes to the ICollectionView.
         /// </summary>
-        /// <returns>An IDisposable deferal object.</returns>
+        /// <returns>An IDisposable deferral object.</returns>
         public virtual IDisposable DeferRefresh()
         {
 #if FEATURE_IEDITABLECOLLECTIONVIEW
@@ -611,7 +611,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         /// <summary>
-        /// Gets a value indicating whether the resulting (filtered) view is emtpy.
+        /// Gets a value indicating whether the resulting (filtered) view is empty.
         /// </summary>
         public abstract bool IsEmpty
         {

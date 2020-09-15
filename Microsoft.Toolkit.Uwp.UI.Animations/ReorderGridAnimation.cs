@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Sets a value for the duration, in milliseconds, the animation should take.
         /// </summary>
         /// <param name="obj">the object to set the value on.</param>
-        /// <param name="value">The duration in milliseonds.</param>
+        /// <param name="value">The duration in milliseconds.</param>
         public static void SetDuration(DependencyObject obj, double value)
         {
             obj.SetValue(DurationProperty, value);
