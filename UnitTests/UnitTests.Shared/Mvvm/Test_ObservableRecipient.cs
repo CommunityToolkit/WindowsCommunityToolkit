@@ -15,8 +15,8 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        [DataRow(typeof(Messenger))]
-        [DataRow(typeof(WeakRefMessenger))]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
         public void Test_ObservableRecipient_Activation(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -37,8 +37,8 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        [DataRow(typeof(Messenger))]
-        [DataRow(typeof(WeakRefMessenger))]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
         public void Test_ObservableRecipient_IsSame(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -53,13 +53,13 @@ namespace UnitTests.Mvvm
         {
             var viewmodel = new SomeRecipient<int>();
 
-            Assert.AreSame(viewmodel.CurrentMessenger, Messenger.Default);
+            Assert.AreSame(viewmodel.CurrentMessenger, StrongReferenceMessenger.Default);
         }
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        [DataRow(typeof(Messenger))]
-        [DataRow(typeof(WeakRefMessenger))]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
         public void Test_ObservableRecipient_Injection(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
@@ -70,8 +70,8 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        [DataRow(typeof(Messenger))]
-        [DataRow(typeof(WeakRefMessenger))]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
         public void Test_ObservableRecipient_Broadcast(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);

@@ -62,7 +62,7 @@ namespace UnitTests.Mvvm
         public void Test_Ioc_LambdaInitialization_ConstructorInjection()
         {
             var ioc = new Ioc();
-            var messenger = new Messenger();
+            var messenger = new StrongReferenceMessenger();
 
             ioc.ConfigureServices(services =>
             {

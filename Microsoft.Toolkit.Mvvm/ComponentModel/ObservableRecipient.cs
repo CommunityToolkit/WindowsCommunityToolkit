@@ -26,11 +26,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/> instance
+        /// This constructor will produce an instance that will use the <see cref="WeakReferenceMessenger.Default"/> instance
         /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
         protected ObservableRecipient()
-            : this(Messaging.Messenger.Default)
+            : this(WeakReferenceMessenger.Default)
         {
         }
 

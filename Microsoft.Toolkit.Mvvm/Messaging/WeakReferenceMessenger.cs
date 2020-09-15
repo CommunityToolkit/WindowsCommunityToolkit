@@ -11,7 +11,7 @@ using Microsoft.Toolkit.Mvvm.Messaging.Internals;
 #if NETSTANDARD2_1
 using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #else
-using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.WeakRefMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #endif
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
@@ -23,9 +23,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// This <see cref="IMessenger"/> implementation uses weak references to track the registered
     /// recipients, so it is not necessary to manually unregister them when they're no longer needed.
     /// </remarks>
-    public sealed class WeakRefMessenger : IMessenger
+    public sealed class WeakReferenceMessenger : IMessenger
     {
-        // The WeakRefMessenger class uses the following logic to link stored instances together:
+        // This messenger uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
         //                          DictionarySlim<TToken, MessageHandler<TRecipient, TMessage>> mapping
         //                                           /                                   /          /
@@ -48,9 +48,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new DictionarySlim<Type2, RecipientsTable>();
 
         /// <summary>
-        /// Gets the default <see cref="WeakRefMessenger"/> instance.
+        /// Gets the default <see cref="WeakReferenceMessenger"/> instance.
         /// </summary>
-        public static WeakRefMessenger Default { get; } = new WeakRefMessenger();
+        public static WeakReferenceMessenger Default { get; } = new WeakReferenceMessenger();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)

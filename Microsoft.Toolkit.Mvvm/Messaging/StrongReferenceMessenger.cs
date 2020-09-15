@@ -19,9 +19,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// This <see cref="IMessenger"/> implementation uses strong references to track the registered
     /// recipients, so it is necessary to manually unregister them when they're no longer needed.
     /// </remarks>
-    public sealed class Messenger : IMessenger
+    public sealed class StrongReferenceMessenger : IMessenger
     {
-        // The Messenger class uses the following logic to link stored instances together:
+        // This messenger uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
         // DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap;
         //                    |                   \________________[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
@@ -84,9 +84,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         private readonly DictionarySlim<Type2, IMapping> typesMap = new DictionarySlim<Type2, IMapping>();
 
         /// <summary>
-        /// Gets the default <see cref="Messenger"/> instance.
+        /// Gets the default <see cref="StrongReferenceMessenger"/> instance.
         /// </summary>
-        public static Messenger Default { get; } = new Messenger();
+        public static StrongReferenceMessenger Default { get; } = new StrongReferenceMessenger();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
