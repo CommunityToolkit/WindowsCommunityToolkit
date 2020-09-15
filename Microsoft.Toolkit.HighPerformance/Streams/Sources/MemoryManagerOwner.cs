@@ -5,8 +5,6 @@
 using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
@@ -56,13 +54,11 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-#if SPAN_RUNTIME_SUPPORT
-                ref byte r0 = ref this.memoryManager.GetSpan().DangerousGetReferenceAt(this.offset);
-
-                return MemoryMarshal.CreateSpan(ref r0, this.length);
-#else
-                return this.memoryManager.GetSpan();
-#endif
+                // We can't use the same trick we use for arrays to optimize the creation of
+                // the offset span, as otherwise a bugged MemoryManager<T> instance returning
+                // a span of an incorrect size could cause an access violation. Instead, we just
+                // get the span and then slice it, which will validate both offset and length.
+                return this.memoryManager.GetSpan().Slice(this.offset, this.length);
             }
         }
     }
