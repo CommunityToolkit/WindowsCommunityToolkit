@@ -53,7 +53,7 @@ namespace UnitTests.Mvvm
         {
             var viewmodel = new SomeRecipient<int>();
 
-            Assert.AreSame(viewmodel.CurrentMessenger, StrongReferenceMessenger.Default);
+            Assert.AreSame(viewmodel.CurrentMessenger, WeakReferenceMessenger.Default);
         }
 
         [TestCategory("Mvvm")]
