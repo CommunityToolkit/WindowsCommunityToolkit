@@ -213,14 +213,6 @@
     <value>Notification</value>
     <comment>The landmark name for the InAppNotification control. It is said by the narrator when using landmark navigation.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Close tab</value>
-    <comment>Narrator Resource for TabView Close Button.</comment>
-  </data>
-  <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close tab</value>
-    <comment>Tooltip for TabView Close Button.</comment>
-  </data>
   <data name="WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove" xml:space="preserve">
     <value>Remove</value>
     <comment>Label for TokenizingTextBox MenuFlyout 'Remove' option.</comment>
