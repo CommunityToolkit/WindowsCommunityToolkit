@@ -34,7 +34,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
                 return new MemoryStream<MemoryManagerOwner>(memoryManagerSpanSource, isReadOnly);
             }
 
-            throw new NotImplementedException();
+            // Return an empty stream if the memory was empty
+            return new MemoryStream<ArrayOwner>(ArrayOwner.Empty, isReadOnly);
         }
 
         /// <summary>
@@ -61,7 +62,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
                 return new IMemoryOwnerStream<MemoryManagerOwner>(memoryManagerSpanSource, false, memoryOwner);
             }
 
-            throw new NotImplementedException();
+            // Return an empty stream if the memory was empty
+            return new IMemoryOwnerStream<ArrayOwner>(ArrayOwner.Empty, false, memoryOwner);
         }
     }
 }

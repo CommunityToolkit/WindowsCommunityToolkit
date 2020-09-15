@@ -38,6 +38,15 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             this.length = length;
         }
 
+        /// <summary>
+        /// Gets an empty <see cref="ArrayOwner"/> instance.
+        /// </summary>
+        public static ArrayOwner Empty
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new ArrayOwner(Array.Empty<byte>(), 0, 0);
+        }
+
         /// <inheritdoc/>
         public int Length
         {
