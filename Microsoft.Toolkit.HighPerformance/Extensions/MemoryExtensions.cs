@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this Memory<byte> memory)
         {
-            return MemoryStream.Create(memory, true);
+            return MemoryStream.Create(memory, false);
         }
     }
 }

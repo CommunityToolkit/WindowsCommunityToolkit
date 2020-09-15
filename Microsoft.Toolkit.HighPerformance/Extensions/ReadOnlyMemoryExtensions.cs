@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         public static Stream AsStream(this ReadOnlyMemory<byte> memory)
         {
-            return MemoryStream.Create(memory, false);
+            return MemoryStream.Create(memory, true);
         }
     }
 }
