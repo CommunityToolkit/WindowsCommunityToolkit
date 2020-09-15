@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -14,9 +15,12 @@ namespace UnitTests.Mvvm
     {
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ObservableRecipient_Activation()
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
+        public void Test_ObservableRecipient_Activation(Type type)
         {
-            var viewmodel = new SomeRecipient<int>();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+            var viewmodel = new SomeRecipient<int>(messenger);
 
             Assert.IsFalse(viewmodel.IsActivatedCheck);
 
@@ -33,18 +37,11 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ObservableRecipient_Defaults()
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
+        public void Test_ObservableRecipient_IsSame(Type type)
         {
-            var viewmodel = new SomeRecipient<int>();
-
-            Assert.AreSame(viewmodel.CurrentMessenger, Messenger.Default);
-        }
-
-        [TestCategory("Mvvm")]
-        [TestMethod]
-        public void Test_ObservableRecipient_Injection()
-        {
-            var messenger = new Messenger();
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var viewmodel = new SomeRecipient<int>(messenger);
 
             Assert.AreSame(viewmodel.CurrentMessenger, messenger);
@@ -52,9 +49,32 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ObservableRecipient_Broadcast()
+        public void Test_ObservableRecipient_Default()
         {
-            var messenger = new Messenger();
+            var viewmodel = new SomeRecipient<int>();
+
+            Assert.AreSame(viewmodel.CurrentMessenger, StrongReferenceMessenger.Default);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
+        public void Test_ObservableRecipient_Injection(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+            var viewmodel = new SomeRecipient<int>(messenger);
+
+            Assert.AreSame(viewmodel.CurrentMessenger, messenger);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
+        public void Test_ObservableRecipient_Broadcast(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
             var viewmodel = new SomeRecipient<int>(messenger);
 
             PropertyChangedMessage<int> message = null;

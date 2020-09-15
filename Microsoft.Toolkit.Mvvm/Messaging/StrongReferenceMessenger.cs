@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Collections.Extensions;
+using Microsoft.Toolkit.Mvvm.Messaging.Internals;
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
@@ -18,9 +19,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// This <see cref="IMessenger"/> implementation uses strong references to track the registered
     /// recipients, so it is necessary to manually unregister them when they're no longer needed.
     /// </remarks>
-    public sealed class Messenger : IMessenger
+    public sealed class StrongReferenceMessenger : IMessenger
     {
-        // The Messenger class uses the following logic to link stored instances together:
+        // This messenger uses the following logic to link stored instances together:
         // --------------------------------------------------------------------------------------------------------
         // DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap;
         //                    |                   \________________[*]IDictionarySlim<Recipient, IDictionarySlim<TToken>>
@@ -30,8 +31,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         //                    | /                       /                                            \
         // DictionarySlim<Recipient, DictionarySlim<TToken, MessageHandler<TRecipient, TMessage>>> mapping = Mapping<TMessage, TToken>
         //                                            /                                   /          /
-        //                      ___(Type2.tToken)____/                                   /          /
-        //                     /________________(Type2.tMessage)________________________/          /
+        //                      ___(Type2.TToken)____/                                   /          /
+        //                     /________________(Type2.TMessage)________________________/          /
         //                    /       ____________________________________________________________/
         //                   /       /
         // DictionarySlim<Type2, IMapping> typesMap;
@@ -83,9 +84,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         private readonly DictionarySlim<Type2, IMapping> typesMap = new DictionarySlim<Type2, IMapping>();
 
         /// <summary>
-        /// Gets the default <see cref="Messenger"/> instance.
+        /// Gets the default <see cref="StrongReferenceMessenger"/> instance.
         /// </summary>
-        public static Messenger Default { get; } = new Messenger();
+        public static StrongReferenceMessenger Default { get; } = new StrongReferenceMessenger();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
@@ -156,20 +157,18 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Removes all the lists of registered handlers for the recipient
                 foreach (IMapping mapping in set!)
                 {
-                    if (mapping.TryRemove(key, out _))
+                    if (mapping.TryRemove(key) &&
+                        mapping.Count == 0)
                     {
-                        if (mapping.Count == 0)
-                        {
-                            // Maps here are really of type Mapping<,> and with unknown type arguments.
-                            // If after removing the current recipient a given map becomes empty, it means
-                            // that there are no registered recipients at all for a given pair of message
-                            // and token types. In that case, we also remove the map from the types map.
-                            // The reason for keeping a key in each mapping is that removing items from a
-                            // dictionary (a hashed collection) only costs O(1) in the best case, while
-                            // if we had tried to iterate the whole dictionary every time we would have
-                            // paid an O(n) minimum cost for each single remove operation.
-                            this.typesMap.TryRemove(mapping.TypeArguments, out _);
-                        }
+                        // Maps here are really of type Mapping<,> and with unknown type arguments.
+                        // If after removing the current recipient a given map becomes empty, it means
+                        // that there are no registered recipients at all for a given pair of message
+                        // and token types. In that case, we also remove the map from the types map.
+                        // The reason for keeping a key in each mapping is that removing items from a
+                        // dictionary (a hashed collection) only costs O(1) in the best case, while
+                        // if we had tried to iterate the whole dictionary every time we would have
+                        // paid an O(n) minimum cost for each single remove operation.
+                        this.typesMap.TryRemove(mapping.TypeArguments, out _);
                     }
                 }
 
@@ -242,25 +241,22 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     // Try to remove the registered handler for the input token,
                     // for the current message type (unknown from here).
-                    if (holder.TryRemove(token, out _) &&
+                    if (holder.TryRemove(token) &&
                         holder.Count == 0)
                     {
                         // If the map is empty, remove the recipient entirely from its container
-                        map.TryRemove(key, out _);
+                        map.TryRemove(key);
 
-                        if (map.Count == 0)
+                        // If no handlers are left at all for the recipient, across all
+                        // message types and token types, remove the set of mappings
+                        // entirely for the current recipient, and lost the strong
+                        // reference to it as well. This is the same situation that
+                        // would've been achieved by just calling UnregisterAll(recipient).
+                        if (map.Count == 0 &&
+                            set.Remove(Unsafe.As<IMapping>(map)) &&
+                            set.Count == 0)
                         {
-                            // If no handlers are left at all for the recipient, across all
-                            // message types and token types, remove the set of mappings
-                            // entirely for the current recipient, and lost the strong
-                            // reference to it as well. This is the same situation that
-                            // would've been achieved by just calling UnregisterAll(recipient).
-                            set.Remove(Unsafe.As<IMapping>(map));
-
-                            if (set.Count == 0)
-                            {
-                                this.recipientsMap.TryRemove(key, out _);
-                            }
+                            this.recipientsMap.TryRemove(key, out _);
                         }
                     }
                 }
@@ -319,9 +315,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     HashSet<IMapping> set = this.recipientsMap[key];
 
-                    set.Remove(mapping);
-
-                    if (set.Count == 0)
+                    if (set.Remove(mapping) &&
+                        set.Count == 0)
                     {
                         this.recipientsMap.TryRemove(key, out _);
                     }
@@ -576,80 +571,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             public override int GetHashCode()
             {
                 return RuntimeHelpers.GetHashCode(this.Target);
-            }
-        }
-
-        /// <summary>
-        /// A simple type representing an immutable pair of types.
-        /// </summary>
-        /// <remarks>
-        /// This type replaces a simple <see cref="ValueTuple{T1,T2}"/> as it's faster in its
-        /// <see cref="GetHashCode"/> and <see cref="IEquatable{T}.Equals(T)"/> methods, and because
-        /// unlike a value tuple it exposes its fields as immutable. Additionally, the
-        /// <see cref="tMessage"/> and <see cref="tToken"/> fields provide additional clarity reading
-        /// the code compared to <see cref="ValueTuple{T1,T2}.Item1"/> and <see cref="ValueTuple{T1,T2}.Item2"/>.
-        /// </remarks>
-        private readonly struct Type2 : IEquatable<Type2>
-        {
-            /// <summary>
-            /// The type of registered message.
-            /// </summary>
-            private readonly Type tMessage;
-
-            /// <summary>
-            /// The type of registration token.
-            /// </summary>
-            private readonly Type tToken;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Type2"/> struct.
-            /// </summary>
-            /// <param name="tMessage">The type of registered message.</param>
-            /// <param name="tToken">The type of registration token.</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Type2(Type tMessage, Type tToken)
-            {
-                this.tMessage = tMessage;
-                this.tToken = tToken;
-            }
-
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public bool Equals(Type2 other)
-            {
-                // We can't just use reference equality, as that's technically not guaranteed
-                // to work and might fail in very rare cases (eg. with type forwarding between
-                // different assemblies). Instead, we can use the == operator to compare for
-                // equality, which still avoids the callvirt overhead of calling Type.Equals,
-                // and is also implemented as a JIT intrinsic on runtimes such as .NET Core.
-                return
-                    this.tMessage == other.tMessage &&
-                    this.tToken == other.tToken;
-            }
-
-            /// <inheritdoc/>
-            public override bool Equals(object? obj)
-            {
-                return obj is Type2 other && Equals(other);
-            }
-
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    // To combine the two hashes, we can simply use the fast djb2 hash algorithm.
-                    // This is not a problem in this case since we already know that the base
-                    // RuntimeHelpers.GetHashCode method is providing hashes with a good enough distribution.
-                    int hash = RuntimeHelpers.GetHashCode(this.tMessage);
-
-                    hash = (hash << 5) + hash;
-
-                    hash += RuntimeHelpers.GetHashCode(this.tToken);
-
-                    return hash;
-                }
             }
         }
 

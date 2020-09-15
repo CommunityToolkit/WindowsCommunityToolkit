@@ -64,12 +64,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// Messenger.Default.Register(this, Receive);
     /// </code>
     /// The C# compiler will automatically convert that expression to a <see cref="MessageHandler{TRecipient,TMessage}"/> instance
-    /// compatible with <see cref="MessengerExtensions.Register{TRecipient,TMessage}(IMessenger,TRecipient,MessageHandler{TRecipient,TMessage})"/>.
+    /// compatible with <see cref="IMessengerExtensions.Register{TRecipient,TMessage}(IMessenger,TRecipient,MessageHandler{TRecipient,TMessage})"/>.
     /// This will also work if multiple overloads of that method are available, each handling a different
     /// message type: the C# compiler will automatically pick the right one for the current message type.
     /// It is also possible to register message handlers explicitly using the <see cref="IRecipient{TMessage}"/> interface.
     /// To do so, the recipient just needs to implement the interface and then call the
-    /// <see cref="MessengerExtensions.RegisterAll(IMessenger,object)"/> extension, which will automatically register
+    /// <see cref="IMessengerExtensions.RegisterAll(IMessenger,object)"/> extension, which will automatically register
     /// all the handlers that are declared by the recipient type. Registration for individual handlers is supported as well.
     /// </summary>
     public interface IMessenger
