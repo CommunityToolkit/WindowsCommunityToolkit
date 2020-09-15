@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Runtime.CompilerServices;
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
@@ -27,10 +26,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// as the returned <see cref="Stream"/> is in use, to avoid unexpected issues.
         /// </remarks>
         [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this ReadOnlyMemory<byte> memory)
         {
-            return new MemoryStream(memory);
+            return MemoryStream.Create(memory, false);
         }
     }
 }

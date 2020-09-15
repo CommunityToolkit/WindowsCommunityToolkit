@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Buffers;
 using System.IO;
 
@@ -10,21 +11,25 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping an <see cref="IMemoryOwner{T}"/> of <see cref="byte"/> instance.
     /// </summary>
-    internal sealed class IMemoryOwnerStream : MemoryStream
+    /// <typeparam name="TSource">The type of source to use for the underlying data.</typeparam>
+    internal sealed class IMemoryOwnerStream<TSource> : MemoryStream<TSource>
+        where TSource : struct, ISpanOwner
     {
         /// <summary>
-        /// The <see cref="IMemoryOwner{T}"/> of <see cref="byte"/> instance currently in use.
+        /// The <see cref="IDisposable"/> instance currently in use.
         /// </summary>
-        private readonly IMemoryOwner<byte> memory;
+        private readonly IDisposable disposable;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IMemoryOwnerStream"/> class.
+        /// Initializes a new instance of the <see cref="IMemoryOwnerStream{TSource}"/> class.
         /// </summary>
-        /// <param name="memory">The input <see cref="IMemoryOwner{T}"/> of <see cref="byte"/> instance to use.</param>
-        public IMemoryOwnerStream(IMemoryOwner<byte> memory)
-            : base(memory.Memory)
+        /// <param name="source">The input <typeparamref name="TSource"/> instance to use.</param>
+        /// <param name="isReadOnly">Indicates whether <paramref name="source"/> can be written to.</param>
+        /// <param name="disposable">The <see cref="IDisposable"/> instance currently in use.</param>
+        public IMemoryOwnerStream(TSource source, bool isReadOnly, IDisposable disposable)
+            : base(source, isReadOnly)
         {
-            this.memory = memory;
+            this.disposable = disposable;
         }
 
         /// <inheritdoc/>
@@ -32,7 +37,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         {
             base.Dispose(disposing);
 
-            this.memory.Dispose();
+            this.disposable.Dispose();
         }
     }
 }
