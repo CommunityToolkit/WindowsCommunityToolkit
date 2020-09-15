@@ -403,15 +403,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Log user out of Twitter.
         /// </summary>
-        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
-        public void Logout()
-        {
-            Provider.Logout();
-        }
-
-        /// <summary>
-        /// Log user out of Twitter.
-        /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task LogoutAsync()
         {
