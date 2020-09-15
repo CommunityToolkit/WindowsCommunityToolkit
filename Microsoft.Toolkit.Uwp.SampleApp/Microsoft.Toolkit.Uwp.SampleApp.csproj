@@ -280,7 +280,6 @@
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
-    <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
@@ -301,7 +300,6 @@
     <Content Include="SamplePages\DataGrid\DataGrid.png" />
     <Content Include="SamplePages\DispatcherQueueHelper\DispatchQueueHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
-    <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\LoginButton\LoginButton.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
@@ -318,7 +316,6 @@
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
     <Content Include="SamplePages\ImageCache\ImageCache.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
@@ -368,8 +365,6 @@
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
-    <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
@@ -512,9 +507,6 @@
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
-    <Content Include="SamplePages\TabView\TabViewXaml.bind">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
@@ -664,9 +656,6 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
-    <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
-      <DependentUpon>TabViewPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>
@@ -780,9 +769,6 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml.cs">
       <DependentUpon>RemoteDevicePickerControlPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
-      <DependentUpon>RssParserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml.cs">
       <DependentUpon>RadialGradientBrushPage.xaml</DependentUpon>
@@ -929,9 +915,6 @@
     <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
       <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
-      <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
@@ -1071,10 +1054,6 @@
     <Page Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\TabView\TabViewPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1260,10 +1239,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\RssParser\RssParserPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1439,10 +1414,6 @@
     <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
