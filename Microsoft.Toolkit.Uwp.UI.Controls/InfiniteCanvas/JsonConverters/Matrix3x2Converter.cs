@@ -52,6 +52,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         case "M32":
                             matrix.M32 = reader.GetSingle();
                             break;
+                        case "IsIdentity":
+                            // Ignore, as it is readonly, and from v1
+                            break;
+                        case "Translation":
+                            var translation = JsonSerializer.Deserialize<Vector2>(ref reader);
+                            matrix.Translation = translation;
+                            break;
                     }
                 }
             }

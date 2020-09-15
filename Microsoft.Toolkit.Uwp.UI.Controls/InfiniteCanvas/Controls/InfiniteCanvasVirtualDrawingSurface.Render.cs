@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return JsonSerializer.Serialize(exportModel, GetJsonSerializerOptions());
         }
 
-        private JsonSerializerOptions GetJsonSerializerOptions()
+        private static JsonSerializerOptions GetJsonSerializerOptions()
         {
             var jsonSerializerOptions = new JsonSerializerOptions
             {
@@ -95,13 +95,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return jsonSerializerOptions;
         }
 
-        internal void RenderFromJsonAndDraw(Rect viewPort, string json, float zoom)
+        internal static List<IDrawable> LoadJson(string json)
         {
-            _visibleList.Clear();
-            _drawableList.Clear();
-            _undoCommands.Clear();
-            _redoCommands.Clear();
-
             var token = JsonDocument.Parse(json);
             List<IDrawable> newList;
             if (token.RootElement.ValueKind == JsonValueKind.Array)
@@ -113,6 +108,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 newList = JsonSerializer.Deserialize<InkCanvasExportModel>(json, GetJsonSerializerOptions()).DrawableList;
             }
+
+            return newList;
+        }
+
+        internal void RenderFromJsonAndDraw(Rect viewPort, string json, float zoom)
+        {
+            _visibleList.Clear();
+            _drawableList.Clear();
+            _undoCommands.Clear();
+            _redoCommands.Clear();
+
+            var newList = LoadJson(json);
 
             foreach (var drawable in newList)
             {
