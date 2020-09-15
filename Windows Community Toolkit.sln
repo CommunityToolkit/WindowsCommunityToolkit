@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{F1AFFFA7-28FE-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B30036C4-D514-4E5B-A323-587A061772CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Services", "Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj", "{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls", "Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid", "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj", "{DAEB9CEC-C817-33B2-74B2-BC379380DB72}"
@@ -78,19 +76,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlatformSpecific", "PlatformSpecific", "{096ECFD7-7035-4487-9C87-81DCE9389620}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DifferencesGen", "Microsoft.Toolkit.Uwp.PlatformDifferencesGen\DifferencesGen.csproj", "{292D34E8-0F01-4FA8-951D-8232F75A88D5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer", "Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer\Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer.csproj", "{262BB7CE-EF42-4BF7-B90C-107E6CBB57FF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Input.GazeInteraction", "Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj", "{5BF75694-798A-43A0-8150-415DE195359C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Media", "Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Mvvm", "Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj", "{D82AE6E1-E612-434E-ACB2-363EE48738D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Mvvm", "Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj", "{D82AE6E1-E612-434E-ACB2-363EE48738D3}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Shared", "UnitTests\UnitTests.Shared\UnitTests.Shared.shproj", "{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4}"
 EndProject
@@ -125,15 +117,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{88C6FFBE-3
 		ThirdPartyNotices.txt = ThirdPartyNotices.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj", "{6FEDF199-B052-49DD-8F3E-2A9224998E0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design.csproj", "{67FE47A0-CA93-4680-B770-A0A48C1DBC40}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{4e9466d1-d5aa-46ac-801b-c8fdab79f0d4}*SharedItemsImports = 13
+		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{5524523e-db0f-41f7-a0d4-43128422a342}*SharedItemsImports = 4
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{7878cd00-85e8-4d02-9757-8a43db4c6510}*SharedItemsImports = 5
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
-		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 4
-		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{5524523e-db0f-41f7-a0d4-43128422a342}*SharedItemsImports = 4
-		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{9b3a94a6-0d29-4523-880b-6938e2efeef7}*SharedItemsImports = 13
+		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{d9bdbc68-3d0a-47fc-9c88-0bf769101644}*SharedItemsImports = 5
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{efa96b3c-857e-4659-b942-6bef7719f4ca}*SharedItemsImports = 4
@@ -556,6 +551,7 @@ Global
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|ARM.ActiveCfg = Release|x86
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|ARM.Build.0 = Release|x86
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|ARM64.ActiveCfg = Release|x86
+		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|ARM64.Build.0 = Release|x86
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|x64.ActiveCfg = Release|x86
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|x64.Build.0 = Release|x86
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}.Release|x86.ActiveCfg = Release|x86
@@ -574,6 +570,7 @@ Global
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|ARM.ActiveCfg = Release|x86
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|ARM.Build.0 = Release|x86
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|ARM64.ActiveCfg = Release|x86
+		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|ARM64.Build.0 = Release|x86
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|x64.ActiveCfg = Release|x86
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|x64.Build.0 = Release|x86
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}.Release|x86.ActiveCfg = Release|x86
@@ -910,8 +907,6 @@ Global
 		{EFA96B3C-857E-4659-B942-6BEF7719F4CA} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
-		{292D34E8-0F01-4FA8-951D-8232F75A88D5} = {096ECFD7-7035-4487-9C87-81DCE9389620}
-		{262BB7CE-EF42-4BF7-B90C-107E6CBB57FF} = {096ECFD7-7035-4487-9C87-81DCE9389620}
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4} = {B30036C4-D514-4E5B-A323-587A061772CE}
@@ -926,6 +921,8 @@ Global
 		{C79029AF-2E9B-4466-BAC4-1A41B281EAE6} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{804D0681-52F6-4E61-864A-699F0AB44B20} = {C79029AF-2E9B-4466-BAC4-1A41B281EAE6}
 		{88C6FFBE-322D-4CEA-842B-B2CB281D357D} = {CFA75BE0-5A44-45DE-8114-426A605B062B}
+		{6FEDF199-B052-49DD-8F3E-2A9224998E0F} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{67FE47A0-CA93-4680-B770-A0A48C1DBC40} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
