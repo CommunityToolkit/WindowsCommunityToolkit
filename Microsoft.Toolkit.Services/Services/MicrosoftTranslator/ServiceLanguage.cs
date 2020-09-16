@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Gets the directionality, which is rtl for right-to-left languages or ltr for left-to-right languages.
         /// </summary>
-        [JsonProperty("dir")]
+        [JsonPropertyName("dir")]
         public string Directionality { get; }
 
         /// <summary>
