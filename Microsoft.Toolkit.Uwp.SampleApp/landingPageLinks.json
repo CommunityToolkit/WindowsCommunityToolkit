@@ -85,10 +85,6 @@
           "url": "http://aka.ms/uwptoolkit"
         },
         {
-          "title": "Newtonsoft Json (Dependency)",
-          "url": "http://www.newtonsoft.com/json"
-        },
-        {
           "title": "ColorCode-Universal (Dependency)",
           "url": "https://github.com/WilliamABradley/ColorCode-Universal"
         },

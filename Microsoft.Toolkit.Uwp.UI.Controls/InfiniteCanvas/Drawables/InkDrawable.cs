@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
-using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.UI.Input.Inking;
 
@@ -20,6 +21,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         [JsonIgnore]
         public IReadOnlyList<InkStroke> Strokes { get; set; }
 
+        [JsonPropertyName("$type")]
+        public string Type => IDrawableConverter.GetDiscriminator(GetType());
+
         public List<SerializableStroke> SerializableStrokeList { get; set; }
 
         public Rect Bounds { get; set; }
@@ -27,6 +31,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsActive { get; set; }
 
         internal static readonly InkStrokeBuilder StrokeBuilder = new InkStrokeBuilder();
+
+        // Don't remove! Used for deserialization.
+        public InkDrawable()
+        {
+        }
 
         public InkDrawable(IReadOnlyList<InkStroke> strokes)
         {
@@ -86,8 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return new InkPoint(new Point(point.Position.X - sessionBounds.X, point.Position.Y - sessionBounds.Y), point.Pressure, point.TiltX, point.TiltY, point.Timestamp);
         }
 
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context)
+        public void WriteJson(Utf8JsonWriter writer)
         {
             SerializableStrokeList = new List<SerializableStroke>(Strokes.Count);
             foreach (var stroke in Strokes)
@@ -106,10 +114,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 serializableStroke.PointTransform = stroke.PointTransform;
                 SerializableStrokeList.Add(serializableStroke);
             }
+
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new SerializableStrokeConverter());
+            JsonSerializer.Serialize(writer, this, options);
+
+            SerializableStrokeList = null;
         }
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        public void OnDeserialized()
         {
             var finalStrokeList = new List<InkStroke>(SerializableStrokeList.Count);
 
@@ -124,10 +137,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SerializableStrokeList = null;
         }
 
-        [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context)
+        public void ReadProperty(string propertyName, ref Utf8JsonReader reader)
         {
-            SerializableStrokeList = null;
+            switch (propertyName)
+            {
+                case "SerializableStrokeList":
+                    var options = new JsonSerializerOptions();
+                    options.Converters.Add(new SerializableStrokeConverter());
+                    SerializableStrokeList = JsonSerializer.Deserialize<List<SerializableStroke>>(ref reader, options);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

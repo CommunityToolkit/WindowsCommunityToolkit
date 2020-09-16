@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -18,7 +19,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Navigation;
-using Newtonsoft.Json;
 using Windows.ApplicationModel;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
@@ -212,20 +212,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             {
                 using (var jsonStream = await Samples.LoadLocalFile("landingPageLinks.json"))
                 {
-                    using (var streamreader = new StreamReader(jsonStream))
+                    var links = await JsonSerializer.DeserializeAsync<LandingPageLinks>(jsonStream);
+                    var packageVersion = Package.Current.Id.Version;
+
+                    var resource = links.Resources.FirstOrDefault(item => item.ID == "app");
+                    if (resource != null)
                     {
-                        var jsonString = await streamreader.ReadToEndAsync();
-                        var links = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
-                        var packageVersion = Package.Current.Id.Version;
-
-                        var resource = links.Resources.FirstOrDefault(item => item.ID == "app");
-                        if (resource != null)
-                        {
-                            resource.Links[0].Title = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
-                        }
-
-                        LandingPageLinks = links;
+                        resource.Links[0].Title = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
                     }
+
+                    LandingPageLinks = links;
                 }
 
                 var samples = new List<Sample>();

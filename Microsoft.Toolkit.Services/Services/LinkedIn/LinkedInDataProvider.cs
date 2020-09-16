@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json.Linq;
 
 #if WINRT
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
@@ -81,7 +81,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
                 throw new ArgumentException("Missing callback uri");
             }
 
-            if (!Enum.IsDefined(typeof(LinkedInPermissions), requiredPermissions))
+            // Check if its a valid combination of LinkedInPermissions
+            if ((~(int)LinkedInPermissionsHelpers.AllPermissions & (int)requiredPermissions) != 0)
             {
                 throw new ArgumentException("Error retrieving required permissions");
             }
@@ -186,22 +187,18 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 
             var url = $"{_baseUrl}{config.Query}/~:({fields})?oauth2_access_token={Tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
 
-            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri(url)))
+            using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
+            request.Headers.Connection.TryParseAdd("Keep-Alive");
+
+            using var response = await client.SendAsync(request).ConfigureAwait(false);
+            var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(data))
             {
-                request.Headers.Connection.TryParseAdd("Keep-Alive");
-
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                {
-                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                    if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(data))
-                    {
-                        return parser.Parse(data);
-                    }
-
-                    throw new RequestFailedException((global::System.Net.HttpStatusCode)response.StatusCode, data);
-                }
+                return parser.Parse(data);
             }
+
+            throw new RequestFailedException((global::System.Net.HttpStatusCode)response.StatusCode, data);
         }
 
         /// <summary>
@@ -222,22 +219,18 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 
                 var url = $"{_baseUrl}/people/~/shares?oauth2_access_token={Tokens.AccessToken}&format=json";
 
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url)))
-                {
-                    request.Headers.Add("x-li-format", "json");
-                    var stringContent = requestParser.Parse(shareRequest);
-                    request.Content = new StringContent(stringContent, Encoding.UTF8, "application/json");
+                using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
+                request.Headers.Add("x-li-format", "json");
+                var stringContent = requestParser.Parse(shareRequest);
+                request.Content = new StringContent(stringContent, Encoding.UTF8, "application/json");
 
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                    {
-                        var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                using var response = await client.SendAsync(request).ConfigureAwait(false);
+                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        var responseParser = new LinkedInParser<U>();
+                var responseParser = new LinkedInParser<U>();
 
-                        var listResults = responseParser.Parse(data) as List<U>;
-                        return listResults[0];
-                    }
-                }
+                var listResults = responseParser.Parse(data) as List<U>;
+                return listResults[0];
             }
 
             return default(U);
@@ -263,15 +256,13 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             + "&client_id=" + tokens.ClientId
             + "&client_secret=" + tokens.ClientSecret;
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url)))
-            {
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var json = JObject.Parse(jsonString);
-                    return json.GetValue("access_token").Value<string>();
-                }
-            }
+            using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
+            using var response = await client.SendAsync(request).ConfigureAwait(false);
+            using var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var jsonDoc = await JsonDocument.ParseAsync(jsonStream).ConfigureAwait(false);
+
+            var value = jsonDoc.RootElement.GetProperty("access_token");
+            return value.GetString();
         }
 
         private async Task<string> GetAuthorizeCodeAsync(LinkedInOAuthTokens tokens, LinkedInPermissions permissions)
