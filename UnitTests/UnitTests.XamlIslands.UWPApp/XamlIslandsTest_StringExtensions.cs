@@ -36,7 +36,7 @@ namespace UnitTests.XamlIslands.UWPApp
             await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
-                var str = StringExtensions.GetLocalized("abc", xamlRoot.UIContext);
+                var str = "abc".GetLocalized(xamlRoot.UIContext);
                 Assert.AreEqual("ABCDEF", str);
             });
         }
@@ -44,7 +44,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public void StringExtensions_GetLocalizedWithResourcePath()
         {
-            var str = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            var str = "TextToolbarStrings_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
             Assert.AreEqual("Ok", str);
         }
 

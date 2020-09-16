@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 {
                     Content = new MarkdownTextBlock
                     {
-                        Text = val + StringExtensions.GetLocalized("TextToolbarStrings_HeaderLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                        Text = val + "TextToolbarStrings_HeaderLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                         IsTextSelectionEnabled = false
                     },
                     Tag = val,
@@ -462,7 +462,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 QuoteButton = new ToolbarButton
                 {
                     Name = QuoteElement,
-                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_QuoteLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                    ToolTip = "TextToolbarStrings_QuoteLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Message },
                     Activation = FormatQuote
                 };
@@ -479,13 +479,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     {
                         Name = HeadersElement,
                         Icon = new SymbolIcon { Symbol = Symbol.FontSize },
-                        ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_HeaderLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                        ToolTip = "TextToolbarStrings_HeaderLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                         Activation = StyleHeader
                     },
                     new ToolbarButton
                     {
                         Name = CodeElement,
-                        ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_CodeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                        ToolTip = "TextToolbarStrings_CodeLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                         Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                         Activation = FormatCode
                     },
