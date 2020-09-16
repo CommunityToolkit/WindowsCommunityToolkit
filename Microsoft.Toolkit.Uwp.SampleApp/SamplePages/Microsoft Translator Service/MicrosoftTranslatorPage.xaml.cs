@@ -47,13 +47,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Languages.ItemsSource = null;
 
-            _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var languages = await _translatorClient.GetLanguageNamesAsync("en");
+            try
+            {
+                _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
+                var languages = await _translatorClient.GetLanguageNamesAsync("en");
 
-            Languages.ItemsSource = languages;
-            Languages.SelectedIndex = 0;
-
-            SampleController.Current.DisplayWaitRing = false;
+                Languages.ItemsSource = languages;
+                Languages.SelectedIndex = 0;
+            }
+            finally
+            {
+                SampleController.Current.DisplayWaitRing = false;
+            }
         }
 
         private async void Translate_OnClick(object sender, RoutedEventArgs e)

@@ -37,4 +37,18 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// </summary>
         WriteShare = 8
     }
+
+#pragma warning disable SA1649 // File name should match first type name
+    internal static class LinkedInPermissionsHelpers
+    {
+        /// <summary>
+        /// Internal AllPermissions for LinkedInPermissions, so we don't expose it. Keep it in sync with <see cref="LinkedInPermissions"/>
+        /// </summary>
+        internal const LinkedInPermissions AllPermissions =
+            LinkedInPermissions.ReadBasicProfile |
+            LinkedInPermissions.ReadEmailAddress |
+            LinkedInPermissions.ReadWriteCompanyAdmin |
+            LinkedInPermissions.WriteShare;
+    }
+#pragma warning restore SA1649 // File name should match first type name
 }
