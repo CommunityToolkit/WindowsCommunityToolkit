@@ -56,18 +56,18 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             {
                 var arraySpanSource = new ArrayOwner(segment.Array!, segment.Offset, segment.Count);
 
-                return new IMemoryOwnerStream<ArrayOwner>(arraySpanSource, false, memoryOwner);
+                return new IMemoryOwnerStream<ArrayOwner>(arraySpanSource, memoryOwner);
             }
 
             if (MemoryMarshal.TryGetMemoryManager<byte, MemoryManager<byte>>(memory, out var memoryManager, out int start, out int length))
             {
                 MemoryManagerOwner memoryManagerSpanSource = new MemoryManagerOwner(memoryManager, start, length);
 
-                return new IMemoryOwnerStream<MemoryManagerOwner>(memoryManagerSpanSource, false, memoryOwner);
+                return new IMemoryOwnerStream<MemoryManagerOwner>(memoryManagerSpanSource, memoryOwner);
             }
 
             // Return an empty stream if the memory was empty
-            return new IMemoryOwnerStream<ArrayOwner>(ArrayOwner.Empty, false, memoryOwner);
+            return new IMemoryOwnerStream<ArrayOwner>(ArrayOwner.Empty, memoryOwner);
         }
     }
 }

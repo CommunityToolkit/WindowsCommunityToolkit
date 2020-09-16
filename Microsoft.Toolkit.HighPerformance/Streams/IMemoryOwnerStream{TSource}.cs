@@ -24,10 +24,9 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Initializes a new instance of the <see cref="IMemoryOwnerStream{TSource}"/> class.
         /// </summary>
         /// <param name="source">The input <typeparamref name="TSource"/> instance to use.</param>
-        /// <param name="isReadOnly">Indicates whether <paramref name="source"/> can be written to.</param>
         /// <param name="disposable">The <see cref="IDisposable"/> instance currently in use.</param>
-        public IMemoryOwnerStream(TSource source, bool isReadOnly, IDisposable disposable)
-            : base(source, isReadOnly)
+        public IMemoryOwnerStream(TSource source, IDisposable disposable)
+            : base(source, false)
         {
             this.disposable = disposable;
         }
