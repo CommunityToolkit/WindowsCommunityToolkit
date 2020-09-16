@@ -44,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             var select = Formatter.Selected;
             int originalStart = Formatter.Selected.StartPosition;
-            string urlLabel = "TextToolbarStrings_UrlLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
-            string labelLabel = "TextToolbarStrings_LabelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            string urlLabel = "WCT_TextToolbar_UrlLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            string labelLabel = "WCT_TextToolbar_LabelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
 
             // Replaces Selection of first Line only.
             if (select.Text.Contains("\r"))

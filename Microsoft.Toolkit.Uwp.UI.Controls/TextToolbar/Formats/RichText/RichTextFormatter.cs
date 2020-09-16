@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 StrikeButton = CommonButtons.Strikethrough;
                 Underline = new ToolbarButton
                 {
-                    ToolTip = "TextToolbarStrings_UnderlineLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                    ToolTip = "WCT_TextToolbar_UnderlineLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
                     Activation = ((RichTextButtonActions)ButtonActions).FormatUnderline

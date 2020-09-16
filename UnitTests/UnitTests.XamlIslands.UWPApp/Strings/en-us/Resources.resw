@@ -120,7 +120,7 @@
   <data name="abc" xml:space="preserve">
     <value>ABCDEF</value>
   </data>
-  <data name="TextToolbarStrings_ItalicsLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_ItalicsLabel" xml:space="preserve">
     <value>ItalicsOverride</value>
   </data>
 </root>
