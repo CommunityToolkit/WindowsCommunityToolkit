@@ -2,14 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Weibo;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -30,14 +24,14 @@ namespace Microsoft.Toolkit.Services.Weibo
                 return null;
             }
 
-            JObject rawObject = JObject.Parse(data);
+            var rawObject = JsonDocument.Parse(data);
 
-            IList<JToken> rawStatuses = rawObject["statuses"].Children().ToList();
+            var rawStatuses = rawObject.RootElement.GetProperty("statuses");
 
             IList<WeiboStatus> statuses = new List<WeiboStatus>();
-            foreach (JToken result in rawStatuses)
+            foreach (var rawStatus in rawStatuses.EnumerateArray())
             {
-                WeiboStatus searchResult = result.ToObject<WeiboStatus>();
+                WeiboStatus searchResult = JsonSerializer.Deserialize<WeiboStatus>(rawStatus.ToString());
                 statuses.Add(searchResult);
             }
 

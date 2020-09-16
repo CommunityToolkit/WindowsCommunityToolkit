@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -14,13 +14,13 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Gets or sets error code
         /// </summary>
-        [JsonProperty("error_code")]
+        [JsonPropertyName("error_code")]
         public int Code { get; set; }
 
         /// <summary>
         /// Gets or sets error message
         /// </summary>
-        [JsonProperty("error")]
+        [JsonPropertyName("error")]
         public string Message { get; set; }
     }
 }
