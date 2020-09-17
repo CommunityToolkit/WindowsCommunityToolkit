@@ -14,7 +14,18 @@ namespace Microsoft.Toolkit.Uwp.Extensions
     /// </summary>
     public static class StringExtensions
     {
-        private static readonly ResourceLoader IndependentLoader = ResourceLoader.GetForViewIndependentUse();
+        private static readonly ResourceLoader IndependentLoader;
+
+        static StringExtensions()
+        {
+            try
+            {
+                IndependentLoader = ResourceLoader.GetForViewIndependentUse();
+            }
+            catch
+            {
+            }
+        }
 
         /// <summary>
         /// Retrieves the provided resource for the current view context.
@@ -52,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
             }
             else
             {
-                return IndependentLoader.GetString(resourceKey);
+                return IndependentLoader?.GetString(resourceKey);
             }
         }
 
@@ -65,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         public static string GetLocalized(this string resourceKey, string resourcePath)
         {
             // Try and retrieve resource at app level first.
-            var result = IndependentLoader.GetString(resourceKey);
+            var result = IndependentLoader?.GetString(resourceKey);
 
             if (string.IsNullOrEmpty(result))
             {
