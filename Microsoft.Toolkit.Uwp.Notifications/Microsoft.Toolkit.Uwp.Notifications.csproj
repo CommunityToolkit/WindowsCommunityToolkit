@@ -18,10 +18,10 @@
   <Choose>
 
     <!--Desktop Win32 apps-->
-    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.0'">
+    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.1'">
       <ItemGroup>
         <!--Reference Windows SDK NuGet of correct target platform version-->
-        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.17763.1000" />
+        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
       </ItemGroup>
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
@@ -40,7 +40,7 @@
   </Choose>
 
   <!--NET Core desktop apps also need the Registry NuGet package-->
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
   </ItemGroup>
   
