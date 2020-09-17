@@ -5,7 +5,9 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if !NETCOREAPP3_1
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
