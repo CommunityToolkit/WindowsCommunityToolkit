@@ -204,6 +204,11 @@
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="..\UnitTests.UWP\Strings\fr\Resources.resw">
+      <Link>Strings\fr\Resources.resw</Link>
+    </PRIResource>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
