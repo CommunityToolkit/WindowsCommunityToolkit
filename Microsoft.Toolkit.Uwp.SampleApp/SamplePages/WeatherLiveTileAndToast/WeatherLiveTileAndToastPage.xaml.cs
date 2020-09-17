@@ -116,7 +116,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             switch (AnalyticsInfo.VersionInfo.DeviceFamily)
             {
-                case "Windows.Mobile":
                 case "Windows.Desktop":
                     return true;
 
