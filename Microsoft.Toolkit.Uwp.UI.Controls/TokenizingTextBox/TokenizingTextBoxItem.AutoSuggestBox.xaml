@@ -314,7 +314,7 @@
         </Setter>
     </Style>
 
-    <!-- Copy of System Style from 18362 to try and workaround WinUI Styles -->
+    <!-- Copy of System Style from 19041 to try and workaround WinUI Styles -->
     <Style TargetType="AutoSuggestBox" x:Key="SystemAutoSuggestBoxStyle">
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="IsTabStop" Value="False" />
