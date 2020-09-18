@@ -35,7 +35,7 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
-var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp2.1";
+var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp3.1/win10-x86";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -305,7 +305,21 @@ Task("Test")
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
     DotNetCoreTest(file.FullPath, testSettings);
-}).DoesForEach(GetFiles(baseDir + "/**/UITests.*.MSTest.csproj"), (file) => 
+}).DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
+{
+    Information("\nRunning TAEF Interaction Tests");
+
+    var result = StartProcess(System.IO.Path.GetDirectoryName(file.FullPath) + "/TE.exe", file.FullPath + " /screenCaptureOnError");
+    if (result != 0)
+    {
+        throw new InvalidOperationException("TAEF Tests failed!");
+    }
+}).DeferOnError();
+
+
+Task("MSTestUITest")
+	.Description("Runs UITests using MSTest")
+    .DoesForEach(GetFiles(baseDir + "/**/UITests.*.MSTest.csproj"), (file) =>
 {
     Information("\nRunning UI Interaction Tests");
 
@@ -317,8 +331,7 @@ Task("Test")
         Verbosity = DotNetCoreVerbosity.Normal
     };
     DotNetCoreTest(file.FullPath, testSettings);
-}).DeferOnError();
-
+});
 
 
 //////////////////////////////////////////////////////////////////////

@@ -59,6 +59,13 @@ jobs:
     displayName: Publish Test Results
     condition: always()
 
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Test WexLogFileOutput
+    inputs:
+      targetPath: .\build\WexLogFileOutput
+      artifactName: WexLogFileOutput
+    condition: succeededOrFailed()
+
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
     inputs:
