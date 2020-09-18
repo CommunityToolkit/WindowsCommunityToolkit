@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Buffers;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -24,6 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// The caller does not need to track the lifetime of the input <see cref="IMemoryOwner{T}"/> of <see cref="byte"/>
         /// instance, as the returned <see cref="Stream"/> will take care of disposing that buffer when it is closed.
         /// </remarks>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="memoryOwner"/> has an invalid data store.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this IMemoryOwner<byte> memoryOwner)

@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// In particular, the caller must ensure that the target buffer is not disposed as long
         /// as the returned <see cref="Stream"/> is in use, to avoid unexpected issues.
         /// </remarks>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="memory"/> has an invalid data store.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this Memory<byte> memory)

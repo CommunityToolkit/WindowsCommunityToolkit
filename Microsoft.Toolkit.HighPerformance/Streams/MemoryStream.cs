@@ -21,9 +21,16 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance.</param>
         /// <param name="isReadOnly">Indicates whether or not <paramref name="memory"/> can be written to.</param>
         /// <returns>A <see cref="Stream"/> wrapping the underlying data for <paramref name="memory"/>.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="memory"/> has an invalid data store.</exception>
         [Pure]
         public static Stream Create(ReadOnlyMemory<byte> memory, bool isReadOnly)
         {
+            if (memory.IsEmpty)
+            {
+                // Return an empty stream if the memory was empty
+                return new MemoryStream<ArrayOwner>(ArrayOwner.Empty, isReadOnly);
+            }
+
             if (MemoryMarshal.TryGetArray(memory, out ArraySegment<byte> segment))
             {
                 var arraySpanSource = new ArrayOwner(segment.Array!, segment.Offset, segment.Count);
@@ -38,8 +45,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
                 return new MemoryStream<MemoryManagerOwner>(memoryManagerSpanSource, isReadOnly);
             }
 
-            // Return an empty stream if the memory was empty
-            return new MemoryStream<ArrayOwner>(ArrayOwner.Empty, isReadOnly);
+            return ThrowNotSupportedExceptionForInvalidMemory();
         }
 
         /// <summary>
@@ -47,10 +53,17 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// </summary>
         /// <param name="memoryOwner">The input <see cref="IMemoryOwner{T}"/> instance.</param>
         /// <returns>A <see cref="Stream"/> wrapping the underlying data for <paramref name="memoryOwner"/>.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="memoryOwner"/> has an invalid data store.</exception>
         [Pure]
         public static Stream Create(IMemoryOwner<byte> memoryOwner)
         {
             Memory<byte> memory = memoryOwner.Memory;
+
+            if (memory.IsEmpty)
+            {
+                // Return an empty stream if the memory was empty
+                return new IMemoryOwnerStream<ArrayOwner>(ArrayOwner.Empty, memoryOwner);
+            }
 
             if (MemoryMarshal.TryGetArray(memory, out ArraySegment<byte> segment))
             {
@@ -66,8 +79,17 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
                 return new IMemoryOwnerStream<MemoryManagerOwner>(memoryManagerSpanSource, memoryOwner);
             }
 
-            // Return an empty stream if the memory was empty
-            return new IMemoryOwnerStream<ArrayOwner>(ArrayOwner.Empty, memoryOwner);
+            return ThrowNotSupportedExceptionForInvalidMemory();
+        }
+
+        /// <summary>
+        /// Throws a <see cref="ArgumentException"/> when a given <see cref="Memory{T}"/>
+        /// or <see cref="IMemoryOwner{T}"/> instance has an unsupported backing store.
+        /// </summary>
+        /// <returns>Nothing, this method always throws.</returns>
+        private static Stream ThrowNotSupportedExceptionForInvalidMemory()
+        {
+            throw new ArgumentException("The input instance doesn't have a valid underlying data store.");
         }
     }
 }
