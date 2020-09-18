@@ -394,8 +394,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// elements with a FlexBasis.IsRelstive set to true.
         /// </summary>
         /// <remarks>The default value for this property is Auto.</remarks>
-        public static void SetBasis(UIElement element, FlexBasis value)
+        public static void SetFlexBasis(UIElement element, FlexBasis value)
             => SetBasis(element, value.ToString());
+
+        /// <summary>
+        /// Gets or sets the initial main-axis dimension of the UIElement in the FlexLayout or if that value
+        /// calculated by FlexPanel (FlexBasis.Auto).  If FlexBasis.IsRelative is false, then this child element will be
+        /// main-axis dimension will the FlexBasis.Length.  Any remaining space will be portioned among all the child
+        /// elements with a FlexBasis.IsRelstive set to true.
+        /// </summary>
+        /// <remarks>The default value for this property is Auto.</remarks>
+        /// <returns>FlexBasis</returns>
+        public static FlexBasis GetFlexBasis(UIElement element)
+        {
+            if (GetBasis(element) is string basisString)
+            {
+                return FlexBasis.Parse(basisString);
+            }
+
+            return FlexBasis.Auto;
+        }
 
         private static readonly DependencyProperty FlexItemProperty = DependencyProperty.RegisterAttached(
             "FlexItem",

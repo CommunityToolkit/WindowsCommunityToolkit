@@ -35,11 +35,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return Auto;
             }
 
+            bool isPercent = false;
+            if (value.EndsWith('%'))
+            {
+                value = value.Substring(0, value.Length - 1);
+                isPercent = true;
+            }
+
             if (double.TryParse(value.Split(',')[0], out double length))
             {
                 if (length < 0)
                 {
                     return Auto;
+                }
+                else if (isPercent)
+                {
+                    return new FlexBasis(length / 100, true);
                 }
                 else
                 {
@@ -120,13 +131,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return "auto";
             }
 
-            var result = Length.ToString();
             if (IsRelative)
             {
-                result += "," + "relative";
+                return Length + ",relative";
             }
 
-            return result;
+            return Length.ToString(); ;
         }
     }
 }
