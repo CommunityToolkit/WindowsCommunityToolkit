@@ -54,12 +54,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="EnableLazyLoading"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false, EnableLazyLoadingChanged));
 
         /// <summary>
-        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported
+        /// Identifies the <see cref="LazyLoadingThreshold"/> dependency property.
         /// </summary>
-        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Windows.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
+        public static readonly DependencyProperty LazyLoadingThresholdProperty = DependencyProperty.Register(nameof(LazyLoadingThreshold), typeof(double), typeof(ImageExBase), new PropertyMetadata(default(double), LazyLoadingThresholdChanged));
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported, always return true.
+        /// </summary>
+        public static bool IsLazyLoadingSupported { get; } = true;
 
         /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
@@ -159,6 +164,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(EnableLazyLoadingProperty); }
             set { SetValue(EnableLazyLoadingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the threshold for triggering lazy loading.
+        /// </summary>
+        public double LazyLoadingThreshold
+        {
+            get { return (double)GetValue(LazyLoadingThresholdProperty); }
+            set { SetValue(LazyLoadingThresholdProperty, value); }
+        }
+
+        private static void EnableLazyLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ImageExBase control)
+            {
+                control.InvalidateLazyLoading();
+            }
+        }
+
+        private static void LazyLoadingThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ImageExBase control)
+            {
+                control.InvalidateLazyLoading();
+            }
         }
     }
 }

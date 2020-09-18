@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (IsLazyLoadingSupported)
             {
-                EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
+                LayoutUpdated += ImageExBase_LayoutUpdated;
             }
         }
 
@@ -213,6 +213,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return base.ArrangeOverride(finalSize);
         }
 
+        /// <summary>
+        /// from https://referencesource.microsoft.com/#WindowsBase/Base/System/Windows/Rect.cs,04390f584fcba8e4
+        /// </summary>
+        private static bool IntersectsWith(Rect rect1, Rect rect2)
+        {
+            if (rect1.IsEmpty || rect2.IsEmpty)
+            {
+                return false;
+            }
+
+            return (rect1.Left <= rect2.Right) &&
+                   (rect1.Right >= rect2.Left) &&
+                   (rect1.Top <= rect2.Bottom) &&
+                   (rect1.Bottom >= rect2.Top);
+        }
+
         private void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
@@ -225,15 +241,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, FailedState, true);
         }
 
-        private void ImageExBase_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        private void ImageExBase_LayoutUpdated(object sender, object e)
         {
-            var bringIntoViewDistanceX = args.BringIntoViewDistanceX;
-            var bringIntoViewDistanceY = args.BringIntoViewDistanceY;
+            InvalidateLazyLoading();
+        }
 
-            var width = ActualWidth;
-            var height = ActualHeight;
+        private void InvalidateLazyLoading()
+        {
+            if (!IsLoaded)
+            {
+                _isInViewport = false;
+                return;
+            }
 
-            if (bringIntoViewDistanceX <= width && bringIntoViewDistanceY <= height)
+            var hostElement = GetHostElement();
+            if (hostElement == null)
+            {
+                _isInViewport = false;
+                return;
+            }
+
+            var controlRect = TransformToVisual(hostElement)
+                .TransformBounds(new Rect(0, 0, ActualWidth, ActualHeight));
+            var lazyLoadingThreshold = LazyLoadingThreshold;
+            var hostRect = new Rect(
+                0 - lazyLoadingThreshold,
+                0 - lazyLoadingThreshold,
+                hostElement.ActualWidth + (2 * lazyLoadingThreshold),
+                hostElement.ActualHeight + (2 * lazyLoadingThreshold));
+
+            if (IntersectsWith(controlRect, hostRect))
             {
                 _isInViewport = true;
 
@@ -248,6 +285,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _isInViewport = false;
             }
+        }
+
+        /// <summary>
+        /// Find ascendant element until <see cref="ScrollViewer" /> or root element.
+        /// </summary>
+        /// <returns><see cref="ScrollViewer"/> or root element.</returns>
+        private FrameworkElement GetHostElement()
+        {
+            FrameworkElement hostElement = this;
+            while (true)
+            {
+                var parent = VisualTreeHelper.GetParent(hostElement) as FrameworkElement;
+                if (parent == null)
+                {
+                    break;
+                }
+
+                if (parent is ScrollViewer)
+                {
+                    return parent;
+                }
+
+                hostElement = parent;
+            }
+
+            if (ReferenceEquals(hostElement, this))
+            {
+                return null;
+            }
+
+            return hostElement;
         }
     }
 }
