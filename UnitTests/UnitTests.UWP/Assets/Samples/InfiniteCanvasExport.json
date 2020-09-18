@@ -1,0 +1,102 @@
+{
+  "DrawableList": [
+    {
+      "$type": "Microsoft.Toolkit.Uwp.UI.Controls.InkDrawable, Microsoft.Toolkit.Uwp.UI.Controls",
+      "SerializableStrokeList": [
+        {
+          "DrawingAttributes": {
+            "Color": {
+              "A": 255,
+              "R": 0,
+              "G": 0,
+              "B": 0
+            },
+            "FitToCurve": true,
+            "IgnorePressure": false,
+            "IgnoreTilt": true,
+            "Size": {
+              "Width": 4.0,
+              "Height": 4.0,
+              "IsEmpty": false
+            },
+            "PenTip": 0,
+            "PenTipTransform": {
+              "M11": 1.0,
+              "M12": 0.0,
+              "M21": 0.0,
+              "M22": 1.0,
+              "M31": 0.0,
+              "M32": 0.0,
+              "IsIdentity": true,
+              "Translation": {
+                "X": 0.0,
+                "Y": 0.0
+              }
+            },
+            "DrawAsHighlighter": false
+          },
+          "SerializableFinalPointList": [
+            {
+              "Position": {
+                "X": 103.97531127929688,
+                "Y": 45.995269775390625
+              },
+              "Pressure": 0.5,
+              "TiltX": 0.0,
+              "TiltY": 0.0,
+              "Timestamp": 0
+            },
+            {
+              "Position": {
+                "X": 103.80825805664063,
+                "Y": 45.995269775390625
+              },
+              "Pressure": 0.5,
+              "TiltX": 0.0,
+              "TiltY": 0.0,
+              "Timestamp": 0
+            },
+            {
+              "Position": {
+                "X": 103.41259002685547,
+                "Y": 45.995269775390625
+              },
+              "Pressure": 0.5,
+              "TiltX": 0.0,
+              "TiltY": 0.0,
+              "Timestamp": 0
+            }
+          ],
+          "SerializableDrawingAttributesKind": 0,
+          "SerializableDrawingAttributesPencilProperties": null,
+          "PointTransform": {
+            "M11": 1.0,
+            "M12": 0.0,
+            "M21": 0.0,
+            "M22": 1.0,
+            "M31": 0.0,
+            "M32": 0.0,
+            "IsIdentity": true,
+            "Translation": {
+              "X": 0.0,
+              "Y": 0.0
+            }
+          }
+        }
+      ],
+      "Bounds": {
+        "X": 69.949455261230469,
+        "Y": 28.069997787475586,
+        "Width": 1668.2589111328125,
+        "Height": 280.38735961914062,
+        "Left": 69.949455261230469,
+        "Top": 28.069997787475586,
+        "Right": 1738.2083740234375,
+        "Bottom": 308.45736694335938,
+        "IsEmpty": false
+      },
+      "IsActive": true
+    }
+  ],
+  "Version": 1
+}
