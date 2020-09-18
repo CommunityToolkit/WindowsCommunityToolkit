@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -15,35 +15,35 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets or sets Hashtags array of the tweet.
         /// This array will be empty if no Hashtags are present.
         /// </summary>
-        [JsonProperty("Hashtags")]
+        [JsonPropertyName("Hashtags")]
         public TwitterHashtag[] Hashtags { get; set; }
 
         /// <summary>
         /// Gets or sets Symbols array of the tweet.
         /// This array will be empty if no Symbols are present.
         /// </summary>
-        [JsonProperty("Symbols")]
+        [JsonPropertyName("Symbols")]
         public TwitterSymbol[] Symbols { get; set; }
 
         /// <summary>
         /// Gets or sets Media array of the tweet.
         /// This array will not exist if no media is present.
         /// </summary>
-        [JsonProperty("media")]
+        [JsonPropertyName("media")]
         public TwitterMedia[] Media { get; set; }
 
         /// <summary>
         /// Gets or sets Urls array of the tweet.
         /// This array will be empty if no Urls are present.
         /// </summary>
-        [JsonProperty("urls")]
+        [JsonPropertyName("urls")]
         public TwitterUrl[] Urls { get; set; }
 
         /// <summary>
         /// Gets or sets array of usernames mentioned in the tweet.
         /// This array will be empty if no usernames are mentioned.
         /// </summary>
-        [JsonProperty("user_mentions")]
+        [JsonPropertyName("user_mentions")]
         public TwitterUserMention[] UserMentions { get; set; }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// This array will not exist if no poll is present.
         /// This array will always have one poll.
         /// </summary>
-        [JsonProperty("polls")]
+        [JsonPropertyName("polls")]
         public TwitterPoll Poll { get; set; }
     }
 }

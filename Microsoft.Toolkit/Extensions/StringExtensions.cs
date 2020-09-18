@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Regular expression for matching an email address.
         /// </summary>
-        /// <remarks>General Email Regex (RFC 5322 Official Standard) from emailregex.com.</remarks>
+        /// <remarks>General Email Regex (RFC 5322 Official Standard) from https://emailregex.com.</remarks>
         internal const string EmailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
         /// <summary>
@@ -85,14 +85,6 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="str">The string to test.</param>
         /// <returns><c>true</c> if the string contains only letters; otherwise, <c>false</c>.</returns>
         public static bool IsCharacterString(this string str) => Regex.IsMatch(str, CharactersRegex);
-
-        /// <summary>
-        /// Returns a string representation of an object.
-        /// </summary>
-        /// <param name="value">The object to convert.</param>
-        /// <returns>String representation of the object.</returns>
-        [Obsolete("Use value?.ToString() instead. This will be removed in the next release of the toolkit.")]
-        public static string ToSafeString(this object value) => value?.ToString();
 
         /// <summary>
         /// Returns a string with HTML comments, scripts, styles, and tags removed.

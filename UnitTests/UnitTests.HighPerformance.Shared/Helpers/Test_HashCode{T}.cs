@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers.Internals;
 
 namespace UnitTests.HighPerformance.Helpers
 {
@@ -62,24 +63,28 @@ namespace UnitTests.HighPerformance.Helpers
             TestForType<char>();
         }
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
         [TestCategory("HashCodeOfT")]
         [TestMethod]
         public void Test_HashCodeOfT_ManagedType_TestRepeat()
         {
+            var localTestCounts = TestCounts.Slice(0, 8);
+
+            // Only rent a single array of the maximum necessary size, to save space
+            string[] data = new string[localTestCounts[localTestCounts.Length - 1]];
+
             var random = new Random();
-
-            foreach (var count in TestCounts.Slice(0, 8))
+            foreach (ref string text in data.AsSpan())
             {
-                string[] data = new string[count];
+                text = random.NextDouble().ToString("E");
+            }
 
-                foreach (ref string text in data.AsSpan())
-                {
-                    text = random.NextDouble().ToString("E");
-                }
+            foreach (var count in localTestCounts)
+            {
+                Span<string> iterationData = data.AsSpan().Slice(0, count);
 
-                int hash1 = HashCode<string>.Combine(data);
-                int hash2 = HashCode<string>.Combine(data);
+                int hash1 = HashCode<string>.Combine(iterationData);
+                int hash2 = HashCode<string>.Combine(iterationData);
 
                 Assert.AreEqual(hash1, hash2, $"Failed {typeof(string)} test with count {count}: got {hash1} and then {hash2}");
             }
@@ -95,10 +100,10 @@ namespace UnitTests.HighPerformance.Helpers
         {
             foreach (var count in TestCounts)
             {
-                T[] data = CreateRandomData<T>(count);
+                using UnmanagedSpanOwner<T> data = CreateRandomData<T>(count);
 
-                int hash1 = HashCode<T>.Combine(data);
-                int hash2 = HashCode<T>.Combine(data);
+                int hash1 = HashCode<T>.Combine(data.GetSpan());
+                int hash2 = HashCode<T>.Combine(data.GetSpan());
 
                 Assert.AreEqual(hash1, hash2, $"Failed {typeof(T)} test with count {count}: got {hash1} and then {hash2}");
             }
@@ -111,14 +116,14 @@ namespace UnitTests.HighPerformance.Helpers
         /// <param name="count">The number of array items to create.</param>
         /// <returns>An array of random <typeparamref name="T"/> elements.</returns>
         [Pure]
-        private static T[] CreateRandomData<T>(int count)
+        private static UnmanagedSpanOwner<T> CreateRandomData<T>(int count)
             where T : unmanaged
         {
             var random = new Random(count);
 
-            T[] data = new T[count];
+            UnmanagedSpanOwner<T> data = new UnmanagedSpanOwner<T>(count);
 
-            foreach (ref byte n in MemoryMarshal.AsBytes(data.AsSpan()))
+            foreach (ref byte n in MemoryMarshal.AsBytes(data.GetSpan()))
             {
                 n = (byte)random.Next(0, byte.MaxValue);
             }

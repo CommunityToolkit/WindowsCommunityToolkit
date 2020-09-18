@@ -5,8 +5,6 @@
 using System.Buffers;
 using System.IO;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
     /// <summary>

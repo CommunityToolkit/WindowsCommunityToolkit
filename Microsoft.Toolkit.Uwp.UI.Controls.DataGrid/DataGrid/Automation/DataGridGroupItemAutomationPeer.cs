@@ -200,7 +200,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.GetClassName() : string.Empty;
+            string classNameCore = this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.GetClassName() : string.Empty;
+#if DEBUG_AUTOMATION
+            Debug.WriteLine("DataGridGroupItemAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>
@@ -373,7 +377,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <summary>
         /// Gets a value indicating whether the UIElement associated with this DataGridGroupItemAutomationPeer contains protected content.
         /// </summary>
-        /// <returns>Trye if the UIElement contains protected content.</returns>
+        /// <returns>True if the UIElement contains protected content.</returns>
         protected override bool IsPasswordCore()
         {
             return this.OwningRowGroupHeaderPeer != null ? this.OwningRowGroupHeaderPeer.IsPassword() : false;

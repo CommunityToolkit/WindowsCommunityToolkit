@@ -151,7 +151,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return (this.OwningRowPeer != null) ? this.OwningRowPeer.GetClassName() : string.Empty;
+            string classNameCore = (this.OwningRowPeer != null) ? this.OwningRowPeer.GetClassName() : string.Empty;
+#if DEBUG_AUTOMATION
+            System.Diagnostics.Debug.WriteLine("DataGridItemAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>
@@ -219,11 +223,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 string owningRowPeerName = this.OwningRowPeer.GetName();
                 if (!string.IsNullOrEmpty(owningRowPeerName))
                 {
+#if DEBUG_AUTOMATION
+                    System.Diagnostics.Debug.WriteLine("DataGridItemAutomationPeer.GetNameCore returns " + owningRowPeerName);
+#endif
                     return owningRowPeerName;
                 }
             }
 
-            return string.Empty;
+            string name = UI.Controls.Properties.Resources.DataGridRowAutomationPeer_ItemType;
+#if DEBUG_AUTOMATION
+            System.Diagnostics.Debug.WriteLine("DataGridItemAutomationPeer.GetNameCore returns " + name);
+#endif
+            return name;
         }
 
         /// <summary>
@@ -332,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <summary>
         /// Gets a value indicating whether the UIElement associated with this DataGridItemAutomationPeer contains protected content.
         /// </summary>
-        /// <returns>Trye if the UIElement contains protected content.</returns>
+        /// <returns>True if the UIElement contains protected content.</returns>
         protected override bool IsPasswordCore()
         {
             return this.OwningRowPeer != null ? this.OwningRowPeer.IsPassword() : false;

@@ -80,6 +80,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (eyedropperToolButton.EyedropperEnabled)
                 {
                     VisualStateManager.GoToState(eyedropperToolButton, eyedropperToolButton.IsPointerOver ? EyedropperEnabledPointerOverState : EyedropperEnabledState, true);
+                    if (ControlHelpers.IsXamlRootAvailable && eyedropperToolButton.XamlRoot != null)
+                    {
+                        eyedropperToolButton._eyedropper.XamlRoot = eyedropperToolButton.XamlRoot;
+                    }
+
                     eyedropperToolButton._eyedropper.Open().ConfigureAwait(false);
                 }
                 else
@@ -125,14 +130,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void Target_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private async void Target_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            UpdateEyedropperWorkArea();
+            await UpdateEyedropperWorkAreaAsync();
         }
 
-        private void Target_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Target_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateEyedropperWorkArea();
+            await UpdateEyedropperWorkAreaAsync();
         }
     }
 }

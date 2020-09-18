@@ -5,8 +5,6 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
     /// <summary>

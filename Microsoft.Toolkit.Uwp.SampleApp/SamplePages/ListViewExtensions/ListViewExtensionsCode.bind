@@ -22,6 +22,8 @@
         x:Name="SampleListView"
         Margin="12"
         ItemTemplate="{StaticResource NormalTemplate}"
+        IsItemClickEnabled="True"
+        extensions:ListViewExtensions.Command="{Binding SampleCommand}"
         extensions:ListViewExtensions.AlternateColor="#33AAAAAA"
         extensions:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
         extensions:ListViewExtensions.StretchItemContainerDirection="Both">

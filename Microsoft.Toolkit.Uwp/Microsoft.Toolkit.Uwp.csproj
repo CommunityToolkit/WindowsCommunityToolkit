@@ -5,12 +5,11 @@
     <Title>Windows Community Toolkit</Title>
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
-    <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
 
   <ItemGroup>
-    
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
     
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 

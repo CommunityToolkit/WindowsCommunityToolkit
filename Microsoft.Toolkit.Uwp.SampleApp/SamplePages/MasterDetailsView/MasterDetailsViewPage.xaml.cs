@@ -15,8 +15,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class MasterDetailsViewPage : Page, IXamlRenderListener
     {
-        private double _previousWidth = Window.Current.Bounds.Width;
-
         public MasterDetailsViewPage()
         {
             Emails = new List<Email>
@@ -39,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     From = "OneDrive",
                     Subject = "Check out your event recap",
-                    Body = "Your new album.\r\nYou uploaded some photos to yuor OneDrive and automatically created an album for you.",
+                    Body = "Your new album.\r\nYou uploaded some photos to your OneDrive and automatically created an album for you.",
                     Thumbnail = new Uri("ms-appx:///SamplePages/MasterDetailsView/OneDriveLogo.png")
                 },
                 new Email

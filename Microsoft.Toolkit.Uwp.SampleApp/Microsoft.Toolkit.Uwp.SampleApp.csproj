@@ -18,9 +18,10 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -106,7 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1901.28001</Version>
@@ -115,7 +116,7 @@
       <Version>6.1.0-build.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.2.190917002</Version>
+      <Version>2.4.2</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
@@ -123,18 +124,20 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
+    <PackageReference Include="System.Text.Json">
+      <Version>4.7.2</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
-      <Version>4.4.0</Version>
+      <Version>4.5.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\BrushAssets\TileTexture.png" />
+    <Content Include="Assets\BrushAssets\NoiseTexture.png" />
     <Content Include="Assets\mslogo.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
@@ -269,11 +272,14 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
+    <Content Include="SamplePages\AcrylicBrush\AcrylicBrush.png" />
+    <Content Include="SamplePages\PipelineBrush\PipelineBrush.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
-    <Content Include="SamplePages\TabView\TabView.png" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
@@ -292,9 +298,8 @@
     <Content Include="SamplePages\CameraHelper\CameraHelper.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DataGrid\DataGrid.png" />
-    <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
+    <Content Include="SamplePages\DispatcherQueueHelper\DispatchQueueHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
-    <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
     <Content Include="SamplePages\LoginButton\LoginButton.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
@@ -311,7 +316,6 @@
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
     <Content Include="SamplePages\ImageCache\ImageCache.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
@@ -361,12 +365,11 @@
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
-    <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
-    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
     <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
+    <Content Include="SamplePages\WrapLayout\WrapLayout.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="landingPageLinks.json" />
     <Content Include="Assets\mtns.csv">
@@ -456,7 +459,7 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
-    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\DispatcherQueueHelper\DispatcherQueueHelperCode.bind" />
     <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
     <Content Include="SamplePages\DockPanel\DockPanel.bind">
       <SubType>Designer</SubType>
@@ -504,11 +507,20 @@
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
-    <Content Include="SamplePages\TabView\TabViewXaml.bind">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
+    <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
+      <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
+      <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
+      <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
+      <DependentUpon>TilesBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
       <DependentUpon>EyedropperPage.xaml</DependentUpon>
     </Compile>
@@ -518,11 +530,20 @@
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\IconExtensions\IconExtensionsPage.xaml.cs">
+      <DependentUpon>IconExtensionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml.cs">
       <DependentUpon>ObservableGroupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AcrylicBrush\AcrylicBrushPage.xaml.cs">
+      <DependentUpon>AcrylicBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\PipelineBrush\PipelineBrushPage.xaml.cs">
+      <DependentUpon>PipelineBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml.cs">
       <DependentUpon>RemoteDeviceHelperPage.xaml</DependentUpon>
@@ -531,9 +552,44 @@
     <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
       <DependentUpon>ImageCropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml.cs">
+      <DependentUpon>StaggeredLayoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TokenizingTextBox\NameToColorConverter.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\SampleDataType.cs" />
+    <Compile Include="SamplePages\TokenizingTextBox\SampleEmailDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\CompareStateTriggerPage.xaml.cs">
+      <DependentUpon>CompareStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsEqualStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
+      <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNullOrEmptyStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml.cs">
+      <DependentUpon>NetworkConnectionStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml.cs">
+      <DependentUpon>IsNotEqualStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\RegexStateTriggerPage.xaml.cs">
+      <DependentUpon>RegexStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml.cs">
+      <DependentUpon>UserHandPreferenceStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml.cs">
+      <DependentUpon>UserInteractionModeStateTriggerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\WrapLayout\WrapLayoutPage.xaml.cs">
+      <DependentUpon>WrapLayoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
@@ -545,7 +601,28 @@
     <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
+    <Content Include="SamplePages\PipelineBrush\PipelineBrushXaml.bind" />
+    <Content Include="SamplePages\PipelineBrush\PipelineBrushCode.bind" />
+    <Content Include="SamplePages\AcrylicBrush\AcrylicBrushXaml.bind" />
+    <Content Include="SamplePages\TilesBrush\TilesBrushXaml.bind" />
+    <Content Include="SamplePages\IconExtensions\IconExtensionsXaml.bind" />
+    <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
     <Content Include="SamplePages\ObservableGroup\ObservableGroup.bind" />
+    <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsXaml.bind" />
+    <Content Include="SamplePages\Triggers\CompareStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\FullScreenModeStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNullOrEmptyStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\NetworkConnectionStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\IsNotEqualStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\RegexStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\UserHandPreferenceStateTrigger.bind" />
+    <Content Include="SamplePages\Triggers\UserInteractionModeStateTrigger.bind" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
+    <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionXaml.bind" />
+    <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
+    <Content Include="SamplePages\FocusBehavior\FocusBehaviorXaml.bind" />
+    <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -579,9 +656,6 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
-    <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
-      <DependentUpon>TabViewPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>
@@ -696,9 +770,6 @@
     <Compile Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml.cs">
       <DependentUpon>RemoteDevicePickerControlPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
-      <DependentUpon>RssParserPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml.cs">
       <DependentUpon>RadialGradientBrushPage.xaml</DependentUpon>
     </Compile>
@@ -730,8 +801,8 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
       <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml.cs">
-      <DependentUpon>DispatcherHelperPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\DispatcherQueueHelper\DispatcherQueueHelperPage.xaml.cs">
+      <DependentUpon>DispatcherQueueHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
       <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
@@ -739,7 +810,6 @@
     <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
       <DependentUpon>ExpanderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
     <Compile Include="Controls\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
@@ -845,12 +915,6 @@
     <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
       <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
-      <DependentUpon>FacebookPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
-      <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
@@ -928,6 +992,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Eyedropper\EyedropperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -943,6 +1023,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\IconExtensions\IconExtensionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\ObservableGroup\ObservableGroupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -950,6 +1034,14 @@
     <Page Include="SamplePages\OnDevice\OnDevicePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AcrylicBrush\AcrylicBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\PipelineBrush\PipelineBrushPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml">
       <SubType>Designer</SubType>
@@ -959,9 +1051,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\TabView\TabViewPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1003,6 +1095,42 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
+    <Page Include="SamplePages\Triggers\CompareStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\RegexStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1111,10 +1239,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\RssParser\RssParserPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1159,7 +1283,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml">
+    <Page Include="SamplePages\DispatcherQueueHelper\DispatcherQueueHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1291,14 +1415,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Facebook Service\FacebookPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1332,6 +1448,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Weibo Service\WeiboPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\WrapLayout\WrapLayoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1400,13 +1520,17 @@
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
-      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
+      <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+      <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
@@ -1441,6 +1565,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
@@ -1455,6 +1580,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
@@ -1468,6 +1595,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

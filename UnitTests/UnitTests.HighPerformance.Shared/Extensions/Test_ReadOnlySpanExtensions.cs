@@ -4,8 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,7 +18,9 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_DangerousGetReference()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            using var owner = CreateRandomData<int>(12, default);
+
+            ReadOnlySpan<int> data = owner.GetSpan();
 
             ref int r0 = ref data.DangerousGetReference();
             ref int r1 = ref Unsafe.AsRef(data[0]);
@@ -30,7 +32,9 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_DangerousGetReferenceAt_Zero()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            using var owner = CreateRandomData<int>(12, default);
+
+            ReadOnlySpan<int> data = owner.GetSpan();
 
             ref int r0 = ref data.DangerousGetReference();
             ref int r1 = ref data.DangerousGetReferenceAt(0);
@@ -42,7 +46,9 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_DangerousGetReferenceAt_Index()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            using var owner = CreateRandomData<int>(12, default);
+
+            ReadOnlySpan<int> data = owner.GetSpan();
 
             ref int r0 = ref data.DangerousGetReferenceAt(5);
             ref int r1 = ref Unsafe.AsRef(data[5]);
@@ -52,24 +58,159 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "List<T> of value tuple")]
+        [DataRow(0)]
+        [DataRow(4)]
+        [DataRow(22)]
+        [DataRow(43)]
+        [DataRow(44)]
+        [DataRow(45)]
+        [DataRow(46)]
+        [DataRow(100)]
+        [DataRow(int.MaxValue)]
+        [DataRow(-1)]
+        [DataRow(int.MinValue)]
+        public void Test_ReadOnlySpanExtensions_DangerousGetLookupReferenceAt(int i)
+        {
+            ReadOnlySpan<byte> table = new byte[]
+            {
+                0xFF, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 1, 1, 0, 1, 1, 1, 1,
+                0, 1, 0, 1, 0, 1, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 1, 0, 1
+            };
+
+            ref byte ri = ref Unsafe.AsRef(table.DangerousGetLookupReferenceAt(i));
+
+            bool isInRange = (uint)i < (uint)table.Length;
+
+            if (isInRange)
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref ri, ref Unsafe.AsRef(table[i])));
+            }
+            else
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref ri, ref MemoryMarshal.GetReference(table)));
+            }
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_IndexOf_Empty()
+        {
+            static void Test<T>()
+            {
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    T a = default;
+
+                    default(ReadOnlySpan<T>).IndexOf(in a);
+                });
+
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    ReadOnlySpan<T> data = new T[] { default };
+
+                    data.Slice(1).IndexOf(in data[0]);
+                });
+            }
+
+            Test<byte>();
+            Test<int>();
+            Test<Guid>();
+            Test<string>();
+            Test<object>();
+            Test<IEnumerable<int>>();
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_IndexOf_NotEmpty()
+        {
+            static void Test<T>()
+            {
+                ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    Assert.AreEqual(i, data.IndexOf(in data[i]));
+                }
+            }
+
+            Test<byte>();
+            Test<int>();
+            Test<Guid>();
+            Test<string>();
+            Test<object>();
+            Test<IEnumerable<int>>();
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_IndexOf_NotEmpty_OutOfRange()
+        {
+            static void Test<T>()
+            {
+                // Before start
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                    data.Slice(1).IndexOf(in data[0]);
+                });
+
+                // After end
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                    data.Slice(0, 2).IndexOf(in data[2]);
+                });
+
+                // Local variable
+                Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                {
+                    var dummy = new T[] { default };
+                    ReadOnlySpan<T> data = new T[] { default, default, default, default };
+
+                    data.IndexOf(in dummy[0]);
+                });
+            }
+
+            Test<byte>();
+            Test<int>();
+            Test<Guid>();
+            Test<string>();
+            Test<object>();
+            Test<IEnumerable<int>>();
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
         public void Test_ReadOnlySpanExtensions_Enumerate()
         {
-            ReadOnlySpan<int> data = CreateRandomData<int>(12, default).AsSpan();
+            ReadOnlySpan<int> data = new[] { 1, 2, 3, 4, 5, 6, 7 };
 
-            List<(int Index, int Value)> values = new List<(int, int)>();
+            int i = 0;
 
             foreach (var item in data.Enumerate())
             {
-                values.Add(item);
+                Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(data[i]), ref Unsafe.AsRef(item.Value)));
+                Assert.AreEqual(i, item.Index);
+
+                i++;
             }
+        }
 
-            Assert.AreEqual(values.Count, data.Length);
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_Enumerate_Empty()
+        {
+            ReadOnlySpan<int> data = Array.Empty<int>();
 
-            for (int i = 0; i < data.Length; i++)
+            foreach (var item in data.Enumerate())
             {
-                Assert.AreEqual(data[i], values[i].Value);
-                Assert.AreEqual(i, values[i].Index);
+                Assert.Fail("Empty source sequence");
             }
         }
 
@@ -93,7 +234,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_Tokenize_Csv()
+        public void Test_ReadOnlySpanExtensions_Tokenize_Comma()
         {
             string text = "name,surname,city,year,profession,age";
 
@@ -111,7 +252,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_Tokenize_CsvWithMissingValues()
+        public void Test_ReadOnlySpanExtensions_Tokenize_CommaWithMissingValues()
         {
             string text = ",name,,city,,,profession,,age,,";
 

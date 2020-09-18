@@ -87,10 +87,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void RenderDocument()
         {
-            _codeView?.Blocks?.Clear();
-            _formatter = new RichTextBlockFormatter(_theme);
-            _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
-            _rendered = true;
+            if (_codeView != null)
+            {
+                _codeView.Blocks?.Clear();
+                _formatter = new RichTextBlockFormatter(_theme);
+
+                _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
+                _rendered = true;
+            }
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
@@ -106,16 +110,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             SampleController.Current.DisplayWaitRing = true;
 
-            var printblock = new RichTextBlock
+            var printBlock = new RichTextBlock
             {
                 FontFamily = _codeView.FontFamily,
                 RequestedTheme = ElementTheme.Light
             };
             var printFormatter = new RichTextBlockFormatter(ElementTheme.Light);
-            printFormatter.FormatRichTextBlock(_displayedText, _language, printblock);
+            printFormatter.FormatRichTextBlock(_displayedText, _language, printBlock);
 
             _printHelper = new PrintHelper(_container);
-            _printHelper.AddFrameworkElementToPrint(printblock);
+            _printHelper.AddFrameworkElementToPrint(printBlock);
 
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
