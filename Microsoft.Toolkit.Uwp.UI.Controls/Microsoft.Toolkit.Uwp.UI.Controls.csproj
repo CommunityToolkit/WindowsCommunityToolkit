@@ -85,6 +85,12 @@
   </ItemGroup>
   
 
+  <ItemGroup>
+    <Folder Include="FlexPanel\Enums\" />
+    <Folder Include="FlexPanel\Extensions\" />
+  </ItemGroup>
+  
+
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
 

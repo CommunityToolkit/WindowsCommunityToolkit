@@ -515,6 +515,14 @@
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\FlexPanel\EnumPicker.cs" />
+    <Compile Include="SamplePages\FlexPanel\FlexPanelExperimentPage.xaml.cs">
+      <DependentUpon>FlexPanelExperimentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FlexPanel\Stepper.xaml.cs">
+      <DependentUpon>Stepper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FlexPanel\UIElementExtensions.cs" />
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -997,6 +1005,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FlexPanel\FlexPanelExperimentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FlexPanel\Stepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

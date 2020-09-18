@@ -1,0 +1,98 @@
+﻿<UserControl
+    x:Class="FlexPanelTest.Stepper"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FlexPanelTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="30"
+    d:DesignWidth="100"
+    Height="30"
+    >
+    <UserControl.Content>
+        <Grid
+        Height="30"
+        >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <Grid.Children>
+                <Border
+                    x:Name="_leftSegment"
+                    CornerRadius="4, 0, 0, 4"
+                    Background="{StaticResource SystemBaseLowColor}" 
+                    BorderBrush="{StaticResource SystemBaseMediumHighColor}"
+                    BorderThickness="0"
+                    PointerEntered="Border_PointerEntered"
+                    PointerExited="Border_PointerExited"
+                    PointerPressed="Border_PointerPressed"
+                    PointerReleased="Border_PointerReleased"
+                    PointerWheelChanged="Border_PointerWheelChanged"
+                    PointerCanceled="Border_PointerCanceled"
+                    PointerCaptureLost="Border_PointerCaptureLost"
+                    >
+                    <Border.Child>
+                        <TextBlock 
+                            Text="-" 
+                            Foreground="{StaticResource ButtonForegroundThemeBrush}"
+                            HorizontalAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            FontSize="20"
+                            Padding="0"
+                            />
+                    </Border.Child>
+                </Border>
+                <Border
+                    x:Name="_centerSegment"
+                    Grid.Column="1"
+                    Background="{StaticResource SystemBaseLowColor}" 
+                    BorderBrush="{StaticResource SystemBaseMediumHighColor}"
+                    PointerWheelChanged="Border_PointerWheelChanged"
+                    BorderThickness="0"
+                    >
+                    <Border.Child>
+                        <TextBlock
+                            x:Name="_valueTextBox"
+                            Foreground="{StaticResource ButtonForegroundThemeBrush}"
+                            Text="0"
+                            HorizontalAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="0"
+                            Margin="5,0,5,0"
+                            />
+                    </Border.Child>
+                </Border>
+                <Border
+                    x:Name="_rightSegment"
+                    Grid.Column="2"
+                    CornerRadius="0, 4, 4, 0"
+                    Background="{StaticResource SystemBaseLowColor}" 
+                    BorderBrush="{StaticResource SystemBaseMediumHighColor}"
+                    BorderThickness="0"
+                    PointerEntered="Border_PointerEntered"
+                    PointerExited="Border_PointerExited"
+                    PointerPressed="Border_PointerPressed"
+                    PointerReleased="Border_PointerReleased"
+                    PointerWheelChanged="Border_PointerWheelChanged"
+                    PointerCanceled="Border_PointerCanceled"
+                    PointerCaptureLost="Border_PointerCaptureLost"
+                    >
+                    <Border.Child>
+                        <TextBlock 
+                            Text="+" 
+                            Foreground="{StaticResource ButtonForegroundThemeBrush}"
+                            HorizontalAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            FontSize="20"
+                            Padding="0"
+                            />
+                    </Border.Child>
+                </Border>
+            </Grid.Children>
+        </Grid>
+    </UserControl.Content>
+</UserControl>
