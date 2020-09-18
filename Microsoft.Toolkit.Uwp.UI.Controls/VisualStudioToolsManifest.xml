@@ -10,6 +10,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DockPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Expander" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.FlexPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedContentControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedItemsControl" />

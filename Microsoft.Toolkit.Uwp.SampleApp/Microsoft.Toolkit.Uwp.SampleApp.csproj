@@ -272,6 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\FlexPanel\FlexPanel.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -631,6 +632,7 @@
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
     <Content Include="SamplePages\FocusBehavior\FocusBehaviorXaml.bind" />
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
+    <Content Include="SamplePages\FlexPanel\FlexPanelExperimentCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

@@ -296,7 +296,7 @@
         "Subcategory": "Layout",
         "About": "FlexPanel is a panel based on the CSS Flexible Box Layout Module, commonly known as flex layout or flex-box, so called because it includes many flexible options to arrange children within the layout.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/FlexPanel",
-        "XamlCodeFile": "FlexPanel.bind",
+        "XamlCodeFile": "FlexPanelExperimentCode.bind",
         "Icon": "/SamplePages/FlexPanel/FlexPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/FlexPanel.md"
       },

@@ -9,7 +9,10 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Content>
-        <Grid Margin="10, 0">
+        <Grid 
+            Margin="10, 5"
+            RowSpacing="2"
+            >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -17,7 +20,7 @@
             <Grid.Children>
                 <!-- Control Panel -->
                 <Grid 
-              Grid.Row="0">
+              Grid.Row="0" RowSpacing="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
