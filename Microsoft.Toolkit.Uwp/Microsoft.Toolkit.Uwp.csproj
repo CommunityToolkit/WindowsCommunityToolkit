@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
     
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 

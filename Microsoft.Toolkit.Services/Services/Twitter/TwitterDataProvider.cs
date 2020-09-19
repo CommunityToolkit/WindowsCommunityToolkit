@@ -10,9 +10,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json;
 
 #if WINRT
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
-                return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
+                return JsonSerializer.Deserialize<TwitterUser>(rawResult);
             }
             catch (UserNotFoundException)
             {
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 if (!string.IsNullOrEmpty(rawResult))
                 {
-                    var errors = JsonConvert.DeserializeObject<TwitterErrors>(rawResult);
+                    var errors = JsonSerializer.Deserialize<TwitterErrors>(rawResult);
 
                     throw new TwitterException { Errors = errors };
                 }
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 if (!string.IsNullOrEmpty(rawResult))
                 {
-                    var errors = JsonConvert.DeserializeObject<TwitterErrors>(rawResult);
+                    var errors = JsonSerializer.Deserialize<TwitterErrors>(rawResult);
 
                     throw new TwitterException { Errors = errors };
                 }
@@ -271,17 +271,6 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             LoggedIn = false;
             return false;
-        }
-
-        /// <summary>
-        /// Log user out of Twitter.
-        /// </summary>
-        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
-        public void Logout()
-        {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            LogoutAsync();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         /// <summary>
@@ -592,18 +581,16 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(twitterUrl)))
             {
-                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
+                using var response = await _client.SendAsync(request).ConfigureAwait(false);
+                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        getResponse = data;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("HttpHelper call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
-                        return false;
-                    }
+                    getResponse = data;
+                }
+                else
+                {
+                    Debug.WriteLine("HttpHelper call failed trying to retrieve Twitter Request Tokens.  Message: {0}", data);
+                    return false;
                 }
             }
 
@@ -676,10 +663,8 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
-                {
-                    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                }
+                using var response = await _client.SendAsync(request).ConfigureAwait(false);
+                data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
 
             var screenName = ExtractTokenFromResponse(data, TwitterOAuthTokenType.ScreenName);

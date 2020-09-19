@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets the type of data
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string DataType { get; set; }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets the coordinates of the geographic data
         /// </summary>
-        [JsonProperty("coordinates")]
+        [JsonPropertyName("coordinates")]
         public string[] Coordinates { get; set; }
 
         /// <summary>

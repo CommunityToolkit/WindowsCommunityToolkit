@@ -176,6 +176,41 @@ namespace Microsoft.Toolkit.Diagnostics
 
 #if !NETSTANDARD1_4
         /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <param name="message">The message to include in the exception.</param>
+        /// <exception cref="COMException">Thrown with the specified parameter.</exception>
+        [DoesNotReturn]
+        public static void ThrowCOMException(string message)
+        {
+            throw new COMException(message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <param name="message">The argument name.</param>
+        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+        /// <exception cref="COMException">Thrown with the specified parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowCOMException(string message, Exception innerException)
+        {
+            throw new COMException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <param name="message">The argument name.</param>
+        /// <param name="error">The HRESULT of the errror to include.</param>
+        /// <exception cref="COMException">Thrown with the specified parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowCOMException(string message, int error)
+        {
+            throw new COMException(message, error);
+        }
+
+        /// <summary>
         /// Throws a new <see cref="ExternalException"/>.
         /// </summary>
         /// <param name="message">The message to include in the exception.</param>
