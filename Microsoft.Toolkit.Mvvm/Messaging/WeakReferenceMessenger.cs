@@ -5,6 +5,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Collections.Extensions;
 using Microsoft.Toolkit.Mvvm.Messaging.Internals;
@@ -181,8 +182,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return message;
                 }
 
-                recipients = new ArrayPoolBufferWriter<object>();
-                handlers = new ArrayPoolBufferWriter<object>();
+                recipients = ArrayPoolBufferWriter<object>.Create();
+                handlers = ArrayPoolBufferWriter<object>.Create();
 
                 // We need a local, temporary copy of all the pending recipients and handlers to
                 // invoke, to avoid issues with handlers unregistering from messages while we're
@@ -232,8 +233,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                using ArrayPoolBufferWriter<Type2> type2s = new ArrayPoolBufferWriter<Type2>();
-                using ArrayPoolBufferWriter<object> emptyRecipients = new ArrayPoolBufferWriter<object>();
+                using ArrayPoolBufferWriter<Type2> type2s = ArrayPoolBufferWriter<Type2>.Create();
+                using ArrayPoolBufferWriter<object> emptyRecipients = ArrayPoolBufferWriter<object>.Create();
 
                 var enumerator = this.recipientsMap.GetEnumerator();
 
@@ -385,7 +386,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// A simple buffer writer implementation using pooled arrays.
         /// </summary>
         /// <typeparam name="T">The type of items to store in the list.</typeparam>
-        private sealed class ArrayPoolBufferWriter<T> : IDisposable
+        /// <remarks>
+        /// This type is a <see langword="ref"/> <see langword="struct"/> to avoid the object allocation and to
+        /// enable the pattern-based <see cref="IDisposable"/> support. We aren't worried with consumers not
+        /// using this type correctly since it's private and only accessible within the parent type.
+        /// </remarks>
+        private ref struct ArrayPoolBufferWriter<T>
         {
             /// <summary>
             /// The default buffer size to use to expand empty arrays.
@@ -403,12 +409,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             private int index;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
+            /// Creates a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> struct.
             /// </summary>
-            public ArrayPoolBufferWriter()
+            [Pure]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static ArrayPoolBufferWriter<T> Create()
             {
-                this.array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize);
-                this.index = 0;
+                return new ArrayPoolBufferWriter<T> { array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize) };
             }
 
             /// <summary>
@@ -461,7 +468,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 this.array = rent;
             }
 
-            /// <inheritdoc/>
+            /// <inheritdoc cref="IDisposable.Dispose"/>
             public void Dispose()
             {
                 Array.Clear(this.array, 0, this.index);
