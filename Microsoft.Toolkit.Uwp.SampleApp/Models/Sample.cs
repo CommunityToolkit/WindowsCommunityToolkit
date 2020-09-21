@@ -331,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             // Takes a second copy of the image stream, so that is can save the image data to cache.
                             using (var saveStream = await CopyStream(response.Content))
                             {
-                                await SaveImageToCache(localpath, saveStream);
+                                await SaveImageToCache(localPath, saveStream);
                             }
 #endif
                         }

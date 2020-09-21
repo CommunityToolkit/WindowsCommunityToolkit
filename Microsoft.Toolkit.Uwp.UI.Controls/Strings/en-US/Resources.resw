@@ -117,107 +117,107 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TextToolbarStrings_BoldLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_BoldLabel" xml:space="preserve">
     <value>Bold</value>
     <comment>Label for TextToolbar Control bold button.</comment>
   </data>
-  <data name="TextToolbarStrings_CancelLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_CancelLabel" xml:space="preserve">
     <value>Cancel</value>
     <comment>Label for TextToolbar Control Cancel message.</comment>
   </data>
-  <data name="TextToolbarStrings_CodeLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_CodeLabel" xml:space="preserve">
     <value>Code</value>
     <comment>Label for TextToolbar Control Code button.</comment>
   </data>
-  <data name="TextToolbarStrings_CreateLinkLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_CreateLinkLabel" xml:space="preserve">
     <value>Create Link</value>
     <comment>Label for TextToolbar Control Create Link button.</comment>
   </data>
-  <data name="TextToolbarStrings_EmptyTextLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_EmptyTextLabel" xml:space="preserve">
     <value>Empty Text</value>
     <comment>Label for TextToolbar Control Empty Text.</comment>
   </data>
-  <data name="TextToolbarStrings_HeaderLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_HeaderLabel" xml:space="preserve">
     <value>Header</value>
     <comment>Label for TextToolbar Control Header button.</comment>
   </data>
-  <data name="TextToolbarStrings_ItalicsLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_ItalicsLabel" xml:space="preserve">
     <value>Italics</value>
     <comment>Label for TextToolbar Control italics button.</comment>
   </data>
-  <data name="TextToolbarStrings_LabelLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_LabelLabel" xml:space="preserve">
     <value>Label</value>
     <comment>Label for TextToolbar Control Label button.</comment>
   </data>
-  <data name="TextToolbarStrings_LinkInvalidLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_LinkInvalidLabel" xml:space="preserve">
     <value>Link Invalid</value>
     <comment>Label for TextToolbar Control Link Invalid message.</comment>
   </data>
-  <data name="TextToolbarStrings_LinkLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_LinkLabel" xml:space="preserve">
     <value>Link</value>
     <comment>Label for TextToolbar Control Link button.</comment>
   </data>
-  <data name="TextToolbarStrings_ListLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_ListLabel" xml:space="preserve">
     <value>List</value>
     <comment>Label for TextToolbar Control List button.</comment>
   </data>
-  <data name="TextToolbarStrings_OkLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_OkLabel" xml:space="preserve">
     <value>Ok</value>
     <comment>Label for TextToolbar Control Ok message.</comment>
   </data>
-  <data name="TextToolbarStrings_OrderedListLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_OrderedListLabel" xml:space="preserve">
     <value>Ordered List</value>
     <comment>Label for TextToolbar Control Ordered List button.</comment>
   </data>
-  <data name="TextToolbarStrings_QuoteLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_QuoteLabel" xml:space="preserve">
     <value>Quote</value>
     <comment>Label for TextToolbar Control Quote button.</comment>
   </data>
-  <data name="TextToolbarStrings_RelativeLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_RelativeLabel" xml:space="preserve">
     <value>Relative</value>
     <comment>Label for TextToolbar Control Relative.</comment>
   </data>
-  <data name="TextToolbarStrings_StrikethroughLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_StrikethroughLabel" xml:space="preserve">
     <value>Strikethrough</value>
     <comment>Label for TextToolbar Control Strikethrough button.</comment>
   </data>
-  <data name="TextToolbarStrings_UnderlineLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_UnderlineLabel" xml:space="preserve">
     <value>Underline</value>
     <comment>Label for TextToolbar Control Underline button.</comment>
   </data>
-  <data name="TextToolbarStrings_UrlLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_UrlLabel" xml:space="preserve">
     <value>Url</value>
     <comment>Label for TextToolbar Control Url button.</comment>
   </data>
-  <data name="TextToolbarStrings_WarningLabel" xml:space="preserve">
+  <data name="WCT_TextToolbar_WarningLabel" xml:space="preserve">
     <value>Warning</value>
     <comment>Label for TextToolbar Control Warning message.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed" xml:space="preserve">
+  <data name="WCT_BladeView_ExpandButton_Collapsed" xml:space="preserve">
     <value>Collapse Blade</value>
     <comment>Narrator Resource for BladeView collapsed status</comment>
   </data>
-  <data name="WindowsCommunityToolkit_BladeView_ExpandButton_Expanded" xml:space="preserve">
+  <data name="WCT_BladeView_ExpandButton_Expanded" xml:space="preserve">
     <value>Expand Blade</value>
     <comment>Narrator Resource for BladeView expanded status</comment>
   </data>
-  <data name="WindowsCommunityToolkit_GridSplitter_AutomationName" xml:space="preserve">
+  <data name="WCT_GridSplitter_AutomationName" xml:space="preserve">
     <value>GridSplitter</value>
     <comment>Narrator Resource for GridSplitter control</comment>
   </data>
-  <data name="WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName" xml:space="preserve">
+  <data name="WCT_InAppNotification_DismissButton_AutomationName" xml:space="preserve">
     <value>Dismiss</value>
     <comment>The automation name for the dismiss button of the InAppNotification control.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_InAppNotification_LandmarkProperty.Value" xml:space="preserve">
+  <data name="WCT_InAppNotification_LandmarkProperty.Value" xml:space="preserve">
     <value>Notification</value>
     <comment>The landmark name for the InAppNotification control. It is said by the narrator when using landmark navigation.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove" xml:space="preserve">
+  <data name="WCT_TokenizingTextBoxItem_MenuFlyout_Remove" xml:space="preserve">
     <value>Remove</value>
     <comment>Label for TokenizingTextBox MenuFlyout 'Remove' option.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll" xml:space="preserve">
+  <data name="WCT_TokenizingTextBox_MenuFlyout_SelectAll" xml:space="preserve">
     <value>Select All</value>
     <comment>Label for TokenizingTextBox MenuFlyout 'Select All' option.</comment>
   </data>
