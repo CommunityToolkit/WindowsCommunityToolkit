@@ -30,7 +30,7 @@
         <Setter Property="HorizontalOffset" Value="0" />
         <Setter Property="AutomationProperties.LandmarkType" Value="Custom" />
         <!--  The setter value is localized using x:Uid but we still need to set it explicitly to avoid a compiler warning  -->
-        <Setter x:Uid="WindowsCommunityToolkit_InAppNotification_LandmarkProperty" Property="AutomationProperties.LocalizedLandmarkType" Value="Notification" />
+        <Setter x:Uid="WCT_InAppNotification_LandmarkProperty" Property="AutomationProperties.LocalizedLandmarkType" Value="Notification" />
         <Setter Property="AutomationProperties.LiveSetting" Value="Assertive" />
         <Setter Property="Template" Value="{StaticResource MSEdgeNotificationTemplate}" />
     </Style>

@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         private CanvasDevice canvasDevice;
 
         /// <summary>
-        /// The <see cref="CompositionGraphicsDevice"/> instance to determinde which GPU is handling the request.
+        /// The <see cref="CompositionGraphicsDevice"/> instance to determine which GPU is handling the request.
         /// </summary>
         private CompositionGraphicsDevice compositionDevice;
 
