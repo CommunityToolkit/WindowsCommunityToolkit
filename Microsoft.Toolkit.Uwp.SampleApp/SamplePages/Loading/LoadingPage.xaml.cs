@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async Task ShowLoadingDialogAsync()
         {
             loadingControl.IsLoading = true;
-            await Task.Delay(3000);
+            await Task.Delay(5000);
             loadingControl.IsLoading = false;
         }
     }
