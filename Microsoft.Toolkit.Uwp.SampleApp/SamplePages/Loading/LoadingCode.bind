@@ -37,7 +37,7 @@
 
   <Grid>
 
-    <ScrollViewer>
+    <ScrollViewer x:Name="ScrollViewerControl">
       <StackPanel Margin="20">
         <RichTextBlock Margin="0,10,0,0">
           <Paragraph FontSize="18" FontWeight="Bold">The loading control is for showing an animation with some content when the user should wait in some tasks of the app.</Paragraph>
