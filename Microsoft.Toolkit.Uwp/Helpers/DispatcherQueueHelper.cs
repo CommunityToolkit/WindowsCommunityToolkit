@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 var taskCompletionSource = new TaskCompletionSource<object>();
 
-                _ = dispatcher.TryEnqueue(priority, () =>
+                if (!dispatcher.TryEnqueue(priority, () =>
                 {
                     try
                     {
@@ -59,7 +59,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         taskCompletionSource.SetException(e);
                     }
-                });
+                }))
+                {
+                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                }
 
                 return taskCompletionSource.Task;
             }
@@ -96,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 var taskCompletionSource = new TaskCompletionSource<T>();
 
-                _ = dispatcher.TryEnqueue(priority, () =>
+                if (!dispatcher.TryEnqueue(priority, () =>
                 {
                     try
                     {
@@ -106,7 +109,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         taskCompletionSource.SetException(e);
                     }
-                });
+                }))
+                {
+                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                }
 
                 return taskCompletionSource.Task;
             }
@@ -151,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 var taskCompletionSource = new TaskCompletionSource<object>();
 
-                _ = dispatcher.TryEnqueue(priority, async () =>
+                if (!dispatcher.TryEnqueue(priority, async () =>
                 {
                     try
                     {
@@ -170,7 +176,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         taskCompletionSource.SetException(e);
                     }
-                });
+                }))
+                {
+                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                }
 
                 return taskCompletionSource.Task;
             }
@@ -212,7 +221,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 var taskCompletionSource = new TaskCompletionSource<T>();
 
-                _ = dispatcher.TryEnqueue(priority, async () =>
+                if (!dispatcher.TryEnqueue(priority, async () =>
                 {
                     try
                     {
@@ -231,7 +240,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         taskCompletionSource.SetException(e);
                     }
-                });
+                }))
+                {
+                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                }
 
                 return taskCompletionSource.Task;
             }
