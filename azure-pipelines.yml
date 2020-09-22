@@ -39,7 +39,7 @@ jobs:
   - script: nbgv cloud
     displayName: Set Version
 
-  #- powershell: .\build\Install-WindowsSdkISO.ps1 18362
+  #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
 
   - powershell: .\build\build.ps1 -target=Build
