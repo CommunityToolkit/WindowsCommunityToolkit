@@ -9,7 +9,7 @@
 
     <Style x:Key="BaseInAppNotificationsStyle"
            TargetType="local:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
@@ -33,8 +33,6 @@
         <Setter Property="Template" Value="{StaticResource MSEdgeNotificationTemplate}" />
     </Style>
 
-    <Style BasedOn="{StaticResource BaseInAppNotificationsStyle}"
-                            TargetType="local:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" />
-    </Style>
+    <Style BasedOn="{StaticResource BaseInAppNotificationsStyle}" TargetType="local:InAppNotification"/>
+
 </ResourceDictionary>
