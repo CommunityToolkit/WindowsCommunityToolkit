@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 }
             }
 
-            static Task RunAsync(DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority)
+            static Task TryEnqueueAsync(DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority)
             {
                 var taskCompletionSource = new TaskCompletionSource<object?>();
 
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 return taskCompletionSource.Task;
             }
 
-            return RunAsync(dispatcher, function, priority);
+            return TryEnqueueAsync(dispatcher, function, priority);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 }
             }
 
-            static Task<T> RunAsync(DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority)
+            static Task<T> TryEnqueueAsync(DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority)
             {
                 var taskCompletionSource = new TaskCompletionSource<T>();
 
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 return taskCompletionSource.Task;
             }
 
-            return RunAsync(dispatcher, function, priority);
+            return TryEnqueueAsync(dispatcher, function, priority);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 }
             }
 
-            static Task RunAsync(DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority)
+            static Task TryEnqueueAsync(DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority)
             {
                 var taskCompletionSource = new TaskCompletionSource<object?>();
 
@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 return taskCompletionSource.Task;
             }
 
-            return RunAsync(dispatcher, function, priority);
+            return TryEnqueueAsync(dispatcher, function, priority);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 }
             }
 
-            static Task<T> RunAsync(DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority)
+            static Task<T> TryEnqueueAsync(DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority)
             {
                 var taskCompletionSource = new TaskCompletionSource<T>();
 
@@ -245,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                 return taskCompletionSource.Task;
             }
 
-            return RunAsync(dispatcher, function, priority);
+            return TryEnqueueAsync(dispatcher, function, priority);
         }
     }
 }
