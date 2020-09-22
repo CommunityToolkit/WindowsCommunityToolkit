@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         private void RaiseProgressEvent(DwellProgressState state)
         {
             // TODO: We should eliminate non-invokable controls before we arrive here!
-            if (!(TargetElement is Page))
+            if (TargetElement is Page)
             {
                 return;
             }
