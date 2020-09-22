@@ -11,6 +11,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {

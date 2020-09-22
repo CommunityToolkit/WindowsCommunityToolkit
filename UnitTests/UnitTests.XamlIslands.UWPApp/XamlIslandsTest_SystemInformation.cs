@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.ApplicationModel.Activation;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

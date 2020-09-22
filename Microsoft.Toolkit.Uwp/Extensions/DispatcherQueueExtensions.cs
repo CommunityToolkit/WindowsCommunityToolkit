@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Uwp.Extensions
 {
     /// <summary>
-    /// This class provides static methods helper for executing code in a DispatcherQueue.
+    /// Helpers for executing code in a <see cref="DispatcherQueue"/>.
     /// </summary>
-    public static class DispatcherQueueHelper
+    public static class DispatcherQueueExtensions
     {
         /// <summary>
-        /// Extension method for <see cref="DispatcherQueue"/>. Offering an actual awaitable <see cref="Task"/> with optional result that will be executed on the given dispatcher.
+        /// Invokes a given function on the target <see cref="DispatcherQueue"/> and returns a
+        /// <see cref="Task"/> that completes when the invocation of the function is completed.
         /// </summary>
-        /// <param name="dispatcher">DispatcherQueue of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function"> Function to be executed on the given dispatcher.</param>
-        /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
-        /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
-        /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
+        /// <param name="dispatcher">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="function">The <see cref="Action"/> to invoke.</param>
+        /// <param name="priority">The priority level for the function to invoke.</param>
+        /// <returns>A <see cref="Task"/> that completes when the invocation of <paramref name="function"/> is over.</returns>
+        /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task EnqueueAsync(this DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
@@ -71,14 +72,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Extension method for <see cref="DispatcherQueue"/>. Offering an actual awaitable <see cref="Task{T}"/> with optional result that will be executed on the given dispatcher.
+        /// Invokes a given function on the target <see cref="DispatcherQueue"/> and returns a
+        /// <see cref="Task{TResult}"/> that completes when the invocation of the function is completed.
         /// </summary>
-        /// <typeparam name="T">Returned data type of the function.</typeparam>
-        /// <param name="dispatcher">DispatcherQueue of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function"> Function to be executed on the given dispatcher.</param>
-        /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
-        /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
-        /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
+        /// <typeparam name="T">The return type of <paramref name="function"/> to relay through the returned <see cref="Task{TResult}"/>.</typeparam>
+        /// <param name="dispatcher">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="function">The <see cref="Func{TResult}"/> to invoke.</param>
+        /// <param name="priority">The priority level for the function to invoke.</param>
+        /// <returns>A <see cref="Task"/> that completes when the invocation of <paramref name="function"/> is over.</returns>
+        /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task<T> EnqueueAsync<T>(this DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
@@ -121,13 +123,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Extension method for <see cref="DispatcherQueue"/>. Offering an actual awaitable <see cref="Task"/> with optional result that will be executed on the given dispatcher.
+        /// Invokes a given function on the target <see cref="DispatcherQueue"/> and returns a
+        /// <see cref="Task"/> that acts as a proxy for the one returned by the given function.
         /// </summary>
-        /// <param name="dispatcher">DispatcherQueue of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function">Asynchronous function to be executed on the given dispatcher.</param>
-        /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
-        /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
-        /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
+        /// <param name="dispatcher">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="function">The <see cref="Func{TResult}"/> to invoke.</param>
+        /// <param name="priority">The priority level for the function to invoke.</param>
+        /// <returns>A <see cref="Task"/> that acts as a proxy for the one returned by <paramref name="function"/>.</returns>
+        /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task EnqueueAsync(this DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
@@ -188,14 +191,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Extension method for <see cref="DispatcherQueue"/>. Offering an actual awaitable <see cref="Task{T}"/> with optional result that will be executed on the given dispatcher.
+        /// Invokes a given function on the target <see cref="DispatcherQueue"/> and returns a
+        /// <see cref="Task{TResult}"/> that acts as a proxy for the one returned by the given function.
         /// </summary>
-        /// <typeparam name="T">Returned data type of the function.</typeparam>
-        /// <param name="dispatcher">DispatcherQueue of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function">Asynchronous function to be executed Asynchronously on the given dispatcher.</param>
-        /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
-        /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
-        /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
+        /// <typeparam name="T">The return type of <paramref name="function"/> to relay through the returned <see cref="Task{TResult}"/>.</typeparam>
+        /// <param name="dispatcher">The target <see cref="DispatcherQueue"/> to invoke the code on.</param>
+        /// <param name="function">The <see cref="Func{TResult}"/> to invoke.</param>
+        /// <param name="priority">The priority level for the function to invoke.</param>
+        /// <returns>A <see cref="Task{TResult}"/> that relays the one returned by <paramref name="function"/>.</returns>
+        /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task<T> EnqueueAsync<T>(this DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));

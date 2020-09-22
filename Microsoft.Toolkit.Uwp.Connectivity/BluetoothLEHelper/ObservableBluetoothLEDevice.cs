@@ -18,6 +18,7 @@ using Windows.Devices.Enumeration;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {

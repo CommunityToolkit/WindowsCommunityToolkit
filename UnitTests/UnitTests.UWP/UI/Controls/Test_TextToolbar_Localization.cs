@@ -16,6 +16,7 @@ using Windows.Globalization;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.UI.Controls
 {

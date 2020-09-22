@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.System;
 using Windows.System.RemoteSystems;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {

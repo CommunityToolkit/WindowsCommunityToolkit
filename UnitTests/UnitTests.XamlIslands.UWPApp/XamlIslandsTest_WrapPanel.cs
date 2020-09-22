@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

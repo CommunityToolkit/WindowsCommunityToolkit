@@ -12,6 +12,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {

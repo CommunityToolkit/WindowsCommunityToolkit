@@ -13,6 +13,7 @@ using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using Windows.System;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {

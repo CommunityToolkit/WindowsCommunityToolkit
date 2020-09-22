@@ -14,6 +14,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

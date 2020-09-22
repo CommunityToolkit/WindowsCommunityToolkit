@@ -11,6 +11,7 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 [assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
 

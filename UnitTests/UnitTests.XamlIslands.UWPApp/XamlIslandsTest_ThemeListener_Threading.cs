@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
