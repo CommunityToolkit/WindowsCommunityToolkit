@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Toolkit.Parsers.Markdown;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -35,7 +35,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var document = new MarkdownDocument();
             document.Parse(RawMarkdown.Text);
 
-            var json = JsonConvert.SerializeObject(document, Formatting.Indented, new StringEnumConverter());
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+            var json = JsonSerializer.Serialize(document, typeof(MarkdownDocument), jsonSerializerOptions);
             MarkdownResult.Text = json;
         }
     }
