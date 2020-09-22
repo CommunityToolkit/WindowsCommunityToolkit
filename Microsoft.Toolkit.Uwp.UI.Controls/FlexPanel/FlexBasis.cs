@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root
 // for the license information.
@@ -10,6 +14,7 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using Microsoft.Toolkit.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -20,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// elements with a FlexBasis.IsRelstive set to true.
     /// </summary>
     /// <remarks>The default value for this property is Auto.</remarks>
-    public struct FlexBasis
+    public readonly struct FlexBasis
     {
         /// <summary>
         /// Converts a string to a FlexBasis
@@ -61,8 +66,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return Auto;
         }
 
-        private readonly bool _isLength;
-        private readonly bool _isRelative;
+        private readonly bool isLength;
+        private readonly bool isRelative;
 
         /// <summary>
         /// Main-axis length of element is calculated by FlexPanel
@@ -77,12 +82,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether the basis is auto.
         /// </summary>
-        internal bool IsAuto => !_isLength && !_isRelative;
+        internal bool IsAuto => !isLength && !isRelative;
 
         /// <summary>
         /// Gets a value indicating whether the basis length is relative to parent's size.
         /// </summary>
-        internal bool IsRelative => _isRelative;
+        internal bool IsRelative => isRelative;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FlexBasis"/> struct.
@@ -91,18 +96,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="isRelative">If set to <c>true</c> is relative.</param>
         public FlexBasis(double length, bool isRelative = false)
         {
-            if (length < 0)
+            Guard.IsGreaterThanOrEqualTo(length, 0, nameof(length));
+
+            if (isRelative)
             {
-                throw new ArgumentException("should be a positive value", nameof(length));
+                Guard.IsLessThanOrEqualTo(length, 1, nameof(length));
             }
 
-            if (isRelative && length > 1)
-            {
-                throw new ArgumentException("relative length should be in [0, 1]", nameof(length));
-            }
-
-            _isLength = !isRelative;
-            _isRelative = isRelative;
+            isLength = !isRelative;
+            this.isRelative = isRelative;
             Length = length;
         }
 
@@ -136,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return Length + ",relative";
             }
 
-            return Length.ToString(); ;
+            return Length.ToString();
         }
     }
 }

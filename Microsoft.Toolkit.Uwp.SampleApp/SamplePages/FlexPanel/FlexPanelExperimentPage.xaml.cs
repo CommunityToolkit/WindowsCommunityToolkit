@@ -1,6 +1,11 @@
-﻿using System;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using FlexPanelTest;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -11,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public partial class FlexPanelExperimentPage : Page
+    public partial class FlexPanelExperimentPage : Page, IXamlRenderListener
     {
         private static readonly Color[] Colors =
         {
@@ -33,15 +38,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             "Sixty", "Seventy", "Eighty", "Ninety"
         };
 
+        private FlexPanel flexPanel;
+        private Stepper numberStepper;
+
         public FlexPanelExperimentPage()
         {
             this.InitializeComponent();
-            OnNumberStepperValueChanged(flexPanel, numberStepper.Value);
         }
 
-        private void Combo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void OnXamlRendered(FrameworkElement control)
         {
-            //throw new NotImplementedException();
+            flexPanel = control.FindChildByName("flexPanel") as FlexPanel;
+            numberStepper = control.FindChildByName("numberStepper") as Stepper;
+            OnNumberStepperValueChanged(flexPanel, numberStepper.Value);
+            numberStepper.ValueChanged += OnNumberStepperValueChanged;
         }
 
         private void OnNumberStepperValueChanged(object sender, double newValue)
@@ -96,13 +106,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void OnFlexDirectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is EnumPicker picker)
-            {
-                var direction = (FlexDirection)picker.SelectedItem;
-                flexPanel.Direction = direction;
-            }
-        }
     }
 }

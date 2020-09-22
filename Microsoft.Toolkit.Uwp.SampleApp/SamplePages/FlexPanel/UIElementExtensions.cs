@@ -1,4 +1,8 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -70,18 +74,6 @@ namespace FlexPanelTest
             CompositionTarget.Rendering += renderingFrameEventHandler;
         }
 
-        public static FlexPanel GetFlexLayoutParent(this FrameworkElement element)
-        {
-            var parent = element.Parent;
-            do
-            {
-                if (parent is FlexPanel flexParent)
-                    return flexParent;
-                if (parent is FrameworkElement grandParent)
-                    parent = grandParent;
-                return null;
-            } while (parent != null);
-        }
     }
 
 }

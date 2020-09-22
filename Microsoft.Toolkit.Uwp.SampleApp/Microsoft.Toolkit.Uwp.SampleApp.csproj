@@ -273,6 +273,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\FlexPanel\FlexPanel.png" />
+    <Content Include="SamplePages\FlexPanel\FlexPanel.svg" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -516,7 +517,6 @@
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\FlexPanel\EnumPicker.cs" />
     <Compile Include="SamplePages\FlexPanel\FlexPanelExperimentPage.xaml.cs">
       <DependentUpon>FlexPanelExperimentPage.xaml</DependentUpon>
     </Compile>
