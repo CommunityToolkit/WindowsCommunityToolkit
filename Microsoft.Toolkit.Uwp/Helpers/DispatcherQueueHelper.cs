@@ -43,23 +43,28 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
             }
 
-            var taskCompletionSource = new TaskCompletionSource<object>();
-
-            _ = dispatcher.TryEnqueue(priority, () =>
+            static Task RunAsync(DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority)
             {
-                try
-                {
-                    function();
+                var taskCompletionSource = new TaskCompletionSource<object>();
 
-                    taskCompletionSource.SetResult(null);
-                }
-                catch (Exception e)
+                _ = dispatcher.TryEnqueue(priority, () =>
                 {
-                    taskCompletionSource.SetException(e);
-                }
-            });
+                    try
+                    {
+                        function();
 
-            return taskCompletionSource.Task;
+                        taskCompletionSource.SetResult(null);
+                    }
+                    catch (Exception e)
+                    {
+                        taskCompletionSource.SetException(e);
+                    }
+                });
+
+                return taskCompletionSource.Task;
+            }
+
+            return RunAsync(dispatcher, function, priority);
         }
 
         /// <summary>
@@ -87,21 +92,26 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
             }
 
-            var taskCompletionSource = new TaskCompletionSource<T>();
-
-            _ = dispatcher.TryEnqueue(priority, () =>
+            static Task<T> RunAsync(DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority)
             {
-                try
-                {
-                    taskCompletionSource.SetResult(function());
-                }
-                catch (Exception e)
-                {
-                    taskCompletionSource.SetException(e);
-                }
-            });
+                var taskCompletionSource = new TaskCompletionSource<T>();
 
-            return taskCompletionSource.Task;
+                _ = dispatcher.TryEnqueue(priority, () =>
+                {
+                    try
+                    {
+                        taskCompletionSource.SetResult(function());
+                    }
+                    catch (Exception e)
+                    {
+                        taskCompletionSource.SetException(e);
+                    }
+                });
+
+                return taskCompletionSource.Task;
+            }
+
+            return RunAsync(dispatcher, function, priority);
         }
 
         /// <summary>
@@ -137,30 +147,35 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
             }
 
-            var taskCompletionSource = new TaskCompletionSource<object>();
-
-            _ = dispatcher.TryEnqueue(priority, async () =>
+            static Task RunAsync(DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority)
             {
-                try
-                {
-                    if (function() is Task awaitableResult)
-                    {
-                        await awaitableResult.ConfigureAwait(false);
+                var taskCompletionSource = new TaskCompletionSource<object>();
 
-                        taskCompletionSource.SetResult(null);
-                    }
-                    else
-                    {
-                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
-                    }
-                }
-                catch (Exception e)
+                _ = dispatcher.TryEnqueue(priority, async () =>
                 {
-                    taskCompletionSource.SetException(e);
-                }
-            });
+                    try
+                    {
+                        if (function() is Task awaitableResult)
+                        {
+                            await awaitableResult.ConfigureAwait(false);
 
-            return taskCompletionSource.Task;
+                            taskCompletionSource.SetResult(null);
+                        }
+                        else
+                        {
+                            taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        taskCompletionSource.SetException(e);
+                    }
+                });
+
+                return taskCompletionSource.Task;
+            }
+
+            return RunAsync(dispatcher, function, priority);
         }
 
         /// <summary>
@@ -193,30 +208,35 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
             }
 
-            var taskCompletionSource = new TaskCompletionSource<T>();
-
-            _ = dispatcher.TryEnqueue(priority, async () =>
+            static Task<T> RunAsync(DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority)
             {
-                try
-                {
-                    if (function() is Task<T> awaitableResult)
-                    {
-                        var result = await awaitableResult.ConfigureAwait(false);
+                var taskCompletionSource = new TaskCompletionSource<T>();
 
-                        taskCompletionSource.SetResult(result);
-                    }
-                    else
-                    {
-                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
-                    }
-                }
-                catch (Exception e)
+                _ = dispatcher.TryEnqueue(priority, async () =>
                 {
-                    taskCompletionSource.SetException(e);
-                }
-            });
+                    try
+                    {
+                        if (function() is Task<T> awaitableResult)
+                        {
+                            var result = await awaitableResult.ConfigureAwait(false);
 
-            return taskCompletionSource.Task;
+                            taskCompletionSource.SetResult(result);
+                        }
+                        else
+                        {
+                            taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        taskCompletionSource.SetException(e);
+                    }
+                });
+
+                return taskCompletionSource.Task;
+            }
+
+            return RunAsync(dispatcher, function, priority);
         }
     }
 }
