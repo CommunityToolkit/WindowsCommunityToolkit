@@ -28,9 +28,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            /* Run the function directly when we have thread access.
-             * Also reuse Task.CompletedTask in case of success,
-             * to skip an unnecessary heap allocation for every invocation. */
+            // Run the function directly when we have thread access.
+            // Also reuse Task.CompletedTask in case of success,
+            // to skip an unnecessary heap allocation for every invocation.
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -124,10 +124,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            /* If we have thread access, we can retrieve the task directly.
-             * We don't use ConfigureAwait(false) in this case, in order
-             * to let the caller continue its execution on the same thread
-             * after awaiting the task returned by this function. */
+            // If we have thread access, we can retrieve the task directly.
+            // We don't use ConfigureAwait(false) in this case, in order
+            // to let the caller continue its execution on the same thread
+            // after awaiting the task returned by this function.
             if (dispatcher.HasThreadAccess)
             {
                 try
