@@ -4,8 +4,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.System;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.Extensions
 {
@@ -25,8 +26,6 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task EnqueueAsync(this DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            Guard.IsNotNull(function, nameof(function));
-
             // Run the function directly when we have thread access.
             // Also reuse Task.CompletedTask in case of success,
             // to skip an unnecessary heap allocation for every invocation.
@@ -46,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
 
             static Task RunAsync(DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority)
             {
-                var taskCompletionSource = new TaskCompletionSource<object>();
+                var taskCompletionSource = new TaskCompletionSource<object?>();
 
                 if (!dispatcher.TryEnqueue(priority, () =>
                 {
@@ -83,8 +82,6 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task<T> EnqueueAsync<T>(this DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            Guard.IsNotNull(function, nameof(function));
-
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -133,8 +130,6 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task EnqueueAsync(this DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            Guard.IsNotNull(function, nameof(function));
-
             // If we have thread access, we can retrieve the task directly.
             // We don't use ConfigureAwait(false) in this case, in order
             // to let the caller continue its execution on the same thread
@@ -158,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
 
             static Task RunAsync(DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority)
             {
-                var taskCompletionSource = new TaskCompletionSource<object>();
+                var taskCompletionSource = new TaskCompletionSource<object?>();
 
                 if (!dispatcher.TryEnqueue(priority, async () =>
                 {
@@ -202,8 +197,6 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <remarks>If the current thread has access to <paramref name="dispatcher"/>, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task<T> EnqueueAsync<T>(this DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            Guard.IsNotNull(function, nameof(function));
-
             if (dispatcher.HasThreadAccess)
             {
                 try
