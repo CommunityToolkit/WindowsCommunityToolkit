@@ -369,7 +369,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static async void RunInUIThread(DispatcherQueue dispatcherQueue, Action action)
         {
-            await dispatcherQueue.ExecuteOnUIThreadAsync(action, DispatcherQueuePriority.Normal);
+            await dispatcherQueue.EnqueueAsync(action, DispatcherQueuePriority.Normal);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public async Task Init()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlItemsPanelTemplate = @"<ItemsPanelTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
@@ -50,7 +50,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task WrapPanel_RendersFine()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 var item = new Uri("ms-appx:///Assets/StoreLogo.png");
                 for (int i = 0; i < 100; i++)

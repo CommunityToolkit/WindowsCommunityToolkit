@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         internal Task OnColorValuesChanged()
         {
             // Getting called off thread, so we need to dispatch to request value.
-            return DispatcherQueue.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.

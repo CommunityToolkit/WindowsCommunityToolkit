@@ -19,7 +19,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public async Task Init()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 _dropShadowPanel = new DropShadowPanel
                 {
@@ -39,7 +39,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task DropShadowPanel_RendersFine()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 var textBlock = new TextBlock
                 {

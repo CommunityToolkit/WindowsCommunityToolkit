@@ -19,7 +19,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public async Task Init()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var richEditBox = new RichEditBox
                 {
@@ -62,7 +62,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task TextToobar_PopupShowsInCorrectXamlRoot()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 await Task.Delay(500);
 

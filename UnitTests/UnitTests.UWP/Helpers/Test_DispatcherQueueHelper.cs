@@ -27,14 +27,14 @@ namespace UnitTests.Helpers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Test_DispatcherQueueHelper_Action_Null()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), default(Action));
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), default(Action));
         }
 
         [TestCategory("Helpers")]
         [UITestMethod]
         public void Test_DispatcherQueueHelper_Action_Ok_UIThread()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), () =>
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), () =>
             {
                 var textBlock = new TextBlock { Text = nameof(Test_DispatcherQueueHelper_Action_Ok_UIThread) };
 
@@ -55,7 +55,7 @@ namespace UnitTests.Helpers
                         var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
                         await Task.Run(async () =>
                         {
-                            await DispatcherQueueHelper.ExecuteOnUIThreadAsync(dispatcherQueue, () =>
+                            await DispatcherQueueHelper.EnqueueAsync(dispatcherQueue, () =>
                             {
                                 var textBlock = new TextBlock { Text = nameof(Test_DispatcherQueueHelper_Action_Ok_NonUIThread) };
 
@@ -77,7 +77,7 @@ namespace UnitTests.Helpers
         [UITestMethod]
         public void Test_DispatcherQueueHelper_Action_Exception()
         {
-            var task = DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), () =>
+            var task = DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), () =>
             {
                 throw new ArgumentException(nameof(this.Test_DispatcherQueueHelper_Action_Exception));
             });
@@ -93,14 +93,14 @@ namespace UnitTests.Helpers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Test_DispatcherQueueHelper_FuncOfT_Null()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), default(Func<int>));
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), default(Func<int>));
         }
 
         [TestCategory("Helpers")]
         [UITestMethod]
         public void Test_DispatcherQueueHelper_FuncOfT_Ok_UIThread()
         {
-            var textBlock = DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), () =>
+            var textBlock = DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), () =>
             {
                 return new TextBlock { Text = nameof(Test_DispatcherQueueHelper_FuncOfT_Ok_UIThread) };
             }).Result;
@@ -121,11 +121,11 @@ namespace UnitTests.Helpers
                         var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
                         await Task.Run(async () =>
                         {
-                            var textBlock = await DispatcherQueueHelper.ExecuteOnUIThreadAsync(dispatcherQueue, () =>
+                            var textBlock = await DispatcherQueueHelper.EnqueueAsync(dispatcherQueue, () =>
                             {
                                 return new TextBlock { Text = nameof(Test_DispatcherQueueHelper_FuncOfT_Ok_NonUIThread) };
                             });
-                            await DispatcherQueueHelper.ExecuteOnUIThreadAsync(dispatcherQueue, () =>
+                            await DispatcherQueueHelper.EnqueueAsync(dispatcherQueue, () =>
                             {
                                 Assert.AreEqual(textBlock.Text, nameof(Test_DispatcherQueueHelper_FuncOfT_Ok_NonUIThread));
                                 taskSource.SetResult(null);
@@ -144,7 +144,7 @@ namespace UnitTests.Helpers
         [UITestMethod]
         public void Test_DispatcherQueueHelper_FuncOfT_Exception()
         {
-            var task = DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), new Func<int>(() =>
+            var task = DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), new Func<int>(() =>
             {
                 throw new ArgumentException(nameof(this.Test_DispatcherQueueHelper_FuncOfT_Exception));
             }));
@@ -161,14 +161,14 @@ namespace UnitTests.Helpers
         [SuppressMessage("Style", "IDE0034", Justification = "Explicit overload for clarity")]
         public void Test_DispatcherQueueHelper_FuncOfTask_Null()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), default(Func<Task>));
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), default(Func<Task>));
         }
 
         [TestCategory("Helpers")]
         [UITestMethod]
         public void Test_DispatcherQueueHelper_FuncOfTask_Ok_UIThread()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), () =>
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), () =>
             {
                 var textBlock = new TextBlock { Text = nameof(Test_DispatcherQueueHelper_FuncOfTask_Ok_UIThread) };
 
@@ -188,7 +188,7 @@ namespace UnitTests.Helpers
                 {
                     try
                     {
-                        await DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), async () =>
+                        await DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), async () =>
                         {
                             await Task.Yield();
 
@@ -211,7 +211,7 @@ namespace UnitTests.Helpers
         [UITestMethod]
         public void Test_DispatcherQueueHelper_FuncOfTask_Exception()
         {
-            var task = DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), new Func<Task>(() =>
+            var task = DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), new Func<Task>(() =>
             {
                 throw new ArgumentException(nameof(this.Test_DispatcherQueueHelper_FuncOfTask_Exception));
             }));
@@ -227,14 +227,14 @@ namespace UnitTests.Helpers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Test_DispatcherQueueHelper_FuncOfTaskOfT_Null()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), default(Func<Task<int>>));
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), default(Func<Task<int>>));
         }
 
         [TestCategory("Helpers")]
         [UITestMethod]
         public void Test_DispatcherQueueHelper_FuncOfTaskOfT_Ok_UIThread()
         {
-            DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), () =>
+            DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), () =>
             {
                 var textBlock = new TextBlock { Text = nameof(Test_DispatcherQueueHelper_FuncOfTaskOfT_Ok_UIThread) };
 
@@ -254,7 +254,7 @@ namespace UnitTests.Helpers
                 {
                     try
                     {
-                        await DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), async () =>
+                        await DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), async () =>
                         {
                             await Task.Yield();
 
@@ -279,7 +279,7 @@ namespace UnitTests.Helpers
         [UITestMethod]
         public void Test_DispatcherQueueHelper_FuncOfTaskOfT_Exception()
         {
-            var task = DispatcherQueueHelper.ExecuteOnUIThreadAsync(DispatcherQueue.GetForCurrentThread(), new Func<Task<int>>(() =>
+            var task = DispatcherQueueHelper.EnqueueAsync(DispatcherQueue.GetForCurrentThread(), new Func<Task<int>>(() =>
             {
                 throw new ArgumentException(nameof(this.Test_DispatcherQueueHelper_FuncOfTaskOfT_Exception));
             }));

@@ -78,7 +78,7 @@ namespace UnitTests.UI.Controls
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Override_Fr()
         {
-            await CoreApplication.MainView.DispatcherQueue.ExecuteOnUIThreadAsync(async () =>
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
             {
                 // Just double-check we've got the right environment setup in our tests.
                 CollectionAssert.AreEquivalent(new string[] { "en-US", "fr" }, ApplicationLanguages.ManifestLanguages.ToArray(), "Missing locales for test");

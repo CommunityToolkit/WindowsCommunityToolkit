@@ -197,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The advertisement.</param>
         private async void AdvertisementWatcher_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
         {
-            await DispatcherQueue.ExecuteOnUIThreadAsync(
+            await DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     if (_readerWriterLockSlim.TryEnterReadLock(TimeSpan.FromSeconds(1)))
@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             // Protect against race condition if the task runs after the app stopped the deviceWatcher.
             if (sender == _deviceWatcher)
             {
-                await DispatcherQueue.ExecuteOnUIThreadAsync(
+                await DispatcherQueue.EnqueueAsync(
                     () =>
                     {
                         if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
@@ -331,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                 if (connectable)
                 {
-                    await DispatcherQueue.ExecuteOnUIThreadAsync(
+                    await DispatcherQueue.EnqueueAsync(
                         () =>
                         {
                             if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))

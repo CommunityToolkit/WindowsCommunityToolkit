@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
-        public static Task ExecuteOnUIThreadAsync(this DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
+        public static Task EnqueueAsync(this DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
 
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(this DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
+        public static Task<T> EnqueueAsync<T>(this DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
 
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
-        public static Task ExecuteOnUIThreadAsync(this DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
+        public static Task EnqueueAsync(this DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
 
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">DispatcherQueue execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(this DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
+        public static Task<T> EnqueueAsync<T>(this DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
             Guard.IsNotNull(function, nameof(function));
 

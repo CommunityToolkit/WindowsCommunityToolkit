@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new FileNotFoundException();
             }
 
-            return await DispatcherQueue.ExecuteOnUIThreadAsync(async () =>
+            return await DispatcherQueue.EnqueueAsync(async () =>
             {
                 BitmapImage image = new BitmapImage();
 

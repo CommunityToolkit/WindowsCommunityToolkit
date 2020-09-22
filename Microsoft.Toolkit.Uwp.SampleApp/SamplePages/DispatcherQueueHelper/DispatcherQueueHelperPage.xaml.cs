@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
-                int returnedFromUIThread = await dispatcherQueue.ExecuteOnUIThreadAsync<int>(() =>
+                int returnedFromUIThread = await dispatcherQueue.EnqueueAsync<int>(() =>
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
                     return 1;

@@ -19,7 +19,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public Task Init()
         {
-            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            return App.Dispatcher.EnqueueAsync(() =>
             {
                 _taskCompletionSource = new TaskCompletionSource<object>();
 

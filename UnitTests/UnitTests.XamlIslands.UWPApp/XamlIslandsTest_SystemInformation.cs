@@ -15,7 +15,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task SystemInformationTrackAppUse()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var e = new FakeArgs
                 {

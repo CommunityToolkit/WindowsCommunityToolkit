@@ -469,7 +469,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The <see cref="GattValueChangedEventArgs"/> instance containing the event data.</param>
         private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            await DispatcherQueue.ExecuteOnUIThreadAsync(() => { SetValue(args.CharacteristicValue); }, DispatcherQueuePriority.Normal);
+            await DispatcherQueue.EnqueueAsync(() => { SetValue(args.CharacteristicValue); }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
