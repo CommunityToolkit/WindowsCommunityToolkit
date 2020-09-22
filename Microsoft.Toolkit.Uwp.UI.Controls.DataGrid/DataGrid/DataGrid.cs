@@ -5832,7 +5832,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void DataGrid_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             // Don't process if this is a generated replay of the event.
-            if (TypeHelper.IsRS3OrHigher && e.IsGenerated)
+            if (e.IsGenerated)
             {
                 return;
             }

@@ -4,7 +4,6 @@
 
 // using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
 {
@@ -14,15 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Effects.AnimationEffect" />
     public class Saturation : AnimationEffect
     {
-        /// <summary>
-        /// Gets a value indicating whether Saturation is supported.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is supported; otherwise, <c>false</c>.
-        /// </value>
-        public override bool IsSupported
-            => ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
-
         /// <summary>
         /// Gets the name of the effect.
         /// </summary>

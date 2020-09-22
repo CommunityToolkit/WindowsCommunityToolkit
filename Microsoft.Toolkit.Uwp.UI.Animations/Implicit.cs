@@ -118,11 +118,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void ShowAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             if (e.OldValue is AnimationCollection oldCollection)
             {
                 oldCollection.AnimationCollectionChanged -= ShowCollectionChanged;
@@ -139,11 +134,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void HideAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             if (e.OldValue is AnimationCollection oldCollection)
             {
                 oldCollection.AnimationCollectionChanged -= HideCollectionChanged;
@@ -176,11 +166,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void ShowCollectionChanged(object sender, EventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             var collection = (AnimationCollection)sender;
             if (collection.Parent == null)
             {
@@ -192,11 +177,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void HideCollectionChanged(object sender, EventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             var collection = (AnimationCollection)sender;
             if (collection.Parent == null)
             {
@@ -220,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static CompositionAnimationGroup GetCompositionAnimationGroup(AnimationCollection collection, UIElement element)
         {
-            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && collection.ContainsTranslationAnimation)
+            if (collection.ContainsTranslationAnimation)
             {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
             }
@@ -230,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static ImplicitAnimationCollection GetImplicitAnimationCollection(AnimationCollection collection, UIElement element)
         {
-            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && collection.ContainsTranslationAnimation)
+            if (collection.ContainsTranslationAnimation)
             {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
             }

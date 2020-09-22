@@ -54,13 +54,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             var labelBox = new RichEditBox
             {
-                PlaceholderText = StringExtensions.GetLocalized("TextToolbarStrings_LabelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                PlaceholderText = "WCT_TextToolbar_LabelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Margin = new Thickness(0, 0, 0, 5),
                 AcceptsReturn = false
             };
             var linkBox = new TextBox
             {
-                PlaceholderText = StringExtensions.GetLocalized("TextToolbarStrings_UrlLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                PlaceholderText = "WCT_TextToolbar_UrlLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
 
             CheckBox relativeBox = null;
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             {
                 relativeBox = new CheckBox
                 {
-                    Content = StringExtensions.GetLocalized("TextToolbarStrings_RelativeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                    Content = "WCT_TextToolbar_RelativeLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
                 };
                 contentPanel.Children.Add(relativeBox);
             }
@@ -89,10 +89,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             var contentDialog = new ContentDialog
             {
-                Title = StringExtensions.GetLocalized("TextToolbarStrings_CreateLinkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                Title = "WCT_TextToolbar_CreateLinkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Content = contentPanel,
-                PrimaryButtonText = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
-                SecondaryButtonText = StringExtensions.GetLocalized("TextToolbarStrings_CancelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                PrimaryButtonText = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                SecondaryButtonText = "WCT_TextToolbar_CancelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
 
             if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
@@ -107,9 +107,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 labelBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string labelText);
                 labelBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
-                string linkInvalidLabel = StringExtensions.GetLocalized("TextToolbarStrings_LinkInvalidLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
-                string okLabel = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
-                string warningLabel = StringExtensions.GetLocalized("TextToolbarStrings_WarningLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string linkInvalidLabel = "WCT_TextToolbar_LinkInvalidLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string okLabel = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string warningLabel = "WCT_TextToolbar_WarningLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
                 string linkText = linkBox.Text.Trim();
 
                 if (string.IsNullOrWhiteSpace(linkText))

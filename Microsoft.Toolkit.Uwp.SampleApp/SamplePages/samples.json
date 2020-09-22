@@ -869,7 +869,6 @@
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
         "CodeFile": "LiveTileCode.bind",
-        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
         "Icon": "/SamplePages/LiveTile/LiveTile.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
@@ -880,7 +879,6 @@
         "About": "This shows how to send a Toast notification.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
         "CodeFile": "ToastCode.bind",
-        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
         "Icon": "/SamplePages/Toast/Toast.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
@@ -891,7 +889,6 @@
         "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
-        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
         "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },

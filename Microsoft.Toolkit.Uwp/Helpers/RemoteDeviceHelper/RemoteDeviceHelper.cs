@@ -7,9 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.System;
-using Windows.Foundation.Metadata;
 using Windows.System.RemoteSystems;
-using Windows.System.Threading;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -73,18 +71,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 _remoteSystemWatcher.RemoteSystemAdded += RemoteSystemWatcher_RemoteSystemAdded;
                 _remoteSystemWatcher.RemoteSystemRemoved += RemoteSystemWatcher_RemoteSystemRemoved;
                 _remoteSystemWatcher.RemoteSystemUpdated += RemoteSystemWatcher_RemoteSystemUpdated;
-                if (ApiInformation.IsEventPresent("Windows.System.RemoteSystems.RemoteSystemWatcher", "EnumerationCompleted"))
-                {
-                    _remoteSystemWatcher.EnumerationCompleted += RemoteSystemWatcher_EnumerationCompleted;
-                }
-                else
-                {
-                    ThreadPoolTimer.CreateTimer(
-                        (e) =>
-                        {
-                            RemoteSystemWatcher_EnumerationCompleted(_remoteSystemWatcher, null);
-                        }, TimeSpan.FromSeconds(2));
-                }
+                _remoteSystemWatcher.EnumerationCompleted += RemoteSystemWatcher_EnumerationCompleted;
 
                 _remoteSystemWatcher.Start();
             }

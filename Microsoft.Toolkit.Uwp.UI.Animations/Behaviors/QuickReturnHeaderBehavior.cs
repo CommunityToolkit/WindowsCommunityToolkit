@@ -11,7 +11,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -103,13 +102,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         private bool AssignAnimation()
         {
             StopAnimation();
-
-            // Confirm that Microsoft.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
-            if (!ApiInformation.IsMethodPresent("Microsoft.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
-            {
-                // Just return true since it's not supported
-                return true;
-            }
 
             if (AssociatedObject == null)
             {

@@ -14,7 +14,7 @@
 
   <Grid>
     <TextBlock Margin="16">
-      Modify the XAML to change the Title bars.
+      Modify the XAML to change the Title.
     </TextBlock>
   </Grid>
 </Page>

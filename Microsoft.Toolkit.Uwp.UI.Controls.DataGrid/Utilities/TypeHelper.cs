@@ -19,7 +19,6 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         internal const char RightIndexerToken = ']';
 
         private static bool isAPIsAvailableInitialized = false;
-        private static bool isRS3OrHigher = false;
         private static bool isXamlRootAvailable = false;
 
         // Methods
@@ -457,19 +456,6 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             return instance == null ? null : instance.GetType();
         }
 
-        internal static bool IsRS3OrHigher
-        {
-            get
-            {
-                if (!isAPIsAvailableInitialized)
-                {
-                    InitializeAPIsAvailable();
-                }
-
-                return isRS3OrHigher;
-            }
-        }
-
         internal static bool IsXamlRootAvailable
         {
             get
@@ -485,7 +471,6 @@ namespace Microsoft.Toolkit.Uwp.Utilities
 
         internal static void InitializeAPIsAvailable()
         {
-            isRS3OrHigher = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
             isXamlRootAvailable = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
             isAPIsAvailableInitialized = true;
         }

@@ -5,7 +5,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Windows.Foundation.Metadata;
 using Windows.UI.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -230,11 +229,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             get
             {
-                if (!ApiInformation.IsTypePresent("Windows.UI.Input.RadialController"))
-                {
-                    return false;
-                }
-
                 if (!RadialController.IsSupported())
                 {
                     return false;

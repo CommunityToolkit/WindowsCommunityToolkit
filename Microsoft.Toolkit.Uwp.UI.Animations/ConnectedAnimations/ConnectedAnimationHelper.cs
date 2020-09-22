@@ -8,7 +8,6 @@ using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -32,11 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (frame == null)
             {
                 throw new ArgumentNullException(nameof(frame));
-            }
-
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
             }
 
             frame.Navigating += Frame_Navigating;
@@ -69,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ConnectedAnimation animation = null;
 
-                if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
+                if (props.IsListAnimation && parameter != null)
                 {
                     foreach (var listAnimProperty in props.ListAnimProperties)
                     {
@@ -97,8 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 if (animation != null &&
-                    e.NavigationMode == Microsoft.UI.Xaml.Navigation.NavigationMode.Back &&
-                    ApiInformation.IsTypePresent("Microsoft.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
+                    e.NavigationMode == Microsoft.UI.Xaml.Navigation.NavigationMode.Back)
                 {
                     UseDirectConnectedAnimationConfiguration(animation);
                 }
@@ -147,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     var animationHandled = false;
                     if (connectedAnimation != null)
                     {
-                        if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
+                        if (props.IsListAnimation && parameter != null)
                         {
                             foreach (var listAnimProperty in props.ListAnimProperties)
                             {
@@ -174,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         }
                         else if (!props.IsListAnimation)
                         {
-                            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
+                            if (coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
                             {
                                 connectedAnimation.TryStart(props.Element, coordinatedElements);
                             }
