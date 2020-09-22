@@ -6,7 +6,7 @@
     <Platforms>x64;x86</Platforms>
     <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
+    <AssetTargetFallback>uap10.0.19041</AssetTargetFallback>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>UnitTests.XamlIslands.Program</StartupObject>
   </PropertyGroup>

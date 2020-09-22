@@ -141,8 +141,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string CodeFile { get; set; }
 
-        public string JavaScriptCodeFile { get; set; }
-
         public string XamlCodeFile { get; set; }
 
         public bool DisableXamlEditorRendering { get; set; }
@@ -163,8 +161,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
-        public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
-
         public bool HasDocumentation => !string.IsNullOrEmpty(DocumentationUrl);
 
         public bool IsSupported
@@ -183,17 +179,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public async Task<string> GetCSharpSourceAsync()
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
-            {
-                using (var streamReader = new StreamReader(codeStream.AsStream()))
-                {
-                    return await streamReader.ReadToEndAsync();
-                }
-            }
-        }
-
-        public async Task<string> GetJavaScriptSourceAsync()
-        {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
                 using (var streamReader = new StreamReader(codeStream.AsStream()))
                 {
@@ -331,7 +316,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             // Takes a second copy of the image stream, so that is can save the image data to cache.
                             using (var saveStream = await CopyStream(response.Content))
                             {
-                                await SaveImageToCache(localpath, saveStream);
+                                await SaveImageToCache(localPath, saveStream);
                             }
 #endif
                         }
