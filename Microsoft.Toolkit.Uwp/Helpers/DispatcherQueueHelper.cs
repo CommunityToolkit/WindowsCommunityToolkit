@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Diagnostics;
 using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -23,10 +24,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task ExecuteOnUIThreadAsync(this DispatcherQueue dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            if (function is null)
-            {
-                throw new ArgumentNullException(nameof(function));
-            }
+            Guard.IsNotNull(function, nameof(function));
 
             // Run the function directly when we have thread access.
             // Also reuse Task.CompletedTask in case of success,
@@ -75,10 +73,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task<T> ExecuteOnUIThreadAsync<T>(this DispatcherQueue dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            if (function is null)
-            {
-                throw new ArgumentNullException(nameof(function));
-            }
+            Guard.IsNotNull(function, nameof(function));
 
             if (dispatcher.HasThreadAccess)
             {
@@ -119,10 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task ExecuteOnUIThreadAsync(this DispatcherQueue dispatcher, Func<Task> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            if (function is null)
-            {
-                throw new ArgumentNullException(nameof(function));
-            }
+            Guard.IsNotNull(function, nameof(function));
 
             // If we have thread access, we can retrieve the task directly.
             // We don't use ConfigureAwait(false) in this case, in order
@@ -182,10 +174,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
         public static Task<T> ExecuteOnUIThreadAsync<T>(this DispatcherQueue dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
         {
-            if (function is null)
-            {
-                throw new ArgumentNullException(nameof(function));
-            }
+            Guard.IsNotNull(function, nameof(function));
 
             if (dispatcher.HasThreadAccess)
             {
