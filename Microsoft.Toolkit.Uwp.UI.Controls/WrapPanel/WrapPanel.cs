@@ -262,17 +262,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     foreach (var rect in row.ChildrenRects)
                     {
                         var child = Children[childIndex++];
-                        UvRect arrangeRect;
-                        if (Orientation == Orientation.Horizontal)
+                        var arrangeRect = new UvRect
                         {
-                            var verticalAlignment = (child as FrameworkElement)?.VerticalAlignment ?? VerticalAlignment.Top;
-                            arrangeRect = rect.WithVerticalAlignment(verticalAlignment, row.Size.V);
-                        }
-                        else
-                        {
-                            var horizontalAlignment = (child as FrameworkElement)?.HorizontalAlignment ?? HorizontalAlignment.Left;
-                            arrangeRect = rect.WithHorizontalAlignment(horizontalAlignment, row.Size.V);
-                        }
+                            Position = rect.Position,
+                            Size = new UvMeasure { U = rect.Size.U, V = row.Size.V },
+                        };
 
                         var finalRect = arrangeRect.ToRect(Orientation);
                         child.Arrange(finalRect);

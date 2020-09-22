@@ -4,9 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -53,64 +51,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             public UvMeasure Position { get; set; }
 
             public UvMeasure Size { get; set; }
-
-            public UvRect WithVerticalAlignment(VerticalAlignment alignment, double maxHeight)
-            {
-                switch (alignment)
-                {
-                    case VerticalAlignment.Center:
-                        return new UvRect
-                        {
-                            Position = Position.Add(
-                                u: 0,
-                                v: Math.Max((maxHeight - Size.V) / 2.0, 0.0)),
-                            Size = Size,
-                        };
-                    case VerticalAlignment.Bottom:
-                        return new UvRect
-                        {
-                            Position = Position.Add(
-                                u: 0,
-                                v: Math.Max(maxHeight - Size.V, 0.0)),
-                            Size = Size,
-                        };
-                    case VerticalAlignment.Stretch:
-                        return new UvRect
-                        {
-                            Position = Position,
-                            Size = new UvMeasure { U = Size.U, V = maxHeight },
-                        };
-                    case VerticalAlignment.Top:
-                    default:
-                        return this;
-                }
-            }
-
-            public UvRect WithHorizontalAlignment(HorizontalAlignment alignment, double maxHeight)
-            {
-                // Since (U,V) coordinates are flipped, we can use the exact same logic as for the vertical alignment
-                // We just convert the HorizontalAlignment values to VerticalAlignment values (more or less a no-op
-                // since the integer values are the same).
-                VerticalAlignment verticalAlignment;
-                switch (alignment)
-                {
-                    case HorizontalAlignment.Center:
-                        verticalAlignment = VerticalAlignment.Center;
-                        break;
-                    case HorizontalAlignment.Right:
-                        verticalAlignment = VerticalAlignment.Bottom;
-                        break;
-                    case HorizontalAlignment.Stretch:
-                        verticalAlignment = VerticalAlignment.Stretch;
-                        break;
-                    case HorizontalAlignment.Left:
-                    default:
-                        verticalAlignment = VerticalAlignment.Top;
-                        break;
-                }
-
-                return WithVerticalAlignment(verticalAlignment, maxHeight);
-            }
 
             public Rect ToRect(Orientation orientation)
             {
