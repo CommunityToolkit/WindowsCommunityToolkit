@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
 using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -32,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             /* Run the function directly when we have thread access.
              * Also reuse Task.CompletedTask in case of success,
              * to skip an unnecessary heap allocation for every invocation. */
-            if (HasThreadAccess(dispatcher))
+            if (dispatcher.HasThreadAccess)
             {
                 try
                 {
@@ -81,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            if (HasThreadAccess(dispatcher))
+            if (dispatcher.HasThreadAccess)
             {
                 try
                 {
@@ -129,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
              * We don't use ConfigureAwait(false) in this case, in order
              * to let the caller continue its execution on the same thread
              * after awaiting the task returned by this function. */
-            if (HasThreadAccess(dispatcher))
+            if (dispatcher.HasThreadAccess)
             {
                 try
                 {
@@ -188,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            if (HasThreadAccess(dispatcher))
+            if (dispatcher.HasThreadAccess)
             {
                 try
                 {
@@ -229,11 +228,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             });
 
             return taskCompletionSource.Task;
-        }
-
-        private static bool HasThreadAccess(DispatcherQueue dispatcher)
-        {
-            return ApiInformation.IsMethodPresent("Windows.System.DispatcherQueue", "HasThreadAccess") && dispatcher.HasThreadAccess;
         }
     }
 }
