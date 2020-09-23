@@ -23,27 +23,27 @@ public ref class GazeInput sealed
 public:
 
     /// <summary>
-    /// Identifyes the Interaction dependency property
+    /// Identifies the Interaction dependency property
     /// </summary>
     static property DependencyProperty^ InteractionProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// Identifyes the IsCursorVisible dependency property
+    /// Identifies the IsCursorVisible dependency property
     /// </summary>
     static property DependencyProperty^ IsCursorVisibleProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// Identifyes the CursorRadius dependency property
+    /// Identifies the CursorRadius dependency property
     /// </summary>
     static property DependencyProperty^ CursorRadiusProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// Identifyes the GazeElement dependency property
+    /// Identifies the GazeElement dependency property
     /// </summary>
     static property DependencyProperty^ GazeElementProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// Identifyes the FixationDuration dependency property
+    /// Identifies the FixationDuration dependency property
     /// </summary>
     static property DependencyProperty^ FixationDurationProperty { DependencyProperty^ get(); }
 
@@ -73,7 +73,7 @@ public:
     static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// Identifyes the IsSwitchEnabled dependency property
+    /// Identifies the IsSwitchEnabled dependency property
     /// </summary>
     static property DependencyProperty^ IsSwitchEnabledProperty { DependencyProperty^ get(); }
 
@@ -128,7 +128,7 @@ public:
     static TimeSpan GetFixationDuration(UIElement^ element);
 
     /// <summary>
-    /// Gets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typicaly achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
+    /// Gets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typically achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
     /// </summary>
     static TimeSpan GetDwellDuration(UIElement^ element);
 
@@ -183,7 +183,7 @@ public:
     static void SetFixationDuration(UIElement^ element, TimeSpan span);
 
     /// <summary>
-    /// Sets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typicaly achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
+    /// Sets the duration for the control to transition from the Fixation state to the Dwell state. At this point, a StateChanged event is fired with PointerState set to Dwell. The Enter and Fixation states are typically achieved too rapidly for the user to have much control over. In contrast Dwell is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
     /// </summary>
     static void SetDwellDuration(UIElement^ element, TimeSpan span);
 

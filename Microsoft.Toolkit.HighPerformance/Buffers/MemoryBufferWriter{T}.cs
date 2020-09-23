@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
     /// <summary>
-    /// Represents an utput sink into which <typeparamref name="T"/> data can be written, backed by a <see cref="Memory{T}"/> instance.
+    /// Represents an output sink into which <typeparamref name="T"/> data can be written, backed by a <see cref="Memory{T}"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of items to write to the current instance.</typeparam>
     /// <remarks>

@@ -43,7 +43,7 @@
             </ToggleButton>
             <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />
         </Grid>
-        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="DeviceAvailable"  Text="Device availablility not yet detected"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="DeviceAvailable"  Text="Device availability not yet detected"/>
         <Grid Grid.Row="2" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

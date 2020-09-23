@@ -80,10 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             LockObj = new object();
 
-            if (IsLazyLoadingSupported)
-            {
-                EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
-            }
+            EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
         }
 
         /// <summary>
@@ -177,21 +174,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageExInitialized?.Invoke(this, EventArgs.Empty);
 
-            if (IsLazyLoadingSupported)
+            if (Source == null || !EnableLazyLoading || _isInViewport)
             {
-                if (Source == null || !EnableLazyLoading || _isInViewport)
-                {
-                    _lazyLoadingSource = null;
-                    SetSource(Source);
-                }
-                else
-                {
-                    _lazyLoadingSource = Source;
-                }
+                _lazyLoadingSource = null;
+                SetSource(Source);
             }
             else
             {
-                SetSource(Source);
+                _lazyLoadingSource = Source;
             }
 
             AttachImageOpened(OnImageOpened);

@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.HighPerformance
             get
             {
                 // We know that the span will always have a length of either
-                // 1 or 0, se instead of using a cmp instruction and setting the
+                // 1 or 0, so instead of using a cmp instruction and setting the
                 // zero flag to produce our boolean value, we can just cast
                 // the length to byte without overflow checks (doing a cast will
                 // also account for the byte endianness of the current system),
