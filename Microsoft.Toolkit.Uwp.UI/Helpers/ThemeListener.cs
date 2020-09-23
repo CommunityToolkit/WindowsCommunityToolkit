@@ -3,15 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 [assembly: InternalsVisibleTo("UnitTests.XamlIslands.UWPApp")]
 
