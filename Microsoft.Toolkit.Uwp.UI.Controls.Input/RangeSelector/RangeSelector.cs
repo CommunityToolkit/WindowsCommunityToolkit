@@ -666,29 +666,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RangeMinToStepFrequency()
         {
-            RangeMin = MoveToStepFrequency(RangeMin);
+            double newValue = Minimum + (((int)Math.Round((RangeMin - Minimum) / StepFrequency)) * StepFrequency);
+            RangeMin = MoveToStepFrequency(newValue);
         }
 
         private void RangeMaxToStepFrequency()
         {
-            RangeMax = MoveToStepFrequency(RangeMax);
+            double newValue = Maximum - (((int)Math.Round((Maximum - RangeMax) / StepFrequency)) * StepFrequency);
+            RangeMax = MoveToStepFrequency(newValue);
         }
 
         private double MoveToStepFrequency(double rangeValue)
         {
-            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
-
-            if (newValue < Minimum)
+            if (rangeValue < Minimum)
             {
                 return Minimum;
             }
-            else if (newValue > Maximum || Maximum - newValue < StepFrequency)
+            else if (rangeValue > Maximum)
             {
                 return Maximum;
             }
             else
             {
-                return newValue;
+                return rangeValue;
             }
         }
 
