@@ -14,6 +14,7 @@
     <OutputType>Exe</OutputType>
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
     <IsPackable>false</IsPackable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,7 +48,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="UITests.App.dependencies.txt">
+    <Compile Include="MainClass.cs"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="UITests.App.dependencies.Debug.txt" Condition="'$(Configuration)' == 'Debug'">
+      <Link>UITests.App.dependencies.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UITests.App.dependencies.Release.txt" Condition="'$(Configuration)' == 'Release'">
+      <Link>UITests.App.dependencies.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
