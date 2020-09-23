@@ -64,7 +64,7 @@ jobs:
     inputs:
       targetPath: .\build\WexLogFileOutput
       artifactName: WexLogFileOutput
-    condition: succeededOrFailed()
+    condition: failed()
 
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
