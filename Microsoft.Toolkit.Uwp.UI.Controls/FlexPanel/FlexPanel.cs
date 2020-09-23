@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public FlexAlignContent AlignContent
         {
             get => (FlexAlignContent)GetValue(AlignContentProperty);
-            set => this?.SetValue(AlignContentProperty, value);
+            set => this?.SetNewValue(AlignContentProperty, value);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public FlexAlignItems AlignItems
         {
             get => (FlexAlignItems)GetValue(AlignItemsProperty);
-            set => this?.SetValue(AlignItemsProperty, value);
+            set => this?.SetNewValue(AlignItemsProperty, value);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public FlexDirection Direction
         {
             get => (FlexDirection)GetValue(DirectionProperty);
-            set => this?.SetValue(DirectionProperty, value);
+            set => this?.SetNewValue(DirectionProperty, value);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public FlexJustify JustifyContent
         {
             get => (FlexJustify)GetValue(JustifyContentProperty);
-            set => this?.SetValue(JustifyContentProperty, value);
+            set => this?.SetNewValue(JustifyContentProperty, value);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public FlexWrap Wrap
         {
             get => (FlexWrap)GetValue(WrapProperty);
-            set => this?.SetValue(WrapProperty, value);
+            set => this?.SetNewValue(WrapProperty, value);
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>The item order (can be a negative, 0, or positive value).</value>
         /// <remarks>The default value for this property is 0.</remarks>
         public static void SetOrder(UIElement element, int value)
-            => element?.SetValue(OrderProperty, value);
+            => element?.SetNewValue(OrderProperty, value);
 
         /// <summary>
         /// The Attached Dependency Property for the FlexLayout.Grow attached property
@@ -256,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>The item grow factor.</value>
         /// <remarks>The default value for this property is 0 (does not take any available space).</remarks>
         public static void SetGrow(UIElement element, double value)
-            => element?.SetValue(GrowProperty, value);
+            => element?.SetNewValue(GrowProperty, value);
 
         /// <summary>
         /// The Attached Dependency Property for the FlexLayout.Shrink attached property;
@@ -297,7 +297,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>The item shrink factor.</value>
         /// <remarks>The default value for this property is 1 (all items will shrink equally).</remarks>
         public static void SetShrink(UIElement element, double value)
-            => element?.SetValue(ShrinkProperty, value);
+            => element?.SetNewValue(ShrinkProperty, value);
 
         /// <summary>
         /// The Attached Dependency Property for the FlexPanel.AlignSelf attached property
@@ -336,7 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <remarks>The default value for this property FlexAlignSelf.Auto.</remarks>
         public static void SetAlignSelf(UIElement element, FlexAlignSelf value)
-            => element?.SetValue(AlignSelfProperty, value);
+            => element?.SetNewValue(AlignSelfProperty, value);
 
         /// <summary>
         /// The Attached Dependency Property for the FlexLayout.Basis attached property
@@ -390,7 +390,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <remarks>The default value for this property is Auto.</remarks>
         public static void SetBasis(UIElement element, string value)
-            => element?.SetValue(BasisProperty, value);
+            => element?.SetNewValue(BasisProperty, value);
 
         /// <summary>
         /// Gets or sets the initial main-axis dimension of the UIElement in the FlexLayout or if that value
@@ -526,16 +526,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     UpdateItemProperties(view, item);
 
-                    if (view.DesiredSize.Width > 0 && view.DesiredSize.Height > 0)
-                    {
-                        w = (double)view.DesiredSize.Width;
-                        h = (double)view.DesiredSize.Height;
-                        return;
-                    }
-
                     var sizeConstraints = item.GetConstraints();
                     sizeConstraints.Width = (measuring && sizeConstraints.Width == 0) ? double.PositiveInfinity : sizeConstraints.Width;
                     sizeConstraints.Height = (measuring && sizeConstraints.Height == 0) ? double.PositiveInfinity : sizeConstraints.Height;
+
+                    if (!measuring || (sizeConstraints.Width >= view.DesiredSize.Width && sizeConstraints.Height >= view.DesiredSize.Height))
+                    {
+                        if (view.DesiredSize.Width > 0 && view.DesiredSize.Height > 0)
+                        {
+                            w = (double)view.DesiredSize.Width;
+                            h = (double)view.DesiredSize.Height;
+                            return;
+                        }
+                    }
+
                     view.Measure(sizeConstraints);
                     w = (double)view.DesiredSize.Width;
                     h = (double)view.DesiredSize.Height;
@@ -893,7 +897,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Guard.IsNotNull(child, nameof(child));
                 Guard.IsNull(child.Parent, "child.Parent");
-                (children ?? (children = new List<FlexItem>())).Add(child);
+                (children ??= new List<FlexItem>()).Add(child);
                 child.Parent = this;
                 ShouldOrderChildren |= child.Order != 0;
             }
@@ -902,7 +906,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Guard.IsNotNull(child, nameof(child));
                 Guard.IsNull(child.Parent, "child.Parent");
-                (children ?? (children = new List<FlexItem>())).Insert(index, child);
+                (children ??= new List<FlexItem>()).Insert(index, child);
                 child.Parent = this;
                 ShouldOrderChildren |= child.Order != 0;
             }
@@ -1562,7 +1566,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 (children ?? Empty).GetEnumerator();
 
             public List<FlexItem> CopyChildrenAsList() => children is null
-                ? Empty
+                ? new List<FlexItem>()
                 : new List<FlexItem>(children);
 
             private double MarginThickness(bool vertical) =>
