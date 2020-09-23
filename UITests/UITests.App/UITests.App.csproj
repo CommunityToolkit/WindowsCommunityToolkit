@@ -165,7 +165,7 @@
       <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="MUXAppTestHelpers">
-      <Version>0.0.3</Version>
+      <Version>0.0.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

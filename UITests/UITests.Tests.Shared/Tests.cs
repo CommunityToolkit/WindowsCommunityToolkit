@@ -30,17 +30,17 @@ namespace UITests.Tests
                 string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
 
-                Log.Comment($"Base Appx Search Directory = \"{baseDirectory}\"");
+                Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
 
-                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs" };
-                var files = Directory.GetFiles(baseDirectory, "*.appx", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
+                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
+                var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
 
                 if (files.Count() == 0)
                 {
-                    throw new Exception(string.Format("Failed to find '*.appx' in {0}'!", baseDirectory));
+                    throw new Exception(string.Format("Failed to find '*.msix' in {0}'!", baseDirectory));
                 }
 
-                string mostRecentlyBuiltAppx = string.Empty;
+                string mostRecentlyBuiltPackage = string.Empty;
                 DateTime timeMostRecentlyBuilt = DateTime.MinValue;
 
                 foreach (string file in files)
@@ -50,7 +50,7 @@ namespace UITests.Tests
                     if (fileWriteTime > timeMostRecentlyBuilt)
                     {
                         timeMostRecentlyBuilt = fileWriteTime;
-                        mostRecentlyBuiltAppx = file;
+                        mostRecentlyBuiltPackage = file;
                     }
                 }
 
@@ -60,7 +60,7 @@ namespace UITests.Tests
                     "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
                     "UITests.App",
                     "UITests.App.exe",
-                    mostRecentlyBuiltAppx.Replace(".appx", string.Empty),
+                    mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
                     "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
                     baseDirectory);
             }

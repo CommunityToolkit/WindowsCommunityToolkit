@@ -36,13 +36,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.3" />
+    <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
     <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="UITests.App.dependencies.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" />

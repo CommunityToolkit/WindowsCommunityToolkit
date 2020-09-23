@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="MUXTestInfra.MSTest" Version="0.0.3" />
+    <PackageReference Include="MUXTestInfra.MSTest" Version="0.0.4" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
