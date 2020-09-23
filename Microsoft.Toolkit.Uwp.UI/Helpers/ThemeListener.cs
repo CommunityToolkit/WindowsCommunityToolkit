@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         private void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)
         {
 #if DEBUG
-            Debug.WriteLine("HighContrast Changed");
+            System.Diagnostics.Debug.WriteLine("HighContrast Changed");
 #endif
 
             UpdateProperties();
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
                         IsHighContrast != _accessible.HighContrast)
                     {
 #if DEBUG
-                        Debug.WriteLine("Color Values Changed");
+                        System.Diagnostics.Debug.WriteLine("Color Values Changed");
 #endif
 
                         UpdateProperties();
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
                 IsHighContrast != _accessible.HighContrast)
             {
 #if DEBUG
-                Debug.WriteLine("CoreWindow Activated Changed");
+                System.Diagnostics.Debug.WriteLine("CoreWindow Activated Changed");
 #endif
 
                 UpdateProperties();
