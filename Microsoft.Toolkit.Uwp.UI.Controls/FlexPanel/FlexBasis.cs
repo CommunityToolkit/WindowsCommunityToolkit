@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             bool isPercent = false;
-            if (value.EndsWith('%'))
+            if (value.EndsWith("%"))
             {
                 value = value.Substring(0, value.Length - 1);
                 isPercent = true;
