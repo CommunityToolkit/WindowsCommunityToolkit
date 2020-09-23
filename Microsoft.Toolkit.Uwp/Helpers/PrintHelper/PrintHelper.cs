@@ -6,12 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Graphics.Printing;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
