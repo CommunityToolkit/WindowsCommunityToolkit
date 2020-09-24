@@ -1,6 +1,6 @@
 <Project>
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">
+    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17763' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">
       <!-- UAP versions for uap10.0 where TPMV isn't implied -->
       <PropertyGroup>
         <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
@@ -14,9 +14,6 @@
       <ItemGroup>
         <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
           <Name>Windows Desktop Extensions for the UWP</Name>
-        </SDKReference>
-        <SDKReference Condition="'$(UseWindowsMobileSdk)' == 'true' " Include="WindowsMobile, Version=$(TargetPlatformVersion)">
-          <Name>Windows Mobile Extensions for the UWP</Name>
         </SDKReference>
       </ItemGroup>
     </When>

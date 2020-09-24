@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ObservableGroupTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ReadOnlyObservableGroupedCollectionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ReadOnlyObservableGroupTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_ThrowHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Array.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Comparable.Numeric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.cs" />
@@ -22,9 +23,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ValueTypeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Ioc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Messenger.Request.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_Messenger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_ObservableValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_ObservableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_AsyncRelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\Test_RelayCommand.cs" />

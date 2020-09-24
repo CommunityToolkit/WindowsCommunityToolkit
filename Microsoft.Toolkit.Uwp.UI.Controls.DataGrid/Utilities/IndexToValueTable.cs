@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         /// </summary>
         /// <param name="index">index to search for</param>
         /// <param name="value">value expected</param>
-        /// <returns>true if the given index is contained in the table with the the given value</returns>
+        /// <returns>true if the given index is contained in the table with the given value</returns>
         public bool ContainsIndexAndValue(int index, T value)
         {
             int lowerRangeIndex = this.FindRangeIndex(index);
@@ -830,7 +830,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         {
             Debug.Assert(count > 0, "Expected a strictly positive count parameter.");
 
-            // Same as AddRange after we fix the indicies affected by the insertion
+            // Same as AddRange after we fix the indices affected by the insertion
             int startRangeIndex = (lowerRangeIndex >= 0) ? lowerRangeIndex : 0;
             for (int i = startRangeIndex; i < _list.Count; i++)
             {

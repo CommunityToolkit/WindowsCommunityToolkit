@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_visualStateGroup != null)
             {
+                _visualStateGroup.CurrentStateChanging -= OnCurrentStateChanging;
                 _visualStateGroup.CurrentStateChanged -= OnCurrentStateChanged;
             }
 
@@ -62,11 +63,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
-                AutomationProperties.SetName(_dismissButton, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_DismissButton_AutomationName", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
+                AutomationProperties.SetName(_dismissButton, "WCT_InAppNotification_DismissButton_AutomationName".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
             }
 
             if (_visualStateGroup != null)
             {
+                _visualStateGroup.CurrentStateChanging += OnCurrentStateChanging;
                 _visualStateGroup.CurrentStateChanged += OnCurrentStateChanged;
             }
 

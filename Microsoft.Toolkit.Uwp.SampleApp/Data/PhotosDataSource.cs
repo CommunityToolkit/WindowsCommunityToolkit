@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 
         private static IEnumerable<PhotoDataItem> Parse(string jsonData)
         {
-            return JsonConvert.DeserializeObject<IList<PhotoDataItem>>(jsonData);
+            return JsonSerializer.Deserialize<IList<PhotoDataItem>>(jsonData);
         }
 
         private static void CheckCacheState(bool online)
