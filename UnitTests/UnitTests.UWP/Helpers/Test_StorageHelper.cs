@@ -4,8 +4,8 @@
 
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json;
 using UnitTests.UI;
 
 namespace UnitTests.Helpers
@@ -24,7 +24,7 @@ namespace UnitTests.Helpers
             int input = 42;
 
             // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonConvert.SerializeObject(input);
+            string jsonInput = JsonSerializer.Serialize(input);
 
             storageHelper.Save<string>(key, jsonInput);
 
@@ -43,7 +43,7 @@ namespace UnitTests.Helpers
             DateTime input = new DateTime(2017, 12, 25);
 
             // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonConvert.SerializeObject(input);
+            string jsonInput = JsonSerializer.Serialize(input);
 
             storageHelper.Save<string>(key, jsonInput);
 
@@ -62,7 +62,7 @@ namespace UnitTests.Helpers
             Person input = new Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonConvert.SerializeObject(input);
+            string jsonInput = JsonSerializer.Serialize(input);
 
             storageHelper.Save<string>(key, jsonInput);
 

@@ -4,8 +4,8 @@
 
 using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
@@ -23,6 +23,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// URL of the token service
         /// </summary>
         private static readonly Uri ServiceUrl = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
+
+        // TODO
+        // private static readonly Uri ServiceUrl = new Uri(THIS SHOULD BE A PARAMETER NOW);
 
         /// <summary>
         /// After obtaining a valid token, this class will cache it for this duration.
@@ -90,24 +93,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
                 return _storedTokenValue;
             }
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, ServiceUrl))
+            using var request = new HttpRequestMessage(HttpMethod.Post, ServiceUrl);
+            request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
+
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
             {
-                request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
-
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
-                    throw new TranslatorServiceException(error.Message);
-                }
-
-                _storedTokenTime = DateTime.Now;
-                _storedTokenValue = $"Bearer {content}";
-
-                return _storedTokenValue;
+                var error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                throw new TranslatorServiceException(error?.Error?.Message);
             }
+
+            _storedTokenTime = DateTime.Now;
+            _storedTokenValue = $"Bearer {content}";
+
+            return _storedTokenValue;
         }
     }
 }

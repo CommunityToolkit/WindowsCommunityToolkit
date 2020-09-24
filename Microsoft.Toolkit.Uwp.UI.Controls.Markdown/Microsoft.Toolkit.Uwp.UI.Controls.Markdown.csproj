@@ -1,0 +1,49 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+    <Title>Windows Community Toolkit Controls Markdown</Title>
+    <Description>
+      This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is part of the Windows Community Toolkit.
+    </Description>
+    <PackageTags>UWP Toolkit Windows Controls XAML Markdown MarkdownTextBlock</PackageTags>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
+    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
+</Project>

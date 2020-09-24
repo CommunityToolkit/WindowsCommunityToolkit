@@ -4,11 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -56,8 +57,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 List<SampleCategory> allCategories;
                 using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
                 {
-                    var jsonString = await jsonStream.ReadTextAsync();
-                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+                    allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream.AsStream(), new JsonSerializerOptions
+                    {
+                        ReadCommentHandling = JsonCommentHandling.Skip
+                    });
                 }
 
                 // Check API

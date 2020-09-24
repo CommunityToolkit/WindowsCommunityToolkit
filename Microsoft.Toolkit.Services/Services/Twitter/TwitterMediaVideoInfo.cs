@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -14,19 +14,19 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets video aspect ratio (width, height)
         /// </summary>
-        [JsonProperty("aspect_ratio")]
+        [JsonPropertyName("aspect_ratio")]
         public int[] AspectRatio { get; set; }
 
         /// <summary>
         /// Gets or sets duration of video in milliseconds
         /// </summary>
-        [JsonProperty("duration_millis")]
+        [JsonPropertyName("duration_millis")]
         public int Duration { get; set; }
 
         /// <summary>
         /// Gets or sets video variants for different codecs, bitrates, etc.
         /// </summary>
-        [JsonProperty("variants")]
+        [JsonPropertyName("variants")]
         public TwitterMediaVideoVariants[] Variants { get; set; }
     }
 }

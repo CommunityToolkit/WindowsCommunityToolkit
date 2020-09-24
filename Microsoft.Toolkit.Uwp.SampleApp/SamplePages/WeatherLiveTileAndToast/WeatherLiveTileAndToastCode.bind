@@ -116,7 +116,7 @@ private static bool IsAdaptiveToastSupported()
 {
     switch (AnalyticsInfo.VersionInfo.DeviceFamily)
     {
-        // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
+        // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)	
         case "Windows.Mobile":
         case "Windows.Desktop":
             return ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);

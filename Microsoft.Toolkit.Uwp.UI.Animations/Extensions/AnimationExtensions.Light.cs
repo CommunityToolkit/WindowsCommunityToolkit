@@ -28,32 +28,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private static Dictionary<Visual, PointLight> pointLights = new Dictionary<Visual, PointLight>();
 
         /// <summary>
-        /// Gets a value indicating whether this instance is lighting supported.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is lighting supported; otherwise, <c>false</c>.
-        /// </value>
-        public static bool IsLightingSupported
-        {
-            get
-            {
-                bool lightingSupported = true;
-
-                if (!Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", "SetElementChildVisual"))
-                {
-                    lightingSupported = false;
-                }
-
-                if (!Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Composition.CompositionSurfaceBrush"))
-                {
-                    lightingSupported = false;
-                }
-
-                return lightingSupported;
-            }
-        }
-
-        /// <summary>
         /// Animates a point light and it's distance.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
@@ -93,7 +67,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="color">The color of the spotlight.</param>
         /// <param name="easingType">The easing function</param>
         /// <param name="easingMode">The easing mode</param>
-        /// <seealso cref="IsLightingSupported" />
         /// <returns>
         /// An Animation Set.
         /// </returns>
@@ -107,11 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = EasingType.Default,
             EasingMode easingMode = EasingMode.EaseOut)
         {
-            if (!IsLightingSupported)
-            {
-                return null;
-            }
-
             if (animationSet == null)
             {
                 return null;
