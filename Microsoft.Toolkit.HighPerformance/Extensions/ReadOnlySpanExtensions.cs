@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count<T>(this ReadOnlySpan<T> span, T value)
             where T : IEquatable<T>
         {
