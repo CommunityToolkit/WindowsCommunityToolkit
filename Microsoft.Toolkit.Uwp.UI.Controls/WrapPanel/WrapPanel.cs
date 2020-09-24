@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
                 var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
-                var currentRow = new Row();
+                var currentRow = new Row(new List<UvRect>(), default);
                 void Arrange(UIElement child, bool isLast = false)
                 {
                     var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize);
@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         position.V += currentRow.Size.V + spacingMeasure.V;
 
                         rows.Add(currentRow);
-                        currentRow = new Row();
+                        currentRow = new Row(new List<UvRect>(), default);
                     }
 
                     // Stretch the last item to fill the available space

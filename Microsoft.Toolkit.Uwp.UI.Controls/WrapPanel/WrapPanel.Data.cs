@@ -66,15 +66,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private class Row
+        private struct Row
         {
             private readonly List<UvRect> _childrenRects;
             private UvMeasure _rowSize;
 
-            public Row()
+            public Row(List<UvRect> childrenRects, UvMeasure size)
             {
-                _childrenRects = new List<UvRect>();
-                _rowSize = UvMeasure.Zero;
+                _childrenRects = childrenRects;
+                _rowSize = size;
             }
 
             public IReadOnlyList<UvRect> ChildrenRects => _childrenRects;
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             public void Add(UvMeasure position, UvMeasure size)
             {
                 _childrenRects.Add(new UvRect { Position = position, Size = size });
-                _rowSize.U = Math.Max(_rowSize.U, position.U + size.U);
+                _rowSize.U = position.U + size.U;
                 _rowSize.V = Math.Max(_rowSize.V, size.V);
             }
         }
