@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Display;
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     for (var j = colorStartX; j < colorEndX; j++)
                     {
                         var color = colors[((i - colorStartY) * width) + (j - colorStartX)];
-                        drawingSession.FillRectangle(new Rect(startPoint, size), color);
+                        drawingSession.FillRectangle(startPoint.ToRect(size), color);
                         startPoint.X += PreviewPixelsPerRawPixel;
                     }
 
