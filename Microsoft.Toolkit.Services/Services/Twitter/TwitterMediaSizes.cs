@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -14,25 +14,25 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets small metadata.
         /// </summary>
-        [JsonProperty("small")]
+        [JsonPropertyName("small")]
         public TwitterMediaSizeData Small { get; set; }
 
         /// <summary>
         /// Gets or sets thumbnail metadata.
         /// </summary>
-        [JsonProperty("thumb")]
+        [JsonPropertyName("thumb")]
         public TwitterMediaSizeData Thumb { get; set; }
 
         /// <summary>
         /// Gets or sets large metadata.
         /// </summary>
-        [JsonProperty("large")]
+        [JsonPropertyName("large")]
         public TwitterMediaSizeData Large { get; set; }
 
         /// <summary>
         /// Gets or sets medium metadata.
         /// </summary>
-        [JsonProperty("medium")]
+        [JsonPropertyName("medium")]
         public TwitterMediaSizeData Medium { get; set; }
     }
 }
