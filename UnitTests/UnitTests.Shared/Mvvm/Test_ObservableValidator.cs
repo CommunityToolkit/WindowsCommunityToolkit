@@ -119,17 +119,27 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        public void Test_ObservableValidator_ValidateReturn()
+        [DataRow(null, false)]
+        [DataRow("", false)]
+        [DataRow("No", false)]
+        [DataRow("This text is really, really too long for the target property", false)]
+        [DataRow("1234", true)]
+        [DataRow("01234567890123456789", true)]
+        [DataRow("Hello world", true)]
+        public void Test_ObservableValidator_ValidateReturn(string value, bool isValid)
         {
-            var model = new Person();
+            var model = new Person { Name = value };
 
-            Assert.IsFalse(model.ValidateName(null));
-            Assert.IsFalse(model.ValidateName(string.Empty));
-            Assert.IsFalse(model.ValidateName("No"));
-            Assert.IsFalse(model.ValidateName("This text is really, really too long for the target property"));
-            Assert.IsTrue(model.ValidateName("1234"));
-            Assert.IsTrue(model.ValidateName("01234567890123456789"));
-            Assert.IsTrue(model.ValidateName("Hello world"));
+            Assert.AreEqual(model.HasErrors, !isValid);
+
+            if (isValid)
+            {
+                Assert.IsTrue(!model.GetErrors(nameof(Person.Name)).Cast<object>().Any());
+            }
+            else
+            {
+                Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Cast<object>().Any());
+            }
         }
 
         public class Person : ObservableValidator
@@ -142,17 +152,7 @@ namespace UnitTests.Mvvm
             public string Name
             {
                 get => this.name;
-                set
-                {
-                    ValidateProperty(value);
-
-                    SetProperty(ref this.name, value);
-                }
-            }
-
-            public bool ValidateName(string value)
-            {
-                return ValidateProperty(value, nameof(Name));
+                set => SetProperty(ref this.name, value, true);
             }
 
             private int age;
@@ -161,12 +161,7 @@ namespace UnitTests.Mvvm
             public int Age
             {
                 get => this.age;
-                set
-                {
-                    ValidateProperty(value);
-
-                    SetProperty(ref this.age, value);
-                }
+                set => SetProperty(ref this.age, value, true);
             }
         }
     }
