@@ -24,18 +24,28 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         private readonly Dictionary<string, List<ValidationResult>> errors = new Dictionary<string, List<ValidationResult>>();
 
-        /// <summary>
-        /// Indicates the total number of properties with errors (not total errors).
-        /// This is used to allow <see cref="HasErrors"/> to operate in O(1) time, as it can just
-        /// check whether this value is not 0 instead of having to traverse <see cref="errors"/>.
-        /// </summary>
-        private int totalErrors;
-
         /// <inheritdoc/>
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         /// <inheritdoc/>
-        public bool HasErrors => this.totalErrors > 0;
+        public bool HasErrors
+        {
+            get
+            {
+                // This uses the value enumerator for Dictionary<TKey, TValue>.ValueCollection, so it doesn't
+                // allocate. Accessing this property is O(n), but we can stop as soon as we find at least one
+                // error in the whole entity, and doing this saves 8 bytes in the object size (no fields needed).
+                foreach (var value in this.errors.Values)
+                {
+                    if (value.Count > 0)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
 
         /// <summary>
         /// Compares the current and new values for a given property. If the value has changed,
@@ -273,28 +283,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 new ValidationContext(this, null, null) { MemberName = propertyName },
                 propertyErrors);
 
-            // Update the state and/or the errors for the property
-            if (isValid)
-            {
-                if (errorsChanged)
-                {
-                    this.totalErrors--;
-                }
-            }
-            else
-            {
-                if (!errorsChanged)
-                {
-                    this.totalErrors++;
-                }
-
-                errorsChanged = true;
-            }
-
             // Only raise the event once if needed. This happens either when the target property
             // had existing errors and is now valid, or if the validation has failed and there are
             // new errors to broadcast, regardless of the previous validation state for the property.
-            if (errorsChanged)
+            if (errorsChanged || !isValid)
             {
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             }
