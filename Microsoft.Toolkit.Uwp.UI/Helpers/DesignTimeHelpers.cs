@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Reflection;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -55,24 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>True if called from code running inside a XAML designer that targets the Windows 10 Fall Creators Update, or later; otherwise false.</returns>
         private static bool InitializeDesignMode2()
         {
-            bool designMode2Enabled = false;
-            try
-            {
-                // The reflection below prevents the code to take a direct dependency on Fall Creators Update SDK
-                if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.ApplicationModel.DesignMode", "DesignMode2Enabled"))
-                {
-                    var prop = typeof(Windows.ApplicationModel.DesignMode).GetProperty("DesignMode2Enabled");
-                    if (prop != null && prop.PropertyType == typeof(bool))
-                    {
-                        designMode2Enabled = (bool)prop.GetValue(null);
-                    }
-                }
-            }
-            catch
-            {
-            }
-
-            return designMode2Enabled;
+            return Windows.ApplicationModel.DesignMode.DesignMode2Enabled;
         }
     }
 }

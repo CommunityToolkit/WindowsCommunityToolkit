@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -14,19 +14,19 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets width integer.
         /// </summary>
-        [JsonProperty("w")]
+        [JsonPropertyName("w")]
         public int Width { get; set; }
 
         /// <summary>
         /// Gets or sets height integer.
         /// </summary>
-        [JsonProperty("h")]
+        [JsonPropertyName("h")]
         public int Height { get; set; }
 
         /// <summary>
         /// Gets or sets resize string.
         /// </summary>
-        [JsonProperty("resize")]
+        [JsonPropertyName("resize")]
         public string Resize { get; set; }
     }
 }

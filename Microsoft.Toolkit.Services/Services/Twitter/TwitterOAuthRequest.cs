@@ -8,10 +8,9 @@ using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -46,18 +45,14 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
-            {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "GET");
+            using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "GET");
 
-                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+            request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                {
-                    response.ThrowIfNotValid();
-                    return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                }
-            }
+            using var response = await client.SendAsync(request).ConfigureAwait(false);
+            response.ThrowIfNotValid();
+            return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
         }
 
         /// <summary>
@@ -70,29 +65,22 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>awaitable task</returns>
         public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback, ISignatureManager signatureManager)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+            using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager);
+
+            request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+
+            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            response.ThrowIfNotValid();
+            using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var reader = new StreamReader(responseStream);
+            while (!_abort && !reader.EndOfStream)
             {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager);
+                var result = reader.ReadLine();
 
-                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
-
-                using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                if (!string.IsNullOrEmpty(result))
                 {
-                    response.ThrowIfNotValid();
-                    var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-
-                    using (var reader = new StreamReader(responseStream))
-                    {
-                        while (!_abort && !reader.EndOfStream)
-                        {
-                            var result = reader.ReadLine();
-
-                            if (!string.IsNullOrEmpty(result))
-                            {
-                                callback?.Invoke(result);
-                            }
-                        }
-                    }
+                    callback?.Invoke(result);
                 }
             }
         }
@@ -114,18 +102,14 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
-            {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "POST");
+            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "POST");
 
-                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+            request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                {
-                    response.ThrowIfNotValid();
-                    return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                }
-            }
+            using var response = await client.SendAsync(request).ConfigureAwait(false);
+            response.ThrowIfNotValid();
+            return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
         }
 
         /// <summary>
@@ -139,35 +123,26 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content, ISignatureManager signatureManager)
         {
-            JToken mediaId = null;
+            JsonElement mediaId = default;
 
             try
             {
-                using (var multipartFormDataContent = new MultipartFormDataContent(boundary))
-                {
-                    using (var byteContent = new ByteArrayContent(content))
-                    {
-                        multipartFormDataContent.Add(byteContent, "media");
+                using var multipartFormDataContent = new MultipartFormDataContent(boundary);
+                using var byteContent = new ByteArrayContent(content);
+                multipartFormDataContent.Add(byteContent, "media");
 
-                        using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
-                        {
-                            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "POST");
+                using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "POST");
 
-                            request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
-                            request.Content = multipartFormDataContent;
+                request.Content = multipartFormDataContent;
 
-                            using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                            {
-                                response.ThrowIfNotValid();
-                                string jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                                JObject jObj = JObject.Parse(jsonResult);
-                                mediaId = jObj["media_id_string"];
-                            }
-                        }
-                    }
-                }
+                using var response = await client.SendAsync(request).ConfigureAwait(false);
+                response.ThrowIfNotValid();
+                using var jsonResult = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var jObj = await JsonDocument.ParseAsync(jsonResult).ConfigureAwait(false);
+                mediaId = jObj.RootElement.GetProperty("media_id_string");
             }
             catch (ObjectDisposedException)
             {
@@ -182,7 +157,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             if (content.StartsWith("{\"errors\":"))
             {
-                var errors = JsonConvert.DeserializeObject<TwitterErrors>(content);
+                var errors = JsonSerializer.Deserialize<TwitterErrors>(content);
 
                 throw new TwitterException { Errors = errors };
             }
