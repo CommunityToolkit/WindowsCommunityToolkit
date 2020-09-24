@@ -5,7 +5,9 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if !NETCOREAPP3_1
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
@@ -107,7 +109,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// {
         ///     // Access the index and value of each item here...
         ///     int index = item.Index;
-        ///     string value = item.Value;
+        ///     char value = item.Value;
         /// }
         /// </code>
         /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.

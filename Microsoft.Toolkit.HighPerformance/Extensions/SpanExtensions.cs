@@ -223,7 +223,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the given reference is out of range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         internal static void ThrowArgumentOutOfRangeExceptionForInvalidReference()
         {
             throw new ArgumentOutOfRangeException("value", "The input reference does not belong to an element of the input span");
