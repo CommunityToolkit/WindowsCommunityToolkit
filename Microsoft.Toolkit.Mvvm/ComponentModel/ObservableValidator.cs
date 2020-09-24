@@ -253,6 +253,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         {
             if (propertyName is null)
             {
+                static void ThrowArgumentNullExceptionForNullPropertyName()
+                {
+                    throw new ArgumentNullException(nameof(propertyName), "The input property name cannot be null when validating a property");
+                }
+
                 ThrowArgumentNullExceptionForNullPropertyName();
             }
 
@@ -290,14 +295,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             {
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             }
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> when a property name given as input is <see langword="null"/>.
-        /// </summary>
-        private static void ThrowArgumentNullExceptionForNullPropertyName()
-        {
-            throw new ArgumentNullException("propertyName", "The input property name cannot be null when validating a property");
         }
     }
 }
