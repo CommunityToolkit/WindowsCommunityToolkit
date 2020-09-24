@@ -60,10 +60,17 @@ jobs:
     condition: always()
 
   - task: PublishPipelineArtifact@1
+    displayName: Publish UI Test Results
+    inputs:
+      targetPath: .\build\UITestResults.wtl
+      artifactName: WexLogFileOutput
+    condition: always()
+
+  - task: PublishPipelineArtifact@1
     displayName: Publish Test WexLogFileOutput
     inputs:
       targetPath: .\build\WexLogFileOutput
-      artifactName: WexLogFileOutput
+      artifactName: WexErrorLogFileOutput
     condition: failed()
 
   - task: PowerShell@2

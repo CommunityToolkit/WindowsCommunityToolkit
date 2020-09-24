@@ -309,7 +309,7 @@ Task("Test")
 {
     Information("\nRunning TAEF Interaction Tests");
 
-    var result = StartProcess(System.IO.Path.GetDirectoryName(file.FullPath) + "/TE.exe", file.FullPath + " /screenCaptureOnError");
+    var result = StartProcess(System.IO.Path.GetDirectoryName(file.FullPath) + "/TE.exe", file.FullPath + " /screenCaptureOnError /enableWttLogging /logFile:UITestResults.wtl");
     if (result != 0)
     {
         throw new InvalidOperationException("TAEF Tests failed!");
