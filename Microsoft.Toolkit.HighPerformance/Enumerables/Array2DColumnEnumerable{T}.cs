@@ -205,7 +205,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="column"/> is invalid.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeExceptionForInvalidColumn()
         {
             throw new ArgumentOutOfRangeException(nameof(column), "The target column parameter was not valid");
