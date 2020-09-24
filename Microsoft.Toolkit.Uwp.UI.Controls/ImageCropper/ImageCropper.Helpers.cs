@@ -14,6 +14,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -299,7 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
             }
 
-            return new Rect(startPoint, endPoint);
+            return startPoint.ToRect(endPoint);
         }
 
         /// <summary>

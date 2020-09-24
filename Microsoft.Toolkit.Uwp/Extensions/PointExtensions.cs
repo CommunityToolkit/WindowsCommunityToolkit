@@ -30,6 +30,19 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         }
 
         /// <summary>
+        /// Creates a new <see cref="Rect"/> ending at the specified point, starting at the given coordinates.
+        /// </summary>
+        /// <param name="point">The input <see cref="Point"/> value to convert.</param>
+        /// <param name="end">The ending position for the rectangle.</param>
+        /// <returns>A <see cref="Rect"/> value between the two specified points.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rect ToRect(this Point point, Point end)
+        {
+            return new Rect(point, end);
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Rect"/> of the specified size, starting at the given coordinates.
         /// </summary>
         /// <param name="point">The input <see cref="Point"/> value to convert.</param>

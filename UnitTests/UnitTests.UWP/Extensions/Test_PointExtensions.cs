@@ -35,6 +35,24 @@ namespace UnitTests.Extensions
         [DataRow(double.MinValue, double.Epsilon, 22, 0.3248d)]
         public static void Test_PointExtensions_ToRect_FromPoint(double width, double height, int x, int y)
         {
+            Point
+                p1 = new Point(x, y),
+                p2 = new Point(x + width, y + height);
+            Rect
+                a = p1.ToRect(p2),
+                b = new Rect(p1, p2);
+
+            Assert.AreEqual(a, b);
+        }
+
+        [TestCategory("SizeExtensions")]
+        [TestMethod]
+        [DataRow(0d, 0d, 0, 0)]
+        [DataRow(0d, 0d, 22, 6.89d)]
+        [DataRow(3.14d, 6.55f, 3838d, 3.24724928d)]
+        [DataRow(double.MinValue, double.Epsilon, 22, 0.3248d)]
+        public static void Test_PointExtensions_ToRect_FromSize(double width, double height, int x, int y)
+        {
             Point p = new Point(x, y);
             Size s = new Size(width, height);
             Rect
