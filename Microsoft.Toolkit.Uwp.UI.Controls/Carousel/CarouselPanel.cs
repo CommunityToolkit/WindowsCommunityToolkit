@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
@@ -283,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double centerLeft = 0;
             double centerTop = 0;
 
-            Clip = new RectangleGeometry { Rect = new Rect(0, 0, finalSize.Width, finalSize.Height) };
+            Clip = new RectangleGeometry { Rect = finalSize.ToRect() };
 
             for (int i = 0; i < Children.Count; i++)
             {
