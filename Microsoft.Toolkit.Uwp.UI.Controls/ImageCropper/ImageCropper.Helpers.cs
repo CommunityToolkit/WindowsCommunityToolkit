@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

@@ -6,13 +6,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Display;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
