@@ -276,12 +276,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageSource GetImageSource(Uri imageUrl)
             {
-                if (_isSvgImageSupported)
+                if (Path.GetExtension(imageUrl.AbsolutePath)?.ToLowerInvariant() == ".svg")
                 {
-                    if (Path.GetExtension(imageUrl.AbsolutePath)?.ToLowerInvariant() == ".svg")
-                    {
-                        return new SvgImageSource(imageUrl);
-                    }
+                    return new SvgImageSource(imageUrl);
                 }
 
                 return new BitmapImage(imageUrl);

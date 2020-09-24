@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator T(Box<T> box)
         {
-            return Unsafe.Unbox<T>(box);
+            return (T)(object)box;
         }
 
         /// <summary>
@@ -180,7 +180,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="InvalidCastException"/> when a cast from an invalid <see cref="object"/> is attempted.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidCastExceptionForGetFrom()
         {
             throw new InvalidCastException($"Can't cast the input object to the type Box<{typeof(T)}>");

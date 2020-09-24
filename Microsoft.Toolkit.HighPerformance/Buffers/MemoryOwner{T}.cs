@@ -33,6 +33,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 #pragma warning restore IDE0032
 
         /// <summary>
+        /// The <see cref="ArrayPool{T}"/> instance used to rent <see cref="array"/>.
+        /// </summary>
+        private readonly ArrayPool<T> pool;
+
+        /// <summary>
         /// The underlying <typeparamref name="T"/> array.
         /// </summary>
         private T[]? array;
@@ -41,12 +46,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Initializes a new instance of the <see cref="MemoryOwner{T}"/> class with the specified parameters.
         /// </summary>
         /// <param name="length">The length of the new memory buffer to use.</param>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
         /// <param name="mode">Indicates the allocation mode to use for the new buffer to rent.</param>
-        private MemoryOwner(int length, AllocationMode mode)
+        private MemoryOwner(int length, ArrayPool<T> pool, AllocationMode mode)
         {
             this.start = 0;
             this.length = length;
-            this.array = ArrayPool<T>.Shared.Rent(length);
+            this.pool = pool;
+            this.array = pool.Rent(length);
 
             if (mode == AllocationMode.Clear)
             {
@@ -57,20 +64,22 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryOwner{T}"/> class with the specified parameters.
         /// </summary>
-        /// <param name="array">The input <typeparamref name="T"/> array to use.</param>
         /// <param name="start">The starting offset within <paramref name="array"/>.</param>
         /// <param name="length">The length of the array to use.</param>
-        private MemoryOwner(T[] array, int start, int length)
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance currently in use.</param>
+        /// <param name="array">The input <typeparamref name="T"/> array to use.</param>
+        private MemoryOwner(int start, int length, ArrayPool<T> pool, T[] array)
         {
             this.start = start;
             this.length = length;
+            this.pool = pool;
             this.array = array;
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="MemoryOwner{T}"/> class.
         /// </summary>
-        ~MemoryOwner() => this.Dispose();
+        ~MemoryOwner() => Dispose();
 
         /// <summary>
         /// Gets an empty <see cref="MemoryOwner{T}"/> instance.
@@ -79,7 +88,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public static MemoryOwner<T> Empty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new MemoryOwner<T>(0, AllocationMode.Default);
+            get => new MemoryOwner<T>(0, ArrayPool<T>.Shared, AllocationMode.Default);
         }
 
         /// <summary>
@@ -91,7 +100,19 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size) => new MemoryOwner<T>(size, AllocationMode.Default);
+        public static MemoryOwner<T> Allocate(int size) => new MemoryOwner<T>(size, ArrayPool<T>.Shared, AllocationMode.Default);
+
+        /// <summary>
+        /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
+        /// </summary>
+        /// <param name="size">The length of the new memory buffer to use.</param>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance currently in use.</param>
+        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
+        /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MemoryOwner<T> Allocate(int size, ArrayPool<T> pool) => new MemoryOwner<T>(size, pool, AllocationMode.Default);
 
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
@@ -103,7 +124,20 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size, AllocationMode mode) => new MemoryOwner<T>(size, mode);
+        public static MemoryOwner<T> Allocate(int size, AllocationMode mode) => new MemoryOwner<T>(size, ArrayPool<T>.Shared, mode);
+
+        /// <summary>
+        /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
+        /// </summary>
+        /// <param name="size">The length of the new memory buffer to use.</param>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance currently in use.</param>
+        /// <param name="mode">Indicates the allocation mode to use for the new buffer to rent.</param>
+        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
+        /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MemoryOwner<T> Allocate(int size, ArrayPool<T> pool, AllocationMode mode) => new MemoryOwner<T>(size, pool, mode);
 
         /// <summary>
         /// Gets the number of items in the current instance
@@ -210,7 +244,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ThrowInvalidLengthException();
             }
 
-            return new MemoryOwner<T>(array!, start, length);
+            return new MemoryOwner<T>(start, length, this.pool, array!);
         }
 
         /// <inheritdoc/>
@@ -227,7 +261,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             this.array = null;
 
-            ArrayPool<T>.Shared.Return(array);
+            this.pool.Return(array);
         }
 
         /// <inheritdoc/>
@@ -251,7 +285,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> when <see cref="array"/> is <see langword="null"/>.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException(nameof(MemoryOwner<T>), "The current buffer has already been disposed");
@@ -260,7 +293,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="start"/> is invalid.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOffsetException()
         {
             throw new ArgumentOutOfRangeException(nameof(start), "The input start parameter was not valid");
@@ -269,7 +301,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="length"/> is invalid.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidLengthException()
         {
             throw new ArgumentOutOfRangeException(nameof(length), "The input length parameter was not valid");
