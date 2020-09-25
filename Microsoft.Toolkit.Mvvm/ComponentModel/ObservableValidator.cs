@@ -2,123 +2,49 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#pragma warning disable SA1512
-
-// This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
-// more info in ThirdPartyNotices.txt in the root of the project.
-
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
 {
     /// <summary>
-    /// A base class for observable objects that also acts as recipients for messages. This class is an extension of
-    /// <see cref="ObservableObject"/> which also provides built-in support to use the <see cref="IMessenger"/> type.
+    /// A base class for objects implementing the <see cref="INotifyDataErrorInfo"/> interface. This class
+    /// also inherits from <see cref="ObservableObject"/>, so it can be used for observable items too.
     /// </summary>
-    public abstract class ObservableRecipient : ObservableObject
+    public abstract class ObservableValidator : ObservableObject, INotifyDataErrorInfo
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
+        /// The <see cref="Dictionary{TKey,TValue}"/> instance used to store previous validation results.
         /// </summary>
-        /// <remarks>
-        /// This constructor will produce an instance that will use the <see cref="WeakReferenceMessenger.Default"/> instance
-        /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
-        /// </remarks>
-        protected ObservableRecipient()
-            : this(WeakReferenceMessenger.Default)
+        private readonly Dictionary<string, List<ValidationResult>> errors = new Dictionary<string, List<ValidationResult>>();
+
+        /// <inheritdoc/>
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        /// <inheritdoc/>
+        public bool HasErrors
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
-        /// </summary>
-        /// <param name="messenger">The <see cref="IMessenger"/> instance to use to send messages.</param>
-        protected ObservableRecipient(IMessenger messenger)
-        {
-            Messenger = messenger;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="IMessenger"/> instance in use.
-        /// </summary>
-        protected IMessenger Messenger { get; }
-
-        private bool isActive;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the current view model is currently active.
-        /// </summary>
-        public bool IsActive
-        {
-            get => this.isActive;
-            set
+            get
             {
-                if (SetProperty(ref this.isActive, value, true))
+                // This uses the value enumerator for Dictionary<TKey, TValue>.ValueCollection, so it doesn't
+                // allocate. Accessing this property is O(n), but we can stop as soon as we find at least one
+                // error in the whole entity, and doing this saves 8 bytes in the object size (no fields needed).
+                foreach (var value in this.errors.Values)
                 {
-                    if (value)
+                    if (value.Count > 0)
                     {
-                        OnActivated();
-                    }
-                    else
-                    {
-                        OnDeactivated();
+                        return true;
                     }
                 }
+
+                return false;
             }
-        }
-
-        /// <summary>
-        /// Raised whenever the <see cref="IsActive"/> property is set to <see langword="true"/>.
-        /// Use this method to register to messages and do other initialization for this instance.
-        /// </summary>
-        /// <remarks>
-        /// The base implementation registers all messages for this recipients that have been declared
-        /// explicitly through the <see cref="IRecipient{TMessage}"/> interface, using the default channel.
-        /// For more details on how this works, see the <see cref="IMessengerExtensions.RegisterAll"/> method.
-        /// If you need more fine tuned control, want to register messages individually or just prefer
-        /// the lambda-style syntax for message registration, override this method and register manually.
-        /// </remarks>
-        protected virtual void OnActivated()
-        {
-            Messenger.RegisterAll(this);
-        }
-
-        /// <summary>
-        /// Raised whenever the <see cref="IsActive"/> property is set to <see langword="false"/>.
-        /// Use this method to unregister from messages and do general cleanup for this instance.
-        /// </summary>
-        /// <remarks>
-        /// The base implementation unregisters all messages for this recipient. It does so by
-        /// invoking <see cref="IMessenger.UnregisterAll"/>, which removes all registered
-        /// handlers for a given subscriber, regardless of what token was used to register them.
-        /// That is, all registered handlers across all subscription channels will be removed.
-        /// </remarks>
-        protected virtual void OnDeactivated()
-        {
-            Messenger.UnregisterAll(this);
-        }
-
-        /// <summary>
-        /// Broadcasts a <see cref="PropertyChangedMessage{T}"/> with the specified
-        /// parameters, without using any particular token (so using the default channel).
-        /// </summary>
-        /// <typeparam name="T">The type of the property that changed.</typeparam>
-        /// <param name="oldValue">The value of the property before it changed.</param>
-        /// <param name="newValue">The value of the property after it changed.</param>
-        /// <param name="propertyName">The name of the property that changed.</param>
-        /// <remarks>
-        /// You should override this method if you wish to customize the channel being
-        /// used to send the message (eg. if you need to use a specific token for the channel).
-        /// </remarks>
-        protected virtual void Broadcast<T>(T oldValue, T newValue, string? propertyName)
-        {
-            var message = new PropertyChangedMessage<T>(this, propertyName, oldValue, newValue);
-
-            Messenger.Send(message);
         }
 
         /// <summary>
@@ -129,29 +55,24 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="field">The field storing the property's value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
         /// This method is just like <see cref="ObservableObject.SetProperty{T}(ref T,T,string)"/>, just with the addition
-        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
+        /// of the <paramref name="validate"/> parameter. If that is set to <see langword="true"/>, the new value will be
+        /// validated and <see cref="ErrorsChanged"/> will be raised if needed. Following the behavior of the base method,
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(ref T field, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>(ref T field, T newValue, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            T oldValue = field;
-
-            // We duplicate the code as in the base class here to leverage
-            // the intrinsics support for EqualityComparer<T>.Default.Equals.
-            bool propertyChanged = SetProperty(ref field, newValue, propertyName);
-
-            if (propertyChanged && broadcast)
+            if (validate)
             {
-                Broadcast(oldValue, newValue, propertyName);
+                ValidateProperty(newValue, propertyName);
             }
 
-            return propertyChanged;
+            return SetProperty(ref field, newValue, propertyName);
         }
 
         /// <summary>
@@ -164,21 +85,17 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="field">The field storing the property's value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            T oldValue = field;
-
-            bool propertyChanged = SetProperty(ref field, newValue, comparer, propertyName);
-
-            if (propertyChanged && broadcast)
+            if (validate)
             {
-                Broadcast(oldValue, newValue, propertyName);
+                ValidateProperty(newValue, propertyName);
             }
 
-            return propertyChanged;
+            return SetProperty(ref field, newValue, comparer, propertyName);
         }
 
         /// <summary>
@@ -192,25 +109,23 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="callback">A callback to invoke to update the property value.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
         /// This method is just like <see cref="ObservableObject.SetProperty{T}(T,T,Action{T},string)"/>, just with the addition
-        /// of the <paramref name="broadcast"/> parameter. As such, following the behavior of the base method,
+        /// of the <paramref name="validate"/> parameter. As such, following the behavior of the base method,
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            bool propertyChanged = SetProperty(oldValue, newValue, callback, propertyName);
-
-            if (propertyChanged && broadcast)
+            if (validate)
             {
-                Broadcast(oldValue, newValue, propertyName);
+                ValidateProperty(newValue, propertyName);
             }
 
-            return propertyChanged;
+            return SetProperty(oldValue, newValue, callback, propertyName);
         }
 
         /// <summary>
@@ -224,19 +139,17 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="callback">A callback to invoke to update the property value.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            bool propertyChanged = SetProperty(oldValue, newValue, comparer, callback, propertyName);
-
-            if (propertyChanged && broadcast)
+            if (validate)
             {
-                Broadcast(oldValue, newValue, propertyName);
+                ValidateProperty(newValue, propertyName);
             }
 
-            return propertyChanged;
+            return SetProperty(oldValue, newValue, comparer, callback, propertyName);
         }
 
         /// <summary>
@@ -253,19 +166,17 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="model">The model </param>
         /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            bool propertyChanged = SetProperty(oldValue, newValue, model, callback, propertyName);
-
-            if (propertyChanged && broadcast)
+            if (validate)
             {
-                Broadcast(oldValue, newValue, propertyName);
+                ValidateProperty(newValue, propertyName);
             }
 
-            return propertyChanged;
+            return SetProperty(oldValue, newValue, model, callback, propertyName);
         }
 
         /// <summary>
@@ -284,19 +195,111 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="model">The model </param>
         /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
-        /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
+        /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            bool propertyChanged = SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
-
-            if (propertyChanged && broadcast)
+            if (validate)
             {
-                Broadcast(oldValue, newValue, propertyName);
+                ValidateProperty(newValue, propertyName);
             }
 
-            return propertyChanged;
+            return SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
         }
+
+        /// <inheritdoc/>
+        [Pure]
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            // Entity-level errors when the target property is null or empty
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return this.GetAllErrors();
+            }
+
+            // Property-level errors, if any
+            if (this.errors.TryGetValue(propertyName!, out List<ValidationResult> errors))
+            {
+                return errors;
+            }
+
+            // The INotifyDataErrorInfo.GetErrors method doesn't specify exactly what to
+            // return when the input property name is invalid, but given that the return
+            // type is marked as a non-nullable reference type, here we're returning an
+            // empty array to respect the contract. This also matches the behavior of
+            // this method whenever errors for a valid properties are retrieved.
+            return Array.Empty<ValidationResult>();
+        }
+
+        /// <summary>
+        /// Implements the logic for entity-level errors gathering for <see cref="GetErrors"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable"/> instance with all the errors in <see cref="errors"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private IEnumerable GetAllErrors()
+        {
+            return this.errors.Values.SelectMany(errors => errors);
+        }
+
+        /// <summary>
+        /// Validates a property with a specified name and a given input value.
+        /// </summary>
+        /// <param name="value">The value to test for the specified property.</param>
+        /// <param name="propertyName">The name of the property to validate.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
+        private void ValidateProperty(object? value, string? propertyName)
+        {
+            if (propertyName is null)
+            {
+                ThrowArgumentNullExceptionForNullPropertyName();
+            }
+
+            // Check if the property had already been previously validated, and if so retrieve
+            // the reusable list of validation errors from the errors dictionary. This list is
+            // used to add new validation errors below, if any are produced by the validator.
+            // If the property isn't present in the dictionary, add it now to avoid allocations.
+            if (!this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors))
+            {
+                propertyErrors = new List<ValidationResult>();
+
+                this.errors.Add(propertyName!, propertyErrors);
+            }
+
+            bool errorsChanged = false;
+
+            // Clear the errors for the specified property, if any
+            if (propertyErrors.Count > 0)
+            {
+                propertyErrors.Clear();
+
+                errorsChanged = true;
+            }
+
+            // Validate the property, by adding new errors to the existing list
+            bool isValid = Validator.TryValidateProperty(
+                value,
+                new ValidationContext(this, null, null) { MemberName = propertyName },
+                propertyErrors);
+
+            // Only raise the event once if needed. This happens either when the target property
+            // had existing errors and is now valid, or if the validation has failed and there are
+            // new errors to broadcast, regardless of the previous validation state for the property.
+            if (errorsChanged || !isValid)
+            {
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            }
+        }
+
+#pragma warning disable SA1204
+        /// <summary>
+        /// Throws an <see cref="ArgumentNullException"/> when a property name given as input is <see langword="null"/>.
+        /// </summary>
+        private static void ThrowArgumentNullExceptionForNullPropertyName()
+        {
+            throw new ArgumentNullException("propertyName", "The input property name cannot be null when validating a property");
+        }
+#pragma warning restore SA1204
     }
 }

@@ -245,7 +245,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when <see cref="Read{T}"/> fails.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationExceptionForEndOfStream()
         {
             throw new InvalidOperationException("The stream didn't contain enough data to read the requested item");
