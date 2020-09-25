@@ -140,6 +140,133 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.AreEqual(new TestRecord(min, expectedMin, rangeMax, max, stepFrequency), new TestRecord(rangeSelector));
             });
         }
+        
+        [UITestMethod]
+        [TestCategory("RangeSelector")]
+        public void StepFrequency_SmallValue_RangeMinJumpsToProperStep()
+        {
+            var selector = new RangeSelector();
+            selector.Minimum = 0;
+            selector.Maximum = 100;
+            selector.StepFrequency = 5;
+
+            selector.RangeMin = 2;
+            Assert.AreEqual(selector.RangeMin, 0);
+
+            selector.RangeMin = 4;
+            Assert.AreEqual(selector.RangeMin, 5);
+
+            selector.RangeMin = 94;
+            Assert.AreEqual(selector.RangeMin, 95);
+
+            selector.RangeMin = 99;
+            Assert.AreEqual(selector.RangeMin, 100);
+        }
+
+        [UITestMethod]
+        [TestCategory("RangeSelector")]
+        public void StepFrequency_SmallValue_RangeMaxJumpsToProperStep()
+        {
+            var selector = new RangeSelector();
+            selector.Minimum = 0;
+            selector.Maximum = 100;
+            selector.StepFrequency = 5;
+
+            selector.RangeMax = 99;
+            Assert.AreEqual(selector.RangeMax, 100);
+
+            selector.RangeMax = 94;
+            Assert.AreEqual(selector.RangeMax, 95);
+
+            selector.RangeMax = 6;
+            Assert.AreEqual(selector.RangeMax, 5);
+
+            selector.RangeMax = 4;
+            Assert.AreEqual(selector.RangeMax, 5);
+
+            selector.RangeMax = 1;
+            Assert.AreEqual(selector.RangeMax, 0);
+        }
+
+        [UITestMethod]
+        [TestCategory("RangeSelector")]
+        public void StepFrequency_LargeValue_RangeMinJumpsToProperStep()
+        {
+            var selector = new RangeSelector();
+            selector.Minimum = 0;
+            selector.Maximum = 100;
+            selector.StepFrequency = 30;
+
+            selector.RangeMin = 2;
+            Assert.AreEqual(selector.RangeMin, 0);
+
+            selector.RangeMin = 14;
+            Assert.AreEqual(selector.RangeMin, 0);
+
+            selector.RangeMin = 16;
+            Assert.AreEqual(selector.RangeMin, 30);
+
+            selector.RangeMin = 29;
+            Assert.AreEqual(selector.RangeMin, 30);
+
+            selector.RangeMin = 36;
+            Assert.AreEqual(selector.RangeMin, 30);
+
+            selector.RangeMin = 65;
+            Assert.AreEqual(selector.RangeMin, 60);
+
+            selector.RangeMin = 86;
+            Assert.AreEqual(selector.RangeMin, 90);
+
+            selector.RangeMin = 95;
+            Assert.AreEqual(selector.RangeMin, 90);
+
+            selector.RangeMin = 99;
+            Assert.AreEqual(selector.RangeMin, 90);
+
+            selector.RangeMin = 100;
+            Assert.AreEqual(selector.RangeMin, 90);
+        }
+
+        [UITestMethod]
+        [TestCategory("RangeSelector")]
+        public void StepFrequency_LargeValue_RangeMaxJumpsToProperStep()
+        {
+            var selector = new RangeSelector();
+            selector.Minimum = 0;
+            selector.Maximum = 100;
+            selector.StepFrequency = 30;
+
+            selector.RangeMax = 99;
+            Assert.AreEqual(selector.RangeMax, 100);
+
+            selector.RangeMax = 94;
+            Assert.AreEqual(selector.RangeMax, 100);
+
+            selector.RangeMax = 78;
+            Assert.AreEqual(selector.RangeMax, 70);
+
+            selector.RangeMax = 65;
+            Assert.AreEqual(selector.RangeMax, 70);
+
+            selector.RangeMax = 50;
+            Assert.AreEqual(selector.RangeMax, 40);
+
+            selector.RangeMax = 38;
+            Assert.AreEqual(selector.RangeMax, 40);
+
+            selector.RangeMax = 20;
+            Assert.AreEqual(selector.RangeMax, 10);
+
+            selector.RangeMax = 8;
+            Assert.AreEqual(selector.RangeMax, 10);
+
+            selector.RangeMax = 1;
+            Assert.AreEqual(selector.RangeMax, 10);
+
+            selector.RangeMax = 0;
+            Assert.AreEqual(selector.RangeMax, 10);
+        }
 
         private static double Distance(double fst, double snd)
             => Math.Abs(fst - snd);
