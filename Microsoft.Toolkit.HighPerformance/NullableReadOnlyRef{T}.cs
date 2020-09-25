@@ -129,7 +129,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> when trying to access <see cref="Value"/> for a default instance.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationException()
         {
             throw new InvalidOperationException("The current instance doesn't have a value that can be accessed");
