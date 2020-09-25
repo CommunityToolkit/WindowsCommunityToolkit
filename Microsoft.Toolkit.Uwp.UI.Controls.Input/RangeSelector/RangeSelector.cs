@@ -71,7 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Canvas _containerCanvas;
         private Grid _controlGrid;
         private double _oldValue;
-        private bool _valuesAssigned;
         private bool _minSet;
         private bool _maxSet;
         private bool _pointerManipulatingMin;
@@ -138,7 +137,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Need to make sure the values can be set in XAML and don't overwrite each other
             VerifyValues();
-            _valuesAssigned = true;
 
             _outOfRangeContentContainer = GetTemplateChild("OutOfRangeContentContainer") as Border;
             _activeRectangle = GetTemplateChild("ActiveRectangle") as Rectangle;
@@ -434,7 +432,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
-            if (rangeSelector == null || !rangeSelector._valuesAssigned)
+            if (rangeSelector == null)
             {
                 return;
             }
@@ -486,7 +484,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
-            if (rangeSelector == null || !rangeSelector._valuesAssigned)
+            if (rangeSelector == null)
             {
                 return;
             }
@@ -545,32 +543,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             rangeSelector._minSet = true;
 
-            if (!rangeSelector._valuesAssigned)
-            {
-                return;
-            }
-
             var newValue = (double)e.NewValue;
             rangeSelector.RangeMinToStepFrequency();
 
-            if (rangeSelector._valuesAssigned)
+            if (newValue < rangeSelector.Minimum)
             {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeMin = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeMin = rangeSelector.Maximum;
-                }
+                rangeSelector.RangeMin = rangeSelector.Minimum;
+            }
+            else if (newValue > rangeSelector.Maximum)
+            {
+                rangeSelector.RangeMin = rangeSelector.Maximum;
+            }
 
-                rangeSelector.SyncActiveRectangle();
+            rangeSelector.SyncActiveRectangle();
 
-                // If the new value is greater than the old max, move the max also
-                if (newValue > rangeSelector.RangeMax)
-                {
-                    rangeSelector.RangeMax = newValue;
-                }
+            // If the new value is greater than the old max, move the max also
+            if (newValue > rangeSelector.RangeMax)
+            {
+                rangeSelector.RangeMax = newValue;
             }
 
             rangeSelector.SyncThumbs();
@@ -598,7 +588,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
-
             if (rangeSelector == null)
             {
                 return;
@@ -606,32 +595,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             rangeSelector._maxSet = true;
 
-            if (!rangeSelector._valuesAssigned)
-            {
-                return;
-            }
-
             var newValue = (double)e.NewValue;
             rangeSelector.RangeMaxToStepFrequency();
 
-            if (rangeSelector._valuesAssigned)
+            if (newValue < rangeSelector.Minimum)
             {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeMax = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeMax = rangeSelector.Maximum;
-                }
+                rangeSelector.RangeMax = rangeSelector.Minimum;
+            }
+            else if (newValue > rangeSelector.Maximum)
+            {
+                rangeSelector.RangeMax = rangeSelector.Maximum;
+            }
 
-                rangeSelector.SyncActiveRectangle();
+            rangeSelector.SyncActiveRectangle();
 
-                // If the new max is less than the old minimum then move the minimum
-                if (newValue < rangeSelector.RangeMin)
-                {
-                    rangeSelector.RangeMin = newValue;
-                }
+            // If the new max is less than the old minimum then move the minimum
+            if (newValue < rangeSelector.RangeMin)
+            {
+                rangeSelector.RangeMin = newValue;
             }
 
             rangeSelector.SyncThumbs();
