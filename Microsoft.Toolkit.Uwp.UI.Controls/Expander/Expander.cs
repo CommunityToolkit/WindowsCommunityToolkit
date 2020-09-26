@@ -5,6 +5,7 @@
 using System;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
@@ -74,6 +75,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected virtual void OnCollapsed(EventArgs args)
         {
             Collapsed?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="Expander"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ExpanderAutomationPeer(this);
         }
 
         private void ExpanderToggleButtonPart_KeyDown(object sender, KeyRoutedEventArgs e)
