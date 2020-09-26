@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             T[] newArray = pool.Rent(newSize);
             int itemsToCopy = Math.Min(array.Length, newSize);
 
-            array.AsSpan(0, itemsToCopy).CopyTo(newArray);
+            Array.Copy(array, 0, newArray, 0, itemsToCopy);
 
             pool.Return(array, clearArray);
 

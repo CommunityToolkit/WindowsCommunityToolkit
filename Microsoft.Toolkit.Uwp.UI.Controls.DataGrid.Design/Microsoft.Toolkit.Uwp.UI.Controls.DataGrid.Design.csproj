@@ -12,21 +12,21 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.16299</AssetTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17763</AssetTargetFallback>
   </PropertyGroup>
   <PropertyGroup>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\Debug\uap10.0.16299\Design\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\Debug\uap10.0.17763\Design\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\Release\uap10.0.16299\Design\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\Release\uap10.0.17763\Design\</OutputPath>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
@@ -113,7 +113,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\$(Configuration)\uap10.0.16299\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.xml">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.xml">
       <Link>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
