@@ -227,7 +227,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <typeparam name="T">The type of property (or field) to set.</typeparam>
         /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
-        /// <param name="model">The model </param>
+        /// <param name="model">The model containing the property being updated.</param>
         /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
@@ -263,7 +263,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
-        /// <param name="model">The model </param>
+        /// <param name="model">The model containing the property being updated.</param>
         /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
