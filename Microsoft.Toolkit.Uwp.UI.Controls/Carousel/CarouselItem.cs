@@ -4,6 +4,7 @@
 
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
@@ -33,6 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(SelectorItem.IsSelectedProperty, OnIsSelectedChanged);
         }
 
+        internal Carousel ParentCarousel { get; set; }
+
         /// <inheritdoc/>
         protected override void OnPointerEntered(PointerRoutedEventArgs e)
         {
@@ -55,6 +58,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnPointerPressed(e);
 
             VisualStateManager.GoToState(this, IsSelected ? PressedSelectedState : PressedState, true);
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="CarouselItem"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new CarouselItemAutomationPeer(this);
         }
 
         internal event EventHandler Selected;
