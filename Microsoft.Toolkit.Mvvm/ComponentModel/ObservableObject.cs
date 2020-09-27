@@ -10,8 +10,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -123,6 +121,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// This overload is much less efficient than <see cref="SetProperty{T}(ref T,T,string)"/> and it
         /// should only be used when the former is not viable (eg. when the target property being
         /// updated does not directly expose a backing field that can be passed by reference).
+        /// For performance reasons, it is recommended to use a stateful callback if possible through
+        /// the <see cref="SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string?)"/> whenever possible
+        /// instead of this overload, as that will allow the C# compiler to cache the input callback and
+        /// reduce the memory allocations. More info on that overload are available in the related XML
+        /// docs. This overload is here for completeness and in cases where that is not applicable.
         /// </summary>
         /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="oldValue">The current property value.</param>
@@ -136,7 +139,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, propertyName);
+            // We avoid calling the overload again to ensure the comparison is inlined
+            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            {
+                return false;
+            }
+
+            OnPropertyChanging(propertyName);
+
+            callback(newValue);
+
+            OnPropertyChanged(propertyName);
+
+            return true;
         }
 
         /// <summary>
@@ -197,32 +212,43 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         ///     public string Name
         ///     {
         ///         get => Model.Name;
-        ///         set => Set(() => Model.Name, value);
+        ///         set => Set(Model.Name, value, Model, (model, name) => model.Name = name);
         ///     }
         /// }
         /// </code>
         /// This way we can then use the wrapping object in our application, and all those "proxy" properties will
         /// also raise notifications when changed. Note that this method is not meant to be a replacement for
-        /// <see cref="SetProperty{T}(ref T,T,string)"/>, which offers better performance and less memory usage. Only use this
-        /// overload when relaying properties to a model that doesn't support notifications, and only if you can't
-        /// implement notifications to that model directly (eg. by having it inherit from <see cref="ObservableObject"/>).
+        /// <see cref="SetProperty{T}(ref T,T,string)"/>, and it should only be used when relaying properties to a model that
+        /// doesn't support notifications, and only if you can't implement notifications to that model directly (eg. by having
+        /// it inherit from <see cref="ObservableObject"/>). The syntax relies on passing the target model and a stateless callback
+        /// to allow the C# compiler to cache the function, which results in much better performance and no memory usage.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
-        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
-        /// if the current and new value for the target property are the same. Additionally, <paramref name="propertyExpression"/>
-        /// must return a property from a model that is stored as another property in the current instance.
-        /// This method only supports one level of indirection: <paramref name="propertyExpression"/> can only
-        /// be used to access properties of a model that is directly stored as a property of the current instance.
-        /// Additionally, this method can only be used if the wrapped item is a reference type.
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not
+        /// raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, out _, propertyName);
+            if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
+            {
+                return false;
+            }
+
+            OnPropertyChanging(propertyName);
+
+            callback(model, newValue);
+
+            OnPropertyChanged(propertyName);
+
+            return true;
         }
 
         /// <summary>
@@ -230,56 +256,19 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// raises the <see cref="PropertyChanging"/> event, updates the property and then raises the
         /// <see cref="PropertyChanged"/> event. The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>,
         /// with the difference being that this method is used to relay properties from a wrapped model in the
-        /// current instance. See additional notes about this overload in <see cref="SetProperty{T}(Expression{Func{T}},T,string)"/>.
+        /// current instance. See additional notes about this overload in <see cref="SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(propertyExpression, newValue, comparer, out _, propertyName);
-        }
-
-        /// <summary>
-        /// Implements the shared logic for <see cref="SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>
-        /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
-        /// <param name="newValue">The property's value after the change occurred.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
-        /// <param name="oldValue">The resulting initial value for the target property.</param>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        private protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, out T oldValue, [CallerMemberName] string? propertyName = null)
-        {
-            PropertyInfo? parentPropertyInfo;
-            FieldInfo? parentFieldInfo = null;
-
-            // Get the target property info
-            if (!(propertyExpression.Body is MemberExpression targetExpression &&
-                  targetExpression.Member is PropertyInfo targetPropertyInfo &&
-                  targetExpression.Expression is MemberExpression parentExpression &&
-                  (!((parentPropertyInfo = parentExpression.Member as PropertyInfo) is null) ||
-                   !((parentFieldInfo = parentExpression.Member as FieldInfo) is null)) &&
-                  parentExpression.Expression is ConstantExpression instanceExpression &&
-                  instanceExpression.Value is object instance))
-            {
-                ThrowArgumentExceptionForInvalidPropertyExpression();
-
-                // This is never executed, as the method above always throws
-                oldValue = default!;
-
-                return false;
-            }
-
-            object parent = parentPropertyInfo is null
-                ? parentFieldInfo!.GetValue(instance)
-                : parentPropertyInfo.GetValue(instance);
-            oldValue = (T)targetPropertyInfo.GetValue(parent);
-
             if (comparer.Equals(oldValue, newValue))
             {
                 return false;
@@ -287,7 +276,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             OnPropertyChanging(propertyName);
 
-            targetPropertyInfo.SetValue(parent, newValue);
+            callback(model, newValue);
 
             OnPropertyChanged(propertyName);
 
@@ -298,38 +287,36 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Compares the current and new values for a given field (which should be the backing
         /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
         /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
-        /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>, with the difference being that this method
-        /// will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
+        /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>, with the difference being that
+        /// this method will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
         /// raise the <see cref="PropertyChanged"/> again for the target property when it completes.
         /// This can be used to update bindings observing that <see cref="Task"/> or any of its properties.
+        /// This method and its overload specifically rely on the <see cref="TaskNotifier"/> type, which needs
+        /// to be used in the backing field for the target <see cref="Task"/> property. The field doesn't need to be
+        /// initialized, as this method will take care of doing that automatically. The <see cref="TaskNotifier"/>
+        /// type also includes an implicit operator, so it can be assigned to any <see cref="Task"/> instance directly.
         /// Here is a sample property declaration using this method:
         /// <code>
-        /// private Task myTask;
+        /// private TaskNotifier myTask;
         ///
         /// public Task MyTask
         /// {
         ///     get => myTask;
-        ///     private set => SetAndNotifyOnCompletion(ref myTask, () => myTask, value);
+        ///     private set => SetAndNotifyOnCompletion(ref myTask, value);
         /// }
         /// </code>
         /// </summary>
-        /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
-        /// <param name="field">The field storing the property's value.</param>
-        /// <param name="fieldExpression">
-        /// An <see cref="Expression{TDelegate}"/> returning the field to update. This is needed to be
-        /// able to raise the <see cref="PropertyChanged"/> to notify the completion of the input task.
-        /// </param>
+        /// <param name="taskNotifier">The field notifier to modify.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         /// <remarks>
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current
         /// and new value for the target property are the same. The return value being <see langword="true"/> only
-        /// indicates that the new value being assigned to <paramref name="field"/> is different than the previous one,
-        /// and it does not mean the new <typeparamref name="TTask"/> instance passed as argument is in any particular state.
+        /// indicates that the new value being assigned to <paramref name="taskNotifier"/> is different than the previous one,
+        /// and it does not mean the new <see cref="Task"/> instance passed as argument is in any particular state.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, [CallerMemberName] string? propertyName = null)
-            where TTask : Task
+        protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, [CallerMemberName] string? propertyName = null)
         {
             // We invoke the overload with a callback here to avoid code duplication, and simply pass an empty callback.
             // The lambda expression here is transformed by the C# compiler into an empty closure class with a
@@ -337,21 +324,18 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // instance. This will result in no further allocations after the first time this method is called for a given
             // generic type. We only pay the cost of the virtual call to the delegate, but this is not performance critical
             // code and that overhead would still be much lower than the rest of the method anyway, so that's fine.
-            return SetPropertyAndNotifyOnCompletion(ref field, fieldExpression, newValue, _ => { }, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier(), newValue, _ => { }, propertyName);
         }
 
         /// <summary>
         /// Compares the current and new values for a given field (which should be the backing
         /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
         /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
-        /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion{TTask}(ref TTask,Expression{Func{TTask}},TTask,string)"/>,
+        /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion(ref TaskNotifier,Task,string)"/>,
         /// with the difference being an extra <see cref="Action{T}"/> parameter with a callback being invoked
         /// either immediately, if the new task has already completed or is <see langword="null"/>, or upon completion.
         /// </summary>
-        /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
-        /// <param name="field">The field storing the property's value.</param>
-        /// <param name="fieldExpression">
-        /// An <see cref="Expression{TDelegate}"/> returning the field to update.</param>
+        /// <param name="taskNotifier">The field notifier to modify.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="callback">A callback to invoke to update the property value.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
@@ -360,10 +344,86 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<TTask>(ref TTask? field, Expression<Func<TTask?>> fieldExpression, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
+        {
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier(), newValue, callback, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given field (which should be the backing
+        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
+        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// The behavior mirrors that of <see cref="SetProperty{T}(ref T,T,string)"/>, with the difference being that
+        /// this method will also monitor the new value of the property (a generic <see cref="Task"/>) and will also
+        /// raise the <see cref="PropertyChanged"/> again for the target property when it completes.
+        /// This can be used to update bindings observing that <see cref="Task"/> or any of its properties.
+        /// This method and its overload specifically rely on the <see cref="TaskNotifier{T}"/> type, which needs
+        /// to be used in the backing field for the target <see cref="Task"/> property. The field doesn't need to be
+        /// initialized, as this method will take care of doing that automatically. The <see cref="TaskNotifier{T}"/>
+        /// type also includes an implicit operator, so it can be assigned to any <see cref="Task"/> instance directly.
+        /// Here is a sample property declaration using this method:
+        /// <code>
+        /// private TaskNotifier&lt;int&gt; myTask;
+        ///
+        /// public Task&lt;int&gt; MyTask
+        /// {
+        ///     get => myTask;
+        ///     private set => SetAndNotifyOnCompletion(ref myTask, value);
+        /// }
+        /// </code>
+        /// </summary>
+        /// <typeparam name="T">The type of result for the <see cref="Task{TResult}"/> to set and monitor.</typeparam>
+        /// <param name="taskNotifier">The field notifier to modify.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised if the current
+        /// and new value for the target property are the same. The return value being <see langword="true"/> only
+        /// indicates that the new value being assigned to <paramref name="taskNotifier"/> is different than the previous one,
+        /// and it does not mean the new <see cref="Task{TResult}"/> instance passed as argument is in any particular state.
+        /// </remarks>
+        protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
+        {
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier<T>(), newValue, _ => { }, propertyName);
+        }
+
+        /// <summary>
+        /// Compares the current and new values for a given field (which should be the backing
+        /// field for a property). If the value has changed, raises the <see cref="PropertyChanging"/>
+        /// event, updates the field and then raises the <see cref="PropertyChanged"/> event.
+        /// This method is just like <see cref="SetPropertyAndNotifyOnCompletion{T}(ref TaskNotifier{T},Task{T},string)"/>,
+        /// with the difference being an extra <see cref="Action{T}"/> parameter with a callback being invoked
+        /// either immediately, if the new task has already completed or is <see langword="null"/>, or upon completion.
+        /// </summary>
+        /// <typeparam name="T">The type of result for the <see cref="Task{TResult}"/> to set and monitor.</typeparam>
+        /// <param name="taskNotifier">The field notifier to modify.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        /// <remarks>
+        /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
+        /// if the current and new value for the target property are the same.
+        /// </remarks>
+        protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
+        {
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier<T>(), newValue, callback, propertyName);
+        }
+
+        /// <summary>
+        /// Implements the notification logic for the related methods.
+        /// </summary>
+        /// <typeparam name="TTask">The type of <see cref="Task"/> to set and monitor.</typeparam>
+        /// <param name="taskNotifier">The field notifier.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
+        private bool SetPropertyAndNotifyOnCompletion<TTask>(ITaskNotifier<TTask> taskNotifier, TTask? newValue, Action<TTask?> callback, [CallerMemberName] string? propertyName = null)
             where TTask : Task
         {
-            if (ReferenceEquals(field, newValue))
+            if (ReferenceEquals(taskNotifier.Task, newValue))
             {
                 return false;
             }
@@ -376,7 +436,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             OnPropertyChanging(propertyName);
 
-            field = newValue;
+            taskNotifier.Task = newValue;
 
             OnPropertyChanged(propertyName);
 
@@ -391,16 +451,6 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 callback(newValue);
 
                 return true;
-            }
-
-            // Get the target field to set. This is needed because we can't
-            // capture the ref field in a closure (for the async method).
-            if (!((fieldExpression.Body as MemberExpression)?.Member is FieldInfo fieldInfo))
-            {
-                ThrowArgumentExceptionForInvalidFieldExpression();
-
-                // This is never executed, as the method above always throws
-                return false;
             }
 
             // We use a local async function here so that the main method can
@@ -422,10 +472,8 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 {
                 }
 
-                TTask? currentTask = (TTask?)fieldInfo.GetValue(this);
-
                 // Only notify if the property hasn't changed
-                if (ReferenceEquals(newValue, currentTask))
+                if (ReferenceEquals(taskNotifier.Task, newValue))
                 {
                     OnPropertyChanged(propertyName);
                 }
@@ -439,19 +487,79 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property.
+        /// An interface for task notifiers of a specified type.
         /// </summary>
-        private static void ThrowArgumentExceptionForInvalidPropertyExpression()
+        /// <typeparam name="TTask">The type of value to store.</typeparam>
+        private interface ITaskNotifier<TTask>
+            where TTask : Task
         {
-            throw new ArgumentException("The given expression must be in the form () => MyModel.MyProperty");
+            /// <summary>
+            /// Gets or sets the wrapped <typeparamref name="TTask"/> value.
+            /// </summary>
+            TTask? Task { get; set; }
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when a given <see cref="Expression{TDelegate}"/> is invalid for a property field.
+        /// A wrapping class that can hold a <see cref="Task"/> value.
         /// </summary>
-        private static void ThrowArgumentExceptionForInvalidFieldExpression()
+        protected sealed class TaskNotifier : ITaskNotifier<Task>
         {
-            throw new ArgumentException("The given expression must be in the form () => field");
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TaskNotifier"/> class.
+            /// </summary>
+            internal TaskNotifier()
+            {
+            }
+
+            private Task? task;
+
+            /// <inheritdoc/>
+            Task? ITaskNotifier<Task>.Task
+            {
+                get => this.task;
+                set => this.task = value;
+            }
+
+            /// <summary>
+            /// Unwraps the <see cref="Task"/> value stored in the current instance.
+            /// </summary>
+            /// <param name="notifier">The input <see cref="TaskNotifier{TTask}"/> instance.</param>
+            public static implicit operator Task?(TaskNotifier? notifier)
+            {
+                return notifier?.task;
+            }
+        }
+
+        /// <summary>
+        /// A wrapping class that can hold a <see cref="Task{T}"/> value.
+        /// </summary>
+        /// <typeparam name="T">The type of value for the wrapped <see cref="Task{T}"/> instance.</typeparam>
+        protected sealed class TaskNotifier<T> : ITaskNotifier<Task<T>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TaskNotifier{TTask}"/> class.
+            /// </summary>
+            internal TaskNotifier()
+            {
+            }
+
+            private Task<T>? task;
+
+            /// <inheritdoc/>
+            Task<T>? ITaskNotifier<Task<T>>.Task
+            {
+                get => this.task;
+                set => this.task = value;
+            }
+
+            /// <summary>
+            /// Unwraps the <see cref="Task{T}"/> value stored in the current instance.
+            /// </summary>
+            /// <param name="notifier">The input <see cref="TaskNotifier{TTask}"/> instance.</param>
+            public static implicit operator Task<T>?(TaskNotifier<T>? notifier)
+            {
+                return notifier?.task;
+            }
         }
     }
 }

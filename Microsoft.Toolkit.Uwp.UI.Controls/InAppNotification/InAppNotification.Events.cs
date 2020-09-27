@@ -43,6 +43,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dismiss(InAppNotificationDismissKind.Timeout);
         }
 
+        private void OnCurrentStateChanging(object sender, VisualStateChangedEventArgs e)
+        {
+            if (e.NewState.Name == StateContentVisible)
+            {
+                Visibility = Visibility.Visible;
+            }
+        }
+
         private void OnCurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             switch (e.NewState.Name)
