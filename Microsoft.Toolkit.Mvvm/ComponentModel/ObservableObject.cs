@@ -236,6 +236,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// raised if the current and new value for the target property are the same.
         /// </remarks>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
             if (EqualityComparer<T>.Default.Equals(oldValue, newValue))
             {
@@ -268,6 +269,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
             if (comparer.Equals(oldValue, newValue))
             {
