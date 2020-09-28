@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,16 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private static readonly DependencyProperty ReorderAnimationProperty =
             DependencyProperty.RegisterAttached("ReorderAnimation", typeof(bool), typeof(ImplicitAnimationCollection), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets a value indicating whether the platform supports the animation.
-        /// </summary>
-        /// <remarks>
-        /// On platforms not supporting the animation, this class has no effect.
-        /// </remarks>
-        public static bool IsSupported =>
-            Windows.ApplicationModel.DesignMode.DesignModeEnabled ? false :
-            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Identifies the Duration attached dependency property.
@@ -57,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnDurationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported == false)
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 return;
             }

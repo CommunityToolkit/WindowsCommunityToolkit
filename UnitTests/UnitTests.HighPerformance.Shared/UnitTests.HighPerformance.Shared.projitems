@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryOwner{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_StringPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\TrackingArrayPool{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayPoolExtensions.cs" />

@@ -195,12 +195,6 @@
                                                     IsFocusEngagementEnabled="False" />
                     </PivotItem>
 
-                    <PivotItem x:Name="JavaScriptPivotItem"
-                               Padding="0, 10,0,0"
-                               Header="Javascript">
-                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
-                    </PivotItem>
-
                     <PivotItem x:Name="DocumentationPivotItem"
                             Padding="0, 10,0,0"
                             Header="Documentation">

@@ -10,7 +10,6 @@
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      extensions:StatusBarExtensions.IsVisible="False"
       extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
