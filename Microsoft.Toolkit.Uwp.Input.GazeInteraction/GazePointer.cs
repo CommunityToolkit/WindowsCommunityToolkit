@@ -771,7 +771,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             if (targetItem.ElapsedTime > targetItem.NextStateTime)
             {
                 var prevStateTime = targetItem.NextStateTime;
-                Debug.WriteLine(prevStateTime);
+                ////Debug.WriteLine(prevStateTime);
 
                 // prevent targetItem from ever actually transitioning into the DwellRepeat state so as
                 // to continuously emit the DwellRepeat event
