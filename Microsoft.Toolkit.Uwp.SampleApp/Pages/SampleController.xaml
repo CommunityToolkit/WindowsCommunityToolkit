@@ -50,7 +50,9 @@
                         Margin="5,0,0,0"
                         Width="50">
                         <AppBarButton.Icon>
-                            <PathIcon Margin="-3" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            <PathIcon Margin="-3" 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
                                 Data="{StaticResource GithubIcon}">
                                 <PathIcon.RenderTransform>
                                     <CompositeTransform TranslateY="5" TranslateX="-5" />
