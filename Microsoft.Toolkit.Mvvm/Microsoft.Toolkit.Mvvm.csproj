@@ -23,13 +23,9 @@
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
-  <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0-rc.1.20451.14" />
   </ItemGroup>
 
 </Project>
