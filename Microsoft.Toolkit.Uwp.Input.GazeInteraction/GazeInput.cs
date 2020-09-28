@@ -16,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
     [Windows.Foundation.Metadata.WebHostHidden]
     public class GazeInput
     {
+        internal static readonly TimeSpan UnsetTimeSpan = new TimeSpan(-1);
+
         /// <summary>
         /// Gets the Interaction dependency property
         /// </summary>
@@ -76,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         /// <summary>
         /// Gets the ThresholdDuration dependency property
         /// </summary>
-        public static DependencyProperty ThresholdDurationProperty { get; } = DependencyProperty.RegisterAttached("ThresholdDuration", typeof(TimeSpan), typeof(GazeInput), new PropertyMetadata(GazeInput.UnsetTimeSpan));
+        public static DependencyProperty ThresholdDurationProperty { get; } = DependencyProperty.RegisterAttached("ThresholdDuration", typeof(TimeSpan), typeof(GazeInput), new PropertyMetadata(UnsetTimeSpan));
 
         /// <summary>
         /// Gets the MaxDwellRepeatCount dependency property
@@ -171,11 +173,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             {
                 if (GazePointer.Instance.Interaction != value)
                 {
-                    if (value == GazeInteraction.Interaction.Enabled)
+                    if (value == Interaction.Enabled)
                     {
                         GazePointer.Instance.AddRoot(0);
                     }
-                    else if (GazePointer.Instance.Interaction == GazeInteraction.Interaction.Enabled)
+                    else if (GazePointer.Instance.Interaction == Interaction.Enabled)
                     {
                         GazePointer.Instance.RemoveRoot(0);
                     }
@@ -426,7 +428,5 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         {
             GazePointer.Instance.LoadSettings(settings);
         }
-
-        internal static readonly TimeSpan UnsetTimeSpan = new TimeSpan(-1);
     }
 }
