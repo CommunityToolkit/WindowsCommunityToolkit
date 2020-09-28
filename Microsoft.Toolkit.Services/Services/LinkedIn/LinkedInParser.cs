@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
@@ -24,11 +24,11 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 
             try
             {
-                results = JsonConvert.DeserializeObject<List<T>>(data);
+                results = JsonSerializer.Deserialize<List<T>>(data);
             }
-            catch (JsonSerializationException)
+            catch (JsonException)
             {
-                T linkedInResult = JsonConvert.DeserializeObject<T>(data);
+                T linkedInResult = JsonSerializer.Deserialize<T>(data);
                 results = new List<T> { linkedInResult };
             }
 
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <returns>Returns string data.</returns>
         public string Parse(T dataToShare)
         {
-            return JsonConvert.SerializeObject(dataToShare, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return JsonSerializer.Serialize(dataToShare, typeof(T), new JsonSerializerOptions { IgnoreNullValues = true });
         }
     }
 }

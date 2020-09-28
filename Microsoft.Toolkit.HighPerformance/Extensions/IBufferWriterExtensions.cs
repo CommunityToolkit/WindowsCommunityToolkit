@@ -102,7 +102,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target writer.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForEndOfBuffer()
         {
             throw new ArgumentException("The current buffer writer can't contain the requested input data.");

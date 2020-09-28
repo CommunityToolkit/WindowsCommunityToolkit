@@ -4,8 +4,7 @@
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -18,8 +17,8 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets or sets the type of the event.
         /// </summary>
         /// <value>The type of the event.</value>
-        [JsonProperty(PropertyName = "event")]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonPropertyName("event")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TwitterStreamEventType EventType { get; set; }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets or sets the creation date.
         /// </summary>
         /// <value>The creation date.</value>
-        [JsonProperty(PropertyName = "created_at")]
+        [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
 
         /// <summary>

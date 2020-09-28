@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -117,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rectKeyframes.Add(new DiscreteObjectKeyFrame
                 {
                     KeyTime = KeyTime.FromTimeSpan(time),
-                    Value = new Rect(startPoint, endPoint)
+                    Value = startPoint.ToRect(endPoint)
                 });
             }
 
