@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
@@ -17,53 +18,58 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         /// <summary>
         /// Retrieves settings as a ValueSet from a shared store.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task RetrieveSharedSettings(ValueSet settings)
+        /// <returns>An <see cref="IAsyncAction"/> representing the asynchronous operation.</returns>
+        public static IAsyncAction RetrieveSharedSettings(ValueSet settings)
         {
-            // Setup a new app service connection
-            AppServiceConnection connection = new AppServiceConnection();
-            connection.AppServiceName = "com.microsoft.ectksettings";
-            connection.PackageFamilyName = "Microsoft.EyeControlToolkitSettings_s9y1p3hwd5qda";
-
-            // open the connection
-            var status = await connection.OpenAsync();
-            switch (status)
+            async Task InternalRetrieveSharedSettings()
             {
-                case AppServiceConnectionStatus.Success:
-                    // The new connection opened successfully
-                    // Set up the inputs and send a message to the service
-                    var response = await connection.SendMessageAsync(new ValueSet());
+                // Setup a new app service connection
+                AppServiceConnection connection = new AppServiceConnection();
+                connection.AppServiceName = "com.microsoft.ectksettings";
+                connection.PackageFamilyName = "Microsoft.EyeControlToolkitSettings_s9y1p3hwd5qda";
 
-                    if (response == null)
-                    {
+                // open the connection
+                var status = await connection.OpenAsync();
+                switch (status)
+                {
+                    case AppServiceConnectionStatus.Success:
+                        // The new connection opened successfully
+                        // Set up the inputs and send a message to the service
+                        var response = await connection.SendMessageAsync(new ValueSet());
+
+                        if (response == null)
+                        {
+                            return;
+                        }
+
+                        switch (response.Status)
+                        {
+                            case AppServiceResponseStatus.Success:
+                                foreach (var item in response.Message)
+                                {
+                                    settings.Add(item.Key, item.Value);
+                                }
+
+                                break;
+                            default:
+                            case AppServiceResponseStatus.Failure:
+                            case AppServiceResponseStatus.ResourceLimitsExceeded:
+                            case AppServiceResponseStatus.Unknown:
+                                break;
+                        }
+
+                        break;
+
+                    default:
+                    case AppServiceConnectionStatus.AppNotInstalled:
+                    case AppServiceConnectionStatus.AppUnavailable:
+                    case AppServiceConnectionStatus.AppServiceUnavailable:
+                    case AppServiceConnectionStatus.Unknown:
                         return;
-                    }
-
-                    switch (response.Status)
-                    {
-                        case AppServiceResponseStatus.Success:
-                            foreach (var item in response.Message)
-                            {
-                                settings.Add(item.Key, item.Value);
-                            }
-
-                            break;
-                        default:
-                        case AppServiceResponseStatus.Failure:
-                        case AppServiceResponseStatus.ResourceLimitsExceeded:
-                        case AppServiceResponseStatus.Unknown:
-                            break;
-                    }
-
-                    break;
-
-                default:
-                case AppServiceConnectionStatus.AppNotInstalled:
-                case AppServiceConnectionStatus.AppUnavailable:
-                case AppServiceConnectionStatus.AppServiceUnavailable:
-                case AppServiceConnectionStatus.Unknown:
-                    return;
+                }
             }
+
+            return InternalRetrieveSharedSettings().AsAsyncAction();
         }
 
         private GazeSettingsHelper()
