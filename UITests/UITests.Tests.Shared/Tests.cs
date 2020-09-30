@@ -98,8 +98,10 @@ namespace UITests.Tests
         }
 
         [TestMethod]
-        public void SimpleLaunchTest()
+        public void SimpleTest()
         {
+            OpenTest("Simple");
+
             var button = new Button(FindElement.ByName("Click Me"));
             var textBlock = new TextBlock(FindElement.ById("textBlock"));
 
@@ -112,6 +114,14 @@ namespace UITests.Tests
             Wait.ForIdle();
 
             Verify.AreEqual("Clicked", textBlock.GetText());
+        }
+
+        private static void OpenTest(string name)
+        {
+            var btn = new Button(FindElement.ByName(name));
+            Verify.IsNotNull(btn);
+            btn.Click();
+            Wait.ForIdle();
         }
     }
 }

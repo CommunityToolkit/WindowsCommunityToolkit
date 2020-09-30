@@ -9,11 +9,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <testhelpers:TestAutomationHelpersPanel />
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Click Me" Click="Button_Click"/>
-            <TextBlock x:Name="textBlock"/>
+        <Frame x:Name="navigationFrame" />
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="1" >
+            <Button Content="Simple" Click="btnSimple_Click" />
         </StackPanel>
     </Grid>
 </Page>
