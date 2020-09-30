@@ -18,5 +18,10 @@ namespace UITests.App
         {
             navigationFrame.Navigate(typeof(SimpleTest));
         }
+
+        private void btnTextBoxMask_Click(object sender, RoutedEventArgs e)
+        {
+            navigationFrame.Navigate(typeof(TextBoxMask));
+        }
     }
 }
