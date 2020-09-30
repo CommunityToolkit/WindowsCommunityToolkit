@@ -116,6 +116,26 @@ namespace UITests.Tests
             Verify.AreEqual("Clicked", textBlock.GetText());
         }
 
+        [TestMethod]
+        public void TestTextBoxMaskBinding_Property()
+        {
+            OpenTest("TextBox Mask");
+
+            var initialValue = FindElement.ById<TextBlock>("InitialValueTextBlock").GetText();
+            var textBox = FindElement.ById<Edit>("TextBox");
+
+            Verify.AreEqual(initialValue, textBox.GetText());
+
+            var changeButton = FindElement.ById<Button>("ChangeButton");
+
+            changeButton.Click();
+            Wait.ForIdle();
+
+            var newValue = FindElement.ById<TextBlock>("NewValueTextBlock").GetText();
+
+            Verify.AreEqual(newValue, textBox.GetText());
+        }
+
         private static void OpenTest(string name)
         {
             var btn = new Button(FindElement.ByName(name));
