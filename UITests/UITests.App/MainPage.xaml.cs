@@ -2,6 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using UITests.App.Pages;
+using Windows.UI.Xaml;
+
 namespace UITests.App
 {
     public sealed partial class MainPage
@@ -11,9 +14,9 @@ namespace UITests.App
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void btnSimple_Click(object sender, RoutedEventArgs e)
         {
-            textBlock.Text = "Clicked";
+            navigationFrame.Navigate(typeof(SimpleTest));
         }
     }
 }
