@@ -43,13 +43,13 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrEmpty(text))
             {
+#pragma warning disable CS8777 // Does not return when text is null
                 return;
+#pragma warning restore CS8777
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
-#pragma warning disable CS8777 // Does not return when text is null (.NET Standard 2.0 string.IsNullOrEmpty lacks flow attribute)
         }
-#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must be <see langword="null"/> or whitespace.
@@ -97,13 +97,13 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
+#pragma warning disable CS8777 // Does not return when text is null
                 return;
+#pragma warning restore CS8777
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhiteSpace(text, name);
-#pragma warning disable CS8777 // Does not return when text is null
         }
-#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must not be <see langword="null"/> or whitespace.
@@ -117,13 +117,13 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
+#pragma warning disable CS8777 // Does not return when text is null
                 return;
+#pragma warning restore CS8777
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhiteSpace(text, name);
-#pragma warning disable CS8777 // Does not return when text is null
         }
-#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must be empty.
