@@ -169,7 +169,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            ArrayPoolBufferWriter<Object2> pairs;
+            ArrayPoolBufferWriter<object> bufferWriter;
+            int i = 0;
 
             lock (this.recipientsMap)
             {
@@ -181,7 +182,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return message;
                 }
 
-                pairs = ArrayPoolBufferWriter<Object2>.Create();
+                bufferWriter = ArrayPoolBufferWriter<object>.Create();
 
                 // We need a local, temporary copy of all the pending recipients and handlers to
                 // invoke, to avoid issues with handlers unregistering from messages while we're
@@ -195,26 +196,30 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     if (map.TryGetValue(token, out object? handler))
                     {
-                        pairs.Add(new Object2(handler!, pair.Key));
+                        bufferWriter.Add(handler!);
+                        bufferWriter.Add(pair.Key);
+                        i++;
                     }
                 }
             }
 
             try
             {
-                foreach (ref readonly Object2 pair in pairs.Span)
+                ReadOnlySpan<object> pairs = bufferWriter.Span;
+
+                for (int j = 0; j < i; j++)
                 {
                     // Just like in the other messenger, here we need an unsafe cast to be able to
                     // invoke a generic delegate with a contravariant input argument, with a less
                     // derived reference, without reflection. This is guaranteed to work by how the
                     // messenger tracks registered recipients and their associated handlers, so the
                     // type conversion will always be valid (the recipients are the rigth instances).
-                    Unsafe.As<MessageHandler<object, TMessage>>(pair.Handler)(pair.Recipient, message);
+                    Unsafe.As<MessageHandler<object, TMessage>>(pairs[2 * j])(pairs[(2 * j) + 1], message);
                 }
             }
             finally
             {
-                pairs.Dispose();
+                bufferWriter.Dispose();
             }
 
             return message;
