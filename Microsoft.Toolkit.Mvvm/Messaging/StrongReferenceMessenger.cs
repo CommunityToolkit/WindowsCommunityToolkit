@@ -329,7 +329,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            Object2[] pairs;
+            object[] rentedArray;
+            Span<object> pairs;
             int i = 0;
 
             lock (this.recipientsMap)
@@ -355,7 +356,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return message;
                 }
 
-                pairs = ArrayPool<Object2>.Shared.Rent(totalHandlersCount);
+                // Rent the array and also assign it to a span, which will be used to access values.
+                // We're doing this to avoid the array covariance checks slowdown in the loops below.
+                pairs = rentedArray = ArrayPool<object>.Shared.Rent(2 * totalHandlersCount);
 
                 // Copy the handlers to the local collection.
                 // The array is oversized at this point, since it also includes
@@ -373,39 +376,37 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     // Pick the target handler, if the token is a match for the recipient
                     if (mappingEnumerator.Value.TryGetValue(token, out object? handler))
                     {
-                        // This array access should always guaranteed to be valid due to the size of the
+                        // This span access should always guaranteed to be valid due to the size of the
                         // array being set according to the current total number of registered handlers,
                         // which will always be greater or equal than the ones matching the previous test.
-                        // We're still using a checked array access here though to make sure an out of
+                        // We're still using a checked span accesses here though to make sure an out of
                         // bounds write can never happen even if an error was present in the logic above.
-                        pairs[i++] = new Object2(handler!, recipient);
+                        pairs[2 * i] = handler!;
+                        pairs[(2 * i) + 1] = recipient;
+                        i++;
                     }
                 }
             }
 
-            // The rented array is often larger than the number of matching pairs
-            // to process, so we first slice the span with just the items we need.
-            Span<Object2> pendingPairs = pairs.AsSpan(0, i);
-
             try
             {
                 // Invoke all the necessary handlers on the local copy of entries
-                foreach (ref Object2 pair in pendingPairs)
+                for (int j = 0; j < i; j++)
                 {
                     // Here we perform an unsafe cast to enable covariance for delegate types.
                     // We know that the input recipient will always respect the type constraints
                     // of each original input delegate, and doing so allows us to still invoke
                     // them all from here without worrying about specific generic type arguments.
-                    Unsafe.As<MessageHandler<object, TMessage>>(pair.Handler)(pair.Recipient, message);
+                    Unsafe.As<MessageHandler<object, TMessage>>(pairs[2 * j])(pairs[(2 * j) + 1], message);
                 }
             }
             finally
             {
                 // As before, we also need to clear it first to avoid having potentially long
                 // lasting memory leaks due to leftover references being stored in the pool.
-                pendingPairs.Clear();
+                Array.Clear(rentedArray, 0, 2 * i);
 
-                ArrayPool<Object2>.Shared.Return(pairs);
+                ArrayPool<object>.Shared.Return(rentedArray);
             }
 
             return message;
