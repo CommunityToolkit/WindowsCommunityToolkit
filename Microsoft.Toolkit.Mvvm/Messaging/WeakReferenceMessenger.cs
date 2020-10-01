@@ -169,8 +169,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            ArrayPoolBufferWriter<object> recipients;
-            ArrayPoolBufferWriter<object> handlers;
+            ArrayPoolBufferWriter<Object2> pairs;
 
             lock (this.recipientsMap)
             {
@@ -182,8 +181,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return message;
                 }
 
-                recipients = ArrayPoolBufferWriter<object>.Create();
-                handlers = ArrayPoolBufferWriter<object>.Create();
+                pairs = ArrayPoolBufferWriter<Object2>.Create();
 
                 // We need a local, temporary copy of all the pending recipients and handlers to
                 // invoke, to avoid issues with handlers unregistering from messages while we're
@@ -197,32 +195,26 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     if (map.TryGetValue(token, out object? handler))
                     {
-                        recipients.Add(pair.Key);
-                        handlers.Add(handler!);
+                        pairs.Add(new Object2(handler!, pair.Key));
                     }
                 }
             }
 
             try
             {
-                ReadOnlySpan<object>
-                    recipientsSpan = recipients.Span,
-                    handlersSpan = handlers.Span;
-
-                for (int i = 0; i < recipientsSpan.Length; i++)
+                foreach (ref readonly Object2 pair in pairs.Span)
                 {
                     // Just like in the other messenger, here we need an unsafe cast to be able to
                     // invoke a generic delegate with a contravariant input argument, with a less
                     // derived reference, without reflection. This is guaranteed to work by how the
                     // messenger tracks registered recipients and their associated handlers, so the
                     // type conversion will always be valid (the recipients are the rigth instances).
-                    Unsafe.As<MessageHandler<object, TMessage>>(handlersSpan[i])(recipientsSpan[i], message);
+                    Unsafe.As<MessageHandler<object, TMessage>>(pair.Handler)(pair.Recipient, message);
                 }
             }
             finally
             {
-                recipients.Dispose();
-                handlers.Dispose();
+                pairs.Dispose();
             }
 
             return message;
