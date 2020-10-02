@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // If sparse
             if (DesktopBridgeHelpers.HasIdentity())
             {
-                _win32Aumid = GetAumidFromPackageManifest();
+                _win32Aumid = new ManifestHelper().GetAumidFromPackageManifest();
             }
             else
             {
@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             if (DesktopBridgeHelpers.IsContainerized())
             {
-                _clsid = GetClsidFromPackageManifest();
+                _clsid = new ManifestHelper().GetClsidFromPackageManifest();
             }
             else
             {
@@ -203,78 +203,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 constructorArgs: new object[] { ClassInterfaceType.None }));
 
             return tb.CreateType();
-        }
-
-        private static string GetAumidFromPackageManifest()
-        {
-            var appxManifestPath = Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml");
-            var doc = new System.Xml.XmlDocument();
-            doc.Load(appxManifestPath);
-
-            var namespaceManager = new System.Xml.XmlNamespaceManager(doc.NameTable);
-            namespaceManager.AddNamespace("default", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
-            namespaceManager.AddNamespace("desktop", "http://schemas.microsoft.com/appx/manifest/desktop/windows10");
-            namespaceManager.AddNamespace("com", "http://schemas.microsoft.com/appx/manifest/com/windows10");
-
-            var appNode = doc.SelectSingleNode("/default:Package/default:Applications/default:Application[1]", namespaceManager);
-
-            if (appNode == null)
-            {
-                throw new InvalidOperationException("Your MSIX app manifest must have an <Application> entry.");
-            }
-
-            return Package.Current.Id.FamilyName + "!" + appNode.Attributes["Id"].Value;
-        }
-
-        private static string GetClsidFromPackageManifest()
-        {
-            var appxManifestPath = Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml");
-            var doc = new System.Xml.XmlDocument();
-            doc.Load(appxManifestPath);
-
-            var namespaceManager = new System.Xml.XmlNamespaceManager(doc.NameTable);
-            namespaceManager.AddNamespace("default", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
-            namespaceManager.AddNamespace("desktop", "http://schemas.microsoft.com/appx/manifest/desktop/windows10");
-            namespaceManager.AddNamespace("com", "http://schemas.microsoft.com/appx/manifest/com/windows10");
-
-            var activatorClsidNode = doc.SelectSingleNode("/default:Package/default:Applications/default:Application[1]/default:Extensions/desktop:Extension[@Category='windows.toastNotificationActivation']/desktop:ToastNotificationActivation/@ToastActivatorCLSID", namespaceManager);
-
-            if (activatorClsidNode == null)
-            {
-                throw new InvalidOperationException("Your app manifest must have a toastNotificationActivation extension with a valid ToastActivatorCLSID specified.");
-            }
-
-            var clsid = activatorClsidNode.Value;
-
-            // Make sure they have a COM class registration matching the CLSID
-            var comClassNode = doc.SelectSingleNode($"/default:Package/default:Applications/default:Application[1]/default:Extensions/com:Extension[@Category='windows.comServer']/com:ComServer/com:ExeServer/com:Class[@Id='{clsid}']", namespaceManager);
-
-            if (comClassNode == null)
-            {
-                throw new InvalidOperationException("Your app manifest must have a comServer extension with a class ID matching your toastNotificationActivator's CLSID.");
-            }
-
-            // Make sure they have a COM class registration matching their current process executable
-            var comExeServerNode = comClassNode.ParentNode;
-
-            var specifiedExeRelativePath = comExeServerNode.Attributes["Executable"].Value;
-            var specifiedExeFullPath = Path.Combine(Package.Current.InstalledLocation.Path, specifiedExeRelativePath);
-            var actualExeFullPath = Process.GetCurrentProcess().MainModule.FileName;
-
-            if (specifiedExeFullPath != actualExeFullPath)
-            {
-                var correctExeRelativePath = actualExeFullPath.Substring(Package.Current.InstalledLocation.Path.Length + 1);
-                throw new InvalidOperationException($"Your app manifest's comServer extension's Executable value is incorrect. It should be \"{correctExeRelativePath}\".");
-            }
-
-            // Make sure their arguments are set correctly
-            var argumentsNode = comExeServerNode.Attributes.GetNamedItem("Arguments");
-            if (argumentsNode == null || argumentsNode.Value != "-ToastActivated")
-            {
-                throw new InvalidOperationException("Your app manifest's comServer extension for toast activation must have its Arguments set exactly to \"-ToastActivated\"");
-            }
-
-            return clsid;
         }
 
         private static Type CreateAndRegisterActivator()
