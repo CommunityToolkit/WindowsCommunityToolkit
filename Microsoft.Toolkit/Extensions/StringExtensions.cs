@@ -87,14 +87,6 @@ namespace Microsoft.Toolkit.Extensions
         public static bool IsCharacterString(this string str) => Regex.IsMatch(str, CharactersRegex);
 
         /// <summary>
-        /// Returns a string representation of an object.
-        /// </summary>
-        /// <param name="value">The object to convert.</param>
-        /// <returns>String representation of the object.</returns>
-        [Obsolete("Use value?.ToString() instead. This will be removed in the next release of the toolkit.")]
-        public static string ToSafeString(this object value) => value?.ToString();
-
-        /// <summary>
         /// Returns a string with HTML comments, scripts, styles, and tags removed.
         /// </summary>
         /// <param name="htmlText">HTML string.</param>
