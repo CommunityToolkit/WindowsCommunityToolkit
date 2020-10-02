@@ -136,11 +136,71 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // If they don't have identity, we need to specify the display assets
                 if (!DesktopBridgeHelpers.HasIdentity())
                 {
-                    // Win32 app display names come from their process name
-                    string displayName = GetDisplayNameFromCurrentProcess(currProcess);
+                    IShellItem shortcutItem = null;
+                    try
+                    {
+                        IApplicationResolver appResolver = (IApplicationResolver)new CAppResolver();
+                        appResolver.GetBestShortcutForAppID(_win32Aumid, out shortcutItem);
+                    }
+                    catch
+                    {
+                    }
 
-                    string iconPath = GetIconPathFromCurrentProcess(currProcess);
+                    string displayName = null;
+                    string iconPath = null;
 
+                    // First we attempt to use display assets from the shortcut itself
+                    if (shortcutItem != null)
+                    {
+                        try
+                        {
+                            shortcutItem.GetDisplayName(0, out displayName);
+
+                            ((IShellItemImageFactory)shortcutItem).GetImage(new SIZE(48, 48), SIIGBF.IconOnly | SIIGBF.BiggerSizeOk, out IntPtr nativeHBitmap);
+
+                            if (nativeHBitmap != IntPtr.Zero)
+                            {
+                                try
+                                {
+                                    System.Drawing.Bitmap bmp = System.Drawing.Bitmap.FromHbitmap(nativeHBitmap);
+
+                                    if (IsAlphaBitmap(bmp, out var bmpData))
+                                    {
+                                        var alphaBitmap = GetAlphaBitmapFromBitmapData(bmpData);
+                                        iconPath = SaveIconToAppPath(alphaBitmap);
+                                    }
+                                    else
+                                    {
+                                        iconPath = SaveIconToAppPath(bmp);
+                                    }
+                                }
+                                catch
+                                {
+                                }
+
+                                DeleteObject(nativeHBitmap);
+                            }
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    // If we didn't get a display name from shortcut
+                    if (string.IsNullOrWhiteSpace(displayName))
+                    {
+                        // We use the one from the process
+                        displayName = GetDisplayNameFromCurrentProcess(currProcess);
+                    }
+
+                    // If we didn't get an icon from shortcut
+                    if (string.IsNullOrWhiteSpace(iconPath))
+                    {
+                        // We use the one from the process
+                        iconPath = ExtractAndObtainIconFromCurrentProcess(currProcess);
+                    }
+
+                    // Set the display name and icon uri
                     rootKey.SetValue("DisplayName", displayName);
 
                     if (iconPath != null)
@@ -149,7 +209,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     }
                     else
                     {
-                        rootKey.DeleteValue("IconUri");
+                        if (rootKey.GetValue("IconUri") != null)
+                        {
+                            rootKey.DeleteValue("IconUri");
+                        }
                     }
 
                     // Background color only appears in the settings page, format is
@@ -161,22 +224,71 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
+        // From https://stackoverflow.com/a/9291151
+        private static System.Drawing.Bitmap GetAlphaBitmapFromBitmapData(System.Drawing.Imaging.BitmapData bmpData)
+        {
+            return new System.Drawing.Bitmap(
+                    bmpData.Width,
+                    bmpData.Height,
+                    bmpData.Stride,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb,
+                    bmpData.Scan0);
+        }
+
+        // From https://stackoverflow.com/a/9291151
+        private static bool IsAlphaBitmap(System.Drawing.Bitmap bmp, out System.Drawing.Imaging.BitmapData bmpData)
+        {
+            var bmBounds = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
+
+            bmpData = bmp.LockBits(bmBounds, System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+            try
+            {
+                for (int y = 0; y <= bmpData.Height - 1; y++)
+                {
+                    for (int x = 0; x <= bmpData.Width - 1; x++)
+                    {
+                        var pixelColor = System.Drawing.Color.FromArgb(
+                            Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
+
+                        if (pixelColor.A > 0 & pixelColor.A < 255)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                bmp.UnlockBits(bmpData);
+            }
+
+            return false;
+        }
+
+        /// <summary>Deletes a logical pen, brush, font, bitmap, region, or palette, freeing all system resources associated with the object. After the object is deleted, the specified handle is no longer valid.</summary>
+        /// <param name="hObject">A handle to a logical pen, brush, font, bitmap, region, or palette.</param>
+        /// <returns>
+        ///   <para>If the function succeeds, the return value is nonzero.</para>
+        ///   <para>If the specified handle is not valid or is currently selected into a DC, the return value is zero.</para>
+        /// </returns>
+        /// <remarks>
+        ///   <para>Do not delete a drawing object (pen or brush) while it is still selected into a DC.</para>
+        ///   <para>When a pattern brush is deleted, the bitmap associated with the brush is not deleted. The bitmap must be deleted independently.</para>
+        /// </remarks>
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteObject([In] IntPtr hObject);
+
         private static string GetAumidFromCurrentProcess(Process process)
         {
-            // TODO: Should actually do the following which is what Shell does...
-            // 1) check for a matching shortcut in a few designated folders; if there is a shortcut, check if the app developer specified an explicit app ID on it (there is also a bunch of logic to dedupe these shortcuts across different folders). 2) if there is no matching shortcut or if no expliit app id was provided on the shortcut that was found, appresolver generates an ID for the item.
-            // This generated app ID is either 1) the path to the exe if there are no launch arguments or 2) a GUID if there are launch arguments
-            // the GUID is a hash of the exe path, launch args, and maybe display name (i'd have to double check)
-
-            // Temporarily we'll just use a hash of the file name
-            return GenerateGuid(process.MainModule.FileName);
+            IApplicationResolver appResolver = (IApplicationResolver)new CAppResolver();
+            appResolver.GetAppIDForProcess(Convert.ToUInt32(process.Id), out string appId, out bool pinningPrevented, out bool explicitAppId, out bool embeddedShortcutValid);
+            return appId;
         }
 
         private static string GetDisplayNameFromCurrentProcess(Process process)
         {
-            // TODO: Should actually do the following which is what Shell does...
-            // They look for the AppResolver shortcut first and use that, otherwise they pull it from the EXE
-
             // If AssemblyTitle is set, use that
             var assemblyTitleAttr = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyTitleAttribute>();
             if (assemblyTitleAttr != null)
@@ -188,7 +300,30 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return process.ProcessName;
         }
 
-        private static string GetIconPathFromCurrentProcess(Process process)
+        private static string ExtractAndObtainIconFromCurrentProcess(Process process)
+        {
+            return ExtractAndObtainIconFromPath(process.MainModule.FileName);
+        }
+
+        private static string ExtractAndObtainIconFromPath(string pathToExtract)
+        {
+            try
+            {
+                // Extract the icon
+                var icon = System.Drawing.Icon.ExtractAssociatedIcon(pathToExtract);
+
+                using (var bmp = icon.ToBitmap())
+                {
+                    return SaveIconToAppPath(bmp);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static string SaveIconToAppPath(System.Drawing.Bitmap bitmap)
         {
             try
             {
@@ -197,13 +332,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // Ensure the directories exist
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-                // Extract the icon
-                var icon = System.Drawing.Icon.ExtractAssociatedIcon(process.MainModule.FileName);
-
-                using (var bmp = icon.ToBitmap())
-                {
-                    bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
-                }
+                bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
 
                 return path;
             }
@@ -219,7 +348,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>Returns a string of the absolute folder path.</returns>
         private static string GetAppDataFolderPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", _win32Aumid);
+            string conciseAumid = _win32Aumid.Contains('\\') ? GenerateGuid(_win32Aumid) : _win32Aumid;
+
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", conciseAumid);
         }
 
         private static Type CreateActivatorType()
