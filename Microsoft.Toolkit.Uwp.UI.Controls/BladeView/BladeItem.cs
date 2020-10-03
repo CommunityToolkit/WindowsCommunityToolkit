@@ -6,7 +6,9 @@ using System;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -90,6 +92,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     AutomationProperties.SetName(_enlargeButton, name);
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="BladeItem"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new BladeItemAutomationPeer(this);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)

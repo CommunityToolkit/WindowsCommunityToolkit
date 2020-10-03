@@ -84,6 +84,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsOpenProperty, value); }
         }
 
+        internal BladeView ParentBladeView { get; set; }
+
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             BladeItem bladeItem = (BladeItem)dependencyObject;
