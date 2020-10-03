@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// Returns the first of these that is not null or empty:
         /// - Value returned by the base implementation
         /// - Name of the owning BladeItem
-        /// - Carousel class name
+        /// - BladeItem class name
         /// </returns>
         protected override string GetNameCore()
         {
