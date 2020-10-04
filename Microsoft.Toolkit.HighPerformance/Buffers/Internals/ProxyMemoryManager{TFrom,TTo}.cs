@@ -58,6 +58,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <inheritdoc/>
         public override MemoryHandle Pin(int elementIndex = 0)
         {
+            if ((uint)elementIndex >= (uint)(this.length * Unsafe.SizeOf<TFrom>() / Unsafe.SizeOf<TTo>()))
+            {
+                ThrowArgumentExceptionForInvalidIndex();
+            }
+
             int byteOffset = elementIndex * Unsafe.SizeOf<TTo>();
 
 #if NETSTANDARD1_4
@@ -93,6 +98,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
             where T : unmanaged
         {
             return new ProxyMemoryManager<TFrom, T>(this.memoryManager, this.offset + offset, length);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the target index for <see cref="Pin"/> is invalid.
+        /// </summary>
+        private static void ThrowArgumentExceptionForInvalidIndex()
+        {
+            throw new ArgumentOutOfRangeException("elementIndex", "The input index is not in the valid range");
         }
 
         /// <summary>

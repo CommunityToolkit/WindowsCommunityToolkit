@@ -68,6 +68,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <inheritdoc/>
         public override unsafe MemoryHandle Pin(int elementIndex = 0)
         {
+            if ((uint)elementIndex >= (uint)(this.length * Unsafe.SizeOf<TFrom>() / Unsafe.SizeOf<TTo>()))
+            {
+                ThrowArgumentExceptionForInvalidIndex();
+            }
+
             int
                 bytePrefix = this.offset + Unsafe.SizeOf<TFrom>(),
                 byteSuffix = elementIndex * Unsafe.SizeOf<TTo>(),
@@ -98,6 +103,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
             where T : unmanaged
         {
             return new ArrayMemoryManager<TFrom, T>(this.array, this.offset + offset, length);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the target index for <see cref="Pin"/> is invalid.
+        /// </summary>
+        private static void ThrowArgumentExceptionForInvalidIndex()
+        {
+            throw new ArgumentOutOfRangeException("elementIndex", "The input index is not in the valid range");
         }
     }
 }
