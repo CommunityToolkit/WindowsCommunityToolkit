@@ -9,6 +9,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+using RuntimeHelpers = System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {

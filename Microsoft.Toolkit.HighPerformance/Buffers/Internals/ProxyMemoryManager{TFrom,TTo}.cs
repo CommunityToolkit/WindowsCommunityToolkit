@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals.Interfaces;
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
 {
@@ -97,14 +98,18 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         public Memory<T> GetMemory<T>(int offset, int length)
             where T : unmanaged
         {
-            // Like in the other memory manager, we can skip one level of indirection in cases
-            // where the user is just going back to the original memory type, reusing the manager.
+            // Like in the other memory manager, calculate the absolute offset and length
+            int
+                absoluteOffset = this.offset + RuntimeHelpers.ConvertLength<TTo, TFrom>(offset),
+                absoluteLength = RuntimeHelpers.ConvertLength<TTo, TFrom>(length);
+
+            // Skip one indirection level and slice the original memory manager, if possible
             if (typeof(T) == typeof(TFrom))
             {
-                return (Memory<T>)(object)this.memoryManager.Memory.Slice(offset, length);
+                return (Memory<T>)(object)this.memoryManager.Memory.Slice(absoluteOffset, absoluteLength);
             }
 
-            return new ProxyMemoryManager<TFrom, T>(this.memoryManager, this.offset + offset, length).Memory;
+            return new ProxyMemoryManager<TFrom, T>(this.memoryManager, absoluteOffset, absoluteLength).Memory;
         }
 
         /// <summary>

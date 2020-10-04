@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals.Interfaces;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
 {
@@ -53,16 +54,18 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         {
 #if SPAN_RUNTIME_SUPPORT
             ref TFrom r0 = ref this.array.DangerousGetReferenceAt(this.offset);
+            ref TTo r1 = ref Unsafe.As<TFrom, TTo>(ref r0);
+            int length = RuntimeHelpers.ConvertLength<TFrom, TTo>(this.length);
 
-            Span<TFrom> span = MemoryMarshal.CreateSpan(ref r0, this.length);
+            return MemoryMarshal.CreateSpan(ref r1, length);
 #else
             Span<TFrom> span = this.array.AsSpan(this.offset, this.length);
-#endif
 
             // We rely on MemoryMarshal.Cast here to deal with calculating the effective
             // size of the new span to return. This will also make the behavior consistent
             // for users that are both using this type as well as casting spans directly.
             return MemoryMarshal.Cast<TFrom, TTo>(span);
+#endif
         }
 
         /// <inheritdoc/>
@@ -102,15 +105,22 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         public Memory<T> GetMemory<T>(int offset, int length)
             where T : unmanaged
         {
+            // We need to calculate the right offset and length of the new Memory<T>. The local offset
+            // is the original offset into the wrapped TFrom[] array, while the input offset is the one
+            // with respect to TTo items in the Memory<TTo> instance that is currently being cast.
+            int
+                absoluteOffset = this.offset + RuntimeHelpers.ConvertLength<TTo, TFrom>(offset),
+                absoluteLength = RuntimeHelpers.ConvertLength<TTo, TFrom>(length);
+
             // We have a special handling in cases where the user is circling back to the original type
             // of the wrapped array. In this case we can just return a memory wrapping that array directly,
             // with offset and length being adjusted, without the memory manager indirection.
             if (typeof(T) == typeof(TFrom))
             {
-                return (Memory<T>)(object)this.array.AsMemory(this.offset + offset, length);
+                return (Memory<T>)(object)this.array.AsMemory(absoluteOffset, absoluteLength);
             }
 
-            return new ArrayMemoryManager<TFrom, T>(this.array, this.offset + offset, length).Memory;
+            return new ArrayMemoryManager<TFrom, T>(this.array, absoluteOffset, absoluteLength).Memory;
         }
 
         /// <summary>
