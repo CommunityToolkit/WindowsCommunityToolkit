@@ -197,7 +197,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
-        /// These types may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="TFrom">The type of items in the source <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <typeparam name="TTo">The type of items in the destination <see cref="ReadOnlySpan{T}"/>.</typeparam>
@@ -206,14 +205,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// Supported only for platforms that support misaligned memory access or when the memory block is aligned by other means.
         /// </remarks>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="TFrom"/> or <typeparamref name="TTo"/> contains pointers.
-        /// </exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan<TTo> Cast<TFrom, TTo>(this ReadOnlySpan<TFrom> span)
-            where TFrom : struct
-            where TTo : struct
+            where TFrom : unmanaged
+            where TTo : unmanaged
         {
             return MemoryMarshal.Cast<TFrom, TTo>(span);
         }
