@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -144,6 +145,260 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("MemoryExtensions")]
         [TestMethod]
+        public void Test_MemoryExtensions_Cast_TooShort_WithSlice()
+        {
+            Memory<byte> m1 = new byte[8].AsMemory().Slice(4, 3);
+            Memory<int> mc1 = m1.Cast<byte, int>();
+
+            Assert.IsTrue(mc1.IsEmpty);
+
+            Memory<byte> m2 = new byte[20].AsMemory().Slice(4, 13);
+            Memory<float> mc2 = m2.Cast<byte, float>();
+
+            Assert.AreEqual(mc2.Length, 3);
+
+            Memory<byte> m3 = new byte[16].AsMemory().Slice(5);
+            Memory<float> mc3 = m3.Cast<byte, float>();
+
+            Assert.AreEqual(mc3.Length, 2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromArray_CastFromByte_WithSlice()
+        {
+            Memory<byte> memoryOfBytes = new byte[512].AsMemory().Slice(128, 128);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>();
+
+            Assert.AreEqual(memoryOfFloats.Length, 128 / sizeof(float));
+
+            Span<byte> spanOfBytes = memoryOfBytes.Span;
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+
+            Assert.AreEqual(memoryOfFloats.Length, spanOfFloats.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfBytes[0],
+                ref Unsafe.As<float, byte>(ref spanOfFloats[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromArray_CastToByte_WithSlice()
+        {
+            Memory<float> memoryOfFloats = new float[512].AsMemory().Slice(128, 128);
+            Memory<byte> memoryOfBytes = memoryOfFloats.Cast<float, byte>();
+
+            Assert.AreEqual(memoryOfBytes.Length, 128 * sizeof(float));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<byte> spanOfBytes = memoryOfBytes.Span;
+
+            Assert.AreEqual(memoryOfBytes.Length, spanOfBytes.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<byte, float>(ref spanOfBytes[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromArray_CastToShort_WithSlice()
+        {
+            Memory<float> memoryOfFloats = new float[512].AsMemory().Slice(128, 128);
+            Memory<short> memoryOfShorts = memoryOfFloats.Cast<float, short>();
+
+            Assert.AreEqual(memoryOfShorts.Length, 128 * sizeof(float) / sizeof(short));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<short> spanOfShorts = memoryOfShorts.Span;
+
+            Assert.AreEqual(memoryOfShorts.Length, spanOfShorts.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<short, float>(ref spanOfShorts[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromArray_CastFromByteAndBack_WithSlice()
+        {
+            var data = new byte[512];
+            Memory<byte> memoryOfBytes = data.AsMemory().Slice(128, 128);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>();
+            Memory<byte> memoryBack = memoryOfFloats.Cast<float, byte>();
+
+            Assert.AreEqual(memoryOfBytes.Length, memoryBack.Length);
+
+            Assert.IsTrue(MemoryMarshal.TryGetArray<byte>(memoryBack, out var segment));
+            Assert.AreSame(segment.Array!, data);
+            Assert.AreEqual(segment.Offset, 128);
+            Assert.AreEqual(segment.Count, 128);
+
+            Assert.IsTrue(memoryOfBytes.Equals(memoryBack));
+
+            Span<byte> span1 = memoryOfBytes.Span;
+            Span<byte> span2 = memoryBack.Span;
+
+            Assert.IsTrue(span1 == span2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastFromByte()
+        {
+            Memory<byte> memoryOfBytes = new ArrayMemoryManager<byte>(128);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>();
+
+            Assert.AreEqual(memoryOfFloats.Length, 128 / sizeof(float));
+
+            Span<byte> spanOfBytes = memoryOfBytes.Span;
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+
+            Assert.AreEqual(memoryOfFloats.Length, spanOfFloats.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfBytes[0],
+                ref Unsafe.As<float, byte>(ref spanOfFloats[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastToByte()
+        {
+            Memory<float> memoryOfFloats = new ArrayMemoryManager<float>(128);
+            Memory<byte> memoryOfBytes = memoryOfFloats.Cast<float, byte>();
+
+            Assert.AreEqual(memoryOfBytes.Length, 128 * sizeof(float));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<byte> spanOfBytes = memoryOfBytes.Span;
+
+            Assert.AreEqual(memoryOfBytes.Length, spanOfBytes.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<byte, float>(ref spanOfBytes[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastToShort()
+        {
+            Memory<float> memoryOfFloats = new ArrayMemoryManager<float>(128);
+            Memory<short> memoryOfShorts = memoryOfFloats.Cast<float, short>();
+
+            Assert.AreEqual(memoryOfShorts.Length, 128 * sizeof(float) / sizeof(short));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<short> spanOfShorts = memoryOfShorts.Span;
+
+            Assert.AreEqual(memoryOfShorts.Length, spanOfShorts.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<short, float>(ref spanOfShorts[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastFromByteAndBack()
+        {
+            var data = new ArrayMemoryManager<byte>(128);
+            Memory<byte> memoryOfBytes = data;
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>();
+            Memory<byte> memoryBack = memoryOfFloats.Cast<float, byte>();
+
+            Assert.AreEqual(memoryOfBytes.Length, memoryBack.Length);
+
+            Assert.IsTrue(MemoryMarshal.TryGetMemoryManager<byte, ArrayMemoryManager<byte>>(memoryBack, out var manager, out var start, out var length));
+            Assert.AreSame(manager!, data);
+            Assert.AreEqual(start, 0);
+            Assert.AreEqual(length, 128);
+
+            Assert.IsTrue(memoryOfBytes.Equals(memoryBack));
+
+            Span<byte> span1 = memoryOfBytes.Span;
+            Span<byte> span2 = memoryBack.Span;
+
+            Assert.IsTrue(span1 == span2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastFromByte_WithSlice()
+        {
+            Memory<byte> memoryOfBytes = new ArrayMemoryManager<byte>(512).Memory.Slice(128, 128);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>();
+
+            Assert.AreEqual(memoryOfFloats.Length, 128 / sizeof(float));
+
+            Span<byte> spanOfBytes = memoryOfBytes.Span;
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+
+            Assert.AreEqual(memoryOfFloats.Length, spanOfFloats.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfBytes[0],
+                ref Unsafe.As<float, byte>(ref spanOfFloats[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastToByte_WithSlice()
+        {
+            Memory<float> memoryOfFloats = new ArrayMemoryManager<float>(512).Memory.Slice(128, 128);
+            Memory<byte> memoryOfBytes = memoryOfFloats.Cast<float, byte>();
+
+            Assert.AreEqual(memoryOfBytes.Length, 128 * sizeof(float));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<byte> spanOfBytes = memoryOfBytes.Span;
+
+            Assert.AreEqual(memoryOfBytes.Length, spanOfBytes.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<byte, float>(ref spanOfBytes[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastToShort_WithSlice()
+        {
+            Memory<float> memoryOfFloats = new ArrayMemoryManager<float>(512).Memory.Slice(128, 128);
+            Memory<short> memoryOfShorts = memoryOfFloats.Cast<float, short>();
+
+            Assert.AreEqual(memoryOfShorts.Length, 128 * sizeof(float) / sizeof(short));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<short> spanOfShorts = memoryOfShorts.Span;
+
+            Assert.AreEqual(memoryOfShorts.Length, spanOfShorts.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<short, float>(ref spanOfShorts[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromMemoryManager_CastFromByteAndBack_WithSlice()
+        {
+            var data = new ArrayMemoryManager<byte>(512);
+            Memory<byte> memoryOfBytes = data.Memory.Slice(128, 128);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>();
+            Memory<byte> memoryBack = memoryOfFloats.Cast<float, byte>();
+
+            Assert.AreEqual(memoryOfBytes.Length, memoryBack.Length);
+
+            Assert.IsTrue(MemoryMarshal.TryGetMemoryManager<byte, ArrayMemoryManager<byte>>(memoryBack, out var manager, out var start, out var length));
+            Assert.AreSame(manager!, data);
+            Assert.AreEqual(start, 128);
+            Assert.AreEqual(length, 128);
+
+            Assert.IsTrue(memoryOfBytes.Equals(memoryBack));
+
+            Span<byte> span1 = memoryOfBytes.Span;
+            Span<byte> span2 = memoryBack.Span;
+
+            Assert.IsTrue(span1 == span2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
         public void Test_MemoryExtensions_EmptyMemoryStream()
         {
             Memory<byte> memory = default;
@@ -166,6 +421,44 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsNotNull(stream);
             Assert.AreEqual(stream.Length, memory.Length);
             Assert.IsTrue(stream.CanWrite);
+        }
+
+        private sealed class ArrayMemoryManager<T> : MemoryManager<T>
+            where T : unmanaged
+        {
+            private readonly T[] array;
+
+            public ArrayMemoryManager(int size)
+            {
+                this.array = new T[size];
+            }
+
+            public override Span<T> GetSpan()
+            {
+                return this.array;
+            }
+
+            public override unsafe MemoryHandle Pin(int elementIndex = 0)
+            {
+                GCHandle handle = GCHandle.Alloc(this.array, GCHandleType.Pinned);
+                ref T r0 = ref this.array[elementIndex];
+                void* p = Unsafe.AsPointer(ref r0);
+
+                return new MemoryHandle(p, handle);
+            }
+
+            public override void Unpin()
+            {
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+            }
+
+            public static implicit operator Memory<T>(ArrayMemoryManager<T> memoryManager)
+            {
+                return memoryManager.Memory;
+            }
         }
     }
 }
