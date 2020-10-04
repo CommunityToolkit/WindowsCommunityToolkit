@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 // indirection level in the chain of memory managers needed to access the target data buffer to use.
                 if (memoryManager is IMemoryManager wrappingManager)
                 {
-                    return wrappingManager.Cast<TTo>(start, length).Memory;
+                    return wrappingManager.GetMemory<TTo>(start, length);
                 }
 
                 return new ProxyMemoryManager<TFrom, TTo>(memoryManager, start, length).Memory;

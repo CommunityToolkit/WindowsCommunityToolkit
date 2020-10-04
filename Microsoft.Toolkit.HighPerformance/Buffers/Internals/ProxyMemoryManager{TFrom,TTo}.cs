@@ -94,10 +94,17 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         }
 
         /// <inheritdoc/>
-        public MemoryManager<T> Cast<T>(int offset, int length)
+        public Memory<T> GetMemory<T>(int offset, int length)
             where T : unmanaged
         {
-            return new ProxyMemoryManager<TFrom, T>(this.memoryManager, this.offset + offset, length);
+            // Like in the other memory manager, we can skip one level of indirection in cases
+            // where the user is just going back to the original memory type, reusing the manager.
+            if (typeof(T) == typeof(TFrom))
+            {
+                return (Memory<T>)(object)this.memoryManager.Memory.Slice(offset, length);
+            }
+
+            return new ProxyMemoryManager<TFrom, T>(this.memoryManager, this.offset + offset, length).Memory;
         }
 
         /// <summary>

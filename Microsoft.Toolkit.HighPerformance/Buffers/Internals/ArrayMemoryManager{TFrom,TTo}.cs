@@ -99,10 +99,18 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         }
 
         /// <inheritdoc/>
-        public MemoryManager<T> Cast<T>(int offset, int length)
+        public Memory<T> GetMemory<T>(int offset, int length)
             where T : unmanaged
         {
-            return new ArrayMemoryManager<TFrom, T>(this.array, this.offset + offset, length);
+            // We have a special handling in cases where the user is circling back to the original type
+            // of the wrapped array. In this case we can just return a memory wrapping that array directly,
+            // with offset and length being adjusted, without the memory manager indirection.
+            if (typeof(T) == typeof(TFrom))
+            {
+                return (Memory<T>)(object)this.array.AsMemory(this.offset + offset, length);
+            }
+
+            return new ArrayMemoryManager<TFrom, T>(this.array, this.offset + offset, length).Memory;
         }
 
         /// <summary>
