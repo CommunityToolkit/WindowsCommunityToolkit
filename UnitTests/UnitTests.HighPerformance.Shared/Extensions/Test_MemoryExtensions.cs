@@ -76,6 +76,7 @@ namespace UnitTests.HighPerformance.Extensions
             Span<byte> spanOfBytes = memoryOfBytes.Span;
             Span<float> spanOfFloats = memoryOfFloats.Span;
 
+            Assert.AreEqual(memoryOfFloats.Length, spanOfFloats.Length);
             Assert.IsTrue(Unsafe.AreSame(
                 ref spanOfBytes[0],
                 ref Unsafe.As<float, byte>(ref spanOfFloats[0])));
@@ -93,9 +94,28 @@ namespace UnitTests.HighPerformance.Extensions
             Span<float> spanOfFloats = memoryOfFloats.Span;
             Span<byte> spanOfBytes = memoryOfBytes.Span;
 
+            Assert.AreEqual(memoryOfBytes.Length, spanOfBytes.Length);
             Assert.IsTrue(Unsafe.AreSame(
                 ref spanOfFloats[0],
                 ref Unsafe.As<byte, float>(ref spanOfBytes[0])));
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        public void Test_MemoryExtensions_FromArray_CastToShort()
+        {
+            Memory<float> memoryOfFloats = new float[128];
+            Memory<short> memoryOfShorts = memoryOfFloats.Cast<float, short>();
+
+            Assert.AreEqual(memoryOfShorts.Length, 128 * sizeof(float) / sizeof(short));
+
+            Span<float> spanOfFloats = memoryOfFloats.Span;
+            Span<short> spanOfShorts = memoryOfShorts.Span;
+
+            Assert.AreEqual(memoryOfShorts.Length, spanOfShorts.Length);
+            Assert.IsTrue(Unsafe.AreSame(
+                ref spanOfFloats[0],
+                ref Unsafe.As<short, float>(ref spanOfShorts[0])));
         }
 
         [TestCategory("MemoryExtensions")]
@@ -115,6 +135,11 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.AreEqual(segment.Count, data.Length);
 
             Assert.IsTrue(memoryOfBytes.Equals(memoryBack));
+
+            Span<byte> span1 = memoryOfBytes.Span;
+            Span<byte> span2 = memoryBack.Span;
+
+            Assert.IsTrue(span1 == span2);
         }
 
         [TestCategory("MemoryExtensions")]
