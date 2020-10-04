@@ -73,11 +73,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         {
             if ((uint)elementIndex >= (uint)(this.length * Unsafe.SizeOf<TFrom>() / Unsafe.SizeOf<TTo>()))
             {
-                ThrowArgumentExceptionForInvalidIndex();
+                ThrowArgumentOutOfRangeExceptionForInvalidIndex();
             }
 
             int
-                bytePrefix = this.offset + Unsafe.SizeOf<TFrom>(),
+                bytePrefix = this.offset * Unsafe.SizeOf<TFrom>(),
                 byteSuffix = elementIndex * Unsafe.SizeOf<TTo>(),
                 byteOffset = bytePrefix + byteSuffix;
 
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the target index for <see cref="Pin"/> is invalid.
         /// </summary>
-        private static void ThrowArgumentExceptionForInvalidIndex()
+        private static void ThrowArgumentOutOfRangeExceptionForInvalidIndex()
         {
             throw new ArgumentOutOfRangeException("elementIndex", "The input index is not in the valid range");
         }

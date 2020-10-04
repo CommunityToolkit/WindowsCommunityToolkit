@@ -399,6 +399,56 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("MemoryExtensions")]
         [TestMethod]
+        [DataRow(64, 0, 0)]
+        [DataRow(64, 4, 0)]
+        [DataRow(64, 0, 4)]
+        [DataRow(64, 4, 4)]
+        [DataRow(64, 4, 0)]
+        [DataRow(256, 16, 0)]
+        [DataRow(256, 4, 16)]
+        [DataRow(256, 64, 0)]
+        [DataRow(256, 64, 8)]
+        public unsafe void Test_MemoryExtensions_FromArray_CastFromByte_Pin(int size, int preOffset, int postOffset)
+        {
+            var data = new byte[size];
+            Memory<byte> memoryOfBytes = data.AsMemory(preOffset);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>().Slice(postOffset);
+
+            using var handle = memoryOfFloats.Pin();
+
+            void* p1 = handle.Pointer;
+            void* p2 = Unsafe.AsPointer(ref data[preOffset + (postOffset * sizeof(float))]);
+
+            Assert.IsTrue(p1 == p2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        [DataRow(64, 0, 0)]
+        [DataRow(64, 4, 0)]
+        [DataRow(64, 0, 4)]
+        [DataRow(64, 4, 4)]
+        [DataRow(64, 4, 0)]
+        [DataRow(256, 16, 0)]
+        [DataRow(256, 4, 16)]
+        [DataRow(256, 64, 0)]
+        [DataRow(256, 64, 8)]
+        public unsafe void Test_MemoryExtensions_FromMemoryManager_CastFromByte_Pin(int size, int preOffset, int postOffset)
+        {
+            var data = new ArrayMemoryManager<byte>(size);
+            Memory<byte> memoryOfBytes = data.Memory.Slice(preOffset);
+            Memory<float> memoryOfFloats = memoryOfBytes.Cast<byte, float>().Slice(postOffset);
+
+            using var handle = memoryOfFloats.Pin();
+
+            void* p1 = handle.Pointer;
+            void* p2 = Unsafe.AsPointer(ref data.GetSpan()[preOffset + (postOffset * sizeof(float))]);
+
+            Assert.IsTrue(p1 == p2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
         public void Test_MemoryExtensions_EmptyMemoryStream()
         {
             Memory<byte> memory = default;

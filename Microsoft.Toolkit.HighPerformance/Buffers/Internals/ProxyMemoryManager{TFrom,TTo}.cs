@@ -64,7 +64,10 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
                 ThrowArgumentExceptionForInvalidIndex();
             }
 
-            int byteOffset = elementIndex * Unsafe.SizeOf<TTo>();
+            int
+                bytePrefix = this.offset * Unsafe.SizeOf<TFrom>(),
+                byteSuffix = elementIndex * Unsafe.SizeOf<TTo>(),
+                byteOffset = bytePrefix + byteSuffix;
 
 #if NETSTANDARD1_4
             int
@@ -79,7 +82,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
                 ThrowArgumentExceptionForInvalidAlignment();
             }
 
-            return this.memoryManager.Pin(this.length + shiftedOffset);
+            return this.memoryManager.Pin(shiftedOffset);
         }
 
         /// <inheritdoc/>
