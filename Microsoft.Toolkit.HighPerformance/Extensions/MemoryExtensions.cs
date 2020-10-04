@@ -17,6 +17,23 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class MemoryExtensions
     {
         /// <summary>
+        /// Casts a <see cref="Memory{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Memory{T}"/> of bytes.
+        /// </summary>
+        /// <typeparam name="T">The type if items in the source <see cref="Memory{T}"/>.</typeparam>
+        /// <param name="memory">The source <see cref="Memory{T}"/>, of type <typeparamref name="T"/>.</param>
+        /// <returns>A <see cref="Memory{T}"/> of bytes.</returns>
+        /// <exception cref="OverflowException">
+        /// Thrown if the <see cref="Memory{T}.Length"/> property of the new <see cref="Memory{T}"/> would exceed <see cref="int.MaxValue"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<byte> AsBytes<T>(this Memory<T> memory)
+            where T : unmanaged
+        {
+            return MemoryMarshal.AsMemory(((ReadOnlyMemory<T>)memory).Cast<T, byte>());
+        }
+
+        /// <summary>
         /// Casts a <see cref="Memory{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
         /// </summary>
         /// <typeparam name="TFrom">The type of items in the source <see cref="Memory{T}"/>.</typeparam>

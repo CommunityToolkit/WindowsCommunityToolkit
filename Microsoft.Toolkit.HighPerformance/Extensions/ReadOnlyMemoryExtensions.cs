@@ -20,6 +20,23 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class ReadOnlyMemoryExtensions
     {
         /// <summary>
+        /// Casts a <see cref="ReadOnlyMemory{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlyMemory{T}"/> of bytes.
+        /// </summary>
+        /// <typeparam name="T">The type if items in the source <see cref="ReadOnlyMemory{T}"/>.</typeparam>
+        /// <param name="memory">The source <see cref="ReadOnlyMemory{T}"/>, of type <typeparamref name="T"/>.</param>
+        /// <returns>A <see cref="ReadOnlyMemory{T}"/> of bytes.</returns>
+        /// <exception cref="OverflowException">
+        /// Thrown if the <see cref="ReadOnlyMemory{T}.Length"/> property of the new <see cref="ReadOnlyMemory{T}"/> would exceed <see cref="int.MaxValue"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlyMemory<byte> AsBytes<T>(this ReadOnlyMemory<T> memory)
+            where T : unmanaged
+        {
+            return Cast<T, byte>(memory);
+        }
+
+        /// <summary>
         /// Casts a <see cref="ReadOnlyMemory{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
         /// </summary>
         /// <typeparam name="TFrom">The type of items in the source <see cref="ReadOnlyMemory{T}"/>.</typeparam>
