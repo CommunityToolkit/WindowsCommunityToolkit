@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.Ref.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_BitHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IMemoryOwnerStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IBufferWriterStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.ThrowExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Box{T}.cs" />
