@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <exception cref="OverflowException">
         /// Thrown if the <see cref="Memory{T}.Length"/> property of the new <see cref="Memory{T}"/> would exceed <see cref="int.MaxValue"/>.
         /// </exception>
+        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory<byte> AsBytes<T>(this Memory<T> memory)
@@ -40,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="TTo">The type of items in the destination <see cref="Memory{T}"/>.</typeparam>
         /// <param name="memory">The source <see cref="Memory{T}"/>, of type <typeparamref name="TFrom"/>.</param>
         /// <returns>A <see cref="Memory{T}"/> of type <typeparamref name="TTo"/></returns>
-        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported (eg. when it is a <see cref="string"/>).</exception>
+        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory<TTo> Cast<TFrom, TTo>(this Memory<TFrom> memory)

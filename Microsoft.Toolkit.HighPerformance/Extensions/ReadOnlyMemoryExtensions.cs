@@ -28,6 +28,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <exception cref="OverflowException">
         /// Thrown if the <see cref="ReadOnlyMemory{T}.Length"/> property of the new <see cref="ReadOnlyMemory{T}"/> would exceed <see cref="int.MaxValue"/>.
         /// </exception>
+        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlyMemory<byte> AsBytes<T>(this ReadOnlyMemory<T> memory)
@@ -43,7 +44,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="TTo">The type of items in the destination <see cref="ReadOnlyMemory{T}"/>.</typeparam>
         /// <param name="memory">The source <see cref="ReadOnlyMemory{T}"/>, of type <typeparamref name="TFrom"/>.</param>
         /// <returns>A <see cref="ReadOnlyMemory{T}"/> of type <typeparamref name="TTo"/></returns>
-        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported (eg. when it is a <see cref="string"/>).</exception>
+        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlyMemory<TTo> Cast<TFrom, TTo>(this ReadOnlyMemory<TFrom> memory)
@@ -55,12 +56,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return default;
             }
 
+            if (typeof(TFrom) == typeof(char) &&
+                MemoryMarshal.TryGetString((ReadOnlyMemory<char>)(object)memory, out string? text, out int start, out int length))
+            {
+                return new StringMemoryManager<TTo>(text!, start, length).Memory;
+            }
+
             if (MemoryMarshal.TryGetArray(memory, out ArraySegment<TFrom> segment))
             {
                 return new ArrayMemoryManager<TFrom, TTo>(segment.Array!, segment.Offset, segment.Count).Memory;
             }
 
-            if (MemoryMarshal.TryGetMemoryManager<TFrom, MemoryManager<TFrom>>(memory, out var memoryManager, out int start, out int length))
+            if (MemoryMarshal.TryGetMemoryManager<TFrom, MemoryManager<TFrom>>(memory, out var memoryManager, out start, out length))
             {
                 // If the memory manager is the one resulting from a previous cast, we can use it directly to retrieve
                 // a new manager for the target type that wraps the original data store, instead of creating one that
