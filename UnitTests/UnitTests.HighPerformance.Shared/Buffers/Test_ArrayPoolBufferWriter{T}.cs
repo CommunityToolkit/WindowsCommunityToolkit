@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -159,7 +160,7 @@ namespace UnitTests.HighPerformance.Buffers
 
             Assert.AreEqual(writer.WrittenCount, data.Length);
 
-            Stream stream = writer.AsStream();
+            Stream stream = ((IMemoryOwner<byte>)writer).AsStream();
 
             Assert.AreEqual(stream.Length, data.Length);
 
