@@ -449,6 +449,66 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("MemoryExtensions")]
         [TestMethod]
+        public void Test_MemoryExtensions_FromString_CastFromByteAndBack()
+        {
+            var data = new string('a', 128);
+            Memory<char> memoryOfChars = MemoryMarshal.AsMemory(data.AsMemory());
+            Memory<float> memoryOfFloats = memoryOfChars.Cast<char, float>();
+            Memory<char> memoryBack = memoryOfFloats.Cast<float, char>();
+
+            Assert.AreEqual(memoryOfChars.Length, memoryBack.Length);
+
+            Assert.IsTrue(MemoryMarshal.TryGetString(memoryOfChars, out var text, out int start, out int length));
+            Assert.AreSame(text!, data);
+            Assert.AreEqual(start, 0);
+            Assert.AreEqual(length, data.Length);
+
+            Assert.IsTrue(memoryOfChars.Equals(memoryBack));
+
+            Span<char> span1 = memoryOfChars.Span;
+            Span<char> span2 = memoryBack.Span;
+
+            Assert.IsTrue(span1 == span2);
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
+        [DataRow(64, 0, 0)]
+        [DataRow(64, 4, 0)]
+        [DataRow(64, 0, 4)]
+        [DataRow(64, 4, 4)]
+        [DataRow(64, 4, 0)]
+        [DataRow(256, 16, 0)]
+        [DataRow(256, 4, 16)]
+        [DataRow(256, 64, 0)]
+        [DataRow(256, 64, 8)]
+        public unsafe void Test_MemoryExtensions_FromString_CastAndPin(int size, int preOffset, int postOffset)
+        {
+            var data = new string('a', size);
+            Memory<char> memoryOfChars = MemoryMarshal.AsMemory(data.AsMemory()).Slice(preOffset);
+            Memory<byte> memoryOfBytes = memoryOfChars.Cast<char, byte>().Slice(postOffset);
+
+            using (var handle1 = memoryOfBytes.Pin())
+            {
+                void* p1 = handle1.Pointer;
+                void* p2 = Unsafe.AsPointer(ref data.DangerousGetReferenceAt(preOffset + (postOffset * sizeof(byte) / sizeof(char))));
+
+                Assert.IsTrue(p1 == p2);
+            }
+
+            Memory<int> memoryOfInts = memoryOfChars.Cast<char, int>().Slice(postOffset);
+
+            using (var handle2 = memoryOfInts.Pin())
+            {
+                void* p3 = handle2.Pointer;
+                void* p4 = Unsafe.AsPointer(ref data.DangerousGetReferenceAt(preOffset + (postOffset * sizeof(int) / sizeof(char))));
+
+                Assert.IsTrue(p3 == p4);
+            }
+        }
+
+        [TestCategory("MemoryExtensions")]
+        [TestMethod]
         public void Test_MemoryExtensions_EmptyMemoryStream()
         {
             Memory<byte> memory = default;

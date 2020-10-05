@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return new ProxyMemoryManager<TFrom, TTo>(memoryManager, start, length).Memory;
             }
 
-            // Throws when the memory instance has an unsupported backing store (eg. a string)
+            // Throws when the memory instance has an unsupported backing store
             static ReadOnlyMemory<TTo> ThrowArgumentExceptionForUnsupportedMemory()
             {
                 throw new ArgumentException("The input instance doesn't have a supported underlying data store.");
