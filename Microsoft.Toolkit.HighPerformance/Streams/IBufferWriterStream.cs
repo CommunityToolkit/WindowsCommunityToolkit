@@ -158,6 +158,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             MemoryStream.ValidateDisposed(this.disposed);
 
             this.bufferWriter.GetSpan(1)[0] = value;
+
+            this.bufferWriter.Advance(1);
         }
 
         /// <inheritdoc/>

@@ -24,9 +24,9 @@ namespace UnitTests.HighPerformance.Streams
 
             Stream stream = ((IBufferWriter<byte>)writer).AsStream();
 
-            Assert.IsTrue(stream.CanRead);
+            Assert.IsFalse(stream.CanRead);
             Assert.IsFalse(stream.CanSeek);
-            Assert.IsFalse(stream.CanWrite);
+            Assert.IsTrue(stream.CanWrite);
 
             Assert.ThrowsException<NotSupportedException>(() => stream.Length);
             Assert.ThrowsException<NotSupportedException>(() => stream.Position);
