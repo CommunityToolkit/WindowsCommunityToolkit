@@ -254,7 +254,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckBufferAndEnsureCapacity(int sizeHint)
         {
-            if (this.array is null)
+            T[]? array = this.array;
+
+            if (array is null)
             {
                 ThrowObjectDisposedException();
             }
