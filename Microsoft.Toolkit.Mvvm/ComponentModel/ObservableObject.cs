@@ -30,6 +30,26 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Performs the required configuration when a property has changed, and then
         /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
         /// </summary>
+        /// <param name="args">The input <see cref="PropertyChangedEventArgs"/> instance.</param>
+        protected void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            PropertyChanged?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Performs the required configuration when a property is changing, and then
+        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// </summary>
+        /// <param name="args">The input <see cref="PropertyChangingEventArgs"/> instance.</param>
+        protected void OnPropertyChanging(PropertyChangingEventArgs args)
+        {
+            PropertyChanging?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Performs the required configuration when a property has changed, and then
+        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <remarks>The base implementation only raises the <see cref="PropertyChanged"/> event.</remarks>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
