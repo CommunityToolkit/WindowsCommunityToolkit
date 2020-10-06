@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
-    /// <inheritdoc cref="IBufferWriterStream"/>
-    internal sealed partial class IBufferWriterStream
+    /// <inheritdoc cref="IBufferWriterStream{TWriter}"/>
+    internal sealed partial class IBufferWriterStream<TWriter>
     {
         /// <inheritdoc/>
         public override void CopyTo(Stream destination, int bufferSize)

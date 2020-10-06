@@ -14,12 +14,14 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping an <see cref="IBufferWriter{T}"/> instance.
     /// </summary>
-    internal sealed partial class IBufferWriterStream : Stream
+    /// <typeparam name="TWriter">The type of buffer writer to use.</typeparam>
+    internal sealed partial class IBufferWriterStream<TWriter> : Stream
+        where TWriter : struct, IBufferWriter<byte>
     {
         /// <summary>
-        /// The target <see cref="IBufferWriter{T}"/> instance to use.
+        /// The target <typeparamref name="TWriter"/> instance to use.
         /// </summary>
-        private readonly IBufferWriter<byte> bufferWriter;
+        private readonly TWriter bufferWriter;
 
         /// <summary>
         /// Indicates whether or not the current instance has been disposed
@@ -27,10 +29,10 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         private bool disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IBufferWriterStream"/> class.
+        /// Initializes a new instance of the <see cref="IBufferWriterStream{TWriter}"/> class.
         /// </summary>
         /// <param name="bufferWriter">The target <see cref="IBufferWriter{T}"/> instance to use.</param>
-        public IBufferWriterStream(IBufferWriter<byte> bufferWriter)
+        public IBufferWriterStream(TWriter bufferWriter)
         {
             this.bufferWriter = bufferWriter;
         }

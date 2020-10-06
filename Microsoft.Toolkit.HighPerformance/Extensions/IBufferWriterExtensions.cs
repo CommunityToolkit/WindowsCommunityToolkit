@@ -9,6 +9,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Streams;
+using Microsoft.Toolkit.HighPerformance.Streams.Sources;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -18,16 +19,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class IBufferWriterExtensions
     {
         /// <summary>
-        /// Returns a <see cref="Stream"/> that can be used to write to a target <see cref="IBufferWriter{T}"/> of <see cref="byte"/> instance.
+        /// Returns a <see cref="Stream"/> that can be used to write to a target an <see cref="IBufferWriter{T}"/> of <see cref="byte"/> instance.
         /// </summary>
-        /// <param name="writer">The target <see cref="Memory{T}"/> of <see cref="byte"/> instance.</param>
+        /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance.</param>
         /// <returns>A <see cref="Stream"/> wrapping <paramref name="writer"/> and writing data to its underlying buffer.</returns>
         /// <remarks>The returned <see cref="Stream"/> can only be written to and does not support seeking.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this IBufferWriter<byte> writer)
         {
-            return new IBufferWriterStream(writer);
+            return new IBufferWriterStream<IBufferWriterOwner>(new IBufferWriterOwner(writer));
         }
 
         /// <summary>
