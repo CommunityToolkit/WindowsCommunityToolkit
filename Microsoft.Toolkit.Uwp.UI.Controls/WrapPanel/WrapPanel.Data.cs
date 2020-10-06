@@ -44,6 +44,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             public UvMeasure Add(double u, double v)
                 => new UvMeasure { U = U + u, V = V + v };
+
+            public Size ToSize(Orientation orientation)
+                => orientation == Orientation.Horizontal ? new Size(U, V) : new Size(V, U);
         }
 
         private struct UvRect
@@ -52,18 +55,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             public UvMeasure Size { get; set; }
 
-            public Rect ToRect(Orientation orientation)
+            public Rect ToRect(Orientation orientation) => orientation switch
             {
-                switch (orientation)
-                {
-                    case Orientation.Vertical:
-                        return new Rect(Position.V, Position.U, Size.V, Size.U);
-                    case Orientation.Horizontal:
-                        return new Rect(Position.U, Position.V, Size.U, Size.V);
-                    default:
-                        throw new NotSupportedException();
-                }
-            }
+                Orientation.Vertical => new Rect(Position.V, Position.U, Size.V, Size.U),
+                Orientation.Horizontal => new Rect(Position.U, Position.V, Size.U, Size.V),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         private struct Row
@@ -83,6 +80,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// Gets the size of the row.
             /// </summary>
             public UvMeasure Size => _rowSize;
+
+            public UvRect Rect => _childrenRects.Count > 0 ?
+                new UvRect { Position = _childrenRects[0].Position, Size = Size } :
+                new UvRect { Position = UvMeasure.Zero, Size = Size };
 
             public void Add(UvMeasure position, UvMeasure size)
             {
