@@ -130,7 +130,11 @@ namespace Microsoft.Collections.Extensions
             this.entries = InitialEntries;
         }
 
-        /// <inheritdoc cref="Dictionary{TKey,TValue}.ContainsKey"/>
+        /// <summary>
+        /// Checks whether or not the dictionary contains a pair with a specified key.
+        /// </summary>
+        /// <param name="key">The key to look for.</param>
+        /// <returns>Whether or not the key was present in the dictionary.</returns>
         public bool ContainsKey(TKey key)
         {
             Entry[] entries = this.entries;
@@ -176,7 +180,18 @@ namespace Microsoft.Collections.Extensions
         }
 
         /// <inheritdoc/>
-        public bool TryRemove(TKey key, out object? result)
+        public bool TryRemove(TKey key)
+        {
+            return TryRemove(key, out _);
+        }
+
+        /// <summary>
+        /// Tries to remove a value with a specified key, if present.
+        /// </summary>
+        /// <param name="key">The key of the value to remove.</param>
+        /// <param name="result">The removed value, if it was present.</param>
+        /// <returns>Whether or not the key was present.</returns>
+        public bool TryRemove(TKey key, out TValue? result)
         {
             Entry[] entries = this.entries;
             int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
@@ -216,13 +231,6 @@ namespace Microsoft.Collections.Extensions
             result = null;
 
             return false;
-        }
-
-        /// <inheritdoc/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Remove(TKey key)
-        {
-            return TryRemove(key, out _);
         }
 
         /// <summary>
