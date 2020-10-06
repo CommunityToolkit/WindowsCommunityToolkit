@@ -244,6 +244,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ThrowInvalidLengthException();
             }
 
+            // We're transferring the ownership of the underlying array, so the current
+            // instance no longer needs to be disposed. Because of this, we can manually
+            // suppress the finalizer to reduce the overhead on the garbage collector.
+            GC.SuppressFinalize(this);
+
             return new MemoryOwner<T>(start, length, this.pool, array!);
         }
 
