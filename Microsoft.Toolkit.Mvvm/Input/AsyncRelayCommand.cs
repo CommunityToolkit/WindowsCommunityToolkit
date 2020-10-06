@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,21 @@ namespace Microsoft.Toolkit.Mvvm.Input
     /// </summary>
     public sealed class AsyncRelayCommand : ObservableObject, IAsyncRelayCommand
     {
+        /// <summary>
+        /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="CanBeCanceled"/>.
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs CanBeCanceledChangedEventArgs = new PropertyChangedEventArgs(nameof(CanBeCanceled));
+
+        /// <summary>
+        /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="IsCancellationRequested"/>.
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs IsCancellationRequestedChangedEventArgs = new PropertyChangedEventArgs(nameof(IsCancellationRequested));
+
+        /// <summary>
+        /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="IsRunning"/>.
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs IsRunningChangedEventArgs = new PropertyChangedEventArgs(nameof(IsRunning));
+
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute"/> is used.
         /// </summary>
@@ -94,13 +110,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ =>
                 {
                     // When the task completes
-                    OnPropertyChanged(nameof(IsRunning));
-                    OnPropertyChanged(nameof(CanBeCanceled));
+                    OnPropertyChanged(IsRunningChangedEventArgs);
+                    OnPropertyChanged(CanBeCanceledChangedEventArgs);
                 }))
                 {
                     // When setting the task
-                    OnPropertyChanged(nameof(IsRunning));
-                    OnPropertyChanged(nameof(CanBeCanceled));
+                    OnPropertyChanged(IsRunningChangedEventArgs);
+                    OnPropertyChanged(CanBeCanceledChangedEventArgs);
                 }
             }
         }
@@ -149,7 +165,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
                 var cancellationTokenSource = this.cancellationTokenSource = new CancellationTokenSource();
 
-                OnPropertyChanged(nameof(IsCancellationRequested));
+                OnPropertyChanged(IsCancellationRequestedChangedEventArgs);
 
                 // Invoke the cancelable command delegate with a new linked token
                 return ExecutionTask = this.cancelableExecute!(cancellationTokenSource.Token);
@@ -163,7 +179,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         {
             this.cancellationTokenSource?.Cancel();
 
-            OnPropertyChanged(nameof(IsCancellationRequested));
+            OnPropertyChanged(IsCancellationRequestedChangedEventArgs);
         }
     }
 }

@@ -94,13 +94,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ =>
                 {
                     // When the task completes
-                    OnPropertyChanged(nameof(IsRunning));
-                    OnPropertyChanged(nameof(CanBeCanceled));
+                    OnPropertyChanged(AsyncRelayCommand.IsRunningChangedEventArgs);
+                    OnPropertyChanged(AsyncRelayCommand.CanBeCanceledChangedEventArgs);
                 }))
                 {
                     // When setting the task
-                    OnPropertyChanged(nameof(IsRunning));
-                    OnPropertyChanged(nameof(CanBeCanceled));
+                    OnPropertyChanged(AsyncRelayCommand.IsRunningChangedEventArgs);
+                    OnPropertyChanged(AsyncRelayCommand.CanBeCanceledChangedEventArgs);
                 }
             }
         }
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
                 var cancellationTokenSource = this.cancellationTokenSource = new CancellationTokenSource();
 
-                OnPropertyChanged(nameof(IsCancellationRequested));
+                OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
 
                 // Invoke the cancelable command delegate with a new linked token
                 return ExecutionTask = this.cancelableExecute!(parameter, cancellationTokenSource.Token);
@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         {
             this.cancellationTokenSource?.Cancel();
 
-            OnPropertyChanged(nameof(IsCancellationRequested));
+            OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
         }
     }
 }
