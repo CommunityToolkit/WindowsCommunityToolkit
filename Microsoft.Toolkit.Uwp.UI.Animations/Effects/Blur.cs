@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
@@ -14,15 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Effects.AnimationEffect" />
     public class Blur : AnimationEffect
     {
-        /// <summary>
-        /// Gets a value indicating whether blur is supported.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is supported; otherwise, <c>false</c>.
-        /// </value>
-        public override bool IsSupported
-            => ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
-
         /// <summary>
         /// Gets the name of the effect.
         /// </summary>
