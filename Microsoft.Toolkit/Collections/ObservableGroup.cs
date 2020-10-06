@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -16,8 +17,10 @@ namespace Microsoft.Toolkit.Collections
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
     [DebuggerDisplay("Key = {Key}, Count = {Count}")]
-    public sealed class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
+    public class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
+        private TKey _key;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGroup{TKey, TValue}"/> class.
         /// </summary>
@@ -49,9 +52,21 @@ namespace Microsoft.Toolkit.Collections
         }
 
         /// <summary>
-        /// Gets the key of the group.
+        /// Gets or sets the key of the group.
         /// </summary>
-        public TKey Key { get; }
+        public TKey Key
+        {
+            get
+            {
+                return _key;
+            }
+
+            set
+            {
+                _key = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Key)));
+            }
+        }
 
         /// <inheritdoc/>
         object IReadOnlyObservableGroup.Key => Key;
