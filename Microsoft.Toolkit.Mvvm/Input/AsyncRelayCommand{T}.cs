@@ -91,15 +91,22 @@ namespace Microsoft.Toolkit.Mvvm.Input
             get => this.executionTask;
             private set
             {
-                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
+                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ =>
                 {
+                    // When the task completes
                     OnPropertyChanged(nameof(IsRunning));
+                    OnPropertyChanged(nameof(CanBeCanceled));
+                }))
+                {
+                    // When setting the task
+                    OnPropertyChanged(nameof(IsRunning));
+                    OnPropertyChanged(nameof(CanBeCanceled));
                 }
             }
         }
 
         /// <inheritdoc/>
-        public bool CanBeCanceled => !(this.cancelableExecute is null);
+        public bool CanBeCanceled => !(this.cancelableExecute is null) && IsRunning;
 
         /// <inheritdoc/>
         public bool IsCancellationRequested => this.cancellationTokenSource?.IsCancellationRequested == true;
