@@ -11,17 +11,15 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
-    /// <summary>
-    /// A <see cref="Stream"/> implementation wrapping a <see cref="Memory{T}"/> or <see cref="ReadOnlyMemory{T}"/> instance.
-    /// </summary>
-    internal partial class MemoryStream
+    /// <inheritdoc cref="MemoryStream{TSource}"/>
+    internal partial class MemoryStream<TSource>
     {
         /// <inheritdoc/>
         public sealed override void CopyTo(Stream destination, int bufferSize)
         {
-            ValidateDisposed();
+            MemoryStream.ValidateDisposed(this.disposed);
 
-            Span<byte> source = this.memory.Span.Slice(this.position);
+            Span<byte> source = this.source.Span.Slice(this.position);
 
             this.position += source.Length;
 
@@ -79,13 +77,13 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public sealed override int Read(Span<byte> buffer)
         {
-            ValidateDisposed();
+            MemoryStream.ValidateDisposed(this.disposed);
 
             int
-                bytesAvailable = this.memory.Length - this.position,
+                bytesAvailable = this.source.Length - this.position,
                 bytesCopied = Math.Min(bytesAvailable, buffer.Length);
 
-            Span<byte> source = this.memory.Span.Slice(this.position, bytesCopied);
+            Span<byte> source = this.source.Span.Slice(this.position, bytesCopied);
 
             source.CopyTo(buffer);
 
@@ -97,14 +95,14 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public sealed override void Write(ReadOnlySpan<byte> buffer)
         {
-            ValidateDisposed();
-            ValidateCanWrite();
+            MemoryStream.ValidateDisposed(this.disposed);
+            MemoryStream.ValidateCanWrite(CanWrite);
 
-            Span<byte> destination = this.memory.Span.Slice(this.position);
+            Span<byte> destination = this.source.Span.Slice(this.position);
 
             if (!buffer.TryCopyTo(destination))
             {
-                ThrowArgumentExceptionForEndOfStreamOnWrite();
+                MemoryStream.ThrowArgumentExceptionForEndOfStreamOnWrite();
             }
 
             this.position += buffer.Length;
