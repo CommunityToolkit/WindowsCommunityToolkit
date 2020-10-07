@@ -34,10 +34,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             WarnUserToPlugInDevice();
 
             var buttonControl = control.FindChildByName("TargetButton") as Button;
-            buttonControl.Click += TargetButton_Click;
 
             if (buttonControl != null)
             {
+                buttonControl.Click += TargetButton_Click;
+
                 gazeButtonControl = GazeInput.GetGazeElement(buttonControl);
 
                 if (gazeButtonControl == null)
