@@ -20,32 +20,27 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     public abstract class ObservableValidator : ObservableObject, INotifyDataErrorInfo
     {
         /// <summary>
+        /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="HasErrors"/>.
+        /// </summary>
+        private static readonly PropertyChangedEventArgs HasErrorsChangedEventArgs = new PropertyChangedEventArgs(nameof(HasErrors));
+
+        /// <summary>
         /// The <see cref="Dictionary{TKey,TValue}"/> instance used to store previous validation results.
         /// </summary>
         private readonly Dictionary<string, List<ValidationResult>> errors = new Dictionary<string, List<ValidationResult>>();
+
+        /// <summary>
+        /// Indicates the total number of properties with errors (not total errors).
+        /// This is used to allow <see cref="HasErrors"/> to operate in O(1) time, as it can just
+        /// check whether this value is not 0 instead of having to traverse <see cref="errors"/>.
+        /// </summary>
+        private int totalErrors;
 
         /// <inheritdoc/>
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         /// <inheritdoc/>
-        public bool HasErrors
-        {
-            get
-            {
-                // This uses the value enumerator for Dictionary<TKey, TValue>.ValueCollection, so it doesn't
-                // allocate. Accessing this property is O(n), but we can stop as soon as we find at least one
-                // error in the whole entity, and doing this saves 8 bytes in the object size (no fields needed).
-                foreach (var value in this.errors.Values)
-                {
-                    if (value.Count > 0)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
+        public bool HasErrors => this.totalErrors > 0;
 
         /// <summary>
         /// Compares the current and new values for a given property. If the value has changed,
@@ -284,6 +279,34 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 value,
                 new ValidationContext(this, null, null) { MemberName = propertyName },
                 propertyErrors);
+
+            // Update the shared counter for the number of errors, and raise the
+            // property changed event if necessary. We decrement the number of total
+            // errors if the current property is valid but it wasn't so before this
+            // validation, and we increment it if the validation failed after being
+            // correct before. The property changed event is raised whenever the
+            // number of total errors is either decremented to 0, or incremented to 1.
+            if (isValid)
+            {
+                if (errorsChanged)
+                {
+                    this.totalErrors--;
+
+                    if (this.totalErrors == 0)
+                    {
+                        OnPropertyChanged(HasErrorsChangedEventArgs);
+                    }
+                }
+            }
+            else if (!errorsChanged)
+            {
+                this.totalErrors++;
+
+                if (this.totalErrors == 1)
+                {
+                    OnPropertyChanged(HasErrorsChangedEventArgs);
+                }
+            }
 
             // Only raise the event once if needed. This happens either when the target property
             // had existing errors and is now valid, or if the validation has failed and there are

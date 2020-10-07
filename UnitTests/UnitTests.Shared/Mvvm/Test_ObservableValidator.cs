@@ -19,16 +19,21 @@ namespace UnitTests.Mvvm
         public void Test_ObservableValidator_HasErrors()
         {
             var model = new Person();
+            var args = new List<PropertyChangedEventArgs>();
 
             Assert.IsFalse(model.HasErrors);
 
             model.Name = "No";
 
             Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(args.Count, 1);
+            Assert.AreEqual(args[0].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
 
             model.Name = "Valid";
 
             Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(args.Count, 2);
+            Assert.AreEqual(args[2].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
         }
 
         [TestCategory("Mvvm")]
