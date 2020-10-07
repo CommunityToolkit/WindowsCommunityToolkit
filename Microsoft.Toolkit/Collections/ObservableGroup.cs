@@ -56,10 +56,7 @@ namespace Microsoft.Toolkit.Collections
         /// </summary>
         public TKey Key
         {
-            get
-            {
-                return _key;
-            }
+            get => this.key;
             set
             {
                 if (!EqualityComparer<TKey>.Default.Equals(this.key, value))
