@@ -191,6 +191,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             this.cancellationTokenSource?.Cancel();
 
             OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
+            OnPropertyChanged(AsyncRelayCommand.CanBeCanceledChangedEventArgs);
         }
     }
 }
