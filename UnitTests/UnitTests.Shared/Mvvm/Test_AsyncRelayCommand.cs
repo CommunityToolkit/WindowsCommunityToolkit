@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -126,17 +128,31 @@ namespace UnitTests.Mvvm
 
             var command = new AsyncRelayCommand(token => tcs.Task);
 
+            List<PropertyChangedEventArgs> args = new List<PropertyChangedEventArgs>();
+
+            command.PropertyChanged += (s, e) => args.Add(e);
+
             Assert.IsTrue(command.CanExecute(null));
             Assert.IsTrue(command.CanExecute(new object()));
 
-            Assert.IsTrue(command.CanBeCanceled);
+            Assert.IsFalse(command.CanBeCanceled);
             Assert.IsFalse(command.IsCancellationRequested);
 
             command.Execute(null);
 
+            Assert.IsTrue(command.CanBeCanceled);
             Assert.IsFalse(command.IsCancellationRequested);
+            Assert.AreEqual(args.Count, 4);
+            Assert.AreEqual(args[0].PropertyName, nameof(IAsyncRelayCommand.IsCancellationRequested));
+            Assert.AreEqual(args[1].PropertyName, nameof(IAsyncRelayCommand.ExecutionTask));
+            Assert.AreEqual(args[2].PropertyName, nameof(IAsyncRelayCommand.IsRunning));
+            Assert.AreEqual(args[3].PropertyName, nameof(IAsyncRelayCommand.CanBeCanceled));
 
             command.Cancel();
+
+            Assert.AreEqual(args.Count, 6);
+            Assert.AreEqual(args[4].PropertyName, nameof(IAsyncRelayCommand.IsCancellationRequested));
+            Assert.AreEqual(args[5].PropertyName, nameof(IAsyncRelayCommand.CanBeCanceled));
 
             Assert.IsTrue(command.IsCancellationRequested);
 
@@ -144,6 +160,7 @@ namespace UnitTests.Mvvm
 
             await command.ExecutionTask!;
 
+            Assert.IsFalse(command.CanBeCanceled);
             Assert.IsTrue(command.IsCancellationRequested);
         }
     }

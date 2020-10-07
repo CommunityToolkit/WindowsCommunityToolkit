@@ -180,6 +180,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             this.cancellationTokenSource?.Cancel();
 
             OnPropertyChanged(IsCancellationRequestedChangedEventArgs);
+            OnPropertyChanged(CanBeCanceledChangedEventArgs);
         }
     }
 }
