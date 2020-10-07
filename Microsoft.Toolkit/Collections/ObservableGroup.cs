@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Collections
     [DebuggerDisplay("Key = {Key}, Count = {Count}")]
     public class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
-        private TKey _key;
+        private TKey key;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGroup{TKey, TValue}"/> class.
