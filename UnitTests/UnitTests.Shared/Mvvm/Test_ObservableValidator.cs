@@ -21,19 +21,23 @@ namespace UnitTests.Mvvm
             var model = new Person();
             var args = new List<PropertyChangedEventArgs>();
 
+            model.PropertyChanged += (s, e) => args.Add(e);
+
             Assert.IsFalse(model.HasErrors);
 
             model.Name = "No";
 
             Assert.IsTrue(model.HasErrors);
-            Assert.AreEqual(args.Count, 1);
+            Assert.AreEqual(args.Count, 2);
             Assert.AreEqual(args[0].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
+            Assert.AreEqual(args[1].PropertyName, nameof(Person.Name));
 
             model.Name = "Valid";
 
             Assert.IsFalse(model.HasErrors);
-            Assert.AreEqual(args.Count, 2);
+            Assert.AreEqual(args.Count, 4);
             Assert.AreEqual(args[2].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
+            Assert.AreEqual(args[3].PropertyName, nameof(Person.Name));
         }
 
         [TestCategory("Mvvm")]
