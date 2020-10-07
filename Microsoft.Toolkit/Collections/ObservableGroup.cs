@@ -60,11 +60,14 @@ namespace Microsoft.Toolkit.Collections
             {
                 return _key;
             }
-
             set
             {
-                _key = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Key)));
+                if (!EqualityComparer<TKey>.Default.Equals(this.key, value))
+                {
+                    this.key = value;
+                    
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Key)));
+                }
             }
         }
 
