@@ -19,7 +19,10 @@ namespace Microsoft.Toolkit.Collections
     [DebuggerDisplay("Key = {Key}, Count = {Count}")]
     public class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
-        private TKey key;
+        /// <summary>
+        /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="Key"/>
+        /// </summary>
+        private static readonly PropertyChangedEventArgs KeyChangedEventArgs = new PropertyChangedEventArgs(nameof(Key));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGroup{TKey, TValue}"/> class.
@@ -51,6 +54,8 @@ namespace Microsoft.Toolkit.Collections
             Key = key;
         }
 
+        private TKey key;
+
         /// <summary>
         /// Gets or sets the key of the group.
         /// </summary>
@@ -62,8 +67,8 @@ namespace Microsoft.Toolkit.Collections
                 if (!EqualityComparer<TKey>.Default.Equals(this.key, value))
                 {
                     this.key = value;
-                    
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Key)));
+
+                    OnPropertyChanged(KeyChangedEventArgs);
                 }
             }
         }
