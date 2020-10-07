@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
@@ -152,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (finalSize != DesiredSize)
             {
                 // We haven't received our desired size. We need to refresh the rows.
-                finalSize = UpdateRows(finalSize);
+                UpdateRows(finalSize);
             }
 
             if (_rows.Count > 0)
@@ -194,6 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
             var currentRow = new Row(new List<UvRect>(), default);
+            var finalMeasure = new UvMeasure(Orientation, width: 0.0, height: 0.0);
             void Arrange(UIElement child, bool isLast = false)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize);
@@ -222,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // adjust the location for the next items
                 position.U += desiredMeasure.U + spacingMeasure.U;
+                finalMeasure.U = Math.Max(finalMeasure.U, position.U);
             }
 
             var lastIndex = Children.Count - 1;
@@ -241,10 +244,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return Size.Empty;
             }
 
-            var lastRowRect = _rows.Last().Rect.ToRect(Orientation);
-            return new Size(
-                lastRowRect.Bottom + Padding.Bottom,
-                lastRowRect.Right + Padding.Right);
+            // Get max V here before computing final rect
+            var lastRowRect = _rows.Last().Rect;
+            finalMeasure.V = lastRowRect.Position.V + lastRowRect.Size.V;
+            var finalRect = finalMeasure.Add(paddingEnd).ToSize(Orientation);
+            return finalRect;
         }
     }
 }

@@ -45,6 +45,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             public UvMeasure Add(double u, double v)
                 => new UvMeasure { U = U + u, V = V + v };
 
+            public UvMeasure Add(UvMeasure measure)
+                => Add(measure.U, measure.V);
+
             public Size ToSize(Orientation orientation)
                 => orientation == Orientation.Horizontal ? new Size(U, V) : new Size(V, U);
         }
