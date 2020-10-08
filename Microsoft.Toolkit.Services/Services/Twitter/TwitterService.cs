@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
 #if WINRT
         /// <summary>
-        /// Initialize underlying provider with relevant token information for Uwp.
+        /// Initialize underlying provider with relevant token information for UWP.
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
 #if NET462
         /// <summary>
-        /// Initialize underlying provider with relevant token information for Uwp.
+        /// Initialize underlying provider with relevant token information for UWP.
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
@@ -398,15 +398,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         public Task<bool> LoginAsync()
         {
             return Provider.LoginAsync();
-        }
-
-        /// <summary>
-        /// Log user out of Twitter.
-        /// </summary>
-        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
-        public void Logout()
-        {
-            Provider.Logout();
         }
 
         /// <summary>

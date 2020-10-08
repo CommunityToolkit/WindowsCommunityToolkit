@@ -7,12 +7,12 @@ using System.Collections.Generic;
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// Animates through a slideshow of photos. Supported on all sizes.
+    /// Animates through a slide show of photos. Supported on all sizes.
     /// </summary>
     public sealed class TileBindingContentPhotos : ITileBindingContent
     {
         /// <summary>
-        /// Gets the collection of slideshow images. Up to 12 images can be provided (Mobile will only display up to 9), which will be used for the slideshow. Adding more than 12 will throw an exception.
+        /// Gets the collection of slide show images. Up to 12 images can be provided (Mobile will only display up to 9), which will be used for the slide show. Adding more than 12 will throw an exception.
         /// </summary>
         public IList<TileBasicImage> Images { get; private set; } = new LimitedList<TileBasicImage>(12);
 

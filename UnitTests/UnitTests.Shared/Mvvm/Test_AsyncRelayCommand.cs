@@ -28,6 +28,9 @@ namespace UnitTests.Mvvm
             Assert.IsTrue(command.CanExecute(null));
             Assert.IsTrue(command.CanExecute(new object()));
 
+            Assert.IsFalse(command.CanBeCanceled);
+            Assert.IsFalse(command.IsCancellationRequested);
+
             (object, EventArgs) args = default;
 
             command.CanExecuteChanged += (s, e) => args = (s, e);
@@ -75,6 +78,9 @@ namespace UnitTests.Mvvm
             Assert.IsTrue(command.CanExecute(null));
             Assert.IsTrue(command.CanExecute(new object()));
 
+            Assert.IsFalse(command.CanBeCanceled);
+            Assert.IsFalse(command.IsCancellationRequested);
+
             command.Execute(null);
 
             Assert.AreEqual(ticks, 1);
@@ -100,6 +106,9 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(command.CanExecute(null));
             Assert.IsFalse(command.CanExecute(new object()));
 
+            Assert.IsFalse(command.CanBeCanceled);
+            Assert.IsFalse(command.IsCancellationRequested);
+
             command.Execute(null);
 
             Assert.AreEqual(ticks, 0);
@@ -107,6 +116,35 @@ namespace UnitTests.Mvvm
             command.Execute(new object());
 
             Assert.AreEqual(ticks, 0);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public async Task Test_AsyncRelayCommand_WithCancellation()
+        {
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+
+            var command = new AsyncRelayCommand(token => tcs.Task);
+
+            Assert.IsTrue(command.CanExecute(null));
+            Assert.IsTrue(command.CanExecute(new object()));
+
+            Assert.IsTrue(command.CanBeCanceled);
+            Assert.IsFalse(command.IsCancellationRequested);
+
+            command.Execute(null);
+
+            Assert.IsFalse(command.IsCancellationRequested);
+
+            command.Cancel();
+
+            Assert.IsTrue(command.IsCancellationRequested);
+
+            tcs.SetResult(null);
+
+            await command.ExecutionTask!;
+
+            Assert.IsTrue(command.IsCancellationRequested);
         }
     }
 }
