@@ -225,39 +225,6 @@ Task("Package")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
-
-    // Build and pack C++ packages
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Native");
-
-    buildSettings.SetPlatformTarget(PlatformTarget.ARM);
-    MSBuild(Solution, buildSettings);
-	
-	buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
-    MSBuild(Solution, buildSettings);
-
-    buildSettings.SetPlatformTarget(PlatformTarget.x64);
-    MSBuild(Solution, buildSettings);
-
-    buildSettings.SetPlatformTarget(PlatformTarget.x86);
-    MSBuild(Solution, buildSettings);
-
-    RetrieveVersion();
-
-    var nuGetPackSettings = new NuGetPackSettings
-	{
-		OutputDirectory = nupkgDir,
-        Version = Version
-	};
-	
-    var nuspecs = GetFiles("./*.nuspec");
-    foreach (var nuspec in nuspecs)
-    {
-        NuGetPack(nuspec, nuGetPackSettings);
-    }
 });
 
 public string getMSTestAdapterPath(){
