@@ -25,11 +25,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/> instance
+        /// This constructor will produce an instance that will use the <see cref="WeakReferenceMessenger.Default"/> instance
         /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
         protected ObservableRecipient()
-            : this(Messaging.Messenger.Default)
+            : this(WeakReferenceMessenger.Default)
         {
         }
 
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The base implementation registers all messages for this recipients that have been declared
         /// explicitly through the <see cref="IRecipient{TMessage}"/> interface, using the default channel.
-        /// For more details on how this works, see the <see cref="MessengerExtensions.RegisterAll"/> method.
+        /// For more details on how this works, see the <see cref="IMessengerExtensions.RegisterAll"/> method.
         /// If you need more fine tuned control, want to register messages individually or just prefer
         /// the lambda-style syntax for message registration, override this method and register manually.
         /// </remarks>
@@ -257,6 +257,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
             bool propertyChanged = SetProperty(oldValue, newValue, model, callback, propertyName);
 
@@ -288,6 +289,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
             bool propertyChanged = SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
 
