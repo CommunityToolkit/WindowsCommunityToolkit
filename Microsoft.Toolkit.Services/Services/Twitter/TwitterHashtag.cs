@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -14,13 +14,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets indices of hashtag location in tweet string.
         /// </summary>
-        [JsonProperty("indices")]
+        [JsonPropertyName("indices")]
         public int[] Indices { get; set; }
 
         /// <summary>
         /// Gets or sets hashtag text, excluding #.
         /// </summary>
-        [JsonProperty("text")]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
     }
 }

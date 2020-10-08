@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -14,19 +14,19 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Gets or sets the url of the attached image in thumbnail size.
         /// </summary>
-        [JsonProperty("thumbnail_pic")]
+        [JsonPropertyName("thumbnail_pic")]
         public string ThumbnailImageUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the url of the attached image in medium size.
         /// </summary>
-        [JsonProperty("bmiddle_pic")]
+        [JsonPropertyName("bmiddle_pic")]
         public string MediumImageUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the url of the attached image in original size.
         /// </summary>
-        [JsonProperty("original_pic")]
+        [JsonPropertyName("original_pic")]
         public string OriginalImageUrl { get; set; }
     }
 }
