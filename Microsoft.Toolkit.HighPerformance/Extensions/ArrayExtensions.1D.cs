@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCORE_RUNTIME || NETCOREAPP5_0
+#if NETCORE_RUNTIME || NET5_0
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReference<T>(this T[] array)
         {
-#if NETCOREAPP5_0
+#if NET5_0
             return ref MemoryMarshal.GetArrayDataReference(array);
 #elif NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArrayData>(array);
@@ -56,9 +56,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
         {
-#if NETCOREAPP5_0
+#if NET5_0
             ref T r0 = ref MemoryMarshal.GetArrayDataReference(array);
-            ref T ri = ref Unsafe.Add(ref r0, i);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
 
             return ref ri;
 #elif NETCORE_RUNTIME
