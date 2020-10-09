@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -279,8 +280,9 @@ namespace UnitTests.HighPerformance.Memory
 
             bool success = memory2d.TryGetMemory(out Memory<int> memory);
 
-            Assert.IsFalse(success);
-            Assert.IsTrue(memory.IsEmpty);
+            Assert.IsTrue(success);
+            Assert.AreEqual(memory.Length, array.Length);
+            Assert.IsTrue(Unsafe.AreSame(ref array[0, 0], ref memory.Span[0]));
         }
 
         [TestCategory("Memory2DT")]
