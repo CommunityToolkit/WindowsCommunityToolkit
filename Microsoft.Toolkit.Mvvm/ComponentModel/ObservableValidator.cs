@@ -170,6 +170,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool validate, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
             if (validate)
             {
@@ -199,6 +200,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool validate, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
             if (validate)
             {
