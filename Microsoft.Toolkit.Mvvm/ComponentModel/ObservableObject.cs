@@ -48,18 +48,18 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
         /// Raises the <see cref="PropertyChanging"/> event.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        protected virtual void OnPropertyChanging([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanging([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            OnPropertyChanging(new PropertyChangingEventArgs(propertyName));
         }
 
         /// <summary>
