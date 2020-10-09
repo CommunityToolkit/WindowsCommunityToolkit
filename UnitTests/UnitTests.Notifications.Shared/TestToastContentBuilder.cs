@@ -429,12 +429,14 @@ namespace UnitTests.Notifications
             var text = builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText;
 
             Assert.AreEqual(testText, (string)text.Text);
-            Assert.AreEqual(testStyle, text.HintStyle);
-            Assert.AreEqual(testWrapHint, text.HintWrap);
             Assert.AreEqual(testHintMaxLine, text.HintMaxLines);
-            Assert.AreEqual(testHintMinLine, text.HintMinLines);
-            Assert.AreEqual(testAlign, text.HintAlign);
             Assert.AreEqual(testLanguage, text.Language);
+
+            // These values should still be the default values, since they aren't used for top-level text
+            Assert.AreEqual(AdaptiveTextStyle.Default, text.HintStyle);
+            Assert.IsNull(text.HintWrap);
+            Assert.IsNull(text.HintMinLines);
+            Assert.AreEqual(AdaptiveTextAlign.Default, text.HintAlign);
         }
 
         [TestMethod]

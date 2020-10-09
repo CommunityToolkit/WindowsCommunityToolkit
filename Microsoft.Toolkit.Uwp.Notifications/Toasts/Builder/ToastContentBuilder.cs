@@ -6,7 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-#if !WINRT
     /// <summary>
     /// Builder class used to create <see cref="ToastContent"/>
     /// </summary>
@@ -33,7 +32,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="dateTime">Custom Time to be displayed on the toast</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddCustomTimeStamp(DateTime dateTime)
+        public ToastContentBuilder AddCustomTimeStamp(
+#if WINRT
+            DateTimeOffset dateTime)
+#else
+            DateTime dateTime)
+#endif
         {
             Content.DisplayTimestamp = dateTime;
 
@@ -56,12 +60,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Add info that can be used by the application when the app was activated/launched by the toast. Uses foreground activation.
+        /// </summary>
+        /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddToastActivationInfo(string launchArgs)
+        {
+            return AddToastActivationInfo(launchArgs, ToastActivationType.Foreground);
+        }
+
+        /// <summary>
         /// Add info that can be used by the application when the app was activated/launched by the toast.
         /// </summary>
         /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
         /// <param name="activationType">Set the activation type that will be used when the user click on this toast</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddToastActivationInfo(string launchArgs, ToastActivationType activationType = ToastActivationType.Foreground)
+        public ToastContentBuilder AddToastActivationInfo(string launchArgs, ToastActivationType activationType)
         {
             Content.Launch = launchArgs;
             Content.ActivationType = activationType;
@@ -91,6 +105,30 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return this;
         }
 
+#if WINRT
+        /// <summary>
+        /// Set custom audio to go along with the toast.
+        /// </summary>
+        /// <param name="src">Source to the media that will be played when the toast is pop</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        [Windows.Foundation.Metadata.DefaultOverload]
+        public ToastContentBuilder AddAudio(Uri src)
+        {
+            return AddAudio(src, default, default);
+        }
+
+        /// <summary>
+        /// Set custom audio to go along with the toast.
+        /// </summary>
+        /// <param name="src">Source to the media that will be played when the toast is pop</param>
+        /// <param name="loop">Indicating whether sound should repeat as long as the Toast is shown; false to play only once (default).</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddAudio(Uri src, bool? loop)
+        {
+            return AddAudio(src, loop, default);
+        }
+#endif
+
         /// <summary>
         /// Set custom audio to go along with the toast.
         /// </summary>
@@ -98,7 +136,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="loop">Indicating whether sound should repeat as long as the Toast is shown; false to play only once (default).</param>
         /// <param name="silent">Indicating whether sound is muted; false to allow the Toast notification sound to play (default).</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAudio(Uri src, bool? loop = null, bool? silent = null)
+        public ToastContentBuilder AddAudio(
+            Uri src,
+#if WINRT
+            bool? loop,
+            bool? silent)
+#else
+            bool? loop = default,
+            bool? silent = default)
+#endif
         {
             if (!src.IsFile)
             {
@@ -108,12 +154,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             Content.Audio = new ToastAudio();
             Content.Audio.Src = src;
 
-            if (loop != null)
+            if (loop != default)
             {
                 Content.Audio.Loop = loop.Value;
             }
 
-            if (silent != null)
+            if (silent != default)
             {
                 Content.Audio.Silent = silent.Value;
             }
@@ -154,8 +200,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Shows a new toast notification with the current content.
         /// </summary>
+        public void Show()
+        {
+            CustomizeToast customize = null;
+            Show(customize);
+        }
+
+        /// <summary>
+        /// Shows a new toast notification with the current content.
+        /// </summary>
         /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ToastNotification"/> object.</param>
-        public void Show(Action<Windows.UI.Notifications.ToastNotification> customize = null)
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public void Show(CustomizeToast customize)
         {
             var notif = new Windows.UI.Notifications.ToastNotification(GetToastContent().GetXml());
             customize?.Invoke(notif);
@@ -164,19 +222,75 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Shows a new toast notification with the current content.
+        /// </summary>
+        /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ToastNotification"/> object.</param>
+        /// <returns>An operation that completes after your async customizations have completed.</returns>
+        public Windows.Foundation.IAsyncAction Show(CustomizeToastAsync customize)
+        {
+            return ShowAsyncHelper(customize).AsAsyncAction();
+        }
+
+        private async System.Threading.Tasks.Task ShowAsyncHelper(CustomizeToastAsync customize)
+        {
+            var notif = new Windows.UI.Notifications.ToastNotification(GetToastContent().GetXml());
+
+            if (customize != null)
+            {
+                await customize.Invoke(notif);
+            }
+
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(notif);
+        }
+
+        /// <summary>
+        /// Schedules the notification.
+        /// </summary>
+        /// <param name="deliveryTime">The date and time that Windows should display the toast notification. This time must be in the future.</param>
+        public void Schedule(DateTimeOffset deliveryTime)
+        {
+            CustomizeScheduledToast customize = null;
+            Schedule(deliveryTime, customize);
+        }
+
+        /// <summary>
         /// Schedules the notification.
         /// </summary>
         /// <param name="deliveryTime">The date and time that Windows should display the toast notification. This time must be in the future.</param>
         /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ScheduledToastNotification"/> object.</param>
-        public void Schedule(DateTimeOffset deliveryTime, Action<Windows.UI.Notifications.ScheduledToastNotification> customize = null)
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public void Schedule(DateTimeOffset deliveryTime, CustomizeScheduledToast customize)
         {
             var notif = new Windows.UI.Notifications.ScheduledToastNotification(GetToastContent().GetXml(), deliveryTime);
             customize?.Invoke(notif);
 
             ToastNotificationManagerCompat.CreateToastNotifier().AddToSchedule(notif);
         }
+
+        /// <summary>
+        /// Schedules the notification.
+        /// </summary>
+        /// <param name="deliveryTime">The date and time that Windows should display the toast notification. This time must be in the future.</param>
+        /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ScheduledToastNotification"/> object.</param>
+        /// <returns>An operation that completes after your async customizations have completed.</returns>
+        public Windows.Foundation.IAsyncAction Schedule(DateTimeOffset deliveryTime, CustomizeScheduledToastAsync customize)
+        {
+            return ScheduleAsyncHelper(deliveryTime, customize).AsAsyncAction();
+        }
+
+        private async System.Threading.Tasks.Task ScheduleAsyncHelper(DateTimeOffset deliveryTime, CustomizeScheduledToastAsync customize = null)
+        {
+            var notif = new Windows.UI.Notifications.ScheduledToastNotification(GetToastContent().GetXml(), deliveryTime);
+
+            if (customize != null)
+            {
+                await customize.Invoke(notif);
+            }
+
+            ToastNotificationManagerCompat.CreateToastNotifier().AddToSchedule(notif);
+        }
 #endif
     }
-
-#endif
 }
