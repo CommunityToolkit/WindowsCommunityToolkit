@@ -4,8 +4,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+#if !WINDOWS_UWP
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+#endif
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -280,9 +282,14 @@ namespace UnitTests.HighPerformance.Memory
 
             bool success = memory2d.TryGetMemory(out ReadOnlyMemory<int> memory);
 
+#if WINDOWS_UWP
+            Assert.IsFalse(success);
+            Assert.IsTrue(memory.IsEmpty);
+#else
             Assert.IsTrue(success);
             Assert.AreEqual(memory.Length, array.Length);
             Assert.IsTrue(Unsafe.AreSame(ref array[0, 0], ref Unsafe.AsRef(memory.Span[0])));
+#endif
         }
 
         [TestCategory("ReadOnlyMemory2DT")]
