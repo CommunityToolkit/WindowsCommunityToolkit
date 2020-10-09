@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// Implements <see cref="Count{T}"/> with a sequential search.
         /// </summary>
         [Pure]
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
 #endif
         private static nint CountSequential<T>(ref T r0, nint length, T value)
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// Implements <see cref="Count{T}"/> with a vectorized search.
         /// </summary>
         [Pure]
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
 #endif
         private static nint CountSimd<T>(ref T r0, nint length, T value)

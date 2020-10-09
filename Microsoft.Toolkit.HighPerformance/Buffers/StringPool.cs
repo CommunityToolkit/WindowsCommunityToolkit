@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
 using System.Numerics;
 #endif
 using System.Runtime.CompilerServices;
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int RoundUpPowerOfTwo(int x)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             return 1 << (32 - BitOperations.LeadingZeroCount((uint)(x - 1)));
 #else
             x--;
