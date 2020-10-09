@@ -4,11 +4,11 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

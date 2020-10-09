@@ -5,7 +5,6 @@
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Automation.Provider;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
