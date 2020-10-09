@@ -40,10 +40,40 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        public static unsafe ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
+            // Here we assume the input index will never be negative, so we do an unsafe cast to
+            // force the JIT to skip the sign extension when going from int to native int.
+            // On .NET Core 3.1, if we only use Unsafe.Add(ref r0, i), we get the following:
+            // =============================
+            // L0000: mov rax, [rcx]
+            // L0003: movsxd rdx, edx
+            // L0006: lea rax, [rax+rdx*4]
+            // L000a: ret
+            // =============================
+            // Note the movsxd (move with sign extension) to expand the index passed in edx to
+            // the whole rdx register. This is unnecessary and more expensive than just a mov,
+            // which when done to a large register size automatically zeroes the upper bits.
+            // With the (IntPtr)(void*)(uint) cast, we get the following codegen instead:
+            // =============================
+            // L0000: mov rax, [rcx]
+            // L0003: mov edx, edx
+            // L0005: lea rax, [rax+rdx*4]
+            // L0009: ret
+            // =============================
+            // Here we can see how the index is extended to a native integer with just a mov,
+            // which effectively only zeroes the upper bits of the same register used as source.
+            // These three casts are a bit verbose, but they do the trick on both 32 bit and 64
+            // bit architectures, producing optimal code in both cases (they are either completely
+            // elided on 32 bit systems, or result in the correct register expansion when on 64 bit).
+            // We first do an unchecked conversion to uint (which is just a reinterpret-cast). We
+            // then cast to void*, which lets the following IntPtr cast avoid the range check on 32 bit
+            // (since uint could be out of range there if the original index was negative). The final
+            // result is a clean mov as shown above. This will eventually be natively supported by the
+            // JIT compiler (see https://github.com/dotnet/runtime/issues/38794), but doing this here
+            // still ensures the optimal codegen even on existing runtimes (eg. .NET Core 2.1 and 3.1).
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T ri = ref Unsafe.Add(ref r0, i);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
 
             return ref ri;
         }
@@ -87,7 +117,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        public static unsafe ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
             // Check whether the input is in range by first casting both
             // operands to uint and then comparing them, as this allows
@@ -106,12 +136,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // lookup table can just be assumed to always be false.
             bool isInRange = (uint)i < (uint)span.Length;
             byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
-            int
-                negativeFlag = rangeFlag - 1,
+            uint
+                negativeFlag = unchecked(rangeFlag - 1u),
                 mask = ~negativeFlag,
-                offset = i & mask;
+                offset = (uint)i & mask;
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)offset);
 
             return ref r1;
         }
@@ -165,11 +195,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this ReadOnlySpan<T> span, T value)
+        public static unsafe int Count<T>(this ReadOnlySpan<T> span, T value)
             where T : IEquatable<T>
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)span.Length;
+            IntPtr length = (IntPtr)(void*)(uint)span.Length;
 
             return SpanHelper.Count(ref r0, length, value);
         }
@@ -291,11 +321,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
+        public static unsafe int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
             where T : notnull
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)span.Length;
+            IntPtr length = (IntPtr)(void*)(uint)span.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

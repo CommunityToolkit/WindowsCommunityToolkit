@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -16,8 +17,13 @@ namespace Microsoft.Toolkit.Collections
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
     [DebuggerDisplay("Key = {Key}, Count = {Count}")]
-    public sealed class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
+    public class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
     {
+        /// <summary>
+        /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="Key"/>
+        /// </summary>
+        private static readonly PropertyChangedEventArgs KeyChangedEventArgs = new PropertyChangedEventArgs(nameof(Key));
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGroup{TKey, TValue}"/> class.
         /// </summary>
@@ -48,10 +54,24 @@ namespace Microsoft.Toolkit.Collections
             Key = key;
         }
 
+        private TKey key;
+
         /// <summary>
-        /// Gets the key of the group.
+        /// Gets or sets the key of the group.
         /// </summary>
-        public TKey Key { get; }
+        public TKey Key
+        {
+            get => this.key;
+            set
+            {
+                if (!EqualityComparer<TKey>.Default.Equals(this.key, value))
+                {
+                    this.key = value;
+
+                    OnPropertyChanged(KeyChangedEventArgs);
+                }
+            }
+        }
 
         /// <inheritdoc/>
         object IReadOnlyObservableGroup.Key => Key;
