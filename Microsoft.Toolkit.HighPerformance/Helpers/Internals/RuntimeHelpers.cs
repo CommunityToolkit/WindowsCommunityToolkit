@@ -7,11 +7,11 @@
 // The portable implementation in this type is originally from CoreFX.
 // See https://github.com/dotnet/corefx/blob/release/2.1/src/System.Memory/src/System/SpanHelpers.cs.
 
-#if !SPAN_RUNTIME_SUPPORT
-
 using System;
 using System.Diagnostics.Contracts;
+#if !SPAN_RUNTIME_SUPPORT
 using System.Reflection;
+#endif
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -22,6 +22,31 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
     /// </summary>
     internal static class RuntimeHelpers
     {
+        /// <summary>
+        /// Gets the byte offset to the first <typeparamref name="T"/> element in a 2D array.
+        /// </summary>
+        /// <typeparam name="T">The type of values in the array.</typeparam>
+        /// <returns>The byte offset to the first <typeparamref name="T"/> element in a 2D array.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr GetArray2DDataByteOffset<T>()
+        {
+            return TypeInfo<T>.Array2DDataByteOffset;
+        }
+
+        /// <summary>
+        /// Gets the byte offset to the first <typeparamref name="T"/> element in a 3D array.
+        /// </summary>
+        /// <typeparam name="T">The type of values in the array.</typeparam>
+        /// <returns>The byte offset to the first <typeparamref name="T"/> element in a 3D array.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr GetArray3DDataByteOffset<T>()
+        {
+            return TypeInfo<T>.Array3DDataByteOffset;
+        }
+
+#if !SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Gets a byte offset describing a portable pinnable reference. This can either be an
         /// interior pointer into some object data (described with a valid <see cref="object"/> reference
@@ -127,6 +152,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
             return false;
         }
+#endif
 
         /// <summary>
         /// A private generic class to preload type info for arbitrary runtime types.
@@ -135,11 +161,45 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         private static class TypeInfo<T>
         {
             /// <summary>
+            /// The byte offset to the first <typeparamref name="T"/> element in a 2D array.
+            /// </summary>
+            public static readonly IntPtr Array2DDataByteOffset = MeasureArray2DDataByteOffset();
+
+            /// <summary>
+            /// The byte offset to the first <typeparamref name="T"/> element in a 3D array.
+            /// </summary>
+            public static readonly IntPtr Array3DDataByteOffset = MeasureArray3DDataByteOffset();
+
+#if !SPAN_RUNTIME_SUPPORT
+            /// <summary>
             /// Indicates whether <typeparamref name="T"/> does not respect the <see langword="unmanaged"/> constraint.
             /// </summary>
             public static readonly bool IsReferenceOrContainsReferences = IsReferenceOrContainsReferences(typeof(T));
+#endif
+
+            /// <summary>
+            /// Computes the value for <see cref="Array2DDataByteOffset"/>.
+            /// </summary>
+            /// <returns>The value of <see cref="Array2DDataByteOffset"/> for the current runtime.</returns>
+            [Pure]
+            private static IntPtr MeasureArray2DDataByteOffset()
+            {
+                var array = new T[1, 1];
+
+                return array.DangerousGetObjectDataByteOffset(ref array[0, 0]);
+            }
+
+            /// <summary>
+            /// Computes the value for <see cref="Array3DDataByteOffset"/>.
+            /// </summary>
+            /// <returns>The value of <see cref="Array3DDataByteOffset"/> for the current runtime.</returns>
+            [Pure]
+            private static IntPtr MeasureArray3DDataByteOffset()
+            {
+                var array = new T[1, 1, 1];
+
+                return array.DangerousGetObjectDataByteOffset(ref array[0, 0, 0]);
+            }
         }
     }
 }
-
-#endif

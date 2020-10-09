@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
+using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
@@ -229,7 +230,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
+            this.offset = GetArray2DDataByteOffset<T>();
             this.height = array.GetLength(0);
             this.width = array.GetLength(1);
             this.pitch = 0;

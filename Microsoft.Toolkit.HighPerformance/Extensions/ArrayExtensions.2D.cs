@@ -12,6 +12,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory;
+#if !NETCORE_RUNTIME
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -37,17 +40,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return ref r0;
 #else
-#pragma warning disable SA1131 // Inverted comparison to remove JIT bounds check
-            if (0u < (uint)array.Length)
-            {
-                return ref array[0, 0];
-            }
+            IntPtr offset = RuntimeHelpers.GetArray2DDataByteOffset<T>();
 
-            unsafe
-            {
-                return ref Unsafe.AsRef<T>(null);
-            }
-#pragma warning restore SA1131
+            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
 #endif
         }
 
@@ -67,15 +62,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ref T DangerousGetReferenceAt<T>(this T[,] array, int i, int j)
+        public static ref T DangerousGetReferenceAt<T>(this T[,] array, int i, int j)
         {
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
             int offset = (i * arrayData.Width) + j;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
 
-            return ref ri;
+            unsafe
+            {
+                ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
+
+                return ref ri;
+            }
 #else
             if ((uint)i < (uint)array.GetLength(0) &&
                 (uint)j < (uint)array.GetLength(1))
@@ -83,7 +82,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return ref array[i, j];
             }
 
-            return ref Unsafe.AsRef<T>(null);
+            IntPtr offset = RuntimeHelpers.GetArray2DDataByteOffset<T>();
+
+            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
 #endif
         }
 
