@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+#if SPAN_RUNTIME_SUPPORT
+using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
+#endif
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
@@ -834,6 +837,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                     memory = array.AsMemory(index, this.height * this.width);
                 }
+#if SPAN_RUNTIME_SUPPORT
+                else if (this.instance.GetType() == typeof(T[,]) ||
+                         this.instance.GetType() == typeof(T[,,]))
+                {
+                    memory = new RawObjectMemoryManager<T>(this.instance, this.offset, this.height * this.width).Memory;
+                }
+#endif
                 else
                 {
                     // Reuse a single failure path to reduce
