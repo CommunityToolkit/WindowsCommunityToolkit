@@ -8,10 +8,11 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory;
-#if !NETCORE_RUNTIME
+#if !NETCORE_RUNTIME || SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
@@ -112,6 +113,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
+        /// Creates a new <see cref="Memory{T}"/> over an input 3D <typeparamref name="T"/> array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input 3D <typeparamref name="T"/> array instance.</param>
+        /// <returns>A <see cref="Memory{T}"/> instance with the values of <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<T> AsMemory<T>(this T[,,] array)
+        {
+            return new RawObjectMemoryManager<T>(array, RuntimeHelpers.GetArray3DDataByteOffset<T>(), array.Length).Memory;
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Span{T}"/> over an input 3D <typeparamref name="T"/> array.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
@@ -139,9 +153,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #endif
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
-#endif
 
-#if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Creates a new instance of the <see cref="Span{T}"/> struct wrapping a layer in a 3D array.
         /// </summary>

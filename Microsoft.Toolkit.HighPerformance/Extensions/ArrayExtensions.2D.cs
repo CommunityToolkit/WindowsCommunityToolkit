@@ -8,11 +8,12 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory;
-#if !NETCORE_RUNTIME
+#if !NETCORE_RUNTIME || SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
@@ -343,6 +344,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
 
             return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Memory{T}"/> over an input 2D <typeparamref name="T"/> array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input 2D <typeparamref name="T"/> array instance.</param>
+        /// <returns>A <see cref="Memory{T}"/> instance with the values of <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<T> AsMemory<T>(this T[,] array)
+        {
+            return new RawObjectMemoryManager<T>(array, RuntimeHelpers.GetArray2DDataByteOffset<T>(), array.Length).Memory;
         }
 
         /// <summary>

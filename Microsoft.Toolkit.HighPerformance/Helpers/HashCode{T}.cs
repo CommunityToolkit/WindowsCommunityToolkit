@@ -9,7 +9,9 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if !SPAN_RUNTIME_SUPPORT
+#if SPAN_RUNTIME_SUPPORT
+using RuntimeHelpers = System.Runtime.CompilerServices.RuntimeHelpers;
+#else
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
