@@ -63,30 +63,25 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReferenceAt<T>(this T[,,] array, int i, int j, int k)
+        public static unsafe ref T DangerousGetReferenceAt<T>(this T[,,] array, int i, int j, int k)
         {
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray3DData>(array);
             int offset = (i * arrayData.Height * arrayData.Width) + (j * arrayData.Width) + k;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
 
-            unsafe
-            {
-                ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
-
-                return ref ri;
-            }
+            return ref ri;
 #else
-            if ((uint)i < (uint)array.GetLength(0) &&
-                (uint)j < (uint)array.GetLength(1) &&
-                (uint)k < (uint)array.GetLength(2))
-            {
-                return ref array[i, j, k];
-            }
+            int
+                height = array.GetLength(1),
+                width = array.GetLength(2),
+                index = (i * height * width) + (j * width) + j;
+            IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
+            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
 
-            IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
-
-            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ri;
 #endif
         }
 

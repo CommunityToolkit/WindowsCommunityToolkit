@@ -10,6 +10,9 @@ using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+#if !NETCORE_RUNTIME
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -35,20 +38,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return ref r0;
 #else
-#pragma warning disable SA1131 // Inverted comparison to remove JIT bounds check
-            // Checking the length of the array like so allows the JIT
-            // to skip its own bounds check, which results in the element
-            // access below to be executed without branches.
-            if (0u < (uint)array.Length)
-            {
-                return ref array[0];
-            }
+            IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
 
-            unsafe
-            {
-                return ref Unsafe.AsRef<T>(null);
-            }
-#pragma warning restore SA1131
+            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
 #endif
         }
 
@@ -71,12 +63,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return ref ri;
 #else
-            if ((uint)i < (uint)array.Length)
-            {
-                return ref array[i];
-            }
+            IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
+            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
 
-            return ref Unsafe.AsRef<T>(null);
+            return ref ri;
 #endif
         }
 

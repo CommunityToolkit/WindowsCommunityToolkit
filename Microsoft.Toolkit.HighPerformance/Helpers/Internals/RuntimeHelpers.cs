@@ -23,6 +23,18 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
     internal static class RuntimeHelpers
     {
         /// <summary>
+        /// Gets the byte offset to the first <typeparamref name="T"/> element in a SZ array.
+        /// </summary>
+        /// <typeparam name="T">The type of values in the array.</typeparam>
+        /// <returns>The byte offset to the first <typeparamref name="T"/> element in a SZ array.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr GetArrayDataByteOffset<T>()
+        {
+            return TypeInfo<T>.ArrayDataByteOffset;
+        }
+
+        /// <summary>
         /// Gets the byte offset to the first <typeparamref name="T"/> element in a 2D array.
         /// </summary>
         /// <typeparam name="T">The type of values in the array.</typeparam>
@@ -161,6 +173,11 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         private static class TypeInfo<T>
         {
             /// <summary>
+            /// The byte offset to the first <typeparamref name="T"/> element in a SZ array.
+            /// </summary>
+            public static readonly IntPtr ArrayDataByteOffset = MeasureArrayDataByteOffset();
+
+            /// <summary>
             /// The byte offset to the first <typeparamref name="T"/> element in a 2D array.
             /// </summary>
             public static readonly IntPtr Array2DDataByteOffset = MeasureArray2DDataByteOffset();
@@ -176,6 +193,18 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             /// </summary>
             public static readonly bool IsReferenceOrContainsReferences = IsReferenceOrContainsReferences(typeof(T));
 #endif
+
+            /// <summary>
+            /// Computes the value for <see cref="ArrayDataByteOffset"/>.
+            /// </summary>
+            /// <returns>The value of <see cref="ArrayDataByteOffset"/> for the current runtime.</returns>
+            [Pure]
+            private static IntPtr MeasureArrayDataByteOffset()
+            {
+                var array = new T[1];
+
+                return array.DangerousGetObjectDataByteOffset(ref array[0]);
+            }
 
             /// <summary>
             /// Computes the value for <see cref="Array2DDataByteOffset"/>.
