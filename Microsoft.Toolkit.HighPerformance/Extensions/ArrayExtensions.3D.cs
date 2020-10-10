@@ -76,8 +76,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             int
                 height = array.GetLength(1),
                 width = array.GetLength(2),
-                index = (i * height * width) + (j * width) + j;
-            IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
+                index = (i * height * width) + (j * width) + k;
+            IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
             ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
             ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
 
