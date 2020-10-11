@@ -323,12 +323,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
         /// <param name="row">The target row to retrieve (0-based index).</param>
-        /// <returns>A <see cref="RefEnumerable{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
-        /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <returns>A <see cref="Span{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
+        /// <exception cref="ArrayTypeMismatchException">Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="row"/> is invalid.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<T> GetRowSpan<T>(this T[,] array, int row)
         {
+            if (array.IsCovariant())
+            {
+                static void Throw() => throw new ArrayTypeMismatchException();
+
+                Throw();
+            }
+
             if ((uint)row >= (uint)array.GetLength(0))
             {
                 static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
@@ -339,6 +347,39 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
 
             return MemoryMarshal.CreateSpan(ref r0, array.GetLength(1));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Memory{T}"/> over a row in a given 2D <typeparamref name="T"/> array instance.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="row">The target row to retrieve (0-based index).</param>
+        /// <returns>A <see cref="Memory{T}"/> with the items from the target row within <paramref name="array"/>.</returns>
+        /// <exception cref="ArrayTypeMismatchException">Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="row"/> is invalid.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<T> GetRowMemory<T>(this T[,] array, int row)
+        {
+            if (array.IsCovariant())
+            {
+                static void Throw() => throw new ArrayTypeMismatchException();
+
+                Throw();
+            }
+
+            if ((uint)row >= (uint)array.GetLength(0))
+            {
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
+
+                Throw();
+            }
+
+            ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
+            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+
+            return new RawObjectMemoryManager<T>(array, offset, array.GetLength(1)).Memory;
         }
 
         /// <summary>

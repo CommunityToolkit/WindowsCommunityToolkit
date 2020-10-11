@@ -155,15 +155,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The given 3D array to wrap.</param>
         /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when either <paramref name="depth"/> is invalid.</exception>
+        /// <exception cref="ArrayTypeMismatchException">Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="depth"/> is invalid.</exception>
         /// <returns>A <see cref="Span{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<T> GetLayerSpan<T>(this T[,,] array, int depth)
         {
+            if (array.IsCovariant())
+            {
+                static void Throw() => throw new ArrayTypeMismatchException();
+
+                Throw();
+            }
+
             if ((uint)depth >= (uint)array.GetLength(0))
             {
                 static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
@@ -175,6 +180,40 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             int length = array.GetLength(1) * array.GetLength(2);
 
             return MemoryMarshal.CreateSpan(ref r0, length);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Memory{T}"/> struct wrapping a layer in a 3D array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input 3D <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The given 3D array to wrap.</param>
+        /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
+        /// <exception cref="ArrayTypeMismatchException">Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="depth"/> is invalid.</exception>
+        /// <returns>A <see cref="Memory{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<T> GetLayerMemory<T>(this T[,,] array, int depth)
+        {
+            if (array.IsCovariant())
+            {
+                static void Throw() => throw new ArrayTypeMismatchException();
+
+                Throw();
+            }
+
+            if ((uint)depth >= (uint)array.GetLength(0))
+            {
+                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
+
+                Throw();
+            }
+
+            ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
+            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+            int length = array.GetLength(1) * array.GetLength(2);
+
+            return new RawObjectMemoryManager<T>(array, offset, length).Memory;
         }
 #endif
 
