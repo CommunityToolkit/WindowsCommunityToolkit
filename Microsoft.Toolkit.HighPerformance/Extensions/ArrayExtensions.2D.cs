@@ -480,16 +480,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsCovariant<T>(this T[,] array)
         {
-            return
-#pragma warning disable SA1003 // Whitespace before ! operator
-#if NETSTANDARD1_4
-
-                !System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(T)).IsValueType &&
-#else
-                !typeof(T).IsValueType &&
-#endif
-#pragma warning restore SA1003
-                array.GetType() != typeof(T[]);
+            return default(T) is null && array.GetType() != typeof(T[,]);
         }
     }
 }
