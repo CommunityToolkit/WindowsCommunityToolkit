@@ -273,6 +273,27 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("Span2DT")]
         [TestMethod]
+        public void Test_Span2DT_Fill_Empty()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Span2D<int> span2d = new Span2D<int>(array, 0, 0, 0, 0);
+
+            span2d.Fill(42);
+
+            CollectionAssert.AreEqual(array, array);
+
+            span2d.Clear();
+
+            CollectionAssert.AreEqual(array, array);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
         public void Test_Span2DT_FillAndClear_2()
         {
             int[,] array =
@@ -302,6 +323,17 @@ namespace UnitTests.HighPerformance.Memory
             };
 
             CollectionAssert.AreEqual(array, cleared);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_CopyTo_Empty()
+        {
+            Span2D<int> span2d = Span2D<int>.Empty;
+
+            int[] target = new int[0];
+
+            span2d.CopyTo(target);
         }
 
         [TestCategory("Span2DT")]
@@ -346,6 +378,7 @@ namespace UnitTests.HighPerformance.Memory
             CollectionAssert.AreEqual(target, expected);
 
             Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array).CopyTo(Span<int>.Empty));
+            Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array, 0, 1, 2, 2).CopyTo(Span<int>.Empty));
         }
 
         [TestCategory("Span2DT")]
