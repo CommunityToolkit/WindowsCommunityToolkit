@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         /// </summary>
         public static void ThrowArrayTypeMismatchException()
         {
-            throw new ArrayTypeMismatchException("The given array doesn't match the specified type <T>");
+            throw new ArrayTypeMismatchException("The given array doesn't match the specified type T");
         }
 
         /// <summary>

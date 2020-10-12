@@ -117,6 +117,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory<T> AsMemory<T>(this T[,,] array)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
             return new RawObjectMemoryManager<T>(array, RuntimeHelpers.GetArray3DDataByteOffset<T>(), array.Length).Memory;
         }
 
@@ -130,6 +135,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<T> AsSpan<T>(this T[,,] array)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray3DData>(array);
 
@@ -164,16 +174,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             if (array.IsCovariant())
             {
-                static void Throw() => throw new ArrayTypeMismatchException();
-
-                Throw();
+                ThrowArrayTypeMismatchException();
             }
 
             if ((uint)depth >= (uint)array.GetLength(0))
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForDepth();
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
@@ -197,16 +203,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             if (array.IsCovariant())
             {
-                static void Throw() => throw new ArrayTypeMismatchException();
-
-                Throw();
+                ThrowArrayTypeMismatchException();
             }
 
             if ((uint)depth >= (uint)array.GetLength(0))
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForDepth();
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
@@ -231,22 +233,23 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetRow<T>(this T[,,] array, int depth, int row)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
             int
                 layers = array.GetLength(0),
                 height = array.GetLength(1);
 
             if ((uint)depth >= (uint)layers)
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForDepth();
             }
 
             if ((uint)row >= (uint)height)
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForRow();
             }
 
             int width = array.GetLength(2);
@@ -297,22 +300,23 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetColumn<T>(this T[,,] array, int depth, int column)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
             int
                 layers = array.GetLength(0),
                 width = array.GetLength(2);
 
             if ((uint)depth >= (uint)layers)
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(depth));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForDepth();
             }
 
             if ((uint)column >= (uint)width)
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(column));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
             int height = array.GetLength(1);
@@ -413,6 +417,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static bool IsCovariant<T>(this T[,,] array)
         {
             return default(T) is null && array.GetType() != typeof(T[,,]);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "depth" parameter is invalid.
+        /// </summary>
+        public static void ThrowArgumentOutOfRangeExceptionForDepth()
+        {
+            throw new ArgumentOutOfRangeException("depth");
         }
     }
 }

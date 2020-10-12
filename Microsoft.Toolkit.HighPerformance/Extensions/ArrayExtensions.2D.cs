@@ -168,13 +168,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetRow<T>(this T[,] array, int row)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
             int height = array.GetLength(0);
 
             if ((uint)row >= (uint)height)
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForRow();
             }
 
             int width = array.GetLength(1);
@@ -219,13 +222,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RefEnumerable<T> GetColumn<T>(this T[,] array, int column)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
             int width = array.GetLength(1);
 
             if ((uint)column >= (uint)width)
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(column));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
             int height = array.GetLength(0);
@@ -332,16 +338,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             if (array.IsCovariant())
             {
-                static void Throw() => throw new ArrayTypeMismatchException();
-
-                Throw();
+                ThrowArrayTypeMismatchException();
             }
 
             if ((uint)row >= (uint)array.GetLength(0))
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForRow();
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
@@ -364,16 +366,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             if (array.IsCovariant())
             {
-                static void Throw() => throw new ArrayTypeMismatchException();
-
-                Throw();
+                ThrowArrayTypeMismatchException();
             }
 
             if ((uint)row >= (uint)array.GetLength(0))
             {
-                static void Throw() => throw new ArgumentOutOfRangeException(nameof(row));
-
-                Throw();
+                ThrowArgumentOutOfRangeExceptionForRow();
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
@@ -392,6 +390,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory<T> AsMemory<T>(this T[,] array)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
             return new RawObjectMemoryManager<T>(array, RuntimeHelpers.GetArray2DDataByteOffset<T>(), array.Length).Memory;
         }
 
@@ -405,6 +408,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<T> AsSpan<T>(this T[,] array)
         {
+            if (array.IsCovariant())
+            {
+                ThrowArrayTypeMismatchException();
+            }
+
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
 
@@ -481,6 +489,30 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static bool IsCovariant<T>(this T[,] array)
         {
             return default(T) is null && array.GetType() != typeof(T[,]);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArrayTypeMismatchException"/> when using an array of an invalid type.
+        /// </summary>
+        private static void ThrowArrayTypeMismatchException()
+        {
+            throw new ArrayTypeMismatchException("The given array doesn't match the specified type T");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "row" parameter is invalid.
+        /// </summary>
+        public static void ThrowArgumentOutOfRangeExceptionForRow()
+        {
+            throw new ArgumentOutOfRangeException("row");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "column" parameter is invalid.
+        /// </summary>
+        public static void ThrowArgumentOutOfRangeExceptionForColumn()
+        {
+            throw new ArgumentOutOfRangeException("column");
         }
     }
 }
