@@ -413,21 +413,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 ThrowArrayTypeMismatchException();
             }
 
-#if NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArray2DData>(array);
-
-            // On x64, the length is padded to x64, but it is represented in memory
-            // as two sequential uint fields (one of which is padding).
-            // So we can just reinterpret a reference to the IntPtr as one of type
-            // uint, to access the first 4 bytes of that field, regardless of whether
-            // we're running in a 32 or 64 bit process. This will work when on little
-            // endian systems as well, as the memory layout for fields is the same,
-            // the only difference is the order of bytes within each field of a given type.
-            // We use checked here to follow suit with the CoreCLR source, where an
-            // invalid value here should fail to perform the cast and throw an exception.
-            int length = checked((int)Unsafe.As<IntPtr, uint>(ref arrayData.Length));
-            ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-#else
             int length = array.Length;
 
             if (length == 0)
@@ -435,8 +420,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return default;
             }
 
-            ref T r0 = ref array[0, 0];
-#endif
+            ref T r0 = ref array.DangerousGetReference();
+
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
 #endif

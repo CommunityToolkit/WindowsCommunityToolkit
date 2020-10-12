@@ -140,13 +140,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 ThrowArrayTypeMismatchException();
             }
 
-#if NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArray3DData>(array);
-
-            // See comments for this in the 2D overload
-            int length = checked((int)Unsafe.As<IntPtr, uint>(ref arrayData.Length));
-            ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-#else
             int length = array.Length;
 
             if (length == 0)
@@ -154,8 +147,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return default;
             }
 
-            ref T r0 = ref array[0, 0, 0];
-#endif
+            ref T r0 = ref array.DangerousGetReference();
+
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
 
