@@ -79,6 +79,24 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         }
 
         /// <summary>
+        /// Tries to resolve an instance of a specified service type.
+        /// </summary>
+        /// <typeparam name="T">The type of service to resolve.</typeparam>
+        /// <returns>An instance of the specified service, or <see langword="null"/>.</returns>
+        public T? GetService<T>()
+            where T : class
+        {
+            IServiceProvider? provider = this.serviceProvider;
+
+            if (provider is null)
+            {
+                ThrowInvalidOperationExceptionForMissingInitialization();
+            }
+
+            return (T?)provider!.GetService(typeof(T));
+        }
+
+        /// <summary>
         /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
         /// <param name="serviceProvider">The input <see cref="IServiceProvider"/> instance to use.</param>
