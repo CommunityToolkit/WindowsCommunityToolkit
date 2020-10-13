@@ -12,6 +12,7 @@
       - MemoryBufferWriter&lt;T&gt;: an IBufferWriter&lt;T&gt;: implementation that can wrap external Memory&lt;T&gt;: instances.
       - MemoryOwner&lt;T&gt;: an IMemoryOwner&lt;T&gt; implementation with an embedded length and a fast Span&lt;T&gt; accessor.
       - SpanOwner&lt;T&gt;: a stack-only type with the ability to rent a buffer of a specified length and getting a Span&lt;T&gt; from it.
+      - StringPool: a configurable pool for string instances that be used to minimize allocations when creating multiple strings from char buffers.
       - String, array, Span&lt;T&gt;, Memory&lt;T&gt; extensions and more, all focused on high performance.
       - HashCode&lt;T&gt;: a SIMD-enabled extension of HashCode to quickly process sequences of values.
       - BitHelper: a class with helper methods to perform bit operations on numeric types.
