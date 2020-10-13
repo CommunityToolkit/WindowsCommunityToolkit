@@ -181,41 +181,7 @@ Task("BuildProjects")
 
     MSBuild(Solution, buildSettings);
 
-    Information("\nRestoring Native Solution Dependencies");
-
-    var nugetRestoreSettings = new NuGetRestoreSettings
-    {
-        PackagesDirectory = baseDir + "/packages",
-        ConfigFile = baseDir + "/nuget.config",
-        NonInteractive = true
-    };
-
-    NuGetRestore(baseDir + "/Microsoft.Toolkit.Uwp.Input.GazeInteraction/packages.config", nugetRestoreSettings);
-
     Information("\nBuilding Solution");
-
-    // Build C++ packages
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Native");
-
-    UpdateToolsPath(buildSettings);
-
-    // Ignored for now since WinUI3 alpha does not support ARM
-    // buildSettings.SetPlatformTarget(PlatformTarget.ARM);
-    // MSBuild(Solution, buildSettings);
-	
-    // Ignored for now since WinUI3 alpha does not support ARM64
-    // buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
-    // MSBuild(Solution, buildSettings);
-
-    buildSettings.SetPlatformTarget(PlatformTarget.x64);
-    MSBuild(Solution, buildSettings);
-
-    buildSettings.SetPlatformTarget(PlatformTarget.x86);
-    MSBuild(Solution, buildSettings);
 
     // Build once with normal dependency ordering
     buildSettings = new MSBuildSettings
@@ -276,24 +242,7 @@ Task("Package")
     .WithTarget("Pack")
     .WithProperty("PackageOutputPath", nupkgDir);
 
-    UpdateToolsPath(buildSettings);
-
     MSBuild(Solution, buildSettings);
-
-    // Pack C++ packages
-    RetrieveVersion();
-	
-    var nuGetPackSettings = new NuGetPackSettings
-    {
-        OutputDirectory = nupkgDir,
-        Version = Version
-    };
-	
-    var nuspecs = GetFiles("./*.nuspec");
-    foreach (var nuspec in nuspecs)
-    {
-        NuGetPack(nuspec, nuGetPackSettings);
-    }
 });
 
 public string getMSTestAdapterPath(){

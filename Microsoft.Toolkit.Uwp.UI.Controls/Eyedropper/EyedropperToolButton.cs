@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.UI.Core;
 
@@ -216,8 +217,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 var transform = TargetElement.TransformToVisual(content);
-                var position = transform.TransformPoint(default(Point));
-                _eyedropper.WorkArea = new Rect(position, new Size(TargetElement.ActualWidth, TargetElement.ActualHeight));
+                var position = transform.TransformPoint(default);
+                _eyedropper.WorkArea = position.ToRect(TargetElement.ActualWidth, TargetElement.ActualHeight);
                 if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
                 {
                     _eyedropper.XamlRoot = XamlRoot;

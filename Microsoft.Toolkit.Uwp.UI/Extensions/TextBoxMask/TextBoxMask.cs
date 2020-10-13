@@ -300,7 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // case adding data at the end of the textbox
             if (oldSelectionStart >= oldText.Length && !isDeleteOrBackspace)
             {
-                textbox.Text = oldText;
+                textbox.Text = textbox.Text.Substring(0, oldText.Length);
                 if (oldText.Length >= 0)
                 {
                     textbox.SelectionStart = oldText.Length;
@@ -327,6 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 if (string.IsNullOrEmpty(textbox.Text))
                 {
                     textbox.Text = displayText;
+                    return;
                 }
                 else
                 {

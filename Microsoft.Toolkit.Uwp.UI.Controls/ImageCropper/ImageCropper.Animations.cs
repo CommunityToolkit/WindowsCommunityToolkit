@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -117,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rectKeyframes.Add(new DiscreteObjectKeyFrame
                 {
                     KeyTime = KeyTime.FromTimeSpan(time),
-                    Value = new Rect(startPoint, endPoint)
+                    Value = startPoint.ToRect(endPoint)
                 });
             }
 

@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -112,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var startPoint = new Point(_startX, _startY);
             var endPoint = new Point(_endX, _endY);
-            var currentSelectedRect = new Rect(startPoint, endPoint);
+            var currentSelectedRect = startPoint.ToRect(endPoint);
             switch (position)
             {
                 case ThumbPosition.Top:
@@ -252,7 +253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var isEffectiveRegion = IsSafePoint(_restrictedSelectRect, startPoint) &&
                                     IsSafePoint(_restrictedSelectRect, endPoint);
-            var selectedRect = new Rect(startPoint, endPoint);
+            var selectedRect = startPoint.ToRect(endPoint);
             if (!isEffectiveRegion)
             {
                 if (!IsCornerThumb(position) && TryGetContainedRect(_restrictedSelectRect, ref selectedRect))
@@ -269,8 +270,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             selectedRect.Union(CanvasRect);
             if (selectedRect != CanvasRect)
             {
-                var croppedRect = _inverseImageTransform.TransformBounds(
-                    new Rect(startPoint, endPoint));
+                var croppedRect = _inverseImageTransform.TransformBounds(startPoint.ToRect(endPoint));
                 croppedRect.Intersect(_restrictedCropRect);
                 _currentCroppedRect = croppedRect;
                 var viewportRect = GetUniformRect(CanvasRect, selectedRect.Width / selectedRect.Height);
@@ -461,7 +461,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case CropShape.Rectangular:
                     if (_innerGeometry is RectangleGeometry rectangleGeometry)
                     {
-                        var to = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+                        var to = new Point(_startX, _startY).ToRect(new Point(_endX, _endY));
                         if (animate)
                         {
                             var storyboard = new Storyboard();

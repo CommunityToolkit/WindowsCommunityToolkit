@@ -44,6 +44,7 @@
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.3.0</Version>
     </PackageReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj" />
     <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <ProjectReference Include="..\..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj" />

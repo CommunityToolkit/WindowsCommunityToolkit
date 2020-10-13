@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -131,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var y_normalized = (finalSize.Height / 2) - y - (element.DesiredSize.Height / 2);
                 var point = new Point(x_normalized, y_normalized);
 
-                element.Arrange(new Rect(point, element.DesiredSize));
+                element.Arrange(point.ToRect(element.DesiredSize));
 
                 var elementProperties = new OrbitViewElementProperties()
                 {

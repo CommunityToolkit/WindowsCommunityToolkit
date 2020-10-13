@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -120,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                var realMinSelectSize = _imageTransform.TransformBounds(new Rect(default(Point), MinCropSize));
+                var realMinSelectSize = _imageTransform.TransformBounds(MinCropSize.ToRect());
                 var minLength = Math.Min(realMinSelectSize.Width, realMinSelectSize.Height);
                 if (minLength < MinSelectedLength)
                 {

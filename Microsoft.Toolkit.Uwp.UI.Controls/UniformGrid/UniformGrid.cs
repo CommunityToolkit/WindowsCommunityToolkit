@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Make sure all overflown elements have no size.
             foreach (var child in _overflow)
             {
-                child.Arrange(new Rect(0, 0, 0, 0));
+                child.Arrange(default);
             }
 
             _overflow = new List<UIElement>(); // Reset for next time.
