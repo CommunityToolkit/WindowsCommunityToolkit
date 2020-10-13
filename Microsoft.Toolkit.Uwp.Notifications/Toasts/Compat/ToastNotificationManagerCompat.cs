@@ -49,7 +49,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     if (!_registeredOnActivated)
                     {
                         // Desktop Bridge apps will dynamically register upon first subscription to event
-                        CreateAndRegisterActivator();
+                        try
+                        {
+                            CreateAndRegisterActivator();
+                        }
+                        catch (Exception ex)
+                        {
+                            _initializeEx = ex;
+                        }
                     }
 
                     _onActivated.Add(value);
@@ -97,10 +104,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static string _win32Aumid;
         private static string _clsid;
+        private static Exception _initializeEx;
 
         static ToastNotificationManagerCompat()
         {
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                // We catch the exception so that things like subscribing to the event handler doesn't crash app
+                _initializeEx = ex;
+            }
         }
 
         private static void Initialize()
@@ -320,6 +336,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public static ToastNotifier CreateToastNotifier()
         {
 #if WIN32
+            if (_initializeEx != null)
+            {
+                throw _initializeEx;
+            }
+
             if (DesktopBridgeHelpers.HasIdentity())
             {
                 return ToastNotificationManager.CreateToastNotifier();
@@ -341,6 +362,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             get
             {
 #if WIN32
+                if (_initializeEx != null)
+                {
+                    throw _initializeEx;
+                }
+
                 return new ToastNotificationHistoryCompat(DesktopBridgeHelpers.HasIdentity() ? null : _win32Aumid);
 #else
                 return new ToastNotificationHistoryCompat(null);
