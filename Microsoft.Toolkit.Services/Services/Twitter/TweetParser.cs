@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<List<Tweet>>(data);
+            return JsonSerializer.Deserialize<List<Tweet>>(data);
         }
     }
 }

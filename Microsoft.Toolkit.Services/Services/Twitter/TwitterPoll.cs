@@ -4,7 +4,7 @@
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -16,19 +16,19 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets poll questions.
         /// </summary>
-        [JsonProperty("options")]
+        [JsonPropertyName("options")]
         public TwitterPollOptions[] Options { get; set; }
 
         /// <summary>
         /// Gets or sets end timestamp as a string.
         /// </summary>
-        [JsonProperty("end_datetime")]
+        [JsonPropertyName("end_datetime")]
         public string EndDateTime { get; set; }
 
         /// <summary>
         /// Gets or sets duration of the poll in minutes.
         /// </summary>
-        [JsonProperty("duration_minutes")]
+        [JsonPropertyName("duration_minutes")]
         public string DurationMinutes { get; set; }
 
         /// <summary>

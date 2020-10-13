@@ -1,22 +1,18 @@
 // Get a local copy of the context for easier reading
 BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
 
-// check if BluetoothLE APIs are available
-if (BluetoothLEHelper.IsBluetoothLESupported)
-{
-    // Start the Enumeration
-	bluetoothLEHelper.StartEnumeration();
+// Start the Enumeration
+bluetoothLEHelper.StartEnumeration();
 
-	// At this point the user needs to select a device they want to connect to. This can be done by
-	// creating a ListView and binding the bluetoothLEHelper collection to it. Once a device is found, 
-	// the Connect() method can be called to connect to the device and start interacting with its services
+// At this point the user needs to select a device they want to connect to. This can be done by
+// creating a ListView and binding the bluetoothLEHelper collection to it. Once a device is found, 
+// the Connect() method can be called to connect to the device and start interacting with its services
 
-	// Connect to a device if your choice
-	ObservableBluetoothLEDevice device = bluetoothLEHelper.BluetoothLeDevices[<Device you choose>];
-	await device.ConnectAsync();
+// Connect to a device if your choice
+ObservableBluetoothLEDevice device = bluetoothLEHelper.BluetoothLeDevices[<Device you choose>];
+await device.ConnectAsync();
 
-	// At this point the device is connected and the Services property is populated.
+// At this point the device is connected and the Services property is populated.
 
-	// See all the services
-	var services = device.Services;
-}
+// See all the services
+var services = device.Services;

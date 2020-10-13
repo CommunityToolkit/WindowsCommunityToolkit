@@ -10,7 +10,6 @@ using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Windows.Foundation.Metadata;
 using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -20,9 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class MarkdownTextBlock
     {
-        // SvgImageSource was introduced in Creators Update (15063)
-        private static readonly bool _isSvgImageSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
-
         // Used to attach the URL to hyperlinks.
         private static readonly DependencyProperty HyperlinkUrlProperty =
             DependencyProperty.RegisterAttached("HyperlinkUrl", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));

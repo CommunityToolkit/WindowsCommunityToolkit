@@ -20,14 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
         private static string[] _effectProperties;
 
         /// <summary>
-        /// Gets a value indicating whether this instance is supported.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is supported; otherwise, <c>false</c>.
-        /// </value>
-        public abstract bool IsSupported { get; }
-
-        /// <summary>
         /// Gets the name of the effect.
         /// </summary>
         /// <value>
@@ -76,11 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
             EasingMode easingMode = EasingMode.EaseOut)
         {
             if (animationSet == null)
-            {
-                return null;
-            }
-
-            if (!IsSupported)
             {
                 return null;
             }

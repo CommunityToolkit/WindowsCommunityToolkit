@@ -104,6 +104,68 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         /// <summary>
+        /// Checks whether the given value has any bytes that are set to 0.
+        /// That is, given a <see cref="uint"/> value, which has a total of 4 bytes,
+        /// it checks whether any of those have all the bits set to 0.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to 0.</returns>
+        /// <remarks>
+        /// This method contains no branches.
+        /// For more background on this subject, see <see href="https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord"/>.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasZeroByte(uint value)
+        {
+            return ((value - 0x0101_0101u) & ~value & 0x8080_8080u) != 0;
+        }
+
+        /// <summary>
+        /// Checks whether the given value has any bytes that are set to 0.
+        /// This method mirrors <see cref="HasZeroByte(uint)"/>, but with <see cref="ulong"/> values.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to 0.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasZeroByte(ulong value)
+        {
+            return ((value - 0x0101_0101_0101_0101ul) & ~value & 0x8080_8080_8080_8080ul) != 0;
+        }
+
+        /// <summary>
+        /// Checks whether a byte in the input <see cref="uint"/> value matches a target value.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <param name="target">The target byte to look for.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to <paramref name="target"/>.</returns>
+        /// <remarks>
+        /// This method contains no branches.
+        /// For more info, see <see href="https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord"/>.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasByteEqualTo(uint value, byte target)
+        {
+            return HasZeroByte(value ^ (0x0101_0101u * target));
+        }
+
+        /// <summary>
+        /// Checks whether a byte in the input <see cref="uint"/> value matches a target value.
+        /// This method mirrors <see cref="HasByteEqualTo(uint,byte)"/>, but with <see cref="ulong"/> values.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <param name="target">The target byte to look for.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to <paramref name="target"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasByteEqualTo(ulong value, byte target)
+        {
+            return HasZeroByte(value ^ (0x0101_0101_0101_0101u * target));
+        }
+
+        /// <summary>
         /// Sets a bit to a specified value.
         /// </summary>
         /// <param name="value">The target <see cref="uint"/> value.</param>

@@ -66,13 +66,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReferenceAt<T>(this T[,] array, int i, int j)
+        public static unsafe ref T DangerousGetReferenceAt<T>(this T[,] array, int i, int j)
         {
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray2DData>(array);
             int offset = (i * arrayData.Width) + j;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-            ref T ri = ref Unsafe.Add(ref r0, offset);
+            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
 
             return ref ri;
 #else
@@ -82,10 +82,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return ref array[i, j];
             }
 
-            unsafe
-            {
-                return ref Unsafe.AsRef<T>(null);
-            }
+            return ref Unsafe.AsRef<T>(null);
 #endif
         }
 
@@ -274,11 +271,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this T[,] array, T value)
+        public static unsafe int Count<T>(this T[,] array, T value)
             where T : IEquatable<T>
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.Length;
+            IntPtr length = (IntPtr)(void*)(uint)array.Length;
 
             return SpanHelper.Count(ref r0, length, value);
         }
@@ -293,11 +290,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode<T>(this T[,] array)
+        public static unsafe int GetDjb2HashCode<T>(this T[,] array)
             where T : notnull
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.Length;
+            IntPtr length = (IntPtr)(void*)(uint)array.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

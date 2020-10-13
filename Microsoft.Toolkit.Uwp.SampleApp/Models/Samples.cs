@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using Windows.ApplicationModel;
 using Windows.Storage.Streams;
 
@@ -91,11 +91,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 List<SampleCategory> allCategories;
                 using (var jsonStream = await LoadLocalFile("SamplePages/samples.json"))
                 {
-                    using (var streamreader = new StreamReader(jsonStream))
+                    allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream, new JsonSerializerOptions
                     {
-                        var jsonString = await streamreader.ReadToEndAsync();
-                        allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
-                    }
+                        ReadCommentHandling = JsonCommentHandling.Skip
+                    });
                 }
 
                 // Check API

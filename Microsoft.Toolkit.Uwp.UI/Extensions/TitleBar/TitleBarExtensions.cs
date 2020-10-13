@@ -15,11 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public static class TitleBarExtensions
     {
         /// <summary>
-        /// Gets a value indicating whether TitleBar is supported or not.
-        /// </summary>
-        public static bool IsTitleBarSupported => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationViewTitleBar");
-
-        /// <summary>
         /// Gets Color for <see cref="ApplicationViewTitleBar.BackgroundColor"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
@@ -405,7 +400,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static ApplicationViewTitleBar GetTitleBar()
         {
-            return IsTitleBarSupported ? ApplicationView.GetForCurrentView()?.TitleBar : null;
+            return ApplicationView.GetForCurrentView()?.TitleBar;
         }
     }
 }

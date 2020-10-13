@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 // using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -306,7 +307,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
             }
 
-            return new Rect(startPoint, endPoint);
+            return startPoint.ToRect(endPoint);
         }
 
         /// <summary>

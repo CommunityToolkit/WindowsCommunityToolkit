@@ -131,10 +131,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 if (PreviewFrameSource != null)
                 {
                     _frameReader = await _mediaCapture.CreateFrameReaderAsync(PreviewFrameSource);
-                    if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.Media.Capture.Frames.MediaFrameReader", "AcquisitionMode"))
-                    {
-                        _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
-                    }
+                    _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
 
                     _frameReader.FrameArrived += Reader_FrameArrived;
 

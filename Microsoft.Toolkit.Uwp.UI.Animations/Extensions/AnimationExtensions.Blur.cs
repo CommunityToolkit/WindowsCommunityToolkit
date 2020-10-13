@@ -5,7 +5,6 @@
 using Microsoft.Toolkit.Uwp.UI.Animations.Effects;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -23,17 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public static Blur BlurEffect { get; } = new Blur();
 
         /// <summary>
-        /// Gets a value indicating whether the platform supports blur.
-        /// </summary>
-        /// <remarks>
-        /// A check should always be made to IsBlurSupported prior to calling Blur,
-        /// since older operating systems will not support blurs.
-        /// </remarks>
-        /// <seealso cref="Blur(FrameworkElement, double, double, double, EasingType, EasingMode)"/>
-        public static bool IsBlurSupported =>
-            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
-
-        /// <summary>
         /// Animates the Gaussian blur of the UIElement.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
@@ -45,7 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>
         /// An Animation Set.
         /// </returns>
-        /// <seealso cref="IsBlurSupported" />
         public static AnimationSet Blur(
             this FrameworkElement associatedObject,
             double value = 0d,
@@ -75,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>
         /// An Animation Set.
         /// </returns>
-        /// <seealso cref="IsBlurSupported" />
         public static AnimationSet Blur(
             this AnimationSet animationSet,
             double value = 0d,

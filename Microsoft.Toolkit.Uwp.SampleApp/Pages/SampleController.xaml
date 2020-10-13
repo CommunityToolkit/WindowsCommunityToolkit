@@ -50,13 +50,12 @@
                         Margin="5,0,0,0"
                         Width="50">
                         <AppBarButton.Icon>
-                            <PathIcon
-                                Data="{StaticResource GithubIcon}"
-                                Width="50"
-                                Height="50"
-                                Margin="-10">
+                            <PathIcon Margin="-3" 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Data="{StaticResource GithubIcon}">
                                 <PathIcon.RenderTransform>
-                                    <CompositeTransform TranslateY="8" TranslateX="3" />
+                                    <CompositeTransform TranslateY="5" TranslateX="-5" />
                                 </PathIcon.RenderTransform>
                             </PathIcon>
                         </AppBarButton.Icon>
@@ -193,12 +192,6 @@
                                Header="Code">
                         <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
                                                     IsFocusEngagementEnabled="False" />
-                    </PivotItem>
-
-                    <PivotItem x:Name="JavaScriptPivotItem"
-                               Padding="0, 10,0,0"
-                               Header="Javascript">
-                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="DocumentationPivotItem"

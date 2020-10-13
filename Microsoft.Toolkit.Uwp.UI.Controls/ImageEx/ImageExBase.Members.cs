@@ -7,7 +7,6 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -61,11 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="EnableLazyLoading"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
-
-        /// <summary>
-        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported
-        /// </summary>
-        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Microsoft.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
 
         /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>

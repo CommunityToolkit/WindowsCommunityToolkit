@@ -390,14 +390,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             Span span = new Span();
 
-            if (TextDecorationsSupported)
-            {
-                span.TextDecorations = TextDecorations.Strikethrough;
-            }
-            else
-            {
-                span.FontFamily = new FontFamily("Consolas");
-            }
+            span.TextDecorations = TextDecorations.Strikethrough;
 
             var childContext = new InlineRenderContext(span.Inlines, context)
             {
@@ -406,22 +399,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             // Render the children into the inline.
             RenderInlineChildren(element.Inlines, childContext);
-
-            if (!TextDecorationsSupported)
-            {
-                AlterChildRuns(span, (parentSpan, run) =>
-                {
-                    var text = run.Text;
-                    var builder = new StringBuilder(text.Length * 2);
-                    foreach (var c in text)
-                    {
-                        builder.Append((char)0x0336);
-                        builder.Append(c);
-                    }
-
-                    run.Text = builder.ToString();
-                });
-            }
 
             // Add it to the current inlines
             localContext.InlineCollection.Add(span);

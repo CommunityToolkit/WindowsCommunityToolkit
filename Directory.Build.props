@@ -16,7 +16,7 @@
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
     <ShouldAddWinUI>False</ShouldAddWinUI>
     <ShouldAddWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</ShouldAddWinUI>
-    <DefaultTargetPlatformVersion>18362</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformVersion>19041</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
     <MicrosoftWinUIVersion>3.0.0-preview2.200713.0</MicrosoftWinUIVersion>
     <MicrosoftCsWinrtVersion>0.1.0-prerelease.200629.3</MicrosoftCsWinrtVersion>

@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using NotificationsVisualizerLibrary;
-using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
@@ -119,10 +118,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             switch (AnalyticsInfo.VersionInfo.DeviceFamily)
             {
-                // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-                case "Windows.Mobile":
                 case "Windows.Desktop":
-                    return ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
+                    return true;
 
                 // Other device families do not support adaptive toasts
                 default:

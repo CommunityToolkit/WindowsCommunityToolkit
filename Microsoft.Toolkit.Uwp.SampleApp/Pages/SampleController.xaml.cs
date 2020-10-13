@@ -283,14 +283,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
-                if (CurrentSample.HasJavaScriptCode)
-                {
-                    var code = await CurrentSample.GetJavaScriptSourceAsync();
-
-                    JavaScriptCodeRenderer.SetCode(code, "js");
-                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
-                }
-
                 if (CurrentSample.HasDocumentation)
                 {
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
@@ -430,14 +422,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 var code = await CurrentSample.GetCSharpSourceAsync();
                 CSharpCodeRenderer.SetCode(code, "c#");
-
-                return;
-            }
-
-            if (CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
-            {
-                var code = await CurrentSample.GetJavaScriptSourceAsync();
-                JavaScriptCodeRenderer.SetCode(code, "js");
 
                 return;
             }

@@ -155,10 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 var columnIndex = Grid.GetColumn(child);
                 var rowIndex = Grid.GetRow(child);
 
-                var rect = new Rect(0, 0, 0, 0)
-                {
-                    X = (float)_borderThickness
-                };
+                var rect = new Rect((float)_borderThickness, 0, 0, 0);
 
                 for (int col = 0; col < columnIndex; col++)
                 {

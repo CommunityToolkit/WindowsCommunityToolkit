@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 return null;
             }
 
-            var result = JsonConvert.DeserializeObject<TwitterSearchResult>(data);
+            var result = JsonSerializer.Deserialize<TwitterSearchResult>(data);
 
             return result.Statuses.ToList();
         }

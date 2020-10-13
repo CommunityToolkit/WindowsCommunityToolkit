@@ -6,6 +6,7 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -109,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ImageCropperThumb_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+            var selectedRect = new Point(_startX, _startY).ToRect(new Point(_endX, _endY));
             var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
             if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
@@ -122,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ImageCropperThumb_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+            var selectedRect = new Point(_startX, _startY).ToRect(new Point(_endX, _endY));
             var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
             if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
@@ -166,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 offsetY = Math.Max(offsetY, _restrictedSelectRect.Y - _startY);
             }
 
-            var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+            var selectedRect = new Point(_startX, _startY).ToRect(new Point(_endX, _endY));
             selectedRect.X += offsetX;
             selectedRect.Y += offsetY;
             var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);

@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -27,8 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string FlyoutButtonName = "FlyoutButton";
         private const char UnderlineCharacter = '^';
-        private readonly bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
-        private readonly bool _isTextTextDecorationsSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
         private Menu _parentMenu;
         private bool _isOpened;
         private bool _menuFlyoutRepositioned;
@@ -130,11 +127,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 IsEnabledChanged += MenuItem_IsEnabledChanged;
 
-                if (_isAccessKeySupported)
-                {
-                    FlyoutButton.AccessKey = AccessKey;
-                    AccessKey = string.Empty;
-                }
+                FlyoutButton.AccessKey = AccessKey;
+                AccessKey = string.Empty;
             }
 
             if (_parentMenu?.CurrentFlyoutPlacement != null)
@@ -464,10 +458,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Text = underlinedCharacter.ToString()
             };
 
-            if (_isTextTextDecorationsSupported)
-            {
-                runWithUnderlinedCharacter.TextDecorations = Windows.UI.Text.TextDecorations.Underline;
-            }
+            runWithUnderlinedCharacter.TextDecorations = Windows.UI.Text.TextDecorations.Underline;
 
             var firstPartBuilder = new StringBuilder();
             var secondPartBuilder = new StringBuilder();

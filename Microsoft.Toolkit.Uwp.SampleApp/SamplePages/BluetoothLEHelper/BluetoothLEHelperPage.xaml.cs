@@ -20,19 +20,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
             bluetoothLEHelper.EnumerationCompleted += BluetoothLEHelper_EnumerationCompleted;
-            Load();
-        }
-
-        private void Load()
-        {
-            if (BluetoothLEHelper.IsBluetoothLESupported)
-            {
-                MainContent.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                NotAvailableMessage.Visibility = Visibility.Visible;
-            }
         }
 
         private async void BluetoothLEHelper_EnumerationCompleted(object sender, EventArgs e)
@@ -46,11 +33,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Enumeration_Click(object sender, RoutedEventArgs e)
         {
-            if (!BluetoothLEHelper.IsBluetoothLESupported)
-            {
-                return;
-            }
-
             if (!bluetoothLEHelper.IsEnumerating)
             {
                 bluetoothLEHelper.StartEnumeration();

@@ -13,17 +13,17 @@
     >
 
   <Grid>
-        <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
+    <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
 
-                    g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:0-1500]@"
-                    g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:350:0-1500]@"
-                    g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:400:0-1500]@"
-                    g:GazeInput.RepeatDelayDuration="@[RepeatDelayDuration:TimeSpan:400:0-1500]@"
-                    g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:400:0-1500]@"
-                    g:GazeInput.MaxDwellRepeatCount="@[MaxDwellRepeatCount:Slider:0:0-20]@"
+                g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:0-1500]@"
+                g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:350:0-1500]@"
+                g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:400:0-1500]@"
+                g:GazeInput.RepeatDelayDuration="@[RepeatDelayDuration:TimeSpan:400:0-1500]@"
+                g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:400:0-1500]@"
+                g:GazeInput.MaxDwellRepeatCount="@[MaxDwellRepeatCount:Slider:0:0-20]@"
 
-                    Width="@[ButtonSize:Slider:100:10-300]"
-                    Height="@[ButtonSize]"
-                    />
+                Width="@[ButtonSize:Slider:100:10-300]"
+                Height="@[ButtonSize]"
+                    >Focus</Button>
   </Grid>
 </Page>

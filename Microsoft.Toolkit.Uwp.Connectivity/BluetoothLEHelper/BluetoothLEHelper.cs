@@ -13,7 +13,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Enumeration;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {
@@ -26,11 +25,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// AQS search string used to find bluetooth devices.
         /// </summary>
         private const string BluetoothLeDeviceWatcherAqs = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
-
-        /// <summary>
-        /// Gets a value indicating whether the Bluetooth LE Helper is supported
-        /// </summary>
-        private static bool? _isBluetoothLESupported = null;
 
         /// <summary>
         /// We need to cache all DeviceInformation objects we get as they may
@@ -81,12 +75,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Gets the app context
         /// </summary>
         public static BluetoothLEHelper Context { get; } = new BluetoothLEHelper();
-
-        /// <summary>
-        /// Gets a value indicating whether the Bluetooth LE Helper is supported.
-        /// </summary>
-        public static bool IsBluetoothLESupported => (bool)(_isBluetoothLESupported ??
-            (_isBluetoothLESupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
 
         /// <summary>
         /// Gets the list of available bluetooth devices

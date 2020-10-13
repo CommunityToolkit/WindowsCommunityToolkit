@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
-using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -91,13 +90,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <returns><c>true</c> if the assignment was successful; otherwise, <c>false</c>.</returns>
         private bool AssignFadeAnimation()
         {
-            // Confirm that Microsoft.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
-            if (!ApiInformation.IsMethodPresent("Microsoft.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
-            {
-                // Just return true since it's not supported
-                return true;
-            }
-
             if (AssociatedObject == null)
             {
                 return false;

@@ -49,21 +49,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
             {
-                if (IsLazyLoadingSupported)
+                if (e.NewValue == null || !control.EnableLazyLoading || control._isInViewport)
                 {
-                    if (e.NewValue == null || !control.EnableLazyLoading || control._isInViewport)
-                    {
-                        control._lazyLoadingSource = null;
-                        control.SetSource(e.NewValue);
-                    }
-                    else
-                    {
-                        control._lazyLoadingSource = e.NewValue;
-                    }
+                    control._lazyLoadingSource = null;
+                    control.SetSource(e.NewValue);
                 }
                 else
                 {
-                    control.SetSource(e.NewValue);
+                    control._lazyLoadingSource = e.NewValue;
                 }
             }
         }
