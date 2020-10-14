@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Drawing;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
@@ -108,52 +107,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #pragma warning restore SA1401
         }
 #endif
-
-        /// <summary>
-        /// Fills an area in a given 2D <typeparamref name="T"/> array instance with a specified value.
-        /// This API will try to fill as many items as possible, ignoring positions outside the bounds of the array.
-        /// If invalid coordinates are given, they will simply be ignored and no exception will be thrown.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the input 2D <typeparamref name="T"/> array instance.</typeparam>
-        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
-        /// <param name="value">The <typeparamref name="T"/> value to fill the target area with.</param>
-        /// <param name="row">The row to start on (inclusive, 0-based index).</param>
-        /// <param name="column">The column to start on (inclusive, 0-based index).</param>
-        /// <param name="width">The positive width of area to fill.</param>
-        /// <param name="height">The positive height of area to fill.</param>
-        [Obsolete("Use array.AsSpan2D(...).Fill(...) instead")]
-        public static void Fill<T>(this T[,] array, T value, int row, int column, int width, int height)
-        {
-            Rectangle bounds = new Rectangle(0, 0, array.GetLength(1), array.GetLength(0));
-
-            // Precompute bounds to skip branching in main loop
-            bounds.Intersect(new Rectangle(column, row, width, height));
-
-            for (int i = bounds.Top; i < bounds.Bottom; i++)
-            {
-#if SPAN_RUNTIME_SUPPORT
-#if NETCORE_RUNTIME
-                ref T r0 = ref array.DangerousGetReferenceAt(i, bounds.Left);
-#else
-                ref T r0 = ref array[i, bounds.Left];
-#endif
-
-                // Span<T>.Fill will use vectorized instructions when possible
-                MemoryMarshal.CreateSpan(ref r0, bounds.Width).Fill(value);
-#else
-                ref T r0 = ref array[i, bounds.Left];
-
-                for (int j = 0; j < bounds.Width; j++)
-                {
-                    // Storing the initial reference and only incrementing
-                    // that one in each iteration saves one additional indirect
-                    // dereference for every loop iteration compared to using
-                    // the DangerousGetReferenceAt<T> extension on the array.
-                    Unsafe.Add(ref r0, j) = value;
-                }
-#endif
-            }
-        }
 
         /// <summary>
         /// Returns a <see cref="RefEnumerable{T}"/> over a row in a given 2D <typeparamref name="T"/> array instance.

@@ -81,11 +81,11 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_ArrayExtensions_2D_FillArrayMid()
+        public void Test_ArrayExtensions_2D_AsSpan2DAndFillArrayMid()
         {
             bool[,] test = new bool[4, 5];
 
-            test.Fill(true, 1, 1, 3, 2);
+            test.AsSpan2D(1, 1, 2, 3).Fill(true);
 
             var expected = new[,]
             {
@@ -100,12 +100,12 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_ArrayExtensions_2D_FillArrayTwice()
+        public void Test_ArrayExtensions_2D_AsSpan2DAndFillArrayTwice()
         {
             bool[,] test = new bool[4, 5];
 
-            test.Fill(true, 0, 0, 1, 2);
-            test.Fill(true, 1, 3, 2, 2);
+            test.AsSpan2D(0, 0, 2, 1).Fill(true);
+            test.AsSpan2D(1, 3, 2, 2).Fill(true);
 
             var expected = new[,]
             {
@@ -120,30 +120,11 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_ArrayExtensions_2D_FillArrayNegativeSize()
+        public void Test_ArrayExtensions_2D_AsSpan2DAndFillArrayBottomEdgeBoundary()
         {
             bool[,] test = new bool[4, 5];
 
-            test.Fill(true, 3, 4, -3, -2);
-
-            var expected = new[,]
-            {
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-            };
-
-            CollectionAssert.AreEqual(expected, test);
-        }
-
-        [TestCategory("ArrayExtensions")]
-        [TestMethod]
-        public void Test_ArrayExtensions_2D_FillArrayBottomEdgeBoundary()
-        {
-            bool[,] test = new bool[4, 5];
-
-            test.Fill(true, 1, 2, 2, 4);
+            test.AsSpan2D(1, 2, 3, 2).Fill(true);
 
             var expected = new[,]
             {
@@ -158,30 +139,11 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        public void Test_ArrayExtensions_2D_FillArrayTopLeftCornerNegativeBoundary()
-        {
-            bool[,] test = new bool[4, 5];
-
-            test.Fill(true, -1, -1, 3, 3);
-
-            var expected = new[,]
-            {
-                { true,   true, false, false, false },
-                { true,   true, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-            };
-
-            CollectionAssert.AreEqual(expected, test);
-        }
-
-        [TestCategory("ArrayExtensions")]
-        [TestMethod]
-        public void Test_ArrayExtensions_2D_FillArrayBottomRightCornerBoundary()
+        public void Test_ArrayExtensions_2D_AsSpan2DAndFillArrayBottomRightCornerBoundary()
         {
             bool[,] test = new bool[5, 4];
 
-            test.Fill(true, 3, 2, 3, 3);
+            test.AsSpan2D(3, 2, 2, 2).Fill(true);
 
             var expected = new[,]
             {
