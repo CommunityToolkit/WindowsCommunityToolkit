@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 {

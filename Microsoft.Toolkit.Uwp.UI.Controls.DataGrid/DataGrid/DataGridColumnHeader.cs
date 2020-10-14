@@ -607,7 +607,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 return;
             }
 
-            Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(this);
+            var pointerPoint = e.GetCurrentPoint(this);
             DataGridColumnHeaderInteractionInfo interactionInfo = this.OwningGrid.ColumnHeaderInteractionInfo;
 
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse && !pointerPoint.Properties.IsLeftButtonPressed)
@@ -683,7 +683,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 return;
             }
 
-            Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(this);
+            var pointerPoint = e.GetCurrentPoint(this);
 
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse && pointerPoint.Properties.IsLeftButtonPressed)
             {
@@ -765,7 +765,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 return;
             }
 
-            Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(this);
+            var pointerPoint = e.GetCurrentPoint(this);
             Point pointerPosition = pointerPoint.Position;
             DataGridColumnHeaderInteractionInfo interactionInfo = this.OwningGrid.ColumnHeaderInteractionInfo;
 

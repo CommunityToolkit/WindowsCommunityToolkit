@@ -12,7 +12,6 @@ using Microsoft.UI.Xaml.Input;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI.Core;
-using Windows.UI.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -199,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 _scrollViewer = sender as ScrollViewer;
 
-                PointerPoint pointerPoint = e.GetCurrentPoint(_scrollViewer);
+                var pointerPoint = e.GetCurrentPoint(_scrollViewer);
 
                 // SubscribeMiddle if middle button is pressed
                 if (pointerPoint.Properties.IsMiddleButtonPressed)
@@ -220,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // If condition that occurs before scrolling begins
             if (_isPressed && !_isMoved)
             {
-                PointerPoint pointerPoint = args.CurrentPoint;
+                var pointerPoint = args.CurrentPoint;
 
                 if (pointerPoint.Properties.IsMiddleButtonPressed)
                 {

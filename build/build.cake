@@ -105,7 +105,7 @@ void RetrieveVersion()
 void UpdateToolsPath(MSBuildSettings buildSettings)
 {
     // Workaround for https://github.com/cake-build/cake/issues/2128
-	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = false });
+	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = true });
 
 	if (vsInstallation != null)
 	{
@@ -242,6 +242,8 @@ Task("Package")
     .WithTarget("Pack")
     .WithProperty("PackageOutputPath", nupkgDir);
 
+    UpdateToolsPath(buildSettings);
+
     MSBuild(Solution, buildSettings);
 });
 
@@ -264,7 +266,7 @@ Task("Test")
 {
 	var vswhere = VSWhereLatest(new VSWhereLatestSettings
 	{
-		IncludePrerelease = false
+		IncludePrerelease = true
 	});
 
 	var testSettings = new VSTestSettings

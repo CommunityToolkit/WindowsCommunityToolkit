@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using Windows.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 {
@@ -14,20 +14,20 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         public Popup Get()
         {
             Popup popup;
-            Windows.UI.Xaml.Shapes.Rectangle rectangle;
+            Microsoft.UI.Xaml.Shapes.Rectangle rectangle;
 
             if (_cache.Count != 0)
             {
                 popup = _cache[0];
                 _cache.RemoveAt(0);
 
-                rectangle = popup.Child as Windows.UI.Xaml.Shapes.Rectangle;
+                rectangle = popup.Child as Microsoft.UI.Xaml.Shapes.Rectangle;
             }
             else
             {
                 popup = new Popup();
 
-                rectangle = new Windows.UI.Xaml.Shapes.Rectangle
+                rectangle = new Microsoft.UI.Xaml.Shapes.Rectangle
                 {
                     IsHitTestVisible = false
                 };

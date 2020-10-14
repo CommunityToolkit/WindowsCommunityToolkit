@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Security;
@@ -237,7 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ContentControl _topRightCornerHeader;
         private object _uneditedValue; // Represents the original current cell value at the time it enters editing mode.
         private string _updateSourcePath;
-        private Dictionary<Microsoft.UI.Xaml.Data.INotifyDataErrorInfo, string> _validationItems;
+        private Dictionary<INotifyDataErrorInfo, string> _validationItems;
         private List<ValidationResult> _validationResults;
         private byte _verticalScrollChangesIgnored;
 #if FEATURE_ICOLLECTIONVIEW_GROUP
@@ -412,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.RowGroupHeadersTable = new IndexToValueTable<DataGridRowGroupInfo>();
 
             _collapsedSlotsTable = new IndexToValueTable<Visibility>();
-            _validationItems = new Dictionary<Microsoft.UI.Xaml.Data.INotifyDataErrorInfo, string>();
+            _validationItems = new Dictionary<INotifyDataErrorInfo, string>();
             _validationResults = new List<ValidationResult>();
             _bindingValidationResults = new List<ValidationResult>();
             _propertyValidationResults = new List<ValidationResult>();
@@ -3709,7 +3710,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnPointerWheelChanged(e);
             if (!e.Handled)
             {
-                Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(this);
+                var pointerPoint = e.GetCurrentPoint(this);
 
                 // A horizontal scroll happens if the mouse has a horizontal wheel OR if the horizontal scrollbar is not disabled AND the vertical scrollbar IS disabled
                 bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel ||
@@ -6099,9 +6100,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (exitEditingMode && editingRow == this.EditingRow)
             {
                 // Unwire the INDEI event handlers
-                foreach (Microsoft.UI.Xaml.Data.INotifyDataErrorInfo indei in _validationItems.Keys)
+                foreach (INotifyDataErrorInfo indei in _validationItems.Keys)
                 {
-                    indei.ErrorsChanged -= new EventHandler<Microsoft.UI.Xaml.Data.DataErrorsChangedEventArgs>(ValidationItem_ErrorsChanged);
+                    indei.ErrorsChanged -= new EventHandler<DataErrorsChangedEventArgs>(ValidationItem_ErrorsChanged);
                 }
 
                 _validationItems.Clear();
@@ -8949,7 +8950,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 #endif
 
                     // INDEI entity validation.
-                    this.ValidateIndei(dataItem as Microsoft.UI.Xaml.Data.INotifyDataErrorInfo, null, null, null, validationResults, wireEvents);
+                    this.ValidateIndei(dataItem as INotifyDataErrorInfo, null, null, null, validationResults, wireEvents);
                 }
 
                 // IDEI and INDEI property validation.
@@ -9000,7 +9001,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 #endif
 
                             // INDEI property validation.
-                            this.ValidateIndei(declaringItem as Microsoft.UI.Xaml.Data.INotifyDataErrorInfo, bindingProperty, bindingPath, declaringPath, validationResults, wireEvents);
+                            this.ValidateIndei(declaringItem as INotifyDataErrorInfo, bindingProperty, bindingPath, declaringPath, validationResults, wireEvents);
                         }
                     }
                 }
@@ -9076,7 +9077,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="declaringPath">Path of the INDEI object.</param>
         /// <param name="validationResults">List of results to add to.</param>
         /// <param name="wireEvents">True if the ErrorsChanged event should be subscribed to.</param>
-        private void ValidateIndei(Microsoft.UI.Xaml.Data.INotifyDataErrorInfo indei, string bindingProperty, string bindingPath, string declaringPath, List<ValidationResult> validationResults, bool wireEvents)
+        private void ValidateIndei(INotifyDataErrorInfo indei, string bindingProperty, string bindingPath, string declaringPath, List<ValidationResult> validationResults, bool wireEvents)
         {
             if (indei != null)
             {
@@ -9117,7 +9118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (wireEvents && !_validationItems.ContainsKey(indei))
                 {
                     _validationItems.Add(indei, declaringPath);
-                    indei.ErrorsChanged += new EventHandler<Microsoft.UI.Xaml.Data.DataErrorsChangedEventArgs>(ValidationItem_ErrorsChanged);
+                    indei.ErrorsChanged += new EventHandler<DataErrorsChangedEventArgs>(ValidationItem_ErrorsChanged);
                 }
             }
         }
@@ -9127,9 +9128,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="sender">INDEI item whose errors changed.</param>
         /// <param name="e">Error event arguments.</param>
-        private void ValidationItem_ErrorsChanged(object sender, Microsoft.UI.Xaml.Data.DataErrorsChangedEventArgs e)
+        private void ValidationItem_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
-            Microsoft.UI.Xaml.Data.INotifyDataErrorInfo indei = sender as Microsoft.UI.Xaml.Data.INotifyDataErrorInfo;
+            INotifyDataErrorInfo indei = sender as INotifyDataErrorInfo;
             if (_validationItems.ContainsKey(indei))
             {
                 Debug.Assert(this.EditingRow != null, "Expected non-null EditingRow.");
@@ -9176,7 +9177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (indei != null)
             {
-                indei.ErrorsChanged -= new EventHandler<Microsoft.UI.Xaml.Data.DataErrorsChangedEventArgs>(ValidationItem_ErrorsChanged);
+                indei.ErrorsChanged -= new EventHandler<DataErrorsChangedEventArgs>(ValidationItem_ErrorsChanged);
             }
         }
 

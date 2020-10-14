@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework> <!-- TODO WinUI3 add netstandard1.4, native and net461 back-->
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework> <!-- TODO WinUI3 add netstandard1.4, native and net461 back-->
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -19,11 +19,7 @@
   <Choose>
 
     <!--Desktop Win32 apps-->
-    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net5.0'">
-      <ItemGroup>
-        <!--Reference Windows SDK NuGet of correct target platform version-->
-        <PackageReference Include="Microsoft.Windows.SDK.NET" Version="10.0.18362.6-preview" />
-      </ItemGroup>
+    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net5.0-windows10.0.19041.0'">
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
         <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
@@ -41,7 +37,7 @@
   </Choose>
 
   <!--NET Core desktop apps also need the Registry NuGet package-->
-  <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.19041.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
   </ItemGroup>
   

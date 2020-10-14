@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 {
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
                 IsHitTestVisible = false
             };
 
-            var gazeCursor = new Windows.UI.Xaml.Shapes.Ellipse
+            var gazeCursor = new Microsoft.UI.Xaml.Shapes.Ellipse
             {
                 Fill = new SolidColorBrush(Colors.IndianRed),
                 VerticalAlignment = VerticalAlignment.Top,

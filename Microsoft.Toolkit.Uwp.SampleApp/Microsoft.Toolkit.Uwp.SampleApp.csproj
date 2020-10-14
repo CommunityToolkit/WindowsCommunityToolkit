@@ -2,14 +2,13 @@
   
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+
     <RootNamespace>Microsoft.Toolkit.Uwp.SampleApp</RootNamespace>
 
-    <Platforms>x86;x64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-
-    <AssetTargetFallback>uap10.0.17134</AssetTargetFallback>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
 
     <ApplicationManifest>app.manifest</ApplicationManifest>
     
@@ -27,13 +26,13 @@
       <Version>10.1901.28001</Version>
     </PackageReference>-->
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
-      <Version>8.0.0-preview2</Version>
+      <Version>8.0.0-build.15.g19c10f9260</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.10.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
-      <Version>2.0.3-rc3</Version>
+      <Version>2.0.3-rc4</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>2.0.0</Version>
@@ -132,12 +131,12 @@
     <!--<SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
       <Name>Microsoft Engagement Framework</Name>
     </SDKReference>-->
-    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+    <!--<SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
     <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0">
       <Name>Visual C++ 2015 UWP Desktop Runtime for native apps</Name>
-    </SDKReference>
+    </SDKReference>-->
   </ItemGroup>
   <ItemGroup>
     <!-- WinUI3 - We might want to remove this, but it fixes ApiInformation.IsApiContractPresent -->

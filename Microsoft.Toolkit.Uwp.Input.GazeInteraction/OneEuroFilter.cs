@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
             _lastTimestamp = args.Timestamp;
 
             // calculate change in distance...
-            Point deltaDistance;
+            Point deltaDistance = default;
             deltaDistance.X = gazePoint.X - _pointFilter.Previous.X;
             deltaDistance.Y = gazePoint.Y - _pointFilter.Previous.Y;
 

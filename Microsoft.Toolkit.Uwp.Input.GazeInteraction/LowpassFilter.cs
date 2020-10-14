@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 
         public Point Update(Point point, Point alpha)
         {
-            Point pt;
+            Point pt = default;
             pt.X = (alpha.X * point.X) + ((1 - alpha.X) * Previous.X);
             pt.Y = (alpha.Y * point.Y) + ((1 - alpha.Y) * Previous.Y);
             Previous = pt;
