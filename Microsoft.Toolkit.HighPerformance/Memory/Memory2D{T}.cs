@@ -633,6 +633,29 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
         }
 
+#if NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Slices the current instance with the specified parameters.
+        /// </summary>
+        /// <param name="rows">The target range of rows to select.</param>
+        /// <param name="columns">The target range of columns to select.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="rows"/> or <paramref name="columns"/> are invalid.
+        /// </exception>
+        /// <returns>A new <see cref="Memory2D{T}"/> instance representing a slice of the current one.</returns>
+        public Memory2D<T> this[Range rows, Range columns]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                var (row, height) = rows.GetOffsetAndLength(this.height);
+                var (column, width) = columns.GetOffsetAndLength(this.width);
+
+                return Slice(row, column, height, width);
+            }
+        }
+#endif
+
         /// <summary>
         /// Slices the current instance with the specified parameters.
         /// </summary>

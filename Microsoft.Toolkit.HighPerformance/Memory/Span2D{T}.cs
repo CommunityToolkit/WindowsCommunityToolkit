@@ -543,6 +543,44 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
         }
 
+#if NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Gets the element at the specified zero-based indices.
+        /// </summary>
+        /// <param name="i">The target row to get the element from.</param>
+        /// <param name="j">The target column to get the element from.</param>
+        /// <returns>A reference to the element at the specified indices.</returns>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown when either <paramref name="i"/> or <paramref name="j"/> are invalid.
+        /// </exception>
+        public ref T this[Index i, Index j]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref this[i.GetOffset(Height), j.GetOffset(this.width)];
+        }
+
+        /// <summary>
+        /// Slices the current instance with the specified parameters.
+        /// </summary>
+        /// <param name="rows">The target range of rows to select.</param>
+        /// <param name="columns">The target range of columns to select.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="rows"/> or <paramref name="columns"/> are invalid.
+        /// </exception>
+        /// <returns>A new <see cref="Span2D{T}"/> instance representing a slice of the current one.</returns>
+        public Span2D<T> this[Range rows, Range columns]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                var (row, height) = rows.GetOffsetAndLength(Height);
+                var (column, width) = columns.GetOffsetAndLength(this.width);
+
+                return Slice(row, column, height, width);
+            }
+        }
+#endif
+
         /// <summary>
         /// Clears the contents of the current <see cref="Span2D{T}"/> instance.
         /// </summary>
