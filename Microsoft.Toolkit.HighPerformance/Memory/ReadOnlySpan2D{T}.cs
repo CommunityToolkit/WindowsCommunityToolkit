@@ -500,24 +500,24 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the element at the specified zero-based indices.
         /// </summary>
-        /// <param name="i">The target row to get the element from.</param>
-        /// <param name="j">The target column to get the element from.</param>
+        /// <param name="row">The target row to get the element from.</param>
+        /// <param name="column">The target column to get the element from.</param>
         /// <returns>A reference to the element at the specified indices.</returns>
         /// <exception cref="IndexOutOfRangeException">
-        /// Thrown when either <paramref name="i"/> or <paramref name="j"/> are invalid.
+        /// Thrown when either <paramref name="row"/> or <paramref name="column"/> are invalid.
         /// </exception>
-        public ref readonly T this[int i, int j]
+        public ref readonly T this[int row, int column]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if ((uint)i >= (uint)Height ||
-                    (uint)j >= (uint)Width)
+                if ((uint)row >= (uint)Height ||
+                    (uint)column >= (uint)Width)
                 {
                     ThrowHelper.ThrowIndexOutOfRangeException();
                 }
 
-                return ref DangerousGetReferenceAt(i, j);
+                return ref DangerousGetReferenceAt(row, column);
             }
         }
 
@@ -525,16 +525,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the element at the specified zero-based indices.
         /// </summary>
-        /// <param name="i">The target row to get the element from.</param>
-        /// <param name="j">The target column to get the element from.</param>
+        /// <param name="row">The target row to get the element from.</param>
+        /// <param name="column">The target column to get the element from.</param>
         /// <returns>A reference to the element at the specified indices.</returns>
         /// <exception cref="IndexOutOfRangeException">
-        /// Thrown when either <paramref name="i"/> or <paramref name="j"/> are invalid.
+        /// Thrown when either <paramref name="row"/> or <paramref name="column"/> are invalid.
         /// </exception>
-        public ref readonly T this[Index i, Index j]
+        public ref readonly T this[Index row, Index column]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref this[i.GetOffset(Height), j.GetOffset(this.width)];
+            get => ref this[row.GetOffset(Height), column.GetOffset(this.width)];
         }
 
         /// <summary>
