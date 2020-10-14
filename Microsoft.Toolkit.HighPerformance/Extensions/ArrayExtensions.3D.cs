@@ -115,8 +115,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory<T> AsMemory<T>(this T[,,] array)
+        public static Memory<T> AsMemory<T>(this T[,,]? array)
         {
+            if (array is null)
+            {
+                return default;
+            }
+
             if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
@@ -133,21 +138,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span<T> AsSpan<T>(this T[,,] array)
+        public static Span<T> AsSpan<T>(this T[,,]? array)
         {
+            if (array is null)
+            {
+                return default;
+            }
+
             if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
 
-            int length = array.Length;
-
-            if (length == 0)
-            {
-                return default;
-            }
-
             ref T r0 = ref array.DangerousGetReference();
+            int length = array.Length;
 
             return MemoryMarshal.CreateSpan(ref r0, length);
         }

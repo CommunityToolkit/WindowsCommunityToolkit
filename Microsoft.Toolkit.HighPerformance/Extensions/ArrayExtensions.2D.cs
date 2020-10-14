@@ -280,7 +280,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span2D<T> AsSpan2D<T>(this T[,] array, int row, int column, int height, int width)
+        public static Span2D<T> AsSpan2D<T>(this T[,]? array, int row, int column, int height, int width)
         {
             return new Span2D<T>(array, row, column, height, width);
         }
@@ -293,7 +293,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory2D<T> AsMemory2D<T>(this T[,] array)
+        public static Memory2D<T> AsMemory2D<T>(this T[,]? array)
         {
             return new Memory2D<T>(array);
         }
@@ -317,7 +317,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory2D{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory2D<T> AsMemory2D<T>(this T[,] array, int row, int column, int height, int width)
+        public static Memory2D<T> AsMemory2D<T>(this T[,]? array, int row, int column, int height, int width)
         {
             return new Memory2D<T>(array, row, column, height, width);
         }
@@ -388,8 +388,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory<T> AsMemory<T>(this T[,] array)
+        public static Memory<T> AsMemory<T>(this T[,]? array)
         {
+            if (array is null)
+            {
+                return default;
+            }
+
             if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
@@ -406,21 +411,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span{T}"/> instance with the values of <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span<T> AsSpan<T>(this T[,] array)
+        public static Span<T> AsSpan<T>(this T[,]? array)
         {
+            if (array is null)
+            {
+                return default;
+            }
+
             if (array.IsCovariant())
             {
                 ThrowArrayTypeMismatchException();
             }
 
-            int length = array.Length;
-
-            if (length == 0)
-            {
-                return default;
-            }
-
             ref T r0 = ref array.DangerousGetReference();
+            int length = array.Length;
 
             return MemoryMarshal.CreateSpan(ref r0, length);
         }

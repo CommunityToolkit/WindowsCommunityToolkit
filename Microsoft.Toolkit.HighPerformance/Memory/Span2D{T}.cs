@@ -226,13 +226,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
-            if (width == 0 || height == 0)
-            {
-                this = default;
-
-                return;
-            }
-
             int
                 remaining = array.Length - offset,
                 area = ((width + pitch) * (height - 1)) + width;
@@ -300,8 +293,20 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for <paramref name="array"/>.
         /// </exception>
-        public Span2D(T[,] array, int row, int column, int height, int width)
+        public Span2D(T[,]? array, int row, int column, int height, int width)
         {
+            if (array is null)
+            {
+                if (row != 0 || column != 0 || height != 0 || width != 0)
+                {
+                    ThrowHelper.ThrowArgumentException();
+                }
+
+                this = default;
+
+                return;
+            }
+
             if (array.IsCovariant())
             {
                 ThrowHelper.ThrowArrayTypeMismatchException();
