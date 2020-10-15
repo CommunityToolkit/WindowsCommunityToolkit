@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
         /// </exception>
-        public unsafe void CopyTo(Span<T> destination)
+        public readonly unsafe void CopyTo(Span<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
         /// <returns>Whether or not the operation was successful.</returns>
-        public bool TryCopyTo(Span<T> destination)
+        public readonly bool TryCopyTo(Span<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             int length = this.span.Length;
