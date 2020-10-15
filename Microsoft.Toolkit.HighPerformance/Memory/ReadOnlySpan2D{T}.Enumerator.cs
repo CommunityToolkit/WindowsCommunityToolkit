@@ -169,21 +169,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 // We reached the end of a row and there is at least
                 // another row available: wrap to a new line and continue.
-                if (
+                this.x = 0;
+
 #if SPAN_RUNTIME_SUPPORT
-                    this.y < (this.span.Length - 1)
+                return this.y++ < (this.span.Length - 1);
 #else
-                    this.y < this.height - 1
+                return this.y++ < this.height - 1;
 #endif
-                )
-                {
-                    this.x = 0;
-                    this.y++;
-
-                    return true;
-                }
-
-                return false;
             }
 
             /// <summary>

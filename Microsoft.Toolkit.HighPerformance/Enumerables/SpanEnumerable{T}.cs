@@ -54,16 +54,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            int newIndex = this.index + 1;
-
-            if (newIndex < this.span.Length)
-            {
-                this.index = newIndex;
-
-                return true;
-            }
-
-            return false;
+            return ++this.index < this.span.Length;
         }
 
         /// <summary>

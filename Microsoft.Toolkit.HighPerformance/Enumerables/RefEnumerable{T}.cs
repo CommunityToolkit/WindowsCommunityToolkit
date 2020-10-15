@@ -99,22 +99,11 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            int position = this.position + this.step;
-
-            if (
 #if SPAN_RUNTIME_SUPPORT
-                position < this.span.Length
+            return (this.position += this.step) < this.span.Length;
 #else
-                position < this.length
+            return (this.position += this.step) < this.length;
 #endif
-            )
-            {
-                this.position = position;
-
-                return true;
-            }
-
-            return false;
         }
 
         /// <inheritdoc cref="System.Collections.Generic.IEnumerator{T}.Current"/>
