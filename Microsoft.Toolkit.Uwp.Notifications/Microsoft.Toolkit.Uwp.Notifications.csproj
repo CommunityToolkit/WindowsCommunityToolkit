@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework> <!-- TODO WinUI3 add netstandard1.4, native and net461 back-->
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework> <!-- TODO WinUI3 add netstandard1.4, native and net461 back-->
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -19,7 +19,7 @@
   <Choose>
 
     <!--Desktop Win32 apps-->
-    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net5.0-windows10.0.19041.0'">
+    <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
         <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
@@ -37,7 +37,7 @@
   </Choose>
 
   <!--NET Core desktop apps also need the Registry NuGet package-->
-  <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.19041.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
   </ItemGroup>
   
@@ -62,7 +62,7 @@
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NugetTargetMoniker>
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NugetTargetMoniker>
     <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17134</AssetTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.17134.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>

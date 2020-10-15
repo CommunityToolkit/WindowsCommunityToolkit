@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
         /// <summary>
         /// The cache of weak references of type <typeparamref name="TValue"/> to <typeparamref name="TKey"/> instances, to avoid memory leaks
         /// </summary>
-        private readonly ConditionalWeakTable<Compositor, Dictionary<TKey, WinRT.WeakReference<TValue>>> cache = new ConditionalWeakTable<Compositor, Dictionary<TKey, WinRT.WeakReference<TValue>>>();
+        private readonly ConditionalWeakTable<Compositor, Dictionary<TKey, WeakReference<TValue>>> cache = new ConditionalWeakTable<Compositor, Dictionary<TKey, WeakReference<TValue>>>();
 
         /// <summary>
         /// Tries to retrieve a valid instance from the cache, and uses the provided factory if an existing item is not found
@@ -59,11 +59,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
                 {
                     _ = map.Remove(key);
 
-                    map.Add(key, new WinRT.WeakReference<TValue>(value));
+                    map.Add(key, new WeakReference<TValue>(value));
                 }
                 else
                 {
-                    map = new Dictionary<TKey, WinRT.WeakReference<TValue>> { [key] = new WinRT.WeakReference<TValue>(value) };
+                    map = new Dictionary<TKey, WeakReference<TValue>> { [key] = new WeakReference<TValue>(value) };
 
                     this.cache.Add(compositor, map);
                 }

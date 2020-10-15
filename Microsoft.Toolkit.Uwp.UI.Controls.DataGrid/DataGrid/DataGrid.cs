@@ -7,7 +7,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Security;
@@ -32,6 +31,8 @@ using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using DataErrorsChangedEventArgs = System.ComponentModel.DataErrorsChangedEventArgs;
+using INotifyDataErrorInfo = System.ComponentModel.INotifyDataErrorInfo;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

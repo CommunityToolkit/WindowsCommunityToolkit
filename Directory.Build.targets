@@ -1,11 +1,15 @@
 <Project>
   <Choose>
-    <When Condition="'$(ShouldAddWinUI)' == 'true' and '$(TargetFramework)' == 'net5.0-windows10.0.19041.0'">
+    <When Condition="'$(ShouldAddWinUI)' == 'true' and '$(TargetFramework)' == 'net5.0-windows10.0.18362.0'">
       <PropertyGroup>
         <AssetTargetFallback>uap10.0.$(DefaultTargetPlatformMinVersion)</AssetTargetFallback>
       </PropertyGroup>
       <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
         <PackageReference Include="Microsoft.WinUI" Version="$(MicrosoftWinUIVersion)"/>
+      </ItemGroup>
+      <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.10" />
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.10" />
       </ItemGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
         /// <summary>
         /// The cache of weak references of type <typeparamref name="T"/>, to avoid memory leaks
         /// </summary>
-        private readonly ConditionalWeakTable<Compositor, WinRT.WeakReference<T>> cache = new ConditionalWeakTable<Compositor, WinRT.WeakReference<T>>();
+        private readonly ConditionalWeakTable<Compositor, WeakReference<T>> cache = new ConditionalWeakTable<Compositor, WeakReference<T>>();
 
         /// <summary>
         /// Tries to retrieve a valid <typeparamref name="T"/> instance from the cache, and uses the provided factory if an existing item is not found
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
 
                 // Create a new instance when needed
                 var fallback = producer(compositor);
-                this.cache.AddOrUpdate(compositor, new WinRT.WeakReference<T>(fallback));
+                this.cache.AddOrUpdate(compositor, new WeakReference<T>(fallback));
 
                 return fallback;
             }

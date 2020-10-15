@@ -32,4 +32,7 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
 
+  <!-- Workaround for recursive MRT issue -->
+  <Target Name="GetMrtPackagingOutputs" />
+
 </Project>
