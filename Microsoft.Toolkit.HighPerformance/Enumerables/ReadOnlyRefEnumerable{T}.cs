@@ -137,6 +137,65 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             }
         }
 
+        /// <summary>
+        /// Copies the contents of this <see cref="RefEnumerable{T}"/> into a destination <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <param name="destination">The destination <see cref="Span{T}"/> instance.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
+        /// </exception>
+        public unsafe void CopyTo(Span<T> destination)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            if (this.step == 1)
+            {
+                this.span.CopyTo(destination);
+
+                return;
+            }
+
+            ref T sourceRef = ref this.span.DangerousGetReference();
+            int length = this.span.Length;
+#else
+            ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+            int length = this.length;
+#endif
+            if ((uint)destination.Length < (uint)(length / this.step))
+            {
+                ThrowArgumentExceptionForDestinationTooShort();
+            }
+
+            ref T destinationRef = ref destination.DangerousGetReference();
+
+            for (int i = 0; i < length; i += this.step)
+            {
+                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)i) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
+            }
+        }
+
+        /// <summary>
+        /// Attempts to copy the current <see cref="RefEnumerable{T}"/> instance to a destination <see cref="Span{T}"/>.
+        /// </summary>
+        /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        public bool TryCopyTo(Span<T> destination)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            int length = this.span.Length;
+#else
+            int length = this.length;
+#endif
+
+            if (destination.Length >= length / this.step)
+            {
+                CopyTo(destination);
+
+                return true;
+            }
+
+            return false;
+        }
+
         /// <inheritdoc cref="RefEnumerable{T}.ToArray"/>
         [Pure]
         public readonly unsafe T[] ToArray()
@@ -174,6 +233,14 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             }
 
             return array;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when the target span is too short.
+        /// </summary>
+        private static void ThrowArgumentExceptionForDestinationTooShort()
+        {
+            throw new ArgumentException("The target span is too short to copy all the current items to");
         }
     }
 }

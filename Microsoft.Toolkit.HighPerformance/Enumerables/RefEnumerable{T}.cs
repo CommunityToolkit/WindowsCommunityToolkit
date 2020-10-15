@@ -138,6 +138,123 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         }
 
         /// <summary>
+        /// Clears the contents of the current <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        public readonly unsafe void Clear()
+        {
+#if SPAN_RUNTIME_SUPPORT
+            // Fast path for contiguous items
+            if (this.step == 1)
+            {
+                this.span.Clear();
+
+                return;
+            }
+
+            ref T r0 = ref this.span.DangerousGetReference();
+            int length = this.span.Length;
+#else
+            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+            int length = this.length;
+#endif
+
+            for (int i = 0; i < length; i += this.step)
+            {
+                Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i) = default!;
+            }
+        }
+
+        /// <summary>
+        /// Copies the contents of this <see cref="RefEnumerable{T}"/> into a destination <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <param name="destination">The destination <see cref="Span{T}"/> instance.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
+        /// </exception>
+        public unsafe void CopyTo(Span<T> destination)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            if (this.step == 1)
+            {
+                this.span.CopyTo(destination);
+
+                return;
+            }
+
+            ref T sourceRef = ref this.span.DangerousGetReference();
+            int length = this.span.Length;
+#else
+            ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+            int length = this.length;
+#endif
+            if ((uint)destination.Length < (uint)(length / this.step))
+            {
+                ThrowArgumentExceptionForDestinationTooShort();
+            }
+
+            ref T destinationRef = ref destination.DangerousGetReference();
+
+            for (int i = 0; i < length; i += this.step)
+            {
+                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)i) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
+            }
+        }
+
+        /// <summary>
+        /// Attempts to copy the current <see cref="RefEnumerable{T}"/> instance to a destination <see cref="Span{T}"/>.
+        /// </summary>
+        /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        public bool TryCopyTo(Span<T> destination)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            int length = this.span.Length;
+#else
+            int length = this.length;
+#endif
+
+            if (destination.Length >= length / this.step)
+            {
+                CopyTo(destination);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Fills the elements of this <see cref="RefEnumerable{T}"/> with a specified value.
+        /// </summary>
+        /// <param name="value">The value to assign to each element of the <see cref="RefEnumerable{T}"/> instance.</param>
+        /// <remarks>
+        /// This method will always return the whole sequence from the start, ignoring the
+        /// current position in case the sequence has already been enumerated in part.
+        /// </remarks>
+        public readonly unsafe void Fill(T value)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            if (this.step == 1)
+            {
+                this.span.Fill(value);
+
+                return;
+            }
+
+            ref T r0 = ref this.span.DangerousGetReference();
+            int length = this.span.Length;
+#else
+            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+            int length = this.length;
+#endif
+
+            for (int i = 0; i < length; i += this.step)
+            {
+                Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i) = value;
+            }
+        }
+
+        /// <summary>
         /// Returns a <typeparamref name="T"/> array with the values in the target row.
         /// </summary>
         /// <returns>A <typeparamref name="T"/> array with the values in the target row.</returns>
@@ -151,7 +268,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         public readonly unsafe T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
-            // Fast path for contiguous items
             if (this.step == 1)
             {
                 return this.span.ToArray();
@@ -183,6 +299,14 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             }
 
             return array;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when the target span is too short.
+        /// </summary>
+        private static void ThrowArgumentExceptionForDestinationTooShort()
+        {
+            throw new ArgumentException("The target span is too short to copy all the current items to");
         }
     }
 }
