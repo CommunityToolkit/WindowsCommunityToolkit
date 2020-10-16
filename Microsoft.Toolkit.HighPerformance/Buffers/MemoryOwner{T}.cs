@@ -220,6 +220,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// as the same array might be in use within another <see cref="MemoryOwner{T}"/> instance.
         /// </remarks>
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ArraySegment<T> DangerousGetArray()
         {
             T[]? array = this.array;
