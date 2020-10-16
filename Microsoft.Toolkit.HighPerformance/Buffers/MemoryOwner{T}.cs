@@ -209,6 +209,29 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
+        /// Gets an <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.
+        /// </summary>
+        /// <returns>An <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.</returns>
+        /// <remarks>
+        /// This method is meant to be used when working with APIs that only accept an array as input, and should be used with caution.
+        /// In particular, the returned array is rented from an array pool, and it is responsibility of the caller to ensure that it's
+        /// not used after the current <see cref="MemoryOwner{T}"/> instance is disposed. Doing so is considered undefined behavior,
+        /// as the same array might be in use within another <see cref="MemoryOwner{T}"/> instance.
+        /// </remarks>
+        [Pure]
+        public ArraySegment<T> DangerousGetArray()
+        {
+            T[]? array = this.array;
+
+            if (array is null)
+            {
+                ThrowObjectDisposedException();
+            }
+
+            return new ArraySegment<T>(array!, this.start, this.length);
+        }
+
+        /// <summary>
         /// Slices the buffer currently in use and returns a new <see cref="MemoryOwner{T}"/> instance.
         /// </summary>
         /// <param name="start">The starting offset within the current buffer.</param>

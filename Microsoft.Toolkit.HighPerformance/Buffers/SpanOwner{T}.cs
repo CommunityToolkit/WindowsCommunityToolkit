@@ -158,6 +158,23 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
+        /// Gets an <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.
+        /// </summary>
+        /// <returns>An <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.</returns>
+        /// <remarks>
+        /// This method is meant to be used when working with APIs that only accept an array as input, and should be used with caution.
+        /// In particular, the returned array is rented from an array pool, and it is responsibility of the caller to ensure that it's
+        /// not used after the current <see cref="SpanOwner{T}"/> instance is disposed. Doing so is considered undefined behavior,
+        /// as the same array might be in use within another <see cref="SpanOwner{T}"/> instance.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ArraySegment<T> DangerousGetArray()
+        {
+            return new ArraySegment<T>(array!, 0, this.length);
+        }
+
+        /// <summary>
         /// Implements the duck-typed <see cref="IDisposable.Dispose"/> method.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
