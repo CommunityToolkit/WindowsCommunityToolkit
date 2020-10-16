@@ -212,6 +212,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Gets an <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.
         /// </summary>
         /// <returns>An <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.</returns>
+        /// <exception cref="ObjectDisposedException">Thrown when the buffer in use has already been disposed.</exception>
         /// <remarks>
         /// This method is meant to be used when working with APIs that only accept an array as input, and should be used with caution.
         /// In particular, the returned array is rented from an array pool, and it is responsibility of the caller to ensure that it's
