@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions
@@ -190,6 +191,134 @@ namespace UnitTests.HighPerformance.Extensions
             int[,] array = new int[0, 0];
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(0).ToArray());
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
+        public void Test_ArrayExtensions_2D_GetRowOrColumn_Helpers()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 }
+            };
+
+            array.AsSpan2D(1, 1, 3, 3).GetRow(0).Clear();
+
+            int[,] expected =
+            {
+                { 1, 2, 3, 4 },
+                { 5, 0, 0, 0 },
+                { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 }
+            };
+
+            CollectionAssert.AreEqual(array, expected);
+
+            array.GetColumn(2).Fill(42);
+
+            expected = new[,]
+            {
+                { 1, 2, 42, 4 },
+                { 5, 0, 42, 0 },
+                { 9, 10, 42, 12 },
+                { 13, 14, 42, 16 }
+            };
+
+            CollectionAssert.AreEqual(array, expected);
+
+            int[] copy = new int[4];
+
+            array.GetRow(2).CopyTo(copy);
+
+            int[] result = { 9, 10, 42, 12 };
+
+            CollectionAssert.AreEqual(copy, result);
+
+            array.GetColumn(1).CopyTo(copy);
+
+            result = new[] { 2, 0, 10, 14 };
+
+            CollectionAssert.AreEqual(copy, result);
+
+            Assert.ThrowsException<ArgumentException>(() => array.GetRow(0).CopyTo(default));
+
+            Assert.ThrowsException<ArgumentException>(() => array.GetColumn(0).CopyTo(default));
+
+            Assert.IsTrue(array.GetRow(2).TryCopyTo(copy));
+
+            result = new[] { 9, 10, 42, 12 };
+
+            CollectionAssert.AreEqual(copy, result);
+
+            array.GetRow(2).Fill(99);
+
+            expected = new[,]
+            {
+                { 1, 2, 42, 4 },
+                { 5, 0, 42, 0 },
+                { 99, 99, 99, 99 },
+                { 13, 14, 42, 16 }
+            };
+
+            CollectionAssert.AreEqual(array, expected);
+
+            array.GetColumn(2).Clear();
+
+            expected = new[,]
+            {
+                { 1, 2, 0, 4 },
+                { 5, 0, 0, 0 },
+                { 99, 99, 0, 99 },
+                { 13, 14, 0, 16 }
+            };
+
+            CollectionAssert.AreEqual(array, expected);
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
+        public void Test_ArrayExtensions_2D_ReadOnlyGetRowOrColumn_Helpers()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 }
+            };
+
+            ReadOnlySpan2D<int> span2D = array;
+
+            int[] copy = new int[4];
+
+            span2D.GetRow(2).CopyTo(copy);
+
+            int[] result = { 9, 10, 11, 12 };
+
+            CollectionAssert.AreEqual(copy, result);
+
+            span2D.GetColumn(1).CopyTo(copy);
+
+            result = new[] { 2, 6, 10, 14 };
+
+            CollectionAssert.AreEqual(copy, result);
+
+            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetRow(0).CopyTo(default));
+
+            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetColumn(0).CopyTo(default));
+
+            Assert.IsTrue(span2D.GetRow(2).TryCopyTo(copy));
+
+            result = new[] { 9, 10, 11, 12 };
+
+            CollectionAssert.AreEqual(copy, result);
         }
 
         [TestCategory("ArrayExtensions")]
