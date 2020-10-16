@@ -156,9 +156,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             ref T destinationRef = ref destination.DangerousGetReference();
 
-            for (int i = 0; i < length; i += this.step)
+            for (int i = 0, j = 0; i < length; i += this.step, j++)
             {
-                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)i) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
+                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)j) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
             }
         }
 
