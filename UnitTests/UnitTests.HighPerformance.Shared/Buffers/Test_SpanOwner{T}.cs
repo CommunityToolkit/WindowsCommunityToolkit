@@ -60,7 +60,7 @@ namespace UnitTests.HighPerformance.Buffers
             Assert.Fail("You shouldn't be here");
         }
 
-        [TestCategory("HashCodeOfT")]
+        [TestCategory("SpanOwnerOfT")]
         [TestMethod]
         public void Test_SpanOwnerOfT_PooledBuffersAndClear()
         {
@@ -78,6 +78,20 @@ namespace UnitTests.HighPerformance.Buffers
             {
                 Assert.IsTrue(buffer.Span.ToArray().All(i => i == 0));
             }
+        }
+
+        [TestCategory("SpanOwnerOfT")]
+        [TestMethod]
+        public void Test_SpanOwnerOfT_AllocateAndGetArray()
+        {
+            using var buffer = SpanOwner<int>.Allocate(127);
+
+            var segment = buffer.DangerousGetArray();
+
+            Assert.IsNotNull(segment.Array);
+            Assert.IsTrue(segment.Array.Length >= buffer.Length);
+            Assert.AreEqual(segment.Offset, 0);
+            Assert.AreEqual(segment.Count, buffer.Length);
         }
     }
 }

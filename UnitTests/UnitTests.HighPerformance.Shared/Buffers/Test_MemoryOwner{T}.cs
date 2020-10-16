@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
@@ -105,7 +104,7 @@ namespace UnitTests.HighPerformance.Buffers
             // by accident doesn't cause issues, and just does nothing.
         }
 
-        [TestCategory("HashCodeOfT")]
+        [TestCategory("SpanOwnerOfT")]
         [TestMethod]
         public void Test_MemoryOwnerOfT_PooledBuffersAndClear()
         {
@@ -123,6 +122,35 @@ namespace UnitTests.HighPerformance.Buffers
             {
                 Assert.IsTrue(buffer.Span.ToArray().All(i => i == 0));
             }
+        }
+
+        [TestCategory("MemoryOwnerOfT")]
+        [TestMethod]
+        public void Test_MemoryOwnerOfT_AllocateAndGetArray()
+        {
+            var buffer = MemoryOwner<int>.Allocate(127);
+
+            var segment = buffer.DangerousGetArray();
+
+            Assert.IsNotNull(segment.Array);
+            Assert.IsTrue(segment.Array.Length >= buffer.Length);
+            Assert.AreEqual(segment.Offset, 0);
+            Assert.AreEqual(segment.Count, buffer.Length);
+
+            var second = buffer.Slice(10, 80);
+
+            Assert.ThrowsException<ObjectDisposedException>(() => buffer.DangerousGetArray());
+
+            segment = second.DangerousGetArray();
+
+            Assert.IsNotNull(segment.Array);
+            Assert.IsTrue(segment.Array.Length >= second.Length);
+            Assert.AreEqual(segment.Offset, 10);
+            Assert.AreEqual(segment.Count, second.Length);
+
+            second.Dispose();
+
+            Assert.ThrowsException<ObjectDisposedException>(() => second.DangerousGetArray());
         }
     }
 }
