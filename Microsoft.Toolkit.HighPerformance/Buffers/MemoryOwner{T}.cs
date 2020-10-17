@@ -247,7 +247,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// size and copy the previous items into the new one, or needing an additional variable/field
         /// to manually handle to track the used range within a given <see cref="MemoryOwner{T}"/> instance.
         /// </remarks>
-        [Pure]
         public MemoryOwner<T> Slice(int start, int length)
         {
             T[]? array = this.array;
