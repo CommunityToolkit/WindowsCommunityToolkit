@@ -6,7 +6,9 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
+#if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Memory;
+#endif
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
@@ -75,6 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         /// <exception cref="ArgumentException">Thrown when <paramref name="memory"/> has an invalid data store.</exception>
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this ReadOnlyMemory<byte> memory)
         {
             return MemoryStream.Create(memory, true);

@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -145,6 +146,52 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return ref r1;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Returns a <see cref="ReadOnlySpan2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="ReadOnlySpan2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int height, int width)
+        {
+            return new ReadOnlySpan2D<T>(span, height, width);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ReadOnlySpan2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="offset">The initial offset within <paramref name="span"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="ReadOnlySpan2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int offset, int height, int width, int pitch)
+        {
+            return new ReadOnlySpan2D<T>(span, offset, height, width, pitch);
+        }
+#endif
 
         /// <summary>
         /// Gets the index of an element of a given <see cref="ReadOnlySpan{T}"/> from its reference.
