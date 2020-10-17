@@ -419,6 +419,78 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct.
+        /// </summary>
+        /// <param name="span">The target <see cref="ReadOnlySpan{T}"/> to wrap.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
+        /// </exception>
+        /// <remarks>The total area must match the lenght of <paramref name="span"/>.</remarks>
+        internal ReadOnlySpan2D(ReadOnlySpan<T> span, int height, int width)
+            : this(span, 0, height, width, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct.
+        /// </summary>
+        /// <param name="span">The target <see cref="ReadOnlySpan{T}"/> to wrap.</param>
+        /// <param name="offset">The initial offset within <paramref name="span"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        internal ReadOnlySpan2D(ReadOnlySpan<T> span, int offset, int height, int width, int pitch)
+        {
+            if ((uint)offset > (uint)span.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
+            }
+
+            if (height < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if (width < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if (pitch < 0)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
+            }
+
+            if (width == 0 || height == 0)
+            {
+                this = default;
+
+                return;
+            }
+
+            int
+                remaining = span.Length - offset,
+                area = ((width + pitch) * (height - 1)) + width;
+
+            if (area > remaining)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
+
+            this.span = MemoryMarshal.CreateSpan(ref span.DangerousGetReferenceAt(offset), height);
+            this.width = width;
+            this.pitch = pitch;
+        }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct with the specified parameters.
         /// </summary>
         /// <param name="value">The reference to the first <typeparamref name="T"/> item to map.</param>
