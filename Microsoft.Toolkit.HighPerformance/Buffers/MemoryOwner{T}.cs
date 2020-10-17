@@ -7,6 +7,9 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCORE_RUNTIME
+using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -180,7 +183,22 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
+#if NETCORE_RUNTIME
+                ref T r0 = ref array!.DangerousGetReferenceAt(this.start);
+
+                // On .NET Core runtimes, we can manually create a span from the starting reference to
+                // skip the argument validations, which include an explicit null check, covariance check
+                // for the array and the actual validation for the starting offset and target length. We
+                // only do this on .NET Core as we can leverage the runtime-specific array layout to get
+                // a fast access to the initial element, which makes this trick worth it. Otherwise, on
+                // runtimes where we would need to at least access a static field to retrieve the base
+                // byte offset within an SZ array object, we can get better performance by just using the
+                // default Span<T> constructor and paying the cost of the extra conditional branches,
+                // especially if T is a value type, in which case the covariance check is JIT removed.
+                return MemoryMarshal.CreateSpan(ref r0, this.length);
+#else
                 return new Span<T>(array!, this.start, this.length);
+#endif
             }
         }
 

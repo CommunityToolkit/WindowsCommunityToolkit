@@ -7,6 +7,9 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCORE_RUNTIME
+using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -143,7 +146,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public Span<T> Span
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Span<T>(this.array, 0, this.length);
+            get
+            {
+#if NETCORE_RUNTIME
+                ref T r0 = ref array!.DangerousGetReference();
+
+                return MemoryMarshal.CreateSpan(ref r0, this.length);
+#else
+                return new Span<T>(this.array, 0, this.length);
+#endif
+            }
         }
 
         /// <summary>
