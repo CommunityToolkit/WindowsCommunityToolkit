@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span<T> GetLayerSpan<T>(this T[,,] array, int depth)
+        public static Span<T> AsSpan<T>(this T[,,] array, int depth)
         {
             if (array.IsCovariant())
             {
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory<T> GetLayerMemory<T>(this T[,,] array, int depth)
+        public static Memory<T> AsMemory<T>(this T[,,] array, int depth)
         {
             if (array.IsCovariant())
             {
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Span2D{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span2D<T> GetLayerSpan2D<T>(this T[,,] array, int depth)
+        public static Span2D<T> AsSpan2D<T>(this T[,,] array, int depth)
         {
             return new Span2D<T>(array, depth);
         }
@@ -246,7 +246,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A <see cref="Memory2D{T}"/> instance wrapping the target layer within <paramref name="array"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Memory2D<T> GetLayerMemory2D<T>(this T[,,] array, int depth)
+        public static Memory2D<T> AsMemory2D<T>(this T[,,] array, int depth)
         {
             return new Memory2D<T>(array, depth);
         }
