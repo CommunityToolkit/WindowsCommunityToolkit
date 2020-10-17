@@ -11,6 +11,7 @@ pool:
 
 variables: 
   BuildConfiguration: Release
+  isPR: $[eq(variables['build.reason'], 'PullRequest')]
 
 jobs:
 - job: ToolkitBuild
@@ -36,8 +37,18 @@ jobs:
       arguments: install --tool-path . nbgv
     displayName: Install NBGV tool
 
+  # if we're a PR, get the version from version.json, replace the 'build' string with the string 'PullRequest####', and set it back again
+  - powershell: |
+      $jsonFile = (Get-Content .\version.json) -replace '^\s*//*.*' | ConvertFrom-Json <# Get Version.Json, remove comments, and convert to JSON obj #>
+      $nbgvVersion = $jsonFile.Version -replace "build", ("PullRequest{0}" -f "$(System.PullRequest.PullRequestNumber)") <# Update Build With PullRequest and ID #>
+      .\nbgv.exe set-version $nbgvVersion <# Set version back to Nerdbank GitVersioning #>
+      "Updating Version to: {0}" -f $nbgvVersion | Out-String
+    condition: eq(variables.isPR, true)
+    displayName: Update Version.json for PRs
+
+  # get build height
   - script: nbgv cloud
-    displayName: Set Version
+    displayName: Set Version Height
 
   #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
@@ -81,7 +92,7 @@ jobs:
       SignClientUser: $(SignClientUser)
       SignClientSecret: $(SignClientSecret)
       ArtifactDirectory: bin\nupkg
-    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+    condition: and(succeeded(), not(variables.isPR), not(eq(variables.SignClientSecret, '')), not(eq(variables.SignClientUser, '')))
 
   - task: PublishBuildArtifacts@1
     displayName: Publish Package Artifacts
