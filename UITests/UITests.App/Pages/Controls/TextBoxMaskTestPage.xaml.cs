@@ -11,7 +11,7 @@ namespace UITests.App.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TextBoxMask : Page, INotifyPropertyChanged
+    public sealed partial class TextBoxMaskTestPage : Page, INotifyPropertyChanged
     {
         private const string INITIAL_VALUE = "12:50:59";
         private const string NEW_VALUE = "00:00:00";
@@ -32,7 +32,7 @@ namespace UITests.App.Pages
             }
         }
 
-        public TextBoxMask()
+        public TextBoxMaskTestPage()
         {
             this.InitializeComponent();
         }
