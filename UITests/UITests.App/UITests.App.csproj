@@ -136,7 +136,7 @@
     <Compile Include="Pages\SimpleTest.xaml.cs">
       <DependentUpon>SimpleTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TextBoxMask.xaml.cs">
+    <Compile Include="Pages\Controls\TextBoxMask.xaml.cs">
       <DependentUpon>TextBoxMask.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,7 +169,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TextBoxMask.xaml">
+    <Page Include="Pages\Controls\TextBoxMask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
