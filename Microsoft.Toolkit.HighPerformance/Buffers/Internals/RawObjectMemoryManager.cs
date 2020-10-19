@@ -62,10 +62,15 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
                 ThrowArgumentOutOfRangeExceptionForInvalidElementIndex();
             }
 
+            // Allocating a pinned handle for the array with fail and throw an exception
+            // if the array contains non blittable data. This is the expected behavior and
+            // the same happens when trying to pin a Memory<T> instance obtained through
+            // traditional means (eg. via the implicit T[] array conversion), if T is a
+            // reference type or a type containing some references.
+            GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
             ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
             ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)elementIndex);
             void* p = Unsafe.AsPointer(ref r1);
-            GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
 
             return new MemoryHandle(p, handle);
         }
