@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="obj">The input <see cref="object"/> instance, representing a boxed <typeparamref name="T"/> value.</param>
         /// <returns>A <see cref="Box{T}"/> reference pointing to <paramref name="obj"/>.</returns>
         /// <remarks>
-        /// This method doesn't check the actual type of <paramref name="obj"/>, so it is responsability of the caller
+        /// This method doesn't check the actual type of <paramref name="obj"/>, so it is responsibility of the caller
         /// to ensure it actually represents a boxed <typeparamref name="T"/> value and not some other instance.
         /// </remarks>
         [Pure]
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator T(Box<T> box)
         {
-            return Unsafe.Unbox<T>(box);
+            return (T)(object)box;
         }
 
         /// <summary>
@@ -180,7 +180,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="InvalidCastException"/> when a cast from an invalid <see cref="object"/> is attempted.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidCastExceptionForGetFrom()
         {
             throw new InvalidCastException($"Can't cast the input object to the type Box<{typeof(T)}>");

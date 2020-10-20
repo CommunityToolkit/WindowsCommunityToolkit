@@ -8,10 +8,8 @@
 
       Markdown: Allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
 
-      RSS: Allows you to parse an RSS content String into an RSS Schema.
-
     </Description>
-    <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown RSS</PackageTags>
+    <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown</PackageTags>
   </PropertyGroup>
   
   <ItemGroup>

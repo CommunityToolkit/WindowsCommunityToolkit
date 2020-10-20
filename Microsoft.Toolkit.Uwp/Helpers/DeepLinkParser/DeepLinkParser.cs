@@ -98,10 +98,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             var launchArgs = args as ILaunchActivatedEventArgs;
             if (launchArgs == null)
             {
-                var protcolArgs = args as IProtocolActivatedEventArgs;
-                if (protcolArgs != null)
+                var protocolArgs = args as IProtocolActivatedEventArgs;
+                if (protocolArgs != null)
                 {
-                    ParseUriString(protcolArgs.Uri.OriginalString);
+                    ParseUriString(protocolArgs.Uri.OriginalString);
                 }
                 else
                 {
@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             int queryStartPosition = origString.IndexOf('?');
             if (queryStartPosition == -1)
             {
-                // No querystring on the URI
+                // No query string on the URI
                 Root = origString;
             }
             else

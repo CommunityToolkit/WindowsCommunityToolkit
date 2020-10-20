@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         /// <summary>
         /// Gets or sets a value indicating the distance from the center.
-        /// Expected value betweeen 0 and 1
+        /// Expected value between 0 and 1
         /// </summary>
         public double Distance
         {
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets a value indicating the diameter of the item.
-        /// Expected value betweeen 0 and 1
+        /// Expected value between 0 and 1
         /// </summary>
         public double Diameter
         {

@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var textbox = (TextBox)sender;
 
-            // incase no value is provided us it as normal textbox
+            // In case no value is provided, use it as normal textbox
             var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
@@ -300,7 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // case adding data at the end of the textbox
             if (oldSelectionStart >= oldText.Length && !isDeleteOrBackspace)
             {
-                textbox.Text = oldText;
+                textbox.Text = textbox.Text.Substring(0, oldText.Length);
                 if (oldText.Length >= 0)
                 {
                     textbox.SelectionStart = oldText.Length;
@@ -327,6 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 if (string.IsNullOrEmpty(textbox.Text))
                 {
                     textbox.Text = displayText;
+                    return;
                 }
                 else
                 {
@@ -340,7 +341,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (!isDeleteOrBackspace)
             {
-                // Case change happended due to user input
+                // In case the change happened due to user input
                 var selectedChar = textbox.SelectionStart > 0 ?
                                     textbox.Text[textbox.SelectionStart - 1] :
                                     placeHolder;

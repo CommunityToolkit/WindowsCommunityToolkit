@@ -80,10 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             LockObj = new object();
 
-            if (IsLazyLoadingSupported)
-            {
-                EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
-            }
+            EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
         }
 
         /// <summary>
@@ -127,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Attach image failed event handler
         /// </summary>
-        /// <param name="handler">Excpetion Routed Event Handler</param>
+        /// <param name="handler">Exception Routed Event Handler</param>
         protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
         {
             var image = Image as Image;
@@ -146,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Remove Image Failed handler
         /// </summary>
-        /// <param name="handler">Excpetion Routed Event Handler</param>
+        /// <param name="handler">Exception Routed Event Handler</param>
         protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
         {
             var image = Image as Image;
@@ -177,21 +174,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageExInitialized?.Invoke(this, EventArgs.Empty);
 
-            if (IsLazyLoadingSupported)
+            if (Source == null || !EnableLazyLoading || _isInViewport)
             {
-                if (Source == null || !EnableLazyLoading || _isInViewport)
-                {
-                    _lazyLoadingSource = null;
-                    SetSource(Source);
-                }
-                else
-                {
-                    _lazyLoadingSource = Source;
-                }
+                _lazyLoadingSource = null;
+                SetSource(Source);
             }
             else
             {
-                SetSource(Source);
+                _lazyLoadingSource = Source;
             }
 
             AttachImageOpened(OnImageOpened);

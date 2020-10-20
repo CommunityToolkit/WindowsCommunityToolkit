@@ -444,7 +444,6 @@ namespace Microsoft.Toolkit.Collections
         /// <summary>
         /// Throws a new <see cref="InvalidOperationException"/> when a key is not found.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForKeyNotFound()
         {
             throw new InvalidOperationException("The requested key was not present in the collection");

@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            // Skip the dispatch, if posssible
+            // Skip the dispatch, if possible
             if (dispatcher.HasThreadAccess)
             {
                 try
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Extension method for <see cref="CoreDispatcher"/>. Offering an actual awaitable <see cref="Task"/> with optional result that will be executed on the given dispatcher.
         /// </summary>
         /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function">Asynchrounous function to be executed on the given dispatcher.</param>
+        /// <param name="function">Asynchronous function to be executed on the given dispatcher.</param>
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
@@ -303,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <typeparam name="T">Returned data type of the function.</typeparam>
         /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/>.</param>
-        /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher.</param>
+        /// <param name="function">Asynchronous function to be executed asynchronously on the given dispatcher.</param>
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
@@ -314,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
-            // Skip the dispatch, if posssible
+            // Skip the dispatch, if possible
             if (dispatcher.HasThreadAccess)
             {
                 try

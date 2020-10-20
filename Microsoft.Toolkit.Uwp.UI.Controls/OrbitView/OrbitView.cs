@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Shapes;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// ItemsControl that lays out items in a circle with support for odbits and anchors
+    /// ItemsControl that lays out items in a circle with support for orbits and anchors
     /// </summary>
     [TemplatePart(Name = "AnchorCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "OrbitGrid", Type = typeof(Grid))]

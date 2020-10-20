@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TokenizingTextBox_ItemClick(object sender, ItemClickEventArgs e)
         {
             // If the user taps an item in the list, make sure to clear any text selection as required
-            // Note, token selection is cleared by the listview default behaviour
+            // Note, token selection is cleared by the listview default behavior
             if (!IsControlPressed)
             {
                 // Set class state flag to prevent click item being immediately deselected
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return MoveFocusAndSelection(MoveDirection.Next);
 
                 case VirtualKey.A:
-                    // modify the select-all behaviour to ensure the text in the edit box gets selected.
+                    // modify the select-all behavior to ensure the text in the edit box gets selected.
                     if (IsControlPressed)
                     {
                         this.SelectAllTokensAndText();
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
             var menuFlyout = new MenuFlyout();
@@ -349,7 +349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var removeMenuItem = new MenuFlyoutItem
             {
-                Text = "WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                Text = "WCT_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
@@ -361,7 +361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
 
@@ -538,7 +538,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 placeholder.Visibility = Visibility.Collapsed;
 
-                // After we ensure we've hid the control, make it visible again (this is inperceptable to the user).
+                // After we ensure we've hid the control, make it visible again (this is imperceptible to the user).
                 _ = CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
                 {
                     placeholder.Visibility = Visibility.Visible;

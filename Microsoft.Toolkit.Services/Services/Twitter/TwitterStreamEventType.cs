@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
-    /// Describes the type of event that has occured on twitter
+    /// Describes the type of event that has occurred on twitter
     /// </summary>
     public enum TwitterStreamEventType
     {
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         Favorite,
 
         /// <summary>
-        /// The source user has unfaovorited the target users tweet.
+        /// The source user has unfavorited the target users tweet.
         /// </summary>
         [EnumMemberAttribute(Value = "unfavorite")]
         Unfavorite,

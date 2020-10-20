@@ -371,22 +371,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="frame">The Frame handling the navigation</param>
         /// <param name="item">The data item from a list control to be animated during next frame navigation</param>
-        [Obsolete("Method is replaced by SetListDataItemForNextConnectedAnimation")]
-        public static void SetListDataItemForNextConnectedAnnimation(this Frame frame, object item)
-        {
-            GetConnectedAnimationHelper(frame)?.SetParameterForNextFrameNavigation(item);
-        }
-
-        /// <summary>
-        /// Sets the object that will be used during next Frame navigation for
-        /// Connected Animation involving a list control (item must be an element of
-        /// ListViewBase.ItemsSource collection).
-        /// Useful if the parameter used during page navigation is different from the
-        /// data item in the list control. Also useful during back navigation if the
-        /// item navigating back to is different from the item that was navigated from.
-        /// </summary>
-        /// <param name="frame">The Frame handling the navigation</param>
-        /// <param name="item">The data item from a list control to be animated during next frame navigation</param>
         public static void SetListDataItemForNextConnectedAnimation(this Frame frame, object item)
         {
             GetConnectedAnimationHelper(frame)?.SetParameterForNextFrameNavigation(item);
@@ -394,11 +378,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             var element = d as FrameworkElement;
             if (element == null)
             {
@@ -422,11 +401,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnAnchorElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             var element = d as FrameworkElement;
             if (element == null)
             {
@@ -450,11 +424,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnListItemKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             var element = d as Windows.UI.Xaml.Controls.ListViewBase;
             if (element == null)
             {
@@ -478,11 +447,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnListItemElementNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             var element = d as Windows.UI.Xaml.Controls.ListViewBase;
             if (element == null)
             {
@@ -536,7 +500,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void AddListViewBaseItemAnimationDetails(Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase)
         {
-            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null)
+            if (listViewBase != null)
             {
                 var elementName = GetListItemElementName(listViewBase);
                 var key = GetListItemKey(listViewBase);

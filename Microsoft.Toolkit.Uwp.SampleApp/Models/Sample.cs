@@ -12,6 +12,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Graph.Converters;
@@ -22,7 +24,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
-using Newtonsoft.Json;
+using Microsoft.UI.Xaml;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -139,8 +141,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string CodeFile { get; set; }
 
-        public string JavaScriptCodeFile { get; set; }
-
         public string XamlCodeFile { get; set; }
 
         public bool DisableXamlEditorRendering { get; set; }
@@ -161,8 +161,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);
 
-        public bool HasJavaScriptCode => !string.IsNullOrEmpty(JavaScriptCodeFile);
-
         public bool HasDocumentation => !string.IsNullOrEmpty(DocumentationUrl);
 
         public bool IsSupported
@@ -182,20 +180,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(CodeFile.StartsWith('/') ? CodeFile : $"SamplePages/{Name}/{CodeFile}"))
             {
-                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                using (var streamReader = new StreamReader(codeStream.AsStream()))
                 {
-                    return await streamreader.ReadToEndAsync();
-                }
-            }
-        }
-
-        public async Task<string> GetJavaScriptSourceAsync()
-        {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(JavaScriptCodeFile.StartsWith('/') ? JavaScriptCodeFile : $"SamplePages/{Name}/{JavaScriptCodeFile}"))
-            {
-                using (var streamreader = new StreamReader(codeStream.AsStream()))
-                {
-                    return await streamreader.ReadToEndAsync();
+                    return await streamReader.ReadToEndAsync();
                 }
             }
         }
@@ -300,13 +287,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             IRandomAccessStream imageStream = null;
-            var localpath = $"{uri.Host}/{uri.LocalPath}";
+            var localPath = $"{uri.Host}/{uri.LocalPath}";
 
             // Cache only in Release
 #if !DEBUG
             try
             {
-                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localPath, Windows.Storage.FileAccessMode.Read);
             }
             catch
             {
@@ -329,7 +316,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             // Takes a second copy of the image stream, so that is can save the image data to cache.
                             using (var saveStream = await CopyStream(response.Content))
                             {
-                                await SaveImageToCache(localpath, saveStream);
+                                await SaveImageToCache(localPath, saveStream);
                             }
 #endif
                         }
@@ -343,17 +330,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return imageStream;
         }
 
-        private async Task SaveImageToCache(string localpath, Stream imageStream)
+        private async Task SaveImageToCache(string localPath, Stream imageStream)
         {
             var folder = ApplicationData.Current.LocalCacheFolder;
-            localpath = Path.Combine(folder.Path, localpath);
+            localPath = Path.Combine(folder.Path, localPath);
 
             // Resort to creating using traditional methods to avoid iteration for folder creation.
-            Directory.CreateDirectory(Path.GetDirectoryName(localpath));
+            Directory.CreateDirectory(Path.GetDirectoryName(localPath));
 
-            using (var filestream = File.Create(localpath))
+            using (var fileStream = File.Create(localPath))
             {
-                await imageStream.CopyToAsync(filestream);
+                await imageStream.CopyToAsync(fileStream);
             }
         }
 
@@ -473,7 +460,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         if (existingOption == null && string.IsNullOrWhiteSpace(type))
                         {
-                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurance in {XamlCodeFile}.");
+                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurrence in {XamlCodeFile}.");
                         }
 
                         if (Enum.TryParse(type, out PropertyKind kind))
@@ -727,6 +714,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Markdown
+            var markdownTextBlockType = typeof(MarkdownTextBlock);
+            assembly = markdownTextBlockType.GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
             return null;
         }
 
@@ -747,7 +746,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         {
                             var raw = await response.Content.ReadAsStringAsync();
                             Debug.WriteLine(raw);
-                            var json = JsonConvert.DeserializeObject<GitRef>(raw);
+                            var json = JsonSerializer.Deserialize<GitRef>(raw);
                             return json?.RefObject?.Sha;
                         }
                     }
@@ -762,13 +761,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public class GitRef
         {
-            [JsonProperty("object")]
+            [JsonPropertyName("object")]
             public GitRefObject RefObject { get; set; }
         }
 
         public class GitRefObject
         {
-            [JsonProperty("sha")]
+            [JsonPropertyName("sha")]
             public string Sha { get; set; }
         }
     }

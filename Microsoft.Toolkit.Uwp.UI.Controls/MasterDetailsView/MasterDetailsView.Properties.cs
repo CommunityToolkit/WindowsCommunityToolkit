@@ -323,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the Threshold width that witll trigger the control to go into compact mode
+        /// Gets or sets the Threshold width that will trigger the control to go into compact mode
         /// </summary>
         public double CompactModeThresholdWidth
         {

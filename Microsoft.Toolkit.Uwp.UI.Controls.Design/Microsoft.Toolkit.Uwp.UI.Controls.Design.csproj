@@ -13,21 +13,21 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NoWarn>$(NoWarn);0618</NoWarn>
-    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.16299</AssetTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17763</AssetTargetFallback>
   </PropertyGroup>
   <PropertyGroup>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Debug\uap10.0.16299\Design\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Debug\uap10.0.17763\Design\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Release\uap10.0.16299\Design\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Release\uap10.0.17763\Design\</OutputPath>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
@@ -85,7 +85,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TabViewItemMetadata.cs" />
     <Compile Include="BladeItemMetadata.cs" />
     <Compile Include="BladeViewMetadata.cs" />
     <Compile Include="CarouselMetadata.cs" />
@@ -93,19 +92,16 @@
     <Compile Include="AdaptiveGridViewMetadata.cs" />
     <Compile Include="ExpanderMetadata.cs" />
     <Compile Include="GridSplitterMetadata.cs" />
-    <Compile Include="HeaderedTextBlockMetadata.cs" />
     <Compile Include="ImageExMetadata.cs" />
     <Compile Include="InAppNotificationMetadata.cs" />
     <Compile Include="LayoutTransitionControlMetadata.cs" />
     <Compile Include="LoadingMetadata.cs" />
-    <Compile Include="MarkdownTextBlockMetadata.cs" />
     <Compile Include="MasterDetailsViewMetadata.cs" />
     <Compile Include="MenuItemMetadata.cs" />
     <Compile Include="MenuMetadata.cs" />
     <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
     <Compile Include="Common\PlatformTypes.cs" />
-    <Compile Include="TabViewMetadata.cs" />
     <Compile Include="OrbitViewMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -140,7 +136,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0.16299\Microsoft.Toolkit.Uwp.UI.Controls.xml">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.xml">
       <Link>Microsoft.Toolkit.Uwp.UI.Controls.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>

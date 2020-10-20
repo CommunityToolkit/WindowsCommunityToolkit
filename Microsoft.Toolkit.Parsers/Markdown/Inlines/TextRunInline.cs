@@ -354,10 +354,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                         continue;
                     }
 
-                    // Okay, we have an entity, but is it one we recognise?
+                    // Okay, we have an entity, but is it one we recognize?
                     string entityName = markdown.Substring(sequenceStartIndex + 1, semicolonIndex - (sequenceStartIndex + 1));
 
-                    // Unrecognised entity.
+                    // Unrecognized entity.
                     if (_entities.ContainsKey(entityName) == false)
                     {
                         continue;
