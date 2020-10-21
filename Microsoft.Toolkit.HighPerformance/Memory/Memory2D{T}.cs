@@ -118,8 +118,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = array.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = array.Length - offset;
 
             if (area > remaining)
             {
@@ -372,8 +372,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = length - offset;
 
             if (area > remaining)
             {
@@ -451,8 +451,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = memory.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = memory.Length - offset;
 
             if (area > remaining)
             {

@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using static System.Math;
 
 namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
@@ -14,6 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
+        /// <exception cref="OverflowException">Throw when the inputs don't fit in the expected range.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void EnsureIsInNativeIntRange(int height, int width, int pitch)
         {
@@ -40,6 +43,21 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
             // Note that we're subtracting 1 to the height as we don't want to include the trailing pitch
             // for the 2D memory area, and also 1 to the width as the index is 0-based, as usual.
             _ = checked((((nint)width + pitch) * Max(unchecked(height - 1), 0)) + Max(unchecked(width - 1), 0));
+        }
+
+        /// <summary>
+        /// Ensures that the input parameters will not exceed the maximum native int value when indexing.
+        /// </summary>
+        /// <param name="height">The height of the 2D memory area to map.</param>
+        /// <param name="width">The width of the 2D memory area to map.</param>
+        /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
+        /// <returns>The area resulting from the given parameters.</returns>
+        /// <exception cref="OverflowException">Throw when the inputs don't fit in the expected range.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ComputeInt32Area(int height, int width, int pitch)
+        {
+            return checked(((width + pitch) * Max(unchecked(height - 1), 0)) + width);
         }
     }
 }

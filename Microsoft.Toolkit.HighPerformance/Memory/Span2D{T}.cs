@@ -133,6 +133,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
+            OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
+
 #if SPAN_RUNTIME_SUPPORT
             this.span = new Span<T>(pointer, height);
 #else
@@ -227,8 +229,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = array.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = array.Length - offset;
 
             if (area > remaining)
             {
@@ -499,8 +501,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = span.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = span.Length - offset;
 
             if (area > remaining)
             {
