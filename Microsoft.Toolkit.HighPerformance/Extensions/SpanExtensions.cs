@@ -49,6 +49,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return ref ri;
         }
 
+        /// <summary>
+        /// Returns a reference to an element at a specified index within a given <see cref="Span{T}"/>, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
+        /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReferenceAt<T>(this Span<T> span, nint i)
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T ri = ref Unsafe.Add(ref r0, i);
+
+            return ref ri;
+        }
+
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Returns a <see cref="Span2D{T}"/> instance wrapping the underlying data for the given <see cref="Span{T}"/> instance.

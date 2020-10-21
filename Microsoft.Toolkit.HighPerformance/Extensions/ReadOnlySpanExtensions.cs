@@ -43,8 +43,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
-            // Here we assume the input index will never be negative, so we do an unsafe cast to
-            // force the JIT to skip the sign extension when going from int to native int.
+            // Here we assume the input index will never be negative, so we do a (nint)(uint) cast
+            // to force the JIT to skip the sign extension when going from int to native int.
             // On .NET Core 3.1, if we only use Unsafe.Add(ref r0, i), we get the following:
             // =============================
             // L0000: mov rax, [rcx]
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // Note the movsxd (move with sign extension) to expand the index passed in edx to
             // the whole rdx register. This is unnecessary and more expensive than just a mov,
             // which when done to a large register size automatically zeroes the upper bits.
-            // With the (IntPtr)(void*)(uint) cast, we get the following codegen instead:
+            // With the (nint)(uint) cast, we get the following codegen instead:
             // =============================
             // L0000: mov rax, [rcx]
             // L0003: mov edx, edx
@@ -68,13 +68,31 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // bit architectures, producing optimal code in both cases (they are either completely
             // elided on 32 bit systems, or result in the correct register expansion when on 64 bit).
             // We first do an unchecked conversion to uint (which is just a reinterpret-cast). We
-            // then cast to void*, which lets the following IntPtr cast avoid the range check on 32 bit
-            // (since uint could be out of range there if the original index was negative). The final
-            // result is a clean mov as shown above. This will eventually be natively supported by the
-            // JIT compiler (see https://github.com/dotnet/runtime/issues/38794), but doing this here
+            // then cast to nint, so that we can obtain an IntPtr value without the range check (since
+            // uint could be out of range there if the original index was negative). The final result
+            // is a clean mov as shown above. This will eventually be natively supported by the JIT
+            // compiler (see https://github.com/dotnet/runtime/issues/38794), but doing this here
             // still ensures the optimal codegen even on existing runtimes (eg. .NET Core 2.1 and 3.1).
             ref T r0 = ref MemoryMarshal.GetReference(span);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
+
+            return ref ri;
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified index within a given <see cref="ReadOnlySpan{T}"/>, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
+        /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, nint i)
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
         }
