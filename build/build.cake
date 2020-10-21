@@ -35,6 +35,8 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
+var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp3.1/win10-x86";
+
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
 
@@ -244,32 +246,59 @@ Task("Test")
 	.Description("Runs all Tests")
     .Does(() =>
 {
-	var vswhere = VSWhereLatest(new VSWhereLatestSettings
-	{
-		IncludePrerelease = false
-	});
+    Information("\nRunning Unit Tests");
+    var vswhere = VSWhereLatest(new VSWhereLatestSettings
+    {
+        IncludePrerelease = false
+    });
 
-	var testSettings = new VSTestSettings
-	{
-	    ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
-		TestAdapterPath = getMSTestAdapterPath(),
+    var testSettings = new VSTestSettings
+    {
+        ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
+        TestAdapterPath = getMSTestAdapterPath(),
         ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10"),
-	};
+    };
 
-	VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
+    VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
 }).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*.NetCore.csproj"), (file) => 
 {
+    Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings
-	{
-		Configuration = "Release",
-		NoBuild = true,
-		Logger = "trx;LogFilePrefix=VsTestResults",
-		Verbosity = DotNetCoreVerbosity.Normal,
-		ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
-	};
+    {
+        Configuration = "Release",
+        NoBuild = true,
+        Logger = "trx;LogFilePrefix=VsTestResults",
+        Verbosity = DotNetCoreVerbosity.Normal,
+        ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
+    };
     DotNetCoreTest(file.FullPath, testSettings);
+}).DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
+{
+    Information("\nRunning TAEF Interaction Tests");
+
+    var result = StartProcess(System.IO.Path.GetDirectoryName(file.FullPath) + "/TE.exe", file.FullPath + " /screenCaptureOnError /enableWttLogging /logFile:UITestResults.wtl");
+    if (result != 0)
+    {
+        throw new InvalidOperationException("TAEF Tests failed!");
+    }
 }).DeferOnError();
 
+
+Task("MSTestUITest")
+	.Description("Runs UITests using MSTest")
+    .DoesForEach(GetFiles(baseDir + "/**/UITests.*.MSTest.csproj"), (file) =>
+{
+    Information("\nRunning UI Interaction Tests");
+
+    var testSettings = new DotNetCoreTestSettings
+    {
+        Configuration = "Release",
+        NoBuild = true,
+        Logger = "trx;LogFilePrefix=VsTestResults",
+        Verbosity = DotNetCoreVerbosity.Normal
+    };
+    DotNetCoreTest(file.FullPath, testSettings);
+});
 
 
 //////////////////////////////////////////////////////////////////////
