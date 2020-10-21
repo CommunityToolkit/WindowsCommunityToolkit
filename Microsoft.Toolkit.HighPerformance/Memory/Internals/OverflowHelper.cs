@@ -42,7 +42,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
             // The logic below calculates that index with overflow checks, throwing if one is detected.
             // Note that we're subtracting 1 to the height as we don't want to include the trailing pitch
             // for the 2D memory area, and also 1 to the width as the index is 0-based, as usual.
-            _ = checked((((nint)width + pitch) * Max(unchecked(height - 1), 0)) + Max(unchecked(width - 1), 0));
+            // Additionally, we're also ensuring that the stride is never greater than int.MaxValue, for
+            // consistency with how ND arrays work (int.MaxValue as upper bound for each axis), and to
+            // allow for faster iteration in the RefEnumerable<T> type, when traversing columns.
+            _ = checked(((nint)(width + pitch) * Max(unchecked(height - 1), 0)) + Max(unchecked(width - 1), 0));
         }
 
         /// <summary>

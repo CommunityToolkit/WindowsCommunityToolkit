@@ -33,9 +33,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            int startIndex = (this.width + this.pitch) * row;
+            nint startIndex = (nint)(uint)(this.width + this.pitch) * (nint)(uint)row;
             ref T r0 = ref DangerousGetReference();
-            ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)startIndex);
+            ref T r1 = ref Unsafe.Add(ref r0, startIndex);
 
 #if SPAN_RUNTIME_SUPPORT
             return new ReadOnlyRefEnumerable<T>(r1, Width, 1);
@@ -191,9 +191,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
                     ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
-                    int index = (this.y * (this.width + this.pitch)) + this.x;
+                    nint index = ((nint)(uint)this.y * (nint)(uint)(this.width + this.pitch)) + (nint)(uint)this.x;
 
-                    return ref Unsafe.Add(ref r0, (nint)(uint)index);
+                    return ref Unsafe.Add(ref r0, index);
                 }
             }
         }

@@ -825,9 +825,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
             ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
-            int index = (i * (this.width + this.pitch)) + j;
+            nint index = ((nint)(uint)i * (nint)(uint)(this.width + this.pitch)) + (nint)(uint)j;
 
-            return ref Unsafe.Add(ref r0, (nint)(uint)index);
+            return ref Unsafe.Add(ref r0, index);
         }
 
         /// <summary>
@@ -865,16 +865,15 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
-            int
-                shift = ((this.width + this.pitch) * row) + column,
-                pitch = this.pitch + (this.width - width);
+            nint shift = ((nint)(uint)(this.width + this.pitch) * (nint)(uint)row) + (nint)(uint)column;
+            int pitch = this.pitch + (this.width - width);
 
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
 
             return new ReadOnlySpan2D<T>(r0, height, width, pitch);
 #else
-            IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
+            IntPtr offset = this.offset + (shift * (nint)(uint)Unsafe.SizeOf<T>());
 
             return new ReadOnlySpan2D<T>(this.instance, offset, height, width, pitch);
 #endif
@@ -895,9 +894,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            int offset = (this.width + this.pitch) * row;
+            nint offset = (nint)(uint)(this.width + this.pitch) * (nint)(uint)row;
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
-            ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)offset);
+            ref T r1 = ref Unsafe.Add(ref r0, offset);
 
             return MemoryMarshal.CreateReadOnlySpan(ref r1, this.width);
         }
