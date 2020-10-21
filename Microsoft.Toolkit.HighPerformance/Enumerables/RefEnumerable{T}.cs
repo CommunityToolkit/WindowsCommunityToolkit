@@ -115,13 +115,10 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
                 return ref this.span.DangerousGetReferenceAt(this.position);
 #else
-                unsafe
-                {
-                    ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-                    ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.position);
+                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.position);
 
-                    return ref ri;
-                }
+                return ref ri;
 #endif
             }
         }
@@ -129,7 +126,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Clears the contents of the current <see cref="RefEnumerable{T}"/> instance.
         /// </summary>
-        public readonly unsafe void Clear()
+        public readonly void Clear()
         {
 #if SPAN_RUNTIME_SUPPORT
             // Fast path for contiguous items
@@ -149,7 +146,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             for (int i = 0; i < length; i += this.step)
             {
-                Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i) = default!;
+                Unsafe.Add(ref r0, (nint)(uint)i) = default!;
             }
         }
 
@@ -160,7 +157,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
         /// </exception>
-        public readonly unsafe void CopyTo(Span<T> destination)
+        public readonly void CopyTo(Span<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -185,7 +182,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             for (int i = 0, j = 0; i < length; i += this.step, j++)
             {
-                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)j) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
+                Unsafe.Add(ref destinationRef, (nint)(uint)j) = Unsafe.Add(ref sourceRef, (nint)(uint)i);
             }
         }
 
@@ -220,7 +217,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// This method will always return the whole sequence from the start, ignoring the
         /// current position in case the sequence has already been enumerated in part.
         /// </remarks>
-        public readonly unsafe void Fill(T value)
+        public readonly void Fill(T value)
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -239,7 +236,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             for (int i = 0; i < length; i += this.step)
             {
-                Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i) = value;
+                Unsafe.Add(ref r0, (nint)(uint)i) = value;
             }
         }
 
@@ -254,7 +251,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// ignoring the current position in case the sequence has already been enumerated in part.
         /// </remarks>
         [Pure]
-        public readonly unsafe T[] ToArray()
+        public readonly T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -284,7 +281,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
             for (int i = 0, j = 0; i < length; i += this.step, j++)
             {
-                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)j) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
+                Unsafe.Add(ref destinationRef, (nint)(uint)j) = Unsafe.Add(ref sourceRef, (nint)(uint)i);
             }
 
             return array;

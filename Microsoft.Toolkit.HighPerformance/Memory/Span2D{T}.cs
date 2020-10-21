@@ -678,19 +678,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).Clear();
                 }
 #else
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T r0 = ref DangerousGetReferenceAt(i, 0);
 
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1)
                     {
-                        ref T r0 = ref DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
-                        {
-                            Unsafe.Add(ref r0, j) = default!;
-                        }
+                        Unsafe.Add(ref r0, j) = default!;
                     }
                 }
 #endif
@@ -729,22 +726,19 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).CopyTo(destination.Slice(j));
                 }
 #else
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                ref T destinationRef = ref MemoryMarshal.GetReference(destination);
+                nint offset = 0;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
 
-                    ref T destinationRef = ref MemoryMarshal.GetReference(destination);
-                    IntPtr offset = default;
-
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1, offset += 1)
                     {
-                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1, offset += 1)
-                        {
-                            Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
-                        }
+                        Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
                     }
                 }
 #endif
@@ -785,20 +779,17 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).CopyTo(destination.GetRowSpan(i));
                 }
 #else
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+                    ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
 
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1)
                     {
-                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
-                        ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
-                        {
-                            Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, j);
-                        }
+                        Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, j);
                     }
                 }
 #endif
@@ -864,19 +855,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).Fill(value);
                 }
 #else
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T r0 = ref DangerousGetReferenceAt(i, 0);
 
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1)
                     {
-                        ref T r0 = ref DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
-                        {
-                            Unsafe.Add(ref r0, j) = value;
-                        }
+                        Unsafe.Add(ref r0, j) = value;
                     }
                 }
 #endif
@@ -931,7 +919,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A reference to the element at the specified indices.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe ref T DangerousGetReferenceAt(int i, int j)
+        public ref T DangerousGetReferenceAt(int i, int j)
         {
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
@@ -940,7 +928,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
             int index = (i * (this.width + this.Pitch)) + j;
 
-            return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
+            return ref Unsafe.Add(ref r0, (nint)(uint)index);
         }
 
         /// <summary>
@@ -1001,7 +989,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="row"/> is out of range.</exception>
         /// <returns>The resulting row <see cref="Span{T}"/>.</returns>
         [Pure]
-        public unsafe Span<T> GetRowSpan(int row)
+        public Span<T> GetRowSpan(int row)
         {
             if ((uint)row >= (uint)Height)
             {
@@ -1010,7 +998,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             int offset = (this.width + this.Pitch) * row;
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)offset);
 
             return MemoryMarshal.CreateSpan(ref r1, this.width);
         }
@@ -1080,22 +1068,19 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             // Skip the initialization if the array is empty
             if (Size > 0)
             {
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                ref T destinationRef = ref array.DangerousGetReference();
+                nint offset = 0;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
 
-                    ref T destinationRef = ref array.DangerousGetReference();
-                    IntPtr offset = default;
-
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1, offset += 1)
                     {
-                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1, offset += 1)
-                        {
-                            Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
-                        }
+                        Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
                     }
                 }
             }

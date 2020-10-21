@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe RefEnumerable<T> GetRow(int row)
+        public RefEnumerable<T> GetRow(int row)
         {
             if ((uint)row >= Height)
             {
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             int startIndex = (this.width + this.Pitch) * row;
             ref T r0 = ref DangerousGetReference();
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)startIndex);
+            ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)startIndex);
 
 #if SPAN_RUNTIME_SUPPORT
             return new RefEnumerable<T>(ref r1, Width, 1);
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <remarks>The returned <see cref="RefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe RefEnumerable<T> GetColumn(int column)
+        public RefEnumerable<T> GetColumn(int column)
         {
             if ((uint)column >= Width)
             {
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             ref T r0 = ref DangerousGetReference();
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)column);
+            ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)column);
 
 #if SPAN_RUNTIME_SUPPORT
             return new RefEnumerable<T>(ref r1, Height, this.width + this.Pitch);
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             /// <summary>
             /// Gets the duck-typed <see cref="System.Collections.Generic.IEnumerator{T}.Current"/> property.
             /// </summary>
-            public readonly unsafe ref T Current
+            public readonly ref T Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
                     int index = (this.y * (this.width + this.pitch)) + this.x;
 
-                    return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
+                    return ref Unsafe.Add(ref r0, (nint)(uint)index);
                 }
             }
         }

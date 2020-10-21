@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        public static ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
             // Here we assume the input index will never be negative, so we do an unsafe cast to
             // force the JIT to skip the sign extension when going from int to native int.
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // JIT compiler (see https://github.com/dotnet/runtime/issues/38794), but doing this here
             // still ensures the optimal codegen even on existing runtimes (eg. .NET Core 2.1 and 3.1).
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
         }
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        public static ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
             // Check whether the input is in range by first casting both
             // operands to uint and then comparing them, as this allows
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 mask = ~negativeFlag,
                 offset = (uint)i & mask;
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (nint)offset);
 
             return ref r1;
         }
@@ -242,11 +242,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int Count<T>(this ReadOnlySpan<T> span, T value)
+        public static int Count<T>(this ReadOnlySpan<T> span, T value)
             where T : IEquatable<T>
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)(void*)(uint)span.Length;
+            nint length = (nint)(uint)span.Length;
 
             return SpanHelper.Count(ref r0, length, value);
         }
@@ -368,11 +368,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
+        public static int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
             where T : notnull
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)(void*)(uint)span.Length;
+            nint length = (nint)(uint)span.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

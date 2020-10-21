@@ -66,19 +66,16 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             get
             {
 #if SPAN_RUNTIME_SUPPORT
-                unsafe
-                {
-                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                    ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.index);
+                ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
-                    // On .NET Standard 2.1 and .NET Core (or on any target that offers runtime
-                    // support for the Span<T> types), we can save 4 bytes by piggybacking the
-                    // current index in the length of the wrapped span. We're going to use the
-                    // first item as the target reference, and the length as a host for the
-                    // current original offset. This is not possible on eg. .NET Standard 2.0,
-                    // as we lack the API to create Span<T>-s from arbitrary references.
-                    return new Item(ref ri, this.index);
-                }
+                // On .NET Standard 2.1 and .NET Core (or on any target that offers runtime
+                // support for the Span<T> types), we can save 4 bytes by piggybacking the
+                // current index in the length of the wrapped span. We're going to use the
+                // first item as the target reference, and the length as a host for the
+                // current original offset. This is not possible on eg. .NET Standard 2.0,
+                // as we lack the API to create Span<T>-s from arbitrary references.
+                return new Item(ref ri, this.index);
 #else
                 return new Item(this.span, this.index);
 #endif
@@ -137,13 +134,10 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
                     return ref MemoryMarshal.GetReference(this.span);
 #else
-                    unsafe
-                    {
-                        ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                        ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.index);
+                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                    ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
-                        return ref ri;
-                    }
+                    return ref ri;
 #endif
                 }
             }

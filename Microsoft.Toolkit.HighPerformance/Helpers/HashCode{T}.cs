@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <remarks>The returned hash code is not processed through <see cref="HashCode"/> APIs.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static unsafe int CombineValues(ReadOnlySpan<T> span)
+        internal static int CombineValues(ReadOnlySpan<T> span)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
 
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // compiler, so this branch will never actually be executed by the code.
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                return SpanHelper.GetDjb2HashCode(ref r0, (IntPtr)(void*)(uint)span.Length);
+                return SpanHelper.GetDjb2HashCode(ref r0, (nint)(uint)span.Length);
             }
 
             // Get the info for the target memory area to process.
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // process. In that case it will just compute the byte size as a 32 bit
             // multiplication with overflow, which is guaranteed never to happen anyway.
             ref byte rb = ref Unsafe.As<T, byte>(ref r0);
-            IntPtr length = (IntPtr)(void*)((uint)span.Length * (uint)Unsafe.SizeOf<T>());
+            nint length = (nint)((uint)span.Length * (uint)Unsafe.SizeOf<T>());
 
             return SpanHelper.GetDjb2LikeByteHash(ref rb, length);
         }

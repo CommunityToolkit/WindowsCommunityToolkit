@@ -381,12 +381,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = memoryManager;
-
-            unsafe
-            {
-                this.offset = (IntPtr)(void*)(uint)offset;
-            }
-
+            this.offset = (nint)(uint)offset;
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -485,11 +480,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             else if (MemoryMarshal.TryGetMemoryManager<T, MemoryManager<T>>(memory, out var memoryManager, out int memoryManagerStart, out _))
             {
                 this.instance = memoryManager;
-
-                unsafe
-                {
-                    this.offset = (IntPtr)(void*)(uint)(memoryManagerStart + offset);
-                }
+                this.offset = (nint)(uint)(memoryManagerStart + offset);
             }
             else
             {

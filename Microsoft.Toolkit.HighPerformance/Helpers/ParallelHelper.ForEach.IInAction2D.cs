@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// Processes the batch of actions at a specified index
             /// </summary>
             /// <param name="i">The index of the batch to process</param>
-            public unsafe void Invoke(int i)
+            public void Invoke(int i)
             {
                 int
                     lowY = i * this.batchHeight,
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
                     for (int x = 0; x < width; x++)
                     {
-                        ref TItem ryx = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)x);
+                        ref TItem ryx = ref Unsafe.Add(ref r0, (nint)(uint)x);
 
                         Unsafe.AsRef(this.action).Invoke(ryx);
                     }
