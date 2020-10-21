@@ -33,6 +33,20 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(empty2.Size, 0);
             Assert.AreEqual(empty2.Width, 0);
             Assert.AreEqual(empty2.Height, 0);
+
+            Span2D<int> empty3 = new int[4, 0];
+
+            Assert.IsTrue(empty3.IsEmpty);
+            Assert.AreEqual(empty3.Size, 0);
+            Assert.AreEqual(empty3.Width, 0);
+            Assert.AreEqual(empty3.Height, 4);
+
+            Span2D<int> empty4 = new int[0, 7];
+
+            Assert.IsTrue(empty4.IsEmpty);
+            Assert.AreEqual(empty4.Size, 0);
+            Assert.AreEqual(empty4.Width, 7);
+            Assert.AreEqual(empty4.Height, 0);
         }
 
 #if !WINDOWS_UWP

@@ -554,7 +554,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool IsEmpty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (Height | this.width) == 0;
+            get => Height == 0 || this.width == 0;
         }
 
         /// <summary>
