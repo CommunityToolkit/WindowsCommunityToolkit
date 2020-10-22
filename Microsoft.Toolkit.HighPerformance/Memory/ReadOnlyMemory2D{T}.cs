@@ -104,8 +104,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = text.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = text.Length - offset;
 
             if (area > remaining)
             {
