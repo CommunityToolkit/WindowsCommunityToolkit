@@ -22,14 +22,14 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> empty1 = default;
 
             Assert.IsTrue(empty1.IsEmpty);
-            Assert.AreEqual(empty1.Size, 0);
+            Assert.AreEqual(empty1.Length, 0);
             Assert.AreEqual(empty1.Width, 0);
             Assert.AreEqual(empty1.Height, 0);
 
             ReadOnlySpan2D<string> empty2 = ReadOnlySpan2D<string>.Empty;
 
             Assert.IsTrue(empty2.IsEmpty);
-            Assert.AreEqual(empty2.Size, 0);
+            Assert.AreEqual(empty2.Length, 0);
             Assert.AreEqual(empty2.Width, 0);
             Assert.AreEqual(empty2.Height, 0);
         }
@@ -47,7 +47,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = ReadOnlySpan2D<int>.DangerousCreate(span[0], 2, 3, 0);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 6);
+            Assert.AreEqual(span2d.Length, 6);
             Assert.AreEqual(span2d.Width, 3);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 0], 1);
@@ -76,7 +76,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(ptr, 2, 3, 0);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 6);
+            Assert.AreEqual(span2d.Length, 6);
             Assert.AreEqual(span2d.Width, 3);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 0], 1);
@@ -100,7 +100,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 1, 2, 2, 1);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 4);
+            Assert.AreEqual(span2d.Length, 4);
             Assert.AreEqual(span2d.Width, 2);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 0], 2);
@@ -127,7 +127,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 6);
+            Assert.AreEqual(span2d.Length, 6);
             Assert.AreEqual(span2d.Width, 3);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 1], 2);
@@ -149,7 +149,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 0, 1, 2, 2);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 4);
+            Assert.AreEqual(span2d.Length, 4);
             Assert.AreEqual(span2d.Width, 2);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 0], 2);
@@ -177,7 +177,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 1);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 6);
+            Assert.AreEqual(span2d.Length, 6);
             Assert.AreEqual(span2d.Width, 3);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 0], 10);
@@ -207,7 +207,7 @@ namespace UnitTests.HighPerformance.Memory
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 1, 0, 1, 2, 2);
 
             Assert.IsFalse(span2d.IsEmpty);
-            Assert.AreEqual(span2d.Size, 4);
+            Assert.AreEqual(span2d.Length, 4);
             Assert.AreEqual(span2d.Width, 2);
             Assert.AreEqual(span2d.Height, 2);
             Assert.AreEqual(span2d[0, 0], 20);
@@ -405,7 +405,7 @@ namespace UnitTests.HighPerformance.Memory
 
             ReadOnlySpan2D<int> slice1 = span2d.Slice(1, 1, 2, 1);
 
-            Assert.AreEqual(slice1.Size, 2);
+            Assert.AreEqual(slice1.Length, 2);
             Assert.AreEqual(slice1.Height, 1);
             Assert.AreEqual(slice1.Width, 2);
             Assert.AreEqual(slice1[0, 0], 5);
@@ -413,7 +413,7 @@ namespace UnitTests.HighPerformance.Memory
 
             ReadOnlySpan2D<int> slice2 = span2d.Slice(0, 1, 2, 2);
 
-            Assert.AreEqual(slice2.Size, 4);
+            Assert.AreEqual(slice2.Length, 4);
             Assert.AreEqual(slice2.Height, 2);
             Assert.AreEqual(slice2.Width, 2);
             Assert.AreEqual(slice2[0, 0], 2);
@@ -443,7 +443,7 @@ namespace UnitTests.HighPerformance.Memory
 
             ReadOnlySpan2D<int> slice1 = span2d.Slice(0, 0, 2, 2);
 
-            Assert.AreEqual(slice1.Size, 4);
+            Assert.AreEqual(slice1.Length, 4);
             Assert.AreEqual(slice1.Height, 2);
             Assert.AreEqual(slice1.Width, 2);
             Assert.AreEqual(slice1[0, 0], 1);
@@ -451,7 +451,7 @@ namespace UnitTests.HighPerformance.Memory
 
             ReadOnlySpan2D<int> slice2 = slice1.Slice(1, 0, 2, 1);
 
-            Assert.AreEqual(slice2.Size, 2);
+            Assert.AreEqual(slice2.Length, 2);
             Assert.AreEqual(slice2.Height, 1);
             Assert.AreEqual(slice2.Width, 2);
             Assert.AreEqual(slice2[0, 0], 4);
@@ -459,7 +459,7 @@ namespace UnitTests.HighPerformance.Memory
 
             ReadOnlySpan2D<int> slice3 = slice2.Slice(0, 1, 1, 1);
 
-            Assert.AreEqual(slice3.Size, 1);
+            Assert.AreEqual(slice3.Length, 1);
             Assert.AreEqual(slice3.Height, 1);
             Assert.AreEqual(slice3.Width, 1);
             Assert.AreEqual(slice3[0, 0], 5);
@@ -512,7 +512,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(span.Length, 0);
 #else
             Assert.IsTrue(success);
-            Assert.AreEqual(span.Length, span2d.Size);
+            Assert.AreEqual(span.Length, span2d.Length);
 #endif
         }
 

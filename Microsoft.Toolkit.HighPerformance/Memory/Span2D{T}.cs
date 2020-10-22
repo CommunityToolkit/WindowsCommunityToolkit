@@ -562,7 +562,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the length of the current <see cref="Span2D{T}"/> instance.
         /// </summary>
-        public int Size
+        public int Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Height * this.width;
@@ -714,7 +714,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
             else
             {
-                if (Size > destination.Length)
+                if (Length > destination.Length)
                 {
                     ThrowHelper.ThrowArgumentExceptionForDestinationTooShort();
                 }
@@ -803,7 +803,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>Whether or not the operation was successful.</returns>
         public bool TryCopyTo(Span<T> destination)
         {
-            if (destination.Length >= Size)
+            if (destination.Length >= Length)
             {
                 CopyTo(destination);
 
@@ -884,7 +884,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             ref T r0 = ref Unsafe.AsRef<T>(null);
 
-            if (Size != 0)
+            if (Length != 0)
             {
 #if SPAN_RUNTIME_SUPPORT
                 r0 = ref MemoryMarshal.GetReference(this.span);
@@ -1014,7 +1014,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             if (this.Pitch == 0)
             {
 #if SPAN_RUNTIME_SUPPORT
-                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Size);
+                span = MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(this.span), Length);
 
                 return true;
 #else
@@ -1031,7 +1031,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     unsafe
                     {
-                        span = new Span<T>((void*)this.Offset, Size);
+                        span = new Span<T>((void*)this.Offset, Length);
                     }
 
                     return true;
@@ -1040,7 +1040,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.Instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.Instance).AsSpan((int)this.Offset, Size);
+                    span = Unsafe.As<T[]>(this.Instance).AsSpan((int)this.Offset, Length);
 
                     return true;
                 }
@@ -1065,7 +1065,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             CopyTo(array.AsSpan());
 #else
             // Skip the initialization if the array is empty
-            if (Size > 0)
+            if (Length > 0)
             {
                 int height = Height;
                 nint width = (nint)(uint)this.width;

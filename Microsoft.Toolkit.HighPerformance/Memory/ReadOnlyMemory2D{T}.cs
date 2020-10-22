@@ -624,7 +624,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the length of the current <see cref="ReadOnlyMemory2D{T}"/> instance.
         /// </summary>
-        public int Size
+        public int Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Height * Width;
@@ -829,7 +829,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     string text = Unsafe.As<string>(this.instance);
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
-                    ReadOnlyMemory<char> temp = text.AsMemory(index, Size);
+                    ReadOnlyMemory<char> temp = text.AsMemory(index, Length);
 
                     memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
                 }

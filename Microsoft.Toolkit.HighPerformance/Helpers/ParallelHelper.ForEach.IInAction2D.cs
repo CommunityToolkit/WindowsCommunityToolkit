@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             }
 
             int
-                maxBatches = 1 + ((memory.Size - 1) / minimumActionsPerThread),
+                maxBatches = 1 + ((memory.Length - 1) / minimumActionsPerThread),
                 clipBatches = Math.Min(maxBatches, memory.Height),
                 cores = Environment.ProcessorCount,
                 numBatches = Math.Min(clipBatches, cores),
