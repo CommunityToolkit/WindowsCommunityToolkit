@@ -66,14 +66,11 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             get
             {
 #if SPAN_RUNTIME_SUPPORT
-                unsafe
-                {
-                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                    ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.index);
+                ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
-                    // See comment in SpanEnumerable<T> about this
-                    return new Item(ref ri, this.index);
-                }
+                // See comment in SpanEnumerable<T> about this
+                return new Item(ref ri, this.index);
 #else
                 return new Item(this.span, this.index);
 #endif
@@ -132,13 +129,10 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
                     return ref MemoryMarshal.GetReference(this.span);
 #else
-                    unsafe
-                    {
-                        ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                        ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.index);
+                    ref T r0 = ref MemoryMarshal.GetReference(this.span);
+                    ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
-                        return ref ri;
-                    }
+                    return ref ri;
 #endif
                 }
             }

@@ -37,7 +37,7 @@ namespace UnitTests.HighPerformance.Helpers
 
             ReadOnlyMemory2D<int> memory = data.AsMemory2D(row, column, height, width);
 
-            Assert.AreEqual(memory.Size, height * width);
+            Assert.AreEqual(memory.Length, height * width);
             Assert.AreEqual(memory.Height, height);
             Assert.AreEqual(memory.Width, width);
 

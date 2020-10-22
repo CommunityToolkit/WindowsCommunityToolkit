@@ -11,9 +11,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory;
-#if !NETCORE_RUNTIME || SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
-#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -62,23 +60,27 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ref T DangerousGetReferenceAt<T>(this T[,,] array, int i, int j, int k)
+        public static ref T DangerousGetReferenceAt<T>(this T[,,] array, int i, int j, int k)
         {
 #if NETCORE_RUNTIME
             var arrayData = Unsafe.As<RawArray3DData>(array);
-            int offset = (i * arrayData.Height * arrayData.Width) + (j * arrayData.Width) + k;
+            nint offset =
+                ((nint)(uint)i * (nint)(uint)arrayData.Height * (nint)(uint)arrayData.Width) +
+                ((nint)(uint)j * (nint)(uint)arrayData.Width) + (nint)(uint)k;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
-            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
+            ref T ri = ref Unsafe.Add(ref r0, offset);
 
             return ref ri;
 #else
             int
                 height = array.GetLength(1),
-                width = array.GetLength(2),
-                index = (i * height * width) + (j * width) + k;
+                width = array.GetLength(2);
+            nint index =
+                ((nint)(uint)i * (nint)(uint)height * (nint)(uint)width) +
+                ((nint)(uint)j * (nint)(uint)width) + (nint)(uint)k;
             IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
             ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
-            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
+            ref T ri = ref Unsafe.Add(ref r0, index);
 
             return ref ri;
 #endif
@@ -126,7 +128,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 ThrowArrayTypeMismatchException();
             }
 
-            return new RawObjectMemoryManager<T>(array, RuntimeHelpers.GetArray3DDataByteOffset<T>(), array.Length).Memory;
+            IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
+            int length = array.Length;
+
+            return new RawObjectMemoryManager<T>(array, offset, length).Memory;
         }
 
         /// <summary>
@@ -179,7 +184,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
-            int length = array.GetLength(1) * array.GetLength(2);
+            int length = checked(array.GetLength(1) * array.GetLength(2));
 
             return MemoryMarshal.CreateSpan(ref r0, length);
         }
@@ -209,7 +214,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
             IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
-            int length = array.GetLength(1) * array.GetLength(2);
+            int length = checked(array.GetLength(1) * array.GetLength(2));
 
             return new RawObjectMemoryManager<T>(array, offset, length).Memory;
         }
@@ -264,7 +269,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.Length;
+            nint length = RuntimeHelpers.GetArrayNativeLength(array);
 
             return SpanHelper.Count(ref r0, length, value);
         }
@@ -283,7 +288,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : notnull
         {
             ref T r0 = ref array.DangerousGetReference();
-            IntPtr length = (IntPtr)array.Length;
+            nint length = RuntimeHelpers.GetArrayNativeLength(array);
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

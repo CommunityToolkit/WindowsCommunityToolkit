@@ -67,9 +67,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ReadOnlyRefEnumerable(in T reference, int length, int step)
         {
-            this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(reference), length * step);
+            this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(reference), length);
             this.step = step;
-            this.position = -step;
+            this.position = -1;
         }
 #else
         /// <summary>
@@ -84,9 +84,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         {
             this.instance = instance;
             this.offset = offset;
-            this.length = length * step;
+            this.length = length;
             this.step = step;
-            this.position = -step;
+            this.position = -1;
         }
 #endif
 
@@ -100,9 +100,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         public bool MoveNext()
         {
 #if SPAN_RUNTIME_SUPPORT
-            return (this.position += this.step) < this.span.Length;
+            return ++this.position < this.span.Length;
 #else
-            return (this.position += this.step) < this.length;
+            return ++this.position < this.length;
 #endif
         }
 
@@ -113,16 +113,14 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             get
             {
 #if SPAN_RUNTIME_SUPPORT
-                return ref this.span.DangerousGetReferenceAt(this.position);
+                ref T r0 = ref this.span.DangerousGetReference();
 #else
-                unsafe
-                {
-                    ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-                    ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)this.position);
-
-                    return ref ri;
-                }
+                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
+                nint offset = (nint)(uint)this.position * (nint)(uint)this.step;
+                ref T ri = ref Unsafe.Add(ref r0, offset);
+
+                return ref ri;
             }
         }
 
@@ -133,7 +131,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
         /// </exception>
-        public readonly unsafe void CopyTo(Span<T> destination)
+        public readonly void CopyTo(Span<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -149,16 +147,19 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
             int length = this.length;
 #endif
-            if ((uint)destination.Length < (uint)(length / this.step))
+            if ((uint)destination.Length < (uint)length)
             {
                 ThrowArgumentExceptionForDestinationTooShort();
             }
 
             ref T destinationRef = ref destination.DangerousGetReference();
+            nint
+                step = (nint)(uint)this.step,
+                offset = 0;
 
-            for (int i = 0, j = 0; i < length; i += this.step, j++)
+            for (int i = 0; i < length; i++, offset += step)
             {
-                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)j) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
+                Unsafe.Add(ref destinationRef, i) = Unsafe.Add(ref sourceRef, offset);
             }
         }
 
@@ -187,15 +188,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
         /// <inheritdoc cref="RefEnumerable{T}.ToArray"/>
         [Pure]
-        public readonly unsafe T[] ToArray()
+        public readonly T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
-            // Fast path for contiguous items
-            if (this.step == 1)
-            {
-                return this.span.ToArray();
-            }
-
             int length = this.span.Length;
 #else
             int length = this.length;
@@ -207,19 +202,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 return Array.Empty<T>();
             }
 
-#if SPAN_RUNTIME_SUPPORT
-            ref T sourceRef = ref this.span.DangerousGetReference();
-#else
-            ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-#endif
+            T[] array = new T[length];
 
-            T[] array = new T[length / this.step];
-            ref T destinationRef = ref array.DangerousGetReference();
-
-            for (int i = 0, j = 0; i < length; i += this.step, j++)
-            {
-                Unsafe.Add(ref destinationRef, (IntPtr)(void*)(uint)j) = Unsafe.Add(ref sourceRef, (IntPtr)(void*)(uint)i);
-            }
+            CopyTo(array);
 
             return array;
         }

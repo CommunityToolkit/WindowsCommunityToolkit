@@ -26,16 +26,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <remarks>The returned <see cref="ReadOnlyRefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe ReadOnlyRefEnumerable<T> GetRow(int row)
+        public ReadOnlyRefEnumerable<T> GetRow(int row)
         {
             if ((uint)row >= Height)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            int startIndex = (this.width + this.pitch) * row;
+            nint startIndex = (nint)(uint)(this.width + this.pitch) * (nint)(uint)row;
             ref T r0 = ref DangerousGetReference();
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)startIndex);
+            ref T r1 = ref Unsafe.Add(ref r0, startIndex);
 
 #if SPAN_RUNTIME_SUPPORT
             return new ReadOnlyRefEnumerable<T>(r1, Width, 1);
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <remarks>The returned <see cref="ReadOnlyRefEnumerable{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe ReadOnlyRefEnumerable<T> GetColumn(int column)
+        public ReadOnlyRefEnumerable<T> GetColumn(int column)
         {
             if ((uint)column >= Width)
             {
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             ref T r0 = ref DangerousGetReference();
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)column);
+            ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)column);
 
 #if SPAN_RUNTIME_SUPPORT
             return new ReadOnlyRefEnumerable<T>(r1, Height, this.width + this.pitch);
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             /// <summary>
             /// Gets the duck-typed <see cref="System.Collections.Generic.IEnumerator{T}.Current"/> property.
             /// </summary>
-            public readonly unsafe ref readonly T Current
+            public readonly ref readonly T Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
@@ -191,9 +191,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
                     ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
-                    int index = (this.y * (this.width + this.pitch)) + this.x;
+                    nint index = ((nint)(uint)this.y * (nint)(uint)(this.width + this.pitch)) + (nint)(uint)this.x;
 
-                    return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
+                    return ref Unsafe.Add(ref r0, index);
                 }
             }
         }

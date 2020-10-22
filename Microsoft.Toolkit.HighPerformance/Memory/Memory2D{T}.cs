@@ -118,8 +118,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = array.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = array.Length - offset;
 
             if (area > remaining)
             {
@@ -372,8 +372,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = length - offset;
 
             if (area > remaining)
             {
@@ -381,12 +381,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = memoryManager;
-
-            unsafe
-            {
-                this.offset = (IntPtr)(void*)(uint)offset;
-            }
-
+            this.offset = (nint)(uint)offset;
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -451,8 +446,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = memory.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = memory.Length - offset;
 
             if (area > remaining)
             {
@@ -485,11 +480,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             else if (MemoryMarshal.TryGetMemoryManager<T, MemoryManager<T>>(memory, out var memoryManager, out int memoryManagerStart, out _))
             {
                 this.instance = memoryManager;
-
-                unsafe
-                {
-                    this.offset = (IntPtr)(void*)(uint)(memoryManagerStart + offset);
-                }
+                this.offset = (nint)(uint)(memoryManagerStart + offset);
             }
             else
             {
@@ -576,10 +567,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the length of the current <see cref="Memory2D{T}"/> instance.
         /// </summary>
-        public int Size
+        public nint Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Height * Width;
+            get => (nint)(uint)this.height * (nint)(uint)this.width;
         }
 
         /// <summary>
@@ -763,13 +754,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Tries to get a <see cref="Memory{T}"/> instance, if the underlying buffer is contiguous.
+        /// Tries to get a <see cref="Memory{T}"/> instance, if the underlying buffer is contiguous and small enough.
         /// </summary>
         /// <param name="memory">The resulting <see cref="Memory{T}"/>, in case of success.</param>
         /// <returns>Whether or not <paramref name="memory"/> was correctly assigned.</returns>
         public bool TryGetMemory(out Memory<T> memory)
         {
-            if (this.pitch == 0)
+            if (this.pitch == 0 &&
+                Length <= int.MaxValue)
             {
                 // Empty Memory2D<T> instance
                 if (this.instance is null)
@@ -780,7 +772,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     string text = Unsafe.As<string>(this.instance);
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
-                    ReadOnlyMemory<char> temp = text.AsMemory(index, Size);
+                    ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
                     // The string type could still be present if a user ends up creating a
                     // Memory2D<T> instance from a string using DangerousCreate. Similarly to

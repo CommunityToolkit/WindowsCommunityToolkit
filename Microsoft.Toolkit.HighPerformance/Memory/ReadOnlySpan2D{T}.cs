@@ -104,6 +104,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
+            OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
+
 #if SPAN_RUNTIME_SUPPORT
             this.span = new ReadOnlySpan<T>(pointer, height);
 #else
@@ -205,8 +207,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = array.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = array.Length - offset;
 
             if (area > remaining)
             {
@@ -477,8 +479,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             int
-                remaining = span.Length - offset,
-                area = ((width + pitch) * (height - 1)) + width;
+                area = OverflowHelper.ComputeInt32Area(height, width, pitch),
+                remaining = span.Length - offset;
 
             if (area > remaining)
             {
@@ -538,10 +540,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the length of the current <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </summary>
-        public int Size
+        public nint Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Height * Width;
+            get => (nint)(uint)Height * (nint)(uint)this.width;
         }
 
         /// <summary>
@@ -651,7 +653,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
             else
             {
-                if (Size > destination.Length)
+                if (Length > destination.Length)
                 {
                     ThrowHelper.ThrowArgumentExceptionForDestinationTooShort();
                 }
@@ -663,22 +665,19 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).CopyTo(destination.Slice(j));
                 }
 #else
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                ref T destinationRef = ref MemoryMarshal.GetReference(destination);
+                nint offset = 0;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
 
-                    ref T destinationRef = ref MemoryMarshal.GetReference(destination);
-                    IntPtr offset = default;
-
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1, offset += 1)
                     {
-                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1, offset += 1)
-                        {
-                            Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
-                        }
+                        Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
                     }
                 }
 #endif
@@ -719,20 +718,17 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     GetRowSpan(i).CopyTo(destination.GetRowSpan(i));
                 }
 #else
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+                    ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
 
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1)
                     {
-                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
-                        ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1)
-                        {
-                            Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, j);
-                        }
+                        Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, j);
                     }
                 }
 #endif
@@ -746,7 +742,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>Whether or not the operation was successful.</returns>
         public bool TryCopyTo(Span<T> destination)
         {
-            if (destination.Length >= Size)
+            if (destination.Length >= Length)
             {
                 CopyTo(destination);
 
@@ -787,7 +783,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             ref T r0 = ref Unsafe.AsRef<T>(null);
 
-            if (Size != 0)
+            if (Length != 0)
             {
 #if SPAN_RUNTIME_SUPPORT
                 r0 = ref MemoryMarshal.GetReference(this.span);
@@ -822,16 +818,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A reference to the element at the specified indices.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe ref T DangerousGetReferenceAt(int i, int j)
+        public ref T DangerousGetReferenceAt(int i, int j)
         {
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
 #else
             ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
-            int index = (i * (this.width + this.pitch)) + j;
+            nint index = ((nint)(uint)i * (nint)(uint)(this.width + this.pitch)) + (nint)(uint)j;
 
-            return ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)index);
+            return ref Unsafe.Add(ref r0, index);
         }
 
         /// <summary>
@@ -869,16 +865,15 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
-            int
-                shift = ((this.width + this.pitch) * row) + column,
-                pitch = this.pitch + (this.width - width);
+            nint shift = ((nint)(uint)(this.width + this.pitch) * (nint)(uint)row) + (nint)(uint)column;
+            int pitch = this.pitch + (this.width - width);
 
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
 
             return new ReadOnlySpan2D<T>(r0, height, width, pitch);
 #else
-            IntPtr offset = this.offset + (shift * Unsafe.SizeOf<T>());
+            IntPtr offset = this.offset + (shift * (nint)(uint)Unsafe.SizeOf<T>());
 
             return new ReadOnlySpan2D<T>(this.instance, offset, height, width, pitch);
 #endif
@@ -892,33 +887,34 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="row"/> is out of range.</exception>
         /// <returns>The resulting row <see cref="ReadOnlySpan{T}"/>.</returns>
         [Pure]
-        public unsafe ReadOnlySpan<T> GetRowSpan(int row)
+        public ReadOnlySpan<T> GetRowSpan(int row)
         {
             if ((uint)row >= (uint)Height)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            int offset = (this.width + this.pitch) * row;
+            nint offset = (nint)(uint)(this.width + this.pitch) * (nint)(uint)row;
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
-            ref T r1 = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)offset);
+            ref T r1 = ref Unsafe.Add(ref r0, offset);
 
             return MemoryMarshal.CreateReadOnlySpan(ref r1, this.width);
         }
 #endif
 
         /// <summary>
-        /// Tries to get a <see cref="ReadOnlySpan{T}"/> instance, if the underlying buffer is contiguous.
+        /// Tries to get a <see cref="ReadOnlySpan{T}"/> instance, if the underlying buffer is contiguous and small enough.
         /// </summary>
         /// <param name="span">The resulting <see cref="ReadOnlySpan{T}"/>, in case of success.</param>
         /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
         public bool TryGetSpan(out ReadOnlySpan<T> span)
         {
             // We can only create a Span<T> if the buffer is contiguous
-            if (this.pitch == 0)
+            if (this.pitch == 0 &&
+                Length <= int.MaxValue)
             {
 #if SPAN_RUNTIME_SUPPORT
-                span = MemoryMarshal.CreateReadOnlySpan(ref MemoryMarshal.GetReference(this.span), Size);
+                span = MemoryMarshal.CreateReadOnlySpan(ref MemoryMarshal.GetReference(this.span), (int)Length);
 
                 return true;
 #else
@@ -935,7 +931,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     unsafe
                     {
-                        span = new Span<T>((void*)this.offset, Size);
+                        span = new Span<T>((void*)this.offset, (int)Length);
                     }
 
                     return true;
@@ -944,7 +940,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, Size);
+                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, (int)Length);
 
                     return true;
                 }
@@ -969,24 +965,21 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             CopyTo(array.AsSpan());
 #else
             // Skip the initialization if the array is empty
-            if (Size > 0)
+            if (Length > 0)
             {
-                unsafe
+                int height = Height;
+                nint width = (nint)(uint)this.width;
+
+                ref T destinationRef = ref array.DangerousGetReference();
+                nint offset = 0;
+
+                for (int i = 0; i < height; i++)
                 {
-                    int height = Height;
-                    IntPtr width = (IntPtr)(void*)(uint)this.width;
+                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
 
-                    ref T destinationRef = ref array.DangerousGetReference();
-                    IntPtr offset = default;
-
-                    for (int i = 0; i < height; i++)
+                    for (nint j = 0; j < width; j += 1, offset += 1)
                     {
-                        ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
-
-                        for (IntPtr j = default; (void*)j < (void*)width; j += 1, offset += 1)
-                        {
-                            Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
-                        }
+                        Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
                     }
                 }
             }

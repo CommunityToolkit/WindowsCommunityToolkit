@@ -84,11 +84,19 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 return;
             }
 
+            // The underlying data for a Memory2D<T> instance is bound to int.MaxValue in both
+            // axes, but its total size can exceed this value. Because of this, we calculate
+            // the target chunks as nint to avoid overflows, and switch back to int values
+            // for the rest of the setup, since the number of batches is bound to the number
+            // of CPU cores (which is an int), and the height of each batch is necessarily
+            // smaller than or equal than int.MaxValue, as it can't be greater than the
+            // number of total batches, which again is capped at the number of CPU cores.
+            nint
+                maxBatches = 1 + ((memory.Length - 1) / minimumActionsPerThread),
+                clipBatches = maxBatches <= memory.Height ? maxBatches : memory.Height;
             int
-                maxBatches = 1 + ((memory.Size - 1) / minimumActionsPerThread),
-                clipBatches = Math.Min(maxBatches, memory.Height),
                 cores = Environment.ProcessorCount,
-                numBatches = Math.Min(clipBatches, cores),
+                numBatches = (int)(clipBatches <= cores ? clipBatches : cores),
                 batchHeight = 1 + ((memory.Height - 1) / numBatches);
 
             var actionInvoker = new RefActionInvokerWithReadOnlyMemory2D<TItem, TAction>(batchHeight, memory, action);
@@ -132,12 +140,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// Processes the batch of actions at a specified index
             /// </summary>
             /// <param name="i">The index of the batch to process</param>
-            public unsafe void Invoke(int i)
+            public void Invoke(int i)
             {
+                int lowY = i * this.batchHeight;
+                nint highY = lowY + this.batchHeight;
                 int
-                    lowY = i * this.batchHeight,
-                    highY = lowY + this.batchHeight,
-                    stopY = Math.Min(highY, this.memory.Height),
+                    stopY = (int)(highY <= this.memory.Height ? highY : this.memory.Height),
                     width = this.memory.Width;
 
                 ReadOnlySpan2D<TItem> span = this.memory.Span;
@@ -148,7 +156,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
                     for (int x = 0; x < width; x++)
                     {
-                        ref TItem ryx = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)x);
+                        ref TItem ryx = ref Unsafe.Add(ref r0, (nint)(uint)x);
 
                         Unsafe.AsRef(this.action).Invoke(ref ryx);
                     }

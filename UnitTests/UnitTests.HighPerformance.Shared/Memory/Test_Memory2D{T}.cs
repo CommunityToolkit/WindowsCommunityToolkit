@@ -24,28 +24,28 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> empty1 = default;
 
             Assert.IsTrue(empty1.IsEmpty);
-            Assert.AreEqual(empty1.Size, 0);
+            Assert.AreEqual(empty1.Length, 0);
             Assert.AreEqual(empty1.Width, 0);
             Assert.AreEqual(empty1.Height, 0);
 
             Memory2D<string> empty2 = Memory2D<string>.Empty;
 
             Assert.IsTrue(empty2.IsEmpty);
-            Assert.AreEqual(empty2.Size, 0);
+            Assert.AreEqual(empty2.Length, 0);
             Assert.AreEqual(empty2.Width, 0);
             Assert.AreEqual(empty2.Height, 0);
 
             Memory2D<int> empty3 = new int[4, 0];
 
             Assert.IsTrue(empty3.IsEmpty);
-            Assert.AreEqual(empty3.Size, 0);
+            Assert.AreEqual(empty3.Length, 0);
             Assert.AreEqual(empty3.Width, 0);
             Assert.AreEqual(empty3.Height, 4);
 
             Memory2D<int> empty4 = new int[0, 7];
 
             Assert.IsTrue(empty4.IsEmpty);
-            Assert.AreEqual(empty4.Size, 0);
+            Assert.AreEqual(empty4.Length, 0);
             Assert.AreEqual(empty4.Width, 7);
             Assert.AreEqual(empty4.Height, 0);
         }
@@ -62,7 +62,7 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> memory2d = new Memory2D<int>(array, 1, 2, 2, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
-            Assert.AreEqual(memory2d.Size, 4);
+            Assert.AreEqual(memory2d.Length, 4);
             Assert.AreEqual(memory2d.Width, 2);
             Assert.AreEqual(memory2d.Height, 2);
             Assert.AreEqual(memory2d.Span[0, 0], 2);
@@ -89,7 +89,7 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
             Assert.IsFalse(memory2d.IsEmpty);
-            Assert.AreEqual(memory2d.Size, 6);
+            Assert.AreEqual(memory2d.Length, 6);
             Assert.AreEqual(memory2d.Width, 3);
             Assert.AreEqual(memory2d.Height, 2);
             Assert.AreEqual(memory2d.Span[0, 1], 2);
@@ -111,7 +111,7 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> memory2d = new Memory2D<int>(array, 0, 1, 2, 2);
 
             Assert.IsFalse(memory2d.IsEmpty);
-            Assert.AreEqual(memory2d.Size, 4);
+            Assert.AreEqual(memory2d.Length, 4);
             Assert.AreEqual(memory2d.Width, 2);
             Assert.AreEqual(memory2d.Height, 2);
             Assert.AreEqual(memory2d.Span[0, 0], 2);
@@ -139,7 +139,7 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> memory2d = new Memory2D<int>(array, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
-            Assert.AreEqual(memory2d.Size, 6);
+            Assert.AreEqual(memory2d.Length, 6);
             Assert.AreEqual(memory2d.Width, 3);
             Assert.AreEqual(memory2d.Height, 2);
             Assert.AreEqual(memory2d.Span[0, 1], 20);
@@ -168,7 +168,7 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> memory2d = new Memory2D<int>(array, 1, 0, 1, 2, 2);
 
             Assert.IsFalse(memory2d.IsEmpty);
-            Assert.AreEqual(memory2d.Size, 4);
+            Assert.AreEqual(memory2d.Length, 4);
             Assert.AreEqual(memory2d.Width, 2);
             Assert.AreEqual(memory2d.Height, 2);
             Assert.AreEqual(memory2d.Span[0, 0], 20);
@@ -194,7 +194,7 @@ namespace UnitTests.HighPerformance.Memory
             Memory2D<int> memory2d = memory.AsMemory2D(1, 2, 2, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
-            Assert.AreEqual(memory2d.Size, 4);
+            Assert.AreEqual(memory2d.Length, 4);
             Assert.AreEqual(memory2d.Width, 2);
             Assert.AreEqual(memory2d.Height, 2);
             Assert.AreEqual(memory2d.Span[0, 0], 2);
@@ -222,7 +222,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> slice1 = memory2d.Slice(1, 1, 1, 2);
 
-            Assert.AreEqual(slice1.Size, 2);
+            Assert.AreEqual(slice1.Length, 2);
             Assert.AreEqual(slice1.Height, 1);
             Assert.AreEqual(slice1.Width, 2);
             Assert.AreEqual(slice1.Span[0, 0], 5);
@@ -230,7 +230,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> slice2 = memory2d.Slice(0, 1, 2, 2);
 
-            Assert.AreEqual(slice2.Size, 4);
+            Assert.AreEqual(slice2.Length, 4);
             Assert.AreEqual(slice2.Height, 2);
             Assert.AreEqual(slice2.Width, 2);
             Assert.AreEqual(slice2.Span[0, 0], 2);
@@ -260,7 +260,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> slice1 = memory2d.Slice(0, 0, 2, 2);
 
-            Assert.AreEqual(slice1.Size, 4);
+            Assert.AreEqual(slice1.Length, 4);
             Assert.AreEqual(slice1.Height, 2);
             Assert.AreEqual(slice1.Width, 2);
             Assert.AreEqual(slice1.Span[0, 0], 1);
@@ -268,7 +268,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> slice2 = slice1.Slice(1, 0, 1, 2);
 
-            Assert.AreEqual(slice2.Size, 2);
+            Assert.AreEqual(slice2.Length, 2);
             Assert.AreEqual(slice2.Height, 1);
             Assert.AreEqual(slice2.Width, 2);
             Assert.AreEqual(slice2.Span[0, 0], 4);
@@ -276,7 +276,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> slice3 = slice2.Slice(0, 1, 1, 1);
 
-            Assert.AreEqual(slice3.Size, 1);
+            Assert.AreEqual(slice3.Length, 1);
             Assert.AreEqual(slice3.Height, 1);
             Assert.AreEqual(slice3.Width, 1);
             Assert.AreEqual(slice3.Span[0, 0], 5);

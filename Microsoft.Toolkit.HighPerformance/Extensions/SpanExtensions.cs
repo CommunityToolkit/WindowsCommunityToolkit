@@ -41,10 +41,28 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
+        public static ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
+
+            return ref ri;
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified index within a given <see cref="Span{T}"/>, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
+        /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReferenceAt<T>(this Span<T> span, nint i)
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
         }
@@ -187,11 +205,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int Count<T>(this Span<T> span, T value)
+        public static int Count<T>(this Span<T> span, T value)
             where T : IEquatable<T>
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)(void*)(uint)span.Length;
+            nint length = (nint)(uint)span.Length;
 
             return SpanHelper.Count(ref r0, length, value);
         }
@@ -258,11 +276,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int GetDjb2HashCode<T>(this Span<T> span)
+        public static int GetDjb2HashCode<T>(this Span<T> span)
             where T : notnull
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)(void*)(uint)span.Length;
+            nint length = (nint)(uint)span.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
