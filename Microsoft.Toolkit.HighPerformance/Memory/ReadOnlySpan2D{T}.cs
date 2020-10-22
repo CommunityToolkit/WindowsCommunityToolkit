@@ -540,10 +540,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the length of the current <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </summary>
-        public int Length
+        public nint Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Height * Width;
+            get => (nint)(uint)Height * (nint)(uint)this.width;
         }
 
         /// <summary>
@@ -903,17 +903,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #endif
 
         /// <summary>
-        /// Tries to get a <see cref="ReadOnlySpan{T}"/> instance, if the underlying buffer is contiguous.
+        /// Tries to get a <see cref="ReadOnlySpan{T}"/> instance, if the underlying buffer is contiguous and small enough.
         /// </summary>
         /// <param name="span">The resulting <see cref="ReadOnlySpan{T}"/>, in case of success.</param>
         /// <returns>Whether or not <paramref name="span"/> was correctly assigned.</returns>
         public bool TryGetSpan(out ReadOnlySpan<T> span)
         {
             // We can only create a Span<T> if the buffer is contiguous
-            if (this.pitch == 0)
+            if (this.pitch == 0 &&
+                Length <= int.MaxValue)
             {
 #if SPAN_RUNTIME_SUPPORT
-                span = MemoryMarshal.CreateReadOnlySpan(ref MemoryMarshal.GetReference(this.span), Length);
+                span = MemoryMarshal.CreateReadOnlySpan(ref MemoryMarshal.GetReference(this.span), (int)Length);
 
                 return true;
 #else
@@ -930,7 +931,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     unsafe
                     {
-                        span = new Span<T>((void*)this.offset, Length);
+                        span = new Span<T>((void*)this.offset, (int)Length);
                     }
 
                     return true;
@@ -939,7 +940,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, Length);
+                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, (int)Length);
 
                     return true;
                 }

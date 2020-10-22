@@ -84,11 +84,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 return;
             }
 
-            int
+            nint
                 maxBatches = 1 + ((memory.Length - 1) / minimumActionsPerThread),
-                clipBatches = Math.Min(maxBatches, memory.Height),
+                clipBatches = maxBatches <= memory.Height ? maxBatches : memory.Height;
+            int
                 cores = Environment.ProcessorCount,
-                numBatches = Math.Min(clipBatches, cores),
+                numBatches = (int)(clipBatches <= cores ? clipBatches : cores),
                 batchHeight = 1 + ((memory.Height - 1) / numBatches);
 
             var actionInvoker = new InActionInvokerWithReadOnlyMemory2D<TItem, TAction>(batchHeight, memory, action);
@@ -134,10 +135,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// <param name="i">The index of the batch to process</param>
             public void Invoke(int i)
             {
+                int lowY = i * this.batchHeight;
+                nint highY = lowY + this.batchHeight;
                 int
-                    lowY = i * this.batchHeight,
-                    highY = lowY + this.batchHeight,
-                    stopY = Math.Min(highY, this.memory.Height),
+                    stopY = (int)(highY <= this.memory.Height ? highY : this.memory.Height),
                     width = this.memory.Width;
 
                 ReadOnlySpan2D<TItem> span = this.memory.Span;

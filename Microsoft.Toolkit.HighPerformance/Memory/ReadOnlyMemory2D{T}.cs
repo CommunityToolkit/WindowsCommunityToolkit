@@ -624,10 +624,10 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <summary>
         /// Gets the length of the current <see cref="ReadOnlyMemory2D{T}"/> instance.
         /// </summary>
-        public int Length
+        public nint Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Height * Width;
+            get => (nint)(uint)this.height * (nint)(uint)this.width;
         }
 
         /// <summary>
@@ -812,13 +812,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         }
 
         /// <summary>
-        /// Tries to get a <see cref="ReadOnlyMemory{T}"/> instance, if the underlying buffer is contiguous.
+        /// Tries to get a <see cref="ReadOnlyMemory{T}"/> instance, if the underlying buffer is contiguous and small enough.
         /// </summary>
         /// <param name="memory">The resulting <see cref="ReadOnlyMemory{T}"/>, in case of success.</param>
         /// <returns>Whether or not <paramref name="memory"/> was correctly assigned.</returns>
         public bool TryGetMemory(out ReadOnlyMemory<T> memory)
         {
-            if (this.pitch == 0)
+            if (this.pitch == 0 &&
+                Length <= int.MaxValue)
             {
                 // Empty Memory2D<T> instance
                 if (this.instance is null)
@@ -829,7 +830,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     string text = Unsafe.As<string>(this.instance);
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
-                    ReadOnlyMemory<char> temp = text.AsMemory(index, Length);
+                    ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
                     memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
                 }
