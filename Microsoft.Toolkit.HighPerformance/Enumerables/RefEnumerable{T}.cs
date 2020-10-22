@@ -67,9 +67,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal RefEnumerable(ref T reference, int length, int step)
         {
-            this.span = MemoryMarshal.CreateSpan(ref reference, length * step);
+            this.span = MemoryMarshal.CreateSpan(ref reference, length);
             this.step = step;
-            this.position = -step;
+            this.position = -1;
         }
 #else
         /// <summary>
@@ -84,9 +84,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         {
             this.instance = instance;
             this.offset = offset;
-            this.length = length * step;
+            this.length = length;
             this.step = step;
-            this.position = -step;
+            this.position = -1;
         }
 #endif
 
@@ -100,9 +100,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         public bool MoveNext()
         {
 #if SPAN_RUNTIME_SUPPORT
-            return (this.position += this.step) < this.span.Length;
+            return ++this.position < this.span.Length;
 #else
-            return (this.position += this.step) < this.length;
+            return ++this.position < this.length;
 #endif
         }
 
@@ -113,13 +113,21 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             get
             {
 #if SPAN_RUNTIME_SUPPORT
-                return ref this.span.DangerousGetReferenceAt(this.position);
+                ref T r0 = ref this.span.DangerousGetReference();
 #else
                 ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.position);
+#endif
+
+                // Here we just offset by shifting down as if we were traversing a 2D array with a
+                // a single column, with the width of each row represented by the step, the height
+                // represented by the current position, and with only the first element of each row
+                // being inspected. We can perform all the indexing operations in this type as nint,
+                // as the maximum offset is guaranteed never to exceed the maximum value, since on
+                // 32 bit architectures it's not possible to allocate that much memory anyway.
+                nint offset = (nint)(uint)this.position * (nint)(uint)this.step;
+                ref T ri = ref Unsafe.Add(ref r0, offset);
 
                 return ref ri;
-#endif
             }
         }
 
@@ -143,10 +151,13 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
             int length = this.length;
 #endif
+            nint
+                step = (nint)(uint)this.step,
+                offset = 0;
 
-            for (int i = 0; i < length; i += this.step)
+            for (int i = length; i >= 0; i--, offset += step)
             {
-                Unsafe.Add(ref r0, (nint)(uint)i) = default!;
+                Unsafe.Add(ref r0, offset) = default!;
             }
         }
 
@@ -173,16 +184,19 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
             int length = this.length;
 #endif
-            if ((uint)destination.Length < (uint)(length / this.step))
+            if ((uint)destination.Length < (uint)length)
             {
                 ThrowArgumentExceptionForDestinationTooShort();
             }
 
             ref T destinationRef = ref destination.DangerousGetReference();
+            nint
+                step = (nint)(uint)this.step,
+                offset = 0;
 
-            for (int i = 0, j = 0; i < length; i += this.step, j++)
+            for (int i = 0; i < length; i++, offset += step)
             {
-                Unsafe.Add(ref destinationRef, (nint)(uint)j) = Unsafe.Add(ref sourceRef, (nint)(uint)i);
+                Unsafe.Add(ref destinationRef, i) = Unsafe.Add(ref sourceRef, offset);
             }
         }
 
@@ -234,9 +248,13 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             int length = this.length;
 #endif
 
-            for (int i = 0; i < length; i += this.step)
+            nint
+                step = (nint)(uint)this.step,
+                offset = 0;
+
+            for (int i = length; i >= 0; i--, offset += step)
             {
-                Unsafe.Add(ref r0, (nint)(uint)i) = value;
+                Unsafe.Add(ref r0, offset) = value;
             }
         }
 
@@ -254,11 +272,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         public readonly T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
-            if (this.step == 1)
-            {
-                return this.span.ToArray();
-            }
-
             int length = this.span.Length;
 #else
             int length = this.length;
@@ -270,19 +283,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 return Array.Empty<T>();
             }
 
-#if SPAN_RUNTIME_SUPPORT
-            ref T sourceRef = ref this.span.DangerousGetReference();
-#else
-            ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-#endif
+            T[] array = new T[length];
 
-            T[] array = new T[length / this.step];
-            ref T destinationRef = ref array.DangerousGetReference();
-
-            for (int i = 0, j = 0; i < length; i += this.step, j++)
-            {
-                Unsafe.Add(ref destinationRef, (nint)(uint)j) = Unsafe.Add(ref sourceRef, (nint)(uint)i);
-            }
+            CopyTo(array);
 
             return array;
         }
