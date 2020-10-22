@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 step = (nint)(uint)this.step,
                 offset = 0;
 
-            for (int i = length; i >= 0; i--, offset += step)
+            for (int i = length; i > 0; i--, offset += step)
             {
                 Unsafe.Add(ref r0, offset) = default!;
             }
@@ -252,7 +252,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 step = (nint)(uint)this.step,
                 offset = 0;
 
-            for (int i = length; i >= 0; i--, offset += step)
+            for (int i = length; i > 0; i--, offset += step)
             {
                 Unsafe.Add(ref r0, offset) = value;
             }
