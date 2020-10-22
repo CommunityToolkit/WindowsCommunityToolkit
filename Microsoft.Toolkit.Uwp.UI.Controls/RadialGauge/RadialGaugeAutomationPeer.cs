@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Exposes <see cref="RadialGauge"/> to Microsoft UI Automation.
     /// </summary>
     public class RadialGaugeAutomationPeer :
-        FrameworkElementAutomationPeer,
+        RangeBaseAutomationPeer,
         IRangeValueProvider
     {
         /// <summary>
