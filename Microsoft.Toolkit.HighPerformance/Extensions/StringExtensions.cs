@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             ref char r0 = ref text.DangerousGetReference();
             nint length = (nint)(uint)text.Length;
 
-            return SpanHelper.Count(ref r0, length, c);
+            return (int)SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>

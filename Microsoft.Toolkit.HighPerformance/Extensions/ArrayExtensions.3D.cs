@@ -269,9 +269,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             ref T r0 = ref array.DangerousGetReference();
-            nint length = RuntimeHelpers.GetArrayNativeLength(array);
+            nint
+                length = RuntimeHelpers.GetArrayNativeLength(array),
+                count = SpanHelper.Count(ref r0, length, value);
 
-            return SpanHelper.Count(ref r0, length, value);
+            if ((nuint)count > int.MaxValue)
+            {
+                ThrowOverflowException();
+            }
+
+            return (int)count;
         }
 
         /// <summary>

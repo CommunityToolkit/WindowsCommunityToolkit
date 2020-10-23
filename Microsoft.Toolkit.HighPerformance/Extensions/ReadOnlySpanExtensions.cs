@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             ref T r0 = ref MemoryMarshal.GetReference(span);
             nint length = (nint)(uint)span.Length;
 
-            return SpanHelper.Count(ref r0, length, value);
+            return (int)SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>

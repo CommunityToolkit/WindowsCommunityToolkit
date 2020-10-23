@@ -25,6 +25,31 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <summary>
         /// Gets the length of a given array as a native integer.
         /// </summary>
+        /// <typeparam name="T">The type of values in the array.</typeparam>
+        /// <param name="array">The input <see cref="Array"/> instance.</param>
+        /// <returns>The total length of <paramref name="array"/> as a native integer.</returns>
+        /// <remarks>
+        /// This method is needed because this expression is not inlined correctly if the target array
+        /// is only visible as a non-generic <see cref="Array"/> instance, because the C# compiler will
+        /// not be able to emit the <see langword="ldlen"/> opcode instead of calling the right method.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static nint GetArrayNativeLength<T>(T[] array)
+        {
+#if NETSTANDARD1_4
+            // .NET Standard 1.4 doesn't include the API to get the long length, so
+            // we just cast the length and throw in case the array is larger than
+            // int.MaxValue. There's not much we can do in this specific case.
+            return (nint)(uint)array.Length;
+#else
+            return (nint)array.LongLength;
+#endif
+        }
+
+        /// <summary>
+        /// Gets the length of a given array as a native integer.
+        /// </summary>
         /// <param name="array">The input <see cref="Array"/> instance.</param>
         /// <returns>The total length of <paramref name="array"/> as a native integer.</returns>
         [Pure]
@@ -32,9 +57,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         public static nint GetArrayNativeLength(Array array)
         {
 #if NETSTANDARD1_4
-            // .NET Standard 1.4 doesn't include the API to get the long length, so
-            // we just cast the length and throw in case the array is larger than
-            // int.MaxValue. There's not much we can do in this specific case.
             return (nint)(uint)array.Length;
 #else
             return (nint)array.LongLength;

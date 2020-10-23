@@ -10,9 +10,7 @@ using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if !NETCORE_RUNTIME
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
-#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -106,9 +104,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             ref T r0 = ref array.DangerousGetReference();
-            nint length = (nint)(uint)array.Length;
+            nint
+                length = RuntimeHelpers.GetArrayNativeLength(array),
+                count = SpanHelper.Count(ref r0, length, value);
 
-            return SpanHelper.Count(ref r0, length, value);
+            if ((nuint)count > int.MaxValue)
+            {
+                ThrowOverflowException();
+            }
+
+            return (int)count;
         }
 
         /// <summary>
@@ -177,7 +182,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : notnull
         {
             ref T r0 = ref array.DangerousGetReference();
-            nint length = (nint)(uint)array.Length;
+            nint length = RuntimeHelpers.GetArrayNativeLength(array);
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
@@ -193,6 +198,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static bool IsCovariant<T>(this T[] array)
         {
             return default(T) is null && array.GetType() != typeof(T[]);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="OverflowException"/> when the "column" parameter is invalid.
+        /// </summary>
+        public static void ThrowOverflowException()
+        {
+            throw new OverflowException();
         }
     }
 }
