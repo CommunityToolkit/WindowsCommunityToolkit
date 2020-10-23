@@ -150,7 +150,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (finalSize != DesiredSize)
+            if ((Orientation == Orientation.Horizontal && finalSize.Width < DesiredSize.Width) ||
+                (Orientation == Orientation.Vertical && finalSize.Height < DesiredSize.Height))
             {
                 // We haven't received our desired size. We need to refresh the rows.
                 UpdateRows(finalSize);
@@ -180,18 +181,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return finalSize;
         }
 
-        private Size UpdateRows(Size finalSize)
+        private Size UpdateRows(Size availableSize)
         {
             _rows.Clear();
-            if (Children.Count == 0)
-            {
-                return Size.Empty;
-            }
 
-            var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
             var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
+
+            if (Children.Count == 0)
+            {
+                var emptySize = paddingStart.Add(paddingEnd).ToSize(Orientation);
+                return emptySize;
+            }
+
+            var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
+            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
             var currentRow = new Row(new List<UvRect>(), default);
@@ -241,7 +245,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_rows.Count == 0)
             {
-                return Size.Empty;
+                var emptySize = paddingStart.Add(paddingEnd).ToSize(Orientation);
+                return emptySize;
             }
 
             // Get max V here before computing final rect
