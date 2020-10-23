@@ -5,6 +5,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
@@ -23,6 +25,9 @@ namespace UITests.Tests
     [TestClass]
     public class Tests
     {
+        private static StreamReader _streamReader;
+        private static StreamWriter _streamWriter;
+
         public static TestApplicationInfo WinUICsUWPSampleApp
         {
             get
@@ -83,7 +88,18 @@ namespace UITests.Tests
         [TestProperty("Platform", "Any")]
         public static void ClassInitialize(TestContext testContext)
         {
+            var listener = new TcpListener(IPAddress.Loopback, 13000);
+            listener.Start();
+
             TestEnvironment.Initialize(testContext, WinUICsUWPSampleApp);
+
+            var client = listener.AcceptTcpClient();
+
+            var stream = client.GetStream();
+            _streamReader = new StreamReader(stream);
+            _streamWriter = new StreamWriter(stream);
+
+            Verify.AreEqual("Ready", _streamReader.ReadLine());
         }
 
         [ClassCleanup]
@@ -100,7 +116,7 @@ namespace UITests.Tests
         [TestMethod]
         public void SimpleTest()
         {
-            OpenTest("Simple");
+            Verify.IsTrue(OpenTest("SimpleTest"));
 
             var button = new Button(FindElement.ByName("Click Me"));
             var textBlock = new TextBlock(FindElement.ById("textBlock"));
@@ -119,7 +135,7 @@ namespace UITests.Tests
         [TestMethod]
         public void TestTextBoxMaskBinding_Property()
         {
-            OpenTest("TextBox Mask");
+            Verify.IsTrue(OpenTest("TextBoxMaskTestPage"));
 
             var initialValue = FindElement.ById<TextBlock>("InitialValueTextBlock").GetText();
             var textBox = FindElement.ById<Edit>("TextBox");
@@ -136,12 +152,11 @@ namespace UITests.Tests
             Verify.AreEqual(newValue, textBox.GetText());
         }
 
-        private static void OpenTest(string name)
+        private static bool OpenTest(string name)
         {
-            var btn = new Button(FindElement.ByName(name));
-            Verify.IsNotNull(btn);
-            btn.Click();
-            Wait.ForIdle();
+            _streamWriter.WriteLine(name);
+            _streamWriter.Flush();
+            return _streamReader.ReadLine() == "Opened " + name;
         }
     }
 }
