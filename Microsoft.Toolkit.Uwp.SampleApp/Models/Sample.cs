@@ -297,7 +297,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if !DEBUG
             try
             {
-                imageStream = (await Samples.LoadSampleFile(localPath)).AsRandomAccessStream();
+                imageStream = (await Samples.LoadLocalFile(localPath)).AsRandomAccessStream();
+                //imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localPath, Windows.Storage.FileAccessMode.Read);
             }
             catch
             {
