@@ -244,25 +244,25 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         {
             if (typeof(T) == typeof(sbyte))
             {
-                return Unsafe.As<T, byte>(ref value);
+                return (byte)(sbyte)(object)value;
             }
 
             if (typeof(T) == typeof(short))
             {
-                return Unsafe.As<T, ushort>(ref value);
+                return (ushort)(short)(object)value;
             }
 
             if (typeof(T) == typeof(int))
             {
-                return (nint)Unsafe.As<T, uint>(ref value);
+                return (nint)(uint)(int)(object)value;
             }
 
             if (typeof(T) == typeof(long))
             {
-                return (nint)Unsafe.As<T, ulong>(ref value);
+                return (nint)(ulong)(long)(object)value;
             }
 
-            throw new NotSupportedException($"Invalid input type {typeof(T)}");
+            throw null!;
         }
     }
 }
