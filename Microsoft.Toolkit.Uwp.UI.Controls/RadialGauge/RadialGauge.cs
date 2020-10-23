@@ -469,6 +469,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             OnValueChanged(this);
             base.OnValueChanged(oldValue, newValue);
+            if (FrameworkElementAutomationPeer.CreatePeerForElement(this) is RadialGaugeAutomationPeer peer)
+            {
+                peer.RaiseValueChangedEvent(oldValue, newValue);
+            }
         }
 
         private static void OnValueChanged(DependencyObject d)

@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using Windows.Foundation;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
 
@@ -58,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override string GetNameCore()
         {
             var gauge = (RadialGauge)Owner;
-            return "radial gauge. " + (string.IsNullOrWhiteSpace(gauge.Unit) ? "no unit specified. " : "unit " + gauge.Unit + ". ");
+            return "radial gauge. " + (string.IsNullOrWhiteSpace(gauge.Unit) ? "no unit specified, " : "unit " + gauge.Unit + ", ") + Value;
         }
 
         /// <inheritdoc/>
@@ -77,6 +79,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override AutomationControlType GetAutomationControlTypeCore()
         {
             return AutomationControlType.Custom;
+        }
+
+        /// <summary>
+        /// Raises the property changed event for this AutomationPeer for the provided identifier.
+        /// </summary>
+        /// <param name="oldValue">Old value</param>
+        /// <param name="newValue">New value</param>
+        public void RaiseValueChangedEvent(double oldValue, double newValue)
+        {
+            RaisePropertyChangedEvent(RangeValuePatternIdentifiers.ValueProperty, PropertyValue.CreateDouble(oldValue), PropertyValue.CreateDouble(newValue));
         }
     }
 }
