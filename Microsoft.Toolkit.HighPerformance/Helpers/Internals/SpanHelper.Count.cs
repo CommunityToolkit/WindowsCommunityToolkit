@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <returns>The native <see cref="int"/> value representing the upper bound.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static nint GetUpperBound<T>()
+        private static unsafe nint GetUpperBound<T>()
             where T : unmanaged
         {
             if (typeof(T) == typeof(byte) ||
@@ -257,11 +257,27 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
 
             if (typeof(T) == typeof(int) ||
-                typeof(T) == typeof(uint) ||
-                typeof(T) == typeof(long) ||
-                typeof(T) == typeof(ulong))
+                typeof(T) == typeof(uint))
             {
                 return int.MaxValue;
+            }
+
+            if (typeof(T) == typeof(long) ||
+                typeof(T) == typeof(ulong))
+            {
+                if (sizeof(nint) == sizeof(int))
+                {
+                    return int.MaxValue;
+                }
+
+                // If we are on a 64 bit architecture and we are counting with a SIMD vector of 64
+                // bit values, we can use long.MaxValue as the upper bound, as a native integer will
+                // be able to contain such a value with no overflows. This will allow the count tight
+                // loop to process all the items in the target area in a single pass (except the mod).
+                // The (void*) cast is necessary to ensure the right constant is produced on runtimes
+                // before .NET 5 that don't natively support C# 9. For instance, removing that (void*)
+                // cast results in the value 0xFFFFFFFFFFFFFFFF (-1) instead of 0x7FFFFFFFFFFFFFFFF.
+                return (nint)(void*)long.MaxValue;
             }
 
             throw null!;
