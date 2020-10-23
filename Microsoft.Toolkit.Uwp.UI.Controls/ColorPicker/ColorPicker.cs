@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -215,39 +215,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>("ColorSpectrumControl", false);
-            this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>("ColorSpectrumAlphaSlider", false);
-            this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<Slider>("ColorSpectrumThirdDimensionSlider", false);
+            this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
+            this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>(nameof(ColorSpectrumAlphaSlider));
+            this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<Slider>(nameof(ColorSpectrumThirdDimensionSlider));
 
-            this.HexInputTextBox = this.GetTemplateChild<TextBox>("HexInputTextBox", false);
-            this.HsvToggleButton = this.GetTemplateChild<ToggleButton>("HsvToggleButton", false);
-            this.RgbToggleButton = this.GetTemplateChild<ToggleButton>("RgbToggleButton", false);
+            this.HexInputTextBox = this.GetTemplateChild<TextBox>(nameof(HexInputTextBox));
+            this.HsvToggleButton = this.GetTemplateChild<ToggleButton>(nameof(HsvToggleButton));
+            this.RgbToggleButton = this.GetTemplateChild<ToggleButton>(nameof(RgbToggleButton));
 
-            this.Channel1TextBox     = this.GetTemplateChild<TextBox>("Channel1TextBox", false);
-            this.Channel2TextBox     = this.GetTemplateChild<TextBox>("Channel2TextBox", false);
-            this.Channel3TextBox     = this.GetTemplateChild<TextBox>("Channel3TextBox", false);
-            this.AlphaChannelTextBox = this.GetTemplateChild<TextBox>("AlphaChannelTextBox", false);
+            this.Channel1TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel1TextBox));
+            this.Channel2TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel2TextBox));
+            this.Channel3TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel3TextBox));
+            this.AlphaChannelTextBox = this.GetTemplateChild<TextBox>(nameof(AlphaChannelTextBox));
 
-            this.Channel1Slider     = this.GetTemplateChild<Slider>("Channel1Slider", false);
-            this.Channel2Slider     = this.GetTemplateChild<Slider>("Channel2Slider", false);
-            this.Channel3Slider     = this.GetTemplateChild<Slider>("Channel3Slider", false);
-            this.AlphaChannelSlider = this.GetTemplateChild<Slider>("AlphaChannelSlider", false);
+            this.Channel1Slider     = this.GetTemplateChild<Slider>(nameof(Channel1Slider));
+            this.Channel2Slider     = this.GetTemplateChild<Slider>(nameof(Channel2Slider));
+            this.Channel3Slider     = this.GetTemplateChild<Slider>(nameof(Channel3Slider));
+            this.AlphaChannelSlider = this.GetTemplateChild<Slider>(nameof(AlphaChannelSlider));
 
-            this.N1PreviewBorder = this.GetTemplateChild<Border>("N1PreviewBorder", false);
-            this.N2PreviewBorder = this.GetTemplateChild<Border>("N2PreviewBorder", false);
-            this.P1PreviewBorder = this.GetTemplateChild<Border>("P1PreviewBorder", false);
-            this.P2PreviewBorder = this.GetTemplateChild<Border>("P2PreviewBorder", false);
+            this.N1PreviewBorder = this.GetTemplateChild<Border>(nameof(N1PreviewBorder));
+            this.N2PreviewBorder = this.GetTemplateChild<Border>(nameof(N2PreviewBorder));
+            this.P1PreviewBorder = this.GetTemplateChild<Border>(nameof(P1PreviewBorder));
+            this.P2PreviewBorder = this.GetTemplateChild<Border>(nameof(P2PreviewBorder));
 
-            this.CheckeredBackground1Border  = this.GetTemplateChild<Border>("CheckeredBackground1Border", false);
-            this.CheckeredBackground2Border  = this.GetTemplateChild<Border>("CheckeredBackground2Border", false);
-            this.CheckeredBackground3Border  = this.GetTemplateChild<Border>("CheckeredBackground3Border", false);
-            this.CheckeredBackground4Border  = this.GetTemplateChild<Border>("CheckeredBackground4Border", false);
-            this.CheckeredBackground5Border  = this.GetTemplateChild<Border>("CheckeredBackground5Border", false);
-            this.CheckeredBackground6Border  = this.GetTemplateChild<Border>("CheckeredBackground6Border", false);
-            this.CheckeredBackground7Border  = this.GetTemplateChild<Border>("CheckeredBackground7Border", false);
-            this.CheckeredBackground8Border  = this.GetTemplateChild<Border>("CheckeredBackground8Border", false);
-            this.CheckeredBackground9Border  = this.GetTemplateChild<Border>("CheckeredBackground9Border", false);
-            this.CheckeredBackground10Border = this.GetTemplateChild<Border>("CheckeredBackground10Border", false);
+            this.CheckeredBackground1Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground1Border));
+            this.CheckeredBackground2Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground2Border));
+            this.CheckeredBackground3Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground3Border));
+            this.CheckeredBackground4Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground4Border));
+            this.CheckeredBackground5Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground5Border));
+            this.CheckeredBackground6Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground6Border));
+            this.CheckeredBackground7Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground7Border));
+            this.CheckeredBackground8Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground8Border));
+            this.CheckeredBackground9Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground9Border));
+            this.CheckeredBackground10Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground10Border));
 
             // Must connect after controls are resolved
             this.ConnectEvents(true);
@@ -265,13 +265,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="childName">The name of the element to find.</param>
         /// <param name="isRequired">Whether the element is required and will throw an exception if missing.</param>
         /// <returns>The template child matching the given name and type.</returns>
-        private T GetTemplateChild<T>(string childName, bool isRequired = true)
+        private T GetTemplateChild<T>(string childName, bool isRequired = false)
             where T : DependencyObject
         {
             T child = this.GetTemplateChild(childName) as T;
             if ((child == null) && isRequired)
             {
-                throw new NullReferenceException(childName);
+                ThrowHelper.ThrowArgumentNullException(childName);
             }
 
             return child;
