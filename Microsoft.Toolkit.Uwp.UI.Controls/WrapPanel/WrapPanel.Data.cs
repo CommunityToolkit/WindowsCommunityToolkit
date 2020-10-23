@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Diagnostics;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
@@ -17,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
         private struct UvMeasure
         {
-            internal static readonly UvMeasure Zero = default;
+            internal static UvMeasure Zero => default;
 
             internal double U { get; set; }
 
@@ -62,37 +63,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Orientation.Vertical => new Rect(Position.V, Position.U, Size.V, Size.U),
                 Orientation.Horizontal => new Rect(Position.U, Position.V, Size.U, Size.V),
-                _ => throw new NotSupportedException(),
+                _ => ThrowHelper.ThrowNotSupportedException<Rect>("unsupported orientation"),
             };
         }
 
         private struct Row
         {
-            private readonly List<UvRect> _childrenRects;
-            private UvMeasure _rowSize;
-
             public Row(List<UvRect> childrenRects, UvMeasure size)
             {
-                _childrenRects = childrenRects;
-                _rowSize = size;
+                ChildrenRects = childrenRects;
+                Size = size;
             }
 
-            public IReadOnlyList<UvRect> ChildrenRects => _childrenRects;
+            public List<UvRect> ChildrenRects { get; }
 
-            /// <summary>
-            /// Gets the size of the row.
-            /// </summary>
-            public UvMeasure Size => _rowSize;
+            public UvMeasure Size { get; set; }
 
-            public UvRect Rect => _childrenRects.Count > 0 ?
-                new UvRect { Position = _childrenRects[0].Position, Size = Size } :
+            public UvRect Rect => ChildrenRects.Count > 0 ?
+                new UvRect { Position = ChildrenRects[0].Position, Size = Size } :
                 new UvRect { Position = UvMeasure.Zero, Size = Size };
 
             public void Add(UvMeasure position, UvMeasure size)
             {
-                _childrenRects.Add(new UvRect { Position = position, Size = size });
-                _rowSize.U = position.U + size.U;
-                _rowSize.V = Math.Max(_rowSize.V, size.V);
+                ChildrenRects.Add(new UvRect { Position = position, Size = size });
+                Size = new UvMeasure
+                {
+                    U = position.U + size.U,
+                    V = Math.Max(Size.V, size.V),
+                };
             }
         }
     }
