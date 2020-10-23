@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+<!-- 🚨 Please provide detailed information and Do Not skip any instructions as they are all required and essential to help us understand the feature 🚨 -->
+
 ## Describe the problem this feature would solve
 <!-- Please describe or link to any existing issues or discussions.
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
