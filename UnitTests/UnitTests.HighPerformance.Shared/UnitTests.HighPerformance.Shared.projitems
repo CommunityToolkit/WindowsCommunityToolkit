@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryBufferWriter{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_ArrayPoolBufferWriter{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_MemoryOwner{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_StringPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\TrackingArrayPool{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.2D.cs" />

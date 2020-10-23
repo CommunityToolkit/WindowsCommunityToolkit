@@ -9,7 +9,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEx">
-                    <Grid Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid Background="{TemplateBinding Background}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
                         <Image Name="PlaceholderImage"
                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
