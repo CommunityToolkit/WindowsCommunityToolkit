@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref sbyte r1 = ref Unsafe.As<T, sbyte>(ref r0);
                 sbyte target = Unsafe.As<T, sbyte>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)sbyte.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             if (typeof(T) == typeof(char) ||
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref short r1 = ref Unsafe.As<T, short>(ref r0);
                 short target = Unsafe.As<T, short>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)short.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             if (typeof(T) == typeof(int) ||
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref int r1 = ref Unsafe.As<T, int>(ref r0);
                 int target = Unsafe.As<T, int>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)int.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             if (typeof(T) == typeof(long) ||
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref long r1 = ref Unsafe.As<T, long>(ref r0);
                 long target = Unsafe.As<T, long>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)int.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             return CountSequential(ref r0, length, value);
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 #if NETCOREAPP3_1
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
 #endif
-        private static nint CountSimd<T>(ref T r0, nint length, T value, nint max)
+        private static nint CountSimd<T>(ref T r0, nint length, T value)
             where T : unmanaged, IEquatable<T>
         {
             nint
@@ -155,6 +155,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                     // be able to track how many items have been processed, which lets
                     // us avoid updating a third counter (length) in the loop body.
                     nint
+                        max = GetUpperBound<T>(),
                         chunkLength = length <= max ? length : max,
                         initialOffset = offset;
 
@@ -229,6 +230,41 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the upper bound for partial sums with a given <typeparamref name="T"/> parameter.
+        /// </summary>
+        /// <typeparam name="T">The type argument currently in use.</typeparam>
+        /// <returns>The native <see cref="int"/> value representing the upper bound.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static nint GetUpperBound<T>()
+            where T : unmanaged
+        {
+            if (typeof(T) == typeof(byte) ||
+                typeof(T) == typeof(sbyte) ||
+                typeof(T) == typeof(bool))
+            {
+                return sbyte.MaxValue;
+            }
+
+            if (typeof(T) == typeof(char) ||
+                typeof(T) == typeof(ushort) ||
+                typeof(T) == typeof(short))
+            {
+                return short.MaxValue;
+            }
+
+            if (typeof(T) == typeof(int) ||
+                typeof(T) == typeof(uint) ||
+                typeof(T) == typeof(long) ||
+                typeof(T) == typeof(ulong))
+            {
+                return int.MaxValue;
+            }
+
+            throw null!;
         }
 
         /// <summary>
