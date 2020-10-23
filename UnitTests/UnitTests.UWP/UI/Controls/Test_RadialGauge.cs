@@ -16,7 +16,7 @@ namespace UnitTests.UWP.UI.Controls
     public class Test_RadialGauge
     {
         /// <summary>
-        /// That the UIA name is valid and makes sense
+        /// Verifies that the UIA name is valid and makes sense
         /// </summary>
         [TestCategory("Test_TextToolbar_Localization")]
         [UITestMethod]
