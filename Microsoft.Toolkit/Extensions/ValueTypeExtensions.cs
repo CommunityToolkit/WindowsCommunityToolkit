@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </code>
         /// </remarks>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [SkipLocalsInit]
         public static unsafe string ToHexString<T>(this T value)
             where T : unmanaged
         {
