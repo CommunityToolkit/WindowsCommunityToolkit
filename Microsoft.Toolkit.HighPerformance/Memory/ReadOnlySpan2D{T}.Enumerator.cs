@@ -172,9 +172,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 this.x = 0;
 
 #if SPAN_RUNTIME_SUPPORT
-                return this.y++ < (this.span.Length - 1);
+                return ++this.y < this.span.Length;
 #else
-                return this.y++ < this.height - 1;
+                return ++this.y < this.height;
 #endif
             }
 
