@@ -20,7 +20,7 @@ namespace System.Runtime.CompilerServices
         AttributeTargets.Property |
         AttributeTargets.Event,
         Inherited = false)]
-    public sealed class SkipLocalsInitAttribute : Attribute
+    internal sealed class SkipLocalsInitAttribute : Attribute
     {
     }
 }
