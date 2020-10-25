@@ -56,11 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty LazyLoadingThresholdProperty = DependencyProperty.Register(nameof(LazyLoadingThreshold), typeof(double), typeof(ImageExBase), new PropertyMetadata(default(double), LazyLoadingThresholdChanged));
 
         /// <summary>
-        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported, always return true.
-        /// </summary>
-        public static bool IsLazyLoadingSupported { get; } = true;
-
-        /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
         /// </summary>
         /// <returns><see cref="CompositionBrush"/></returns>

@@ -82,10 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             LockObj = new object();
 
-            if (IsLazyLoadingSupported)
-            {
-                LayoutUpdated += ImageExBase_LayoutUpdated;
-            }
+            LayoutUpdated += ImageExBase_LayoutUpdated;
         }
 
         /// <summary>
