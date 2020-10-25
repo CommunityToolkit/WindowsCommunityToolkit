@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -26,11 +25,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Initializes a new instance of the <see cref="ObservableRecipient"/> class.
         /// </summary>
         /// <remarks>
-        /// This constructor will produce an instance that will use the <see cref="Messaging.Messenger.Default"/> instance
+        /// This constructor will produce an instance that will use the <see cref="WeakReferenceMessenger.Default"/> instance
         /// to perform requested operations. It will also be available locally through the <see cref="Messenger"/> property.
         /// </remarks>
         protected ObservableRecipient()
-            : this(Messaging.Messenger.Default)
+            : this(WeakReferenceMessenger.Default)
         {
         }
 
@@ -79,7 +78,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <remarks>
         /// The base implementation registers all messages for this recipients that have been declared
         /// explicitly through the <see cref="IRecipient{TMessage}"/> interface, using the default channel.
-        /// For more details on how this works, see the <see cref="MessengerExtensions.RegisterAll"/> method.
+        /// For more details on how this works, see the <see cref="IMessengerExtensions.RegisterAll"/> method.
         /// If you need more fine tuned control, want to register messages individually or just prefer
         /// the lambda-style syntax for message registration, override this method and register manually.
         /// </remarks>
@@ -204,7 +203,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
         {
-            return SetProperty(oldValue, newValue, EqualityComparer<T>.Default, callback, broadcast, propertyName);
+            bool propertyChanged = SetProperty(oldValue, newValue, callback, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
 
         /// <summary>
@@ -237,40 +243,55 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// Compares the current and new values for a given nested property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
         /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>, with the difference being that this
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>, with the difference being that this
         /// method is used to relay properties from a wrapped model in the current instance. For more info, see the docs for
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,string)"/>.
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string)"/>.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
-            return SetProperty(propertyExpression, newValue, EqualityComparer<T>.Default, broadcast, propertyName);
+            bool propertyChanged = SetProperty(oldValue, newValue, model, callback, propertyName);
+
+            if (propertyChanged && broadcast)
+            {
+                Broadcast(oldValue, newValue, propertyName);
+            }
+
+            return propertyChanged;
         }
 
         /// <summary>
         /// Compares the current and new values for a given nested property. If the value has changed,
         /// raises the <see cref="ObservableObject.PropertyChanging"/> event, updates the property and then raises the
         /// <see cref="ObservableObject.PropertyChanged"/> event. The behavior mirrors that of
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>,
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,IEqualityComparer{T},TModel,Action{TModel,T},string)"/>,
         /// with the difference being that this method is used to relay properties from a wrapped model in the
         /// current instance. For more info, see the docs for
-        /// <see cref="ObservableObject.SetProperty{T}(Expression{Func{T}},T,IEqualityComparer{T},string)"/>.
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,IEqualityComparer{T},TModel,Action{TModel,T},string)"/>.
         /// </summary>
-        /// <typeparam name="T">The type of property to set.</typeparam>
-        /// <param name="propertyExpression">An <see cref="Expression{TDelegate}"/> returning the property to update.</param>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
         /// <param name="broadcast">If <see langword="true"/>, <see cref="Broadcast{T}"/> will also be invoked.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(Expression<Func<T>> propertyExpression, T newValue, IEqualityComparer<T> comparer, bool broadcast, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool broadcast, [CallerMemberName] string? propertyName = null)
+            where TModel : class
         {
-            bool propertyChanged = SetProperty(propertyExpression, newValue, comparer, out T oldValue, propertyName);
+            bool propertyChanged = SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
 
             if (propertyChanged && broadcast)
             {

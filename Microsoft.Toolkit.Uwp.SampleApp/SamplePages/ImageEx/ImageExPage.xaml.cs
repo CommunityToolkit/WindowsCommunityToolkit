@@ -69,25 +69,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 AddImage(false, false, true);
             });
 
-            if (ImageExBase.IsLazyLoadingSupported)
+            SampleController.Current.RegisterNewCommand("Lazy loading sample", (sender, args) =>
             {
-                SampleController.Current.RegisterNewCommand("Lazy loading sample", (sender, args) =>
+                var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
+                imageExLazyLoadingControl.CloseButtonClick += (s, a) =>
                 {
-                    var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
-                    imageExLazyLoadingControl.CloseButtonClick += (s, a) =>
-                    {
-                        if (lazyLoadingControlHost != null)
-                        {
-                            lazyLoadingControlHost.Child = null;
-                        }
-                    };
-
                     if (lazyLoadingControlHost != null)
                     {
-                        lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                        lazyLoadingControlHost.Child = null;
                     }
-                });
-            }
+                };
+
+                if (lazyLoadingControlHost != null)
+                {
+                    lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                }
+            });
 
             SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
             {

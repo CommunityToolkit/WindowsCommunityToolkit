@@ -13,13 +13,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
     using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Windows.Foundation;
-    using Windows.Foundation.Metadata;
     using Windows.UI.Composition;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Hosting;
     using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Shapes;
 
     /// <summary>
     /// Orientation of the scroll

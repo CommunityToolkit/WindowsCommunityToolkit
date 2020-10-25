@@ -27,11 +27,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
 
-            if (!AnimationExtensions.IsLightingSupported)
-            {
-                WarningText.Visibility = Visibility.Visible;
-            }
-
             SampleController.Current.RegisterNewCommand("Apply", (s, e) =>
             {
                 _lightBehavior?.StartAnimation();
