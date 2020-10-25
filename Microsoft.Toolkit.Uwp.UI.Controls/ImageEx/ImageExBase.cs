@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -254,7 +256,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var hostElement = GetHostElement();
+            // Find the first ascendant ScrollViewer, if not found, use the root element.
+            FrameworkElement hostElement = null;
+            var ascendants = this.FindAscendants().OfType<FrameworkElement>();
+            foreach (var ascendant in ascendants)
+            {
+                hostElement = ascendant;
+                if (hostElement is ScrollViewer)
+                {
+                    break;
+                }
+            }
+
             if (hostElement == null)
             {
                 _isInViewport = false;
@@ -285,37 +298,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _isInViewport = false;
             }
-        }
-
-        /// <summary>
-        /// Find ascendant element until <see cref="ScrollViewer" /> or root element.
-        /// </summary>
-        /// <returns><see cref="ScrollViewer"/> or root element.</returns>
-        private FrameworkElement GetHostElement()
-        {
-            FrameworkElement hostElement = this;
-            while (true)
-            {
-                var parent = VisualTreeHelper.GetParent(hostElement) as FrameworkElement;
-                if (parent == null)
-                {
-                    break;
-                }
-
-                if (parent is ScrollViewer)
-                {
-                    return parent;
-                }
-
-                hostElement = parent;
-            }
-
-            if (ReferenceEquals(hostElement, this))
-            {
-                return null;
-            }
-
-            return hostElement;
         }
     }
 }
