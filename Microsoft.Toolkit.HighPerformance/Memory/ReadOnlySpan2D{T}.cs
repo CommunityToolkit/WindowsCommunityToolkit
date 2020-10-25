@@ -894,11 +894,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            nint offset = (nint)(uint)(this.width + this.pitch) * (nint)(uint)row;
-            ref T r0 = ref MemoryMarshal.GetReference(this.span);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+            ref T r0 = ref DangerousGetReferenceAt(row, 0);
 
-            return MemoryMarshal.CreateReadOnlySpan(ref r1, this.width);
+            return MemoryMarshal.CreateReadOnlySpan(ref r0, this.width);
         }
 #endif
 
