@@ -15,16 +15,16 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_BoolExtensions_True()
         {
-            Assert.AreEqual(1, true.ToInt(), nameof(Test_BoolExtensions_True));
-            Assert.AreEqual(1, (DateTime.Now.Year > 0).ToInt(), nameof(Test_BoolExtensions_True));
+            Assert.AreEqual(1, true.ToByte(), nameof(Test_BoolExtensions_True));
+            Assert.AreEqual(1, (DateTime.Now.Year > 0).ToByte(), nameof(Test_BoolExtensions_True));
         }
 
         [TestCategory("BoolExtensions")]
         [TestMethod]
         public void Test_BoolExtensions_False()
         {
-            Assert.AreEqual(0, false.ToInt(), nameof(Test_BoolExtensions_False));
-            Assert.AreEqual(0, (DateTime.Now.Year > 3000).ToInt(), nameof(Test_BoolExtensions_False));
+            Assert.AreEqual(0, false.ToByte(), nameof(Test_BoolExtensions_False));
+            Assert.AreEqual(0, (DateTime.Now.Year > 3000).ToByte(), nameof(Test_BoolExtensions_False));
         }
 
         [TestCategory("BoolExtensions")]
