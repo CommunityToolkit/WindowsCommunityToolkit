@@ -519,6 +519,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
+            OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
+
             return new ReadOnlySpan2D<T>(value, height, width, pitch);
         }
 #endif

@@ -602,6 +602,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
 
+            OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
+
             IntPtr offset = instance.DangerousGetObjectDataByteOffset(ref value);
 
             return new ReadOnlyMemory2D<T>(instance, offset, height, width, pitch);

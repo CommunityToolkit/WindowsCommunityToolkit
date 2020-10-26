@@ -35,7 +35,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         // row-major order as usual, and the 'XX' grid cells represent
         // locations that are mapped by a given Span2D<T> instance:
         //
-        //  reference__  _________width_________  ________...
+        //                _____________________stride_____...
+        //  reference__  /________width_________  ________...
         //             \/                       \/
         // | -- | -- | |- | -- | -- | -- | -- | -- | -- | -- |_
         // | -- | -- | XX | XX | XX | XX | XX | XX | -- | -- | |
@@ -45,6 +46,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         // | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
         // | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
         // ...__pitch__/
+        // ...________/
         //
         // The pitch is used to calculate the offset between each
         // discontiguous row, so that any arbitrary memory locations
@@ -540,6 +542,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForPitch();
             }
+
+            OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
             return new Span2D<T>(ref value, height, width, pitch);
         }
