@@ -84,9 +84,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         private readonly int width;
 
         /// <summary>
-        /// The pitch of the specified 2D region.
+        /// The stride of the specified 2D region.
         /// </summary>
-        internal readonly int Pitch;
+        /// <remarks>
+        /// This combines both the width and pitch in a single value so that the indexing
+        /// logic can be simplified (no need to recompute the sum every time) and be faster.
+        /// </remarks>
+        internal readonly int Stride;
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -101,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             this.span = MemoryMarshal.CreateSpan(ref value, height);
             this.width = width;
-            this.Pitch = pitch;
+            this.Stride = width + pitch;
         }
 #endif
 
@@ -145,7 +149,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.height = height;
 #endif
             this.width = width;
-            this.Pitch = pitch;
+            this.Stride = width + pitch;
         }
 
 #if !SPAN_RUNTIME_SUPPORT
@@ -164,7 +168,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.Offset = offset;
             this.height = height;
             this.width = width;
-            this.Pitch = pitch;
+            this.Stride = width + pitch;
         }
 #endif
 
@@ -247,7 +251,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.height = height;
 #endif
             this.width = width;
-            this.Pitch = pitch;
+            this.Stride = width + pitch;
         }
 
         /// <summary>
@@ -278,8 +282,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
             this.height = array.GetLength(0);
 #endif
-            this.width = array.GetLength(1);
-            this.Pitch = 0;
+            this.width = this.Stride = array.GetLength(1);
         }
 
         /// <summary>
@@ -348,7 +351,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.height = height;
 #endif
             this.width = width;
-            this.Pitch = columns - width;
+            this.Stride = columns;
         }
 
         /// <summary>
@@ -379,8 +382,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
 #endif
-            this.width = array.GetLength(2);
-            this.Pitch = 0;
+            this.width = this.Stride = array.GetLength(2);
         }
 
         /// <summary>
@@ -440,7 +442,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             this.height = height;
 #endif
             this.width = width;
-            this.Pitch = columns - width;
+            this.Stride = columns;
         }
 
 #if SPAN_RUNTIME_SUPPORT
@@ -513,7 +515,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             this.span = MemoryMarshal.CreateSpan(ref span.DangerousGetReferenceAt(offset), height);
             this.width = width;
-            this.Pitch = pitch;
+            this.Stride = width + pitch;
         }
 
         /// <summary>
@@ -930,7 +932,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
             ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
 #endif
-            nint index = ((nint)(uint)i * (nint)(uint)(this.width + this.Pitch)) + (nint)(uint)j;
+            nint index = ((nint)(uint)i * (nint)(uint)this.Stride) + (nint)(uint)j;
 
             return ref Unsafe.Add(ref r0, index);
         }
@@ -970,8 +972,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
             }
 
-            nint shift = ((nint)(uint)(this.width + this.Pitch) * (nint)(uint)row) + (nint)(uint)column;
-            int pitch = this.Pitch + (this.width - width);
+            nint shift = ((nint)(uint)this.Stride * (nint)(uint)row) + (nint)(uint)column;
+            int pitch = this.Stride - width;
 
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
@@ -1013,7 +1015,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public bool TryGetSpan(out Span<T> span)
         {
             // We can only create a Span<T> if the buffer is contiguous
-            if (this.Pitch == 0 &&
+            if (this.Stride == this.width &&
                 Length <= int.MaxValue)
             {
 #if SPAN_RUNTIME_SUPPORT
@@ -1132,7 +1134,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 left.height == right.height &&
 #endif
                 left.width == right.width &&
-                left.Pitch == right.Pitch;
+                left.Stride == right.Stride;
         }
 
         /// <summary>

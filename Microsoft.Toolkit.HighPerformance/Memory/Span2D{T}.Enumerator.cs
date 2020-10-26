@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForRow();
             }
 
-            nint startIndex = (nint)(uint)(this.width + this.Pitch) * (nint)(uint)row;
+            nint startIndex = (nint)(uint)this.Stride * (nint)(uint)row;
             ref T r0 = ref DangerousGetReference();
             ref T r1 = ref Unsafe.Add(ref r0, startIndex);
 
@@ -65,11 +65,11 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)column);
 
 #if SPAN_RUNTIME_SUPPORT
-            return new RefEnumerable<T>(ref r1, Height, this.width + this.Pitch);
+            return new RefEnumerable<T>(ref r1, Height, this.Stride);
 #else
             IntPtr offset = RuntimeHelpers.GetObjectDataOrReferenceByteOffset(this.Instance, ref r1);
 
-            return new RefEnumerable<T>(this.Instance, offset, Height, this.width + this.Pitch);
+            return new RefEnumerable<T>(this.Instance, offset, Height, this.Stride);
 #endif
         }
 
@@ -117,9 +117,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             private readonly int width;
 
             /// <summary>
-            /// The pitch of the specified 2D region.
+            /// The stride of the specified 2D region.
             /// </summary>
-            private readonly int pitch;
+            private readonly int stride;
 
             /// <summary>
             /// The current horizontal offset.
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 this.height = span.height;
 #endif
                 this.width = span.width;
-                this.pitch = span.Pitch;
+                this.stride = span.Stride;
                 this.x = -1;
                 this.y = 0;
             }
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #else
                     ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
-                    nint index = ((nint)(uint)this.y * (nint)(uint)(this.width + this.pitch)) + (nint)(uint)this.x;
+                    nint index = ((nint)(uint)this.y * (nint)(uint)this.stride) + (nint)(uint)this.x;
 
                     return ref Unsafe.Add(ref r0, index);
                 }
