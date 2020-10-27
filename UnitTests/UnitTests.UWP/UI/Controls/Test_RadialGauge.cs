@@ -2,13 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
@@ -41,6 +34,5 @@ namespace UnitTests.UWP.UI.Controls
             gauge.Unit = "KM/H";
             Assert.IsTrue(gaugePeer.GetName().Contains(gauge.Unit), "The UIA name should report the unit of the RadialGauge.");
         }
-
     }
 }
