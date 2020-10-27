@@ -11,17 +11,14 @@
   </Page.Resources>
 
   <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
       <RowDefinition Height="*" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <!-- Example 1 -->
-    <StackPanel Grid.Column="0"
-                Grid.Row="0"
+    <StackPanel Grid.Row="0"
                 Orientation="Vertical"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -38,14 +35,18 @@
         </TextBlock>
       </Border>
       <controls:ColorPickerButton x:Name="ColorPickerButton1"
-                                  Color="Navy"
-                                  ColorSpectrumShape="Box"
-                                  IsAlphaEnabled="False"
-                                  IsHexInputVisible="True" />
+                                  SelectedColor="Navy">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Box"/>
+            <Setter Property="IsAlphaEnabled" Value="False"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
     </StackPanel>
     <!-- Example 2 -->
-    <StackPanel Grid.Column="1"
-                Grid.Row="0"
+    <StackPanel Grid.Row="1"
                 Orientation="Vertical"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -62,14 +63,18 @@
         </TextBlock>
       </Border>
       <controls:ColorPickerButton x:Name="ColorPickerButton2"
-                                  Color="Green"
-                                  ColorSpectrumShape="Box"
-                                  IsAlphaEnabled="True"
-                                  IsHexInputVisible="False" />
+                                  SelectedColor="Green">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Box"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="False"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
     </StackPanel>
     <!-- Example 3 -->
-    <StackPanel Grid.Column="0"
-                Grid.Row="1"
+    <StackPanel Grid.Row="2"
                 Orientation="Vertical"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -86,14 +91,18 @@
         </TextBlock>
       </Border>
       <controls:ColorPickerButton x:Name="ColorPickerButton3"
-                                  Color="Transparent"
-                                  ColorSpectrumShape="Ring"
-                                  IsAlphaEnabled="True"
-                                  IsHexInputVisible="True" />
+                                  SelectedColor="Transparent">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Ring"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
     </StackPanel>
     <!-- Example 4 -->
-    <StackPanel Grid.Column="1"
-                Grid.Row="1"
+    <StackPanel Grid.Row="3"
                 Orientation="Vertical"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -111,12 +120,16 @@
         </TextBlock>
       </Border>
       <controls:ColorPickerButton x:Name="ColorPickerButton4"
-                                  Color="Maroon"
-                                  ColorSpectrumShape="Ring"
-                                  ColorSpectrumComponents="SaturationValue"
-                                  IsAlphaEnabled="True"
-                                  IsHexInputVisible="True"
-                                  Width="200" />
+                                  SelectedColor="Maroon">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Ring"/>
+            <Setter Property="ColorSpectrumComponents" Value="SaturationValue"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
     </StackPanel>
   </Grid>
 </Page>

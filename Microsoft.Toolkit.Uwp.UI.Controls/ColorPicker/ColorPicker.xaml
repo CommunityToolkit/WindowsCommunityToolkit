@@ -45,7 +45,7 @@
 
                 <Style x:Key="InputTextBoxStyle"
                        TargetType="TextBox">
-                    <Setter Property="CornerRadius" Value="0,2,2,0" /> 
+                    <Setter Property="CornerRadius" Value="0,2,2,0" />
                     <!--  TODO: Is there a theme resource we can use for this from the system?  -->
                 </Style>
             </Grid.Resources>
@@ -92,6 +92,7 @@
             </ListBox>
             <controls:SwitchPresenter x:Name="ContentContainer"
                                       Grid.Row="1"
+                                      Margin="12"
                                       Value="{Binding ElementName=ColorPanelSelector, Path=SelectedItem.Name}">
                 <controls:Case Value="SpectrumListBoxItem">
                     <Grid>
