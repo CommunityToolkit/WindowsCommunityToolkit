@@ -69,11 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             animation.Target = Target;
             animation.Duration = Duration;
             animation.DelayTime = Delay;
-
-            if (ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                animation.DelayBehavior = SetInitialValueBeforeDelay ? AnimationDelayBehavior.SetInitialValueBeforeDelay : AnimationDelayBehavior.SetInitialValueAfterDelay;
-            }
+            animation.DelayBehavior = SetInitialValueBeforeDelay ? AnimationDelayBehavior.SetInitialValueBeforeDelay : AnimationDelayBehavior.SetInitialValueAfterDelay;
 
             if (KeyFrames.Count == 0)
             {
