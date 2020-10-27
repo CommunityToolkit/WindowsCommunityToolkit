@@ -44,12 +44,15 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Border MinWidth="24"
+                <!--  Modification to Template here to provide Border within the DropDown, Checker/Color set in Codebehind as generated image  -->
+                <Border x:Name="CheckeredBackgroundBorder"
+                        MinWidth="24"
                         MinHeight="24"
                         Margin="0,0,2,0"
+                        CornerRadius="2,0,0,2" />
+                <Border x:Name="PreviewBorder"
                         CornerRadius="2,0,0,2">
-                    <Border.Background> 
-                        <!--  TODO: Incorporate Transparency  -->
+                    <Border.Background>
                         <SolidColorBrush Color="{Binding SelectedColor, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                     </Border.Background>
                     <ContentPresenter x:Name="ContentPresenter"

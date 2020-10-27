@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A <see cref="DropDownButton"/> which displays a color as its <c>Content</c> and it's <c>Flyout</c> is a <see cref="ColorPicker"/>.
     /// </summary>
-    [TemplatePart(Name = nameof(ColorPicker), Type = typeof(ColorPicker))]
+    [TemplatePart(Name = nameof(CheckeredBackgroundBorder), Type = typeof(Border))]
     public class ColorPickerButton : DropDownButton
     {
         /// <summary>
@@ -81,6 +81,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(ColorPickerButton), new PropertyMetadata(null));
 
+        #pragma warning disable SA1306 // Field names should begin with lower-case letter
+        //// Template Parts
+        private Border CheckeredBackgroundBorder;
+        #pragma warning restore SA1306 // Field names should begin with lower-case letter
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorPickerButton"/> class.
         /// </summary>
@@ -125,6 +130,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Content = ColorPicker
                 };
             }
+
+            if (CheckeredBackgroundBorder != null)
+            {
+                CheckeredBackgroundBorder.Loaded -= this.CheckeredBackgroundBorder_Loaded;
+            }
+
+            CheckeredBackgroundBorder = GetTemplateChild(nameof(CheckeredBackgroundBorder)) as Border;
+
+            if (CheckeredBackgroundBorder != null)
+            {
+                CheckeredBackgroundBorder.Loaded += this.CheckeredBackgroundBorder_Loaded;
+            }
+        }
+
+        private async void CheckeredBackgroundBorder_Loaded(object sender, RoutedEventArgs e)
+        {
+            await ColorPickerRenderingHelpers.UpdateBorderBackgroundWithCheckerAsync(
+                sender as Border,
+                ColorPicker.checkerBackgroundColor); // TODO: Check initialization
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Contains the rendering methods used within <see cref="ColorPicker"/>.
     /// </summary>
-    public partial class ColorPicker
+    internal class ColorPickerRenderingHelpers
     {
         /// <summary>
         /// Generates a new bitmap of the specified size by changing a specific color channel.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="baseRgbColor">The base RGB color used for channels not being changed.</param>
         /// <param name="checkerColor">The color of the checker background square.</param>
         /// <returns>A new bitmap representing a gradient of color channel values.</returns>
-        private async Task<byte[]> CreateChannelBitmapAsync(
+        public static async Task<byte[]> CreateChannelBitmapAsync(
             int width,
             int height,
             Orientation orientation,
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Create a checkered background
                 if (checkerColor != null)
                 {
-                    bgraCheckeredPixelData = await this.CreateCheckeredBitmapAsync(
+                    bgraCheckeredPixelData = await CreateCheckeredBitmapAsync(
                         width,
                         height,
                         checkerColor.Value);
@@ -358,7 +358,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="height">The pixel height (Y, vertical) of the checkered bitmap.</param>
         /// <param name="checkerColor">The color of the checker square.</param>
         /// <returns>A new checkered bitmap of the specified size.</returns>
-        private async Task<byte[]> CreateCheckeredBitmapAsync(
+        public static async Task<byte[]> CreateCheckeredBitmapAsync(
             int width,
             int height,
             Color checkerColor)
@@ -426,7 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="width">The pixel width of the bitmap.</param>
         /// <param name="height">The pixel height of the bitmap.</param>
         /// <returns>A new ImageBrush.</returns>
-        private async Task<ImageBrush> BitmapToBrushAsync(
+        public static async Task<ImageBrush> BitmapToBrushAsync(
             byte[] bitmap,
             int width,
             int height)
@@ -444,6 +444,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
 
             return brush;
+        }
+
+        public static async Task UpdateBorderBackgroundWithCheckerAsync(Border border, Color color)
+        {
+            if (border != null)
+            {
+                int width = Convert.ToInt32(border.ActualWidth);
+                int height = Convert.ToInt32(border.ActualHeight);
+
+                var bitmap = await ColorPickerRenderingHelpers.CreateCheckeredBitmapAsync(
+                    width,
+                    height,
+                    color);
+
+                if (bitmap != null)
+                {
+                    border.Background = await ColorPickerRenderingHelpers.BitmapToBrushAsync(bitmap, width, height);
+                }
+            }
         }
     }
 }

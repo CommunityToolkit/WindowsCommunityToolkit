@@ -62,55 +62,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private const int ColorUpdateInterval = 30; // Milliseconds
 
-        /// <summary>
-        /// Defines how colors are represented.
-        /// </summary>
-        private enum ColorRepresentation
-        {
-            /// <summary>
-            /// Color is represented by hue, saturation, value and alpha channels.
-            /// </summary>
-            Hsva,
-
-            /// <summary>
-            /// Color is represented by red, green, blue and alpha channels.
-            /// </summary>
-            Rgba
-        }
-
-        /// <summary>
-        /// Defines a specific channel within a color representation.
-        /// </summary>
-        private enum ColorChannel
-        {
-            /// <summary>
-            /// Represents the alpha channel.
-            /// </summary>
-            Alpha,
-
-            /// <summary>
-            /// Represents the first color channel which is Red when RGB or Hue when HSV.
-            /// </summary>
-            Channel1,
-
-            /// <summary>
-            /// Represents the second color channel which is Green when RGB or Saturation when HSV.
-            /// </summary>
-            Channel2,
-
-            /// <summary>
-            /// Represents the third color channel which is Blue when RGB or Value when HSV.
-            /// </summary>
-            Channel3
-        }
-
         private long tokenColor;
         private long tokenCustomPalette;
         private long tokenIsColorPaletteVisible;
 
         private Dictionary<Slider, Size> cachedSliderSizes      = new Dictionary<Slider, Size>();
         private bool                     callbacksConnected     = false;
-        private Color                    checkerBackgroundColor = Color.FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
+        internal Color                    checkerBackgroundColor = Color.FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
         private bool                     eventsConnected        = false;
         private bool                     isInitialized          = false;
 
@@ -215,6 +173,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            // TODO: We need to disconnect old events first.
+
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>(nameof(ColorSpectrumAlphaSlider));
             this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<Slider>(nameof(ColorSpectrumThirdDimensionSlider));
@@ -256,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.UpdateVisualState(false);
             this.isInitialized = true;
             this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
-            this.UpdateColorControlValues();
+            this.UpdateColorControlValues(); // TODO: This will also connect events after, can we optimize vs. doing it twice with the ConnectEvents above?
         }
 
         /// <summary>
@@ -1101,7 +1061,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (object.ReferenceEquals(slider, this.Channel1Slider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(
+                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
                     width,
                     height,
                     Orientation.Horizontal,
@@ -1112,7 +1072,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (object.ReferenceEquals(slider, this.Channel2Slider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(
+                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
                     width,
                     height,
                     Orientation.Horizontal,
@@ -1123,7 +1083,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (object.ReferenceEquals(slider, this.Channel3Slider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(
+                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
                     width,
                     height,
                     Orientation.Horizontal,
@@ -1134,7 +1094,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (object.ReferenceEquals(slider, this.AlphaChannelSlider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(
+                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
                     width,
                     height,
                     Orientation.Horizontal,
@@ -1145,7 +1105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (object.ReferenceEquals(slider, this.ColorSpectrumAlphaSlider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(
+                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
                     width,
                     height,
                     Orientation.Vertical,
@@ -1156,7 +1116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (object.ReferenceEquals(slider, this.ColorSpectrumThirdDimensionSlider))
             {
-                bitmap = await this.CreateChannelBitmapAsync(
+                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
                     width,
                     height,
                     Orientation.Vertical,
@@ -1168,7 +1128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (bitmap != null)
             {
-                slider.Background = await this.BitmapToBrushAsync(bitmap, width, height);
+                slider.Background = await ColorPickerRenderingHelpers.BitmapToBrushAsync(bitmap, width, height);
             }
 
             return;
@@ -1331,25 +1291,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private async void CheckeredBackgroundBorder_Loaded(object sender, RoutedEventArgs e)
         {
-            Border border = sender as Border;
-
-            if (border != null)
-            {
-                int width = Convert.ToInt32(border.ActualWidth);
-                int height = Convert.ToInt32(border.ActualHeight);
-
-                var bitmap = await this.CreateCheckeredBitmapAsync(
-                    width,
-                    height,
-                    this.checkerBackgroundColor);
-
-                if (bitmap != null)
-                {
-                    border.Background = await this.BitmapToBrushAsync(bitmap, width, height);
-                }
-            }
-
-            return;
+            await ColorPickerRenderingHelpers.UpdateBorderBackgroundWithCheckerAsync(
+                sender as Border,
+                checkerBackgroundColor);
         }
 
         /// <summary>
