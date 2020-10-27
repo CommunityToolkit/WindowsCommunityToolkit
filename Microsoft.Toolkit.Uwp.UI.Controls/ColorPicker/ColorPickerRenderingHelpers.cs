@@ -446,6 +446,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return brush;
         }
 
+        /// <summary>
+        /// Centralizes code to create a checker brush for a <see cref="Border"/>.
+        /// </summary>
+        /// <param name="border">Border which will have its Background modified.</param>
+        /// <param name="color">Color to use for transparent checkerboard.</param>
+        /// <returns>Task</returns>
         public static async Task UpdateBorderBackgroundWithCheckerAsync(Border border, Color color)
         {
             if (border != null)

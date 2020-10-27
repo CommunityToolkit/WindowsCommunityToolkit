@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (ColorPicker != null)
             {
-                // TODO: Unregister
+                ColorPicker.ColorChanged -= ColorPicker_ColorChanged;
             }
 
             base.OnApplyTemplate();
@@ -114,11 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             ColorPicker.Color = SelectedColor;
-
-            this.ColorPicker.ColorChanged += (sender, args) =>
-            {
-                SelectedColor = args.NewColor;
-            };
+            ColorPicker.ColorChanged += ColorPicker_ColorChanged;
 
             if (Flyout == null)
             {
@@ -142,6 +138,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 CheckeredBackgroundBorder.Loaded += this.CheckeredBackgroundBorder_Loaded;
             }
+        }
+
+        private void ColorPicker_ColorChanged(Windows.UI.Xaml.Controls.ColorPicker sender, ColorChangedEventArgs args)
+        {
+            SelectedColor = args.NewColor;
         }
 
         private async void CheckeredBackgroundBorder_Loaded(object sender, RoutedEventArgs e)
