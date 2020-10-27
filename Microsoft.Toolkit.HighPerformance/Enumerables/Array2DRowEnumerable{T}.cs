@@ -160,7 +160,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="row"/> is invalid.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeExceptionForInvalidRow()
         {
             throw new ArgumentOutOfRangeException(nameof(row), "The target row parameter was not valid");

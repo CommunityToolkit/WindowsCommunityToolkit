@@ -4,6 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,16 +23,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Editor), typeof(RichEditBox), typeof(TextToolbar), new PropertyMetadata(null, OnEditorChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Format"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.RichText, OnFormatTypeChanged));
-
-        /// <summary>
         /// Identifies the <see cref="Formatter"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FormatterProperty =
-            DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(null, OnFormatterChanged));
+            DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(new RichTextFormatter(), OnFormatterChanged));
 
         /// <summary>
         /// Identifies the <see cref="DefaultButton"/> dependency property.
@@ -64,15 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (RichEditBox)GetValue(EditorProperty); }
             set { SetValue(EditorProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets which formatter to use, and which buttons to provide.
-        /// </summary>
-        public Format Format
-        {
-            get { return (Format)GetValue(FormatProperty); }
-            set { SetValue(FormatProperty, value); }
         }
 
         /// <summary>

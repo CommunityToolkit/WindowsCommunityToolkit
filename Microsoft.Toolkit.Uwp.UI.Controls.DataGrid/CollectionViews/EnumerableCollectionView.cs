@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// Enter a Defer Cycle.
         /// Defer cycles are used to coalesce changes to the ICollectionView.
         /// </summary>
-        /// <returns>An IDisposable deferal object.</returns>
+        /// <returns>An IDisposable deferral object.</returns>
         public override IDisposable DeferRefresh()
         {
             return _view.DeferRefresh();

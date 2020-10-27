@@ -53,9 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
-        /// Gets the quadratic attentuation.
+        /// Gets the quadratic attenuation.
         /// </summary>
-        /// <value>The quadratic attentuation.</value>
+        /// <value>The quadratic attenuation.</value>
         public ScalarNode QuadraticAttentuation
         {
             get { return ReferenceProperty<ScalarNode>("QuadraticAttentuation"); }

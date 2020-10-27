@@ -5,11 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Storage;
@@ -49,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 /* CanvasComposition.CreateDrawingSession has an internal
                  * limit on the size of the updateRectInPixels parameter,
-                 * which we dont know, so we can get an ArgumentException
+                 * which we don't know, so we can get an ArgumentException
                  * if there is a lot of extreme zooming and panning
                  * Therefore, the only solution is to silently catch the
                  * exception and allow the app to continue
@@ -79,10 +78,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal string GetSerializedList()
         {
             var exportModel = new InkCanvasExportModel { DrawableList = _drawableList, Version = 1 };
-            return JsonConvert.SerializeObject(exportModel, Formatting.Indented, new JsonSerializerSettings
+            return JsonSerializer.Serialize(exportModel, GetJsonSerializerOptions());
+        }
+
+        private static JsonSerializerOptions GetJsonSerializerOptions()
+        {
+            var jsonSerializerOptions = new JsonSerializerOptions
             {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+                WriteIndented = true
+            };
+
+            // This will be needed until These two issues are fixed:
+            // https://github.com/dotnet/runtime/issues/30083
+            // https://github.com/dotnet/runtime/issues/29937
+            jsonSerializerOptions.Converters.Add(new IDrawableConverter());
+            return jsonSerializerOptions;
+        }
+
+        internal static List<IDrawable> LoadJson(string json)
+        {
+            var token = JsonDocument.Parse(json);
+            List<IDrawable> newList;
+            if (token.RootElement.ValueKind == JsonValueKind.Array)
+            {
+                // first sin, because of creating a file without versioning so we have to be able to import without breaking changes.
+                newList = JsonSerializer.Deserialize<List<IDrawable>>(json, GetJsonSerializerOptions());
+            }
+            else
+            {
+                newList = JsonSerializer.Deserialize<InkCanvasExportModel>(json, GetJsonSerializerOptions()).DrawableList;
+            }
+
+            return newList;
         }
 
         internal void RenderFromJsonAndDraw(Rect viewPort, string json, float zoom)
@@ -92,17 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _undoCommands.Clear();
             _redoCommands.Clear();
 
-            var token = JToken.Parse(json);
-            List<IDrawable> newList;
-            if (token is JArray)
-            {
-                // first sin, because of creating a file without versioning so we have to be able to import without breaking changes.
-                newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-            }
-            else
-            {
-                newList = JsonConvert.DeserializeObject<InkCanvasExportModel>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }).DrawableList;
-            }
+            var newList = LoadJson(json);
 
             foreach (var drawable in newList)
             {

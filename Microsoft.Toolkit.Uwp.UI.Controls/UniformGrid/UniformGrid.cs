@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Extensions;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -19,9 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class UniformGrid : Grid
     {
-        // Guard for 15063 as Grid Spacing only works on 16299+.
-        private static bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.Grid", "ColumnSpacing");
-
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
 
@@ -70,12 +65,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double columnSpacingSize = 0;
             double rowSpacingSize = 0;
 
-            // Guard for 15063 as Grid Spacing only works on 16299+.
-            if (_hasGridSpacing)
-            {
-                columnSpacingSize = ColumnSpacing * (columns - 1);
-                rowSpacingSize = RowSpacing * (rows - 1);
-            }
+            columnSpacingSize = ColumnSpacing * (columns - 1);
+            rowSpacingSize = RowSpacing * (rows - 1);
 
             Size childSize = new Size(
                 (availableSize.Width - columnSpacingSize) / columns,
@@ -161,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Make sure all overflown elements have no size.
             foreach (var child in _overflow)
             {
-                child.Arrange(new Rect(0, 0, 0, 0));
+                child.Arrange(default);
             }
 
             _overflow = new List<UIElement>(); // Reset for next time.

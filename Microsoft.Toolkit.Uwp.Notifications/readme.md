@@ -6,22 +6,16 @@ Any code for generating notifications should be written in the Microsoft.Toolkit
 If there's UWP-specific code, use the appropriate `#ifdef`, `WINDOWS_UWP` or `WINRT`.
 
 ## What are all the projects for?
-There's two notification projects...
- - Microsoft.Toolkit.Uwp.Notifications
- - Microsoft.Toolkit.Uwp.Notifications.JavaScript
+All the code is contained on the Microsoft.Toolkit.Uwp.Notifications project.
 
-The first project is where all the code is contained.
-
-The JavaScript project is just for packaging the `WinMD` to work for WinJS projects.
+It outputs `netstandard1.4`, `uap10.0`, `native` for WinRT, and netcoreapp for .Net Core projects. The UWP library is only for C#, while the WinRT library is a Windows Runtime Component for C++.
 
 
-The first project contains outputs for `netstandard1.4`, `uap10.0` and a `native` for WinRT. The UWP library is only for C#, while the WinRT library is a Windows Runtime Component for JavaScript and C++.
-
-
-| C#               | JavaScript/C++      |
+| C#               | C++      |
 | ---------------- | ------------------- |
 | NET Standard 1.4 | UWP WinRT Component |
 | UWP C# DLL |                     |
+| .Net Core DLL |                     |
 
 
 

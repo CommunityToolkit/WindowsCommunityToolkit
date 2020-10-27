@@ -38,15 +38,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            if (AnimationExtensions.SaturationEffect.IsSupported)
-            {
-                _frameworkElement?.Saturation(
-                    duration: Duration,
-                    delay: Delay,
-                    easingType: EasingType,
-                    easingMode: EasingMode,
-                    value: (float)Value)?.StartAsync();
-            }
+            _frameworkElement?.Saturation(
+                duration: Duration,
+                delay: Delay,
+                easingType: EasingType,
+                easingMode: EasingMode,
+                value: (float)Value)?.StartAsync();
         }
 
         /// <summary>
