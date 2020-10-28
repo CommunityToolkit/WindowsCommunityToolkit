@@ -5,10 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -20,6 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
+
+        /// <summary>
+        /// The <see cref="TakenSpotsReferenceHolder"/> instance in use, if any.
+        /// </summary>
+        private TakenSpotsReferenceHolder _spotref;
 
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
@@ -37,7 +40,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetupRowDefinitions(rows);
             SetupColumnDefinitions(columns);
 
-            var spotref = new TakenSpotsReferenceHolder(rows, columns);
+            TakenSpotsReferenceHolder spotref;
+
+            // If the last spot holder matches the size currently in use, just reset
+            // that instance and reuse it to avoid allocating a new bit array.
+            if (_spotref != null && _spotref.Height == rows && _spotref.Width == columns)
+            {
+                spotref = _spotref;
+
+                spotref.Reset();
+            }
+            else
+            {
+                spotref = _spotref = new TakenSpotsReferenceHolder(rows, columns);
+            }
 
             // Figure out which children we should automatically layout and where available openings are.
             foreach (var child in visible)
@@ -57,7 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     SetAutoLayout(child, false);
-                    spotref.SpotsTaken.Fill(true, row, col, colspan, rowspan); // row, col, width, height
+
+                    spotref.Fill(true, row, col, colspan, rowspan);
                 }
             }
 
@@ -101,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (rowspan > 1 || colspan > 1)
                         {
                             // TODO: Need to tie this into iterator
-                            spotref.SpotsTaken.Fill(true, row, column, GetColumnSpan(child), GetRowSpan(child)); // row, col, width, height
+                            spotref.Fill(true, row, column, colspan, rowspan);
                         }
                     }
                     else
@@ -136,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return our desired size based on the largest child we found, our dimensions, and spacing.
-            var desiredSize = new Size((maxWidth * (double)columns) + columnSpacingSize, (maxHeight * (double)rows) + rowSpacingSize);
+            var desiredSize = new Size((maxWidth * columns) + columnSpacingSize, (maxHeight * rows) + rowSpacingSize);
 
             // Required to perform regular grid measurement, but ignore result.
             base.MeasureOverride(desiredSize);
