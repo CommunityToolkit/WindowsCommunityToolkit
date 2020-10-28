@@ -2,21 +2,26 @@
   Copyright (c) Microsoft Corporation. Licensed under the MIT License
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    
+
     <!-- Replaces AppxManifest WinRT registrations for Microsoft.UI.Xaml.dll, post-GenerateAppxManifest. -->
     <!-- Target runs before manifest validation occurs. Requires output file to support incremental builds. -->
-    <Target Name="_ReplaceMUXWinRTRegistrations" Condition="'$(Platform)' != 'ARM64' AND '$(Platform)' != 'ARM'" BeforeTargets="_CreateFinalAppxManifestItem" AfterTargets="_GenerateCurrentProjectAppxManifest" Inputs="$(MSBuildAllProjects);@(_GenerateCurrentProjectAppxManifestInput)" Outputs="$(FinalAppxManifestName).incremental" >
+    <Target
+        Name="_ReplaceMUXWinRTRegistrations"
+        BeforeTargets="_CreateFinalAppxManifestItem"
+        AfterTargets="_GenerateCurrentProjectAppxManifest"
+        Inputs="$(MSBuildAllProjects);@(_GenerateCurrentProjectAppxManifestInput)"
+        Outputs="$(FinalAppxManifestName).incremental" >
         <PropertyGroup Condition="'$(MUXClassRegistrationsDir)' == ''">
             <MUXClassRegistrationsDir>$(MSBuildThisFileDirectory)</MUXClassRegistrationsDir>
         </PropertyGroup>
-        
+
         <ReplaceMUXWinRTRegistrations
             FullPathToAppxManifest="$(FinalAppxManifestName)"
             FullPathToLiftedXAMLWinRTRegistrations="$(MUXClassRegistrationsDir)LiftedWinRTClassRegistrations.xml"
             PathToXAMLWinRTImplementations="$(PathToXAMLWinRTImplementations)"
          />
 
-         <Touch 
+         <Touch
             Files="$(FinalAppxManifestName).incremental"
             AlwaysCreate="true"
          />
@@ -35,14 +40,14 @@
             <Using Namespace="System.Runtime.InteropServices.WindowsRuntime" />
             <Using Namespace="System.Collections.Generic" />
             <Code Type="Fragment" Language="cs"><![CDATA[
-                // Load AppxManifest.xml 
+                // Load AppxManifest.xml
                 XmlDocument appxManifest = new XmlDocument();
                 appxManifest.Load(FullPathToAppxManifest);
 
                 XmlNamespaceManager namespaceManager = new XmlNamespaceManager(appxManifest.NameTable);
                 namespaceManager.AddNamespace("w", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
 
-                // If there exists an existing Extensions node, we'll remove a Microsoft.UI.Xaml.dll entry in it
+                // If there exists an existing Extensions node, we'll remove any Microsoft.UI.Xaml.dll, Microsoft.Web.WebView2.Core.dll entry in it
                 // and add the correct DLL mapping. Otherwise, if there doesn't, we'll create one and add it.
                 XmlNode extensionsNode = null;
 
@@ -51,16 +56,17 @@
                     extensionsNode = node;
                     break;
                 }
-      
+
                 if (extensionsNode != null)
                 {
                     XmlNodeList xmlNodeList = appxManifest.DocumentElement.SelectNodes("//w:Package/w:Extensions/w:Extension", namespaceManager);
 
-                    // Remove only "Microsoft.UI.Xaml.dll" registrations from the AppxManifest file
+                    // Remove only "Microsoft.UI.Xaml.dll" and "Microsoft.Web.WebView2.Core.dll" registrations from the AppxManifest file
                     foreach (XmlNode node in xmlNodeList)
                     {
                         XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
-                        if (pathNode.InnerText.Equals("Microsoft.UI.Xaml.dll", StringComparison.InvariantCultureIgnoreCase))
+                        if (pathNode.InnerText.Equals("Microsoft.UI.Xaml.dll", StringComparison.InvariantCultureIgnoreCase) ||
+                            pathNode.InnerText.Equals("Microsoft.Web.WebView2.Core.dll", StringComparison.InvariantCultureIgnoreCase))
                         { 
                             extensionsNode.RemoveChild(node);
                         }
@@ -88,50 +94,52 @@
                         XmlNode pathNode = node.SelectSingleNode("w:InProcessServer/w:Path", namespaceManager);
                         pathNode.InnerText = PathToXAMLWinRTImplementations + pathNode.InnerText;
                     }
-                
                     XmlNode importNode = extensionsNode.OwnerDocument.ImportNode(node, true);
                     extensionsNode.AppendChild(importNode);
                 }
 
-                // Save the updated AppxManifest.xml file 
+                // Save the updated AppxManifest.xml file
                 appxManifest.Save(FullPathToAppxManifest);
 
             ]]></Code>
         </Task>
     </UsingTask>
 
-    <!-- We don't provide an implementation for Microsoft.winmd, but that's OK, since we're constructing
-         our own Extensions entries in AppxManifest.xml. As such, we'll suppress the warning that that would otherwise raise. -->
   <PropertyGroup>
-    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);APPX1707</MSBuildWarningsAsMessages>
+    <MSBuildWarningsAsMessages>
+       $(MSBuildWarningsAsMessages);
+
+       <!-- We don't provide an implementation for Microsoft.winmd, but that's OK, since we're constructing
+            our own Extensions entries in AppxManifest.xml. As such, we'll suppress the warning that that would otherwise raise. -->
+       APPX1707;
+    </MSBuildWarningsAsMessages>
+    <MSBuildWarningsAsMessages Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
+       $(MSBuildWarningsAsMessages);
+
+       <!-- WAP project files can have class libraries with WinMDs complain that they don't have requisite dependencies present -
+            however, due to our custom packaging, they'll be present in the end, so we'll suppress this warning as well. -->
+       MSB3268;
+    </MSBuildWarningsAsMessages>
   </PropertyGroup>
+
+  <!-- Packing class libraries in a WAP project can erroneously raise a warning thinking that we've packaged multiple executables.
+       We'll suppress that warning, since it's being raised in error. -->
+  <Target Name="_UWPReferencesCheck" Condition="'$(MSBuildProjectExtension)' == '.wapproj'" />
 
   <!--
     Setting default project properties for .NET SDK-style projects
   -->
   <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <SDKIdentifier>Windows</SDKIdentifier>
     <SDKVersion>10.0</SDKVersion>
-
-    <AppxPackage Condition="'$(OutputType)' == 'AppContainerExe'">true</AppxPackage>
-    <AppxPackage Condition="'$(OutputType)' == 'WinExe'">false</AppxPackage>
     <DefaultLanguage Condition="'$(DefaultLanguage)'==''">en-US</DefaultLanguage>
   </PropertyGroup>
 
-  <!-- In the case of a WinUI Desktop project, we want to include the AppxPackage targets file to get a PRI file generated,
-        but since we aren't actually packaging ourselves in an AppX file, we'll empty out our AppX recipe file properties. -->
-  <Import Project="$(MsAppxPackageTargets)" Condition="'$(WindowsAppContainer)' != 'true' and '$(MSBuildProjectExtension)'!='.wapproj'" />
-  <PropertyGroup Condition="'$(WindowsAppContainer)' != 'true'">
-    <AppxUploadPackageRecipe />
-    <AppxPackageRecipe />
-  </PropertyGroup>
-  
   <!--
     By default, the Nuget targets for .NET Native UWP projects copy MUI files to the root of the AppX.
     However, we need them in language-specific locations, so we'll move them there after resolving our
-    assembly references, which is what places them in ReferenceCopyLocalPaths. 
-    
+    assembly references, which is what places them in ReferenceCopyLocalPaths.
+
     Note: This isn't needed for native projects or projects that are using the Microsoft.NET.Sdk, since
     we manually add them to ReferenceCopyLocalPaths. Once we are fully onto .NET5, we can remove this target.
   -->
@@ -149,15 +157,15 @@
       </ReferenceCopyLocalPaths>
     </ItemGroup>
   </Target>
-  
-  <!-- In the case of native projects, the TargetPath gets overwritten to remove the language-specific subfolders
+
+  <Target Name="_UpdateWapProjectPackageFiles"
+        BeforeTargets="_CopyPackageFiles;_CopyUploadPackageFiles"
+        AfterTargets="_ConvertItems"
+        Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
+    <ItemGroup>
+      <!-- In the case of native projects, the TargetPath gets overwritten to remove the language-specific subfolders
        in the _ConvertItems target, so in the case where that's happened, we'll restore it from the
        DestinationSubDirectory item metadata. -->
-  <Target Name="_UpdateMuiWapProjectPackageFiles"
-          BeforeTargets="_CopyPackageFiles;_CopyUploadPackageFiles"
-          AfterTargets="_ConvertItems"
-          Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
-    <ItemGroup>
       <WapProjPackageFile Update="@(WapProjPackageFile)" Condition="'%(WapProjPackageFile.DestinationSubDirectory)' != '' and '%(TargetPath)' == '%(Filename)%(Extension)'">
         <TargetPath>%(WapProjPackageFile.DestinationSubDirectory)%(TargetPath)</TargetPath>
       </WapProjPackageFile>
@@ -168,15 +176,18 @@
   </Target>
 
   <!--
-    Workaround for bug https://devdiv.visualstudio.com/DevDiv/_workitems/edit/1149545
-    
-    The appx packaging tasks default to including the .xr.xml file (which is for using reflection in .NET Native) when consuming nuget packages. Since
-    we aren't using .NET Native, we don't need these anymore.
-  -->
-  <Target Name="_RemoveXrXmlFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe" Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
-    <ItemGroup>
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))"/>
-    </ItemGroup>
-  </Target>
+    Add a dependency for the app against VCLibs since it doesn't come with .NET only apps. C++ apps
+    will already have this dependency, but duplicate referenes are a no-op so there's no need to
+    condition the dependency.
+   -->
+  <ItemGroup Condition="'$(OutputType)' == 'AppContainerExe'">
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0" />
+  </ItemGroup>
+  
+  <!-- Packaged desktop apps need these framework package references -->
+  <ItemGroup Condition="'$(MSBuildProjectExtension)'=='.wapproj'">
+    <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
+    <!-- Needed for ucrtbased.dll when running a debug build. -->
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0" Condition="'$(Configuration)' == 'Debug'" />
+  </ItemGroup>
 </Project>
-

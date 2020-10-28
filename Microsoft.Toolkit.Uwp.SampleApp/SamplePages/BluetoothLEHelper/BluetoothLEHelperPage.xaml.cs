@@ -6,9 +6,7 @@ using System;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void BluetoothLEHelper_EnumerationCompleted(object sender, EventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
             {
                 bluetoothLEHelper.StopEnumeration();
                 BtEnumeration.Content = "Start Enumerating";

@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         private static async Task<IEnumerable<PhotoDataItem>> GetPhotosAsync(bool online)
         {
             var prefix = online ? "Online" : string.Empty;
-            return Parse(await File.ReadAllTextAsync(Path.Combine(Package.Current.InstalledLocation.Path, $"Microsoft.Toolkit.Uwp.SampleApp/Assets/Photos/{prefix}Photos.json")));
+            return Parse(await File.ReadAllTextAsync(Path.Combine(Package.Current.InstalledLocation.Path, $"Assets/Photos/{prefix}Photos.json")));
         }
 
         private static IEnumerable<PhotoDataItem> Parse(string jsonData)

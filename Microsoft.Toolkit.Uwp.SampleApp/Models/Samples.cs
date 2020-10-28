@@ -61,7 +61,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 _installedLocationPath = workingFolder.Path;
             }
 
-            var fullFileName = Path.Combine(_installedLocationPath, "Microsoft.Toolkit.Uwp.SampleApp", fileName);
+            if (fileName.StartsWith('/'))
+            {
+                fileName = fileName.TrimStart('/');
+            }
+
+            var fullFileName = Path.Combine(_installedLocationPath, fileName);
 
             var stream = new MemoryStream();
             if (!File.Exists(fullFileName))

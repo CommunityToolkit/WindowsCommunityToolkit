@@ -26,13 +26,13 @@
       <Version>10.1901.28001</Version>
     </PackageReference>-->
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
-      <Version>8.0.0-build.17.g40498f02ba</Version>
+      <Version>8.0.0-build.17.g8b95446556</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.10.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
-      <Version>2.0.3-rc4</Version>
+      <Version>2.0.3-rc4-CI-20201027-0942</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>2.0.0</Version>
@@ -43,19 +43,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="landingPageLinks.json" />
-    <Content Include="Assets\mtns.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Assets\mtns.csv" />
     <Content Include="**\*.png" />
-    <Content Remove="bin\**\*.png" />
+    <Content Remove="bin\**\*.png"/>
     <None Include=".editorconfig" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
-    <Content Include="SamplePages\samples.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="SamplePages\samples.json" />
     <None Include="readme.md" />
     <Content Include="SamplePages\**\*.bind" />
+    <Content Include="SamplePages\**\*.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
@@ -86,10 +83,6 @@
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
     </ProjectReference>-->
-    <!--<ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
-      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Services</Name>
-    </ProjectReference>-->
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
@@ -98,14 +91,23 @@
       <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+    
+    
+    <!-- Replace these ProjectReferences with a PackageReference due to a MRT issue -->
+    <!--<ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
       <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
-    </ProjectReference>
+    </ProjectReference>-->
+    <!-- Remove this PackageReference when the MRT issue is fixed -->
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown">
+      <Version>8.0.0-build.75.g1d84bc58a5</Version>
+    </PackageReference>
+    
+    
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
@@ -141,9 +143,6 @@
   <ItemGroup>
     <!-- WinUI3 - We might want to remove this, but it fixes ApiInformation.IsApiContractPresent -->
     <ReferenceCopyLocalPaths Include="$(PkgMicrosoft_WinUI)\lib\uap10.0\*.winmd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SamplePages\samples.json" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <_GenerateAppxManifestDependsOn>

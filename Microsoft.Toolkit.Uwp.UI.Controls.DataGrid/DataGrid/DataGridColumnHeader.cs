@@ -312,7 +312,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (this.OwningGrid.CommitEdit(DataGridEditingUnit.Row, true /*exitEditingMode*/))
             {
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { ProcessSort(); }).AsTask();
+                DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () => { ProcessSort(); });
             }
         }
 

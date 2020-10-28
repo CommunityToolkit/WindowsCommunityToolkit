@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
         {
-            WarnUserToPlugInDevice();
+            DispatcherQueue.TryEnqueue(WarnUserToPlugInDevice);
         }
 
         private void WarnUserToPlugInDevice()

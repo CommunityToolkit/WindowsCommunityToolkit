@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -137,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void SelectAllTokensAndText()
         {
-            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            _ = DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
             {
                 this.SelectAllSafe();
 

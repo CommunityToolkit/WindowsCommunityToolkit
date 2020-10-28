@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     await RemoveAllSelectedTokens();
 
                     // Wait for removal of old items
-                    _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    _ = DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
                     {
                         // If we're before the last textbox and it's empty, redirect focus to that one instead
                         if (index == _innerItemsSource.Count - 1 && string.IsNullOrWhiteSpace(_lastTextEdit.Text))
@@ -252,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _innerItemsSource.Insert(index, _currentTextEdit);
 
                             // Need to wait for containerization
-                            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            _ = DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
                             {
                                 var newContainer = ContainerFromIndex(index) as TokenizingTextBoxItem; // Should be our last text box
 

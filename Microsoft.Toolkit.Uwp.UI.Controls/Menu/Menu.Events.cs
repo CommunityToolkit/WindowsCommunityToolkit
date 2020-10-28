@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -16,7 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu
     {
-        private const uint AltScanCode = 56;
         private bool _onlyAltCharacterPressed = true;
         private Control _lastFocusElement;
         private bool _isLostFocus = true;
@@ -37,26 +35,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             LostFocus -= Menu_LostFocus;
             LostFocus += Menu_LostFocus;
-            Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-            Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-
-            if (Window.Current != null)
+            if (XamlRoot.Content != null)
             {
-                Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
-                Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
-
-                Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
-                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                XamlRoot.Content.ProcessKeyboardAccelerators -= Content_ProcessKeyboardAccelerators;
+                XamlRoot.Content.ProcessKeyboardAccelerators += Content_ProcessKeyboardAccelerators;
+                XamlRoot.Content.PointerMoved -= Content_PointerMoved;
+                XamlRoot.Content.PointerMoved += Content_PointerMoved;
+                XamlRoot.Content.KeyDown -= Content_KeyDown;
+                XamlRoot.Content.KeyDown += Content_KeyDown;
             }
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
         {
-            Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-            if (Window.Current != null)
+            if (XamlRoot.Content != null)
             {
-                Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
-                Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+                XamlRoot.Content.ProcessKeyboardAccelerators -= Content_ProcessKeyboardAccelerators;
+                XamlRoot.Content.PointerMoved -= Content_PointerMoved;
+                XamlRoot.Content.KeyDown -= Content_KeyDown;
             }
 
             // Clear Cache
@@ -72,20 +68,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CoreWindow_PointerMoved(CoreWindow sender, PointerEventArgs args)
+        private void Content_PointerMoved(object sender, PointerRoutedEventArgs args)
         {
+            var currentPoint = args.GetCurrentPoint(sender as UIElement);
+
             // if contained with the whole Menu control
-            if (IsOpened && _bounds.Contains(args.CurrentPoint.Position))
+            if (IsOpened && _bounds.Contains(currentPoint.Position))
             {
                 // if hover over current opened item
-                if (SelectedMenuItem.ContainsPoint(args.CurrentPoint.Position))
+                if (SelectedMenuItem.ContainsPoint(currentPoint.Position))
                 {
                     return;
                 }
 
                 foreach (MenuItem menuItem in Items)
                 {
-                    if (menuItem.ContainsPoint(args.CurrentPoint.Position))
+                    if (menuItem.ContainsPoint(currentPoint.Position))
                     {
                         SelectedMenuItem.HideMenu();
                         menuItem.Focus(FocusState.Keyboard);
@@ -95,19 +93,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        private void Content_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (IsInTransitionState)
             {
                 return;
             }
 
-            if (NavigateUsingKeyboard(args, this, Orientation))
+            if (NavigateUsingKeyboard(e.Key, this, Orientation))
             {
                 return;
             }
 
-            string gestureKey = MapInputToGestureKey(args.VirtualKey);
+            string gestureKey = MapInputToGestureKey(XamlRoot, e.Key);
 
             if (gestureKey == null)
             {
@@ -122,6 +120,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var menuFlyoutItem = (MenuFlyoutItem)cachedMenuItem;
                     menuFlyoutItem.Command?.Execute(menuFlyoutItem.CommandParameter);
                 }
+            }
+
+            if (e.Key == VirtualKey.Menu)
+            {
+                if (!IsOpened)
+                {
+                    if (_isLostFocus)
+                    {
+                        if (_onlyAltCharacterPressed && e.KeyStatus.IsKeyReleased)
+                        {
+                            ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
+
+                            if (!(_lastFocusElement is MenuItem))
+                            {
+                                _lastFocusElementBeforeMenu = _lastFocusElement;
+                            }
+                        }
+
+                        if (AllowTooltip)
+                        {
+                            ShowMenuItemsToolTips();
+                        }
+                        else
+                        {
+                            UnderlineMenuItems();
+                        }
+
+                        if (e.KeyStatus.IsKeyReleased)
+                        {
+                            _isLostFocus = false;
+                        }
+                    }
+                    else if (e.KeyStatus.IsKeyReleased)
+                    {
+                        HideToolTip();
+                        _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
+                    }
+                }
+            }
+            else if (e.KeyStatus.IsKeyReleased)
+            {
+                _onlyAltCharacterPressed = true;
+                _isLostFocus = true;
+                HideToolTip();
             }
         }
 
@@ -154,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        private void Content_ProcessKeyboardAccelerators(UIElement sender, ProcessKeyboardAcceleratorEventArgs args)
         {
             if (Items.Count == 0)
             {
@@ -170,51 +212,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _lastFocusElement = FocusManager.GetFocusedElement() as Control;
             }
 
-            if (args.KeyStatus.ScanCode != AltScanCode)
+            if (args.Modifiers == VirtualKeyModifiers.Menu)
             {
                 _onlyAltCharacterPressed = false;
             }
 
-            if (args.VirtualKey == VirtualKey.Menu)
+            if (args.Modifiers == VirtualKeyModifiers.Menu || !_isLostFocus)
             {
-                if (!IsOpened)
-                {
-                    if (_isLostFocus)
-                    {
-                        if (_onlyAltCharacterPressed && args.KeyStatus.IsKeyReleased)
-                        {
-                            ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
-
-                            if (!(_lastFocusElement is MenuItem))
-                            {
-                                _lastFocusElementBeforeMenu = _lastFocusElement;
-                            }
-                        }
-
-                        if (AllowTooltip)
-                        {
-                            ShowMenuItemsToolTips();
-                        }
-                        else
-                        {
-                            UnderlineMenuItems();
-                        }
-
-                        if (args.KeyStatus.IsKeyReleased)
-                        {
-                            _isLostFocus = false;
-                        }
-                    }
-                    else if (args.KeyStatus.IsKeyReleased)
-                    {
-                        HideToolTip();
-                        _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
-                    }
-                }
-            }
-            else if ((args.KeyStatus.IsMenuKeyDown || !_isLostFocus) && args.KeyStatus.IsKeyReleased)
-            {
-                var gestureKey = MapInputToGestureKey(args.VirtualKey, !_isLostFocus);
+                var gestureKey = MapInputToGestureKey(XamlRoot, args.Key, !_isLostFocus);
                 if (gestureKey == null)
                 {
                     return;
@@ -230,13 +235,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         menuItem.Focus(FocusState.Keyboard);
                     }
                 }
-            }
-
-            if (args.KeyStatus.IsKeyReleased && args.EventType == CoreAcceleratorKeyEventType.KeyUp)
-            {
-                _onlyAltCharacterPressed = true;
-                _isLostFocus = true;
-                HideToolTip();
             }
         }
 

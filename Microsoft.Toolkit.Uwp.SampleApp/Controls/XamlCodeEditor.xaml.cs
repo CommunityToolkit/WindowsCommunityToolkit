@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -80,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             // If you hit an issue here, please report repro steps along with all the info from the Exception object.
 #if DEBUG
             // Temporary new version of Monaco UWP throws a few expected exceptions.
-            // Debugger.Break();
+            // System.Diagnostics.Debugger.Break();
 #endif
         }
 

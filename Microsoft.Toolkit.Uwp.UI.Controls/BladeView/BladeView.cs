@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,7 +10,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -123,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return blade;
         }
 
-        private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
+        private void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
 
@@ -142,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateLayout();
 
                 // Need to do this because of touch. See more information here: https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/760#issuecomment-276466464
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Low, () =>
                 {
                     GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
                 });

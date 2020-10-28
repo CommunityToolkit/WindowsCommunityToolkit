@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
         {
             try
             {
-                Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                DispatcherQueue?.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
                 {
                     try
                     {

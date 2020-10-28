@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -21,7 +20,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.System.Profile;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -423,9 +421,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async void XamlCodeEditor_UpdateRequested(object sender, EventArgs e)
+        private void XamlCodeEditor_UpdateRequested(object sender, EventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Low, () =>
             {
                 UpdateXamlRender(XamlCodeEditor.Text);
             });
@@ -552,13 +550,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async void XamlFrameworkElement_Loaded(object sender, RoutedEventArgs e)
+        private void XamlFrameworkElement_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement fe)
             {
                 fe.Loaded -= XamlFrameworkElement_Loaded;
 
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Low, () =>
                 {
                     (SamplePage as IXamlRenderListener)?.OnXamlRendered(fe);
                 });

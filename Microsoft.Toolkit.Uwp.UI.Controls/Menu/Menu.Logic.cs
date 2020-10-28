@@ -4,9 +4,13 @@
 
 using System.Linq;
 using System.Text;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.Experimental;
+using Microsoft.UI.Input.Experimental;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.System;
@@ -28,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal FlyoutPlacementMode? CurrentFlyoutPlacement { get; set; }
 
-        private static bool NavigateUsingKeyboard(KeyEventArgs args, Menu menu, Orientation orientation)
+        private static bool NavigateUsingKeyboard(VirtualKey virtualKey, Menu menu, Orientation orientation)
         {
             object element;
             if (ControlHelpers.IsXamlRootAvailable && menu.XamlRoot != null)
@@ -41,10 +45,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             if (element is MenuFlyoutPresenter &&
-                ((args.VirtualKey == VirtualKey.Down) ||
-                 (args.VirtualKey == VirtualKey.Up) ||
-                 (args.VirtualKey == VirtualKey.Left) ||
-                 (args.VirtualKey == VirtualKey.Right)))
+                ((virtualKey == VirtualKey.Down) ||
+                 (virtualKey == VirtualKey.Up) ||
+                 (virtualKey == VirtualKey.Left) ||
+                 (virtualKey == VirtualKey.Right)))
             {
                 // Hack to delay and let next element get focus
                 FocusManager.FindNextFocusableElement(FocusNavigationDirection.Right);
@@ -55,25 +59,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 menu.UpdateMenuItemsFlyoutPlacement();
 
-                if (args.VirtualKey == VirtualKey.Enter ||
-                    ((args.VirtualKey == VirtualKey.Down) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Bottom) ||
-                    ((args.VirtualKey == VirtualKey.Up) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Top) ||
-                    ((args.VirtualKey == VirtualKey.Left) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left) ||
-                    ((args.VirtualKey == VirtualKey.Right) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Right))
+                if (virtualKey == VirtualKey.Enter ||
+                    ((virtualKey == VirtualKey.Down) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Bottom) ||
+                    ((virtualKey == VirtualKey.Up) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Top) ||
+                    ((virtualKey == VirtualKey.Left) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left) ||
+                    ((virtualKey == VirtualKey.Right) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Right))
                 {
                     menu.SelectedMenuItem.ShowMenu();
                     return true;
                 }
 
-                if ((args.VirtualKey == VirtualKey.Left && orientation == Orientation.Horizontal) ||
-                    (args.VirtualKey == VirtualKey.Up && orientation == Orientation.Vertical))
+                if ((virtualKey == VirtualKey.Left && orientation == Orientation.Horizontal) ||
+                    (virtualKey == VirtualKey.Up && orientation == Orientation.Vertical))
                 {
                     GetNextMenuItem(menu, -1);
                     return true;
                 }
 
-                if ((args.VirtualKey == VirtualKey.Right && orientation == Orientation.Horizontal) ||
-                    (args.VirtualKey == VirtualKey.Down && orientation == Orientation.Vertical))
+                if ((virtualKey == VirtualKey.Right && orientation == Orientation.Horizontal) ||
+                    (virtualKey == VirtualKey.Down && orientation == Orientation.Vertical))
                 {
                     GetNextMenuItem(menu, +1);
                     return true;
@@ -81,8 +85,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             if ((menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left &&
-                 args.VirtualKey == VirtualKey.Right) ||
-                 (args.VirtualKey == VirtualKey.Left &&
+                 virtualKey == VirtualKey.Right) ||
+                 (virtualKey == VirtualKey.Left &&
                  menu.CurrentFlyoutPlacement != FlyoutPlacementMode.Left))
             {
                 if (element is MenuFlyoutItem)
@@ -105,9 +109,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if ((args.VirtualKey == VirtualKey.Right &&
+            if ((virtualKey == VirtualKey.Right &&
                 menu.CurrentFlyoutPlacement != FlyoutPlacementMode.Left) ||
-                (args.VirtualKey == VirtualKey.Left &&
+                (virtualKey == VirtualKey.Left &&
                 menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left))
             {
                 if (element is MenuFlyoutItem)
@@ -131,11 +135,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return nextItem;
         }
 
-        private static string MapInputToGestureKey(VirtualKey key, bool menuHasFocus = false)
+        private static string MapInputToGestureKey(XamlRoot xamlRoot, VirtualKey key, bool menuHasFocus = false)
         {
-            var isCtrlDown = Window.Current != null && Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var isShiftDown = Window.Current != null && Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isAltDown = (Window.Current != null && Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down)) || menuHasFocus;
+            Compositor compositor = ElementCompositionPreview.GetElementVisual(xamlRoot.Content).Compositor;
+            var keyboardInput = ExpKeyboardInput.GetForInputSite(ExpInputSite.GetOrCreateForContent(ExpCompositionContent.Create(compositor)));
+            var isCtrlDown = keyboardInput.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var isShiftDown = keyboardInput.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var isAltDown = (keyboardInput.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down)) || menuHasFocus;
 
             if (!isCtrlDown && !isShiftDown && !isAltDown)
             {
@@ -201,8 +207,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UIElement content;
             double height;
             double width;
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (ControlHelpers.IsXamlRootAvailable)
             {
+                if (XamlRoot == null)
+                {
+                    return FlyoutPlacementMode.Top;
+                }
+
                 content = XamlRoot.Content;
                 height = XamlRoot.Size.Height;
                 width = XamlRoot.Size.Width;

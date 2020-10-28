@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         [Pure]
         public XamlCompositionBrush Clone()
         {
-            if (this.Dispatcher.HasThreadAccess)
+            if (this.DispatcherQueue.HasThreadAccess)
             {
                 throw new InvalidOperationException("The current thread already has access to the brush dispatcher, so a clone operation is not necessary. " +
                                                     "You can just assign this brush to an arbitrary number of controls and it will still work correctly. " +

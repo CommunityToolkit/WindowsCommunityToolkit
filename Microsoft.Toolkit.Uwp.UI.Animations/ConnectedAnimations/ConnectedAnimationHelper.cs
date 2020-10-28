@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                                     listAnimProperty.ListViewBase.ScrollIntoView(parameter);
 
                                     // give time to the UI thread to scroll the list
-                                    var t = listAnimProperty.ListViewBase.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                                    var t = listAnimProperty.ListViewBase.DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, async () =>
                                     {
                                         try
                                         {

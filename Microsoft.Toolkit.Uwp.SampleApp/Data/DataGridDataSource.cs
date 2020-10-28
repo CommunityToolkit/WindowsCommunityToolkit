@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         {
             _items = new ObservableCollection<DataGridDataItem>();
 
-            foreach (var line in await File.ReadAllLinesAsync(Path.Combine(Package.Current.InstalledLocation.Path, @"Microsoft.Toolkit.Uwp.SampleApp/Assets/mtns.csv")))
+            foreach (var line in await File.ReadAllLinesAsync(Path.Combine(Package.Current.InstalledLocation.Path, @"Assets/mtns.csv")))
             {
                 string[] values = line.Split(',');
 

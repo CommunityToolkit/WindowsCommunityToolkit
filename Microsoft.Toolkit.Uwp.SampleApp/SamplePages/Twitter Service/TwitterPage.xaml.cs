@@ -12,7 +12,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Devices.Geolocation;
 using Windows.Storage.Pickers;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -205,9 +204,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void GetUserStreams()
         {
-            await TwitterService.Instance.StartUserStreamAsync(async tweet =>
+            await TwitterService.Instance.StartUserStreamAsync(tweet =>
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
                 {
                     if (tweet != null)
                     {

@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _imageCropper = control.FindChildByName("ImageCropper") as ImageCropper;
             if (_imageCropper != null)
             {
-                await _imageCropper.LoadImageFromFile(Path.Combine(Package.Current.InstalledLocation.Path, "Microsoft.Toolkit.Uwp.SampleApp/Assets/Photos/Owl.jpg"));
+                await _imageCropper.LoadImageFromFile(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/Photos/Owl.jpg"));
             }
         }
 

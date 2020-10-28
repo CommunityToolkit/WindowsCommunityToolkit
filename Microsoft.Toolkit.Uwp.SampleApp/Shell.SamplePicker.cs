@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     // The NavView fires this event twice when the current selected item is clicked
                     // This makes sure the event get's processed correctly
-                    var nop = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => HideSamplePicker());
+                    var nop = DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () => HideSamplePicker());
                 }
                 else
                 {

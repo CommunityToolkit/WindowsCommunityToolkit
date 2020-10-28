@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -334,7 +333,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Called when a link needs to be handled
         /// </summary>
-        internal async void LinkHandled(string url, bool isHyperlink)
+        internal void LinkHandled(string url, bool isHyperlink)
         {
             // Links that are nested within superscript elements cause the Click event to fire multiple times.
             // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
@@ -345,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             multiClickDetectionTriggered = true;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
+            DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.High, () => multiClickDetectionTriggered = false);
 
             // Get the hyperlink URL.
             if (url == null)
