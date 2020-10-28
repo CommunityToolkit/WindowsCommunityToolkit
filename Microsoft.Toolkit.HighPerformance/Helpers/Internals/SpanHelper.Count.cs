@@ -242,28 +242,22 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         private static unsafe nint GetUpperBound<T>()
             where T : unmanaged
         {
-            if (typeof(T) == typeof(byte) ||
-                typeof(T) == typeof(sbyte) ||
-                typeof(T) == typeof(bool))
+            if (typeof(T) == typeof(byte))
             {
                 return sbyte.MaxValue;
             }
 
-            if (typeof(T) == typeof(char) ||
-                typeof(T) == typeof(ushort) ||
-                typeof(T) == typeof(short))
+            if (typeof(T) == typeof(short))
             {
                 return short.MaxValue;
             }
 
-            if (typeof(T) == typeof(int) ||
-                typeof(T) == typeof(uint))
+            if (typeof(T) == typeof(int))
             {
                 return int.MaxValue;
             }
 
-            if (typeof(T) == typeof(long) ||
-                typeof(T) == typeof(ulong))
+            if (typeof(T) == typeof(long))
             {
                 if (sizeof(nint) == sizeof(int))
                 {
