@@ -830,6 +830,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 }
                 else if (typeof(T) == typeof(char) && this.instance.GetType() == typeof(string))
                 {
+                    // Here we need to create a Memory<char> from the wrapped string, and to do so we need to do an inverse
+                    // lookup to find the initial index of the string with respect to the byte offset we're currently using,
+                    // which refers to the raw string object data. This can include variable padding or other additional
+                    // fields on different runtimes. The lookup operation is still O(1) and just computes the byte offset
+                    // difference between the start of the Span<char> (which directly wraps just the actual character data
+                    // within the string), and the input reference, which we can get from the byte offset in use. The result
+                    // is the character index which we can use to create the final Memory<char> instance.
                     string text = Unsafe.As<string>(this.instance);
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);

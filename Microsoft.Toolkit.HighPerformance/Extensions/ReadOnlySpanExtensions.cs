@@ -221,34 +221,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> does not belong to <paramref name="span"/>.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int IndexOf<T>(this ReadOnlySpan<T> span, in T value)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, in T value)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
             ref T r1 = ref Unsafe.AsRef(value);
             IntPtr byteOffset = Unsafe.ByteOffset(ref r0, ref r1);
 
-            if (sizeof(IntPtr) == sizeof(long))
+            nint elementOffset = byteOffset / (nint)(uint)Unsafe.SizeOf<T>();
+
+            if ((nuint)elementOffset >= (uint)span.Length)
             {
-                long elementOffset = (long)byteOffset / Unsafe.SizeOf<T>();
-
-                if ((ulong)elementOffset >= (ulong)span.Length)
-                {
-                    SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
-                }
-
-                return unchecked((int)elementOffset);
+                SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
             }
-            else
-            {
-                int elementOffset = (int)byteOffset / Unsafe.SizeOf<T>();
 
-                if ((uint)elementOffset >= (uint)span.Length)
-                {
-                    SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
-                }
-
-                return elementOffset;
-            }
+            return (int)elementOffset;
         }
 
         /// <summary>
