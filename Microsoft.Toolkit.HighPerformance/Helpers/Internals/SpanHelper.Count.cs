@@ -161,6 +161,67 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                     var partials = Vector<T>.Zero;
 
+                    // Unrolled vectorized loop, with 8 unrolled iterations. We only run this when the
+                    // current type T is at least 2 bytes in size, otherwise the average chunk length
+                    // would always be too small to be able to trigger the unrolled loop, and the overall
+                    // performance would just be slightly worse due to the additional conditional branches.
+                    if (typeof(T) != typeof(sbyte))
+                    {
+                        while (chunkLength >= Vector<T>.Count * 8)
+                        {
+                            ref T ri0 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 0));
+                            var vi0 = Unsafe.As<T, Vector<T>>(ref ri0);
+                            var ve0 = Vector.Equals(vi0, vc);
+
+                            partials -= ve0;
+
+                            ref T ri1 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 1));
+                            var vi1 = Unsafe.As<T, Vector<T>>(ref ri1);
+                            var ve1 = Vector.Equals(vi1, vc);
+
+                            partials -= ve1;
+
+                            ref T ri2 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 2));
+                            var vi2 = Unsafe.As<T, Vector<T>>(ref ri2);
+                            var ve2 = Vector.Equals(vi2, vc);
+
+                            partials -= ve2;
+
+                            ref T ri3 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 3));
+                            var vi3 = Unsafe.As<T, Vector<T>>(ref ri3);
+                            var ve3 = Vector.Equals(vi3, vc);
+
+                            partials -= ve3;
+
+                            ref T ri4 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 4));
+                            var vi4 = Unsafe.As<T, Vector<T>>(ref ri4);
+                            var ve4 = Vector.Equals(vi4, vc);
+
+                            partials -= ve4;
+
+                            ref T ri5 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 5));
+                            var vi5 = Unsafe.As<T, Vector<T>>(ref ri5);
+                            var ve5 = Vector.Equals(vi5, vc);
+
+                            partials -= ve5;
+
+                            ref T ri6 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 6));
+                            var vi6 = Unsafe.As<T, Vector<T>>(ref ri6);
+                            var ve6 = Vector.Equals(vi6, vc);
+
+                            partials -= ve6;
+
+                            ref T ri7 = ref Unsafe.Add(ref r0, offset + (Vector<T>.Count * 7));
+                            var vi7 = Unsafe.As<T, Vector<T>>(ref ri7);
+                            var ve7 = Vector.Equals(vi7, vc);
+
+                            partials -= ve7;
+
+                            chunkLength -= Vector<T>.Count * 8;
+                            offset += Vector<T>.Count * 8;
+                        }
+                    }
+
                     while (chunkLength >= Vector<T>.Count)
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
