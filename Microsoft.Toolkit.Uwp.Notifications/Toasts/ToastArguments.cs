@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -68,6 +67,105 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Attempts to get the value of the specified key. If no key exists, returns false.
+        /// </summary>
+        /// <typeparam name="T">The enum to parse.</typeparam>
+        /// <param name="key">The key to find.</param>
+        /// <param name="value">The key's value will be written here if found.</param>
+        /// <returns>True if found the key and set the value, otherwise false.</returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("found")]
+#endif
+        public bool TryGetValue<T>(string key, out T value)
+            where T : struct, Enum
+        {
+            if (TryGetValue(key, out string strValue))
+            {
+                return Enum.TryParse(strValue, out value);
+            }
+
+            value = default(T);
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
+        public string Get(string key)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            if (_dictionary.TryGetValue(key, out string value))
+            {
+                return value;
+            }
+
+            throw new KeyNotFoundException();
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
+        public int GetInt(string key)
+        {
+            return int.Parse(Get(key));
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
+        public double GetDouble(string key)
+        {
+            return double.Parse(Get(key));
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
+        public float GetFloat(string key)
+        {
+            return float.Parse(Get(key));
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
+        public bool GetBool(string key)
+        {
+            return Get(key) == "1" ? true : false;
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <typeparam name="T">The enum to parse.</typeparam>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
+        public T GetEnum<T>(string key)
+            where T : struct, Enum
+        {
+            if (TryGetValue(key, out T value))
+            {
+                return value;
+            }
+
+            throw new KeyNotFoundException();
+        }
+
+        /// <summary>
         /// Gets the number of key/value pairs contained in the toast arguments.
         /// </summary>
         public int Count => _dictionary.Count;
@@ -119,8 +217,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Sets a key and optional value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <param name="value">The optional value of the parameter.</param>
-        public void Set(string key, string value)
+        /// <param name="value">The optional value of the key.</param>
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+        public ToastArguments Set(string key, string value)
         {
             if (key == null)
             {
@@ -128,6 +227,75 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             _dictionary[key] = value;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value of the key.</param>
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+        public ToastArguments Set(string key, int value)
+        {
+            return SetHelper(key, value);
+        }
+
+        /// <summary>
+        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value of the key.</param>
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+        public ToastArguments Set(string key, double value)
+        {
+            return SetHelper(key, value);
+        }
+
+        /// <summary>
+        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value of the key.</param>
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+        public ToastArguments Set(string key, float value)
+        {
+            return SetHelper(key, value);
+        }
+
+        /// <summary>
+        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value of the key.</param>
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+        public ToastArguments Set(string key, bool value)
+        {
+            return Set(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
+        }
+
+        /// <summary>
+        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value of the key. Note that the enums are stored using their numeric value, so be aware that changing your enum number values might break existing activation of toasts currently in Action Center.</param>
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+        public ToastArguments Set(string key, Enum value)
+        {
+            return Set(key, (int)(object)value);
+        }
+
+        private ToastArguments SetHelper(string key, object value)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            _dictionary[key] = value.ToString();
+
+            return this;
         }
 
         /// <summary>

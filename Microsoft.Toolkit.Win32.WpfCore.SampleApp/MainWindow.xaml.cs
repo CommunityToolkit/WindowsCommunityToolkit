@@ -37,10 +37,8 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
                 // Arguments when the user taps body of toast
                 .AddToastActivationInfo(new ToastArguments()
-                {
-                    { "action", "viewConversation" },
-                    { "conversationId", conversationId.ToString() }
-                })
+                    .Set("action", MyToastActions.ViewConversation)
+                    .Set("conversationId", conversationId))
 
                 // Visual content
                 .AddText(title)
@@ -53,22 +51,16 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
                 // Buttons
                 .AddButton("Reply", ToastActivationType.Background, new ToastArguments()
-                {
-                    { "action", "reply" },
-                    { "conversationId", conversationId.ToString() }
-                })
+                    .Set("action", MyToastActions.Reply)
+                    .Set("conversationId", conversationId))
 
                 .AddButton("Like", ToastActivationType.Background, new ToastArguments()
-                {
-                    { "action", "like" },
-                    { "conversationId", conversationId.ToString() }
-                })
+                    .Set("action", MyToastActions.Like)
+                    .Set("conversationId", conversationId))
 
                 .AddButton("View", ToastActivationType.Foreground, new ToastArguments()
-                {
-                    { "action", "viewImage" },
-                    { "imageUrl", image }
-                })
+                    .Set("action", MyToastActions.ViewImage)
+                    .Set("imageUrl", image))
 
                 // And show the toast!
                 .Show();

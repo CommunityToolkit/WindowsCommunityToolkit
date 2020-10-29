@@ -48,71 +48,74 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
                 ToastArguments args = ToastArguments.Parse(e.Argument);
 
                 // See what action is being requested
-                switch (args["action"])
+                if (args.TryGetValue("action", out MyToastActions action))
                 {
-                    // Open the image
-                    case "viewImage":
+                    switch (action)
+                    {
+                        // Open the image
+                        case MyToastActions.ViewImage:
 
-                        // The URL retrieved from the toast args
-                        string imageUrl = args["imageUrl"];
+                            // The URL retrieved from the toast args
+                            string imageUrl = args["imageUrl"];
 
-                        // Make sure we have a window open and in foreground
-                        OpenWindowIfNeeded();
+                            // Make sure we have a window open and in foreground
+                            OpenWindowIfNeeded();
 
-                        // And then show the image
-                        (Current.Windows[0] as MainWindow).ShowImage(imageUrl);
+                            // And then show the image
+                            (Current.Windows[0] as MainWindow).ShowImage(imageUrl);
 
-                        break;
+                            break;
 
-                    // Open the conversation
-                    case "viewConversation":
+                        // Open the conversation
+                        case MyToastActions.ViewConversation:
 
-                        // The conversation ID retrieved from the toast args
-                        int conversationId = int.Parse(args["conversationId"]);
+                            // The conversation ID retrieved from the toast args
+                            int conversationId = args.GetInt("conversationId");
 
-                        // Make sure we have a window open and in foreground
-                        OpenWindowIfNeeded();
+                            // Make sure we have a window open and in foreground
+                            OpenWindowIfNeeded();
 
-                        // And then show the conversation
-                        (Current.Windows[0] as MainWindow).ShowConversation();
+                            // And then show the conversation
+                            (Current.Windows[0] as MainWindow).ShowConversation();
 
-                        break;
+                            break;
 
-                    // Background: Quick reply to the conversation
-                    case "reply":
+                        // Background: Quick reply to the conversation
+                        case MyToastActions.Reply:
 
-                        // Get the response the user typed
-                        string msg = e.UserInput["tbReply"] as string;
+                            // Get the response the user typed
+                            string msg = e.UserInput["tbReply"] as string;
 
-                        // And send this message
-                        ShowToast("Message sent: " + msg);
+                            // And send this message
+                            ShowToast("Message sent: " + msg);
 
-                        // If there's no windows open, exit the app
-                        if (Current.Windows.Count == 0)
-                        {
-                            Current.Shutdown();
-                        }
+                            // If there's no windows open, exit the app
+                            if (Current.Windows.Count == 0)
+                            {
+                                Current.Shutdown();
+                            }
 
-                        break;
+                            break;
 
-                    // Background: Send a like
-                    case "like":
+                        // Background: Send a like
+                        case MyToastActions.Like:
 
-                        ShowToast("Like sent!");
+                            ShowToast("Like sent!");
 
-                        // If there's no windows open, exit the app
-                        if (Current.Windows.Count == 0)
-                        {
-                            Current.Shutdown();
-                        }
+                            // If there's no windows open, exit the app
+                            if (Current.Windows.Count == 0)
+                            {
+                                Current.Shutdown();
+                            }
 
-                        break;
+                            break;
 
-                    default:
+                        default:
 
-                        OpenWindowIfNeeded();
+                            OpenWindowIfNeeded();
 
-                        break;
+                            break;
+                    }
                 }
             });
         }
