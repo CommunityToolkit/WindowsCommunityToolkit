@@ -297,7 +297,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         private static unsafe nint GetUpperBound<T>()
             where T : unmanaged
         {
-            if (typeof(T) == typeof(byte))
+            if (typeof(T) == typeof(sbyte))
             {
                 return sbyte.MaxValue;
             }
