@@ -8,13 +8,31 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button
-            x:Name="ButtonShowToast"
-            Content="Show toast"
-            Click="ButtonShowToast_Click"/>
+        <Grid Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="ButtonPopToast"
+                Content="Pop toast"
+                Click="ButtonPopToast_Click"
+                Margin="0,0,6,0"/>
+            <Button
+                Grid.Column="1"
+                x:Name="ButtonClearToasts"
+                Content="Clear toasts"
+                Click="ButtonClearToasts_Click"
+                Margin="6,0,0,0"/>
+        </Grid>
+
+        <ContentControl
+            x:Name="ContentBody"
+            Grid.Row="1"
+            Margin="20"/>
     </Grid>
 </Window>

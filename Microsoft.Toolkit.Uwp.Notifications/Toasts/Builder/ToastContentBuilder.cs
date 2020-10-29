@@ -64,6 +64,33 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public ToastContentBuilder AddToastActivationInfo(ToastArguments launchArgs)
+        {
+            return AddToastActivationInfo(launchArgs.ToString());
+        }
+
+        /// <summary>
+        /// Add info that can be used by the application when the app was activated/launched by the toast.
+        /// </summary>
+        /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
+        /// <param name="activationType">Set the activation type that will be used when the user click on this toast</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public ToastContentBuilder AddToastActivationInfo(ToastArguments launchArgs, ToastActivationType activationType)
+        {
+            return AddToastActivationInfo(launchArgs.ToString(), activationType);
+        }
+
+        /// <summary>
+        /// Add info that can be used by the application when the app was activated/launched by the toast. Uses foreground activation.
+        /// </summary>
+        /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddToastActivationInfo(string launchArgs)
         {
             return AddToastActivationInfo(launchArgs, ToastActivationType.Foreground);

@@ -53,6 +53,37 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="content">Text to display on the button.</param>
         /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
+        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public ToastContentBuilder AddButton(string content, ToastActivationType activationType, ToastArguments arguments)
+        {
+            return AddButton(content, activationType, arguments.ToString());
+        }
+
+        /// <summary>
+        /// Add a button to the current toast.
+        /// </summary>
+        /// <param name="content">Text to display on the button.</param>
+        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
+        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
+        /// <param name="imageUri">Optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public ToastContentBuilder AddButton(string content, ToastActivationType activationType, ToastArguments arguments, Uri imageUri)
+        {
+            return AddButton(content, activationType, arguments.ToString(), imageUri);
+        }
+
+        /// <summary>
+        /// Add a button to the current toast.
+        /// </summary>
+        /// <param name="content">Text to display on the button.</param>
+        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, string arguments)
@@ -68,9 +99,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
         /// <param name="imageUri">Optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, string arguments, Uri imageUri)
         {
             // Add new button
@@ -85,6 +113,23 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             return AddButton(button);
+        }
+
+        /// <summary>
+        /// Add an button to the toast that will be display to the right of the input text box, achieving a quick reply scenario.
+        /// </summary>
+        /// <param name="textBoxId">ID of an existing <see cref="ToastTextBox"/> in order to have this button display to the right of the input, achieving a quick reply scenario.</param>
+        /// <param name="content">Text to display on the button.</param>
+        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
+        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
+        /// <param name="imageUri">An optional image icon for the button to display (required for buttons adjacent to inputs like quick reply)</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public ToastContentBuilder AddButton(string textBoxId, string content, ToastActivationType activationType, ToastArguments arguments, Uri imageUri)
+        {
+            return AddButton(textBoxId, content, activationType, arguments.ToString(), imageUri);
         }
 
         /// <summary>
