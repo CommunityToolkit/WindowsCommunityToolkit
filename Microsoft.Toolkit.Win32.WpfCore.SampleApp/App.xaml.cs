@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
         private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
         {
-            Dispatcher.Invoke(delegate
+            Dispatcher.Invoke(() =>
             {
                 // If arguments are empty, that means the app title within Action Center was clicked.
                 if (e.Argument.Length == 0)
