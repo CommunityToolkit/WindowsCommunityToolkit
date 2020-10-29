@@ -24,6 +24,7 @@ namespace UnitTests.HighPerformance.Extensions
                 { 9, 10, 11, 12 }
             };
 
+            // See comments in Test_ArrayExtensions.1D for how these tests work
             ref int r0 = ref array.DangerousGetReference();
             ref int r1 = ref array[0, 0];
 
