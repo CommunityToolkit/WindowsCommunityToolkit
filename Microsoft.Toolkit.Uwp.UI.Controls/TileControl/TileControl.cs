@@ -13,13 +13,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
     using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Windows.Foundation;
-    using Windows.Foundation.Metadata;
     using Windows.UI.Composition;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Hosting;
     using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Shapes;
 
     /// <summary>
     /// Orientation of the scroll
@@ -180,13 +178,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The image loaded event.
         /// </summary>
         public event EventHandler ImageLoaded;
-
-        /// <summary>
-        /// Gets a value indicating whether the platform supports Composition.
-        /// </summary>
-        [Obsolete("This property is now obsolete and will be removed in a future version of the Toolkit.")]
-        public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
-                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TileControl"/> class.

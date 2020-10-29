@@ -6,14 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -331,10 +329,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (MoreInfoImage != null && MoreInfoContent.DataContext != null)
             {
                 var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
-                if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
-                {
-                    animation.Configuration = new DirectConnectedAnimationConfiguration();
-                }
+                animation.Configuration = new DirectConnectedAnimationConfiguration();
 
                 _ = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
             }

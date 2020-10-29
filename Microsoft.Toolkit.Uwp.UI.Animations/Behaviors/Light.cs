@@ -13,7 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// Applies a basic point light to a UIElement. You control the intensity by setting the distance of the light.
     /// </summary>
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.CompositionBehaviorBase" />
-    /// <seealso cref="AnimationExtensions.IsLightingSupported"/>
     [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
 
     public class Light : CompositionBehaviorBase<FrameworkElement>
@@ -54,16 +53,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            if (AnimationExtensions.IsLightingSupported)
-            {
-                AssociatedObject?.Light(
-                    duration: Duration,
-                    delay: Delay,
-                    easingType: EasingType,
-                    easingMode: EasingMode,
-                    distance: (float)Distance,
-                    color: ((SolidColorBrush)Color).Color)?.Start();
-            }
+            AssociatedObject?.Light(
+                duration: Duration,
+                delay: Delay,
+                easingType: EasingType,
+                easingMode: EasingMode,
+                distance: (float)Distance,
+                color: ((SolidColorBrush)Color).Color)?.Start();
         }
     }
 }
