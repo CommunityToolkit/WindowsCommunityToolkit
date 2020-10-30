@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="destination">The destination <see cref="Span{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
+        /// Thrown when <paramref name="destination"/> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
         /// </exception>
         public readonly void CopyTo(Span<T> destination)
         {
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             int length = this.length;
 #endif
 
-            if (destination.Length >= length / this.step)
+            if (destination.Length >= length)
             {
                 CopyTo(destination);
 

@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="destination">The destination <see cref="Span{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
+        /// Thrown when <paramref name="destination"/> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
         /// </exception>
         public readonly void CopyTo(Span<T> destination)
         {
@@ -213,9 +213,73 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             int length = this.length;
 #endif
 
-            if (destination.Length >= length / this.step)
+            if (destination.Length >= length)
             {
                 CopyTo(destination);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Copies the contents of a source <see cref="ReadOnlySpan{T}"/> into the current <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <param name="source">The source <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the current <see cref="RefEnumerable{T}"/> is shorter than the source <see cref="ReadOnlySpan{T}"/> instance.
+        /// </exception>
+        internal readonly void CopyFrom(ReadOnlySpan<T> source)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            if (this.step == 1)
+            {
+                source.CopyTo(this.span);
+
+                return;
+            }
+
+            ref T destinationRef = ref this.span.DangerousGetReference();
+            int destinationLength = this.span.Length;
+#else
+            ref T destinationRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+            int destinationLength = this.length;
+#endif
+            ref T sourceRef = ref source.DangerousGetReference();
+            int sourceLength = source.Length;
+
+            if ((uint)destinationLength < (uint)sourceLength)
+            {
+                ThrowArgumentExceptionForDestinationTooShort();
+            }
+
+            nint
+                step = (nint)(uint)this.step,
+                offset = 0;
+
+            for (int i = 0; i < sourceLength; i++, offset += step)
+            {
+                Unsafe.Add(ref destinationRef, i) = Unsafe.Add(ref sourceRef, offset);
+            }
+        }
+
+        /// <summary>
+        /// Attempts to copy the source <see cref="ReadOnlySpan{T}"/> into the current <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <param name="source">The source <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        public readonly bool TryCopyFrom(ReadOnlySpan<T> source)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            int length = this.span.Length;
+#else
+            int length = this.length;
+#endif
+
+            if (length >= source.Length)
+            {
+                CopyFrom(source);
 
                 return true;
             }
