@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -150,28 +149,43 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_ArrayPoolBufferWriterOfT_AsStream()
         {
+            const int GuidSize = 16;
+
             var writer = new ArrayPoolBufferWriter<byte>();
+            var guid = Guid.NewGuid();
 
-            Span<byte> data = Guid.NewGuid().ToByteArray();
+            // Here we first get a stream with the extension targeting ArrayPoolBufferWriter<T>.
+            // This will wrap it into a custom internal stream type and produce a write-only
+            // stream that essentially mirrors the IBufferWriter<T> functionality as a stream.
+            using (Stream writeStream = writer.AsStream())
+            {
+                writeStream.Write(guid);
+            }
 
-            data.CopyTo(writer.GetSpan(data.Length));
+            Assert.AreEqual(writer.WrittenCount, GuidSize);
 
-            writer.Advance(data.Length);
+            // Here we get a readable stream instead, and read from it to ensure
+            // the previous data was written correctly from the writeable stream.
+            using (Stream stream = writer.WrittenMemory.AsStream())
+            {
+                Assert.AreEqual(stream.Length, GuidSize);
 
-            Assert.AreEqual(writer.WrittenCount, data.Length);
+                byte[] result = new byte[GuidSize];
 
-            Stream stream = ((IMemoryOwner<byte>)writer).AsStream();
+                stream.Read(result, 0, result.Length);
 
-            Assert.AreEqual(stream.Length, data.Length);
+                // Read the guid data and ensure it matches our initial guid
+                Assert.IsTrue(new Guid(result).Equals(guid));
+            }
 
-            byte[] result = new byte[16];
+            // Do a dummy write just to ensure the writer isn't disposed here.
+            // This is because we got a stream from a memory, not a memory owner.
+            writer.Write((byte)42);
+            writer.Advance(1);
 
-            stream.Read(result, 0, result.Length);
+            writer.Dispose();
 
-            Assert.IsTrue(data.SequenceEqual(result));
-
-            stream.Dispose();
-
+            // Now check that the writer is actually disposed instead
             Assert.ThrowsException<ObjectDisposedException>(() => writer.Capacity);
         }
     }

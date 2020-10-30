@@ -22,6 +22,8 @@ namespace UnitTests.HighPerformance.Streams
         {
             ArrayPoolBufferWriter<byte> writer = new ArrayPoolBufferWriter<byte>();
 
+            // Get a stream from a buffer writer aand validate that it can only be written to.
+            // This is to mirror the same functionality as the IBufferWriter<T> interface.
             Stream stream = ((IBufferWriter<byte>)writer).AsStream();
 
             Assert.IsFalse(stream.CanRead);
@@ -31,6 +33,7 @@ namespace UnitTests.HighPerformance.Streams
             Assert.ThrowsException<NotSupportedException>(() => stream.Length);
             Assert.ThrowsException<NotSupportedException>(() => stream.Position);
 
+            // Dispose the stream and check that no operation is now allowed
             stream.Dispose();
 
             Assert.IsFalse(stream.CanRead);
@@ -49,11 +52,14 @@ namespace UnitTests.HighPerformance.Streams
 
             byte[] data = Test_MemoryStream.CreateRandomData(64);
 
+            // Write random data to the stream wrapping the buffer writer, and validate
+            // that the state of the writer is consistent, and the written content matches.
             stream.Write(data, 0, data.Length);
 
             Assert.AreEqual(writer.WrittenCount, data.Length);
             Assert.IsTrue(writer.WrittenSpan.SequenceEqual(data));
 
+            // A few tests with invalid inputs (null buffers, invalid indices, etc.)
             Assert.ThrowsException<ArgumentNullException>(() => stream.Write(null, 0, 10));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => stream.Write(data, -1, 10));
             Assert.ThrowsException<ArgumentException>(() => stream.Write(data, 200, 10));
@@ -74,6 +80,7 @@ namespace UnitTests.HighPerformance.Streams
 
             byte[] data = Test_MemoryStream.CreateRandomData(64);
 
+            // Same test as above, but using an asynchronous write instead
             await stream.WriteAsync(data, 0, data.Length);
 
             Assert.AreEqual(writer.WrittenCount, data.Length);
@@ -102,11 +109,15 @@ namespace UnitTests.HighPerformance.Streams
 
             foreach (var item in data.Enumerate())
             {
+                // Since we're enumerating, we can also double check the current written count
+                // at each iteration, to ensure the writes are done correctly every time.
                 Assert.AreEqual(writer.WrittenCount, item.Index);
 
+                // Write a number of bytes one by one to test this API as well
                 stream.WriteByte(item.Value);
             }
 
+            // Validate the final written length and actual data
             Assert.AreEqual(writer.WrittenCount, data.Length);
             Assert.IsTrue(data.SequenceEqual(writer.WrittenSpan));
 
@@ -140,6 +151,7 @@ namespace UnitTests.HighPerformance.Streams
 
             Memory<byte> data = Test_MemoryStream.CreateRandomData(64);
 
+            // Same as the other asynchronous test above, but writing from a Memory<T>
             await stream.WriteAsync(data);
 
             Assert.AreEqual(writer.WrittenCount, data.Length);
