@@ -112,8 +112,61 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         }
 
         /// <summary>
+        /// Copies a sequence of discontiguous items from one memory area to another.
+        /// </summary>
+        /// <typeparam name="T">The type of items to copy.</typeparam>
+        /// <param name="sourceRef">The source reference to copy from.</param>
+        /// <param name="destinationRef">The target reference to copy to.</param>
+        /// <param name="length">The total number of items to copy.</param>
+        /// <param name="sourceStep">The step between consecutive items in the memory area pointed to by <paramref name="sourceRef"/>.</param>
+        /// <param name="destinationStep">The step between consecutive items in the memory area pointed to by <paramref name="destinationRef"/>.</param>
+        public static void CopyTo<T>(ref T sourceRef, ref T destinationRef, nint length, nint sourceStep, nint destinationStep)
+        {
+            nint
+                sourceOffset = 0,
+                destinationOffset = 0;
+
+            while (length >= 8)
+            {
+                Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+
+                length -= 8;
+                sourceOffset += sourceStep;
+                destinationOffset += destinationStep;
+            }
+
+            if (length >= 4)
+            {
+                Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset += destinationStep) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+
+                length -= 4;
+                sourceOffset += sourceStep;
+                destinationOffset += destinationStep;
+            }
+
+            while (length > 0)
+            {
+                Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
+
+                length -= 1;
+                sourceOffset += sourceStep;
+                destinationOffset += destinationStep;
+            }
+        }
+
+        /// <summary>
         /// Copies a sequence of discontiguous items from one memory area to another. This mirrors
-        /// <see cref="CopyTo"/>, but <paramref name="step"/> refers to <paramref name="destinationRef"/> instead.
+        /// <see cref="CopyTo{T}(ref T,ref T,nint,nint)"/>, but <paramref name="step"/> refers to <paramref name="destinationRef"/> instead.
         /// </summary>
         /// <typeparam name="T">The type of items to copy.</typeparam>
         /// <param name="sourceRef">The source reference to copy from.</param>
