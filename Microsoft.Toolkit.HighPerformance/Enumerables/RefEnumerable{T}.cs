@@ -157,6 +157,78 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         }
 
         /// <summary>
+        /// Copies the contents of this <see cref="RefEnumerable{T}"/> into a destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <param name="destination">The destination <see cref="RefEnumerable{T}"/> instance.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="destination"/> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
+        /// </exception>
+        public readonly void CopyTo(RefEnumerable<T> destination)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            if (this.Step == 1)
+            {
+                destination.CopyFrom(this.Span);
+
+                return;
+            }
+
+            if (destination.Step == 1)
+            {
+                CopyTo(destination.Span);
+
+                return;
+            }
+
+            ref T sourceRef = ref this.Span.DangerousGetReference();
+            ref T destinationRef = ref destination.Span.DangerousGetReference();
+            int
+                sourceLength = this.Span.Length,
+                destinationLength = destination.Span.Length;
+#else
+            ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
+            ref T destinationRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(destination.Instance, destination.Offset);
+            int
+                sourceLength = this.Length,
+                destinationLength = destination.Length;
+#endif
+
+            if ((uint)destinationLength < (uint)sourceLength)
+            {
+                ThrowArgumentExceptionForDestinationTooShort();
+            }
+
+            RefEnumerableHelper.CopyTo(ref sourceRef, ref destinationRef, (nint)(uint)sourceLength, (nint)(uint)this.Step, (nint)(uint)destination.Step);
+        }
+
+        /// <summary>
+        /// Attempts to copy the current <see cref="RefEnumerable{T}"/> instance to a destination <see cref="RefEnumerable{T}"/>.
+        /// </summary>
+        /// <param name="destination">The target <see cref="RefEnumerable{T}"/> of the copy operation.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        public readonly bool TryCopyTo(RefEnumerable<T> destination)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            int
+                sourceLength = this.Span.Length,
+                destinationLength = destination.Span.Length;
+#else
+            int
+                sourceLength = this.Length,
+                destinationLength = destination.Length;
+#endif
+
+            if (destinationLength >= sourceLength)
+            {
+                CopyTo(destination);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Copies the contents of this <see cref="RefEnumerable{T}"/> into a destination <see cref="Span{T}"/> instance.
         /// </summary>
         /// <param name="destination">The destination <see cref="Span{T}"/> instance.</param>
