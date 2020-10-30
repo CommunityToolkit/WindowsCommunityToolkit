@@ -27,6 +27,9 @@ namespace UnitTests.Mvvm
 
             model.Name = "No";
 
+            // Verify that errors were correctly reported as changed, and that all the relevant
+            // properties were broadcast as well (both the changed property and HasErrors). We need
+            // this last one to raise notifications too so that users can bind to that in the UI.
             Assert.IsTrue(model.HasErrors);
             Assert.AreEqual(args.Count, 2);
             Assert.AreEqual(args[0].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
