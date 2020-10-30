@@ -130,6 +130,12 @@ namespace UnitTests.HighPerformance.Buffers
         {
             var buffer = MemoryOwner<int>.Allocate(127);
 
+            // Here we allocate a MemoryOwner<T> instance with a requested size of 127, which means it
+            // internally requests an array of size 127 from ArrayPool<T>.Shared. We then get the array
+            // segment, so we need to verify that (since buffer is not disposed) the returned array is
+            // not null, is of size >= the requested one (since ArrayPool<T> by definition returns an
+            // array that is at least of the requested size), and that the offset and count properties
+            // match our input values (same length, and offset at 0 since the buffer was not sliced).
             var segment = buffer.DangerousGetArray();
 
             Assert.IsNotNull(segment.Array);
@@ -139,10 +145,14 @@ namespace UnitTests.HighPerformance.Buffers
 
             var second = buffer.Slice(10, 80);
 
+            // The original buffer instance is disposed here, because calling Slice transfers
+            // the ownership of the internal buffer to the new instance (this is documented in
+            // XML docs for the MemoryOwner<T>.Slice method).
             Assert.ThrowsException<ObjectDisposedException>(() => buffer.DangerousGetArray());
 
             segment = second.DangerousGetArray();
 
+            // Same as before, but we now also verify the initial offset != 0, as we used Slice
             Assert.IsNotNull(segment.Array);
             Assert.IsTrue(segment.Array.Length >= second.Length);
             Assert.AreEqual(segment.Offset, 10);

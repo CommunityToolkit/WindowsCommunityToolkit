@@ -88,6 +88,10 @@ namespace UnitTests.HighPerformance.Buffers
 
             var segment = buffer.DangerousGetArray();
 
+            // See comments in the MemoryOwner<T> tests about this. The main difference
+            // here is that we don't do the disposed checks, as SpanOwner<T> is optimized
+            // with the assumption that usages after dispose are undefined behavior. This
+            // is all documented in the XML docs for the SpanOwner<T> type.
             Assert.IsNotNull(segment.Array);
             Assert.IsTrue(segment.Array.Length >= buffer.Length);
             Assert.AreEqual(segment.Offset, 0);
