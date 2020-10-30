@@ -29,7 +29,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public static ToastContent GenerateToastContent()
         {
             var builder = new ToastContentBuilder().SetToastScenario(ToastScenario.Reminder)
-                .AddToastActivationInfo("action=viewEvent&eventId=1983", ToastActivationType.Foreground)
+                .AddToastActivationInfo(new ToastArguments()
+                    .Set("action", "viewEvent")
+                    .Set("eventId", 1983))
                 .AddText("Adaptive Tiles Meeting")
                 .AddText("Conf Room 2001 / Building 135")
                 .AddText("10:00 AM - 10:30 AM")
