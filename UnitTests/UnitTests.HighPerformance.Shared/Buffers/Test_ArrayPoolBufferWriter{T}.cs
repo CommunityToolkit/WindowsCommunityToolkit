@@ -40,7 +40,14 @@ namespace UnitTests.HighPerformance.Buffers
         {
             using var writer = new ArrayPoolBufferWriter<byte>();
 
-            writer.GetSpan(request);
+            // Request a Span<T> of a specified size and discard it. We're just invoking this
+            // method to force the ArrayPoolBufferWriter<T> instance to internally resize the
+            // buffer to ensure it can contain at least this number of items. After this, we
+            // can use reflection to get the internal array and ensure the size equals the
+            // expected one, which matches the "round up to power of 2" logic we need. This
+            // is documented within the resize method in ArrayPoolBufferWriter<T>, and it's
+            // done to prevent repeated allocations of arrays in some scenarios.
+            _ = writer.GetSpan(request);
 
             var arrayFieldInfo = typeof(ArrayPoolBufferWriter<byte>).GetField("array", BindingFlags.Instance | BindingFlags.NonPublic);
 
