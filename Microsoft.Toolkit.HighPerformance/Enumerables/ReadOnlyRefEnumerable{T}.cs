@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
@@ -21,7 +20,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that iterates readonly items from arbitrary memory locations.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [EditorBrowsable(EditorBrowsableState.Never)]
     public ref struct ReadOnlyRefEnumerable<T>
     {
 #if SPAN_RUNTIME_SUPPORT
