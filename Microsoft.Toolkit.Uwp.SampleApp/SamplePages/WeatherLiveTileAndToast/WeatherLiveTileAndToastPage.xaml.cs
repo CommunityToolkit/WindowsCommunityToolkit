@@ -75,8 +75,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Small Tile
             builder.AddTile(Notifications.TileSize.Small)
                 .SetTextStacking(TileTextStacking.Center, Notifications.TileSize.Small)
-                .AddText("Mon", hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)
-                .AddText("63°", hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);
+                .AddText("Mon", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)
+                .AddText("63°", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);
 
             // Medium Tile
             builder.AddTile(Notifications.TileSize.Medium)
