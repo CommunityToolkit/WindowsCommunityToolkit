@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.Toolkit.HighPerformance.Streams;
 using Microsoft.Toolkit.HighPerformance.Streams.Sources;
 
@@ -28,6 +29,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this IBufferWriter<byte> writer)
         {
+            if (writer.GetType() == typeof(ArrayPoolBufferWriter<byte>))
+            {
+                // If the input writer is of type ArrayPoolBufferWriter<byte>, we can use the type
+                // specific buffer writer owner to let the JIT elide callvirts when accessing it.
+                var internalWriter = Unsafe.As<ArrayPoolBufferWriter<byte>>(writer);
+
+                return new IBufferWriterStream<ArrayBufferWriterOwner>(new ArrayBufferWriterOwner(internalWriter));
+            }
+
             return new IBufferWriterStream<IBufferWriterOwner>(new IBufferWriterOwner(writer));
         }
 
