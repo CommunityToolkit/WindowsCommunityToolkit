@@ -272,6 +272,34 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// Copies the contents of a given <see cref="Span{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the destination <see cref="RefEnumerable{T}"/> is shorter than the source <see cref="Span{T}"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CopyTo<T>(this Span<T> span, RefEnumerable<T> destination)
+        {
+            destination.CopyFrom(span);
+        }
+
+        /// <summary>
+        /// Attempts to copy the contents of a given <see cref="Span{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryCopyTo<T>(this Span<T> span, RefEnumerable<T> destination)
+        {
+            return destination.TryCopyFrom(span);
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the given reference is out of range.
         /// </summary>
         internal static void ThrowArgumentOutOfRangeExceptionForInvalidReference()

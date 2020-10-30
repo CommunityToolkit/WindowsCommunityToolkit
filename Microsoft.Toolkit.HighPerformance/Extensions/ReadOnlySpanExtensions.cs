@@ -380,5 +380,33 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }
+
+        /// <summary>
+        /// Copies the contents of a given <see cref="ReadOnlySpan{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the destination <see cref="RefEnumerable{T}"/> is shorter than the source <see cref="ReadOnlySpan{T}"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CopyTo<T>(this ReadOnlySpan<T> span, RefEnumerable<T> destination)
+        {
+            destination.CopyFrom(span);
+        }
+
+        /// <summary>
+        /// Attempts to copy the contents of a given <see cref="ReadOnlySpan{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryCopyTo<T>(this ReadOnlySpan<T> span, RefEnumerable<T> destination)
+        {
+            return destination.TryCopyFrom(span);
+        }
     }
 }
