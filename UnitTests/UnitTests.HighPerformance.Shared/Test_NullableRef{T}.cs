@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if NETCOREAPP3_1
+#if NETCOREAPP2_1 || NETCOREAPP3_1
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -23,6 +23,9 @@ namespace UnitTests.HighPerformance
             int value = 1;
             var reference = new NullableRef<int>(ref value);
 
+            // Create a NullableRef<T> to a local, then validate that the ref
+            // has value (as in, the ref T is not null), and that the reference
+            // does match and correctly points to the local variable above.
             Assert.IsTrue(reference.HasValue);
             Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
 
@@ -35,6 +38,8 @@ namespace UnitTests.HighPerformance
         [TestMethod]
         public void Test_NullableRefOfT_CreateNullableRefOfT_Null()
         {
+            // Validate that different methods of creating a nullable ref
+            // are all correctly reported as not having a valid value.
             Assert.IsFalse(default(NullableRef<int>).HasValue);
             Assert.IsFalse(NullableRef<int>.Null.HasValue);
 
@@ -49,6 +54,11 @@ namespace UnitTests.HighPerformance
         {
             NullableRef<int> reference = default;
 
+            // We try to access the value to trigger the null reference check within the
+            // NullableRef<T> type. The type should correctly detect that a null reference
+            // is wrapped, and throw an InvalidOperationException (not a NullReferenceException).
+            // This is consistent with how Nullable<T> works in the BCL as well (the type that
+            // is used to represent nullable value types).
             _ = reference.Value;
         }
 
@@ -60,6 +70,8 @@ namespace UnitTests.HighPerformance
             var reference = new Ref<int>(ref value);
             NullableRef<int> nullableRef = reference;
 
+            // Verify that the inplicit Ref<T> ==> NullableRef<T> conversion works properly.
+            // The value should be available, and the internal ref should remain the same.
             Assert.IsTrue(nullableRef.HasValue);
             Assert.IsTrue(Unsafe.AreSame(ref reference.Value, ref nullableRef.Value));
         }
@@ -71,6 +83,9 @@ namespace UnitTests.HighPerformance
             int value = 42;
             var reference = new NullableRef<int>(ref value);
 
+            // Test the value equality by using the implicit T operator for NullableRef<T>.
+            // As in, just like with normal refs, NullableRef<T> has automatic dereferencing,
+            // and when cast to T it will dereference the internal ref and return th T value.
             Assert.AreEqual(value, (int)reference);
         }
 
@@ -81,6 +96,9 @@ namespace UnitTests.HighPerformance
         {
             NullableRef<int> invalid = default;
 
+            // Same as above, but trying to dereference should throw an InvalidOperationException
+            // since our NullableRef<T> here wraps a null reference. The value is discarded because
+            // here we just need to trigger the implicit operator to verify the exception is thrown.
             _ = (int)invalid;
         }
     }

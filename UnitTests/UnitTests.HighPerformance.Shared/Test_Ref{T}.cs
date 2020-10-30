@@ -23,10 +23,13 @@ namespace UnitTests.HighPerformance
             var model = new FieldOwner { Value = 1 };
             var reference = new Ref<int>(model, ref model.Value);
 
+            // Create a Ref<T> wrapping a ref to a field in an object and validate that
+            // the returned ref does indeed match one to that field directly.
             Assert.IsTrue(Unsafe.AreSame(ref model.Value, ref reference.Value));
 
             reference.Value++;
 
+            // We increment the ref, and then verify the target field was updated correctly
             Assert.AreEqual(model.Value, 2);
         }
 
@@ -39,6 +42,8 @@ namespace UnitTests.HighPerformance
             public int Value;
         }
 
+        // Helper method that creates a Ref<T> to the first item of a T[] array, on UWP. In this
+        // case (portable version) we need to use both the target object, and an interior reference.
         [Pure]
         private static Ref<T> CreateRefFromArray<T>(T[] array)
         {
@@ -52,6 +57,7 @@ namespace UnitTests.HighPerformance
             int value = 1;
             var reference = new Ref<int>(ref value);
 
+            // Same as the UWP version above, but directly wrapping the target ref
             Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
 
             reference.Value++;
@@ -59,6 +65,7 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(value, 2);
         }
 
+        // Same as above, but here we can directly wrap the target ref
         [Pure]
         private static Ref<T> CreateRefFromArray<T>(T[] array)
         {
@@ -72,6 +79,7 @@ namespace UnitTests.HighPerformance
             int value = 1;
             var reference = new Ref<int>(&value);
 
+            // Same as above, but this time we wrap a raw pointer to a local instead
             Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
 
             reference.Value++;
@@ -86,6 +94,9 @@ namespace UnitTests.HighPerformance
         {
             var reference = new Ref<string>((void*)0);
 
+            // Creating a Ref<T> from a pointer when T is a managed type (eg. string) is not
+            // allowed (this is consistent with APIs from the BCL such as Span<T>). So the
+            // constructor above should always throw an ArgumentException.
             Assert.Fail();
         }
 #endif
@@ -97,6 +108,11 @@ namespace UnitTests.HighPerformance
             int[] array = { 1, 2, 3, 4, 5 };
             Ref<int> reference = CreateRefFromArray(array);
 
+            // We created a Ref<T> pointing to the first item of the target array, so here
+            // we test a number of ref accesses (both directly to the target ref, as well as
+            // using the helper indexers to do pointer arithmetic) to validate their results.
+            // Doing Ref<T>[i] is conceptually eqivalent to doing p[i] on a given T* pointer,
+            // so here we compare these offsetting operations with refs from the target array.
             Assert.IsTrue(Unsafe.AreSame(ref array[0], ref reference.Value));
             Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference[3]));
             Assert.IsTrue(Unsafe.AreSame(ref array[3], ref reference[(IntPtr)3]));

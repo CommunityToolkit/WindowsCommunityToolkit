@@ -12,6 +12,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance
 {
+    /* ====================================================================
+     *                                 NOTE
+     * ====================================================================
+     * All thests here mirror the ones for NullableRef<T>, as the two types
+     * are the same except for the fact that this wraps a readonly ref. See
+     * comments in the NullableRef<T> test file for more info on these tests. */
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_NullableReadOnlyRefOfT
