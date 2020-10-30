@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// The current position in the sequence.
         /// </summary>
-        private int position;
+        internal int Position;
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             Span = MemoryMarshal.CreateSpan(ref reference, length);
             Step = step;
 
-            this.position = -1;
+            this.Position = -1;
         }
 #else
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             Length = length;
             Step = step;
 
-            this.position = -1;
+            this.Position = -1;
         }
 #endif
 
@@ -103,9 +103,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         public bool MoveNext()
         {
 #if SPAN_RUNTIME_SUPPORT
-            return ++this.position < this.Span.Length;
+            return ++this.Position < this.Span.Length;
 #else
-            return ++this.position < this.Length;
+            return ++this.Position < this.Length;
 #endif
         }
 
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 // being inspected. We can perform all the indexing operations in this type as nint,
                 // as the maximum offset is guaranteed never to exceed the maximum value, since on
                 // 32 bit architectures it's not possible to allocate that much memory anyway.
-                nint offset = (nint)(uint)this.position * (nint)(uint)this.Step;
+                nint offset = (nint)(uint)this.Position * (nint)(uint)this.Step;
                 ref T ri = ref Unsafe.Add(ref r0, offset);
 
                 return ref ri;

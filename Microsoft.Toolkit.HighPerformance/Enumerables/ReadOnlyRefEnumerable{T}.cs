@@ -62,6 +62,20 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
         /// </summary>
+        /// <param name="span">The <see cref="ReadOnlySpan{T}"/> instance pointing to the first item in the target memory area.</param>
+        /// <param name="step">The distance between items in the sequence to enumerate.</param>
+        /// <param name="position">The current position in the sequence.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ReadOnlyRefEnumerable(ReadOnlySpan<T> span, int step, int position)
+        {
+            this.span = span;
+            this.step = step;
+            this.position = position;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
+        /// </summary>
         /// <param name="reference">A reference to the first item of the sequence.</param>
         /// <param name="length">The number of items in the sequence.</param>
         /// <param name="step">The distance between items in the sequence to enumerate.</param>
@@ -73,6 +87,24 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             this.position = -1;
         }
 #else
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
+        /// </summary>
+        /// <param name="instance">The target <see cref="object"/> instance.</param>
+        /// <param name="offset">The initial offset within <see paramref="instance"/>.</param>
+        /// <param name="length">The number of items in the sequence.</param>
+        /// <param name="step">The distance between items in the sequence to enumerate.</param>
+        /// <param name="position">The current position in the sequence.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ReadOnlyRefEnumerable(object? instance, IntPtr offset, int length, int step, int position)
+        {
+            this.instance = instance;
+            this.offset = offset;
+            this.length = length;
+            this.step = step;
+            this.position = position;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
         /// </summary>
@@ -202,6 +234,20 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             CopyTo(array);
 
             return array;
+        }
+
+        /// <summary>
+        /// Implicitly converts a <see cref="RefEnumerable{T}"/> instance into a <see cref="ReadOnlyRefEnumerable{T}"/> one.
+        /// </summary>
+        /// <param name="enumerable">The input <see cref="RefEnumerable{T}"/> instance.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ReadOnlyRefEnumerable<T>(RefEnumerable<T> enumerable)
+        {
+#if SPAN_RUNTIME_SUPPORT
+            return new ReadOnlyRefEnumerable<T>(enumerable.Span, enumerable.Step, enumerable.Position);
+#else
+            return new ReadOnlyRefEnumerable<T>(enumerable.Instance, enumerable.Offset, enumerable.Length, enumerable.Position);
+#endif
         }
 
         /// <summary>
