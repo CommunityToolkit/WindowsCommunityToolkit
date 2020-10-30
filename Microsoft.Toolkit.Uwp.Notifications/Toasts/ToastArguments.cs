@@ -6,7 +6,7 @@ using System.Linq;
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// A portable string serializer/deserializer for .NET.
+    /// A class that supports serializing simple key/value pairs into a format that's friendly for being used within toast notifications. The serialized format is similar to a query string, however optimized for being placed within an XML property (uses semicolons instead of ampersands since those don't need to be XML-escaped, doesn't url-encode all special characters since not being used within a URL, etc).
     /// </summary>
     public sealed class ToastArguments : IEnumerable<KeyValuePair<string, string>>
     {
@@ -66,6 +66,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return _dictionary.TryGetValue(key, out value);
         }
 
+#if !WINRT
         /// <summary>
         /// Attempts to get the value of the specified key. If no key exists, returns false.
         /// </summary>
@@ -73,9 +74,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="key">The key to find.</param>
         /// <param name="value">The key's value will be written here if found.</param>
         /// <returns>True if found the key and set the value, otherwise false.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("found")]
-#endif
         public bool TryGetValue<T>(string key, out T value)
             where T : struct, Enum
         {
@@ -87,6 +85,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             value = default(T);
             return false;
         }
+#endif
 
         /// <summary>
         /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
@@ -143,11 +142,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="key">The key to get.</param>
         /// <returns>The value of the key.</returns>
+        public byte GetByte(string key)
+        {
+            return byte.Parse(Get(key));
+        }
+
+        /// <summary>
+        /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
+        /// </summary>
+        /// <param name="key">The key to get.</param>
+        /// <returns>The value of the key.</returns>
         public bool GetBool(string key)
         {
             return Get(key) == "1" ? true : false;
         }
 
+#if !WINRT
         /// <summary>
         /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
         /// </summary>
@@ -164,6 +174,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             throw new KeyNotFoundException();
         }
+#endif
 
         /// <summary>
         /// Gets the number of key/value pairs contained in the toast arguments.
@@ -203,7 +214,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Sets a key. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
-        public void Set(string key)
+        /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
+#endif
+        public ToastArguments Set(string key)
         {
             if (key == null)
             {
@@ -211,6 +226,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             _dictionary[key] = null;
+
+            return this;
         }
 
         /// <summary>
@@ -219,6 +236,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The optional value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
+#endif
         public ToastArguments Set(string key, string value)
         {
             if (key == null)
@@ -237,6 +258,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
+#endif
         public ToastArguments Set(string key, int value)
         {
             return SetHelper(key, value);
@@ -248,6 +272,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
+#endif
         public ToastArguments Set(string key, double value)
         {
             return SetHelper(key, value);
@@ -259,6 +286,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
+#endif
         public ToastArguments Set(string key, float value)
         {
             return SetHelper(key, value);
@@ -270,11 +300,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
+#endif
         public ToastArguments Set(string key, bool value)
         {
             return Set(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
         }
 
+#if !WINRT
         /// <summary>
         /// Sets a key and value. If there is an existing key, it is replaced.
         /// </summary>
@@ -285,6 +319,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             return Set(key, (int)(object)value);
         }
+#endif
 
         private ToastArguments SetHelper(string key, object value)
         {
@@ -347,18 +382,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return _dictionary.Remove(key);
         }
 
-        private static string UrlEncode(string str)
+        private static string Encode(string str)
         {
-            return Uri.EscapeDataString(str)
-
-                // It incorrectly encodes spaces as %20, should use +
-                .Replace("%20", "+");
+            return str
+                .Replace("%", "%25")
+                .Replace(";", "%3B")
+                .Replace("=", "%3D");
         }
 
-        private static string UrlDecode(string str)
+        private static string Decode(string str)
         {
-            // Doesn't handle decoding the +, so we manually do that
-            return Uri.UnescapeDataString(str.Replace('+', ' '));
+            return str
+                .Replace("%25", "%")
+                .Replace("%3B", ";")
+                .Replace("%3D", "=");
         }
 
         /// <summary>
@@ -373,7 +410,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 return new ToastArguments();
             }
 
-            string[] pairs = toastArgumentsStr.Split('&');
+            string[] pairs = toastArgumentsStr.Split(';');
 
             ToastArguments answer = new ToastArguments();
 
@@ -386,13 +423,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 if (indexOfEquals == -1)
                 {
-                    name = UrlDecode(pair);
+                    name = Decode(pair);
                     value = null;
                 }
                 else
                 {
-                    name = UrlDecode(pair.Substring(0, indexOfEquals));
-                    value = UrlDecode(pair.Substring(indexOfEquals + 1));
+                    name = Decode(pair.Substring(0, indexOfEquals));
+                    value = Decode(pair.Substring(indexOfEquals + 1));
                 }
 
                 answer.Add(name, value);
@@ -407,13 +444,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>A string that can be used within a toast notification.</returns>
         public sealed override string ToString()
         {
-            return string.Join("&", this.Select(pair =>
+            return string.Join(";", this.Select(pair =>
 
                     // Key
-                    UrlEncode(pair.Key) +
+                    Encode(pair.Key) +
 
                     // Write value if not null
-                    ((pair.Value == null) ? string.Empty : ("=" + UrlEncode(pair.Value)))));
+                    ((pair.Value == null) ? string.Empty : ("=" + Encode(pair.Value)))));
         }
 
         /// <summary>
