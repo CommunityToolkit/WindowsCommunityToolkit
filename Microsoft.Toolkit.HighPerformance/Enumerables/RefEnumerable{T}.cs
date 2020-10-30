@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 #if !SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
@@ -151,14 +152,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
             int length = this.length;
 #endif
-            nint
-                step = (nint)(uint)this.step,
-                offset = 0;
 
-            for (int i = length; i > 0; i--, offset += step)
-            {
-                Unsafe.Add(ref r0, offset) = default!;
-            }
+            RefEnumerableHelper.Clear(ref r0, (nint)(uint)length, (nint)(uint)this.step);
         }
 
         /// <summary>
@@ -190,14 +185,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             }
 
             ref T destinationRef = ref destination.DangerousGetReference();
-            nint
-                step = (nint)(uint)this.step,
-                offset = 0;
 
-            for (int i = 0; i < length; i++, offset += step)
-            {
-                Unsafe.Add(ref destinationRef, i) = Unsafe.Add(ref sourceRef, offset);
-            }
+            RefEnumerableHelper.CopyTo(ref sourceRef, ref destinationRef, (nint)(uint)length, (nint)(uint)this.step);
         }
 
         /// <summary>
@@ -254,14 +243,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 ThrowArgumentExceptionForDestinationTooShort();
             }
 
-            nint
-                step = (nint)(uint)this.step,
-                offset = 0;
-
-            for (int i = 0; i < sourceLength; i++, offset += step)
-            {
-                Unsafe.Add(ref destinationRef, i) = Unsafe.Add(ref sourceRef, offset);
-            }
+            RefEnumerableHelper.CopyFrom(ref sourceRef, ref destinationRef, (nint)(uint)sourceLength, (nint)(uint)this.step);
         }
 
         /// <summary>
@@ -312,14 +294,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             int length = this.length;
 #endif
 
-            nint
-                step = (nint)(uint)this.step,
-                offset = 0;
-
-            for (int i = length; i > 0; i--, offset += step)
-            {
-                Unsafe.Add(ref r0, offset) = value;
-            }
+            RefEnumerableHelper.Fill(ref r0, (nint)(uint)length, (nint)(uint)this.step, value);
         }
 
         /// <summary>

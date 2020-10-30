@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 #if !SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
@@ -153,14 +154,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             }
 
             ref T destinationRef = ref destination.DangerousGetReference();
-            nint
-                step = (nint)(uint)this.step,
-                offset = 0;
 
-            for (int i = 0; i < length; i++, offset += step)
-            {
-                Unsafe.Add(ref destinationRef, i) = Unsafe.Add(ref sourceRef, offset);
-            }
+            RefEnumerableHelper.CopyTo(ref sourceRef, ref destinationRef, (nint)(uint)length, (nint)(uint)this.step);
         }
 
         /// <summary>
