@@ -267,5 +267,35 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(result, tokens);
         }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_CopyTo_RefEnumerable()
+        {
+            int[,] array1 = new int[4, 5];
+
+            ReadOnlySpan<int> values = new[] { 10, 20, 30, 40, 50 };
+
+            // Copy a span to a target row and column with valid lengths
+            values.CopyTo(array1.GetRow(0));
+            values.Slice(0, 4).CopyTo(array1.GetColumn(1));
+
+            // Try to copy to a valid row and an invalid column (too short for the source span)
+            bool shouldBeTrue = values.TryCopyTo(array1.GetRow(2));
+            bool shouldBeFalse = values.TryCopyTo(array1.GetColumn(1));
+
+            Assert.IsTrue(shouldBeTrue);
+            Assert.IsFalse(shouldBeFalse);
+
+            int[,] result =
+            {
+                { 10, 10, 30, 40, 50 },
+                { 0, 20, 0, 0, 0 },
+                { 10, 20, 30, 40, 50 },
+                { 0, 40, 0, 0, 0 }
+            };
+
+            CollectionAssert.AreEqual(array1, result);
+        }
     }
 }

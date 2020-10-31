@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -692,6 +693,8 @@ namespace UnitTests.HighPerformance.Memory
 
             CollectionAssert.AreEqual(enumerable.ToArray(), expected);
 
+            Assert.AreSame(default(ReadOnlyRefEnumerable<int>).ToArray(), Array.Empty<int>());
+
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRow(-1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRow(2));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRow(1000));
@@ -831,6 +834,84 @@ namespace UnitTests.HighPerformance.Memory
             var enumerator = ReadOnlySpan2D<int>.Empty.GetEnumerator();
 
             Assert.IsFalse(enumerator.MoveNext());
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
+        public void Test_ReadOnlySpan2DT_ReadOnlyRefEnumerable_Misc()
+        {
+            int[,] array1 =
+            {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 }
+            };
+
+            ReadOnlySpan2D<int> span1 = array1;
+
+            int[,] array2 = new int[4, 4];
+
+            // Copy to enumerable with source step == 1, destination step == 1
+            span1.GetRow(0).CopyTo(array2.GetRow(0));
+
+            // Copy enumerable with source step == 1, destination step != 1
+            span1.GetRow(1).CopyTo(array2.GetColumn(1));
+
+            // Copy enumerable with source step != 1, destination step == 1
+            span1.GetColumn(2).CopyTo(array2.GetRow(2));
+
+            // Copy enumerable with source step != 1, destination step != 1
+            span1.GetColumn(3).CopyTo(array2.GetColumn(3));
+
+            int[,] result =
+            {
+                { 1, 5, 3, 4 },
+                { 0, 6, 0, 8 },
+                { 3, 7, 11, 12 },
+                { 0, 8, 0, 16 }
+            };
+
+            CollectionAssert.AreEqual(array2, result);
+
+            // Test a valid and an invalid TryCopyTo call with the RefEnumerable<T> overload
+            bool shouldBeTrue = span1.GetRow(0).TryCopyTo(array2.GetColumn(0));
+            bool shouldBeFalse = span1.GetRow(0).TryCopyTo(default(RefEnumerable<int>));
+
+            result = new[,]
+            {
+                { 1, 5, 3, 4 },
+                { 2, 6, 0, 8 },
+                { 3, 7, 11, 12 },
+                { 4, 8, 0, 16 }
+            };
+
+            CollectionAssert.AreEqual(array2, result);
+
+            Assert.IsTrue(shouldBeTrue);
+            Assert.IsFalse(shouldBeFalse);
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
+        public void Test_ReadOnlySpan2DT_ReadOnlyRefEnumerable_Cast()
+        {
+            int[,] array1 =
+            {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 }
+            };
+
+            int[] result = { 5, 6, 7, 8 };
+
+            // Cast a RefEnumerable<T> to a readonly one and verify the contents
+            int[] row = ((ReadOnlyRefEnumerable<int>)array1.GetRow(1)).ToArray();
+
+            CollectionAssert.AreEqual(result, row);
         }
     }
 }
