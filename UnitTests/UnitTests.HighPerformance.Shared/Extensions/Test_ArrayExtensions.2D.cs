@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -246,9 +247,11 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(copy, result);
 
-            Assert.ThrowsException<ArgumentException>(() => array.GetRow(0).CopyTo(default));
+            Assert.ThrowsException<ArgumentException>(() => array.GetRow(0).CopyTo(default(RefEnumerable<int>)));
+            Assert.ThrowsException<ArgumentException>(() => array.GetRow(0).CopyTo(default(Span<int>)));
 
-            Assert.ThrowsException<ArgumentException>(() => array.GetColumn(0).CopyTo(default));
+            Assert.ThrowsException<ArgumentException>(() => array.GetColumn(0).CopyTo(default(RefEnumerable<int>)));
+            Assert.ThrowsException<ArgumentException>(() => array.GetColumn(0).CopyTo(default(Span<int>)));
 
             Assert.IsTrue(array.GetRow(2).TryCopyTo(copy));
 
@@ -311,9 +314,11 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(copy, result);
 
-            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetRow(0).CopyTo(default));
+            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetRow(0).CopyTo(default(RefEnumerable<int>)));
+            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetRow(0).CopyTo(default(Span<int>)));
 
-            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetColumn(0).CopyTo(default));
+            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetColumn(0).CopyTo(default(RefEnumerable<int>)));
+            Assert.ThrowsException<ArgumentException>(() => ((ReadOnlySpan2D<int>)array).GetColumn(0).CopyTo(default(Span<int>)));
 
             Assert.IsTrue(span2D.GetRow(2).TryCopyTo(copy));
 
