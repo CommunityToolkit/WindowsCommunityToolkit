@@ -316,7 +316,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
             return new ReadOnlyRefEnumerable<T>(enumerable.Span, enumerable.Step, enumerable.Position);
 #else
-            return new ReadOnlyRefEnumerable<T>(enumerable.Instance, enumerable.Offset, enumerable.Length, enumerable.Position);
+            return new ReadOnlyRefEnumerable<T>(enumerable.Instance, enumerable.Offset, enumerable.Length, enumerable.Step, enumerable.Position);
 #endif
         }
 
