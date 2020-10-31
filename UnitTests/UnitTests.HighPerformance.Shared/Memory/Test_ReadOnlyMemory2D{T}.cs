@@ -61,7 +61,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 0], 2);
             Assert.AreEqual(memory2d.Span[1, 1], 6);
 
-            Assert.ThrowsException<ArrayTypeMismatchException>(() => new ReadOnlyMemory2D<object>(new string[1], 1, 1));
+            // Here we check to ensure a covariant array conversion is allowed for ReadOnlyMemory2D<T>
+            _ = new ReadOnlyMemory2D<object>(new string[1], 1, 1);
+
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(array, -99, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(array, 0, -10, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<int>(array, 0, 1, 1, -1));
@@ -88,7 +90,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 1], 2);
             Assert.AreEqual(memory2d.Span[1, 2], 6);
 
-            Assert.ThrowsException<ArrayTypeMismatchException>(() => new ReadOnlyMemory2D<object>(new string[1, 2]));
+            _ = new ReadOnlyMemory2D<object>(new string[1, 2]);
         }
 
         [TestCategory("ReadOnlyMemory2DT")]
@@ -110,7 +112,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 0], 2);
             Assert.AreEqual(memory2d.Span[1, 1], 6);
 
-            Assert.ThrowsException<ArrayTypeMismatchException>(() => new ReadOnlyMemory2D<object>(new string[1, 2], 0, 0, 2, 2));
+            _ = new ReadOnlyMemory2D<object>(new string[1, 2]);
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlyMemory2D<object>(new string[1, 2], 0, 0, 2, 2));
         }
 
         [TestCategory("ReadOnlyMemory2DT")]
