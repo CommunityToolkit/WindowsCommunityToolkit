@@ -33,6 +33,7 @@ namespace UnitTests.HighPerformance.Helpers
                 data = CreateRandomData2D(sizeY, sizeX),
                 copy = (int[,])data.Clone();
 
+            // Prepare the target data iteratively
             foreach (ref int n in copy.AsSpan2D(row, column, height, width))
             {
                 n = unchecked(n * 397);
@@ -44,6 +45,7 @@ namespace UnitTests.HighPerformance.Helpers
             Assert.AreEqual(memory.Height, height);
             Assert.AreEqual(memory.Width, width);
 
+            // Do the same computation in paralellel, then compare the two arrays
             ParallelHelper.ForEach(memory, new Multiplier(397));
 
             CollectionAssert.AreEqual(data, copy);

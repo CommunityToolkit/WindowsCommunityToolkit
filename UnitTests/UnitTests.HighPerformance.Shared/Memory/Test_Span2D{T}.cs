@@ -20,6 +20,7 @@ namespace UnitTests.HighPerformance.Memory
         [TestMethod]
         public void Test_Span2DT_Empty()
         {
+            // Like in the tests for Memory2D<T>, here we validate a number of empty spans
             Span2D<int> empty1 = default;
 
             Assert.IsTrue(empty1.IsEmpty);
@@ -59,6 +60,8 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
+            // Test for a Span2D<T> instance created from a target reference. This is only supported
+            // on runtimes with fast Span<T> support (as we need the API to power this with just a ref).
             Span2D<int> span2d = Span2D<int>.DangerousCreate(ref span[0], 2, 3, 0);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -69,9 +72,11 @@ namespace UnitTests.HighPerformance.Memory
             span2d[0, 0] = 99;
             span2d[1, 2] = 101;
 
+            // Validate that those values were mapped to the right spot in the target span
             Assert.AreEqual(span[0], 99);
             Assert.AreEqual(span[5], 101);
 
+            // A few cases with invalid indices
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), -1, 0, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, -2, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => Span2D<int>.DangerousCreate(ref Unsafe.AsRef<int>(null), 1, 0, -5));
@@ -92,6 +97,7 @@ namespace UnitTests.HighPerformance.Memory
                 6
             };
 
+            // Same as above, but creating a Span2D<T> from a raw pointer
             Span2D<int> span2d = new Span2D<int>(ptr, 2, 3, 0);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -120,6 +126,7 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
+            // Same as above, but wrapping a 1D array with data in row-major order
             Span2D<int> span2d = new Span2D<int>(array, 1, 2, 2, 1);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -133,6 +140,8 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(array[1], 99);
             Assert.AreEqual(array[5], 101);
 
+            // The first check fails due to the array covariance test mentioned in the Memory2D<T> tests.
+            // The others just validate a number of cases with invalid arguments (eg. out of range).
             Assert.ThrowsException<ArrayTypeMismatchException>(() => new Span2D<object>(new string[1], 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, -99, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array, 0, -10, 1, 1));
@@ -151,6 +160,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but directly wrapping a 2D array
             Span2D<int> span2d = new Span2D<int>(array);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -177,6 +187,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but with a custom slicing over the target 2D array
             Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -209,6 +220,7 @@ namespace UnitTests.HighPerformance.Memory
                 }
             };
 
+            // Here we wrap a layer in a 3D array instead, the rest is the same
             Span2D<int> span2d = new Span2D<int>(array, 1);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -243,6 +255,7 @@ namespace UnitTests.HighPerformance.Memory
                 }
             };
 
+            // Same as above, but also slicing a target 2D area in the 3D array layer
             Span2D<int> span2d = new Span2D<int>(array, 1, 0, 1, 2, 2);
 
             Assert.IsFalse(span2d.IsEmpty);
@@ -274,6 +287,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Tests for the Fill and Clear APIs for Span2D<T>. These should fill
+            // or clear the entire wrapped 2D array (just like eg. Span<T>.Fill).
             Span2D<int> span2d = new Span2D<int>(array);
 
             span2d.Fill(42);
@@ -295,6 +310,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but with an initial slicing as well to ensure
+            // these method work correctly with different internal offsets
             Span2D<int> span2d = new Span2D<int>(array, 0, 0, 0, 0);
 
             span2d.Fill(42);
@@ -316,6 +333,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, just with different slicing to a target smaller 2D area
             Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
 
             span2d.Fill(42);
@@ -347,6 +365,7 @@ namespace UnitTests.HighPerformance.Memory
 
             int[] target = new int[0];
 
+            // Copying an emoty Span2D<T> to an empty array is just a no-op
             span2d.CopyTo(target);
         }
 
@@ -364,10 +383,13 @@ namespace UnitTests.HighPerformance.Memory
 
             int[] target = new int[array.Length];
 
+            // Here we copy a Span2D<T> to a target Span<T> mapping an array.
+            // This is valid, and the data will just be copied in row-major order.
             span2d.CopyTo(target);
 
             CollectionAssert.AreEqual(array, target);
 
+            // Exception due to the target span being too small for the source Span2D<T> instance
             Assert.ThrowsException<ArgumentException>(() => new Span2D<int>(array).CopyTo(Span<int>.Empty));
         }
 
@@ -381,6 +403,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but with different initial slicing
             Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
 
             int[] target = new int[4];
@@ -409,6 +432,8 @@ namespace UnitTests.HighPerformance.Memory
 
             int[,] target = new int[2, 3];
 
+            // Same as above, but copying to a target Span2D<T> instead. Note
+            // that this method uses the implicit T[,] to Span2D<T> conversion.
             span2d.CopyTo(target);
 
             CollectionAssert.AreEqual(array, target);
@@ -426,6 +451,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but with extra initial slicing
             Span2D<int> span2d = new Span2D<int>(array, 0, 1, 2, 2);
 
             int[,] target = new int[2, 2];
@@ -457,8 +483,13 @@ namespace UnitTests.HighPerformance.Memory
 
             int[] target = new int[array.Length];
 
+            // Here we test the safe TryCopyTo method, which will fail gracefully
             Assert.IsTrue(span2d.TryCopyTo(target));
             Assert.IsFalse(span2d.TryCopyTo(Span<int>.Empty));
+
+            int[] expected = { 1, 2, 3, 4, 5, 6 };
+
+            CollectionAssert.AreEqual(target, expected);
         }
 
         [TestCategory("Span2DT")]
@@ -471,18 +502,28 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but copying to a 2D array with the safe TryCopyTo method
             Span2D<int> span2d = new Span2D<int>(array);
 
             int[,] target = new int[2, 3];
 
             Assert.IsTrue(span2d.TryCopyTo(target));
             Assert.IsFalse(span2d.TryCopyTo(Span2D<int>.Empty));
+
+            int[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            CollectionAssert.AreEqual(target, expected);
         }
 
         [TestCategory("Span2DT")]
         [TestMethod]
         public unsafe void Test_Span2DT_GetPinnableReference()
         {
+            // Here we test that a ref from an empty Span2D<T> returns a null ref
             Assert.IsTrue(Unsafe.AreSame(
                 ref Unsafe.AsRef<int>(null),
                 ref Span2D<int>.Empty.GetPinnableReference()));
@@ -497,6 +538,7 @@ namespace UnitTests.HighPerformance.Memory
 
             ref int r0 = ref span2d.GetPinnableReference();
 
+            // Here we test that GetPinnableReference returns a ref to the first array element
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
         }
 
@@ -504,6 +546,7 @@ namespace UnitTests.HighPerformance.Memory
         [TestMethod]
         public unsafe void Test_Span2DT_DangerousGetReference()
         {
+            // Same as above, but using DangerousGetReference instead (faster, no conditional check)
             Assert.IsTrue(Unsafe.AreSame(
                 ref Unsafe.AsRef<int>(null),
                 ref Span2D<int>.Empty.DangerousGetReference()));
@@ -531,6 +574,9 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Here we have a number of tests that just take an initial 2D array, create a Span2D<T>,
+            // perform a number of slicing operations and then validate the parameters for the resulting
+            // instances, and that the indexer works correctly and maps to the right original elements.
             Span2D<int> span2d = new Span2D<int>(array);
 
             Span2D<int> slice1 = span2d.Slice(1, 1, 1, 2);
@@ -550,6 +596,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(slice2[1, 0], 5);
             Assert.AreEqual(slice2[1, 1], 6);
 
+            // Some checks for invalid arguments
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(-1, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, -1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Span2D<int>(array).Slice(1, 1, 1, -1));
@@ -571,6 +618,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
+            // Same as above, but with some different slicing
             Span2D<int> slice1 = span2d.Slice(0, 0, 2, 2);
 
             Assert.AreEqual(slice1.Length, 4);
@@ -608,6 +656,12 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
+            // Here we create a Span2D<T> from a 2D array and want to get a Span<T> from
+            // a specific row. This is only supported on runtimes with fast Span<T> support
+            // for the same reason mentioned in the Memory2D<T> tests (we need the Span<T>
+            // constructor that only takes a target ref). Then we just get some references
+            // to items in this span and compare them against references into the original
+            // 2D array to ensure they match and point to the correct elements from there.
             Span<int> span = span2d.GetRowSpan(1);
 
             Assert.IsTrue(Unsafe.AreSame(
@@ -634,6 +688,11 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
+            // This API tries to get a Span<T> for the entire contents of Span2D<T>.
+            // This only works on runtimes if the underlying data is contiguous
+            // and of a size that can fit into a single Span<T>. In this specific test,
+            // this is not expected to work on UWP because it can't create a Span<T>
+            // from a 2D array (reasons explained in the comments for the test above).
             bool success = span2d.TryGetSpan(out Span<int> span);
 
 #if WINDOWS_UWP
@@ -656,6 +715,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but this will always fail because we're creating
+            // a Span2D<T> wrapping non contiguous data (the pitch is not 0).
             Span2D<int> span2d = new Span2D<int>(array, 0, 0, 2, 2);
 
             bool success = span2d.TryGetSpan(out Span<int> span);
@@ -674,6 +735,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Here we create a Span2D<T> and verify that ToArray() produces
+            // a 2D array that is identical to the original one being wrapped.
             Span2D<int> span2d = new Span2D<int>(array);
 
             int[,] copy = span2d.ToArray();
@@ -694,6 +757,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but with extra initial slicing
             Span2D<int> span2d = new Span2D<int>(array, 0, 0, 2, 2);
 
             int[,] copy = span2d.ToArray();
@@ -723,6 +787,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
+            // Span2D<T>.Equals always throw (this mirrors the behavior of Span<T>.Equals)
             _ = span2d.Equals(null);
         }
 
@@ -739,6 +804,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
+            // Same as above, this always throws
             _ = span2d.GetHashCode();
         }
 
@@ -754,6 +820,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Span2D<int> span2d = new Span2D<int>(array);
 
+            // Verify that we get the nicely formatted string
             string text = span2d.ToString();
 
             const string expected = "Microsoft.Toolkit.HighPerformance.Memory.Span2D<System.Int32>[2, 3]";
@@ -771,6 +838,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Create two Span2D<T> instances wrapping the same array with the same
+            // parameters, and verify that the equality operators work correctly.
             Span2D<int> span2d_1 = new Span2D<int>(array);
             Span2D<int> span2d_2 = new Span2D<int>(array);
 
@@ -778,6 +847,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.IsFalse(span2d_1 == Span2D<int>.Empty);
             Assert.IsTrue(Span2D<int>.Empty == Span2D<int>.Empty);
 
+            // Same as above, but verify that a sliced span is not reported as equal
             Span2D<int> span2d_3 = new Span2D<int>(array, 0, 0, 2, 2);
 
             Assert.IsFalse(span2d_1 == span2d_3);
@@ -794,6 +864,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Verify that an explicit constructor and the implicit conversion
+            // operator generate an identical Span2D<T> instance from the array.
             Span2D<int> span2d_1 = array;
             Span2D<int> span2d_2 = new Span2D<int>(array);
 
@@ -810,6 +882,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Get a target row and verify the contents match with our data
             RefEnumerable<int> enumerable = new Span2D<int>(array).GetRow(1);
 
             int[] expected = { 4, 5, 6 };
@@ -831,6 +904,7 @@ namespace UnitTests.HighPerformance.Memory
                 4, 5, 6
             };
 
+            // Same as above, but with a Span2D<T> wrapping a raw pointer
             RefEnumerable<int> enumerable = new Span2D<int>(array, 2, 3, 0).GetRow(1);
 
             int[] expected = { 4, 5, 6 };
@@ -852,6 +926,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but getting a column instead
             RefEnumerable<int> enumerable = new Span2D<int>(array).GetColumn(2);
 
             int[] expected = { 3, 6 };
@@ -873,6 +948,7 @@ namespace UnitTests.HighPerformance.Memory
                 4, 5, 6
             };
 
+            // Same as above, but wrapping a raw pointer
             RefEnumerable<int> enumerable = new Span2D<int>(array, 2, 3, 0).GetColumn(2);
 
             int[] expected = { 3, 6 };
@@ -897,8 +973,17 @@ namespace UnitTests.HighPerformance.Memory
             int[] result = new int[4];
             int i = 0;
 
-            foreach (var item in new Span2D<int>(array, 0, 1, 2, 2))
+            // Here we want to test the Span2D<T> enumerator. We create a Span2D<T> instance over
+            // a given section of the initial 2D array, then iterate over it and store the items
+            // into a temporary array. We then just compare the contents to ensure they match.
+            foreach (ref var item in new Span2D<int>(array, 0, 1, 2, 2))
             {
+                // Check the reference to ensure it points to the right original item
+                Assert.IsTrue(Unsafe.AreSame(
+                    ref array[i / 2, (i % 2) + 1],
+                    ref item));
+
+                // Also store the value to compare it later (redundant, but just in case)
                 result[i++] = item;
             }
 
@@ -920,8 +1005,14 @@ namespace UnitTests.HighPerformance.Memory
             int[] result = new int[4];
             int i = 0;
 
-            foreach (var item in new Span2D<int>(array + 1, 2, 2, 1))
+            // Same test as above, but wrapping a raw pointer
+            foreach (ref var item in new Span2D<int>(array + 1, 2, 2, 1))
             {
+                // Check the reference again
+                Assert.IsTrue(Unsafe.AreSame(
+                    ref Unsafe.AsRef<int>(&array[((i / 2) * 3) + (i % 2) + 1]),
+                    ref item));
+
                 result[i++] = item;
             }
 
@@ -936,6 +1027,7 @@ namespace UnitTests.HighPerformance.Memory
         {
             var enumerator = Span2D<int>.Empty.GetEnumerator();
 
+            // Ensure that an enumerator from an empty Span2D<T> can't move next
             Assert.IsFalse(enumerator.MoveNext());
         }
     }

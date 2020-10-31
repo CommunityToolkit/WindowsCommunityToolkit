@@ -13,6 +13,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Memory
 {
+    /* ====================================================================
+    *                                 NOTE
+    * ====================================================================
+    * All the tests here mirror the ones for Memory2D<T>, as the two types
+    * are basically the same except for some small differences in return types
+    * or some checks being done upon construction. See comments in the test
+    * file for Memory2D<T> for more info on these tests. */
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Test class for generic type")]
     public class Test_ReadOnlyMemory2DT

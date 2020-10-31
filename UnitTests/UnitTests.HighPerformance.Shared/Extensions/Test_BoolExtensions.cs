@@ -15,6 +15,8 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_BoolExtensions_True()
         {
+            // There tests all just run a couple of boolean expressions and validate that the extension
+            // correctly produces either 1 or 0 depending on whether the expression was true or false.
             Assert.AreEqual(1, true.ToByte(), nameof(Test_BoolExtensions_True));
             Assert.AreEqual(1, (DateTime.Now.Year > 0).ToByte(), nameof(Test_BoolExtensions_True));
         }

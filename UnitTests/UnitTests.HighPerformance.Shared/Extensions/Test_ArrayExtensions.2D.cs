@@ -88,6 +88,11 @@ namespace UnitTests.HighPerformance.Extensions
         {
             bool[,] test = new bool[4, 5];
 
+            // To fill an array we now go through the Span2D<T> type, which includes all
+            // the necessary logic to perform the operation. In these tests we just create
+            // one through the extension, slice it and then fill it. For instance in this
+            // one, we're creating a Span2D<bool> from coordinates (1, 1), with a height of
+            // 2 and a width of 2, and then filling it. Then we just compare the results.
             test.AsSpan2D(1, 1, 2, 3).Fill(true);
 
             var expected = new[,]
@@ -173,12 +178,16 @@ namespace UnitTests.HighPerformance.Extensions
                 { 9, 10, 11, 12 }
             };
 
+            // Here we use the enumerator on the RefEnumerator<T> type to traverse items in a row
+            // by reference. For each one, we check that the reference does in fact point to the
+            // item we expect in the underlying array (in this case, items on row 1).
             int j = 0;
             foreach (ref int value in array.GetRow(1))
             {
                 Assert.IsTrue(Unsafe.AreSame(ref value, ref array[1, j++]));
             }
 
+            // Check that RefEnumerable<T>.ToArray() works correctly
             CollectionAssert.AreEqual(array.GetRow(1).ToArray(), new[] { 5, 6, 7, 8 });
 
             // Test an empty array
@@ -191,10 +200,38 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
+        public void Test_ArrayExtensions_2D_GetColumn_Rectangle()
+        {
+            int[,] array =
+            {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 10, 11, 12 }
+            };
+
+            // Same as above, but this time we iterate a column instead (so non contiguous items)
+            int i = 0;
+            foreach (ref int value in array.GetColumn(1))
+            {
+                Assert.IsTrue(Unsafe.AreSame(ref value, ref array[i++, 1]));
+            }
+
+            CollectionAssert.AreEqual(array.GetColumn(1).ToArray(), new[] { 2, 6, 10 });
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(-1));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(20));
+        }
+
+        [TestCategory("ArrayExtensions")]
+        [TestMethod]
         public void Test_ArrayExtensions_2D_GetRow_Empty()
         {
             int[,] array = new int[0, 0];
 
+            // Try to get a row from an empty array (the row index isn't in range)
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(0).ToArray());
         }
 
@@ -212,6 +249,8 @@ namespace UnitTests.HighPerformance.Extensions
                 { 13, 14, 15, 16 }
             };
 
+            // Get a row and test the Clear method. Note that the Span2D<T> here is sliced
+            // starting from the second column, so this method should clear the row from index 1.
             array.AsSpan2D(1, 1, 3, 3).GetRow(0).Clear();
 
             int[,] expected =
@@ -224,6 +263,7 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(array, expected);
 
+            // Same as before, but this time we fill a column with a value
             array.GetColumn(2).Fill(42);
 
             expected = new[,]
@@ -238,24 +278,28 @@ namespace UnitTests.HighPerformance.Extensions
 
             int[] copy = new int[4];
 
+            // Get a row and copy items to a target span (in this case, wrapping an array)
             array.GetRow(2).CopyTo(copy);
 
             int[] result = { 9, 10, 42, 12 };
 
             CollectionAssert.AreEqual(copy, result);
 
+            // Same as above, but copying from a column (so we test non contiguous sequences too)
             array.GetColumn(1).CopyTo(copy);
 
             result = new[] { 2, 0, 10, 14 };
 
             CollectionAssert.AreEqual(copy, result);
 
+            // Some invalid attempts to copy to an empty span or sequence
             Assert.ThrowsException<ArgumentException>(() => array.GetRow(0).CopyTo(default(RefEnumerable<int>)));
             Assert.ThrowsException<ArgumentException>(() => array.GetRow(0).CopyTo(default(Span<int>)));
 
             Assert.ThrowsException<ArgumentException>(() => array.GetColumn(0).CopyTo(default(RefEnumerable<int>)));
             Assert.ThrowsException<ArgumentException>(() => array.GetColumn(0).CopyTo(default(Span<int>)));
 
+            // Same as CopyTo, but this will fail gracefully with an invalid target
             Assert.IsTrue(array.GetRow(2).TryCopyTo(copy));
             Assert.IsFalse(array.GetRow(0).TryCopyTo(default(Span<int>)));
 
@@ -263,6 +307,7 @@ namespace UnitTests.HighPerformance.Extensions
 
             CollectionAssert.AreEqual(copy, result);
 
+            // Also fill a row and then further down clear a column (trying out all possible combinations)
             array.GetRow(2).Fill(99);
 
             expected = new[,]
@@ -302,6 +347,9 @@ namespace UnitTests.HighPerformance.Extensions
                 { 13, 14, 15, 16 }
             };
 
+            // This test pretty much does the same things as the method above, but this time
+            // using a source ReadOnlySpan2D<T>, so that the sequence type being tested is
+            // ReadOnlyRefEnumerable<T> instead (which shares most features but is separate).
             ReadOnlySpan2D<int> span2D = array;
 
             int[] copy = new int[4];
@@ -330,32 +378,6 @@ namespace UnitTests.HighPerformance.Extensions
             result = new[] { 9, 10, 11, 12 };
 
             CollectionAssert.AreEqual(copy, result);
-        }
-
-        [TestCategory("ArrayExtensions")]
-        [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
-        public void Test_ArrayExtensions_2D_GetColumn_Rectangle()
-        {
-            int[,] array =
-            {
-                { 1, 2, 3, 4 },
-                { 5, 6, 7, 8 },
-                { 9, 10, 11, 12 }
-            };
-
-            int i = 0;
-            foreach (ref int value in array.GetColumn(1))
-            {
-                Assert.IsTrue(Unsafe.AreSame(ref value, ref array[i++, 1]));
-            }
-
-            CollectionAssert.AreEqual(array.GetColumn(1).ToArray(), new[] { 2, 6, 10 });
-
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(-1));
-
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(20));
         }
 
         [TestCategory("ArrayExtensions")]
@@ -432,6 +454,7 @@ namespace UnitTests.HighPerformance.Extensions
 
             Span<int> span = array.AsSpan();
 
+            // Check that the empty array was loaded properly
             Assert.AreEqual(span.Length, array.Length);
             Assert.IsTrue(span.IsEmpty);
         }
@@ -449,11 +472,14 @@ namespace UnitTests.HighPerformance.Extensions
 
             Span<int> span = array.AsSpan();
 
+            // Test the total length of the span
             Assert.AreEqual(span.Length, array.Length);
 
             ref int r0 = ref array[0, 0];
             ref int r1 = ref span[0];
 
+            // Similarly to the top methods, here we compare a given reference to
+            // ensure they point to the right element back in the original array.
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref r1));
         }
 #endif

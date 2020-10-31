@@ -35,6 +35,7 @@ namespace UnitTests.HighPerformance.Helpers
         {
             int[,] data = CreateRandomData2D(sizeY, sizeX);
 
+            // Create a memory wrapping the random array with the given parameters
             ReadOnlyMemory2D<int> memory = data.AsMemory2D(row, column, height, width);
 
             Assert.AreEqual(memory.Length, height * width);
@@ -43,13 +44,16 @@ namespace UnitTests.HighPerformance.Helpers
 
             int sum = 0;
 
+            // Sum all the items in parallel. The Summer type takes a pointer to a target value
+            // and adds values to it in a thread-safe manner (with an interlocked add).
             ParallelHelper.ForEach(memory, new Summer(&sum));
 
             int expected = 0;
 
+            // Calculate the sum iteratively as a baseline for comparison
             foreach (int n in memory.Span)
             {
-                Interlocked.Add(ref Unsafe.AsRef<int>(&expected), n);
+                expected += n;
             }
 
             Assert.AreEqual(sum, expected, $"The sum doesn't match, was {sum} instead of {expected}");

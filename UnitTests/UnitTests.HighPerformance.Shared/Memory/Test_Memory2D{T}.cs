@@ -21,6 +21,8 @@ namespace UnitTests.HighPerformance.Memory
         [TestMethod]
         public void Test_Memory2DT_Empty()
         {
+            // Create a few empty Memory2D<T> instances in different ways and
+            // check to ensure the right parameters were used to initialize them.
             Memory2D<int> empty1 = default;
 
             Assert.IsTrue(empty1.IsEmpty);
@@ -59,6 +61,8 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
+            // Create a memory over a 1D array with 2D data in row-major order. This tests
+            // the T[] array constructor for Memory2D<T> with custom size and pitch.
             Memory2D<int> memory2d = new Memory2D<int>(array, 1, 2, 2, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
@@ -68,6 +72,8 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 0], 2);
             Assert.AreEqual(memory2d.Span[1, 1], 6);
 
+            // Also ensure the right exceptions are thrown with invalid parameters, such as
+            // negative indices, indices out of range, values that are too big, etc.
             Assert.ThrowsException<ArrayTypeMismatchException>(() => new Memory2D<object>(new string[1], 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, -99, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, -10, 1, 1));
@@ -86,6 +92,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Test the constructor taking a T[,] array that is mapped directly (no slicing)
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
             Assert.IsFalse(memory2d.IsEmpty);
@@ -95,6 +102,8 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 1], 2);
             Assert.AreEqual(memory2d.Span[1, 2], 6);
 
+            // Here we test the check for covariance: we can't create a Memory2D<T> from a U[,] array
+            // where U is assignable to T (as in, U : T). This would cause a type safety violation on write.
             Assert.ThrowsException<ArrayTypeMismatchException>(() => new Memory2D<object>(new string[1, 2]));
         }
 
@@ -108,6 +117,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but this time we also slice the memory to test the other constructor
             Memory2D<int> memory2d = new Memory2D<int>(array, 0, 1, 2, 2);
 
             Assert.IsFalse(memory2d.IsEmpty);
@@ -136,6 +146,7 @@ namespace UnitTests.HighPerformance.Memory
                 }
             };
 
+            // Same as above, but we test the constructor taking a layer within a 3D array
             Memory2D<int> memory2d = new Memory2D<int>(array, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
@@ -145,6 +156,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 1], 20);
             Assert.AreEqual(memory2d.Span[1, 2], 60);
 
+            // A couple of tests for invalid parameters, ie. layers out of range
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, -1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 20));
         }
@@ -165,6 +177,10 @@ namespace UnitTests.HighPerformance.Memory
                 }
             };
 
+            // Same as above, but we also slice the target layer in the 3D array. In this case we're creating
+            // a Memory<int> instance from a slice in the layer at depth 1 in our 3D array, and with an area
+            // starting at coorsinates (0, 1), with a height of 2 and width of 2. So we want to wrap the
+            // square with items [20, 30, 50, 60] in the second layer of the 3D array above.
             Memory2D<int> memory2d = new Memory2D<int>(array, 1, 0, 1, 2, 2);
 
             Assert.IsFalse(memory2d.IsEmpty);
@@ -174,6 +190,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(memory2d.Span[0, 0], 20);
             Assert.AreEqual(memory2d.Span[1, 1], 60);
 
+            // Same as above, testing a few cases with invalid parameters
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, -1, 1, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 1, -1, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 1, 1, -1, 1, 1));
@@ -191,6 +208,10 @@ namespace UnitTests.HighPerformance.Memory
                 1, 2, 3, 4, 5, 6
             };
 
+            // We also test the constructor that takes an input Memory<T> instance.
+            // This is only available on runtimes with fast Span<T> support, as otherwise
+            // the implementation would be too complex and slow to work in this case.
+            // Conceptually, this works the same as when wrapping a 1D array with row-major items.
             Memory2D<int> memory2d = memory.AsMemory2D(1, 2, 2, 1);
 
             Assert.IsFalse(memory2d.IsEmpty);
@@ -220,6 +241,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
+            // Test a slice from a Memory2D<T> with valid parameters
             Memory2D<int> slice1 = memory2d.Slice(1, 1, 1, 2);
 
             Assert.AreEqual(slice1.Length, 2);
@@ -228,6 +250,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(slice1.Span[0, 0], 5);
             Assert.AreEqual(slice1.Span[0, 1], 6);
 
+            // Same above, but we test slicing a pre-sliced instance as well. This
+            // is done to verify that the internal offsets are properly tracked
+            // across multiple slicing operations, instead of just in the first.
             Memory2D<int> slice2 = memory2d.Slice(0, 1, 2, 2);
 
             Assert.AreEqual(slice2.Length, 4);
@@ -237,6 +262,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.AreEqual(slice2.Span[1, 0], 5);
             Assert.AreEqual(slice2.Span[1, 1], 6);
 
+            // A few invalid slicing operations, with out of range parameters
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(-1, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(1, -1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(1, 1, 1, -1));
@@ -258,6 +284,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
+            // Mostly the same test as above, just with different parameters
             Memory2D<int> slice1 = memory2d.Slice(0, 0, 2, 2);
 
             Assert.AreEqual(slice1.Length, 4);
@@ -294,6 +321,10 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
+            // Here we test that we can get a Memory<T> from a 2D one when the underlying
+            // data is contiguous. Note that in this case this can only work on runtimes
+            // with fast Span<T> support, because otherwise it's not possible to get a
+            // Memory<T> (or a Span<T> too, for that matter) from a 2D array.
             bool success = memory2d.TryGetMemory(out Memory<int> memory);
 
 #if WINDOWS_UWP
@@ -314,6 +345,8 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = new Memory2D<int>(array, 2, 2);
 
+            // Same test as above, but this will always succeed on all runtimes,
+            // as creating a Memory<T> from a 1D array is always supported.
             bool success = memory2d.TryGetMemory(out Memory<int> memory);
 
             Assert.IsTrue(success);
@@ -330,6 +363,9 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = data.AsMemory2D(2, 2);
 
+            // Same as above, just with the extra Memory<T> indirection. Same as above,
+            // this test is only supported on runtimes with fast Span<T> support.
+            // On others, we just don't expose the Memory<T>.AsMemory2D extension.
             bool success = memory2d.TryGetMemory(out Memory<int> memory);
 
             Assert.IsTrue(success);
@@ -344,6 +380,8 @@ namespace UnitTests.HighPerformance.Memory
         {
             int[] array = { 1, 2, 3, 4 };
 
+            // We create a Memory2D<T> from an array and verify that pinning this
+            // instance correctly returns a pointer to the right array element.
             Memory2D<int> memory2d = new Memory2D<int>(array, 2, 2);
 
             using var pin = memory2d.Pin();
@@ -358,6 +396,7 @@ namespace UnitTests.HighPerformance.Memory
         {
             int[] array = { 1, 2, 3, 4 };
 
+            // Same as above, but we test with a sliced Memory2D<T> instance
             Memory2D<int> memory2d = new Memory2D<int>(array, 2, 2);
 
             using var pin = memory2d.Pin();
@@ -376,6 +415,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Here we create a Memory2D<T> instance from a 2D array and then verify that
+            // calling ToArray() creates an array that matches the contents of the first.
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
             int[,] copy = memory2d.ToArray();
@@ -396,6 +437,7 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Same as above, but with a sliced Memory2D<T> instance
             Memory2D<int> memory2d = new Memory2D<int>(array, 0, 0, 2, 2);
 
             int[,] copy = memory2d.ToArray();
@@ -422,6 +464,8 @@ namespace UnitTests.HighPerformance.Memory
                 { 4, 5, 6 }
             };
 
+            // Here we want to verify that the Memory2D<T>.Equals method works correctly. This is true
+            // when the wrapped instance is the same, and the various internal offsets and sizes match.
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
             Assert.IsFalse(memory2d.Equals(null));
@@ -429,6 +473,7 @@ namespace UnitTests.HighPerformance.Memory
             Assert.IsTrue(memory2d.Equals(new Memory2D<int>(array)));
             Assert.IsTrue(memory2d.Equals(memory2d));
 
+            // This should work also when casting to a ReadOnlyMemory2D<T> instance
             ReadOnlyMemory2D<int> readOnlyMemory2d = memory2d;
 
             Assert.IsTrue(memory2d.Equals(readOnlyMemory2d));
@@ -439,6 +484,7 @@ namespace UnitTests.HighPerformance.Memory
         [TestMethod]
         public void Test_Memory2DT_GetHashCode()
         {
+            // An emoty Memory2D<T> has just 0 as the hashcode
             Assert.AreEqual(Memory2D<int>.Empty.GetHashCode(), 0);
 
             int[,] array =
@@ -449,10 +495,12 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
+            // Ensure that the GetHashCode method is repeatable
             int a = memory2d.GetHashCode(), b = memory2d.GetHashCode();
 
             Assert.AreEqual(a, b);
 
+            // The hashcode shouldn't match when the size is different
             int c = new Memory2D<int>(array, 0, 1, 2, 2).GetHashCode();
 
             Assert.AreNotEqual(a, c);
@@ -470,6 +518,7 @@ namespace UnitTests.HighPerformance.Memory
 
             Memory2D<int> memory2d = new Memory2D<int>(array);
 
+            // Here we just want to verify that the type is nicely printed as expected, along with the size
             string text = memory2d.ToString();
 
             const string expected = "Microsoft.Toolkit.HighPerformance.Memory.Memory2D<System.Int32>[2, 3]";
