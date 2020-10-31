@@ -8,7 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+#if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Memory;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
