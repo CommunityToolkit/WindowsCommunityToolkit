@@ -143,9 +143,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="array">The target array to wrap.</param>
         /// <param name="height">The height of the resulting 2D area.</param>
         /// <param name="width">The width of each row in the resulting 2D area.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
@@ -163,9 +160,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="height">The height of the resulting 2D area.</param>
         /// <param name="width">The width of each row in the resulting 2D area.</param>
         /// <param name="pitch">The pitch in the resulting 2D area.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when one of the input parameters is out of range.
         /// </exception>
@@ -174,11 +168,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </exception>
         public ReadOnlySpan2D(T[] array, int offset, int height, int width, int pitch)
         {
-            if (array.IsCovariant())
-            {
-                ThrowHelper.ThrowArrayTypeMismatchException();
-            }
-
             if ((uint)offset > (uint)array.Length)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForOffset();
@@ -230,9 +219,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Initializes a new instance of the <see cref="ReadOnlySpan2D{T}"/> struct wrapping a 2D array.
         /// </summary>
         /// <param name="array">The given 2D array to wrap.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
         public ReadOnlySpan2D(T[,]? array)
         {
             if (array is null)
@@ -240,11 +226,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 this = default;
 
                 return;
-            }
-
-            if (array.IsCovariant())
-            {
-                ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
 #if SPAN_RUNTIME_SUPPORT
@@ -265,9 +246,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="column">The target column to map within <paramref name="array"/>.</param>
         /// <param name="height">The height to map within <paramref name="array"/>.</param>
         /// <param name="width">The width to map within <paramref name="array"/>.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for <paramref name="array"/>.
@@ -284,11 +262,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 this = default;
 
                 return;
-            }
-
-            if (array.IsCovariant())
-            {
-                ThrowHelper.ThrowArrayTypeMismatchException();
             }
 
             int
@@ -331,17 +304,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// </summary>
         /// <param name="array">The given 3D array to wrap.</param>
         /// <param name="depth">The target layer to map within <paramref name="array"/>.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
         public ReadOnlySpan2D(T[,,] array, int depth)
         {
-            if (array.IsCovariant())
-            {
-                ThrowHelper.ThrowArrayTypeMismatchException();
-            }
-
             if ((uint)depth >= (uint)array.GetLength(0))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForDepth();
@@ -366,17 +331,9 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="column">The target column to map within <paramref name="array"/>.</param>
         /// <param name="height">The height to map within <paramref name="array"/>.</param>
         /// <param name="width">The width to map within <paramref name="array"/>.</param>
-        /// <exception cref="ArrayTypeMismatchException">
-        /// Thrown when <paramref name="array"/> doesn't match <typeparamref name="T"/>.
-        /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is invalid.</exception>
         public ReadOnlySpan2D(T[,,] array, int depth, int row, int column, int height, int width)
         {
-            if (array.IsCovariant())
-            {
-                ThrowHelper.ThrowArrayTypeMismatchException();
-            }
-
             if ((uint)depth >= (uint)array.GetLength(0))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForDepth();
