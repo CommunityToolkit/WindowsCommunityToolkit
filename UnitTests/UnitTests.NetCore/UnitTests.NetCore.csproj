@@ -16,7 +16,7 @@
 
   <!-- Workaround for the .NET Core 2.1 binary not resolving the Unsafe assembly properly -->
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
