@@ -66,8 +66,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <param name="sourceRef">The source reference to copy from.</param>
         /// <param name="destinationRef">The target reference to copy to.</param>
         /// <param name="length">The total number of items to copy.</param>
-        /// <param name="step">The step between consecutive items in the memory area pointed to by <paramref name="sourceRef"/>.</param>
-        public static void CopyTo<T>(ref T sourceRef, ref T destinationRef, nint length, nint step)
+        /// <param name="sourceStep">The step between consecutive items in the memory area pointed to by <paramref name="sourceRef"/>.</param>
+        public static void CopyTo<T>(ref T sourceRef, ref T destinationRef, nint length, nint sourceStep)
         {
             nint
                 sourceOffset = 0,
@@ -76,28 +76,28 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             while (length >= 8)
             {
                 Unsafe.Add(ref destinationRef, destinationOffset + 0) = Unsafe.Add(ref sourceRef, sourceOffset);
-                Unsafe.Add(ref destinationRef, destinationOffset + 1) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 2) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 3) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 4) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 5) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 6) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 7) = Unsafe.Add(ref sourceRef, sourceOffset += step);
+                Unsafe.Add(ref destinationRef, destinationOffset + 1) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 2) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 3) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 4) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 5) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 6) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 7) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
 
                 length -= 8;
-                sourceOffset += step;
+                sourceOffset += sourceStep;
                 destinationOffset += 8;
             }
 
             if (length >= 4)
             {
                 Unsafe.Add(ref destinationRef, destinationOffset + 0) = Unsafe.Add(ref sourceRef, sourceOffset);
-                Unsafe.Add(ref destinationRef, destinationOffset + 1) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 2) = Unsafe.Add(ref sourceRef, sourceOffset += step);
-                Unsafe.Add(ref destinationRef, destinationOffset + 3) = Unsafe.Add(ref sourceRef, sourceOffset += step);
+                Unsafe.Add(ref destinationRef, destinationOffset + 1) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 2) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
+                Unsafe.Add(ref destinationRef, destinationOffset + 3) = Unsafe.Add(ref sourceRef, sourceOffset += sourceStep);
 
                 length -= 4;
-                sourceOffset += step;
+                sourceOffset += sourceStep;
                 destinationOffset += 4;
             }
 
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
 
                 length -= 1;
-                sourceOffset += step;
+                sourceOffset += sourceStep;
                 destinationOffset += 1;
             }
         }
@@ -166,14 +166,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
         /// <summary>
         /// Copies a sequence of discontiguous items from one memory area to another. This mirrors
-        /// <see cref="CopyTo{T}(ref T,ref T,nint,nint)"/>, but <paramref name="step"/> refers to <paramref name="destinationRef"/> instead.
+        /// <see cref="CopyTo{T}(ref T,ref T,nint,nint)"/>, but <paramref name="sourceStep"/> refers to <paramref name="destinationRef"/> instead.
         /// </summary>
         /// <typeparam name="T">The type of items to copy.</typeparam>
         /// <param name="sourceRef">The source reference to copy from.</param>
         /// <param name="destinationRef">The target reference to copy to.</param>
         /// <param name="length">The total number of items to copy.</param>
-        /// <param name="step">The step between consecutive items in the memory area pointed to by <paramref name="sourceRef"/>.</param>
-        public static void CopyFrom<T>(ref T sourceRef, ref T destinationRef, nint length, nint step)
+        /// <param name="sourceStep">The step between consecutive items in the memory area pointed to by <paramref name="sourceRef"/>.</param>
+        public static void CopyFrom<T>(ref T sourceRef, ref T destinationRef, nint length, nint sourceStep)
         {
             nint
                 sourceOffset = 0,
@@ -182,29 +182,29 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             while (length >= 8)
             {
                 Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 1);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 2);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 3);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 4);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 5);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 6);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 7);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 1);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 2);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 3);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 4);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 5);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 6);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 7);
 
                 length -= 8;
                 sourceOffset += 8;
-                destinationOffset += step;
+                destinationOffset += sourceStep;
             }
 
             if (length >= 4)
             {
                 Unsafe.Add(ref destinationRef, destinationOffset) = Unsafe.Add(ref sourceRef, sourceOffset);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 1);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 2);
-                Unsafe.Add(ref destinationRef, destinationOffset += step) = Unsafe.Add(ref sourceRef, sourceOffset + 3);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 1);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 2);
+                Unsafe.Add(ref destinationRef, destinationOffset += sourceStep) = Unsafe.Add(ref sourceRef, sourceOffset + 3);
 
                 length -= 4;
                 sourceOffset += 4;
-                destinationOffset += step;
+                destinationOffset += sourceStep;
             }
 
             while (length > 0)
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                 length -= 1;
                 sourceOffset += 1;
-                destinationOffset += step;
+                destinationOffset += sourceStep;
             }
         }
 
