@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that iterates readonly items from arbitrary memory locations.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    public ref struct ReadOnlyRefEnumerable<T>
+    public readonly ref struct ReadOnlyRefEnumerable<T>
     {
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -51,24 +51,17 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <remarks>The distance refers to <typeparamref name="T"/> items, not byte offset.</remarks>
         private readonly int step;
 
-        /// <summary>
-        /// The current position in the sequence.
-        /// </summary>
-        private int position;
-
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
         /// </summary>
         /// <param name="span">The <see cref="ReadOnlySpan{T}"/> instance pointing to the first item in the target memory area.</param>
         /// <param name="step">The distance between items in the sequence to enumerate.</param>
-        /// <param name="position">The current position in the sequence.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ReadOnlyRefEnumerable(ReadOnlySpan<T> span, int step, int position)
+        private ReadOnlyRefEnumerable(ReadOnlySpan<T> span, int step)
         {
             this.span = span;
             this.step = step;
-            this.position = position;
         }
 
         /// <summary>
@@ -82,27 +75,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         {
             this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(reference), length);
             this.step = step;
-            this.position = -1;
         }
 #else
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
-        /// </summary>
-        /// <param name="instance">The target <see cref="object"/> instance.</param>
-        /// <param name="offset">The initial offset within <see paramref="instance"/>.</param>
-        /// <param name="length">The number of items in the sequence.</param>
-        /// <param name="step">The distance between items in the sequence to enumerate.</param>
-        /// <param name="position">The current position in the sequence.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ReadOnlyRefEnumerable(object? instance, IntPtr offset, int length, int step, int position)
-        {
-            this.instance = instance;
-            this.offset = offset;
-            this.length = length;
-            this.step = step;
-            this.position = position;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct.
         /// </summary>
@@ -117,42 +91,19 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             this.offset = offset;
             this.length = length;
             this.step = step;
-            this.position = -1;
         }
 #endif
 
         /// <inheritdoc cref="System.Collections.IEnumerable.GetEnumerator"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly ReadOnlyRefEnumerable<T> GetEnumerator() => this;
-
-        /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
+        public Enumerator GetEnumerator()
         {
 #if SPAN_RUNTIME_SUPPORT
-            return ++this.position < this.span.Length;
+            return new Enumerator(this.span, this.step);
 #else
-            return ++this.position < this.length;
+            return new Enumerator(this.instance, this.offset, this.length, this.step);
 #endif
-        }
-
-        /// <inheritdoc cref="System.Collections.Generic.IEnumerator{T}.Current"/>
-        public readonly ref readonly T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-#if SPAN_RUNTIME_SUPPORT
-                ref T r0 = ref this.span.DangerousGetReference();
-#else
-                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-#endif
-                nint offset = (nint)(uint)this.position * (nint)(uint)this.step;
-                ref T ri = ref Unsafe.Add(ref r0, offset);
-
-                return ref ri;
-            }
         }
 
         /// <summary>
@@ -162,7 +113,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="destination"/> is shorter than the source <see cref="ReadOnlyRefEnumerable{T}"/> instance.
         /// </exception>
-        public readonly void CopyTo(RefEnumerable<T> destination)
+        public void CopyTo(RefEnumerable<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -205,7 +156,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="destination">The target <see cref="RefEnumerable{T}"/> of the copy operation.</param>
         /// <returns>Whether or not the operation was successful.</returns>
-        public readonly bool TryCopyTo(RefEnumerable<T> destination)
+        public bool TryCopyTo(RefEnumerable<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             int
@@ -234,7 +185,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="destination"/> is shorter than the source <see cref="RefEnumerable{T}"/> instance.
         /// </exception>
-        public readonly void CopyTo(Span<T> destination)
+        public void CopyTo(Span<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             if (this.step == 1)
@@ -265,7 +216,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="destination">The target <see cref="Span{T}"/> of the copy operation.</param>
         /// <returns>Whether or not the operation was successful.</returns>
-        public readonly bool TryCopyTo(Span<T> destination)
+        public bool TryCopyTo(Span<T> destination)
         {
 #if SPAN_RUNTIME_SUPPORT
             int length = this.span.Length;
@@ -285,7 +236,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 
         /// <inheritdoc cref="RefEnumerable{T}.ToArray"/>
         [Pure]
-        public readonly T[] ToArray()
+        public T[] ToArray()
         {
 #if SPAN_RUNTIME_SUPPORT
             int length = this.span.Length;
@@ -314,10 +265,99 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         public static implicit operator ReadOnlyRefEnumerable<T>(RefEnumerable<T> enumerable)
         {
 #if SPAN_RUNTIME_SUPPORT
-            return new ReadOnlyRefEnumerable<T>(enumerable.Span, enumerable.Step, enumerable.Position);
+            return new ReadOnlyRefEnumerable<T>(enumerable.Span, enumerable.Step);
 #else
-            return new ReadOnlyRefEnumerable<T>(enumerable.Instance, enumerable.Offset, enumerable.Length, enumerable.Step, enumerable.Position);
+            return new ReadOnlyRefEnumerable<T>(enumerable.Instance, enumerable.Offset, enumerable.Length, enumerable.Step);
 #endif
+        }
+
+        /// <summary>
+        /// A custom enumerator type to traverse items within a <see cref="ReadOnlyRefEnumerable{T}"/> instance.
+        /// </summary>
+        public ref struct Enumerator
+        {
+#if SPAN_RUNTIME_SUPPORT
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.span"/>
+            private readonly ReadOnlySpan<T> span;
+#else
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.instance"/>
+            private readonly object? instance;
+
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.offset"/>
+            private readonly IntPtr offset;
+
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.length"/>
+            private readonly int length;
+#endif
+
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.step"/>
+            private readonly int step;
+
+            /// <summary>
+            /// The current position in the sequence.
+            /// </summary>
+            private int position;
+
+#if SPAN_RUNTIME_SUPPORT
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Enumerator"/> struct.
+            /// </summary>
+            /// <param name="span">The <see cref="ReadOnlySpan{T}"/> instance with the info on the items to traverse.</param>
+            /// <param name="step">The distance between items in the sequence to enumerate.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Enumerator(ReadOnlySpan<T> span, int step)
+            {
+                this.span = span;
+                this.step = step;
+                this.position = -1;
+            }
+#else
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Enumerator"/> struct.
+            /// </summary>
+            /// <param name="instance">The target <see cref="object"/> instance.</param>
+            /// <param name="offset">The initial offset within <see paramref="instance"/>.</param>
+            /// <param name="length">The number of items in the sequence.</param>
+            /// <param name="step">The distance between items in the sequence to enumerate.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Enumerator(object? instance, IntPtr offset, int length, int step)
+            {
+                this.instance = instance;
+                this.offset = offset;
+                this.length = length;
+                this.step = step;
+                this.position = -1;
+            }
+#endif
+
+            /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool MoveNext()
+            {
+#if SPAN_RUNTIME_SUPPORT
+                return ++this.position < this.span.Length;
+#else
+                return ++this.position < this.length;
+#endif
+            }
+
+            /// <inheritdoc cref="System.Collections.Generic.IEnumerator{T}.Current"/>
+            public readonly ref readonly T Current
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get
+                {
+#if SPAN_RUNTIME_SUPPORT
+                    ref T r0 = ref this.span.DangerousGetReference();
+#else
+                    ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+#endif
+                    nint offset = (nint)(uint)this.position * (nint)(uint)this.step;
+                    ref T ri = ref Unsafe.Add(ref r0, offset);
+
+                    return ref ri;
+                }
+            }
         }
 
         /// <summary>
