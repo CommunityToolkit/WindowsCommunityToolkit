@@ -71,6 +71,9 @@
      <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
       <SubType>Designer</SubType>
     </Page>
+     <Page Update="Ribbon\Ribbon.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
      <Page Update="TokenizingTextBox\TokenizingTextBox.xaml">
        <Generator>MSBuild:Compile</Generator>
      </Page>
