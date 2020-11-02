@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UITests.Tests
 {
     [TestClass]
-    public class Tests : UITest
+    public class Test : UITest
     {
         [TestMethod]
         [TestPage("Simple")]
@@ -34,25 +34,6 @@ namespace UITests.Tests
             Wait.ForIdle();
 
             Verify.AreEqual("Clicked", textBlock.GetText());
-        }
-
-        [TestMethod]
-        [TestPage("TextBox Mask")]
-        public void TestTextBoxMaskBinding_Property()
-        {
-            var initialValue = FindElement.ById<TextBlock>("InitialValueTextBlock").GetText();
-            var textBox = FindElement.ById<Edit>("TextBox");
-
-            Verify.AreEqual(initialValue, textBox.GetText());
-
-            var changeButton = FindElement.ById<Button>("ChangeButton");
-
-            changeButton.Click();
-            Wait.ForIdle();
-
-            var newValue = FindElement.ById<TextBlock>("NewValueTextBlock").GetText();
-
-            Verify.AreEqual(newValue, textBox.GetText());
         }
     }
 }

@@ -11,7 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)UITest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextBoxMask.cs" />
   </ItemGroup>
 </Project>
