@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Header),
             typeof(string),
             typeof(TabbedCommandBarItem),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata("Test"));
 
         /// <summary>
         /// Gets or sets the title of this ribbon tab.

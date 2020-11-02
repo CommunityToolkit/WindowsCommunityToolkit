@@ -122,6 +122,7 @@
     <Compile Include="RangeSelectorMetadata.cs" />
     <Compile Include="RotatorTileMetadata.cs" />
     <Compile Include="ScrollHeaderMetadata.cs" />
+    <Compile Include="TabbedCommandBarMetadata.cs" />
     <Compile Include="TextToolbarMetadata.cs" />
     <Compile Include="TileControlMetadata.cs" />
     <Compile Include="WrapPanelMetadata.cs" />

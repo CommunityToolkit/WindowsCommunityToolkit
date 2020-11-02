@@ -515,6 +515,9 @@
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\TabbedCommandBar\TabbedCommandBarPage.xaml.cs">
+      <DependentUpon>TabbedCommandBarPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
     </Compile>
@@ -1000,6 +1003,14 @@
     <Page Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
+    <Page Include="SamplePages\TabbedCommandBar\TabbedCommandBarPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
