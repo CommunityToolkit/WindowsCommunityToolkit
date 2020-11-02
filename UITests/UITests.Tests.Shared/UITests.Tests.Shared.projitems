@@ -9,7 +9,9 @@
     <Import_RootNamespace>UITests.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)UITest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
   </ItemGroup>
 </Project>

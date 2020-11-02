@@ -21,7 +21,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UITests.Tests
 {
     [TestClass]
-    public class Tests
+    public class Tests : UITest
     {
         public static TestApplicationInfo WinUICsUWPSampleApp
         {
@@ -98,10 +98,9 @@ namespace UITests.Tests
         }
 
         [TestMethod]
+        [TestPage("Simple")]
         public void SimpleTest()
         {
-            OpenTest("Simple");
-
             var button = new Button(FindElement.ByName("Click Me"));
             var textBlock = new TextBlock(FindElement.ById("textBlock"));
 
@@ -117,10 +116,9 @@ namespace UITests.Tests
         }
 
         [TestMethod]
+        [TestPage("TextBox Mask")]
         public void TestTextBoxMaskBinding_Property()
         {
-            OpenTest("TextBox Mask");
-
             var initialValue = FindElement.ById<TextBlock>("InitialValueTextBlock").GetText();
             var textBox = FindElement.ById<Edit>("TextBox");
 
@@ -134,14 +132,6 @@ namespace UITests.Tests
             var newValue = FindElement.ById<TextBlock>("NewValueTextBlock").GetText();
 
             Verify.AreEqual(newValue, textBox.GetText());
-        }
-
-        private static void OpenTest(string name)
-        {
-            var btn = new Button(FindElement.ByName(name));
-            Verify.IsNotNull(btn);
-            btn.Click();
-            Wait.ForIdle();
         }
     }
 }
