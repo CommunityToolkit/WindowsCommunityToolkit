@@ -79,6 +79,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, -10, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, 1, 1, -1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, 1, -100, 1));
+            Assert.ThrowsException<ArgumentException>(() => new Memory2D<int>(array, 0, 2, 4, 0));
+            Assert.ThrowsException<ArgumentException>(() => new Memory2D<int>(array, 0, 3, 3, 0));
+            Assert.ThrowsException<ArgumentException>(() => new Memory2D<int>(array, 1, 2, 3, 0));
             Assert.ThrowsException<ArgumentException>(() => new Memory2D<int>(array, 0, 10, 1, 120));
         }
 
@@ -158,6 +161,7 @@ namespace UnitTests.HighPerformance.Memory
 
             // A couple of tests for invalid parameters, ie. layers out of range
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 2));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 20));
         }
 
@@ -196,6 +200,10 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 1, 1, -1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 1, 1, 1, -1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 1, 1, 1, 1, -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 2, 0, 0, 2, 3));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, 0, 1, 2, 3));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, 0, 0, 2, 4));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, 0, 0, 3, 3));
         }
 
 #if !WINDOWS_UWP
@@ -225,6 +233,9 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(0, -10, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(0, 1, 1, -1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => memory.AsMemory2D(0, 1, -100, 1));
+            Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(0, 2, 4, 0));
+            Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(0, 3, 3, 0));
+            Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(1, 2, 3, 0));
             Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(0, 10, 1, 120));
         }
 #endif
@@ -270,6 +281,10 @@ namespace UnitTests.HighPerformance.Memory
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(10, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(1, 12, 1, 12));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(1, 1, 55, 1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(0, 0, 2, 4));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(0, 0, 3, 3));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(0, 1, 2, 3));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array).Slice(1, 0, 2, 3));
         }
 
         [TestCategory("Memory2DT")]
