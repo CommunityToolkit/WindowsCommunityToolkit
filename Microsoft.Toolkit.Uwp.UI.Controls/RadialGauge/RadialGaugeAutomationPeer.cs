@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using Windows.Foundation;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
 
@@ -12,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Exposes <see cref="RadialGauge"/> to Microsoft UI Automation.
     /// </summary>
     public class RadialGaugeAutomationPeer :
-        FrameworkElementAutomationPeer,
+        RangeBaseAutomationPeer,
         IRangeValueProvider
     {
         /// <summary>
@@ -25,25 +27,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
-        public bool IsReadOnly => !((RadialGauge)Owner).IsInteractive;
+        public new bool IsReadOnly => !((RadialGauge)Owner).IsInteractive;
 
         /// <inheritdoc/>
-        public double LargeChange => ((RadialGauge)Owner).StepSize;
+        public new double LargeChange => ((RadialGauge)Owner).StepSize;
 
         /// <inheritdoc/>
-        public double Maximum => ((RadialGauge)Owner).Maximum;
+        public new double Maximum => ((RadialGauge)Owner).Maximum;
 
         /// <inheritdoc/>
-        public double Minimum => ((RadialGauge)Owner).Minimum;
+        public new double Minimum => ((RadialGauge)Owner).Minimum;
 
         /// <inheritdoc/>
-        public double SmallChange => ((RadialGauge)Owner).StepSize;
+        public new double SmallChange => ((RadialGauge)Owner).StepSize;
 
         /// <inheritdoc/>
-        public double Value => ((RadialGauge)Owner).Value;
+        public new double Value => ((RadialGauge)Owner).Value;
 
         /// <inheritdoc/>
-        public void SetValue(double value)
+        public new void SetValue(double value)
         {
             ((RadialGauge)Owner).Value = value;
         }
@@ -58,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override string GetNameCore()
         {
             var gauge = (RadialGauge)Owner;
-            return "radial gauge. " + (string.IsNullOrWhiteSpace(gauge.Unit) ? "no unit specified. " : "unit " + gauge.Unit + ". ");
+            return "radial gauge. " + (string.IsNullOrWhiteSpace(gauge.Unit) ? "no unit specified, " : "unit " + gauge.Unit + ", ") + Value;
         }
 
         /// <inheritdoc/>
@@ -77,6 +79,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override AutomationControlType GetAutomationControlTypeCore()
         {
             return AutomationControlType.Custom;
+        }
+
+        /// <summary>
+        /// Raises the property changed event for this AutomationPeer for the provided identifier.
+        /// </summary>
+        /// <param name="oldValue">Old value</param>
+        /// <param name="newValue">New value</param>
+        public void RaiseValueChangedEvent(double oldValue, double newValue)
+        {
+            RaisePropertyChangedEvent(RangeValuePatternIdentifiers.ValueProperty, PropertyValue.CreateDouble(oldValue), PropertyValue.CreateDouble(newValue));
         }
     }
 }
