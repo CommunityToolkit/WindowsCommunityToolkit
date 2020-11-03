@@ -12,7 +12,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)UITest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Test.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TextBoxMask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\Test.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\TextBoxMask.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Tests\" />
   </ItemGroup>
 </Project>
