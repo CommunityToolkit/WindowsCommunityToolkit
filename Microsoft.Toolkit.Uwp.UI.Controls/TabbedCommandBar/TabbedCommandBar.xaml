@@ -14,7 +14,7 @@
         <Setter Property="DefaultLabelPosition" Value="Right" />
         <Setter Property="Background" Value="{ThemeResource TabbedCommandBarContentBackground}" />
         <!--
-            Also, is there a way to prevent the overflow button from showing if there aren't any buttons to send to the overflow menu?
+            Is there a way to prevent the overflow button from showing if there aren't any buttons to send to the overflow menu?
             (See my message in the WinUI channel: https://discord.com/channels/372137812037730304/671870147354427422/771057634203402300 )
             Hardcoding the height of the CommandBar does work, but it's a bit of a hack.
         -->
@@ -700,27 +700,11 @@
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="NavigationView">
                     <Grid x:Name="RootGrid">
-                        <!--<Grid x:Name="PaneToggleButtonGrid" HorizontalAlignment="Left" Margin="0,0,0,8" VerticalAlignment="Top" Canvas.ZIndex="100">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid x:Name="TogglePaneTopPadding" Height="{Binding TemplateSettings.TopPadding, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                    <Grid x:Name="ButtonHolderGrid" Grid.Row="1">
-                                        <Button x:Name="NavigationViewBackButton" IsEnabled="{TemplateBinding IsBackEnabled}" Style="{StaticResource NavigationBackButtonNormalStyle}" VerticalAlignment="Top" Visibility="{Binding TemplateSettings.BackButtonVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip x:Name="NavigationViewBackButtonToolTip"/>
-                                            </ToolTipService.ToolTip>
-                                        </Button>
-                                        <Button x:Name="TogglePaneButton" AutomationProperties.LandmarkType="Navigation" Style="{TemplateBinding PaneToggleButtonStyle}" VerticalAlignment="Top" Visibility="{Binding TemplateSettings.PaneToggleButtonVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                            <TextBlock x:Name="PaneTitleTextBlock" Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource NavigationViewItemHeaderTextStyle}" Text="{TemplateBinding PaneTitle}" VerticalAlignment="Center"/>
-                                        </Button>
-                                    </Grid>
-                                </Grid>-->
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -730,7 +714,7 @@
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
-                                        Background="{ThemeResource NavigationViewTopPaneBackground}"
+                                        Background="{TemplateBinding Background}"
                                         Canvas.ZIndex="1"
                                         XYFocusKeyboardNavigation="Enabled">
                                 <Grid x:Name="TopNavTopPadding"
@@ -740,7 +724,6 @@
                                       Height="{ThemeResource NavigationViewTopPaneHeight}"
                                       Visibility="{Binding TemplateSettings.TopPaneVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                     <Grid.ColumnDefinitions>
-                                        <!--<ColumnDefinition x:Name="BackButtonPlaceholderOnTopNav" Width="{ThemeResource NavigationBackButtonWidth}"/>-->
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -815,15 +798,11 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsTabStop="False" />
-                                    <!--<Grid x:Name="TopPaneAutoSuggestArea" Grid.Column="6" Height="{ThemeResource NavigationViewTopPaneHeight}">
-                                                <ContentControl x:Name="TopPaneAutoSuggestBoxPresenter" HorizontalContentAlignment="Stretch" IsTabStop="False" MinWidth="48" Margin="12,0,12,0" VerticalContentAlignment="Center"/>
-                                            </Grid>-->
                                     <ContentControl x:Name="PaneFooterOnTopPane"
                                                     Grid.Column="7"
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsTabStop="False" />
-                                    <!--<NavigationViewItem x:Name="SettingsTopNavPaneItem" Grid.Column="8" Icon="Setting" Style="{ThemeResource NavigationViewSettingsItemStyleWhenOnTopPane}"/>-->
                                 </Grid>
                                 <Border x:Name="TopNavContentOverlayAreaGrid"
                                         Child="{TemplateBinding ContentOverlay}" />
@@ -867,10 +846,6 @@
                                                             VerticalContentAlignment="Stretch"
                                                             IsTabStop="False" />
                                         </Grid>
-                                        <!--<Grid x:Name="AutoSuggestArea" Height="{ThemeResource NavigationViewTopPaneHeight}" Grid.Row="3" VerticalAlignment="Center">
-                                                    <ContentControl x:Name="PaneAutoSuggestBoxPresenter" HorizontalContentAlignment="Stretch" IsTabStop="False" Margin="{ThemeResource NavigationViewAutoSuggestBoxMargin}" VerticalContentAlignment="Center"/>
-                                                    <Button x:Name="PaneAutoSuggestButton" Style="{ThemeResource NavigationViewPaneSearchButtonStyle}" Visibility="Collapsed" Width="{TemplateBinding CompactPaneLength}"/>
-                                                </Grid>-->
                                         <ContentControl x:Name="PaneCustomContentBorder"
                                                         Grid.Row="4"
                                                         HorizontalContentAlignment="Stretch"
@@ -893,7 +868,6 @@
                                                         HorizontalContentAlignment="Stretch"
                                                         VerticalContentAlignment="Stretch"
                                                         IsTabStop="False" />
-                                        <!--<NavigationViewItem x:Name="SettingsNavPaneItem" Icon="Setting" Grid.Row="8"/>-->
                                     </Grid>
                                 </SplitView.Pane>
                                 <Grid x:Name="ContentGrid">
@@ -940,14 +914,6 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            <!--<VisualStateGroup x:Name="TogglePaneGroup">
-                                        <VisualState x:Name="TogglePaneButtonVisible"/>
-                                        <VisualState x:Name="TogglePaneButtonCollapsed">
-                                            <VisualState.Setters>
-                                                <Setter Target="PaneContentGridToggleButtonRow.Height" Value="4"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>-->
                             <VisualStateGroup x:Name="HeaderGroup">
                                 <VisualState x:Name="HeaderVisible" />
                                 <VisualState x:Name="HeaderCollapsed">
@@ -956,33 +922,6 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            <!--<VisualStateGroup x:Name="SettingsGroup">
-                                        <VisualState x:Name="SettingsVisible"/>
-                                        <VisualState x:Name="SettingsCollapsed">
-                                            <VisualState.Setters>
-                                                <Setter Target="SettingsNavPaneItem.Visibility" Value="Collapsed"/>
-                                                <Setter Target="SettingsTopNavPaneItem.Visibility" Value="Collapsed"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                    <VisualStateGroup x:Name="AutoSuggestGroup">
-                                        <VisualState x:Name="AutoSuggestBoxVisible"/>
-                                        <VisualState x:Name="AutoSuggestBoxCollapsed">
-                                            <VisualState.Setters>
-                                                <Setter Target="AutoSuggestArea.Visibility" Value="Collapsed"/>
-                                                <Setter Target="TopPaneAutoSuggestArea.Visibility" Value="Collapsed"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                    <VisualStateGroup x:Name="PaneStateGroup">
-                                        <VisualState x:Name="NotClosedCompact"/>
-                                        <VisualState x:Name="ClosedCompact">
-                                            <VisualState.Setters>
-                                                <Setter Target="PaneAutoSuggestBoxPresenter.Visibility" Value="Collapsed"/>
-                                                <Setter Target="PaneAutoSuggestButton.Visibility" Value="Visible"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>-->
                             <VisualStateGroup x:Name="PaneStateListSizeGroup">
                                 <VisualState x:Name="ListSizeFull" />
                                 <VisualState x:Name="ListSizeCompact">
@@ -1016,14 +955,6 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            <!--<VisualStateGroup x:Name="BackButtonGroup">
-                                        <VisualState x:Name="BackButtonVisible"/>
-                                        <VisualState x:Name="BackButtonCollapsed">
-                                            <VisualState.Setters>
-                                                <Setter Target="BackButtonPlaceholderOnTopNav.Width" Value="0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>-->
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </ControlTemplate>

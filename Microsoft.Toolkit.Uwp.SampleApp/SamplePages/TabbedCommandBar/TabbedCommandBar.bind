@@ -5,12 +5,79 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
     <Grid>
-        <Border Margin="0">
-            <controls:TabbedCommandBar x:Name="TabbedCommandBarControl">
-                <controls:TabbedCommandBarItem Header="Home">
-                    <AppBarButton Icon="Cut" Label="Cut"/>
-                </controls:TabbedCommandBarItem>
-            </controls:TabbedCommandBar>
-        </Border>
+        <controls:TabbedCommandBar>
+            <controls:TabbedCommandBar.Footer>
+                <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                    <AppBarButton Label="Share" Icon="Share"/>
+                    <AppBarButton Label="Comments" Icon="Message"/>
+                </CommandBar>
+            </controls:TabbedCommandBar.Footer>
+            <controls:TabbedCommandBar.Resources>
+                <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemControlChromeMediumLowAcrylicWindowMediumBrush" />
+                <StaticResource x:Key="TabbedCommandBarContentBackground" ResourceKey="SystemControlChromeLowAcrylicWindowBrush" />
+            </controls:TabbedCommandBar.Resources>
+            <controls:TabbedCommandBarItem Header="Home">
+                <AppBarButton Icon="Undo" Label="Undo"/>
+                <AppBarButton Icon="Redo" Label="Redo"/>
+                <AppBarButton Icon="Paste" Label="Paste"/>
+                <AppBarSeparator />
+                <AppBarElementContainer>
+                    <ComboBox SelectedIndex="0">
+                        <ComboBoxItem Content="Arial" />
+                        <ComboBoxItem Content="Calibri" />
+                        <ComboBoxItem Content="JetBrains Mono" />
+                        <ComboBoxItem Content="Roboto" />
+                        <ComboBoxItem Content="Sergio UI" />
+                        <ComboBoxItem Content="Sergio UI Semibold" />
+                    </ComboBox>
+                </AppBarElementContainer>
+                <AppBarToggleButton Icon="Bold" Label="Bold" />
+                <AppBarToggleButton Icon="Italic" Label="Italic" />
+                <AppBarToggleButton Icon="Underline" Label="Underline" />
+            </controls:TabbedCommandBarItem>
+            <controls:TabbedCommandBarItem Header="Insert">
+                <AppBarButton Icon="Pictures" Label="Pictures">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                            <MenuFlyoutItem Text="This Device">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC4E;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Stock Images">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Icon="Globe" Text="Online Pictures" />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Label="Shapes">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Symbol" Glyph="&#x25A1;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="Icons">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED58;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="3D Models">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF158;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarButton Label="Add-ins">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xECAA;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <controls:TabbedCommandBarItem.SecondaryCommands>
+                    <AppBarButton Icon="Add" Label="New item" />
+                </controls:TabbedCommandBarItem.SecondaryCommands>
+            </controls:TabbedCommandBarItem>
+        </controls:TabbedCommandBar>
     </Grid>
 </Page>
