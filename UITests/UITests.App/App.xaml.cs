@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -13,6 +16,8 @@ namespace UITests.App
 {
     public sealed partial class App
     {
+        internal Dictionary<string, Type> TestPages { get; } = new Dictionary<string, Type>();
+
         public App()
         {
             this.InitializeComponent();
@@ -26,6 +31,22 @@ namespace UITests.App
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            var testPages = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(Page)))
+                .Where(page => page.GetCustomAttribute(typeof(TestPageAttribute)) is TestPageAttribute);
+
+            foreach (var page in testPages)
+            {
+                try
+                {
+                    TestPages.Add(page.Name, page);
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new Exception("Two or more test pages share a name.", ex);
+                }
+            }
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

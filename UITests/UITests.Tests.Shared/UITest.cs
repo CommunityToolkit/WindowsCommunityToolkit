@@ -35,9 +35,10 @@ namespace UITests.Tests
         private static void OpenTest(string name)
         {
             Log.Comment("Opening: " + name);
-            var btn = new Button(FindElement.ByName(name));
-            Verify.IsNotNull(btn);
-            btn.Click();
+            var pageTextBox = FindElement.ById<Edit>("PageName");
+            pageTextBox.SetValueAndWait(name);
+            KeyboardHelper.PressKey(Key.Enter);
+
             Wait.ForIdle();
         }
     }

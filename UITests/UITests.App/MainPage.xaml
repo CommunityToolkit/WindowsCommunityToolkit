@@ -18,8 +18,7 @@
         <Frame x:Name="navigationFrame" />
         
         <StackPanel Orientation="Horizontal" Grid.Row="1" >
-            <Button Content="Simple" Click="btnSimple_Click" />
-            <Button Content="TextBox Mask" Click="btnTextBoxMask_Click" />
+            <TextBox x:Name="PageName" KeyDown="PageName_KeyDown"/>
         </StackPanel>
     </Grid>
 </Page>

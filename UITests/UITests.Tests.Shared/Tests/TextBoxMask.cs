@@ -19,7 +19,7 @@ namespace UITests.Tests
     public class TextBoxMask : UITest
     {
         [TestMethod]
-        [TestPage("TextBox Mask")]
+        [TestPage("TextBoxMaskTestPage")]
         public void TestTextBoxMaskBinding_Property()
         {
             var initialValue = FindElement.ById<TextBlock>("InitialValueTextBlock").GetText();

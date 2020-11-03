@@ -10,6 +10,7 @@ namespace UITests.App.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    [TestPage]
     public sealed partial class TextBoxMaskTestPage : Page
     {
         private const string INITIAL_VALUE = "12:50:59";
