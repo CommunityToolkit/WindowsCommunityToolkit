@@ -22,16 +22,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (topdown)
             {
-                var rows = arrayref.SpotsTaken.GetLength(0);
+                var rows = arrayref.Height;
 
                 // Layout spots from Top-Bottom, Left-Right (right-left handled automatically by Grid with Flow-Direction).
                 // Effectively transpose the Grid Layout.
-                for (int c = 0; c < arrayref.SpotsTaken.GetLength(1); c++)
+                for (int c = 0; c < arrayref.Width; c++)
                 {
                     int start = (c == 0 && firstcolumn > 0 && firstcolumn < rows) ? firstcolumn : 0;
                     for (int r = start; r < rows; r++)
                     {
-                        if (!arrayref.SpotsTaken[r, c])
+                        if (!arrayref[r, c])
                         {
                             yield return (r, c);
                         }
@@ -40,17 +40,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                var columns = arrayref.SpotsTaken.GetLength(1);
+                var columns = arrayref.Width;
 
                 // Layout spots as normal from Left-Right.
                 // (right-left handled automatically by Grid with Flow-Direction
                 // during its layout, internal model is always left-right).
-                for (int r = 0; r < arrayref.SpotsTaken.GetLength(0); r++)
+                for (int r = 0; r < arrayref.Height; r++)
                 {
                     int start = (r == 0 && firstcolumn > 0 && firstcolumn < columns) ? firstcolumn : 0;
                     for (int c = start; c < columns; c++)
                     {
-                        if (!arrayref.SpotsTaken[r, c])
+                        if (!arrayref[r, c])
                         {
                             yield return (r, c);
                         }
