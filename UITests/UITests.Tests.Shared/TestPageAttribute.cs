@@ -6,7 +6,7 @@ using System;
 
 namespace UITests.Tests
 {
-    [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class TestPageAttribute : Attribute
     {
         public TestPageAttribute(string xamlFile)
