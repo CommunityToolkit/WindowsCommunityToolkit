@@ -55,6 +55,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
     public partial class ColorPicker : Windows.UI.Xaml.Controls.ColorPicker
     {
+        internal Color CheckerBackgroundColor { get; set; } = Color.FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
+
         /// <summary>
         /// The period that scheduled color updates will be applied.
         /// This is only used when updating colors using the ScheduleColorUpdate() method.
@@ -68,7 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Dictionary<Slider, Size> cachedSliderSizes      = new Dictionary<Slider, Size>();
         private bool                     callbacksConnected     = false;
-        internal Color                    checkerBackgroundColor = Color.FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
         private bool                     eventsConnected        = false;
         private bool                     isInitialized          = false;
 
@@ -132,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Checkered background color is found only one time for performance
             // This may need to change in the future if theme changes should be supported
-            this.checkerBackgroundColor = (Color)Application.Current.Resources["SystemListLowColor"];
+            this.CheckerBackgroundColor = (Color)Application.Current.Resources["SystemListLowColor"];
 
             this.ConnectCallbacks(true);
             this.SetDefaultPalette();
@@ -173,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            // TODO: We need to disconnect old events first.
+            //// TODO: We need to disconnect old events first.
 
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>(nameof(ColorSpectrumAlphaSlider));
@@ -1068,7 +1069,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.GetActiveColorRepresentation(),
                     ColorChannel.Channel1,
                     baseColor,
-                    this.checkerBackgroundColor);
+                    this.CheckerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.Channel2Slider))
             {
@@ -1079,7 +1080,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.GetActiveColorRepresentation(),
                     ColorChannel.Channel2,
                     baseColor,
-                    this.checkerBackgroundColor);
+                    this.CheckerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.Channel3Slider))
             {
@@ -1090,7 +1091,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.GetActiveColorRepresentation(),
                     ColorChannel.Channel3,
                     baseColor,
-                    this.checkerBackgroundColor);
+                    this.CheckerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.AlphaChannelSlider))
             {
@@ -1101,7 +1102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.GetActiveColorRepresentation(),
                     ColorChannel.Alpha,
                     baseColor,
-                    this.checkerBackgroundColor);
+                    this.CheckerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.ColorSpectrumAlphaSlider))
             {
@@ -1112,7 +1113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.GetActiveColorRepresentation(),
                     ColorChannel.Alpha,
                     baseColor,
-                    this.checkerBackgroundColor);
+                    this.CheckerBackgroundColor);
             }
             else if (object.ReferenceEquals(slider, this.ColorSpectrumThirdDimensionSlider))
             {
@@ -1123,7 +1124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ColorRepresentation.Hsva, // Always HSV
                     this.GetActiveColorSpectrumThirdDimension(),
                     baseColor,
-                    this.checkerBackgroundColor);
+                    this.CheckerBackgroundColor);
             }
 
             if (bitmap != null)
@@ -1293,7 +1294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             await ColorPickerRenderingHelpers.UpdateBorderBackgroundWithCheckerAsync(
                 sender as Border,
-                checkerBackgroundColor);
+                CheckerBackgroundColor);
         }
 
         /// <summary>

@@ -28,7 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Size oldSize;
         private Size measuredSize;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorPickerSlider"/> class.
+        /// </summary>
         public ColorPickerSlider()
             : base()
         {

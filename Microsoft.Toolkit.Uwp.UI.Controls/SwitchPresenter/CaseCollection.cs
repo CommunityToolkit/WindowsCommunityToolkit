@@ -36,6 +36,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CaseCollectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CaseCollection"/> class.
+        /// </summary>
         public CaseCollection()
         {
         }

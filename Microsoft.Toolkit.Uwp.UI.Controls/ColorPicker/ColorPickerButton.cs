@@ -66,9 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty FlyoutPresenterStyleProperty = DependencyProperty.Register("FlyoutPresenterStyle", typeof(Style), typeof(ColorPickerButton), new PropertyMetadata(default(Style)));
 
+        #pragma warning disable CS0419 // Ambiguous reference in cref attribute
         /// <summary>
         /// Gets or sets the selected <see cref="Windows.UI.Color"/> the user has picked from the <see cref="ColorPicker"/>.
         /// </summary>
+        #pragma warning restore CS0419 // Ambiguous reference in cref attribute
         public Color SelectedColor
         {
             get { return (Color)GetValue(SelectedColorProperty); }
@@ -149,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             await ColorPickerRenderingHelpers.UpdateBorderBackgroundWithCheckerAsync(
                 sender as Border,
-                ColorPicker.checkerBackgroundColor); // TODO: Check initialization
+                ColorPicker.CheckerBackgroundColor); // TODO: Check initialization
         }
     }
 }
