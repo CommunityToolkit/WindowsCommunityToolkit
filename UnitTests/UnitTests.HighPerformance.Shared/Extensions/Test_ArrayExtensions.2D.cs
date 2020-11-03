@@ -194,6 +194,7 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.AreSame(new int[1, 0].GetRow(0).ToArray(), Array.Empty<int>());
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(3));
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetRow(20));
         }
@@ -221,6 +222,7 @@ namespace UnitTests.HighPerformance.Extensions
             CollectionAssert.AreEqual(array.GetColumn(1).ToArray(), new[] { 2, 6, 10 });
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(-1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(4));
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(20));
         }
