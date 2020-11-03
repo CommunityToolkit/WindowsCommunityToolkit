@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="array"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="array"/>.</remarks>
         public Memory2D(T[] array, int height, int width)
             : this(array, 0, height, width, 0)
         {
@@ -320,7 +320,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="memoryManager"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="memoryManager"/>.</remarks>
         public Memory2D(MemoryManager<T> memoryManager, int height, int width)
             : this(memoryManager, 0, height, width, 0)
         {
@@ -396,7 +396,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="memory"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="memory"/>.</remarks>
         internal Memory2D(Memory<T> memory, int height, int width)
             : this(memory, 0, height, width, 0)
         {

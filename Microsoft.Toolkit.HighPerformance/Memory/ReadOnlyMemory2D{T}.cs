@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="text"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="text"/>.</remarks>
         public ReadOnlyMemory2D(string text, int height, int width)
             : this(text, 0, height, width, 0)
         {
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="array"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="array"/>.</remarks>
         public ReadOnlyMemory2D(T[] array, int height, int width)
             : this(array, 0, height, width, 0)
         {
@@ -341,7 +341,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="memoryManager"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="memoryManager"/>.</remarks>
         public ReadOnlyMemory2D(MemoryManager<T> memoryManager, int height, int width)
             : this(memoryManager, 0, height, width, 0)
         {
@@ -417,7 +417,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="memory"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="memory"/>.</remarks>
         internal ReadOnlyMemory2D(ReadOnlyMemory<T> memory, int height, int width)
             : this(memory, 0, height, width, 0)
         {

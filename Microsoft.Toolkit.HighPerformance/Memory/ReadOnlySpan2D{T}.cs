@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="array"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="array"/>.</remarks>
         public ReadOnlySpan2D(T[] array, int height, int width)
             : this(array, 0, height, width, 0)
         {
@@ -384,7 +384,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/> or <paramref name="width"/> are invalid.
         /// </exception>
-        /// <remarks>The total area must match the lenght of <paramref name="span"/>.</remarks>
+        /// <remarks>The total area must match the length of <paramref name="span"/>.</remarks>
         internal ReadOnlySpan2D(ReadOnlySpan<T> span, int height, int width)
             : this(span, 0, height, width, 0)
         {
