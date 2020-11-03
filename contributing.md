@@ -1,10 +1,10 @@
 # Contributing to the Windows Community Toolkit :sparkles::sparkles:
 
-The Windows Community Toolkit team is delighted to welcome you for exhibiting interest in contributing to one of the most exhilarating and growing projects. Any contribution or value added will go a long way to enhance the project.
+Thank you for exhibiting interest in contributing to the Windows Community Toolkit. The team is delighted to welcome you onboard to our exciting and growing project. Any contribution or value added go a long way to enhance the project!
 
 In the next few steps you will be able to see a glimpse of ways you can contribute to the Windows Community Toolkit
 
-:rotating_light: **It is highly recommended to visit [Windows Community Toolkit Wiki](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki) where you can find complete and detail-oriented content of this page** :rotating_light:
+:rotating_light: **It is highly recommended to visit [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) where you can find complete and detail-oriented content of this page** :rotating_light:
 
 ## <a name="question"></a> Questions :grey_question:
 Due to the high volume of incoming issues please keep our GitHub issues for bug reports and feature requests. For general questions, there is a higher chance of getting your question answered on [StackOverflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag windows-community-toolkit. 
