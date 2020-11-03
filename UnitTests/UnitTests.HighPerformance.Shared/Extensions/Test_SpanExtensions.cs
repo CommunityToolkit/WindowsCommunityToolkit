@@ -173,30 +173,42 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_SpanExtensions_CopyTo_RefEnumerable()
         {
-            int[,] array1 = new int[4, 5];
+            int[,] array = new int[4, 5];
 
-            int[] values = { 10, 20, 30, 40, 50 };
+            int[]
+                values1 = { 10, 20, 30, 40, 50 },
+                values2 = { 11, 22, 33, 44, 55 };
 
             // Copy a span to a target row and column with valid lengths
-            values.AsSpan().CopyTo(array1.GetRow(0));
-            values.AsSpan(0, 4).CopyTo(array1.GetColumn(1));
+            values1.AsSpan().CopyTo(array.GetRow(0));
+            values2.AsSpan(0, 4).CopyTo(array.GetColumn(1));
+
+            int[,] result =
+            {
+                { 10, 11, 30, 40, 50 },
+                { 0, 22, 0, 0, 0 },
+                { 0, 33, 0, 0, 0 },
+                { 0, 44, 0, 0, 0 }
+            };
+
+            CollectionAssert.AreEqual(array, result);
 
             // Try to copy to a valid row and an invalid column (too short for the source span)
-            bool shouldBeTrue = values.AsSpan().TryCopyTo(array1.GetRow(2));
-            bool shouldBeFalse = values.AsSpan().TryCopyTo(array1.GetColumn(1));
+            bool shouldBeTrue = values1.AsSpan().TryCopyTo(array.GetRow(2));
+            bool shouldBeFalse = values2.AsSpan().TryCopyTo(array.GetColumn(3));
 
             Assert.IsTrue(shouldBeTrue);
             Assert.IsFalse(shouldBeFalse);
 
-            int[,] result =
+            result = new[,]
             {
-                { 10, 10, 30, 40, 50 },
-                { 0, 20, 0, 0, 0 },
+                { 10, 11, 30, 40, 50 },
+                { 0, 22, 0, 0, 0 },
                 { 10, 20, 30, 40, 50 },
-                { 0, 40, 0, 0, 0 }
+                { 0, 44, 0, 0, 0 }
             };
 
-            CollectionAssert.AreEqual(array1, result);
+            CollectionAssert.AreEqual(array, result);
         }
     }
 }
