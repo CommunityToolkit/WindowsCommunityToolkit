@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
         /// <exception cref="OverflowException">Throw when the inputs don't fit in the expected range.</exception>
+        /// <remarks>The input parameters are assumed to always be positive.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void EnsureIsInNativeIntRange(int height, int width, int pitch)
         {
@@ -53,13 +54,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
         }
 
         /// <summary>
-        /// Ensures that the input parameters will not exceed the maximum native int value when indexing.
+        /// Ensures that the input parameters will not exceed <see cref="int.MaxValue"/> when indexing.
         /// </summary>
         /// <param name="height">The height of the 2D memory area to map.</param>
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map (the distance between each row).</param>
         /// <returns>The area resulting from the given parameters.</returns>
         /// <exception cref="OverflowException">Throw when the inputs don't fit in the expected range.</exception>
+        /// <remarks>The input parameters are assumed to always be positive.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ComputeInt32Area(int height, int width, int pitch)
