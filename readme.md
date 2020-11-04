@@ -15,16 +15,16 @@ The Windows Community Toolkit is a collection of helper functions, custom contro
 | Production | rel/6.1.0 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/6.1.0)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/6.1.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) | 
 | Pre-release beta testing | master | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=master)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
-## Getting Started
-Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
+## Getting Started :raised_hands:
+Please read the [Getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
 
-## Documentation
+## Documentation :pencil:
 All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/windows/communitytoolkit/). All API documentation can be found at the [.NET API Browser](https://docs.microsoft.com/dotnet/api/?view=win-comm-toolkit-dotnet-stable).
 
-## Windows Community Toolkit Sample App
+## Windows Community Toolkit Sample App :briefcase:
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
-## NuGet Packages
+## NuGet Packages :package:
 NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* Enter one of the package names below to search for it online.
 
 | NuGet Package Name | Description |
@@ -45,14 +45,14 @@ NuGet is a standard package manager for .NET applications which is built into Vi
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
-## <a name="supported"></a> Features
+## <a name="supported"></a> Features :mailbox:
 The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/toc.md#controls) refers to all the currently available features that can be found in the Windows Community Toolkit. Most features should work with the October 2018 Update (1809) SDK 17763 and above; however, refer to specific documentation on each feature for more information.
 
 ## Feedback and Requests
 Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
-## <a name="dependencies"></a> Required Dependencies
+## <a name="dependencies"></a> Required Dependencies :pushpin:
 The following dependencies are required for building the Windows Community Toolkit repo and sample app:
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) with UWP and .NET workloads
@@ -61,10 +61,10 @@ The following dependencies are required for building the Windows Community Toolk
 * [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/visual-studio-sdks)
 * [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
 
-## Contributing
-Do you want to contribute? Checkout our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page.
+## Contributing :rocket:
+Do you want to contribute? Check out our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page.
 
-## Principles
+## Principles :ballot_box_with_check:
 * Principle **#1**: The toolkit will be kept simple.
 * Principle **#2**: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
 * Principle **#3**: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
@@ -73,7 +73,7 @@ This project has adopted the code of conduct defined by the [Contributor Covenan
 to clarify expected behavior in our community.
 For more information see the [.NET Foundation Code of Conduct](CODE_OF_CONDUCT.md).
 
-## Roadmap
+## Roadmap :earth_americas:
 Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
 By adding this ([NuGet repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your NuGet sources in Visual Studio, you can also get pre-release packages of upcoming versions.
