@@ -1,15 +1,8 @@
----
-topic: sample
-languages:
-- csharp
-products:
-- windows
----
 
 # Windows Community Toolkit
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
-## Build Status
+## Build Status :building_construction:
 | Target | Branch | Status | Recommended package version |
 | ------ | ------ | ------ | ------ |
 | Production | rel/6.1.0 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/6.1.0)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/6.1.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) | 
@@ -48,10 +41,6 @@ NuGet is a standard package manager for .NET applications which is built into Vi
 ## <a name="supported"></a> Features :mailbox:
 The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/toc.md#controls) refers to all the currently available features that can be found in the Windows Community Toolkit. Most features should work with the October 2018 Update (1809) SDK 17763 and above; however, refer to specific documentation on each feature for more information.
 
-## Feedback and Requests
-Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
-For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
-
 ## <a name="dependencies"></a> Required Dependencies :pushpin:
 The following dependencies are required for building the Windows Community Toolkit repo and sample app:
 
@@ -61,8 +50,8 @@ The following dependencies are required for building the Windows Community Toolk
 * [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/visual-studio-sdks)
 * [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
 
-## Contributing :rocket:
-Do you want to contribute? Check out our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page.
+## Contribution :rocket:
+Do you want to contribute? Check out our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page to learn more about contribution and guidelines.
 
 ## Principles :ballot_box_with_check:
 * Principle **#1**: The toolkit will be kept simple.
