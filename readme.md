@@ -1,8 +1,7 @@
 
-# Windows Community Toolkit
+# Windows Community Toolkit :briefcase:
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
-## Build Status :building_construction:
 | Target | Branch | Status | Recommended package version |
 | ------ | ------ | ------ | ------ |
 | Production | rel/6.1.0 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/6.1.0)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/6.1.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) | 
@@ -14,7 +13,7 @@ Please read the [Getting Started with the Windows Community Toolkit](https://doc
 ## Documentation :pencil:
 All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/windows/communitytoolkit/). All API documentation can be found at the [.NET API Browser](https://docs.microsoft.com/dotnet/api/?view=win-comm-toolkit-dotnet-stable).
 
-## Windows Community Toolkit Sample App :briefcase:
+## Windows Community Toolkit Sample App :iphone:
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## NuGet Packages :package:
@@ -53,19 +52,15 @@ The following dependencies are required for building the Windows Community Toolk
 ## Contribution :rocket:
 Do you want to contribute? Check out our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page to learn more about contribution and guidelines.
 
-## Principles :ballot_box_with_check:
-* Principle **#1**: The toolkit will be kept simple.
-* Principle **#2**: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
-* Principle **#3**: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
-
-This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
-to clarify expected behavior in our community.
-For more information see the [.NET Foundation Code of Conduct](CODE_OF_CONDUCT.md).
-
 ## Roadmap :earth_americas:
 Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
 By adding this ([NuGet repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your NuGet sources in Visual Studio, you can also get pre-release packages of upcoming versions.
+
+## Code of Conduct :page_facing_up:
+This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
+to clarify expected behavior in our community.
+For more information see the [.NET Foundation Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## .NET Foundation
 This project is supported by the [.NET Foundation](http://dotnetfoundation.org).
