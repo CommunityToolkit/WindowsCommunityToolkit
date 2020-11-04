@@ -25,11 +25,7 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## NuGet Packages
-NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* . Enter one of the package names below to search for it online.
-
-Once you do a search, you should see a list similar to the one below (versions may be different, but names should be the same).
-
-![nuget packages](githubresources/images/NugetPackages.png "Nuget Packages")
+NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* Enter one of the package names below to search for it online.
 
 | NuGet Package Name | Description |
 | --- | --- |
@@ -66,7 +62,7 @@ The following dependencies are required for building the Windows Community Toolk
 * [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
 
 ## Contributing
-Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).
+Do you want to contribute? Checkout our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page.
 
 ## Principles
 * Principle **#1**: The toolkit will be kept simple.
