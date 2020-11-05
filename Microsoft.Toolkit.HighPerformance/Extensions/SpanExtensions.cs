@@ -8,6 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+#if SPAN_RUNTIME_SUPPORT
+using Microsoft.Toolkit.HighPerformance.Memory;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -43,10 +46,74 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
+
+            return ref ri;
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified index within a given <see cref="Span{T}"/>, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
+        /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReferenceAt<T>(this Span<T> span, nint i)
+        {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
             ref T ri = ref Unsafe.Add(ref r0, i);
 
             return ref ri;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Returns a <see cref="Span2D{T}"/> instance wrapping the underlying data for the given <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="Span2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span2D<T> AsSpan2D<T>(this Span<T> span, int height, int width)
+        {
+            return new Span2D<T>(span, height, width);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Span2D{T}"/> instance wrapping the underlying data for the given <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="offset">The initial offset within <paramref name="span"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="Span2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span2D<T> AsSpan2D<T>(this Span<T> span, int offset, int height, int width, int pitch)
+        {
+            return new Span2D<T>(span, offset, height, width, pitch);
+        }
+#endif
 
         /// <summary>
         /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Span{T}"/> of bytes.
@@ -94,33 +161,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> does not belong to <paramref name="span"/>.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int IndexOf<T>(this Span<T> span, ref T value)
+        public static int IndexOf<T>(this Span<T> span, ref T value)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
             IntPtr byteOffset = Unsafe.ByteOffset(ref r0, ref value);
 
-            if (sizeof(IntPtr) == sizeof(long))
+            nint elementOffset = byteOffset / (nint)(uint)Unsafe.SizeOf<T>();
+
+            if ((nuint)elementOffset >= (uint)span.Length)
             {
-                long elementOffset = (long)byteOffset / Unsafe.SizeOf<T>();
-
-                if ((ulong)elementOffset >= (ulong)span.Length)
-                {
-                    ThrowArgumentOutOfRangeExceptionForInvalidReference();
-                }
-
-                return unchecked((int)elementOffset);
+                ThrowArgumentOutOfRangeExceptionForInvalidReference();
             }
-            else
-            {
-                int elementOffset = (int)byteOffset / Unsafe.SizeOf<T>();
 
-                if ((uint)elementOffset >= (uint)span.Length)
-                {
-                    ThrowArgumentOutOfRangeExceptionForInvalidReference();
-                }
-
-                return elementOffset;
-            }
+            return (int)elementOffset;
         }
 
         /// <summary>
@@ -136,9 +189,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)span.Length;
+            nint length = (nint)(uint)span.Length;
 
-            return SpanHelper.Count(ref r0, length, value);
+            return (int)SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>
@@ -207,9 +260,37 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : notnull
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)span.Length;
+            nint length = (nint)(uint)span.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
+        }
+
+        /// <summary>
+        /// Copies the contents of a given <see cref="Span{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the destination <see cref="RefEnumerable{T}"/> is shorter than the source <see cref="Span{T}"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CopyTo<T>(this Span<T> span, RefEnumerable<T> destination)
+        {
+            destination.CopyFrom(span);
+        }
+
+        /// <summary>
+        /// Attempts to copy the contents of a given <see cref="Span{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryCopyTo<T>(this Span<T> span, RefEnumerable<T> destination)
+        {
+            return destination.TryCopyFrom(span);
         }
 
         /// <summary>

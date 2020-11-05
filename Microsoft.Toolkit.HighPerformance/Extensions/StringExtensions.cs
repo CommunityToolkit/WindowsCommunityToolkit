@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
 #endif
-            ref char ri = ref Unsafe.Add(ref r0, i);
+            ref char ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
         }
@@ -94,9 +94,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count(this string text, char c)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)text.Length;
+            nint length = (nint)(uint)text.Length;
 
-            return SpanHelper.Count(ref r0, length, c);
+            return (int)SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>
@@ -157,10 +157,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode(this string text)
+        public static unsafe int GetDjb2HashCode(this string text)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)text.Length;
+            nint length = (nint)(uint)text.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

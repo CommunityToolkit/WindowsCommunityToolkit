@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -12,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Extensions
 {
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601", Justification = "Partial test class")]
     public partial class Test_ReadOnlySpanExtensions
     {
         [TestCategory("ReadOnlySpanExtensions")]
@@ -266,6 +268,48 @@ namespace UnitTests.HighPerformance.Extensions
             var tokens = text.Split(',');
 
             CollectionAssert.AreEqual(result, tokens);
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_CopyTo_RefEnumerable()
+        {
+            int[,] array = new int[4, 5];
+
+            ReadOnlySpan<int>
+                values1 = new[] { 10, 20, 30, 40, 50 },
+                values2 = new[] { 11, 22, 33, 44, 55 };
+
+            // Copy a span to a target row and column with valid lengths
+            values1.CopyTo(array.GetRow(0));
+            values2.Slice(0, 4).CopyTo(array.GetColumn(1));
+
+            int[,] result =
+            {
+                { 10, 11, 30, 40, 50 },
+                { 0, 22, 0, 0, 0 },
+                { 0, 33, 0, 0, 0 },
+                { 0, 44, 0, 0, 0 }
+            };
+
+            CollectionAssert.AreEqual(array, result);
+
+            // Try to copy to a valid row and an invalid column (too short for the source span)
+            bool shouldBeTrue = values1.TryCopyTo(array.GetRow(2));
+            bool shouldBeFalse = values2.TryCopyTo(array.GetColumn(3));
+
+            Assert.IsTrue(shouldBeTrue);
+            Assert.IsFalse(shouldBeFalse);
+
+            result = new[,]
+            {
+                { 10, 11, 30, 40, 50 },
+                { 0, 22, 0, 0, 0 },
+                { 10, 20, 30, 40, 50 },
+                { 0, 44, 0, 0, 0 }
+            };
+
+            CollectionAssert.AreEqual(array, result);
         }
     }
 }
