@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
         /// <param name="separator">The separator item to use.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public SpanTokenizer(Span<T> span, T separator)
         {
             this.span = span;

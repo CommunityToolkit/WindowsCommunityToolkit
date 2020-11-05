@@ -5,6 +5,10 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Runtime.CompilerServices;
+#if SPAN_RUNTIME_SUPPORT
+using Microsoft.Toolkit.HighPerformance.Memory;
+#endif
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
@@ -14,6 +18,52 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     public static class ReadOnlyMemoryExtensions
     {
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Returns a <see cref="ReadOnlyMemory2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlyMemory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="ReadOnlyMemory2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="memory"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlyMemory2D<T> AsMemory2D<T>(this ReadOnlyMemory<T> memory, int height, int width)
+        {
+            return new ReadOnlyMemory2D<T>(memory, height, width);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ReadOnlyMemory2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlyMemory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance.</param>
+        /// <param name="offset">The initial offset within <paramref name="memory"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="ReadOnlyMemory2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="memory"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlyMemory2D<T> AsMemory2D<T>(this ReadOnlyMemory<T> memory, int offset, int height, int width, int pitch)
+        {
+            return new ReadOnlyMemory2D<T>(memory, offset, height, width, pitch);
+        }
+#endif
+
         /// <summary>
         /// Returns a <see cref="Stream"/> wrapping the contents of the given <see cref="ReadOnlyMemory{T}"/> of <see cref="byte"/> instance.
         /// </summary>
@@ -27,6 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         /// <exception cref="ArgumentException">Thrown when <paramref name="memory"/> has an invalid data store.</exception>
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stream AsStream(this ReadOnlyMemory<byte> memory)
         {
             return MemoryStream.Create(memory, true);
