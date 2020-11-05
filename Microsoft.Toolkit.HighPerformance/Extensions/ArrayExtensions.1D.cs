@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
 #if NET5_0
             ref T r0 = ref MemoryMarshal.GetArrayDataReference(array);
-            ref T ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
 #elif NETCORE_RUNTIME
