@@ -2,9 +2,7 @@ private void PopToast()
 {
     // Generate the toast notification content and pop the toast
     new ToastContentBuilder().SetToastScenario(ToastScenario.Reminder)        
-        .AddToastActivationInfo(new ToastArguments()        
-            .Set("action", "viewEvent")        
-            .Set("eventId", 1983))        
+        .AddArgument("eventId", 1983)        
         .AddText("Adaptive Tiles Meeting")        
         .AddText("Conf Room 2001 / Building 135")        
         .AddText("10:00 AM - 10:30 AM")        

@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Gets app-defined string of arguments that the app can later retrieve once it is
         /// activated when the user clicks the button. Required
         /// </summary>
-        public string Arguments { get; private set; }
+        public string Arguments { get; internal set; }
 
         /// <summary>
         /// Gets or sets what type of activation this button will use when clicked. Defaults to Foreground.

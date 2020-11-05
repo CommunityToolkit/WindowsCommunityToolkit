@@ -16,6 +16,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
         private Dictionary<string, string> _dictionary = new Dictionary<string, string>();
 
+        internal ToastArguments Clone()
+        {
+            return new ToastArguments()
+            {
+                _dictionary = new Dictionary<string, string>(_dictionary)
+            };
+        }
+
 #if !WINRT
         /// <summary>
         /// Gets the value of the specified key. Throws <see cref="KeyNotFoundException"/> if the key could not be found.
@@ -186,43 +194,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public int Count => _dictionary.Count;
 
         /// <summary>
-        /// Adds a key (without a value) to the arguments. If the key already exists, throws an exception.
-        /// </summary>
-        /// <param name="key">The name of the parameter.</param>
-        public void Add(string key)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            _dictionary.Add(key, null);
-        }
-
-        /// <summary>
-        /// Adds a key and optional value to the arguments. If the key already exists, throws an exception.
-        /// </summary>
-        /// <param name="key">The name of the parameter.</param>
-        /// <param name="value">The optional value of the key.</param>
-        public void Add(string key, string value)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            _dictionary.Add(key, value);
-        }
-
-        /// <summary>
-        /// Sets a key. If there is an existing key, it is replaced.
+        /// Adds a key. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
 #if WINRT
         [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
 #endif
-        public ToastArguments Set(string key)
+        public ToastArguments Add(string key)
         {
             if (key == null)
             {
@@ -235,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Sets a key and optional value. If there is an existing key, it is replaced.
+        /// Adds a key and optional value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The optional value of the key.</param>
@@ -244,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         [Windows.Foundation.Metadata.DefaultOverload]
         [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
 #endif
-        public ToastArguments Set(string key, string value)
+        public ToastArguments Add(string key, string value)
         {
             if (key == null)
             {
@@ -257,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// Adds a key and value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
@@ -265,13 +244,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #if WINRT
         [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
 #endif
-        public ToastArguments Set(string key, int value)
+        public ToastArguments Add(string key, int value)
         {
-            return SetHelper(key, value);
+            return AddHelper(key, value);
         }
 
         /// <summary>
-        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// Adds a key and value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
@@ -279,13 +258,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #if WINRT
         [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
 #endif
-        public ToastArguments Set(string key, double value)
+        public ToastArguments Add(string key, double value)
         {
-            return SetHelper(key, value);
+            return AddHelper(key, value);
         }
 
         /// <summary>
-        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// Adds a key and value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
@@ -293,13 +272,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #if WINRT
         [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
 #endif
-        public ToastArguments Set(string key, float value)
+        public ToastArguments Add(string key, float value)
         {
-            return SetHelper(key, value);
+            return AddHelper(key, value);
         }
 
         /// <summary>
-        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// Adds a key and value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
@@ -307,25 +286,25 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #if WINRT
         [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
 #endif
-        public ToastArguments Set(string key, bool value)
+        public ToastArguments Add(string key, bool value)
         {
-            return Set(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
+            return Add(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
         }
 
 #if !WINRT
         /// <summary>
-        /// Sets a key and value. If there is an existing key, it is replaced.
+        /// Adds a key and value. If there is an existing key, it is replaced.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key. Note that the enums are stored using their numeric value, so be aware that changing your enum number values might break existing activation of toasts currently in Action Center.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-        public ToastArguments Set(string key, Enum value)
+        public ToastArguments Add(string key, Enum value)
         {
-            return Set(key, (int)(object)value);
+            return Add(key, (int)(object)value);
         }
 #endif
 
-        private ToastArguments SetHelper(string key, object value)
+        private ToastArguments AddHelper(string key, object value)
         {
             if (key == null)
             {
@@ -448,14 +427,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>A string that can be used within a toast notification.</returns>
         public sealed override string ToString()
         {
-            return string.Join(";", this.Select(pair =>
-
-                    // Key
-                    Encode(pair.Key) +
-
-                    // Write value if not null
-                    ((pair.Value == null) ? string.Empty : ("=" + Encode(pair.Value)))));
+            return string.Join(Separator, this.Select(pair => EncodePair(pair.Key, pair.Value)));
         }
+
+        internal static string EncodePair(string key, string value)
+        {
+            // Key
+            return Encode(key) +
+
+                // Write value if not null
+                ((value == null) ? string.Empty : ("=" + Encode(value)));
+        }
+
+        internal const string Separator = ";";
 
         /// <summary>
         /// Gets an enumerator to enumerate the arguments. Note that order of the arguments is NOT preserved.

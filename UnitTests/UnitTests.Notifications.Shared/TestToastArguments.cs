@@ -261,7 +261,7 @@ namespace UnitTests.Notifications
             Assert.IsTrue(qs.Contains("isBook", null));
             Assert.IsFalse(qs.Contains("isBook", "True"));
 
-            qs.Set("isBook", "True");
+            qs.Add("isBook", "True");
 
             Assert.IsTrue(qs.Contains("isBook"));
             Assert.IsFalse(qs.Contains("isBook", null));
@@ -278,11 +278,11 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
-        public void TestSet()
+        public void TestAdd()
         {
             ToastArguments qs = new ToastArguments();
 
-            qs.Set("name", "Andrew");
+            qs.Add("name", "Andrew");
 
             AssertEqual(
                 new ToastArguments()
@@ -290,7 +290,7 @@ namespace UnitTests.Notifications
                     { "name", "Andrew" }
                 }, qs);
 
-            qs.Set("age", "22");
+            qs.Add("age", "22");
 
             AssertEqual(
                 new ToastArguments()
@@ -299,7 +299,7 @@ namespace UnitTests.Notifications
                     { "age", "22" }
                 }, qs);
 
-            qs.Set("name", "Lei");
+            qs.Add("name", "Lei");
 
             AssertEqual(
                 new ToastArguments()
@@ -309,7 +309,7 @@ namespace UnitTests.Notifications
                 }, qs);
 
             string nullStr = null;
-            qs.Set("name", nullStr);
+            qs.Add("name", nullStr);
 
             AssertEqual(
                 new ToastArguments()
@@ -361,15 +361,15 @@ namespace UnitTests.Notifications
         public void TestStronglyTyped()
         {
             ToastArguments args = new ToastArguments()
-                .Set("isAdult", true)
-                .Set("isPremium", false)
-                .Set("age", 22)
-                .Set("level", 0)
-                .Set("gpa", 3.97)
-                .Set("percent", 97.3f);
+                .Add("isAdult", true)
+                .Add("isPremium", false)
+                .Add("age", 22)
+                .Add("level", 0)
+                .Add("gpa", 3.97)
+                .Add("percent", 97.3f);
 
 #if !WINRT
-            args.Set("activationKind", ToastActivationType.Background);
+            args.Add("activationKind", ToastActivationType.Background);
 #endif
 
             AssertEqual(

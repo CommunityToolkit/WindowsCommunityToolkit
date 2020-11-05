@@ -60,7 +60,30 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #endif
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, ToastArguments arguments)
         {
-            return AddButton(content, activationType, arguments.ToString());
+            AddButton(content, activationType, SerializeArgumentsIncludingGeneric(arguments));
+
+            // Remove this button from the custom arguments list
+            _buttonsUsingCustomArguments.RemoveAt(_buttonsUsingCustomArguments.Count - 1);
+
+            return this;
+        }
+
+        private string SerializeArgumentsIncludingGeneric(ToastArguments arguments)
+        {
+            if (_genericArguments.Count == 0)
+            {
+                return arguments.ToString();
+            }
+
+            foreach (var genericArg in _genericArguments)
+            {
+                if (!arguments.Contains(genericArg.Key))
+                {
+                    arguments.Add(genericArg.Key, genericArg.Value);
+                }
+            }
+
+            return arguments.ToString();
         }
 
         /// <summary>
@@ -76,7 +99,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #endif
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, ToastArguments arguments, Uri imageUri)
         {
-            return AddButton(content, activationType, arguments.ToString(), imageUri);
+            AddButton(content, activationType, SerializeArgumentsIncludingGeneric(arguments), imageUri);
+
+            // Remove this button from the custom arguments list
+            _buttonsUsingCustomArguments.RemoveAt(_buttonsUsingCustomArguments.Count - 1);
+
+            return this;
         }
 
         /// <summary>
@@ -89,6 +117,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, string arguments)
         {
             return AddButton(content, activationType, arguments, default);
+        }
+
+        /// <summary>
+        /// Add an button to the toast that will be display to the right of the input text box, achieving a quick reply scenario.
+        /// </summary>
+        /// <param name="textBoxId">ID of an existing <see cref="ToastTextBox"/> in order to have this button display to the right of the input, achieving a quick reply scenario.</param>
+        /// <param name="content">Text to display on the button.</param>
+        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
+        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddButton(string textBoxId, string content, ToastActivationType activationType, ToastArguments arguments)
+        {
+            return AddButton(textBoxId, content, activationType, arguments, default);
         }
 
         /// <summary>
@@ -129,7 +170,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 #endif
         public ToastContentBuilder AddButton(string textBoxId, string content, ToastActivationType activationType, ToastArguments arguments, Uri imageUri)
         {
-            return AddButton(textBoxId, content, activationType, arguments.ToString(), imageUri);
+            AddButton(textBoxId, content, activationType, SerializeArgumentsIncludingGeneric(arguments), imageUri);
+
+            // Remove this button from the custom arguments list
+            _buttonsUsingCustomArguments.RemoveAt(_buttonsUsingCustomArguments.Count - 1);
+
+            return this;
         }
 
         /// <summary>
@@ -146,6 +192,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             ButtonList.Add(button);
+
+            if (button is ToastButton b)
+            {
+                _buttonsUsingCustomArguments.Add(b);
+            }
 
             return this;
         }

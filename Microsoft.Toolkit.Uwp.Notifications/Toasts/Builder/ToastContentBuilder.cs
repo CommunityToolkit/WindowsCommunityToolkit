@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
@@ -11,6 +12,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public partial class ToastContentBuilder
     {
+        private Dictionary<string, string> _genericArguments = new Dictionary<string, string>();
+
+        private bool _customArgumentsUsedOnToastItself;
+
+        private List<ToastButton> _buttonsUsingCustomArguments = new List<ToastButton>();
+
         /// <summary>
         /// Gets internal instance of <see cref="ToastContent"/>. This is equivalent to the call to <see cref="ToastContentBuilder.GetToastContent"/>.
         /// </summary>
@@ -49,6 +56,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="id">A developer-created identifier that uniquely identifies this header. If two notifications have the same header id, they will be displayed underneath the same header in Action Center.</param>
         /// <param name="title">A title for the header.</param>
+        /// <param name="arguments">Developer-defined arguments that are returned to the app when the user clicks this header.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        /// <remarks>More info about toast header: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/toast-headers </remarks>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
+        public ToastContentBuilder AddHeader(string id, string title, ToastArguments arguments)
+        {
+            return AddHeader(id, title, arguments.ToString());
+        }
+
+        /// <summary>
+        /// Add a header to a toast.
+        /// </summary>
+        /// <param name="id">A developer-created identifier that uniquely identifies this header. If two notifications have the same header id, they will be displayed underneath the same header in Action Center.</param>
+        /// <param name="title">A title for the header.</param>
         /// <param name="arguments">A developer-defined string of arguments that is returned to the app when the user clicks this header.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         /// <remarks>More info about toast header: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/toast-headers </remarks>
@@ -60,44 +83,184 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Add info that can be used by the application when the app was activated/launched by the toast. Uses foreground activation.
+        /// Adds a key (without value) to the activation arguments that will be returned when the toast notification or its buttons are clicked.
         /// </summary>
-        /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
+        /// <param name="key">The key.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddArgument(string key)
+        {
+            return AddArgumentHelper(key, null);
+        }
+
+        /// <summary>
+        /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
+        /// </summary>
+        /// <param name="key">The key for this value.</param>
+        /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
 #if WINRT
         [Windows.Foundation.Metadata.DefaultOverload]
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
 #endif
-        public ToastContentBuilder AddToastActivationInfo(ToastArguments launchArgs)
+        public ToastContentBuilder AddArgument(string key, string value)
         {
-            return AddToastActivationInfo(launchArgs.ToString());
+            return AddArgumentHelper(key, value);
         }
 
         /// <summary>
-        /// Add info that can be used by the application when the app was activated/launched by the toast.
+        /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
         /// </summary>
-        /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
-        /// <param name="activationType">Set the activation type that will be used when the user click on this toast</param>
+        /// <param name="key">The key for this value.</param>
+        /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
 #if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
 #endif
-        public ToastContentBuilder AddToastActivationInfo(ToastArguments launchArgs, ToastActivationType activationType)
+        public ToastContentBuilder AddArgument(string key, int value)
         {
-            return AddToastActivationInfo(launchArgs.ToString(), activationType);
+            return AddArgumentHelper(key, value.ToString());
         }
 
         /// <summary>
-        /// Add info that can be used by the application when the app was activated/launched by the toast. Uses foreground activation.
+        /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
         /// </summary>
-        /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
+        /// <param name="key">The key for this value.</param>
+        /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddToastActivationInfo(string launchArgs)
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
+#endif
+        public ToastContentBuilder AddArgument(string key, double value)
         {
-            return AddToastActivationInfo(launchArgs, ToastActivationType.Foreground);
+            return AddArgumentHelper(key, value.ToString());
         }
 
         /// <summary>
-        /// Add info that can be used by the application when the app was activated/launched by the toast.
+        /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
+        /// </summary>
+        /// <param name="key">The key for this value.</param>
+        /// <param name="value">The value itself.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
+#endif
+        public ToastContentBuilder AddArgument(string key, float value)
+        {
+            return AddArgumentHelper(key, value.ToString());
+        }
+
+        /// <summary>
+        /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
+        /// </summary>
+        /// <param name="key">The key for this value.</param>
+        /// <param name="value">The value itself.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
+#endif
+        public ToastContentBuilder AddArgument(string key, bool value)
+        {
+            return AddArgumentHelper(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
+        }
+
+#if !WINRT
+        /// <summary>
+        /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
+        /// </summary>
+        /// <param name="key">The key for this value.</param>
+        /// <param name="value">The value itself. Note that the enums are stored using their numeric value, so be aware that changing your enum number values might break existing activation of toasts currently in Action Center.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddArgument(string key, Enum value)
+        {
+            return AddArgumentHelper(key, ((int)(object)value).ToString());
+        }
+#endif
+
+        private ToastContentBuilder AddArgumentHelper(string key, string value)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            bool alreadyExists = _genericArguments.ContainsKey(key);
+
+            _genericArguments[key] = value;
+
+            if (Content.ActivationType != ToastActivationType.Protocol && !_customArgumentsUsedOnToastItself)
+            {
+                Content.Launch = alreadyExists ? SerializeArgumentsHelper(_genericArguments) : AddArgumentHelper(Content.Launch, key, value);
+            }
+
+            if (Content.Actions is ToastActionsCustom actions)
+            {
+                foreach (var button in actions.Buttons)
+                {
+                    if (button is ToastButton b && b.ActivationType != ToastActivationType.Protocol && !_buttonsUsingCustomArguments.Contains(b))
+                    {
+                        var bArgs = ToastArguments.Parse(b.Arguments);
+                        if (!bArgs.Contains(key))
+                        {
+                            bArgs.Add(key, value);
+                            b.Arguments = bArgs.ToString();
+                        }
+                    }
+                }
+            }
+
+            return this;
+        }
+
+        private string SerializeArgumentsHelper(IDictionary<string, string> arguments)
+        {
+            var args = new ToastArguments();
+
+            foreach (var a in arguments)
+            {
+                args.Add(a.Key, a.Value);
+            }
+
+            return args.ToString();
+        }
+
+        private string AddArgumentHelper(string existing, string key, string value)
+        {
+            string pair = ToastArguments.EncodePair(key, value);
+
+            if (existing == null)
+            {
+                return pair;
+            }
+            else
+            {
+                return existing + ToastArguments.Separator + pair;
+            }
+        }
+
+        /// <summary>
+        /// Configures the toast notification to launch the specified url when the toast body is clicked.
+        /// </summary>
+        /// <param name="protocol">The protocol to launch.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder SetProtocolActivation(Uri protocol)
+        {
+            Content.Launch = protocol.ToString();
+            Content.ActivationType = ToastActivationType.Protocol;
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the toast notification to use background activation when the toast body is clicked.
+        /// </summary>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder SetBackgroundActivation()
+        {
+            Content.ActivationType = ToastActivationType.Background;
+            return this;
+        }
+
+        /// <summary>
+        /// Instead of this method, for foreground/background activation, it is suggested to use <see cref="AddArgument(string, string)"/> and optionally <see cref="SetBackgroundActivation"/>. For protocol activation, you should use <see cref="SetProtocolActivation(Uri)"/>. Add info that can be used by the application when the app was activated/launched by the toast.
         /// </summary>
         /// <param name="launchArgs">Custom app-defined launch arguments to be passed along on toast activation</param>
         /// <param name="activationType">Set the activation type that will be used when the user click on this toast</param>
@@ -106,6 +269,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             Content.Launch = launchArgs;
             Content.ActivationType = activationType;
+            _customArgumentsUsedOnToastItself = true;
             return this;
         }
 

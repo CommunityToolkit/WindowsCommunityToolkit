@@ -35,10 +35,8 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
             // Construct the toast content and show it!
             new ToastContentBuilder()
 
-                // Arguments when the user taps body of toast
-                .AddToastActivationInfo(new ToastArguments()
-                    .Set("action", MyToastActions.ViewConversation)
-                    .Set("conversationId", conversationId))
+                // Arguments that are returned when the user clicks the toast or a button
+                .AddArgument("conversationId", conversationId)
 
                 // Visual content
                 .AddText(title)
@@ -51,16 +49,14 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
                 // Buttons
                 .AddButton("Reply", ToastActivationType.Background, new ToastArguments()
-                    .Set("action", MyToastActions.Reply)
-                    .Set("conversationId", conversationId))
+                    .Add("action", MyToastActions.Reply))
 
                 .AddButton("Like", ToastActivationType.Background, new ToastArguments()
-                    .Set("action", MyToastActions.Like)
-                    .Set("conversationId", conversationId))
+                    .Add("action", MyToastActions.Like))
 
                 .AddButton("View", ToastActivationType.Foreground, new ToastArguments()
-                    .Set("action", MyToastActions.ViewImage)
-                    .Set("imageUrl", image))
+                    .Add("action", MyToastActions.ViewImage)
+                    .Add("imageUrl", image))
 
                 // And show the toast!
                 .Show();
@@ -121,11 +117,11 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
             }
         }
 
-        internal void ShowConversation()
+        internal void ShowConversation(int conversationId)
         {
             ContentBody.Content = new TextBlock()
             {
-                Text = "You've just opened a conversation!",
+                Text = "You've just opened conversation " + conversationId,
                 FontWeight = FontWeights.Bold
             };
         }

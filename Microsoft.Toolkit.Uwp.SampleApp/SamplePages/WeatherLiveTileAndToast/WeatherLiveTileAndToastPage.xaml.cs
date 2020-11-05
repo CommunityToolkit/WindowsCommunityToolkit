@@ -29,9 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ToastContentBuilder builder = new ToastContentBuilder();
 
             // Include launch string so we know what to open when user clicks toast
-            builder.AddToastActivationInfo(new ToastArguments()
-                .Set("action", "viewForecast")
-                .Set("zip", 98008));
+            builder.AddArgument("zip", 98008);
 
             // We'll always have this summary text on our toast notification
             // (it is required that your toast starts with a text element)
