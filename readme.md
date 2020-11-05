@@ -17,25 +17,7 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## NuGet Packages :package:
-NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* Enter one of the package names below to search for it online.
-
-| NuGet Package Name | Description |
-| --- | --- |
-| Microsoft.Toolkit | .NET Standard NuGet package containing common code |
-| Microsoft.Toolkit.HighPerformance | .NET Standard and .NET Core NuGet package with performance oriented helpers, extensions, etc. |
-| Microsoft.Toolkit.Parsers | .NET Standard NuGet package containing cross-platform parsers, such as Markdown |
-| Microsoft.Toolkit.Services | .NET Standard NuGet package containing cross-platform services helpers, such as LinkedIn, Microsoft Graph, Twitter and more |
-| Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc. |
-| Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax |
-| Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions, and other extensions and helpers for your XAML UI |
-| Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
-| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
-| Microsoft.Toolkit.Uwp.UI.Controls.DataGrid | XAML DataGrid control | 
-| Microsoft.Toolkit.Uwp.UI.Controls.Layout | XAML layout controls such as WrapLayout, StaggeredLayout, etc. |
-| Microsoft.Toolkit.Uwp.UI.Lottie | Library for rendering Adobe AfterEffects animations natively in Windows apps |
-| Microsoft.Toolkit.Uwp.UI.Media | Brushes, Win2D/Composition effects, and helpers to create visual effects  |
-| Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
-| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
+NuGet is a standard package manager for .NET applications which is built into Visual Studio. From your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* Enter one of the package names mentioned in [Windows Community Toolkit Nuget Packages](https://docs.microsoft.com/en-us/windows/communitytoolkit/nuget-packages) table to search for it online.
 
 ## <a name="supported"></a> Features :mailbox:
 The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/toc.md#controls) refers to all the currently available features that can be found in the Windows Community Toolkit. Most features should work with the October 2018 Update (1809) SDK 17763 and above; however, refer to specific documentation on each feature for more information.
