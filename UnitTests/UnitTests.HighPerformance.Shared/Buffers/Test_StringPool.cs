@@ -38,13 +38,13 @@ namespace UnitTests.HighPerformance.Buffers
 
             Assert.AreEqual(size, pool.Size);
 
-            Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
+            Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(pool)!;
 
             Assert.AreEqual(x, maps.Length);
 
-            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance");
+            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance")!;
 
-            int[] buckets = (int[])bucketType.GetField("buckets", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(maps.GetValue(0));
+            int[] buckets = (int[])bucketType.GetField("buckets", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(maps.GetValue(0))!;
 
             Assert.AreEqual(y, buckets.Length);
         }
@@ -64,7 +64,7 @@ namespace UnitTests.HighPerformance.Buffers
             }
             catch (ArgumentOutOfRangeException e)
             {
-                var cctor = typeof(StringPool).GetConstructor(new[] { typeof(int) });
+                var cctor = typeof(StringPool).GetConstructor(new[] { typeof(int) })!;
 
                 Assert.AreEqual(cctor.GetParameters()[0].Name, e.ParamName);
             }
@@ -158,7 +158,7 @@ namespace UnitTests.HighPerformance.Buffers
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static string ToStringNoInlining(object obj)
         {
-            return obj.ToString();
+            return obj.ToString()!;
         }
 
         [TestCategory("StringPool")]
@@ -285,15 +285,15 @@ namespace UnitTests.HighPerformance.Buffers
             }
 
             // Get the buckets
-            Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(pool);
+            Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(pool)!;
 
-            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance");
-            FieldInfo timestampInfo = bucketType.GetField("timestamp", BindingFlags.Instance | BindingFlags.NonPublic);
+            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance")!;
+            FieldInfo timestampInfo = bucketType.GetField("timestamp", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
             // Force the timestamp to be the maximum value, or the test would take too long
             for (int i = 0; i < maps.LongLength; i++)
             {
-                object map = maps.GetValue(i);
+                object map = maps.GetValue(i)!;
 
                 timestampInfo.SetValue(map, uint.MaxValue);
 
@@ -305,16 +305,16 @@ namespace UnitTests.HighPerformance.Buffers
 
             _ = pool.GetOrAdd(text);
 
-            Type heapEntryType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, Microsoft.Toolkit.HighPerformance");
+            Type heapEntryType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, Microsoft.Toolkit.HighPerformance")!;
 
             foreach (var map in maps)
             {
                 // Get the heap for each bucket
-                Array heapEntries = (Array)bucketType.GetField("heapEntries", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(map);
-                FieldInfo fieldInfo = heapEntryType.GetField("Timestamp");
+                Array heapEntries = (Array)bucketType.GetField("heapEntries", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(map)!;
+                FieldInfo fieldInfo = heapEntryType.GetField("Timestamp")!;
 
                 // Extract the array with the timestamps in the heap nodes
-                uint[] array = heapEntries.Cast<object>().Select(entry => (uint)fieldInfo.GetValue(entry)).ToArray();
+                uint[] array = heapEntries.Cast<object>().Select(entry => (uint)fieldInfo.GetValue(entry)!).ToArray();
 
                 static bool IsMinHeap(uint[] array)
                 {

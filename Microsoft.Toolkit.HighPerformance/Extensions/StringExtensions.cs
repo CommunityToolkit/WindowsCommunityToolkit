@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ref char DangerousGetReferenceAt(this string text, int i)
+        public static ref char DangerousGetReferenceAt(this string text, int i)
         {
 #if NETCOREAPP3_1
             ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
 #endif
-            ref char ri = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)i);
+            ref char ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
         }
@@ -91,12 +91,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="c"/> in <paramref name="text"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int Count(this string text, char c)
+        public static int Count(this string text, char c)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)(void*)(uint)text.Length;
+            nint length = (nint)(uint)text.Length;
 
-            return SpanHelper.Count(ref r0, length, c);
+            return (int)SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static unsafe int GetDjb2HashCode(this string text)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)(void*)(uint)text.Length;
+            nint length = (nint)(uint)text.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

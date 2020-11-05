@@ -468,6 +468,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             OnValueChanged(this);
             base.OnValueChanged(oldValue, newValue);
+            if (AutomationPeer.ListenerExists(AutomationEvents.LiveRegionChanged))
+            {
+                var peer = FrameworkElementAutomationPeer.FromElement(this) as RadialGaugeAutomationPeer;
+                peer?.RaiseValueChangedEvent(oldValue, newValue);
+            }
         }
 
         private static void OnValueChanged(DependencyObject d)

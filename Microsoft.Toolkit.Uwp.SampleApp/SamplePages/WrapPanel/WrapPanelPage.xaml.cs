@@ -64,8 +64,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Category = "Remove",
                 Thumbnail = "ms-appx:///Assets/Photos/BigFourSummerHeat.jpg",
-                Width = Rand.Next(120, 180),
-                Height = Rand.Next(80, 130)
+                Width = Rand.Next(60, 180),
+                Height = Rand.Next(40, 140)
             });
         }
 

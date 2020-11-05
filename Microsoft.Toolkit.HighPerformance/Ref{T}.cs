@@ -35,6 +35,16 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Ref{T}"/> struct.
+        /// </summary>
+        /// <param name="pointer">The pointer to the target value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe Ref(void* pointer)
+            : this(ref Unsafe.AsRef<T>(pointer))
+        {
+        }
+
+        /// <summary>
         /// Gets the <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
         /// </summary>
         public ref T Value
