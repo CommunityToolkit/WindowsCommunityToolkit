@@ -59,7 +59,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HideSamplePicker()
         {
-            SamplePickerGrid.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            if (SamplePickerGrid != null)
+            {
+                SamplePickerGrid.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            }
+
             _selectedCategory = null;
 
             _ = SetNavViewSelectionAsync();

@@ -16,7 +16,4 @@
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
   </ItemGroup>
 
-  <!-- Workaround for recursive MRT issue -->
-  <Target Name="GetMrtPackagingOutputs" />
-
 </Project>

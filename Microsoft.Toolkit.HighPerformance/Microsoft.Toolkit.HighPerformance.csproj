@@ -97,7 +97,4 @@
     </When>
   </Choose>
 
-  <!-- Workaround for recursive MRT issue -->
-  <Target Name="GetMrtPackagingOutputs" />
-
 </Project>

@@ -60,9 +60,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             ValueTask<CompositionBrush> Factory()
             {
-                var brush = HostBackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateHostBackdropBrush());
+                //var brush = HostBackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateHostBackdropBrush());
 
-                return new ValueTask<CompositionBrush>(brush);
+                //return new ValueTask<CompositionBrush>(brush);
+                return new ValueTask<CompositionBrush>(default(CompositionBrush));
             }
 
             return new PipelineBuilder(Factory);

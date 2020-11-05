@@ -26,13 +26,13 @@
       <Version>10.1901.28001</Version>
     </PackageReference>-->
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
-      <Version>8.0.0-build.17.g8b95446556</Version>
+      <Version>8.0.0-build.17.g709434064a</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.10.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
-      <Version>2.0.3-rc4-CI-20201027-0942</Version>
+      <Version>2.0.3-rc4-CI-20201105-1113</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>2.0.0</Version>
@@ -104,7 +104,7 @@
     </ProjectReference>-->
     <!-- Remove this PackageReference when the MRT issue is fixed -->
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown">
-      <Version>8.0.0-build.75.g1d84bc58a5</Version>
+      <Version>8.0.0-build.77.g709434064a</Version>
     </PackageReference>
     
     

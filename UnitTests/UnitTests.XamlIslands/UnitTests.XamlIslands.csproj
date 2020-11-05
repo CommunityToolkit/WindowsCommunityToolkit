@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />
     <PackageReference Include="Microsoft.WinUI">
-      <Version>3.0.0-development.201015.6-CI</Version>
+      <Version>3.0.0-preview3.201105.2-nightly</Version>
     </PackageReference>
   </ItemGroup>
 

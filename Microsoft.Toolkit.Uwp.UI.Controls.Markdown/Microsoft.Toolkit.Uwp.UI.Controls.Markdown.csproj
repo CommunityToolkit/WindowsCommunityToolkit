@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview3-ge9449d78b4" />
+    <PackageReference Include="ColorCode.WinUI" Version="8.0.0-preview3-g2ed8ec8b85" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
