@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span<T> AsSpan<T>(this List<T> list)
+        public static Span<T> AsSpan<T>(this List<T>? list)
         {
             return CollectionsMarshal.AsSpan(list);
         }
