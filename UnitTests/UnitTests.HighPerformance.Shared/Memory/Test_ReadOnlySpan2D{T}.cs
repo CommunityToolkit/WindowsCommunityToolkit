@@ -847,8 +847,6 @@ namespace UnitTests.HighPerformance.Memory
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
         public void Test_ReadOnlySpan2DT_ReadOnlyRefEnumerable_Misc()
         {
             int[,] array1 =

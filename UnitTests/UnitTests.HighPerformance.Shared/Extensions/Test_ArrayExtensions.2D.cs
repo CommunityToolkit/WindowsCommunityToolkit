@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -167,8 +166,6 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
         public void Test_ArrayExtensions_2D_GetRow_Rectangle()
         {
             int[,] array =
@@ -201,8 +198,6 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
         public void Test_ArrayExtensions_2D_GetColumn_Rectangle()
         {
             int[,] array =
@@ -239,8 +234,6 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
         public void Test_ArrayExtensions_2D_GetRowOrColumn_Helpers()
         {
             int[,] array =
@@ -337,8 +330,6 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
         public void Test_ArrayExtensions_2D_ReadOnlyGetRowOrColumn_Helpers()
         {
             int[,] array =
@@ -384,8 +375,6 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ArrayExtensions")]
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312", Justification = "Dummy loop variable")]
-        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501", Justification = "Empty test loop")]
         public void Test_ArrayExtensions_2D_RefEnumerable_Misc()
         {
             int[,] array1 =
