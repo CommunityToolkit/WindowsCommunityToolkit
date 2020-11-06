@@ -24,8 +24,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
     internal static class RuntimeHelpers
     {
         /// <summary>
-        /// Converts a length of items from one size to another. This method exposes the logic from
-        /// <see cref="MemoryMarshal.Cast{TFrom,TTo}(Span{TFrom})"/>, just for the length conversion.
+        /// Converts a length of items from one size to another (rounding towards zero).
         /// </summary>
         /// <typeparam name="TFrom">The source type of items.</typeparam>
         /// <typeparam name="TTo">The target type of items.</typeparam>
