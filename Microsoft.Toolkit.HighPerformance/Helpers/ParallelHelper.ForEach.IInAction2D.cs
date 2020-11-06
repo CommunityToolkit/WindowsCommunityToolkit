@@ -4,8 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.HighPerformance.Memory;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
@@ -19,9 +19,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory2D{T}"/> representing the data to process.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TItem, TAction>(ReadOnlyMemory<TItem> memory)
+        public static void ForEach<TItem, TAction>(ReadOnlyMemory2D<TItem> memory)
             where TAction : struct, IInAction<TItem>
         {
             ForEach(memory, default(TAction), 1);
@@ -32,14 +32,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory2D{T}"/> representing the data to process.</param>
         /// <param name="minimumActionsPerThread">
         /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TItem, TAction>(ReadOnlyMemory<TItem> memory, int minimumActionsPerThread)
+        public static void ForEach<TItem, TAction>(ReadOnlyMemory2D<TItem> memory, int minimumActionsPerThread)
             where TAction : struct, IInAction<TItem>
         {
             ForEach(memory, default(TAction), minimumActionsPerThread);
@@ -50,10 +50,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory2D{T}"/> representing the data to process.</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TItem, TAction>(ReadOnlyMemory<TItem> memory, in TAction action)
+        public static void ForEach<TItem, TAction>(ReadOnlyMemory2D<TItem> memory, in TAction action)
             where TAction : struct, IInAction<TItem>
         {
             ForEach(memory, action, 1);
@@ -64,14 +64,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory2D{T}"/> representing the data to process.</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         /// <param name="minimumActionsPerThread">
         /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
-        public static void ForEach<TItem, TAction>(ReadOnlyMemory<TItem> memory, in TAction action, int minimumActionsPerThread)
+        public static void ForEach<TItem, TAction>(ReadOnlyMemory2D<TItem> memory, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IInAction<TItem>
         {
             if (minimumActionsPerThread <= 0)
@@ -84,25 +84,23 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 return;
             }
 
-            int
+            nint
                 maxBatches = 1 + ((memory.Length - 1) / minimumActionsPerThread),
+                clipBatches = maxBatches <= memory.Height ? maxBatches : memory.Height;
+            int
                 cores = Environment.ProcessorCount,
-                numBatches = Math.Min(maxBatches, cores);
+                numBatches = (int)(clipBatches <= cores ? clipBatches : cores),
+                batchHeight = 1 + ((memory.Height - 1) / numBatches);
 
-            // Skip the parallel invocation when a single batch is needed
+            var actionInvoker = new InActionInvokerWithReadOnlyMemory2D<TItem, TAction>(batchHeight, memory, action);
+
+            // Skip the parallel invocation when possible
             if (numBatches == 1)
             {
-                foreach (var item in memory.Span)
-                {
-                    Unsafe.AsRef(action).Invoke(item);
-                }
+                actionInvoker.Invoke(0);
 
                 return;
             }
-
-            int batchSize = 1 + ((memory.Length - 1) / numBatches);
-
-            var actionInvoker = new InActionInvoker<TItem, TAction>(batchSize, memory, action);
 
             // Run the batched operations in parallel
             Parallel.For(
@@ -113,20 +111,20 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         // Wrapping struct acting as explicit closure to execute the processing batches
-        private readonly struct InActionInvoker<TItem, TAction>
+        private readonly struct InActionInvokerWithReadOnlyMemory2D<TItem, TAction>
             where TAction : struct, IInAction<TItem>
         {
-            private readonly int batchSize;
-            private readonly ReadOnlyMemory<TItem> memory;
+            private readonly int batchHeight;
+            private readonly ReadOnlyMemory2D<TItem> memory;
             private readonly TAction action;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public InActionInvoker(
-                int batchSize,
-                ReadOnlyMemory<TItem> memory,
+            public InActionInvokerWithReadOnlyMemory2D(
+                int batchHeight,
+                ReadOnlyMemory2D<TItem> memory,
                 in TAction action)
             {
-                this.batchSize = batchSize;
+                this.batchHeight = batchHeight;
                 this.memory = memory;
                 this.action = action;
             }
@@ -137,34 +135,26 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// <param name="i">The index of the batch to process</param>
             public void Invoke(int i)
             {
+                int lowY = i * this.batchHeight;
+                nint highY = lowY + this.batchHeight;
                 int
-                    low = i * this.batchSize,
-                    high = low + this.batchSize,
-                    end = Math.Min(high, this.memory.Length);
+                    stopY = (int)(highY <= this.memory.Height ? highY : this.memory.Height),
+                    width = this.memory.Width;
 
-                ref TItem r0 = ref MemoryMarshal.GetReference(this.memory.Span);
+                ReadOnlySpan2D<TItem> span = this.memory.Span;
 
-                for (int j = low; j < end; j++)
+                for (int y = lowY; y < stopY; y++)
                 {
-                    ref TItem rj = ref Unsafe.Add(ref r0, (nint)(uint)j);
+                    ref TItem r0 = ref span.DangerousGetReferenceAt(y, 0);
 
-                    Unsafe.AsRef(this.action).Invoke(rj);
+                    for (int x = 0; x < width; x++)
+                    {
+                        ref TItem ryx = ref Unsafe.Add(ref r0, (nint)(uint)x);
+
+                        Unsafe.AsRef(this.action).Invoke(ryx);
+                    }
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// A contract for actions being executed on items of a specific type, with readonly access.
-    /// </summary>
-    /// <typeparam name="T">The type of items to process.</typeparam>
-    /// <remarks>If the <see cref="Invoke"/> method is small enough, it is highly recommended to mark it with <see cref="MethodImplOptions.AggressiveInlining"/>.</remarks>
-    public interface IInAction<T>
-    {
-        /// <summary>
-        /// Executes the action on a specified <typeparamref name="T"/> item.
-        /// </summary>
-        /// <param name="item">The current item to process.</param>
-        void Invoke(in T item);
     }
 }

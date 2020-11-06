@@ -312,7 +312,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// Processes the batch of actions at a specified index
             /// </summary>
             /// <param name="i">The index of the batch to process</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(int i)
             {
                 int
