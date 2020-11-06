@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// This indexer offers a layer of abstraction over <see cref="Unsafe.Add{T}(ref T,IntPtr)"/>, and similarly it does
         /// not do any kind of input validation. It is responsability of the caller to ensure the supplied offset is valid.
         /// </remarks>
-        public ref T this[IntPtr offset]
+        public ref T this[nint offset]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
