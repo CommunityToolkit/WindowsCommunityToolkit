@@ -30,7 +30,7 @@ WCT has a list of issues that are labeled as [help wanted](https://github.com/wi
 
 Due to the involvement of multiple steps to add or improve documents; it is required to visit [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) and follow contribution guidelines.
 
- ## <a name="pr"></a>Create, Submit or Review Pull Request :rocket:
+## <a name="pr"></a>Create, Submit or Review Pull Request :rocket:
 Anyone with write access can create a Pull Request by forking the Windows Community Toolkit Repository. Here is how you can [Create a Pull Request from fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork). Once you fork the Windows Community Toolkit repo, it is essential to create all changes in the feature branch of your forked repository. If you have the changes in the forked feature branch, you can then create a Pull Request in the main Windows Community Toolkit.
 
 Please visit [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) for detailed information and steps it requires to Submit or Review Pull Request.
