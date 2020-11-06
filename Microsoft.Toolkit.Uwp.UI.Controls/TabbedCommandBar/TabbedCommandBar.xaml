@@ -1,0 +1,93 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <!--  For some reason this code causes an exception at runtime, that String couldn't be turned into a Uri.  -->
+    <!--<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Ribbon/TabbedCommandBar/TabbedCommandBar.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Ribbon/TabbedCommandBar/TabbedCommandBarItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>-->
+
+    <Style BasedOn="{StaticResource CommandBarRevealStyle}"
+           TargetType="controls:TabbedCommandBarItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="DefaultLabelPosition" Value="Right" />
+        <Setter Property="Background" Value="{ThemeResource TabbedCommandBarContentBackground}" />
+        <!--
+            Is there a way to prevent the overflow button from showing if there aren't any buttons to send to the overflow menu?
+            (See this message in the WinUI channel: https://discord.com/channels/372137812037730304/671870147354427422/771057634203402300 )
+            Hardcoding the height of the CommandBar works, but it's a bit of a hack.
+        -->
+        <Setter Property="Height" Value="40" />
+    </Style>
+
+    <StaticResource x:Key="TabbedCommandBarContentBackground"
+                    ResourceKey="SystemControlChromeLowAcrylicWindowBrush" />
+    <Style TargetType="controls:TabbedCommandBar">
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:TabbedCommandBar">
+                    <Grid>
+                        <Grid.Resources>
+                            <!--
+                                For some reason, this data template refuses set the x:DataType. It throws the following compiler error:
+                                XamlCompiler error WMC0612: The XAML Binary Format (XBF) generator
+                                reported syntax error '0x09C4' : Property Not Found
+                            -->
+                            <DataTemplate x:Key="NormalTabTemplate">
+                                <NavigationViewItem Content="{Binding Header}" />
+                            </DataTemplate>
+                            <DataTemplate x:Key="ContextualTabTemplate">
+                                <NavigationViewItem Content="{Binding Header}">
+                                    <NavigationViewItem.Resources>
+                                        <SolidColorBrush x:Key="TopNavigationViewItemForeground"
+                                                         Color="{ThemeResource SystemAccentColor}" />
+                                        <SolidColorBrush x:Key="TopNavigationViewItemForegroundSelected"
+                                                         Color="{ThemeResource SystemAccentColor}" />
+                                        <SolidColorBrush x:Key="TopNavigationViewItemForegroundPointerOver"
+                                                         Color="{ThemeResource SystemAccentColorLight2}" />
+                                        <SolidColorBrush x:Key="TopNavigationViewItemForegroundPressed"
+                                                         Color="{ThemeResource SystemAccentColorLight2}" />
+                                    </NavigationViewItem.Resources>
+                                </NavigationViewItem>
+                            </DataTemplate>
+                            <controls:TabbedCommandBarItemTemplateSelector x:Key="DefaultTabbedCommandBarItemTemplateSelector"
+                                                                           Contextual="{StaticResource ContextualTabTemplate}"
+                                                                           Normal="{StaticResource NormalTabTemplate}" />
+                        </Grid.Resources>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <NavigationView x:Name="PART_RibbonNavigationView"
+                                        Background="{TemplateBinding Background}"
+                                        MenuItemTemplateSelector="{StaticResource DefaultTabbedCommandBarItemTemplateSelector}"
+                                        PaneDisplayMode="Top"
+                                        Style="{StaticResource RibbonTabNavigationViewStyle}" />
+
+                        <Border Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                Background="{ThemeResource TabbedCommandBarContentBackground}" />
+                        <ContentControl x:Name="PART_RibbonContent"
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch">
+                            <ContentControl.Resources>
+                                <Storyboard x:Name="TabChangedStoryboard">
+                                    <PopInThemeAnimation TargetName="PART_RibbonContent" />
+                                </Storyboard>
+                                <Style TargetType="AppBarElementContainer">
+                                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                </Style>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
