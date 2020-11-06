@@ -1,4 +1,6 @@
-﻿# How to add new samples
+For the latest info, [visit the wiki article here](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki/Sample-Development).
+
+# How to add new samples
 
 This document describes how to add a new sample page for a new control you want to add to the toolkit.
 
@@ -168,7 +170,7 @@ The value is a string which is the fully-qualified typename to check for the pre
 ```json
     {
         //...
-        "About": "MySample needs 10.0.16299 or higher to work.",
+        "About": "MySample needs 10.0.18362 or higher to work.",
         "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         //...

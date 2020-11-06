@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Reflection;
-using Windows.Foundation.Metadata;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,11 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// </summary>
     public partial class MarkdownRenderer
     {
-        private static bool? _textDecorationsSupported = null;
-
-        private static bool TextDecorationsSupported => (bool)(_textDecorationsSupported ??
-                        (_textDecorationsSupported = ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations")));
-
         /// <summary>
         /// Super Hack to retain inertia and passing the Scroll data onto the Parent ScrollViewer.
         /// </summary>
