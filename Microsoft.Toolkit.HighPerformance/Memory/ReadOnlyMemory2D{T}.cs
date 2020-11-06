@@ -794,7 +794,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     // difference between the start of the Span<char> (which directly wraps just the actual character data
                     // within the string), and the input reference, which we can get from the byte offset in use. The result
                     // is the character index which we can use to create the final Memory<char> instance.
-                    string text = Unsafe.As<string>(this.instance);
+                    string text = Unsafe.As<string>(this.instance)!;
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
@@ -811,7 +811,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 else if (this.instance.GetType() == typeof(T[]))
                 {
                     // If it's a T[] array, also handle the initial offset
-                    T[] array = Unsafe.As<T[]>(this.instance);
+                    T[] array = Unsafe.As<T[]>(this.instance)!;
                     int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
 
                     memory = array.AsMemory(index, this.height * this.width);

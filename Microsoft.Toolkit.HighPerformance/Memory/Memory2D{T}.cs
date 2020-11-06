@@ -772,7 +772,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 }
                 else if (typeof(T) == typeof(char) && this.instance.GetType() == typeof(string))
                 {
-                    string text = Unsafe.As<string>(this.instance);
+                    string text = Unsafe.As<string>(this.instance)!;
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
@@ -795,7 +795,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 else if (this.instance.GetType() == typeof(T[]))
                 {
                     // If it's a T[] array, also handle the initial offset
-                    T[] array = Unsafe.As<T[]>(this.instance);
+                    T[] array = Unsafe.As<T[]>(this.instance)!;
                     int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
 
                     memory = array.AsMemory(index, this.height * this.width);
