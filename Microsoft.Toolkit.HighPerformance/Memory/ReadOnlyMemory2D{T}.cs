@@ -802,11 +802,8 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 }
                 else if (this.instance is MemoryManager<T> memoryManager)
                 {
-                    unsafe
-                    {
-                        // If the object is a MemoryManager<T>, just slice it as needed
-                        memory = memoryManager.Memory.Slice((int)(void*)this.offset, this.height * this.width);
-                    }
+                    // If the object is a MemoryManager<T>, just slice it as needed
+                    memory = memoryManager.Memory.Slice((int)(nint)this.offset, this.height * this.width);
                 }
                 else if (this.instance.GetType() == typeof(T[]))
                 {
