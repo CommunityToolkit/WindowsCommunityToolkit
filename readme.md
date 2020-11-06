@@ -20,7 +20,7 @@ Want to see the toolkit in action before jumping into the code? Download and pla
 Do you want to contribute? Check out our [Windows Community Toolkit Wiki](https://aka.ms/wct/wiki) page to learn more about contribution and guidelines.
 
 ## NuGet Packages :package:
-NuGet is a standard package manager for .NET applications which is built into Visual Studio. From your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* Enter one of the package names mentioned in [Windows Community Toolkit Nuget Packages](https://docs.microsoft.com/en-us/windows/communitytoolkit/nuget-packages) table to search for it online.
+NuGet is a standard package manager for .NET applications which is built into Visual Studio. When you open solution in Visual Studio, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* Enter one of the package names mentioned in [Windows Community Toolkit Nuget Packages](https://docs.microsoft.com/en-us/windows/communitytoolkit/nuget-packages) table to search for it online.
 
 ## <a name="supported"></a> Features :mailbox:
 The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/toc.md#controls) refers to all the currently available features that can be found in the Windows Community Toolkit. Most features should work with the October 2018 Update (1809) SDK 17763 and above; however, refer to specific documentation on each feature for more information.
