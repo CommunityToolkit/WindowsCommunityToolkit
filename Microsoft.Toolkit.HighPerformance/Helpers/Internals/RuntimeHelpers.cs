@@ -32,31 +32,24 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <returns>The converted length for the specified argument and types.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ConvertLength<TFrom, TTo>(int length)
+        public static unsafe int ConvertLength<TFrom, TTo>(int length)
             where TFrom : unmanaged
             where TTo : unmanaged
         {
-            uint fromSize = (uint)Unsafe.SizeOf<TFrom>();
-            uint toSize = (uint)Unsafe.SizeOf<TTo>();
-            uint fromLength = (uint)length;
-            int toLength;
-
-            if (fromSize == toSize)
+            if (sizeof(TFrom) == sizeof(TTo))
             {
-                toLength = (int)fromLength;
+                return length;
             }
-            else if (fromSize == 1)
+            else if (sizeof(TFrom) == 1)
             {
-                toLength = (int)(fromLength / toSize);
+                return length / sizeof(TTo);
             }
             else
             {
-                ulong toLengthUInt64 = (ulong)fromLength * fromSize / toSize;
+                ulong targetLength = (ulong)(uint)length * (uint)sizeof(TFrom) / (uint)sizeof(TTo);
 
-                toLength = checked((int)toLengthUInt64);
+                return checked((int)targetLength);
             }
-
-            return toLength;
         }
 
         /// <summary>
