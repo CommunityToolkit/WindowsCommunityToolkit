@@ -3,10 +3,10 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <!--  For some reason this code causes an exception at runtime, that String couldn't be turned into a Uri.  -->
-    <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Ribbon/TabbedCommandBar/TabbedCommandBar.xaml" />
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Ribbon/TabbedCommandBar/TabbedCommandBarItem.xaml" />
-    </ResourceDictionary.MergedDictionaries>-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TabbedCommandBar/RibbonNavigationViewStyle.xaml" />
+        <!--<ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TabbedCommandBar/TabbedCommandBarItem.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
 
     <Style BasedOn="{StaticResource CommandBarRevealStyle}"
            TargetType="controls:TabbedCommandBarItem">

@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(TabbedCommandBar),
             new PropertyMetadata(new Border()));
 
-        // I would prefer this be an IList<TabbedCommandBarItem>, but Intellisense really doesn't like that.
+        // This should be an IList<TabbedCommandBarItem>, but Intellisense really doesn't like that.
         /// <summary>
         /// Gets or sets A list of <see cref="TabbedCommandBarItem"/>s to display in this <see cref="TabbedCommandBar"/>.
         /// </summary>
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (args.SelectedItem is NavigationViewItem navItem)
             {
-                // This code is a hack and is only temporary, because I can't get binding to work.
+                // This code is a hack, but it's necessary if binding doesn't work.
                 // RibbonContent might be null here, there should be a check
                 _ribbonContent.Content = Items[System.Math.Min(Items.Count - 1, _ribbonNavigationView.MenuItems.IndexOf(navItem))];
             }

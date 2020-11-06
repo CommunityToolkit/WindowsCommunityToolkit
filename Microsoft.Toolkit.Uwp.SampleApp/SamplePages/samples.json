@@ -433,6 +433,16 @@
         "XamlCodeFile": "TokenizingTextBoxXaml.bind",
         "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
+      },
+      {
+        "Name": "TabbedCommandBar",
+        "Type": "TabbedCommandBarPage",
+        "Subcategory": "Layout",
+        "About": "A control for displaying multiple CommandBars in the same space, like Microsoft Office's ribbon.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabbedCommandBar",
+        "XamlCodeFile": "TabbedCommandBar.bind",
+        "Icon": "/SamplePages/TabbedCommandBar/TabbedCommandBar.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabbedCommandBar.md"
       }
     ]
   },

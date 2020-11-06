@@ -45,6 +45,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TabbedCommandBar\RibbonNavigationViewStyle.xaml" />
     <None Remove="TabbedCommandBar\TabbedCommandBar.xaml" />
   </ItemGroup>
 
@@ -86,6 +87,13 @@
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <Page Update="TabbedCommandBar\RibbonNavigationViewStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
 
