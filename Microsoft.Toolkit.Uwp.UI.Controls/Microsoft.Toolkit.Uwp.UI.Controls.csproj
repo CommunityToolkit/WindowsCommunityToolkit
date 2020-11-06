@@ -45,7 +45,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TabbedCommandBar\RibbonNavigationViewStyle.xaml" />
     <None Remove="TabbedCommandBar\TabbedCommandBar.xaml" />
     <None Remove="TabbedCommandBar\TabbedCommandBarItem.xaml" />
   </ItemGroup>
@@ -94,13 +93,6 @@
   <ItemGroup>
     <Page Update="TabbedCommandBar\TabbedCommandBarItem.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  
-
-  <ItemGroup>
-    <Page Update="TabbedCommandBar\RibbonNavigationViewStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
