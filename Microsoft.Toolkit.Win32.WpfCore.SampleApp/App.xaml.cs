@@ -50,18 +50,21 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
                 int conversationId = args.GetInt("conversationId");
 
                 // If no specific action, view the conversation
-                if (!args.TryGetValue("action", out MyToastActions action))
-                {
-                    // Make sure we have a window open and in foreground
-                    OpenWindowIfNeeded();
-
-                    // And then show the conversation
-                    (Current.Windows[0] as MainWindow).ShowConversation(conversationId);
-                }
-                else
+                if (args.TryGetValue("action", out MyToastActions action))
                 {
                     switch (action)
                     {
+                        // View conversation
+                        case MyToastActions.ViewConversation:
+
+                            // Make sure we have a window open and in foreground
+                            OpenWindowIfNeeded();
+
+                            // And then show the conversation
+                            (Current.Windows[0] as MainWindow).ShowConversation(conversationId);
+
+                            break;
+
                         // Open the image
                         case MyToastActions.ViewImage:
 

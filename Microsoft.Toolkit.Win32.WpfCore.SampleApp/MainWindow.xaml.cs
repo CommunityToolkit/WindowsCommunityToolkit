@@ -36,6 +36,7 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
             new ToastContentBuilder()
 
                 // Arguments that are returned when the user clicks the toast or a button
+                .AddArgument("action", MyToastActions.ViewConversation)
                 .AddArgument("conversationId", conversationId)
 
                 // Visual content

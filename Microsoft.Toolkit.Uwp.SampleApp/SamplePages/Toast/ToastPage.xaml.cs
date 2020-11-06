@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             var builder = new ToastContentBuilder()
                 .SetToastScenario(ToastScenario.Reminder)
+                .AddArgument("action", "viewEvent")
                 .AddArgument("eventId", 1983)
                 .AddText("Adaptive Tiles Meeting")
                 .AddText("Conf Room 2001 / Building 135")

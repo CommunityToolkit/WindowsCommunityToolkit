@@ -7,6 +7,11 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
     public enum MyToastActions
     {
         /// <summary>
+        /// View the conversation
+        /// </summary>
+        ViewConversation,
+
+        /// <summary>
         /// Inline reply to a message
         /// </summary>
         Reply,
