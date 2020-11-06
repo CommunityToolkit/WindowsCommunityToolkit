@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "PART_TabChangedStoryboard", Type = typeof(Storyboard))]
     public class TabbedCommandBar : NavigationView
     {
-        private NavigationView _ribbonNavigationView = null;
         private ContentControl _ribbonContent = null;
         private Storyboard _tabChangedStoryboard = null;
 
