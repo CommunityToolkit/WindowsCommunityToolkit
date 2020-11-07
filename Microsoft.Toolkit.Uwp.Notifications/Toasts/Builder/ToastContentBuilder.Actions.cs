@@ -48,26 +48,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        /// <summary>
-        /// Add a button to the current toast.
-        /// </summary>
-        /// <param name="content">Text to display on the button.</param>
-        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
-        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
-        public ToastContentBuilder AddButton(string content, ToastActivationType activationType, ToastArguments arguments)
-        {
-            AddButton(content, activationType, SerializeArgumentsIncludingGeneric(arguments));
-
-            // Remove this button from the custom arguments list
-            _buttonsUsingCustomArguments.RemoveAt(_buttonsUsingCustomArguments.Count - 1);
-
-            return this;
-        }
-
         private string SerializeArgumentsIncludingGeneric(ToastArguments arguments)
         {
             if (_genericArguments.Count == 0)
@@ -91,27 +71,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="content">Text to display on the button.</param>
         /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
-        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
-        /// <param name="imageUri">Optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
-        public ToastContentBuilder AddButton(string content, ToastActivationType activationType, ToastArguments arguments, Uri imageUri)
-        {
-            AddButton(content, activationType, SerializeArgumentsIncludingGeneric(arguments), imageUri);
-
-            // Remove this button from the custom arguments list
-            _buttonsUsingCustomArguments.RemoveAt(_buttonsUsingCustomArguments.Count - 1);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Add a button to the current toast.
-        /// </summary>
-        /// <param name="content">Text to display on the button.</param>
-        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, string arguments)
@@ -120,19 +79,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Add an button to the toast that will be display to the right of the input text box, achieving a quick reply scenario.
-        /// </summary>
-        /// <param name="textBoxId">ID of an existing <see cref="ToastTextBox"/> in order to have this button display to the right of the input, achieving a quick reply scenario.</param>
-        /// <param name="content">Text to display on the button.</param>
-        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
-        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddButton(string textBoxId, string content, ToastActivationType activationType, ToastArguments arguments)
-        {
-            return AddButton(textBoxId, content, activationType, arguments, default);
-        }
-
-        /// <summary>
         /// Add a button to the current toast.
         /// </summary>
         /// <param name="content">Text to display on the button.</param>
@@ -140,6 +86,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
         /// <param name="imageUri">Optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+#if WINRT
+        [Windows.Foundation.Metadata.DefaultOverload]
+#endif
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, string arguments, Uri imageUri)
         {
             // Add new button
@@ -157,46 +106,35 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Add an button to the toast that will be display to the right of the input text box, achieving a quick reply scenario.
-        /// </summary>
-        /// <param name="textBoxId">ID of an existing <see cref="ToastTextBox"/> in order to have this button display to the right of the input, achieving a quick reply scenario.</param>
-        /// <param name="content">Text to display on the button.</param>
-        /// <param name="activationType">Type of activation this button will use when clicked. Defaults to Foreground.</param>
-        /// <param name="arguments">App-defined arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
-        /// <param name="imageUri">An optional image icon for the button to display (required for buttons adjacent to inputs like quick reply)</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
-        public ToastContentBuilder AddButton(string textBoxId, string content, ToastActivationType activationType, ToastArguments arguments, Uri imageUri)
-        {
-            AddButton(textBoxId, content, activationType, SerializeArgumentsIncludingGeneric(arguments), imageUri);
-
-            // Remove this button from the custom arguments list
-            _buttonsUsingCustomArguments.RemoveAt(_buttonsUsingCustomArguments.Count - 1);
-
-            return this;
-        }
-
-        /// <summary>
         /// Add a button to the current toast.
         /// </summary>
         /// <param name="button">An instance of class that implement <see cref="IToastButton"/> for the button that will be used on the toast.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddButton(IToastButton button)
         {
+            if (button is ToastButton toastButton && toastButton.Content == null)
+            {
+                throw new InvalidOperationException("Content is required on button.");
+            }
+
             // List has max 5 buttons
             if (ButtonList.Count == 5)
             {
                 throw new InvalidOperationException("A toast can't have more than 5 buttons");
             }
 
-            ButtonList.Add(button);
-
-            if (button is ToastButton b)
+            if (button is ToastButton b && b.CanAddArguments())
             {
-                _buttonsUsingCustomArguments.Add(b);
+                foreach (var arg in _genericArguments)
+                {
+                    if (!b.ContainsArgument(arg.Key))
+                    {
+                        b.AddArgument(arg.Key, arg.Value);
+                    }
+                }
             }
+
+            ButtonList.Add(button);
 
             return this;
         }

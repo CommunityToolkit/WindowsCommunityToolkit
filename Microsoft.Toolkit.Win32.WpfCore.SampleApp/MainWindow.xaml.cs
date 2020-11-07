@@ -49,15 +49,20 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
                 .AddInputTextBox("tbReply", "Type a reply")
 
                 // Buttons
-                .AddButton("Reply", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", MyToastActions.Reply))
+                .AddButton(new ToastButton()
+                    .SetContent("Reply")
+                    .AddArgument("action", MyToastActions.Reply)
+                    .SetBackgroundActivation())
 
-                .AddButton("Like", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", MyToastActions.Like))
+                .AddButton(new ToastButton()
+                    .SetContent("Like")
+                    .AddArgument("action", MyToastActions.Like)
+                    .SetBackgroundActivation())
 
-                .AddButton("View", ToastActivationType.Foreground, new ToastArguments()
-                    .Add("action", MyToastActions.ViewImage)
-                    .Add("imageUrl", image))
+                .AddButton(new ToastButton()
+                    .SetContent("View")
+                    .AddArgument("action", MyToastActions.ViewImage)
+                    .AddArgument("imageUrl", image))
 
                 // And show the toast!
                 .Show();

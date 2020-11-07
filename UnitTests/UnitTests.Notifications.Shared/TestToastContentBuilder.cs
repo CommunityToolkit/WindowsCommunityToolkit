@@ -150,17 +150,23 @@ namespace UnitTests.Notifications
             // Act
             ToastContentBuilder builder = new ToastContentBuilder();
             ToastContentBuilder anotherReference = builder
-                .AddButton("Accept", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", "accept"))
+                .AddButton(new ToastButton()
+                    .SetContent("Accept")
+                    .AddArgument("action", "accept")
+                    .SetBackgroundActivation())
                 .AddButton(new ToastButtonSnooze())
                 .AddButton("View", ToastActivationType.Protocol, "https://msn.com")
 
                 // Add generic arguments halfway through (should be applied to existing buttons and to any subsequent buttons added later)
                 .AddArgument(userIdKey, userIdValue)
 
-                .AddButton("Decline", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", "decline"))
-                .AddButton("Report", ToastActivationType.Protocol, "https://microsoft.com");
+                .AddButton(new ToastButton()
+                    .SetContent("Decline")
+                    .AddArgument("action", "decline")
+                    .SetBackgroundActivation())
+                .AddButton(new ToastButton()
+                    .SetContent("Report")
+                    .SetProtocolActivation(new Uri("https://microsoft.com")));
 
             // Assert
             Assert.AreSame(builder, anotherReference);
@@ -188,7 +194,7 @@ namespace UnitTests.Notifications
 
             var button5 = actions.Buttons[4] as ToastButton;
             Assert.AreEqual("Report", button5.Content);
-            Assert.AreEqual("https://microsoft.com", button5.Arguments);
+            Assert.AreEqual("https://microsoft.com/", button5.Arguments);
         }
 
         [TestMethod]
@@ -197,16 +203,20 @@ namespace UnitTests.Notifications
             // Act
             ToastContentBuilder builder = new ToastContentBuilder();
             ToastContentBuilder anotherReference = builder
-                .AddButton("Accept", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", "accept")
-                    .Add("userId", 601))
+                .AddButton(new ToastButton()
+                    .SetContent("Accept")
+                    .AddArgument("action", "accept")
+                    .AddArgument("userId", 601)
+                    .SetBackgroundActivation())
 
-                // Add generic arguments halfway through (should be applied to existing buttons and to any subsequent buttons added later)
+                // Add generic arguments halfway through (in this case shouldn't overwrite anything)
                 .AddArgument("userId", 542)
 
-                .AddButton("Decline", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", "decline")
-                    .Add("userId", 601));
+                .AddButton(new ToastButton()
+                    .SetContent("Decline")
+                    .AddArgument("action", "decline")
+                    .AddArgument("userId", 601)
+                    .SetBackgroundActivation());
 
             // Assert
             Assert.AreSame(builder, anotherReference);
@@ -241,8 +251,9 @@ namespace UnitTests.Notifications
 
                 .AddButton("Decline", ToastActivationType.Background, "myDeclineStr")
 
-                .AddButton("View", ToastActivationType.Foreground, new ToastArguments()
-                    .Add("action", "view"));
+                .AddButton(new ToastButton()
+                    .SetContent("View")
+                    .AddArgument("action", "view"));
 
             // Assert
             Assert.AreSame(builder, anotherReference);
@@ -287,8 +298,10 @@ namespace UnitTests.Notifications
             // Act
             ToastContentBuilder builder = new ToastContentBuilder();
             ToastContentBuilder anotherReference = builder
-                .AddButton("Accept", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", "accept"))
+                .AddButton(new ToastButton()
+                    .SetContent("Accept")
+                    .AddArgument("action", "accept")
+                    .SetBackgroundActivation())
 
                 .AddArgument("userId", 542)
 
@@ -296,8 +309,10 @@ namespace UnitTests.Notifications
 
                 .AddArgument("name", "Andrew")
 
-                .AddButton("Decline", ToastActivationType.Background, new ToastArguments()
-                    .Add("action", "decline"));
+                .AddButton(new ToastButton()
+                    .SetContent("Decline")
+                    .AddArgument("action", "decline")
+                    .SetBackgroundActivation());
 
             // Assert
             Assert.AreSame(builder, anotherReference);
@@ -313,6 +328,100 @@ namespace UnitTests.Notifications
             var button2 = actions.Buttons[1] as ToastButton;
             Assert.AreEqual("Decline", button2.Content);
             Assert.AreEqual("action=decline;userId=542;name=Andrew", button2.Arguments);
+        }
+
+        [TestMethod]
+        public void ToastButtonBuilders_General_ReturnSelf()
+        {
+            ToastButton button = new ToastButton();
+            ToastButton anotherReference = button
+                .SetContent("View")
+                .AddArgument("action", "view")
+                .AddArgument("imageId", 601);
+
+            Assert.AreSame(button, anotherReference);
+            Assert.AreEqual("View", button.Content);
+            Assert.AreEqual("action=view;imageId=601", button.Arguments);
+            Assert.AreEqual(ToastActivationType.Foreground, button.ActivationType);
+        }
+
+        [TestMethod]
+        public void ToastButtonBuilders_AllProperties_ReturnSelf()
+        {
+            ToastButton button = new ToastButton();
+            ToastButton anotherReference = button
+                .SetContent("View")
+                .SetImageUri(new Uri("ms-appx:///Assets/view.png"))
+                .AddArgument("action", "view")
+                .SetBackgroundActivation()
+                .SetAfterActivationBehavior(ToastAfterActivationBehavior.PendingUpdate)
+                .SetHintActionId("viewImage");
+
+            Assert.AreSame(button, anotherReference);
+            Assert.AreEqual("View", button.Content);
+            Assert.AreEqual("action=view", button.Arguments);
+            Assert.AreEqual("ms-appx:///Assets/view.png", button.ImageUri);
+            Assert.AreEqual(ToastActivationType.Background, button.ActivationType);
+            Assert.AreEqual(ToastAfterActivationBehavior.PendingUpdate, button.ActivationOptions.AfterActivationBehavior);
+            Assert.AreEqual("viewImage", button.HintActionId);
+        }
+
+        [TestMethod]
+        public void ToastButtonBuilders_ProtocolActivation_ReturnSelf()
+        {
+            ToastButton button = new ToastButton();
+            ToastButton anotherReference = button
+                .SetContent("View")
+                .SetProtocolActivation(new Uri("https://msn.com"));
+
+            Assert.AreSame(button, anotherReference);
+            Assert.AreEqual("View", button.Content);
+            Assert.AreEqual("https://msn.com/", button.Arguments);
+            Assert.AreEqual(ToastActivationType.Protocol, button.ActivationType);
+        }
+
+        [TestMethod]
+        public void ToastButtonBuilders_ProtocolActivationWithPfn_ReturnSelf()
+        {
+            ToastButton button = new ToastButton();
+            ToastButton anotherReference = button
+                .SetContent("View")
+                .SetProtocolActivation(new Uri("https://msn.com"), "MyPfn");
+
+            Assert.AreSame(button, anotherReference);
+            Assert.AreEqual("View", button.Content);
+            Assert.AreEqual("https://msn.com/", button.Arguments);
+            Assert.AreEqual(ToastActivationType.Protocol, button.ActivationType);
+            Assert.AreEqual("MyPfn", button.ActivationOptions.ProtocolActivationTargetApplicationPfn);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidProtocolAfterArguments_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("View")
+                .AddArgument("action", "view")
+                .SetProtocolActivation(new Uri("https://msn.com"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidArgumentsAfterProtocol_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("View")
+                .SetProtocolActivation(new Uri("https://msn.com"))
+                .AddArgument("action", "view");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidArgumentsAfterCustomArguments_ReturnSelf()
+        {
+            var button = new ToastButton("View", "viewArgs");
+
+            button.AddArgument("action", "view");
         }
 
         [TestMethod]
@@ -781,27 +890,6 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
-        public void AddButtonTest_WithTextOnlyButtonAndToastArguments_ReturnSelfWithButtonAdded()
-        {
-            // Arrange
-            string testButtonContent = "Test Button Content";
-            ToastActivationType testToastActivationType = ToastActivationType.Background;
-            var testButtonLaunchArgs = new ToastArguments().Add("action", "view");
-            ToastContentBuilder builder = new ToastContentBuilder();
-
-            // Act
-            ToastContentBuilder anotherReference = builder.AddButton(testButtonContent, testToastActivationType, testButtonLaunchArgs);
-
-            // Assert
-            Assert.AreSame(builder, anotherReference);
-
-            var button = (builder.Content.Actions as ToastActionsCustom).Buttons.First() as ToastButton;
-            Assert.AreEqual(testButtonContent, button.Content);
-            Assert.AreEqual(testToastActivationType, button.ActivationType);
-            Assert.AreEqual(testButtonLaunchArgs.ToString(), button.Arguments);
-        }
-
-        [TestMethod]
         public void AddButtonTest_WithCustomImageAndTextButton_ReturnSelfWithButtonAdded()
         {
             // Arrange
@@ -822,30 +910,6 @@ namespace UnitTests.Notifications
             Assert.AreEqual(testButtonContent, button.Content);
             Assert.AreEqual(testToastActivationType, button.ActivationType);
             Assert.AreEqual(testButtonLaunchArgs, button.Arguments);
-            Assert.AreEqual(testImageUriSrc.OriginalString, button.ImageUri);
-        }
-
-        [TestMethod]
-        public void AddButtonTest_WithCustomImageAndTextButtonAndToastArguments_ReturnSelfWithButtonAdded()
-        {
-            // Arrange
-            string testButtonContent = "Test Button Content";
-            ToastActivationType testToastActivationType = ToastActivationType.Background;
-            var testButtonLaunchArgs = new ToastArguments().Add("action", "accept");
-            Uri testImageUriSrc = new Uri("C:/justatesturi.jpg");
-
-            ToastContentBuilder builder = new ToastContentBuilder();
-
-            // Act
-            ToastContentBuilder anotherReference = builder.AddButton(testButtonContent, testToastActivationType, testButtonLaunchArgs, testImageUriSrc);
-
-            // Assert
-            Assert.AreSame(builder, anotherReference);
-
-            var button = (builder.Content.Actions as ToastActionsCustom).Buttons.First() as ToastButton;
-            Assert.AreEqual(testButtonContent, button.Content);
-            Assert.AreEqual(testToastActivationType, button.ActivationType);
-            Assert.AreEqual(testButtonLaunchArgs.ToString(), button.Arguments);
             Assert.AreEqual(testImageUriSrc.OriginalString, button.ImageUri);
         }
 
@@ -872,32 +936,6 @@ namespace UnitTests.Notifications
             Assert.AreEqual(testButtonContent, button.Content);
             Assert.AreEqual(testToastActivationType, button.ActivationType);
             Assert.AreEqual(testButtonLaunchArgs, button.Arguments);
-            Assert.AreEqual(testImageUriSrc.OriginalString, button.ImageUri);
-        }
-
-        [TestMethod]
-        public void AddButtonTest_WithTextBoxIdAndToastArguments_ReturnSelfWithButtonAdded()
-        {
-            // Arrange
-            string testInputTextBoxId = Guid.NewGuid().ToString();
-            string testButtonContent = "Test Button Content";
-            ToastActivationType testToastActivationType = ToastActivationType.Background;
-            var testButtonLaunchArgs = new ToastArguments().Add("action", "send");
-            Uri testImageUriSrc = new Uri("C:/justatesturi.jpg");
-
-            ToastContentBuilder builder = new ToastContentBuilder();
-
-            // Act
-            ToastContentBuilder anotherReference = builder.AddButton(testInputTextBoxId, testButtonContent, testToastActivationType, testButtonLaunchArgs, testImageUriSrc);
-
-            // Assert
-            Assert.AreSame(builder, anotherReference);
-
-            var button = (builder.Content.Actions as ToastActionsCustom).Buttons.First() as ToastButton;
-            Assert.AreEqual(testInputTextBoxId, button.TextBoxId);
-            Assert.AreEqual(testButtonContent, button.Content);
-            Assert.AreEqual(testToastActivationType, button.ActivationType);
-            Assert.AreEqual(testButtonLaunchArgs.ToString(), button.Arguments);
             Assert.AreEqual(testImageUriSrc.OriginalString, button.ImageUri);
         }
 

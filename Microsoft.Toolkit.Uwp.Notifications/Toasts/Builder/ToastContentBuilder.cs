@@ -11,12 +11,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// Builder class used to create <see cref="ToastContent"/>
     /// </summary>
     public partial class ToastContentBuilder
+#if !WINRT
+        : IToastActivateableBuilder<ToastContentBuilder>
+#endif
     {
         private Dictionary<string, string> _genericArguments = new Dictionary<string, string>();
 
         private bool _customArgumentsUsedOnToastItself;
-
-        private List<ToastButton> _buttonsUsingCustomArguments = new List<ToastButton>();
 
         /// <summary>
         /// Gets internal instance of <see cref="ToastContent"/>. This is equivalent to the call to <see cref="ToastContentBuilder.GetToastContent"/>.
@@ -196,14 +197,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 foreach (var button in actions.Buttons)
                 {
-                    if (button is ToastButton b && b.ActivationType != ToastActivationType.Protocol && !_buttonsUsingCustomArguments.Contains(b))
+                    if (button is ToastButton b && b.CanAddArguments() && !b.ContainsArgument(key))
                     {
-                        var bArgs = ToastArguments.Parse(b.Arguments);
-                        if (!bArgs.Contains(key))
-                        {
-                            bArgs.Add(key, value);
-                            b.Arguments = bArgs.ToString();
-                        }
+                        b.AddArgument(key, value);
                     }
                 }
             }
@@ -244,8 +240,30 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder SetProtocolActivation(Uri protocol)
         {
+            return SetProtocolActivation(protocol, default);
+        }
+
+        /// <summary>
+        /// Configures the toast notification to launch the specified url when the toast body is clicked.
+        /// </summary>
+        /// <param name="protocol">The protocol to launch.</param>
+        /// <param name="targetApplicationPfn">New in Creators Update: The target PFN, so that regardless of whether multiple apps are registered to handle the same protocol uri, your desired app will always be launched.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder SetProtocolActivation(Uri protocol, string targetApplicationPfn)
+        {
             Content.Launch = protocol.ToString();
             Content.ActivationType = ToastActivationType.Protocol;
+
+            if (targetApplicationPfn != null)
+            {
+                if (Content.ActivationOptions == null)
+                {
+                    Content.ActivationOptions = new ToastActivationOptions();
+                }
+
+                Content.ActivationOptions.ProtocolActivationTargetApplicationPfn = targetApplicationPfn;
+            }
+
             return this;
         }
 
