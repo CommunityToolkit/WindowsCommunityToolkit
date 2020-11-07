@@ -6,12 +6,12 @@
       mc:Ignorable="d">
     <Grid>
         <controls:TabbedCommandBar>
-            <controls:TabbedCommandBar.Footer>
+            <controls:TabbedCommandBar.PaneFooter>
                 <CommandBar Background="Transparent" DefaultLabelPosition="Right">
                     <AppBarButton Label="Share" Icon="Share"/>
                     <AppBarButton Label="Comments" Icon="Message"/>
                 </CommandBar>
-            </controls:TabbedCommandBar.Footer>
+            </controls:TabbedCommandBar.PaneFooter>
             <controls:TabbedCommandBar.MenuItems>
                 <controls:TabbedCommandBarItem Header="Home">
                     <AppBarButton Icon="Undo" Label="Undo"/>

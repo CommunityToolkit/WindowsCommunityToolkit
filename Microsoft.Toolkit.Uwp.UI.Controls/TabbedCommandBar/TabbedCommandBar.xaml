@@ -23,14 +23,16 @@
                                                    Contextual="{StaticResource ContextualTabTemplate}"
                                                    Normal="{StaticResource NormalTabTemplate}" />
 
-    <StaticResource x:Key="TabbedCommandBarContentBackground" ResourceKey="SystemControlChromeLowAcrylicWindowBrush" />
-    <Style TargetType="controls:TabbedCommandBar">
+    <Style BasedOn="{StaticResource DefaultTabbedCommandBarStyle}" TargetType="controls:TabbedCommandBar"/>
+
+    <Style x:Key="DefaultTabbedCommandBarStyle" TargetType="controls:TabbedCommandBar">
         <Setter Property="MenuItemTemplateSelector" Value="{StaticResource DefaultTabbedCommandBarItemTemplateSelector}" />
         <Setter Property="PaneDisplayMode" Value="Top" />
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemChromeMediumLowColor}" />
+        <Setter Property="ContentBackground" Value="{ThemeResource SystemChromeLowColor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TabbedCommandBar">
@@ -40,7 +42,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid x:Name="RootGrid">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                             <Grid>
                                 <StackPanel x:Name="TopNavArea"
                                             Grid.Row="0"
@@ -129,7 +131,7 @@
                                                         Grid.Column="7"
                                                         HorizontalContentAlignment="Stretch"
                                                         VerticalContentAlignment="Stretch"
-                                                        IsTabStop="False" />
+                                                        IsTabStop="False"/>
                                     </Grid>
                                     <Border x:Name="TopNavContentOverlayAreaGrid"
                                             Child="{TemplateBinding ContentOverlay}" />
@@ -266,18 +268,20 @@
 
                         <Border Grid.Row="1"
                                 HorizontalAlignment="Stretch"
-                                Background="{ThemeResource TabbedCommandBarContentBackground}" />
+                                Background="{TemplateBinding ContentBackground}" />
                         <ContentControl x:Name="PART_RibbonContent"
                                         Grid.Row="1"
                                         HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch">
+                                        HorizontalContentAlignment="Stretch"
+                                        Background="{TemplateBinding ContentBackground}">
                             <ContentControl.Resources>
                                 <Storyboard x:Name="TabChangedStoryboard">
                                     <PopInThemeAnimation TargetName="PART_RibbonContent" />
                                 </Storyboard>
                                 <Style TargetType="AppBarElementContainer">
                                     <Setter Property="VerticalAlignment" Value="Stretch" />
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="Margin" Value="0,0,1,0" />
                                 </Style>
                             </ContentControl.Resources>
                         </ContentControl>
@@ -287,4 +291,8 @@
         </Setter>
     </Style>
 
+    <Style x:Key="AcrylicTabbedCommandBarStyle" TargetType="controls:TabbedCommandBar" BasedOn="{StaticResource DefaultTabbedCommandBarStyle}">
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" />
+    </Style>
+    
 </ResourceDictionary>

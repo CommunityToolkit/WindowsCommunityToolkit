@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -24,22 +24,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard _tabChangedStoryboard = null;
 
         /// <summary>
-        /// Identifies the <see cref="Footer"/> property.
+        /// Gets or sets the brush to use as the background for content
         /// </summary>
-        public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(
-            nameof(Footer),
-            typeof(UIElement),
-            typeof(TabbedCommandBar),
-            new PropertyMetadata(new Border()));
+        public Brush ContentBackground
+        {
+            get { return (Brush)GetValue(ContentBackgroundProperty); }
+            set { SetValue(ContentBackgroundProperty, value); }
+        }
 
         /// <summary>
-        /// Gets or sets the <see cref="UIElement"/> to be displayed in the footer of the ribbon tab strip.
+        /// Identifies the <see cref="ContentBackground"/> property.
         /// </summary>
-        public UIElement Footer
-        {
-            get { return (UIElement)GetValue(FooterProperty); }
-            set { SetValue(FooterProperty, value); }
-        }
+        public static readonly DependencyProperty ContentBackgroundProperty =
+            DependencyProperty.Register("ContentBackground", typeof(Brush), typeof(TabbedCommandBar), new PropertyMetadata(null));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabbedCommandBar"/> class.
@@ -63,10 +60,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Get RibbonContent first, since setting SelectedItem requires it
             _ribbonContent = GetTemplateChild("PART_RibbonContent") as ContentControl;
+            _tabChangedStoryboard = GetTemplateChild("TabChangedStoryboard") as Storyboard;
 
             SelectedItem = MenuItems.FirstOrDefault();
-
-            _tabChangedStoryboard = GetTemplateChild(nameof(_tabChangedStoryboard)) as Storyboard;
         }
 
         private void RibbonNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

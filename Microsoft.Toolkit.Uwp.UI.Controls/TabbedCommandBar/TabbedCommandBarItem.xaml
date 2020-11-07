@@ -2,19 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <StaticResource x:Key="TabbedCommandBarContentBackground" ResourceKey="SystemControlChromeLowAcrylicWindowBrush" />
-    
-    <Style BasedOn="{StaticResource CommandBarRevealStyle}" TargetType="controls:TabbedCommandBarItem">
+    <Style BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem"/>
+
+    <Style x:Key="DefaultTabbedCommandBarItemStyle" BasedOn="{StaticResource CommandBarRevealStyle}" TargetType="controls:TabbedCommandBarItem">
         <!-- TODO: Copy CommandBarRevealStyle instead of referencing it -->
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="DefaultLabelPosition" Value="Right" />
-        <Setter Property="Background" Value="{ThemeResource TabbedCommandBarContentBackground}" />
+        <Setter Property="Background" Value="{ThemeResource SystemChromeLowColor}" />
         <!--
             Is there a way to prevent the overflow button from showing if there aren't any buttons to send to the overflow menu?
             (See this message in the WinUI channel: https://discord.com/channels/372137812037730304/671870147354427422/771057634203402300 )
             Hardcoding the height of the CommandBar works, but it's a bit of a hack.
         -->
         <Setter Property="Height" Value="40" />
+    </Style>
+
+    <Style x:Key="AcrylicTabbedCommandBarItemStyle" BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem">
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"/>
     </Style>
     
 </ResourceDictionary>
