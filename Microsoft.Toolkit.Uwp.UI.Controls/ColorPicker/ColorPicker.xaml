@@ -23,7 +23,7 @@
 
     <Style x:Key="DefaultColorPickerStyle"
            TargetType="controls:ColorPicker">
-        <Setter Property="Width" Value="392" />
+        <Setter Property="Width" Value="346" />
         <Setter Property="MinWidth" Value="312" />
         <Setter Property="MinHeight" Value="392" />
         <Setter Property="IsTabStop" Value="False" />
@@ -97,9 +97,11 @@
                 <controls:Case Value="SpectrumListBoxItem">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto"
+                                              MinWidth="32" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto"
+                                              MinWidth="32" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -1176,7 +1178,7 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Margin" Value="8,0,8,0" />
         <Setter Property="Padding" Value="24,0,24,0" />
-        <Setter Property="MinWidth" Value="108" />
+        <Setter Property="MinWidth" Value="100" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="Template" Value="{StaticResource UnderlineListBoxItemTemplate}" />
     </Style>
