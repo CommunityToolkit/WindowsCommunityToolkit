@@ -165,7 +165,8 @@
                             <DataTemplate>
                                 <Border HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
-                                        AutomationProperties.Name="{Binding Converter={StaticResource ColorToDisplayNameConverter}}">
+                                        AutomationProperties.Name="{Binding Converter={StaticResource ColorToDisplayNameConverter}}"
+                                        ToolTipService.ToolTip="{Binding Converter={StaticResource ColorToDisplayNameConverter}}">
                                     <Border.Background>
                                         <SolidColorBrush Color="{Binding}" />
                                     </Border.Background>
