@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Implements the standard Windows 10 color palette.
     /// </summary>
-    public class WindowsColorPalette : IColorPalette
+    public class FluentColorPalette : IColorPalette
     {
         /* Values were taken from the Settings App, Personalization > Colors which match with
          * https://docs.microsoft.com/en-us/windows/uwp/whats-new/windows-docs-december-2017

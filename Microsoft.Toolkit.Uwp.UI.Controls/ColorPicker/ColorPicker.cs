@@ -1140,7 +1140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetDefaultPalette()
         {
-            this.CustomPalette = new WindowsColorPalette();
+            this.CustomPalette = new FluentColorPalette();
 
             return;
         }
