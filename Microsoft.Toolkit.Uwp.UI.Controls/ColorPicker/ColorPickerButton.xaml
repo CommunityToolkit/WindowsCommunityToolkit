@@ -158,6 +158,6 @@
     <Style x:Key="ColorPickerButtonFlyoutPresenterStyle"
            TargetType="FlyoutPresenter">
         <Setter Property="Padding" Value="0" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
     </Style>
 </ResourceDictionary>
