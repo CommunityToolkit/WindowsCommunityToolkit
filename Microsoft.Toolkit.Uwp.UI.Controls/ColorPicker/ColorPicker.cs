@@ -174,7 +174,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            //// TODO: We need to disconnect old events first.
+            // We need to disconnect old events first
+            this.ConnectEvents(false);
 
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>(nameof(ColorSpectrumAlphaSlider));
