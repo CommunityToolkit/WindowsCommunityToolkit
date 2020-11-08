@@ -63,15 +63,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             else
             {
                 // Chose a white/black brush based on contrast to the base color
-                if (this.GetBrightness(comparisonColor) > 0.5)
+                if (this.UseLightContrastColor(comparisonColor))
                 {
-                    // Bright color, use a dark for contrast
-                    return new SolidColorBrush(Colors.Black);
+                    return new SolidColorBrush(Colors.White);
                 }
                 else
                 {
-                    // Dark color, use a light for contrast
-                    return new SolidColorBrush(Colors.White);
+                    return new SolidColorBrush(Colors.Black);
                 }
             }
         }
@@ -87,37 +85,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
         }
 
         /// <summary>
-        /// Gets the perceived brightness or intensity of the color.
-        /// This value is normalized between zero (black) and one (white).
+        /// Determines whether a light or dark contrast color should be used with the given displayed color.
         /// </summary>
         /// <remarks>
-        ///
-        /// The base formula for luminance is from Rec. ITU-R BT.601-7 ():
-        ///    https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.601-7-201103-I!!PDF-E.pdf
-        ///    Section 2.5.1 Construction of luminance (EY) and colour-difference (ER–EY) and (EB–EY) signals.
-        ///
-        /// This formula accounts for physiological aspects: the human eyeball is most sensitive to green light,
-        /// less to red and least to blue.
-        ///
-        ///    Luminance = (0.299 * Red) + (0.587 * Green) + (0.114 * Blue)
-        ///
-        /// This formula is also recommended by the W3C Techniques For Accessibility Evaluation And Repair Tools
-        ///    https://www.w3.org/TR/AERT/#color-contrast
-        ///
-        /// Contrary to the above formula, this is not called luminance and is called brightness instead.
-        /// This value is not measurable and is subjective which better fits the definition of brightness:
-        ///    - Luminance is the luminous intensity, projected on a given area and direction.
-        ///      Luminance is an objectively measurable attribute. The unit is 'Candela per Square Meter' (cd/m2).
-        ///    - Brightness is a subjective attribute of light. The monitor can be adjusted to a level of light
-        ///      between very dim and very bright. Brightness is perceived and cannot be measured objectively.
-        ///
-        /// Other useful information can be found here:
-        ///    http://www.nbdtech.com/Blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
-        ///
+        /// This code is using the WinUI algorithm.
         /// </remarks>
-        private double GetBrightness(Color color)
+        private bool UseLightContrastColor(Color displayedColor)
         {
-            return ((0.299 * color.R) + (0.587 * color.G) + (0.114 * color.B)) / 255;
+            // The selection ellipse should be light if and only if the chosen color
+            // contrasts more with black than it does with white.
+            // To find how much something contrasts with white, we use the equation
+            // for relative luminance, which is given by
+            //
+            // L = 0.2126 * Rg + 0.7152 * Gg + 0.0722 * Bg
+            //
+            // where Xg = { X/3294 if X <= 10, (R/269 + 0.0513)^2.4 otherwise }
+            //
+            // If L is closer to 1, then the color is closer to white; if it is closer to 0,
+            // then the color is closer to black.  This is based on the fact that the human
+            // eye perceives green to be much brighter than red, which in turn is perceived to be
+            // brighter than blue.
+            //
+            // If the third dimension is value, then we won't be updating the spectrum's displayed colors,
+            // so in that case we should use a value of 1 when considering the backdrop
+            // for the selection ellipse.
+
+            double rg = displayedColor.R <= 10 ? displayedColor.R / 3294.0 : Math.Pow((displayedColor.R / 269.0) + 0.0513, 2.4);
+            double gg = displayedColor.G <= 10 ? displayedColor.G / 3294.0 : Math.Pow((displayedColor.G / 269.0) + 0.0513, 2.4);
+            double bg = displayedColor.B <= 10 ? displayedColor.B / 3294.0 : Math.Pow((displayedColor.B / 269.0) + 0.0513, 2.4);
+
+            return (0.2126 * rg) + (0.7152 * gg) + (0.0722 * bg) <= 0.5;
         }
     }
 }
