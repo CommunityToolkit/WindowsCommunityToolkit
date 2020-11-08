@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets Media of the tweet.
         /// </summary>
-        [JsonProperty("media")]
+        [JsonPropertyName("media")]
         public TwitterMedia[] Media { get; set; }
     }
 }

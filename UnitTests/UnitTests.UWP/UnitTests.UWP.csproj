@@ -11,13 +11,14 @@
     <AssemblyName>UnitTests.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <Target Name="Pack">
   </Target>
@@ -103,6 +104,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>3.1.5</Version>
+    </PackageReference>
     <PackageReference Include="FluentAssertions">
       <Version>5.10.3</Version>
     </PackageReference>
@@ -118,17 +122,21 @@
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.3.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Xml.XPath.XmlDocument">
-      <Version>4.3.0</Version>
+    <PackageReference Include="System.Text.Json">
+      <Version>4.7.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\Test_AdaptiveHeightValueConverter.cs" />
+    <Compile Include="Converters\Test_TaskResultConverter.cs" />
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyStringToObjectConverter.cs" />
     <Compile Include="Converters\Test_StringFormatConverter.cs" />
+    <Compile Include="Converters\Test_TypeToObjectConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
+    <Compile Include="Extensions\Test_PointExtensions.cs" />
+    <Compile Include="Extensions\Test_SizeExtensions.cs" />
     <Compile Include="Extensions\Test_BitmapIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconSourceExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconExtensionMarkupExtension.cs" />
@@ -171,6 +179,8 @@
     <Compile Include="PrivateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
+    <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
+    <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_General.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_InterspersedCollection.cs" />
     <Compile Include="UI\Controls\Test_MasterDetailsView.cs" />
@@ -195,6 +205,11 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include=".editorconfig" />
+    <PRIResource Include="Strings\fr\Resources.resw" />
+    <PRIResource Include="Strings\en-us\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
+    <Content Include="Assets\Samples\InfiniteCanvasExport.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />
@@ -208,6 +223,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
+      <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
+      <Name>Microsoft.Toolkit.Mvvm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
       <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>

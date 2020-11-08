@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                 try
                 {
                     string name = (string)member.Attribute("name");
-                    if (name == null) 
+                    if (name == null)
                         continue;
                     bool isType = name.StartsWith("T:", StringComparison.OrdinalIgnoreCase);
                     if (isType ||
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                             typeName = name.Substring(2, lastDot - 2);
                         }
                         typeName += AssemblyFullName;
-                        
+
                         Type t = Type.GetType(typeName);
                         if (t != null && t.IsPublic && t.IsClass &&
                             t.IsSubclassOf(Types.PlatformTypes.DependencyObjectType))
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                                         isBrowsable = IsBrowsable(pi);
                                     }
                                     catch { isBrowsable = false; }
-                                    if(isBrowsable)
+                                    if (isBrowsable)
                                         builder.AddCallback(t, b => b.AddCustomAttributes(propName, new DescriptionAttribute(desc)));
                                     else //Hide from intellisense
                                         builder.AddCallback(t, b => b.AddCustomAttributes(new BrowsableAttribute(false)));

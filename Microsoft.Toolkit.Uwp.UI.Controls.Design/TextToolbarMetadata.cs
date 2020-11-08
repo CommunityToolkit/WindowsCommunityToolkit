@@ -19,7 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 				b =>
 				{
                     b.AddCustomAttributes(nameof(TextToolbar.Editor), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.Format), new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(TextToolbar.Formatter), new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(TextToolbar.DefaultButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(TextToolbar.CustomButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));

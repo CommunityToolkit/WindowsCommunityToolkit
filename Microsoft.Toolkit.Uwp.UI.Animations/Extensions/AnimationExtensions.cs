@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
 #pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
                               /// <summary>
-                              /// A cached dictionary mapping easings to bezier control points
+                              /// A cached dictionary mapping easings to bézier control points
                               /// </summary>
         private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode), (Vector2, Vector2)>();
 #pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // and we don't want to deal with caching a disposed easing function
             void Add(EasingType type, EasingMode mode, Vector2 p1, Vector2 p2)
             {
-                // In order to generate a usable hashcode for our ValueTuple without collisions
+                // In order to generate a usable hash code for our ValueTuple without collisions
                 // we can't use enum values for both type & mode, so we have to string one of them.
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                 _compositionEasingFunctions[(type.ToString(), mode)] = (p1, p2);

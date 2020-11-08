@@ -6,89 +6,76 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid>
-        <RelativePanel x:Name="MainContent"
-                       Visibility="Collapsed">
-            <Button x:Name="BtEnumeration"
+    <RelativePanel>
+        <Button x:Name="BtEnumeration"
+                Margin="10"
+                Click="Enumeration_Click"
+                Content="Start enumeration" />
+        <ListView x:Name="LVDevices"
+                    Height="200"
                     Margin="10"
-                    Click="Enumeration_Click"
-                    Content="Start enumeration" />
-            <ListView x:Name="LVDevices"
-                      Height="200"
-                      Margin="10"
-                      VerticalAlignment="Top"
-                      ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}"
-                      RelativePanel.AlignLeftWithPanel="True"
-                      RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.Below="BtEnumeration"
-                      SelectionChanged="LVDevices_SelectionChanged">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="connectivity:ObservableBluetoothLEDevice">
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <StackPanel Name="SPDevice"
-                        Margin="10"
-                        RelativePanel.Below="LVDevices">
-                <TextBlock x:Name="TbDeviceName"
-                           Text="" />
-                <TextBlock x:Name="TbDeviceBtAddr"
-                           Text="" />
-            </StackPanel>
-
-            <ComboBox x:Name="CBServices"
-                      Margin="10"
-                      RelativePanel.Below="SPDevice"
-                      SelectionChanged="CBServices_SelectionChanged"
-                      Visibility="Collapsed">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="connectivity:ObservableGattDeviceService">
-                        <TextBlock>
-                            <Run Text="Service Name: " />
-                            <Run Text="{x:Bind Name}" />
-                        </TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <ComboBox x:Name="CBCharacteristic"
-                      Margin="10"
-                      RelativePanel.Below="CBServices"
-                      SelectionChanged="CBCharacteristic_SelectionChanged"
-                      Visibility="Collapsed">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="connectivity:ObservableGattCharacteristics">
-                        <TextBlock>
-                            <Run Text="Characteristic Name: " />
-                            <Run Text="{x:Bind Name}" />
-                        </TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Button x:Name="BtReadCharValue"
+                    VerticalAlignment="Top"
+                    ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="BtEnumeration"
+                    SelectionChanged="LVDevices_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="connectivity:ObservableBluetoothLEDevice">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Name="SPDevice"
                     Margin="10"
-                    Click="ReadCharValue_Click"
-                    Content="Read Value"
-                    RelativePanel.Below="CBCharacteristic"
-                    Visibility="Collapsed" />
+                    RelativePanel.Below="LVDevices">
+            <TextBlock x:Name="TbDeviceName"
+                        Text="" />
+            <TextBlock x:Name="TbDeviceBtAddr"
+                        Text="" />
+        </StackPanel>
 
-            <TextBlock x:Name="TBCharValue"
-                       Margin="10"
-                       RelativePanel.Below="BtReadCharValue" />
-        </RelativePanel>
-        <TextBlock x:Name="NotAvailableMessage"
-                   Margin="40"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="20"
-                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                   Text="BluetoothLE requires the Windows 10 Creators Update"
-                   TextAlignment="Center"
-                   TextWrapping="WrapWholeWords"
-                   Visibility="Collapsed" />
-    </Grid>
+        <ComboBox x:Name="CBServices"
+                    Margin="10"
+                    RelativePanel.Below="SPDevice"
+                    SelectionChanged="CBServices_SelectionChanged"
+                    Visibility="Collapsed">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="connectivity:ObservableGattDeviceService">
+                    <TextBlock>
+                        <Run Text="Service Name: " />
+                        <Run Text="{x:Bind Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox x:Name="CBCharacteristic"
+                    Margin="10"
+                    RelativePanel.Below="CBServices"
+                    SelectionChanged="CBCharacteristic_SelectionChanged"
+                    Visibility="Collapsed">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="connectivity:ObservableGattCharacteristics">
+                    <TextBlock>
+                        <Run Text="Characteristic Name: " />
+                        <Run Text="{x:Bind Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button x:Name="BtReadCharValue"
+                Margin="10"
+                Click="ReadCharValue_Click"
+                Content="Read Value"
+                RelativePanel.Below="CBCharacteristic"
+                Visibility="Collapsed" />
+
+        <TextBlock x:Name="TBCharValue"
+                    Margin="10"
+                    RelativePanel.Below="BtReadCharValue" />
+    </RelativePanel>
 </Page>

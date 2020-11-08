@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
-            DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
+            DocumentationTextBlock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
@@ -271,14 +271,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
-                if (CurrentSample.HasJavaScriptCode)
-                {
-                    var code = await CurrentSample.GetJavaScriptSourceAsync();
-
-                    JavaScriptCodeRenderer.SetCode(code, "js");
-                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
-                }
-
                 if (CurrentSample.HasDocumentation)
                 {
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
@@ -287,12 +279,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     documentationPath = path;
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
-                        DocumentationTextblock.Text = contents;
+                        DocumentationTextBlock.Text = contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
 
-                // Hide the Github button if there isn't a CodeUrl.
+                // Hide the GitHub button if there isn't a CodeUrl.
                 if (string.IsNullOrEmpty(CurrentSample.CodeUrl))
                 {
                     GithubButton.Visibility = Visibility.Collapsed;
@@ -421,14 +413,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 return;
             }
-
-            if (CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
-            {
-                var code = await CurrentSample.GetJavaScriptSourceAsync();
-                JavaScriptCodeRenderer.SetCode(code, "js");
-
-                return;
-            }
         }
 
         private async void XamlCodeEditor_UpdateRequested(object sender, EventArgs e)
@@ -439,7 +423,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             });
         }
 
-        private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
+        private async void DocumentationTextBlock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", e.Link);
             var link = e.Link;
@@ -454,7 +438,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextBlock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
             var deferral = e.GetDeferral();
             BitmapImage image = null;
@@ -597,8 +581,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (XamlCodeEditor.TimeSampleEditedFirst != DateTime.MinValue &&
                     XamlCodeEditor.TimeSampleEditedLast != DateTime.MinValue)
                 {
-                    int secondsEdditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
-                    TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEdditingSample);
+                    int secondsEditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
+                    TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEditingSample);
                 }
                 else
                 {

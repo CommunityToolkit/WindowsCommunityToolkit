@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI;
+using Microsoft.Toolkit.Uwp.SampleApp.Enums;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
-using Microsoft.Toolkit.Uwp.SampleApp.Enums;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Collections
     public interface IIncrementalSource<TSource>
     {
         /// <summary>
-        /// This method is invoked everytime the view need to show more items. Retrieves items based on <paramref name="pageIndex"/> and <paramref name="pageSize"/> arguments.
+        /// This method is invoked every time the view need to show more items. Retrieves items based on <paramref name="pageIndex"/> and <paramref name="pageSize"/> arguments.
         /// </summary>
         /// <param name="pageIndex">
         /// The zero-based index of the page that corresponds to the items to retrieve.
