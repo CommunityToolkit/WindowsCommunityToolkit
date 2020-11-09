@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -28,12 +28,12 @@ namespace Microsoft.Toolkit.Services.Weibo
 
             try
             {
-                return JsonConvert.DeserializeObject<List<T>>(data);
+                return JsonSerializer.Deserialize<List<T>>(data);
             }
-            catch (JsonSerializationException)
+            catch (JsonException)
             {
                 List<T> items = new List<T>();
-                items.Add(JsonConvert.DeserializeObject<T>(data));
+                items.Add(JsonSerializer.Deserialize<T>(data));
                 return items;
             }
         }

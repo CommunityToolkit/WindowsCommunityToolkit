@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         private const string DATAGRIDROWHEADER_stateNormal = "Normal";
         private const string DATAGRIDROWHEADER_stateNormalCurrentRow = "NormalCurrentRow";
         private const string DATAGRIDROWHEADER_stateNormalEditingRow = "UnfocusedEditingRow";
-        private const string DATAGRIDROWHEADER_stateNormalEditingRowFocused = "Normal EditingRow";
+        private const string DATAGRIDROWHEADER_stateNormalEditingRowFocused = "NormalEditingRow";
         private const string DATAGRIDROWHEADER_stateSelected = "UnfocusedSelected";
         private const string DATAGRIDROWHEADER_stateSelectedCurrentRow = "UnfocusedCurrentRowSelected";
         private const string DATAGRIDROWHEADER_stateSelectedCurrentRowFocused = "NormalCurrentRowSelected";

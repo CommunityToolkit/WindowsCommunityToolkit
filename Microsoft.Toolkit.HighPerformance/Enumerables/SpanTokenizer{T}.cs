@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.HighPerformance.Enumerables
@@ -42,6 +43,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
         /// <param name="separator">The separator item to use.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public SpanTokenizer(Span<T> span, T separator)
         {
             this.span = span;
@@ -54,8 +56,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
         /// <returns>An <see cref="SpanTokenizer{T}"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpanTokenizer<T> GetEnumerator() => this;
+        public readonly SpanTokenizer<T> GetEnumerator() => this;
 
         /// <summary>
         /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
@@ -94,7 +97,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
         /// </summary>
-        public Span<T> Current
+        public readonly Span<T> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => this.span.Slice(this.start, this.end - this.start);

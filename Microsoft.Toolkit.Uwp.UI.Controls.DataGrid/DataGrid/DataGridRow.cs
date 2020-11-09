@@ -394,7 +394,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (_bottomGridLine != null && this.OwningGrid != null && this.OwningGrid.AreRowBottomGridLinesRequired)
                 {
-                    // Unfortunately, _bottomGridLine has no size yet so we can't get its actualheight
+                    // Unfortunately, _bottomGridLine has no size yet so we can't get its actual height
                     return DataGrid.HorizontalGridLinesThickness;
                 }
 
@@ -453,7 +453,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                Debug.Assert(this.OwningGrid != null, "Exptected non-null owning DataGrid.");
+                Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
 
                 if (_fillerCell == null)
                 {
@@ -628,13 +628,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Returns the actual template that should be sued for Details: either explicity set on this row
+        // Returns the actual template that should be sued for Details: either explicitly set on this row
         // or inherited from the DataGrid
         private DataTemplate ActualDetailsTemplate
         {
             get
             {
-                Debug.Assert(this.OwningGrid != null, "Exptected non-null owning DataGrid.");
+                Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
                 DataTemplate currentDetailsTemplate = this.DetailsTemplate;
 
                 return currentDetailsTemplate != null ? currentDetailsTemplate : this.OwningGrid.RowDetailsTemplate;
@@ -778,7 +778,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return base.MeasureOverride(availableSize);
             }
 
-            // Allow the DataGrid specific componets to adjust themselves based on new values
+            // Allow the DataGrid specific components to adjust themselves based on new values
             if (_headerElement != null)
             {
                 _headerElement.InvalidateMeasure();
@@ -1070,11 +1070,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.Slot = -1;
         }
 
-        // Make sure the row's background is set to its correct value.  It could be explicity set or inherit
+        // Make sure the row's background is set to its correct value.  It could be explicitly set or inherit
         // DataGrid.RowBackground or DataGrid.AlternatingRowBackground
         internal void EnsureBackground()
         {
-            // Inherit the DataGrid's RowBackground properties only if this row doesn't explicity have a background set
+            // Inherit the DataGrid's RowBackground properties only if this row doesn't explicitly have a background set
             if (this.RootElement != null && this.OwningGrid != null)
             {
                 Debug.Assert(this.Index != -1, "Expected Index other than -1.");
@@ -1111,11 +1111,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Make sure the row's foreground is set to its correct value.  It could be explicity set or inherit
+        // Make sure the row's foreground is set to its correct value.  It could be explicitly set or inherit
         // DataGrid.RowForeground or DataGrid.AlternatingRowForeground
         internal void EnsureForeground()
         {
-            // Inherit the DataGrid's RowForeground properties only if this row doesn't explicity have a foreground set
+            // Inherit the DataGrid's RowForeground properties only if this row doesn't explicitly have a foreground set
             if (this.OwningGrid != null)
             {
                 Debug.Assert(this.Index != -1, "Expected Index other than -1.");
@@ -1246,7 +1246,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Visibility visibility,
             bool raiseNotification)
         {
-            Debug.Assert(this.OwningGrid != null, "Exptected non-null owning DataGrid.");
+            Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
             Debug.Assert(this.Index != -1, "Expected Index other than -1.");
 
             if (_appliedDetailsVisibility != visibility)

@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
     /// <summary>
-    /// Holds information about langagues supported for text translation and speech synthesis.
+    /// Holds information about languages supported for text translation and speech synthesis.
     /// </summary>
     /// <seealso cref="ITranslatorService.GetLanguageNamesAsync(string)"/>
     public class ServiceLanguage
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Gets the directionality, which is rtl for right-to-left languages or ltr for left-to-right languages.
         /// </summary>
-        [JsonProperty("dir")]
+        [JsonPropertyName("dir")]
         public string Directionality { get; }
 
         /// <summary>

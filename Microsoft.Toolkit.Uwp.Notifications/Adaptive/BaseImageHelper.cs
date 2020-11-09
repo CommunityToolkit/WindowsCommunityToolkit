@@ -19,18 +19,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             destination = value;
         }
 
-        internal static Element_AdaptiveImage CreateBaseElement(IBaseImage curr)
+        internal static Element_AdaptiveImage CreateBaseElement(IBaseImage current)
         {
-            if (curr.Source == null)
+            if (current.Source == null)
             {
                 throw new NullReferenceException("Source property is required.");
             }
 
             return new Element_AdaptiveImage()
             {
-                Src = curr.Source,
-                Alt = curr.AlternateText,
-                AddImageQuery = curr.AddImageQuery
+                Src = current.Source,
+                Alt = current.AlternateText,
+                AddImageQuery = current.AddImageQuery
             };
         }
     }

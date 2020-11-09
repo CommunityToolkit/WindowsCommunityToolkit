@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets the text of the tweet (280 characters).
         /// </summary>
-        [JsonProperty("full_text")]
+        [JsonPropertyName("full_text")]
         public string FullText { get; set; }
     }
 }

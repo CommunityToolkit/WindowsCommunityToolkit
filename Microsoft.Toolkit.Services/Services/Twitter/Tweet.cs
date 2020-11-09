@@ -4,7 +4,7 @@
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -18,19 +18,19 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or sets item Id.
         /// </summary>
-        [JsonProperty("id_str")]
+        [JsonPropertyName("id_str")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets text of the tweet (handles both 140 and 280 characters)
         /// </summary>
-        [JsonProperty("text")]
+        [JsonPropertyName("text")]
         public string Text
         {
             get { return _text ?? FullText; }
@@ -40,13 +40,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets text of the tweet (280 characters).
         /// </summary>
-        [JsonProperty("full_text")]
+        [JsonPropertyName("full_text")]
         private string FullText { get; set; }
 
         /// <summary>
         /// Gets or sets display text range (indexes of tweet text without RT and leading user mentions)
         /// </summary>
-        [JsonProperty("display_text_range")]
+        [JsonPropertyName("display_text_range")]
         public int[] DisplayTextRange { get; set; }
 
         /// <summary>
@@ -54,68 +54,68 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// (true when tweet is longer than 140 characters)
         /// This entity may be deprecated - it never seems to be set to true.
         /// </summary>
-        [JsonProperty("truncated")]
+        [JsonPropertyName("truncated")]
         public bool IsTruncated { get; set; }
 
         /// <summary>
         /// Gets or sets attached content of the tweet
         /// </summary>
-        [JsonProperty("entities")]
+        [JsonPropertyName("entities")]
         public TwitterEntities Entities { get; set; }
 
         /// <summary>
         /// Gets or sets extended attached content of the tweet
         /// </summary>
-        [JsonProperty("extended_entities")]
+        [JsonPropertyName("extended_entities")]
         public TwitterExtendedEntities ExtendedEntities { get; set; }
 
         /// <summary>
         /// Gets or sets tweet source (client or website used)
         /// </summary>
-        [JsonProperty("source")]
+        [JsonPropertyName("source")]
         public string Source { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_screen_name
         /// </summary>
-        [JsonProperty("in_reply_to_screen_name")]
+        [JsonPropertyName("in_reply_to_screen_name")]
         public string InReplyToScreenName { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_status_id_str
         /// </summary>
-        [JsonProperty("in_reply_to_status_id_str")]
+        [JsonPropertyName("in_reply_to_status_id_str")]
         public string InReplyToStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_user_id_str
         /// </summary>
-        [JsonProperty("in_reply_to_user_id_str")]
+        [JsonPropertyName("in_reply_to_user_id_str")]
         public string InReplyToUserId { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.
         /// </summary>
-        [JsonProperty("user")]
+        [JsonPropertyName("user")]
         public TwitterUser User { get; set; }
 
         /// <summary>
-        /// Gets or sets geo coordinates (latitude and logitude) returned by Twitter for some locations
+        /// Gets or sets geo coordinates (latitude and longitude) returned by Twitter for some locations
         /// </summary>
-        [JsonProperty("coordinates")]
+        [JsonPropertyName("coordinates")]
         [JsonConverter(typeof(TwitterCoordinatesConverter))]
         public TwitterCoordinates Coordinates { get; set; }
 
         /// <summary>
         /// Gets or sets the Place object returned by Twitter for some locations
         /// </summary>
-        [JsonProperty("place")]
+        [JsonPropertyName("place")]
         public TwitterPlace Place { get; set; }
 
         /// <summary>
         /// Gets or sets the Retweeted Tweet
         /// </summary>
-        [JsonProperty("retweeted_status")]
+        [JsonPropertyName("retweeted_status")]
         public Tweet RetweetedStatus { get; set; }
 
         /// <summary>
@@ -138,25 +138,25 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets quoted_status
         /// </summary>
-        [JsonProperty("quoted_status")]
+        [JsonPropertyName("quoted_status")]
         public Tweet QuotedStatus { get; set; }
 
         /// <summary>
         /// Gets or sets quoted_status_id_str
         /// </summary>
-        [JsonProperty("quoted_status_id_str")]
+        [JsonPropertyName("quoted_status_id_str")]
         public string QuotedStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets quoted_status_permalink
         /// </summary>
-        [JsonProperty("quoted_status_permalink")]
+        [JsonPropertyName("quoted_status_permalink")]
         public TwitterUrl QuotedStatusPermalink { get; set; }
 
         /// <summary>
         /// Gets or sets approximate count of tweets quoting tweet
         /// </summary>
-        [JsonProperty("quote_count")]
+        [JsonPropertyName("quote_count")]
         public int QuoteCount { get; set; }
 
         /// <summary>
@@ -165,49 +165,49 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <remarks>
         /// Premium and Enterprise API access only
         /// </remarks>
-        [JsonProperty("reply_count")]
+        [JsonPropertyName("reply_count")]
         public int ReplyCount { get; set; }
 
         /// <summary>
         /// Gets or sets number of times tweet has been retweeted
         /// </summary>
-        [JsonProperty("retweet_count")]
+        [JsonPropertyName("retweet_count")]
         public int RetweetCount { get; set; }
 
         /// <summary>
         /// Gets or sets number of times tweet has been liked
         /// </summary>
-        [JsonProperty("favorite_count")]
+        [JsonPropertyName("favorite_count")]
         public int FavoriteCount { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not logged-in user has liked tweet
         /// </summary>
-        [JsonProperty("favorited")]
+        [JsonPropertyName("favorited")]
         public bool Favorited { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not logged-in user has retweeted tweet
         /// </summary>
-        [JsonProperty("retweeted")]
+        [JsonPropertyName("retweeted")]
         public bool Retweeted { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether URL in tweet has been flagged for sensitive content
         /// </summary>
-        [JsonProperty("possibly_sensitive")]
+        [JsonPropertyName("possibly_sensitive")]
         public bool Sensitive { get; set; }
 
         /// <summary>
         /// Gets or sets stream filter of tweet
         /// </summary>
-        [JsonProperty("filter_level")]
+        [JsonPropertyName("filter_level")]
         public string FilterLevel { get; set; }
 
         /// <summary>
         /// Gets or sets BCP 47 language identifier of tweet content
         /// </summary>
-        [JsonProperty("lang")]
+        [JsonPropertyName("lang")]
         public string Language { get; set; }
     }
 }

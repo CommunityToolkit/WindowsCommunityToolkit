@@ -131,10 +131,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 if (PreviewFrameSource != null)
                 {
                     _frameReader = await _mediaCapture.CreateFrameReaderAsync(PreviewFrameSource);
-                    if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.Media.Capture.Frames.MediaFrameReader", "AcquisitionMode"))
-                    {
-                        _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
-                    }
+                    _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
 
                     _frameReader.FrameArrived += Reader_FrameArrived;
 
@@ -222,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
 
-                // Get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
+                // Get only formats of a certain frame-rate and compatible subtype for previewing, order them by resolution
                 FrameFormatsAvailable = PreviewFrameSource.SupportedFormats.Where(format =>
                     format.FrameRate.Numerator / format.FrameRate.Denominator >= 15 // fps
                     && (string.Compare(format.Subtype, MediaEncodingSubtypes.Nv12, true) == 0

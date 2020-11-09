@@ -37,6 +37,16 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRef{T}"/> struct.
+        /// </summary>
+        /// <param name="pointer">The pointer to the target value.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe ReadOnlyRef(void* pointer)
+            : this(Unsafe.AsRef<T>(pointer))
+        {
+        }
+
+        /// <summary>
         /// Gets the readonly <typeparamref name="T"/> reference represented by the current <see cref="Ref{T}"/> instance.
         /// </summary>
         public ref readonly T Value
@@ -70,7 +80,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="offset">The target offset within <paramref name="owner"/> for the target reference.</param>
-        /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private ReadOnlyRef(object owner, IntPtr offset)
         {
@@ -83,7 +93,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="value">The target reference to point to (it must be within <paramref name="owner"/>).</param>
-        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlyRef(object owner, in T value)
         {

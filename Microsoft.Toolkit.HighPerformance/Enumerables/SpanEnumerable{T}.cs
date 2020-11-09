@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -42,8 +43,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
         /// <returns>An <see cref="SpanEnumerable{T}"/> instance targeting the current <see cref="Span{T}"/> value.</returns>
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpanEnumerable<T> GetEnumerator() => this;
+        public readonly SpanEnumerable<T> GetEnumerator() => this;
 
         /// <summary>
         /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
@@ -52,36 +54,27 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            int newIndex = this.index + 1;
-
-            if (newIndex < this.span.Length)
-            {
-                this.index = newIndex;
-
-                return true;
-            }
-
-            return false;
+            return ++this.index < this.span.Length;
         }
 
         /// <summary>
         /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
         /// </summary>
-        public Item Current
+        public readonly Item Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
 #if SPAN_RUNTIME_SUPPORT
                 ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                ref T ri = ref Unsafe.Add(ref r0, this.index);
+                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
-                // On .NET Standard 2.1 we can save 4 bytes by piggybacking
-                // the current index in the length of the wrapped span.
-                // We're going to use the first item as the target reference,
-                // and the length as a host for the current original offset.
-                // This is not possible on .NET Standard 2.1 as we lack
-                // the API to create spans from arbitrary references.
+                // On .NET Standard 2.1 and .NET Core (or on any target that offers runtime
+                // support for the Span<T> types), we can save 4 bytes by piggybacking the
+                // current index in the length of the wrapped span. We're going to use the
+                // first item as the target reference, and the length as a host for the
+                // current original offset. This is not possible on eg. .NET Standard 2.0,
+                // as we lack the API to create Span<T>-s from arbitrary references.
                 return new Item(ref ri, this.index);
 #else
                 return new Item(this.span, this.index);
@@ -142,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                     return ref MemoryMarshal.GetReference(this.span);
 #else
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                    ref T ri = ref Unsafe.Add(ref r0, this.index);
+                    ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
                     return ref ri;
 #endif

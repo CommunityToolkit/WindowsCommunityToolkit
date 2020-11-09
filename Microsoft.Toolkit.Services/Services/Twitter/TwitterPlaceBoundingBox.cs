@@ -3,8 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -16,13 +15,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Gets or sets the bounding box coordinates of the tweet's geolocation data.
         /// </summary>
-        [JsonProperty("coordinates")]
+        [JsonPropertyName("coordinates")]
         public List<List<float[]>> Coordinates { get; set; }
 
         /// <summary>
-        /// Gets or sets the coordinate type. Polygon for a bounding box, Pointn for an exact coordinate.
+        /// Gets or sets the coordinate type. Polygon for a bounding box, Point for an exact coordinate.
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>

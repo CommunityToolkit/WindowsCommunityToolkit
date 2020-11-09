@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             ThemeInjector.InjectThemeResources(Application.Current.Resources);
 
-            // Go fullscreen on Xbox
+            // Go full screen on Xbox
             if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);

@@ -228,3 +228,7 @@ msbuild.binlog
 
 # Generated file from .ttinclude
 **/Generated/TypeInfo.g.cs
+
+# TAEF Log output
+WexLogFileOutput
+*.wtl

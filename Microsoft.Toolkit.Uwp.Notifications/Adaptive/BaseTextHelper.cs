@@ -8,12 +8,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal class BaseTextHelper
     {
-        internal static Element_AdaptiveText CreateBaseElement(IBaseText curr)
+        internal static Element_AdaptiveText CreateBaseElement(IBaseText current)
         {
             return new Element_AdaptiveText()
             {
-                Text = curr.Text,
-                Lang = curr.Language
+                Text = current.Text,
+                Lang = current.Language
             };
         }
     }

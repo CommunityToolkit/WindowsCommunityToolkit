@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SampleController.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
-                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle readding it.
+                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle re-adding it.
 
                 object inAppNotificationWithButtonsTemplate = null;
                 bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
