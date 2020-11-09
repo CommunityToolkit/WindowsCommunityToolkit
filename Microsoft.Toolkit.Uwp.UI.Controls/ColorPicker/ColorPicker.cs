@@ -16,19 +16,20 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
+using ColorPickerSlider = Microsoft.Toolkit.Uwp.UI.Controls.Primitives.ColorPickerSlider;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Presents a color spectrum, a palette of colors, and color channel sliders for user selection of a color.
     /// </summary>
-    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelSlider),          Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelSlider),          Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.AlphaChannelTextBox),         Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel1Slider),              Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel1Slider),              Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.Channel1TextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel2Slider),              Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel2Slider),              Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.Channel2TextBox),             Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel3Slider),              Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel3Slider),              Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.Channel3TextBox),             Type = typeof(TextBox))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground1Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground2Border),  Type = typeof(Border))]
@@ -41,8 +42,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground10Border), Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
-    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(Slider))]
-    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(Slider))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(ColorPickerSlider))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.HexInputTextBox),             Type = typeof(TextBox))]
     [TemplatePart(Name = nameof(ColorPicker.HsvToggleButton),             Type = typeof(ToggleButton))]
     [TemplatePart(Name = nameof(ColorPicker.RgbToggleButton),             Type = typeof(ToggleButton))]
@@ -68,10 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private long tokenCustomPalette;
         private long tokenIsColorPaletteVisible;
 
-        private Dictionary<Slider, Size> cachedSliderSizes      = new Dictionary<Slider, Size>();
-        private bool                     callbacksConnected     = false;
-        private bool                     eventsConnected        = false;
-        private bool                     isInitialized          = false;
+        private bool callbacksConnected = false;
+        private bool eventsConnected    = false;
+        private bool isInitialized      = false;
 
         // Color information for updates
         private HsvColor?       savedHsvColor              = null;
@@ -79,21 +79,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Color?          updatedRgbColor            = null;
         private DispatcherTimer dispatcherTimer            = null;
 
-        private ColorSpectrum ColorSpectrumControl;
-        private Slider        ColorSpectrumAlphaSlider;
-        private Slider        ColorSpectrumThirdDimensionSlider;
-        private TextBox       HexInputTextBox;
-        private ToggleButton  HsvToggleButton;
-        private ToggleButton  RgbToggleButton;
+        private ColorSpectrum     ColorSpectrumControl;
+        private ColorPickerSlider ColorSpectrumAlphaSlider;
+        private ColorPickerSlider ColorSpectrumThirdDimensionSlider;
+        private TextBox           HexInputTextBox;
+        private ToggleButton      HsvToggleButton;
+        private ToggleButton      RgbToggleButton;
 
-        private TextBox Channel1TextBox;
-        private TextBox Channel2TextBox;
-        private TextBox Channel3TextBox;
-        private TextBox AlphaChannelTextBox;
-        private Slider  Channel1Slider;
-        private Slider  Channel2Slider;
-        private Slider  Channel3Slider;
-        private Slider  AlphaChannelSlider;
+        private TextBox           Channel1TextBox;
+        private TextBox           Channel2TextBox;
+        private TextBox           Channel3TextBox;
+        private TextBox           AlphaChannelTextBox;
+        private ColorPickerSlider Channel1Slider;
+        private ColorPickerSlider Channel2Slider;
+        private ColorPickerSlider Channel3Slider;
+        private ColorPickerSlider AlphaChannelSlider;
 
         private Border N1PreviewBorder;
         private Border N2PreviewBorder;
@@ -178,8 +178,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.ConnectEvents(false);
 
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
-            this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<Slider>(nameof(ColorSpectrumAlphaSlider));
-            this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<Slider>(nameof(ColorSpectrumThirdDimensionSlider));
+            this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumAlphaSlider));
+            this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumThirdDimensionSlider));
 
             this.HexInputTextBox = this.GetTemplateChild<TextBox>(nameof(HexInputTextBox));
             this.HsvToggleButton = this.GetTemplateChild<ToggleButton>(nameof(HsvToggleButton));
@@ -190,10 +190,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.Channel3TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel3TextBox));
             this.AlphaChannelTextBox = this.GetTemplateChild<TextBox>(nameof(AlphaChannelTextBox));
 
-            this.Channel1Slider     = this.GetTemplateChild<Slider>(nameof(Channel1Slider));
-            this.Channel2Slider     = this.GetTemplateChild<Slider>(nameof(Channel2Slider));
-            this.Channel3Slider     = this.GetTemplateChild<Slider>(nameof(Channel3Slider));
-            this.AlphaChannelSlider = this.GetTemplateChild<Slider>(nameof(AlphaChannelSlider));
+            this.Channel1Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel1Slider));
+            this.Channel2Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel2Slider));
+            this.Channel3Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel3Slider));
+            this.AlphaChannelSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(AlphaChannelSlider));
 
             this.N1PreviewBorder = this.GetTemplateChild<Border>(nameof(N1PreviewBorder));
             this.N2PreviewBorder = this.GetTemplateChild<Border>(nameof(N2PreviewBorder));
@@ -993,144 +993,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Generates a new background image for the specified color channel slider and applies it.
-        /// A new image will only be generated if it differs from the last color used to generate a background.
-        /// This provides some performance improvement.
+        /// Updates a specific channel slider control background.
         /// </summary>
-        /// <param name="slider">The color channel slider to apply the generated background to.</param>
-        private async void UpdateChannelSliderBackground(Slider slider)
+        /// <param name="slider">The color channel slider to update the background for.</param>
+        private void UpdateChannelSliderBackground(ColorPickerSlider slider)
         {
-            byte[] bitmap = null;
-            int width = 0;
-            int height = 0;
-            Color baseColor = this.Color;
-
-            /* Updates may be requested when sliders are not in the visual tree.
-             * For first-time load this is handled by the Loaded event.
-             * However, after that problems may arise, consider the following case:
-             *
-             *   (1) Backgrounds are drawn normally the first time on Loaded.
-             *       Actual height/width are available.
-             *   (2) The palette tab is selected which has no sliders
-             *   (3) The picker flyout is closed
-             *   (4) Externally the color is changed
-             *       The color change will trigger slider background updates but
-             *       with the flyout closed, actual height/width are zero.
-             *       No zero size bitmap can be generated.
-             *   (5) The picker flyout is re-opened by the user and the default
-             *       last-opened tab will be viewed: palette.
-             *       No loaded events will be fired for sliders. The color change
-             *       event was already handled in (4). The sliders will never
-             *       be updated.
-             *
-             * In this case the sliders become out of sync with the Color because there is no way
-             * to tell when they actually come into view. To work around this, force a re-render of
-             * the background with the last size of the slider. This last size will be when it was
-             * last loaded or updated.
-             *
-             * In the future additional consideration may be required for SizeChanged of the control.
-             * This work-around will also cause issues if display scaling changes in the special
-             * case where cached sizes are required.
-             */
             if (slider != null)
             {
-                width = Convert.ToInt32(slider.ActualWidth);
-                height = Convert.ToInt32(slider.ActualHeight);
-
-                if (width == 0 || height == 0)
+                // Regardless of the active color representation, the sliders always use HSV
+                // Therefore, always calculate HSV color here
+                // Warning: Always maintain/use HSV information in the saved HSV color
+                // This avoids loss of precision and drift caused by continuously converting to/from RGB
+                if (this.savedHsvColor ==  null)
                 {
-                    // Attempt to use the last size if it was available
-                    if (this.cachedSliderSizes.ContainsKey(slider))
-                    {
-                        Size cachedSize = this.cachedSliderSizes[slider];
-                        width = Convert.ToInt32(cachedSize.Width);
-                        height = Convert.ToInt32(cachedSize.Height);
-                    }
+                    var rgbColor = this.Color;
+
+                    // Must update HSV color
+                    this.savedHsvColor = rgbColor.ToHsv();
+                    this.savedHsvColorRgbEquivalent = rgbColor;
                 }
-                else
+
+                slider.IsAutoUpdatingEnabled = false;
+
+                if (object.ReferenceEquals(slider, this.Channel1Slider))
                 {
-                    // Update the cached slider size
-                    if (this.cachedSliderSizes.ContainsKey(slider))
-                    {
-                        this.cachedSliderSizes[slider] = new Size(width, height);
-                    }
-                    else
-                    {
-                        this.cachedSliderSizes.Add(slider, new Size(width, height));
-                    }
+                    slider.ColorChannel = ColorChannel.Channel1;
+                    slider.ColorRepresentation = this.GetActiveColorRepresentation();
                 }
-            }
+                else if (object.ReferenceEquals(slider, this.Channel2Slider))
+                {
+                    slider.ColorChannel = ColorChannel.Channel2;
+                    slider.ColorRepresentation = this.GetActiveColorRepresentation();
+                }
+                else if (object.ReferenceEquals(slider, this.Channel3Slider))
+                {
+                    slider.ColorChannel = ColorChannel.Channel3;
+                    slider.ColorRepresentation = this.GetActiveColorRepresentation();
+                }
+                else if (object.ReferenceEquals(slider, this.AlphaChannelSlider))
+                {
+                    slider.ColorChannel = ColorChannel.Alpha;
+                    slider.ColorRepresentation = this.GetActiveColorRepresentation();
+                }
+                else if (object.ReferenceEquals(slider, this.ColorSpectrumAlphaSlider))
+                {
+                    slider.ColorChannel = ColorChannel.Alpha;
+                    slider.ColorRepresentation = this.GetActiveColorRepresentation();
+                }
+                else if (object.ReferenceEquals(slider, this.ColorSpectrumThirdDimensionSlider))
+                {
+                    slider.ColorChannel = this.GetActiveColorSpectrumThirdDimension();
+                    slider.ColorRepresentation = ColorRepresentation.Hsva; // Always HSV
+                }
 
-            if (object.ReferenceEquals(slider, this.Channel1Slider))
-            {
-                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
-                    width,
-                    height,
-                    Orientation.Horizontal,
-                    this.GetActiveColorRepresentation(),
-                    ColorChannel.Channel1,
-                    baseColor,
-                    this.CheckerBackgroundColor);
-            }
-            else if (object.ReferenceEquals(slider, this.Channel2Slider))
-            {
-                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
-                    width,
-                    height,
-                    Orientation.Horizontal,
-                    this.GetActiveColorRepresentation(),
-                    ColorChannel.Channel2,
-                    baseColor,
-                    this.CheckerBackgroundColor);
-            }
-            else if (object.ReferenceEquals(slider, this.Channel3Slider))
-            {
-                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
-                    width,
-                    height,
-                    Orientation.Horizontal,
-                    this.GetActiveColorRepresentation(),
-                    ColorChannel.Channel3,
-                    baseColor,
-                    this.CheckerBackgroundColor);
-            }
-            else if (object.ReferenceEquals(slider, this.AlphaChannelSlider))
-            {
-                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
-                    width,
-                    height,
-                    Orientation.Horizontal,
-                    this.GetActiveColorRepresentation(),
-                    ColorChannel.Alpha,
-                    baseColor,
-                    this.CheckerBackgroundColor);
-            }
-            else if (object.ReferenceEquals(slider, this.ColorSpectrumAlphaSlider))
-            {
-                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
-                    width,
-                    height,
-                    Orientation.Vertical,
-                    this.GetActiveColorRepresentation(),
-                    ColorChannel.Alpha,
-                    baseColor,
-                    this.CheckerBackgroundColor);
-            }
-            else if (object.ReferenceEquals(slider, this.ColorSpectrumThirdDimensionSlider))
-            {
-                bitmap = await ColorPickerRenderingHelpers.CreateChannelBitmapAsync(
-                    width,
-                    height,
-                    Orientation.Vertical,
-                    ColorRepresentation.Hsva, // Always HSV
-                    this.GetActiveColorSpectrumThirdDimension(),
-                    baseColor,
-                    this.CheckerBackgroundColor);
-            }
-
-            if (bitmap != null)
-            {
-                slider.Background = await ColorPickerRenderingHelpers.BitmapToBrushAsync(bitmap, width, height);
+                slider.HsvColor = this.savedHsvColor.Value;
+                slider.UpdateColors();
             }
 
             return;
@@ -1284,7 +1201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ChannelSlider_Loaded(object sender, RoutedEventArgs e)
         {
-            this.UpdateChannelSliderBackground(sender as Slider);
+            this.UpdateChannelSliderBackground(sender as ColorPickerSlider);
             return;
         }
 

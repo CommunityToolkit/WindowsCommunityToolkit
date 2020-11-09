@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
                     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
                     xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters">
@@ -107,16 +108,16 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <controls:ColorPickerSlider x:Name="ColorSpectrumThirdDimensionSlider"
-                                                    Grid.Row="1"
-                                                    Grid.RowSpan="2"
-                                                    Grid.Column="0"
-                                                    Width="20"
-                                                    Margin="0,0,12,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Stretch"
-                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrushConverter}, ConverterParameter={ThemeResource TextControlForeground}}"
-                                                    Orientation="Vertical" />
+                        <primitives:ColorPickerSlider x:Name="ColorSpectrumThirdDimensionSlider"
+                                                      Grid.Row="1"
+                                                      Grid.RowSpan="2"
+                                                      Grid.Column="0"
+                                                      Width="20"
+                                                      Margin="0,0,12,0"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Stretch"
+                                                      DefaultForeground="{ThemeResource TextControlForeground}"
+                                                      Orientation="Vertical" />
                         <!--  Keep in mind the spectrum is always HSV  -->
                         <!--  This must also not be named 'ColorSpectrum' to differentiate from the base class  -->
                         <ColorSpectrum x:Name="ColorSpectrumControl"
@@ -136,17 +137,17 @@
                                        MinSaturation="{TemplateBinding MinSaturation}"
                                        MinValue="{TemplateBinding MinValue}"
                                        Shape="{TemplateBinding ColorSpectrumShape}" />
-                        <controls:ColorPickerSlider x:Name="ColorSpectrumAlphaSlider"
-                                                    Grid.Row="1"
-                                                    Grid.RowSpan="2"
-                                                    Grid.Column="2"
-                                                    Width="20"
-                                                    Margin="12,0,0,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Stretch"
-                                                    AutomationProperties.Name="Alpha Channel"
-                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrushConverter}, ConverterParameter={ThemeResource TextControlForeground}}"
-                                                    Orientation="Vertical" />
+                        <primitives:ColorPickerSlider x:Name="ColorSpectrumAlphaSlider"
+                                                      Grid.Row="1"
+                                                      Grid.RowSpan="2"
+                                                      Grid.Column="2"
+                                                      Width="20"
+                                                      Margin="12,0,0,0"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Stretch"
+                                                      AutomationProperties.Name="Alpha Channel"
+                                                      DefaultForeground="{ThemeResource TextControlForeground}"
+                                                      Orientation="Vertical" />
                     </Grid>
                 </controls:Case>
                 <controls:Case Value="PaletteListBoxItem">
@@ -274,14 +275,14 @@
                                  VerticalAlignment="Center"
                                  AutomationProperties.Name="Red Channel"
                                  Style="{StaticResource InputTextBoxStyle}" />
-                        <controls:ColorPickerSlider x:Name="Channel1Slider"
-                                                    Grid.Row="2"
-                                                    Grid.Column="2"
-                                                    Margin="12,0,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    AutomationProperties.Name="Red Channel"
-                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrushConverter}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                        <primitives:ColorPickerSlider x:Name="Channel1Slider"
+                                                      Grid.Row="2"
+                                                      Grid.Column="2"
+                                                      Margin="12,0,0,0"
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Center"
+                                                      AutomationProperties.Name="Red Channel"
+                                                      DefaultForeground="{ThemeResource TextControlForeground}" />
                         <!--  Channel 2 RGB:Green HSV:Saturation  -->
                         <Border Grid.Row="3"
                                 Grid.Column="0"
@@ -304,14 +305,14 @@
                                  VerticalAlignment="Center"
                                  AutomationProperties.Name="Green Channel"
                                  Style="{StaticResource InputTextBoxStyle}" />
-                        <controls:ColorPickerSlider x:Name="Channel2Slider"
-                                                    Grid.Row="3"
-                                                    Grid.Column="2"
-                                                    Margin="12,0,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    AutomationProperties.Name="Green Channel"
-                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrushConverter}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                        <primitives:ColorPickerSlider x:Name="Channel2Slider"
+                                                      Grid.Row="3"
+                                                      Grid.Column="2"
+                                                      Margin="12,0,0,0"
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Center"
+                                                      AutomationProperties.Name="Green Channel"
+                                                      DefaultForeground="{ThemeResource TextControlForeground}" />
                         <!--  Channel 3 RGB:Blue HSV:Value  -->
                         <Border Grid.Row="4"
                                 Grid.Column="0"
@@ -334,14 +335,14 @@
                                  VerticalAlignment="Center"
                                  AutomationProperties.Name="Blue Channel"
                                  Style="{StaticResource InputTextBoxStyle}" />
-                        <controls:ColorPickerSlider x:Name="Channel3Slider"
-                                                    Grid.Row="4"
-                                                    Grid.Column="2"
-                                                    Margin="12,0,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    AutomationProperties.Name="Blue Channel"
-                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrushConverter}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                        <primitives:ColorPickerSlider x:Name="Channel3Slider"
+                                                      Grid.Row="4"
+                                                      Grid.Column="2"
+                                                      Margin="12,0,0,0"
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Center"
+                                                      AutomationProperties.Name="Blue Channel"
+                                                      DefaultForeground="{ThemeResource TextControlForeground}" />
                         <!--  Alpha channel  -->
                         <Border x:Name="AlphaChannelBorder"
                                 Grid.Row="5"
@@ -365,14 +366,14 @@
                                  VerticalAlignment="Center"
                                  AutomationProperties.Name="Alpha Channel"
                                  Style="{StaticResource InputTextBoxStyle}" />
-                        <controls:ColorPickerSlider x:Name="AlphaChannelSlider"
-                                                    Grid.Row="5"
-                                                    Grid.Column="2"
-                                                    Margin="12,0,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    AutomationProperties.Name="Alpha Channel"
-                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ContrastBrushConverter}, ConverterParameter={ThemeResource TextControlForeground}}" />
+                        <primitives:ColorPickerSlider x:Name="AlphaChannelSlider"
+                                                      Grid.Row="5"
+                                                      Grid.Column="2"
+                                                      Margin="12,0,0,0"
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Center"
+                                                      AutomationProperties.Name="Alpha Channel"
+                                                      DefaultForeground="{ThemeResource TextControlForeground}" />
                     </Grid>
                 </controls:Case>
             </controls:SwitchPresenter>

@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
 
     <Style BasedOn="{StaticResource ColorPickerSliderStyle}"
            TargetType="controls:ColorPickerSlider" />
@@ -69,7 +69,7 @@
                                        Width="20"
                                        Height="20"
                                        AutomationProperties.AccessibilityView="Raw"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderBrush="{TemplateBinding Foreground}"
                                        CornerRadius="10"
                                        DataContext="{TemplateBinding Value}"
                                        FocusVisualMargin="-14,-6,-14,-6"
@@ -111,7 +111,7 @@
                                        Width="20"
                                        Height="20"
                                        AutomationProperties.AccessibilityView="Raw"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderBrush="{TemplateBinding Foreground}"
                                        CornerRadius="10"
                                        DataContext="{TemplateBinding Value}"
                                        FocusVisualMargin="-6,-14,-6,-14"
@@ -132,16 +132,16 @@
 
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="HorizontalThumb.BorderBrush" Value="{ThemeResource SliderThumbBackgroundDisabled}" />
-                                        <Setter Target="VerticalThumb.BorderBrush" Value="{ThemeResource SliderThumbBackgroundDisabled}" />
+                                        <Setter Target="HorizontalThumb.Foreground" Value="{ThemeResource SliderThumbBackgroundDisabled}" />
+                                        <Setter Target="VerticalThumb.Foreground" Value="{ThemeResource SliderThumbBackgroundDisabled}" />
                                         <Setter Target="SliderContainer.Background" Value="{ThemeResource SliderContainerBackgroundDisabled}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="HorizontalThumb.BorderBrush" Value="{ThemeResource SliderThumbBackgroundPointerOver}" />
-                                        <Setter Target="VerticalThumb.BorderBrush" Value="{ThemeResource SliderThumbBackgroundPointerOver}" />
+                                        <Setter Target="HorizontalThumb.Foreground" Value="{ThemeResource SliderThumbBackgroundPointerOver}" />
+                                        <Setter Target="VerticalThumb.Foreground" Value="{ThemeResource SliderThumbBackgroundPointerOver}" />
                                         <Setter Target="SliderContainer.Background" Value="{ThemeResource SliderContainerBackgroundPointerOver}" />
                                     </VisualState.Setters>
                                 </VisualState>

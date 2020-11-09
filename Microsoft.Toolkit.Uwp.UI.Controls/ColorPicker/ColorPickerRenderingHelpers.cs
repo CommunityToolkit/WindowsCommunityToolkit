@@ -28,8 +28,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="orientation">The orientation of the resulting bitmap (gradient direction).</param>
         /// <param name="colorRepresentation">The color representation being used: RGBA or HSVA.</param>
         /// <param name="channel">The specific color channel to vary.</param>
-        /// <param name="baseRgbColor">The base RGB color used for channels not being changed.</param>
+        /// <param name="baseHsvColor">The base HSV color used for channels not being changed.</param>
         /// <param name="checkerColor">The color of the checker background square.</param>
+        /// <param name="isAlphaMaxForced">Fix the alpha channel value to maximum during calculation.
+        /// This will remove any alpha/transparency from the other channel backgrounds.</param>
+        /// <param name="isSaturationValueMaxForced">Fix the saturation and value channels to maximum
+        /// during calculation in HSVA color representation.
+        /// This will ensure colors are always discernible regardless of saturation/value.</param>
         /// <returns>A new bitmap representing a gradient of color channel values.</returns>
         public static async Task<byte[]> CreateChannelBitmapAsync(
             int width,
@@ -37,8 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Orientation orientation,
             ColorRepresentation colorRepresentation,
             ColorChannel channel,
-            Color baseRgbColor,
-            Color? checkerColor)
+            HsvColor baseHsvColor,
+            Color? checkerColor,
+            bool isAlphaMaxForced,
+            bool isSaturationValueMaxForced)
         {
             if (width == 0 || height == 0)
             {
@@ -51,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 double channelStep;
                 byte[] bgraPixelData;
                 byte[] bgraCheckeredPixelData = null;
-                HsvColor baseHsvColor;
+                Color baseRgbColor = Colors.White;
                 Color rgbColor;
                 int bgraPixelDataHeight;
                 int bgraPixelDataWidth;
@@ -62,14 +69,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 bgraPixelDataHeight = height * 4;
                 bgraPixelDataWidth = width * 4;
 
-                // Convert RGB to HSV once
-                if (colorRepresentation == ColorRepresentation.Hsva)
+                // Maximize alpha channel value
+                if (isAlphaMaxForced &&
+                    channel != ColorChannel.Alpha)
                 {
-                     baseHsvColor = baseRgbColor.ToHsv();
+                    baseHsvColor = new HsvColor()
+                    {
+                        H = baseHsvColor.H,
+                        S = baseHsvColor.S,
+                        V = baseHsvColor.V,
+                        A = 1.0
+                    };
                 }
-                else
+
+                // Convert HSV to RGB once
+                if (colorRepresentation == ColorRepresentation.Rgba)
                 {
-                    baseHsvColor = Colors.White.ToHsv();
+                    baseRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                        baseHsvColor.H,
+                        baseHsvColor.S,
+                        baseHsvColor.V,
+                        baseHsvColor.A);
+                }
+
+                // Maximize Saturation and Value channels when in HSVA mode
+                if (isSaturationValueMaxForced &&
+                    colorRepresentation == ColorRepresentation.Hsva &&
+                    channel != ColorChannel.Alpha)
+                {
+                    switch (channel)
+                    {
+                        case ColorChannel.Channel1:
+                            baseHsvColor = new HsvColor()
+                            {
+                                H = baseHsvColor.H,
+                                S = 1.0,
+                                V = 1.0,
+                                A = baseHsvColor.A
+                            };
+                            break;
+                        case ColorChannel.Channel2:
+                            baseHsvColor = new HsvColor()
+                            {
+                                H = baseHsvColor.H,
+                                S = baseHsvColor.S,
+                                V = 1.0,
+                                A = baseHsvColor.A
+                            };
+                            break;
+                        case ColorChannel.Channel3:
+                            baseHsvColor = new HsvColor()
+                            {
+                                H = baseHsvColor.H,
+                                S = 1.0,
+                                V = baseHsvColor.V,
+                                A = baseHsvColor.A
+                            };
+                            break;
+                    }
                 }
 
                 // Create a checkered background
