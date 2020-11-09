@@ -1488,12 +1488,10 @@
     <Page Include="Styles\Custom\PivotHeaderItemUnderlineStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Styles\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Styles\GithubIcon.xaml">
       <SubType>Designer</SubType>
@@ -1502,7 +1500,6 @@
     <Page Include="Styles\Themes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <ItemGroup>
