@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Title>Windows Community Toolkit Mvvm .NET Standard</Title>
+    <Description>
+      This package includes Mvvm .NET Standard code only helpers such as:
+      - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
+      - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
+      - RelayCommand: a simple delegate command implementing the ICommand interface.
+      - Messenger: a messaging system to exchange messages through different loosely-coupled objects.
+      - Ioc: a helper class to configure dependency injection service containers.
+    </Description>
+    <PackageTags>UWP Toolkit Windows Mvvm observable Ioc dependency injection services extensions helpers</PackageTags>
+  </PropertyGroup>
+
+  <!-- .NET Standard 2.0 doesn't have the Span<T> type -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+  </ItemGroup>
+
+  <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
+  </ItemGroup>
+
+</Project>
