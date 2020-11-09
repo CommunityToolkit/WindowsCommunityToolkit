@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(ref T r0, IntPtr length, T value)
+        public static nint Count<T>(ref T r0, nint length, T value)
             where T : IEquatable<T>
         {
             if (!Vector.IsHardwareAccelerated)
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref sbyte r1 = ref Unsafe.As<T, sbyte>(ref r0);
                 sbyte target = Unsafe.As<T, sbyte>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)sbyte.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             if (typeof(T) == typeof(char) ||
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref short r1 = ref Unsafe.As<T, short>(ref r0);
                 short target = Unsafe.As<T, short>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)short.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             if (typeof(T) == typeof(int) ||
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref int r1 = ref Unsafe.As<T, int>(ref r0);
                 int target = Unsafe.As<T, int>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)int.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             if (typeof(T) == typeof(long) ||
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 ref long r1 = ref Unsafe.As<T, long>(ref r0);
                 long target = Unsafe.As<T, long>(ref value);
 
-                return CountSimd(ref r1, length, target, (IntPtr)int.MaxValue);
+                return CountSimd(ref r1, length, target);
             }
 
             return CountSequential(ref r0, length, value);
@@ -82,44 +82,44 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 #if NETCOREAPP3_1
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
 #endif
-        private static unsafe int CountSequential<T>(ref T r0, IntPtr length, T value)
+        private static nint CountSequential<T>(ref T r0, nint length, T value)
             where T : IEquatable<T>
         {
-            int result = 0;
-
-            IntPtr offset = default;
+            nint
+                result = 0,
+                offset = 0;
 
             // Main loop with 8 unrolled iterations
-            while ((byte*)length >= (byte*)8)
+            while (length >= 8)
             {
-                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 4).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 5).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 4).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 5).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToByte();
 
                 length -= 8;
                 offset += 8;
             }
 
-            if ((byte*)length >= (byte*)4)
+            if (length >= 4)
             {
-                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToByte();
 
                 length -= 4;
                 offset += 4;
             }
 
             // Iterate over the remaining values and count those that match
-            while ((byte*)length > (byte*)0)
+            while (length > 0)
             {
-                result += Unsafe.Add(ref r0, offset).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset).Equals(value).ToByte();
 
                 length -= 1;
                 offset += 1;
@@ -135,15 +135,15 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 #if NETCOREAPP3_1
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
 #endif
-        private static unsafe int CountSimd<T>(ref T r0, IntPtr length, T value, IntPtr max)
+        private static nint CountSimd<T>(ref T r0, nint length, T value)
             where T : unmanaged, IEquatable<T>
         {
-            int result = 0;
-
-            IntPtr offset = default;
+            nint
+                result = 0,
+                offset = 0;
 
             // Skip the initialization overhead if there are not enough items
-            if ((byte*)length >= (byte*)Vector<T>.Count)
+            if (length >= Vector<T>.Count)
             {
                 var vc = new Vector<T>(value);
 
@@ -154,13 +154,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                     // to sum the partial results. We also backup the current offset to
                     // be able to track how many items have been processed, which lets
                     // us avoid updating a third counter (length) in the loop body.
-                    IntPtr
-                        chunkLength = Min(length, max),
+                    nint
+                        max = GetUpperBound<T>(),
+                        chunkLength = length <= max ? length : max,
                         initialOffset = offset;
 
                     var partials = Vector<T>.Zero;
 
-                    while ((byte*)chunkLength >= (byte*)Vector<T>.Count)
+                    while (chunkLength >= Vector<T>.Count)
                     {
                         ref T ri = ref Unsafe.Add(ref r0, offset);
 
@@ -181,27 +182,26 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                         offset += Vector<T>.Count;
                     }
 
-                    result += CastToInt(Vector.Dot(partials, Vector<T>.One));
-
-                    length = Subtract(length, Subtract(offset, initialOffset));
+                    result += CastToNativeInt(Vector.Dot(partials, Vector<T>.One));
+                    length -= offset - initialOffset;
                 }
-                while ((byte*)length >= (byte*)Vector<T>.Count);
+                while (length >= Vector<T>.Count);
             }
 
             // Optional 8 unrolled iterations. This is only done when a single SIMD
             // register can contain over 8 values of the current type, as otherwise
             // there could never be enough items left after the vectorized path
             if (Vector<T>.Count > 8 &&
-                (byte*)length >= (byte*)8)
+                length >= 8)
             {
-                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 4).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 5).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 4).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 5).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 6).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 7).Equals(value).ToByte();
 
                 length -= 8;
                 offset += 8;
@@ -209,21 +209,21 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
             // Optional 4 unrolled iterations
             if (Vector<T>.Count > 4 &&
-                (byte*)length >= (byte*)4)
+                length >= 4)
             {
-                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToInt();
-                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset + 0).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 1).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 2).Equals(value).ToByte();
+                result += Unsafe.Add(ref r0, offset + 3).Equals(value).ToByte();
 
                 length -= 4;
                 offset += 4;
             }
 
             // Iterate over the remaining values and count those that match
-            while ((byte*)length > (byte*)0)
+            while (length > 0)
             {
-                result += Unsafe.Add(ref r0, offset).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, offset).Equals(value).ToByte();
 
                 length -= 1;
                 offset += 1;
@@ -233,73 +233,88 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         }
 
         /// <summary>
-        /// Returns the minimum between two <see cref="IntPtr"/> values.
+        /// Gets the upper bound for partial sums with a given <typeparamref name="T"/> parameter.
         /// </summary>
-        /// <param name="a">The first <see cref="IntPtr"/> value.</param>
-        /// <param name="b">The second <see cref="IntPtr"/> value</param>
-        /// <returns>The minimum between <paramref name="a"/> and <paramref name="b"/>.</returns>
+        /// <typeparam name="T">The type argument currently in use.</typeparam>
+        /// <returns>The native <see cref="int"/> value representing the upper bound.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe IntPtr Min(IntPtr a, IntPtr b)
+        private static unsafe nint GetUpperBound<T>()
+            where T : unmanaged
         {
-            if (sizeof(IntPtr) == 4)
+            if (typeof(T) == typeof(byte) ||
+                typeof(T) == typeof(sbyte) ||
+                typeof(T) == typeof(bool))
             {
-                return (IntPtr)Math.Min((int)a, (int)b);
+                return sbyte.MaxValue;
             }
 
-            return (IntPtr)Math.Min((long)a, (long)b);
+            if (typeof(T) == typeof(char) ||
+                typeof(T) == typeof(ushort) ||
+                typeof(T) == typeof(short))
+            {
+                return short.MaxValue;
+            }
+
+            if (typeof(T) == typeof(int) ||
+                typeof(T) == typeof(uint))
+            {
+                return int.MaxValue;
+            }
+
+            if (typeof(T) == typeof(long) ||
+                typeof(T) == typeof(ulong))
+            {
+                if (sizeof(nint) == sizeof(int))
+                {
+                    return int.MaxValue;
+                }
+
+                // If we are on a 64 bit architecture and we are counting with a SIMD vector of 64
+                // bit values, we can use long.MaxValue as the upper bound, as a native integer will
+                // be able to contain such a value with no overflows. This will allow the count tight
+                // loop to process all the items in the target area in a single pass (except the mod).
+                // The (void*) cast is necessary to ensure the right constant is produced on runtimes
+                // before .NET 5 that don't natively support C# 9. For instance, removing that (void*)
+                // cast results in the value 0xFFFFFFFFFFFFFFFF (-1) instead of 0x7FFFFFFFFFFFFFFFF.
+                return (nint)(void*)long.MaxValue;
+            }
+
+            throw null!;
         }
 
         /// <summary>
-        /// Returns the difference between two <see cref="IntPtr"/> values.
-        /// </summary>
-        /// <param name="a">The first <see cref="IntPtr"/> value.</param>
-        /// <param name="b">The second <see cref="IntPtr"/> value</param>
-        /// <returns>The difference between <paramref name="a"/> and <paramref name="b"/>.</returns>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe IntPtr Subtract(IntPtr a, IntPtr b)
-        {
-            if (sizeof(IntPtr) == 4)
-            {
-                return (IntPtr)((int)a - (int)b);
-            }
-
-            return (IntPtr)((long)a - (long)b);
-        }
-
-        /// <summary>
-        /// Casts a value of a given type to <see cref="int"/>.
+        /// Casts a value of a given type to a native <see cref="int"/>.
         /// </summary>
         /// <typeparam name="T">The input type to cast.</typeparam>
-        /// <param name="value">The input <typeparamref name="T"/> value to cast to <see cref="int"/>.</param>
-        /// <returns>The <see cref="int"/> cast of <paramref name="value"/>.</returns>
+        /// <param name="value">The input <typeparamref name="T"/> value to cast to native <see cref="int"/>.</param>
+        /// <returns>The native <see cref="int"/> cast of <paramref name="value"/>.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int CastToInt<T>(T value)
+        private static nint CastToNativeInt<T>(T value)
             where T : unmanaged
         {
             if (typeof(T) == typeof(sbyte))
             {
-                return Unsafe.As<T, sbyte>(ref value);
+                return (byte)(sbyte)(object)value;
             }
 
             if (typeof(T) == typeof(short))
             {
-                return Unsafe.As<T, short>(ref value);
+                return (ushort)(short)(object)value;
             }
 
             if (typeof(T) == typeof(int))
             {
-                return Unsafe.As<T, int>(ref value);
+                return (nint)(uint)(int)(object)value;
             }
 
             if (typeof(T) == typeof(long))
             {
-                return (int)Unsafe.As<T, long>(ref value);
+                return (nint)(ulong)(long)(object)value;
             }
 
-            throw new NotSupportedException($"Invalid input type {typeof(T)}");
+            throw null!;
         }
     }
 }
