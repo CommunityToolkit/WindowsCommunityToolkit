@@ -51,7 +51,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MultiColumnsStackPanel),
             new PropertyMetadata(HorizontalAlignment.Stretch, OnLayoutPropertyChanged));
 
-
         /// <summary>
         /// The DP to store the Padding value.
         /// </summary>
@@ -358,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return (columnsCount, columnsWidth);
         }
 
-        private double GetColumnHeight(int columnLastIndex) => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * VerticalSpacing) + Padding.Top + Padding.Bottom;
-
+        private double GetColumnHeight(int columnLastIndex)
+            => Children.Take(columnLastIndex + 1).Sum(child => child.DesiredSize.Height) + (columnLastIndex * VerticalSpacing) + Padding.Top + Padding.Bottom;
     }
 }
