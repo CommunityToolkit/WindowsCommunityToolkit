@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
     public partial class ColorPickerSlider : Slider
     {
         /// <summary>
-        /// Identifies the <see cref=""/> dependency property.
+        /// Identifies the <see cref="Color"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColorProperty =
             DependencyProperty.Register(
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         }
 
         /// <summary>
-        /// Identifies the <see cref=""/> dependency property.
+        /// Identifies the <see cref="HsvColor"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HsvColorProperty =
             DependencyProperty.Register(
