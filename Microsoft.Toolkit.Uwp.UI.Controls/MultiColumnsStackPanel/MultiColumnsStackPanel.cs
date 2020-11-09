@@ -43,15 +43,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
 
         /// <summary>
-        /// The DP to store the HorizontalContentAlignment value.
-        /// </summary>
-        public static readonly DependencyProperty HorizontalContentAlignmentProperty = DependencyProperty.Register(
-            nameof(HorizontalContentAlignment),
-            typeof(HorizontalAlignment),
-            typeof(MultiColumnsStackPanel),
-            new PropertyMetadata(HorizontalAlignment.Stretch, OnLayoutPropertyChanged));
-
-        /// <summary>
         /// The DP to store the Padding value.
         /// </summary>
         public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
@@ -97,15 +88,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set => SetValue(VerticalSpacingProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the horizontal alignment of the control's content.
-        /// </summary>
-        public HorizontalAlignment HorizontalContentAlignment
-        {
-            get => (HorizontalAlignment)GetValue(HorizontalContentAlignmentProperty);
-            set => SetValue(HorizontalContentAlignmentProperty, value);
-        }
-
         private static void OnLayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (MultiColumnsStackPanel)d;
@@ -146,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var child = Children[childIndex];
                 rect.Height = child.DesiredSize.Height;
 
-                ArrangeChild(child, rect);
+                child.Arrange(rect);
 
                 if (currentColumnIndex < columnLastIndex.Length && childIndex == columnLastIndex[currentColumnIndex])
                 {
@@ -163,42 +145,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return GetSize(columnsCount, columnsWidth, columnHeight);
-        }
-
-        private void ArrangeChild(UIElement element, Rect position)
-        {
-            var requestedAlignement = HorizontalContentAlignment;
-            if (element is Control control)
-            {
-                // We use the control defined value
-                requestedAlignement = control.HorizontalAlignment;
-            }
-
-            if (element.DesiredSize.Width >= position.Width)
-            {
-                requestedAlignement = HorizontalAlignment.Stretch;
-            }
-
-            switch (requestedAlignement)
-            {
-                case HorizontalAlignment.Left:
-                    position.Width = element.DesiredSize.Width;
-                    break;
-                case HorizontalAlignment.Center:
-                    position.X = (position.Width - element.DesiredSize.Width) / 2.0;
-                    position.Width = element.DesiredSize.Width;
-                    break;
-                case HorizontalAlignment.Right:
-                    position.X = position.Width - element.DesiredSize.Width;
-                    position.Width = element.DesiredSize.Width;
-                    break;
-                case HorizontalAlignment.Stretch:
-                default:
-                    // no adjustment needed, we use the received value.
-                    break;
-            }
-
-            element.Arrange(position);
         }
 
         private Size GetSize(int columnsCount, double columnsWidth, double columnHeight)
