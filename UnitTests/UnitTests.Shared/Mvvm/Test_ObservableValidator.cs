@@ -32,15 +32,15 @@ namespace UnitTests.Mvvm
             // this last one to raise notifications too so that users can bind to that in the UI.
             Assert.IsTrue(model.HasErrors);
             Assert.AreEqual(args.Count, 2);
-            Assert.AreEqual(args[0].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
-            Assert.AreEqual(args[1].PropertyName, nameof(Person.Name));
+            Assert.AreEqual(args[0].PropertyName, nameof(Person.Name));
+            Assert.AreEqual(args[1].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
 
             model.Name = "Valid";
 
             Assert.IsFalse(model.HasErrors);
             Assert.AreEqual(args.Count, 4);
-            Assert.AreEqual(args[2].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
-            Assert.AreEqual(args[3].PropertyName, nameof(Person.Name));
+            Assert.AreEqual(args[2].PropertyName, nameof(Person.Name));
+            Assert.AreEqual(args[3].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
         }
 
         [TestCategory("Mvvm")]
@@ -131,7 +131,6 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        [DataRow(null, false)]
         [DataRow("", false)]
         [DataRow("No", false)]
         [DataRow("This text is really, really too long for the target property", false)]
