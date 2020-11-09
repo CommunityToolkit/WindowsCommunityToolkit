@@ -62,12 +62,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(ref T field, T newValue, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            if (validate)
+            bool propertyChanged = SetProperty(ref field, newValue, propertyName);
+
+            if (propertyChanged && validate)
             {
                 ValidateProperty(newValue, propertyName);
             }
 
-            return SetProperty(ref field, newValue, propertyName);
+            return propertyChanged;
         }
 
         /// <summary>
@@ -85,12 +87,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            if (validate)
+            bool propertyChanged = SetProperty(ref field, newValue, comparer, propertyName);
+
+            if (propertyChanged && validate)
             {
                 ValidateProperty(newValue, propertyName);
             }
 
-            return SetProperty(ref field, newValue, comparer, propertyName);
+            return propertyChanged;
         }
 
         /// <summary>
@@ -115,12 +119,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetProperty<T>(T oldValue, T newValue, Action<T> callback, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            if (validate)
+            bool propertyChanged = SetProperty(oldValue, newValue, callback, propertyName);
+
+            if (propertyChanged && validate)
             {
                 ValidateProperty(newValue, propertyName);
             }
 
-            return SetProperty(oldValue, newValue, callback, propertyName);
+            return propertyChanged;
         }
 
         /// <summary>
@@ -139,12 +145,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
         protected bool SetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, bool validate, [CallerMemberName] string? propertyName = null)
         {
-            if (validate)
+            bool propertyChanged = SetProperty(oldValue, newValue, comparer, callback, propertyName);
+
+            if (propertyChanged && validate)
             {
                 ValidateProperty(newValue, propertyName);
             }
 
-            return SetProperty(oldValue, newValue, comparer, callback, propertyName);
+            return propertyChanged;
         }
 
         /// <summary>
@@ -167,12 +175,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, bool validate, [CallerMemberName] string? propertyName = null)
             where TModel : class
         {
-            if (validate)
+            bool propertyChanged = SetProperty(oldValue, newValue, model, callback, propertyName);
+
+            if (propertyChanged && validate)
             {
                 ValidateProperty(newValue, propertyName);
             }
 
-            return SetProperty(oldValue, newValue, model, callback, propertyName);
+            return propertyChanged;
         }
 
         /// <summary>
@@ -197,12 +207,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         protected bool SetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, bool validate, [CallerMemberName] string? propertyName = null)
             where TModel : class
         {
-            if (validate)
+            bool propertyChanged = SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
+
+            if (propertyChanged && validate)
             {
                 ValidateProperty(newValue, propertyName);
             }
 
-            return SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
+            return propertyChanged;
         }
 
         /// <inheritdoc/>
