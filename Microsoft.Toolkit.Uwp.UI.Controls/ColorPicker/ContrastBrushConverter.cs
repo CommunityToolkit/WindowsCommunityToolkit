@@ -109,7 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             // If the third dimension is value, then we won't be updating the spectrum's displayed colors,
             // so in that case we should use a value of 1 when considering the backdrop
             // for the selection ellipse.
-
             double rg = displayedColor.R <= 10 ? displayedColor.R / 3294.0 : Math.Pow((displayedColor.R / 269.0) + 0.0513, 2.4);
             double gg = displayedColor.G <= 10 ? displayedColor.G / 3294.0 : Math.Pow((displayedColor.G / 269.0) + 0.0513, 2.4);
             double bg = displayedColor.B <= 10 ? displayedColor.B / 3294.0 : Math.Pow((displayedColor.B / 269.0) + 0.0513, 2.4);
