@@ -135,8 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// Processes the batch of actions at a specified index
             /// </summary>
             /// <param name="i">The index of the batch to process</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public unsafe void Invoke(int i)
+            public void Invoke(int i)
             {
                 int
                     low = i * this.batchSize,
@@ -147,7 +146,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
                 for (int j = low; j < end; j++)
                 {
-                    ref TItem rj = ref Unsafe.Add(ref r0, (IntPtr)(void*)(uint)j);
+                    ref TItem rj = ref Unsafe.Add(ref r0, (nint)(uint)j);
 
                     Unsafe.AsRef(this.action).Invoke(ref rj);
                 }

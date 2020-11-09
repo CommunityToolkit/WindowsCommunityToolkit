@@ -54,16 +54,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            int newIndex = this.index + 1;
-
-            if (newIndex < this.span.Length)
-            {
-                this.index = newIndex;
-
-                return true;
-            }
-
-            return false;
+            return ++this.index < this.span.Length;
         }
 
         /// <summary>
@@ -76,7 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             {
 #if SPAN_RUNTIME_SUPPORT
                 ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                ref T ri = ref Unsafe.Add(ref r0, this.index);
+                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
                 // On .NET Standard 2.1 and .NET Core (or on any target that offers runtime
                 // support for the Span<T> types), we can save 4 bytes by piggybacking the
@@ -144,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                     return ref MemoryMarshal.GetReference(this.span);
 #else
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                    ref T ri = ref Unsafe.Add(ref r0, this.index);
+                    ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
                     return ref ri;
 #endif
