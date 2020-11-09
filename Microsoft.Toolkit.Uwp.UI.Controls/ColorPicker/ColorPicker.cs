@@ -1378,7 +1378,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Event handler for when a key is pressed within the Hex RGB value TextBox.
-        /// This is used to trigger re-evaluation of the color based on the TextBox value.
+        /// This is used to trigger a re-evaluation of the color based on the TextBox value.
         /// </summary>
         private void HexInputTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
@@ -1402,7 +1402,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Event handler for when the Hex RGB value TextBox looses focus.
-        /// This is used to trigger re-evaluation of the color based on the TextBox value.
+        /// This is used to trigger a re-evaluation of the color based on the TextBox value.
         /// </summary>
         private void HexInputTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -1423,7 +1423,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Event handler for when a key is pressed within a color channel TextBox.
-        /// This is used to trigger re-evaluation of the color based on the TextBox value.
+        /// This is used to trigger a re-evaluation of the color based on the TextBox value.
         /// </summary>
         private void ChannelTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
@@ -1436,8 +1436,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Event handler for when a color channel TextBox looses focus.
-        /// This is used to trigger re-evaluation of the color based on the TextBox value.
+        /// Event handler for when a color channel TextBox loses focus.
+        /// This is used to trigger a re-evaluation of the color based on the TextBox value.
         /// </summary>
         private void ChannelTextBox_LostFocus(object sender, RoutedEventArgs e)
         {

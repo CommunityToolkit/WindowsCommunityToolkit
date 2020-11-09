@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (xcase.IsDefault)
                 {
-                    // If there are multiple default cases provided, this'll override and just grab the last one, the developer will have to fix this in their XAML. We call this out in the case comments.
+                    // If there are multiple default cases provided, this will override and just grab the last one, the developer will have to fix this in their XAML. We call this out in the case comments.
                     xdefault = xcase;
                     continue;
                 }

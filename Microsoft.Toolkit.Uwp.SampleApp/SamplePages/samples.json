@@ -48,7 +48,7 @@
         "Name": "ColorPickerButton",
         "Type": "ColorPickerButtonPage",
         "Subcategory": "Input",
-        "About": "A color picker within a flyout opened by pressing a drop down button containing the selected color.",
+        "About": "A color picker within a flyout opened by pressing a dropdown button containing the selected color.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ColorPicker",
         "XamlCodeFile": "/SamplePages/ColorPicker/ColorPickerButtonXaml.bind",
         "Icon": "/SamplePages/ColorPicker/ColorPicker.png",

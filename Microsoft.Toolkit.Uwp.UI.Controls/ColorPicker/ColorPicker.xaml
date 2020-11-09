@@ -414,7 +414,7 @@
                 <!--
                     The -1 and +1 accent preview originally had a drop shadow as well.
                     However, due to Z-order issues with the checkered background,
-                    shadow and preview border, it would have required it's own
+                    shadow and preview border, it would have required its own
                     checkered background. This was judged not worth the performance
                     trade-off so shadows were removed.
                 -->
