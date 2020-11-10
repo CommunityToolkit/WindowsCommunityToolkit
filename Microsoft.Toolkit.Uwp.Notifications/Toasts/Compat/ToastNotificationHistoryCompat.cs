@@ -1,6 +1,8 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
+
+#if WINDOWS_UWP
 
 using System.Collections.Generic;
 using Windows.UI.Notifications;
@@ -10,17 +12,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// <summary>
     /// Manages the toast notifications for an app including the ability the clear all toast history and removing individual toasts.
     /// </summary>
-    public sealed class DesktopNotificationHistoryCompat
+    public class ToastNotificationHistoryCompat
     {
         private string _aumid;
         private ToastNotificationHistory _history;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DesktopNotificationHistoryCompat"/> class.
-        /// Do not call this. Instead, call <see cref="DesktopNotificationManagerCompat.History"/> to obtain an instance.
-        /// </summary>
-        /// <param name="aumid">An AUMID that uniquely identifies your application.</param>
-        internal DesktopNotificationHistoryCompat(string aumid)
+        internal ToastNotificationHistoryCompat(string aumid)
         {
             _aumid = aumid;
             _history = ToastNotificationManager.History;
@@ -100,3 +97,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+
+#endif
