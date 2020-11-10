@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -205,22 +206,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return base.ArrangeOverride(finalSize);
         }
 
-        /// <summary>
-        /// from https://referencesource.microsoft.com/#WindowsBase/Base/System/Windows/Rect.cs,04390f584fcba8e4
-        /// </summary>
-        private static bool IntersectsWith(Rect rect1, Rect rect2)
-        {
-            if (rect1.IsEmpty || rect2.IsEmpty)
-            {
-                return false;
-            }
-
-            return (rect1.Left <= rect2.Right) &&
-                   (rect1.Right >= rect2.Left) &&
-                   (rect1.Top <= rect2.Bottom) &&
-                   (rect1.Bottom >= rect2.Top);
-        }
-
         private void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
@@ -273,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 hostElement.ActualWidth + (2 * lazyLoadingThreshold),
                 hostElement.ActualHeight + (2 * lazyLoadingThreshold));
 
-            if (IntersectsWith(controlRect, hostRect))
+            if (controlRect.IntersectsWith(hostRect))
             {
                 _isInViewport = true;
 
