@@ -96,7 +96,7 @@ jobs:
   - task: CopyFiles@2
     inputs:
       sourceFolder: .\SmokeTests\AppPackages
-      contents: '**\*.appxbundle'
+      contents: '**\*.msixbundle'
       targetFolder: $(build.artifactstagingdirectory)\SmokeTestBundles
 
   - task: PublishBuildArtifacts@1
