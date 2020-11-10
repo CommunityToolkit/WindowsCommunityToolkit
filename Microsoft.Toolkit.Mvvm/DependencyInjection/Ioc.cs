@@ -83,6 +83,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// </summary>
         /// <typeparam name="T">The type of service to resolve.</typeparam>
         /// <returns>An instance of the specified service, or <see langword="null"/>.</returns>
+        /// <exception cref="InvalidOperationException">Throw if the current <see cref="Ioc"/> instance has not been initialized.</exception>
         public T? GetService<T>()
             where T : class
         {
@@ -94,6 +95,35 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
             }
 
             return (T?)provider!.GetService(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves an instance of a specified service type.
+        /// </summary>
+        /// <typeparam name="T">The type of service to resolve.</typeparam>
+        /// <returns>An instance of the specified service, or <see langword="null"/>.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Throw if the current <see cref="Ioc"/> instance has not been initialized, or if the
+        /// requested service type was not registered in the service provider currently in use.
+        /// </exception>
+        public T GetRequiredService<T>()
+            where T : class
+        {
+            IServiceProvider? provider = this.serviceProvider;
+
+            if (provider is null)
+            {
+                ThrowInvalidOperationExceptionForMissingInitialization();
+            }
+
+            T? service = (T?)provider!.GetService(typeof(T));
+
+            if (service is null)
+            {
+                ThrowInvalidOperationExceptionForUnregisteredType();
+            }
+
+            return service!;
         }
 
         /// <summary>
@@ -116,6 +146,14 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         private static void ThrowInvalidOperationExceptionForMissingInitialization()
         {
             throw new InvalidOperationException("The service provider has not been configured yet");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when the <see cref="IServiceProvider"/> property is missing a type registration.
+        /// </summary>
+        private static void ThrowInvalidOperationExceptionForUnregisteredType()
+        {
+            throw new InvalidOperationException("The requested service type was not registered");
         }
 
         /// <summary>
