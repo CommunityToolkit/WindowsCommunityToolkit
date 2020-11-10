@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -20,7 +21,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             Eyedropper eyedropper = null;
             Color? color = null;
-            _ = App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            _ = App.Dispatcher.EnqueueAsync(async () =>
             {
                 eyedropper = new Eyedropper
                 {
@@ -29,7 +30,7 @@ namespace UnitTests.XamlIslands.UWPApp
                 color = await eyedropper.Open();
             });
 
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 var xamlRoot = App.XamlRoot;
 
