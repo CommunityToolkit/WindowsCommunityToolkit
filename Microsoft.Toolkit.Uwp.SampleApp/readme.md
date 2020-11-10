@@ -1,4 +1,6 @@
-﻿# How to add new samples
+For the latest info, [visit the wiki article here](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki/Sample-Development).
+
+# How to add new samples
 
 This document describes how to add a new sample page for a new control you want to add to the toolkit.
 

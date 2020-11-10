@@ -47,6 +47,7 @@ jobs:
 
   - powershell: .\build\build.ps1 -target=Test
     displayName: Test
+    timeoutInMinutes: 15
 
   - powershell: .\build\build.ps1 -target=Package
     displayName: Package
@@ -59,7 +60,21 @@ jobs:
       testResultsFormat: 'VSTest'
       testResultsFiles: '**/VsTestResults*.trx'
     displayName: Publish Test Results
-    condition: succeededOrFailed()
+    condition: always()
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish UI Test Results
+    inputs:
+      targetPath: .\build\UITestResults.wtl
+      artifactName: WexLogFileOutput
+    condition: always()
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Test WexLogFileOutput
+    inputs:
+      targetPath: .\build\WexLogFileOutput
+      artifactName: WexErrorLogFileOutput
+    condition: failed()
 
   - task: PowerShell@2
     displayName: Authenticode Sign Packages

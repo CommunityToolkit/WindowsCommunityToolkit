@@ -536,7 +536,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                      (uint)i < (uint)length;
                      i = entry.NextIndex)
                 {
-                    entry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)i);
+                    entry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)i);
 
                     if (entry.HashCode == hashcode &&
                         entry.Value!.AsSpan().SequenceEqual(span))
@@ -556,7 +556,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="value">The new <see cref="string"/> instance to store.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void Insert(string value, int hashcode)
+            private void Insert(string value, int hashcode)
             {
                 ref int bucketsRef = ref this.buckets.DangerousGetReference();
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
@@ -571,7 +571,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     entryIndex = heapEntriesRef.MapIndex;
                     heapIndex = 0;
 
-                    ref MapEntry removedEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+                    ref MapEntry removedEntry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)entryIndex);
 
                     // The removal logic can be extremely optimized in this case, as we
                     // can retrieve the precomputed hashcode for the target entry by doing
@@ -588,9 +588,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 }
 
                 int bucketIndex = hashcode & (this.buckets.Length - 1);
-                ref int targetBucket = ref Unsafe.Add(ref bucketsRef, (IntPtr)(void*)(uint)bucketIndex);
-                ref MapEntry targetMapEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
-                ref HeapEntry targetHeapEntry = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)heapIndex);
+                ref int targetBucket = ref Unsafe.Add(ref bucketsRef, (nint)(uint)bucketIndex);
+                ref MapEntry targetMapEntry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)entryIndex);
+                ref HeapEntry targetHeapEntry = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)heapIndex);
 
                 // Assign the values in the new map entry
                 targetMapEntry.HashCode = hashcode;
@@ -616,7 +616,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="mapIndex">The index of the target map node to remove.</param>
             /// <remarks>The input <see cref="string"/> instance needs to already exist in the map.</remarks>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void Remove(int hashcode, int mapIndex)
+            private void Remove(int hashcode, int mapIndex)
             {
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 int
@@ -628,7 +628,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 // value we're looking for is guaranteed to be present
                 while (true)
                 {
-                    ref MapEntry candidate = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+                    ref MapEntry candidate = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)entryIndex);
 
                     // Check the current value for a match
                     if (entryIndex == mapIndex)
@@ -636,7 +636,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                         // If this was not the first list node, update the parent as well
                         if (lastIndex != EndOfList)
                         {
-                            ref MapEntry lastEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)lastIndex);
+                            ref MapEntry lastEntry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)lastIndex);
 
                             lastEntry.NextIndex = candidate.NextIndex;
                         }
@@ -662,14 +662,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// </summary>
             /// <param name="heapIndex">The index of the target heap node to update.</param>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void UpdateTimestamp(ref int heapIndex)
+            private void UpdateTimestamp(ref int heapIndex)
             {
                 int
                     currentIndex = heapIndex,
                     count = this.count;
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
-                ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+                ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)currentIndex);
                 uint timestamp = this.timestamp;
 
                 // Check if incrementing the current timestamp for the heap node to update
@@ -721,7 +721,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     // Check and update the left child, if necessary
                     if (left < count)
                     {
-                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)left);
+                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)left);
 
                         if (child.Timestamp < minimum.Timestamp)
                         {
@@ -733,7 +733,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     // Same check as above for the right child
                     if (right < count)
                     {
-                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)right);
+                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)right);
 
                         if (child.Timestamp < minimum.Timestamp)
                         {
@@ -752,8 +752,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     }
 
                     // Update the indices in the respective map entries (accounting for the swap)
-                    Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)root.MapIndex).HeapIndex = targetIndex;
-                    Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)minimum.MapIndex).HeapIndex = currentIndex;
+                    Unsafe.Add(ref mapEntriesRef, (nint)(uint)root.MapIndex).HeapIndex = targetIndex;
+                    Unsafe.Add(ref mapEntriesRef, (nint)(uint)minimum.MapIndex).HeapIndex = currentIndex;
 
                     currentIndex = targetIndex;
 
@@ -764,7 +764,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     minimum = temp;
 
                     // Update the reference to the root node
-                    root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+                    root = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)currentIndex);
                 }
 
                 Fallback:
@@ -787,14 +787,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// a given number of nodes, those are all contiguous from the start of the array.
             /// </summary>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void UpdateAllTimestamps()
+            private void UpdateAllTimestamps()
             {
                 int count = this.count;
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
 
                 for (int i = 0; i < count; i++)
                 {
-                    Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)i).Timestamp = (uint)i;
+                    Unsafe.Add(ref heapEntriesRef, (nint)(uint)i).Timestamp = (uint)i;
                 }
             }
         }
