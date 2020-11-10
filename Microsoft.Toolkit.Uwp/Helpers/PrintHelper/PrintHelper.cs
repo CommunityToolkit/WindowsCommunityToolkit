@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Printing;
-using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             _printCanvas = null;
-            DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue.EnqueueAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (!_directPrint)
             {
-                await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+                await DispatcherQueue.EnqueueAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -263,7 +263,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    await DispatcherQueue.ExecuteOnUIThreadAsync(
+                    await DispatcherQueue.EnqueueAsync(
                         async () =>
                         {
                             foreach (var element in _stateBags.Keys)
@@ -522,7 +522,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             page.Content = element;
 
-            return DispatcherQueue.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
@@ -538,7 +538,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private Task ClearPageCache()
         {
-            return DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            return DispatcherQueue.EnqueueAsync(() =>
             {
                 if (!_directPrint)
                 {

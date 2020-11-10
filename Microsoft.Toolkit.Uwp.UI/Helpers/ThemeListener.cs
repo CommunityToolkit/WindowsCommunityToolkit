@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 
@@ -85,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         private void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)
         {
 #if DEBUG
-            Debug.WriteLine("HighContrast Changed");
+            global::System.Diagnostics.Debug.WriteLine("HighContrast Changed");
 #endif
 
             UpdateProperties();
@@ -101,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         internal Task OnColorValuesChanged()
         {
             // Getting called off thread, so we need to dispatch to request value.
-            return DispatcherQueue.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
@@ -109,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
                         IsHighContrast != _accessible.HighContrast)
                     {
 #if DEBUG
-                        Debug.WriteLine("Color Values Changed");
+                        global::System.Diagnostics.Debug.WriteLine("Color Values Changed");
 #endif
 
                         UpdateProperties();
@@ -123,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
                 IsHighContrast != _accessible.HighContrast)
             {
 #if DEBUG
-                Debug.WriteLine("CoreWindow Activated Changed");
+                global::System.Diagnostics.Debug.WriteLine("CoreWindow Activated Changed");
 #endif
 
                 UpdateProperties();

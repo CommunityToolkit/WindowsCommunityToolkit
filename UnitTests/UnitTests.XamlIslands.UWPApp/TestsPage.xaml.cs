@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Color = Windows.UI.Color;
 
 namespace UnitTests.XamlIslands.UWPApp
@@ -148,7 +149,7 @@ namespace UnitTests.XamlIslands.UWPApp
                     }
                     finally
                     {
-                        await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+                        await App.Dispatcher.EnqueueAsync(() =>
                         {
                             SetMainTestContent(null);
                         });
@@ -162,7 +163,7 @@ namespace UnitTests.XamlIslands.UWPApp
         private Task WriteLineAsync(string message, Color? color = null, bool deleteLastLine = false)
         {
             Debug.WriteLine(message);
-            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            return App.Dispatcher.EnqueueAsync(() =>
             {
                 if (deleteLastLine)
                 {

@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -19,7 +20,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public Task Init()
         {
-            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            return App.Dispatcher.EnqueueAsync(() =>
             {
                 _taskCompletionSource = new TaskCompletionSource<object>();
 

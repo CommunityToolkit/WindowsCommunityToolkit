@@ -5,7 +5,7 @@
 using System;
 using System.Threading;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -403,7 +403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static async void RunInUIThread(DispatcherQueue dispatcherQueue, Action action)
         {
-            await dispatcherQueue.ExecuteOnUIThreadAsync(action, DispatcherQueuePriority.Normal);
+            await dispatcherQueue.EnqueueAsync(action, DispatcherQueuePriority.Normal);
         }
     }
 }

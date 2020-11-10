@@ -26,7 +26,7 @@
       <Version>10.1901.28001</Version>
     </PackageReference>-->
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
-      <Version>8.0.0-build.17.g709434064a</Version>
+      <Version>8.0.0-build.17.gd752a39498</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.10.0-alpha</Version>
@@ -104,7 +104,7 @@
     </ProjectReference>-->
     <!-- Remove this PackageReference when the MRT issue is fixed -->
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown">
-      <Version>8.0.0-build.77.g709434064a</Version>
+      <Version>8.0.0-build.80.gcb9e7794d6</Version>
     </PackageReference>
     
     
