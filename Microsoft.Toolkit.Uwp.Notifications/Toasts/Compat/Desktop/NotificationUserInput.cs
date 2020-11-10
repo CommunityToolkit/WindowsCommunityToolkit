@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WIN32
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,9 +20,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public class NotificationUserInput : IReadOnlyDictionary<string, string>
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         private NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] _data;
+#pragma warning restore CS0618 // Type or member is obsolete
 
+#pragma warning disable CS0618 // Type or member is obsolete
         internal NotificationUserInput(NotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data)
+#pragma warning restore CS0618 // Type or member is obsolete
         {
             _data = data;
         }
@@ -93,3 +99,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+
+#endif
