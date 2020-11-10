@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ref T DangerousGetReference<T>(this T[] array)
         {
 #if NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArrayData>(array);
+            var arrayData = Unsafe.As<RawArrayData>(array)!;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 
             return ref r0;
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
         {
 #if NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArrayData>(array);
+            var arrayData = Unsafe.As<RawArrayData>(array)!;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
