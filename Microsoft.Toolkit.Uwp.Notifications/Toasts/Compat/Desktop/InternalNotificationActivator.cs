@@ -1,36 +1,25 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using Windows.UI.Notifications;
+#if WIN32
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+using System;
+using System.Runtime.InteropServices;
+
+namespace Microsoft.Toolkit.Uwp.Notifications.Internal
 {
     /// <summary>
-    /// Apps must implement this activator to handle notification activation.
+    /// Do not use this class. It must be public so that reflection can properly activate it, but consider it internal.
     /// </summary>
-    public abstract class NotificationActivator : NotificationActivator.INotificationActivationCallback
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public abstract class InternalNotificationActivator : InternalNotificationActivator.INotificationActivationCallback
     {
         /// <inheritdoc/>
-        public void Activate(string appUserModelId, string invokedArgs, NOTIFICATION_USER_INPUT_DATA[] data, uint dataCount)
+        public void Activate(string appUserModelId, string invokedArgs, InternalNotificationActivator.NOTIFICATION_USER_INPUT_DATA[] data, uint dataCount)
         {
-            OnActivated(invokedArgs, new NotificationUserInput(data), appUserModelId);
+            ToastNotificationManagerCompat.OnActivatedInternal(invokedArgs, data, appUserModelId);
         }
-
-        /// <summary>
-        /// This method will be called when the user clicks on a foreground or background activation on a toast. Parent app must implement this method.
-        /// </summary>
-        /// <param name="arguments">The arguments from the original notification. This is either the launch argument if the user clicked the body of your toast, or the arguments from a button on your toast.</param>
-        /// <param name="userInput">Text and selection values that the user entered in your toast.</param>
-        /// <param name="appUserModelId">Your AUMID.</param>
-        public abstract void OnActivated(string arguments, NotificationUserInput userInput, string appUserModelId);
 
         /// <summary>
         /// A single user input key/value pair.
@@ -78,3 +67,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+
+#endif
