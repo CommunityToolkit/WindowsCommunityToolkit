@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #if NETCOREAPP3_1 || NET5_0
             return ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
-            var stringData = Unsafe.As<RawStringData>(text);
+            var stringData = Unsafe.As<RawStringData>(text)!;
 
             return ref stringData.Data;
 #else
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #if NETCOREAPP3_1 || NET5_0
             ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
-            ref char r0 = ref Unsafe.As<RawStringData>(text).Data;
+            ref char r0 = ref Unsafe.As<RawStringData>(text)!.Data;
 #else
             ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
 #endif

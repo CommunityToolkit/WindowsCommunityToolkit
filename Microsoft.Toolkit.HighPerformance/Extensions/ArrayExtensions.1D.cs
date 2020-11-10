@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #if NET5_0
             return ref MemoryMarshal.GetArrayDataReference(array);
 #elif NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArrayData>(array);
+            var arrayData = Unsafe.As<RawArrayData>(array)!;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 
             return ref r0;
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return ref ri;
 #elif NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArrayData>(array);
+            var arrayData = Unsafe.As<RawArrayData>(array)!;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
