@@ -2,18 +2,20 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WIN32
+
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
-using static Microsoft.Toolkit.Uwp.Notifications.NotificationActivator;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
     /// Helper for .NET Framework applications to display toast notifications and respond to toast events
     /// </summary>
+    [Obsolete("We recommend switching to the new ToastNotificationManagerCompat. For Win32 apps, it no longer requires a Start menu shortcut, and activation now uses a straightforward event handler (no NotificationActivator class and COM GUIDs needed)!")]
     public class DesktopNotificationManagerCompat
     {
         /// <summary>
@@ -131,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     // Create the instance of the .NET object
                     ppvObject = Marshal.GetComInterfaceForObject(
                         new T(),
-                        typeof(INotificationActivationCallback));
+                        typeof(NotificationActivator.INotificationActivationCallback));
                 }
                 else
                 {
@@ -225,7 +227,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/edit/master/DesktopBridge.Helpers/Helpers.cs
+        /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/tree/master/DesktopBridge.Helpers/Helpers.cs
         /// </summary>
         private class DesktopBridgeHelpers
         {
@@ -273,3 +275,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+
+#endif
