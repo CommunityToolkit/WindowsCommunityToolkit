@@ -4,12 +4,11 @@
 
 using System;
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls

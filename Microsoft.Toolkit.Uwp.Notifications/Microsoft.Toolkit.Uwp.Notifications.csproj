@@ -22,23 +22,17 @@
     <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
-        <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
+        <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
       </PropertyGroup>
     </When>
 
-    <!--Non-desktop apps (UWP, libraries, ASP.NET servers)-->
-    <Otherwise>
-      <ItemGroup>
-        <!--Remove the DesktopNotificationManager code-->
-        <Compile Remove="DesktopNotificationManager\**\*" />
-      </ItemGroup>
-    </Otherwise>
-
   </Choose>
 
-  <!--NET Core desktop apps also need the Registry NuGet package-->
+  <!--NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically-->
   <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">

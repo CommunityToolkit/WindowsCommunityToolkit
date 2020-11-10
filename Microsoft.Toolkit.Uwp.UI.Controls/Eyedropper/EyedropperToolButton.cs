@@ -4,12 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

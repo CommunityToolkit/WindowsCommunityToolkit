@@ -23,6 +23,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="ArrayTypeMismatchException"/>.
         /// </summary>
+        /// <exception cref="ArrayTypeMismatchException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowArrayTypeMismatchException()
+        {
+            throw new ArrayTypeMismatchException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArrayTypeMismatchException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArrayTypeMismatchException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -41,6 +51,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArrayTypeMismatchException(string message, Exception innerException)
         {
             throw new ArrayTypeMismatchException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentException"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentException()
+        {
+            throw new ArgumentException();
         }
 
         /// <summary>
@@ -94,6 +114,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="ArgumentNullException"/>.
         /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentNullException()
+        {
+            throw new ArgumentNullException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentNullException"/>.
+        /// </summary>
         /// <param name="name">The argument name.</param>
         /// <exception cref="ArgumentNullException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -124,6 +154,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentNullException(string name, string message)
         {
             throw new ArgumentNullException(name, message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowArgumentOutOfRangeException()
+        {
+            throw new ArgumentOutOfRangeException();
         }
 
         /// <summary>
@@ -178,6 +218,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="COMException"/>.
         /// </summary>
+        /// <exception cref="COMException">Thrown with no paarameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowCOMException()
+        {
+            throw new COMException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="COMException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -208,6 +258,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowCOMException(string message, int error)
         {
             throw new COMException(message, error);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ExternalException"/>.
+        /// </summary>
+        /// <exception cref="ExternalException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowExternalException()
+        {
+            throw new ExternalException();
         }
 
         /// <summary>
@@ -249,6 +309,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="FormatException"/>.
         /// </summary>
+        /// <exception cref="FormatException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowFormatException()
+        {
+            throw new FormatException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="FormatException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="FormatException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -270,6 +340,16 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
 #if !NETSTANDARD1_4
+        /// <summary>
+        /// Throws a new <see cref="InsufficientMemoryException"/>.
+        /// </summary>
+        /// <exception cref="InsufficientMemoryException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowInsufficientMemoryException()
+        {
+            throw new InsufficientMemoryException();
+        }
+
         /// <summary>
         /// Throws a new <see cref="InsufficientMemoryException"/>.
         /// </summary>
@@ -297,6 +377,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="InvalidDataException"/>.
         /// </summary>
+        /// <exception cref="InvalidDataException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowInvalidDataException()
+        {
+            throw new InvalidDataException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="InvalidDataException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="InvalidDataException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -315,6 +405,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowInvalidDataException(string message, Exception innerException)
         {
             throw new InvalidDataException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="InvalidOperationException"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowInvalidOperationException()
+        {
+            throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -343,6 +443,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="LockRecursionException"/>.
         /// </summary>
+        /// <exception cref="LockRecursionException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowLockRecursionException()
+        {
+            throw new LockRecursionException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="LockRecursionException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="LockRecursionException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -361,6 +471,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowLockRecursionException(string message, Exception innerException)
         {
             throw new LockRecursionException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="MissingFieldException"/>.
+        /// </summary>
+        /// <exception cref="MissingFieldException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowMissingFieldException()
+        {
+            throw new MissingFieldException();
         }
 
         /// <summary>
@@ -403,6 +523,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="MissingMemberException"/>.
         /// </summary>
+        /// <exception cref="MissingMemberException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowMissingMemberException()
+        {
+            throw new MissingMemberException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="MissingMemberException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingMemberException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -440,6 +570,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="MissingMethodException"/>.
         /// </summary>
+        /// <exception cref="MissingMethodException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowMissingMethodException()
+        {
+            throw new MissingMethodException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="MissingMethodException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingMethodException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -473,6 +613,16 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new MissingMethodException(className, methodName);
         }
 #endif
+
+        /// <summary>
+        /// Throws a new <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <exception cref="NotSupportedException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowNotSupportedException()
+        {
+            throw new NotSupportedException();
+        }
 
         /// <summary>
         /// Throws a new <see cref="NotSupportedException"/>.
@@ -530,6 +680,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowObjectDisposedException(string objectName, string message)
         {
             throw new ObjectDisposedException(objectName, message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="OperationCanceledException"/>.
+        /// </summary>
+        /// <exception cref="OperationCanceledException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowOperationCanceledException()
+        {
+            throw new OperationCanceledException();
         }
 
         /// <summary>
@@ -594,6 +754,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="PlatformNotSupportedException"/>.
         /// </summary>
+        /// <exception cref="PlatformNotSupportedException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowPlatformNotSupportedException()
+        {
+            throw new PlatformNotSupportedException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="PlatformNotSupportedException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="PlatformNotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -612,6 +782,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowPlatformNotSupportedException(string message, Exception innerException)
         {
             throw new PlatformNotSupportedException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="SynchronizationLockException"/>.
+        /// </summary>
+        /// <exception cref="SynchronizationLockException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowSynchronizationLockException()
+        {
+            throw new SynchronizationLockException();
         }
 
         /// <summary>
@@ -640,6 +820,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="TimeoutException"/>.
         /// </summary>
+        /// <exception cref="TimeoutException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowTimeoutException()
+        {
+            throw new TimeoutException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="TimeoutException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="TimeoutException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -663,6 +853,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws a new <see cref="UnauthorizedAccessException"/>.
         /// </summary>
+        /// <exception cref="UnauthorizedAccessException">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowUnauthorizedAccessException()
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="UnauthorizedAccessException"/>.
+        /// </summary>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="UnauthorizedAccessException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
@@ -681,6 +881,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowUnauthorizedAccessException(string message, Exception innerException)
         {
             throw new UnauthorizedAccessException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="Win32Exception"/>.
+        /// </summary>
+        /// <exception cref="Win32Exception">Thrown with no parameters.</exception>
+        [DoesNotReturn]
+        public static void ThrowWin32Exception()
+        {
+            throw new Win32Exception();
         }
 
         /// <summary>

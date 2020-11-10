@@ -35,6 +35,26 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Carousel.md"
       },
       {
+        "Name": "ColorPicker",
+        "Type": "ColorPickerPage",
+        "Subcategory": "Input",
+        "About": "An improved color picker control providing more options to select colors.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ColorPicker",
+        "XamlCodeFile": "ColorPickerXaml.bind",
+        "Icon": "/SamplePages/ColorPicker/ColorPicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ColorPicker.md"
+      },
+      {
+        "Name": "ColorPickerButton",
+        "Type": "ColorPickerButtonPage",
+        "Subcategory": "Input",
+        "About": "A color picker within a flyout opened by pressing a dropdown button containing the selected color.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ColorPicker",
+        "XamlCodeFile": "/SamplePages/ColorPicker/ColorPickerButtonXaml.bind",
+        "Icon": "/SamplePages/ColorPicker/ColorPicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ColorPickerButton.md"
+      },
+      {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "Subcategory": "Layout",

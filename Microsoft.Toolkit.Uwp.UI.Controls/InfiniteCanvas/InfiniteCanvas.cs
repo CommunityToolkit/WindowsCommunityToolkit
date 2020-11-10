@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// InfiniteCanvas is a canvas that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.
     /// </summary>
     [TemplatePart(Name = CanvasTextBoxToolsName, Type = typeof(StackPanel))]
-    [TemplatePart(Name = CanvasTextBoxColorPickerName, Type = typeof(ColorPicker))]
+    [TemplatePart(Name = CanvasTextBoxColorPickerName, Type = typeof(Microsoft.UI.Xaml.Controls.ColorPicker))]
     [TemplatePart(Name = CanvasTextBoxFontSizeTextBoxName, Type = typeof(TextBox))]
     [TemplatePart(Name = CanvasTextBoxItalicButtonName, Type = typeof(ToggleButton))]
     [TemplatePart(Name = CanvasTextBoxBoldButtonName, Type = typeof(ToggleButton))]
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // private Microsoft.UI.Xaml.Controls.InkToolbarCustomToggleButton _enableTouchInkingButton;
         private InfiniteCanvasTextBox _canvasTextBox;
         private StackPanel _canvasTextBoxTools;
-        private ColorPicker _canvasTextBoxColorPicker;
+        private Microsoft.UI.Xaml.Controls.ColorPicker _canvasTextBoxColorPicker;
 
         private TextBox _canvasTextBoxFontSizeTextBox;
         private ToggleButton _canvasTextBoxItalicButton;
@@ -248,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             _canvasTextBoxTools = (StackPanel)GetTemplateChild(CanvasTextBoxToolsName);
-            _canvasTextBoxColorPicker = (ColorPicker)GetTemplateChild(CanvasTextBoxColorPickerName);
+            this._canvasTextBoxColorPicker = (Microsoft.UI.Xaml.Controls.ColorPicker)GetTemplateChild(CanvasTextBoxColorPickerName);
             _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild(CanvasTextBoxFontSizeTextBoxName);
             _canvasTextBoxItalicButton = (ToggleButton)GetTemplateChild(CanvasTextBoxItalicButtonName);
             _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild(CanvasTextBoxBoldButtonName);

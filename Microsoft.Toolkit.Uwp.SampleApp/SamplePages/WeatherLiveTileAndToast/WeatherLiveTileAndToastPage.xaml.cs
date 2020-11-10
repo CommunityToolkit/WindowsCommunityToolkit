@@ -31,7 +31,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ToastContentBuilder builder = new ToastContentBuilder();
 
             // Include launch string so we know what to open when user clicks toast
-            builder.AddToastActivationInfo("action=viewForecast&zip=98008", ToastActivationType.Foreground);
+            builder.AddArgument("action", "viewForecast");
+            builder.AddArgument("zip", 98008);
 
             // We'll always have this summary text on our toast notification
             // (it is required that your toast starts with a text element)
@@ -75,8 +76,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Small Tile
             builder.AddTile(Notifications.TileSize.Small)
                 .SetTextStacking(TileTextStacking.Center, Notifications.TileSize.Small)
-                .AddText("Mon", hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)
-                .AddText("63°", hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);
+                .AddText("Mon", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)
+                .AddText("63°", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);
 
             // Medium Tile
             builder.AddTile(Notifications.TileSize.Medium)
@@ -287,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void PopToast()
         {
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
         }
 
         private void Initialize()

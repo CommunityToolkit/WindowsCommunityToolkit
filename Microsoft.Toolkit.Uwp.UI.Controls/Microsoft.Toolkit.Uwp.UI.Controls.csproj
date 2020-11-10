@@ -11,6 +11,7 @@
         - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
         - CameraPreview: Easily preview video from camera sources and get realtime frames from the selected source.
         - Carousel: Presents items in a carousel control.
+        - ColorPicker/ColorPickerButton: Improved ColorPicker and DropDownButton version.
         - DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
         - DropShadowPanel: DropShadowPanel control allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
         - Expander: Expander allows user to show/hide content based on a boolean state.
@@ -55,7 +56,7 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
- 
+
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>

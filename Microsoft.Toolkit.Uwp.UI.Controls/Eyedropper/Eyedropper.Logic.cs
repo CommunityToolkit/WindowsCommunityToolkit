@@ -5,12 +5,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 // using Microsoft.Graphics.Canvas;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Display;

@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WIN32
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// <summary>
     /// Apps must implement this activator to handle notification activation.
     /// </summary>
+    [Obsolete("You can now subscribe to activation by simpy using the ToastNotificationManagerCompat.OnActivated event. We recommend deleting your NotificationActivator and switching to using the event.")]
     public abstract class NotificationActivator : NotificationActivator.INotificationActivationCallback
     {
         /// <inheritdoc/>
@@ -78,3 +81,5 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
     }
 }
+
+#endif

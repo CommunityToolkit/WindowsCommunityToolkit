@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SelectedTextDrawable?.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
         }
 
-        private void CanvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+        private void CanvasTextBoxColorPicker_ColorChanged(Microsoft.UI.Xaml.Controls.ColorPicker sender, ColorChangedEventArgs args)
         {
             if (SelectedTextDrawable != null)
             {

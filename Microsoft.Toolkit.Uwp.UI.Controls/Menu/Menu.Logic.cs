@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (element is MenuFlyoutSubItem menuFlyoutSubItem)
                 {
-                    if (menuFlyoutSubItem.Parent is MenuItem && element == menu._lastFocusElement)
+                    if (menuFlyoutSubItem.Parent is MenuItem && menuFlyoutSubItem == menu._lastFocusElement)
                     {
                         menu.IsInTransitionState = true;
                         menu.SelectedMenuItem.HideMenu();
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var keyboardInput = ExpKeyboardInput.GetForInputSite(ExpInputSite.GetOrCreateForContent(ExpCompositionContent.Create(compositor)));
             var isCtrlDown = keyboardInput.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var isShiftDown = keyboardInput.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isAltDown = (keyboardInput.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down)) || menuHasFocus;
+            var isAltDown = keyboardInput.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down) || menuHasFocus;
 
             if (!isCtrlDown && !isShiftDown && !isAltDown)
             {
