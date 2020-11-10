@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
-        [Obsolete("This method should be replaced with CoreApplication.MainView.DispatcherQueue.EnqueueAsync(function, priority).")]
+        [Obsolete("This method should be replaced with dispatcherQueue.EnqueueAsync(function, priority), where dispatcherQueue is a DispatcherQueue instance that was retrieved from the UI thread and stored for later use.")]
         public static Task ExecuteOnUIThreadAsync(Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
         /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
-        [Obsolete("This method should be replaced with CoreApplication.MainView.DispatcherQueue.EnqueueAsync(function, priority).")]
+        [Obsolete("This method should be replaced with dispatcherQueue.EnqueueAsync(function, priority), where dispatcherQueue is a DispatcherQueue instance that was retrieved from the UI thread and stored for later use.")]
         public static Task<T> ExecuteOnUIThreadAsync<T>(Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread.</param>
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task"/> for the operation.</returns>
-        [Obsolete("This method should be replaced with CoreApplication.MainView.DispatcherQueue.EnqueueAsync(function, priority).")]
+        [Obsolete("This method should be replaced with dispatcherQueue.EnqueueAsync(function, priority), where dispatcherQueue is a DispatcherQueue instance that was retrieved from the UI thread and stored for later use.")]
         public static Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread.</param>
         /// <param name="priority">Dispatcher execution priority, default is normal.</param>
         /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
-        [Obsolete("This method should be replaced with CoreApplication.MainView.DispatcherQueue.EnqueueAsync(function, priority).")]
+        [Obsolete("This method should be replaced with dispatcherQueue.EnqueueAsync(function, priority), where dispatcherQueue is a DispatcherQueue instance that was retrieved from the UI thread and stored for later use.")]
         public static Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
