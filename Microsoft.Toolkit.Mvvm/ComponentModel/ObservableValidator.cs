@@ -217,6 +217,115 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             return propertyChanged;
         }
 
+        /// <summary>
+        /// Tries to validate a new value for a specified property. If the validation is successful,
+        /// <see cref="ObservableObject.SetProperty{T}(ref T,T,string?)"/> is called, otherwise no state change is performed.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns>Whether the validation was successful and the property value changed as well.</returns>
+        protected bool TrySetProperty<T>(ref T field, T newValue, out IReadOnlyCollection<ValidationResult> errors, [CallerMemberName] string? propertyName = null)
+        {
+            return TryValidateProperty(newValue, propertyName, out errors) &&
+                   SetProperty(ref field, newValue, propertyName);
+        }
+
+        /// <summary>
+        /// Tries to validate a new value for a specified property. If the validation is successful,
+        /// <see cref="ObservableObject.SetProperty{T}(ref T,T,IEqualityComparer{T},string?)"/> is called, otherwise no state change is performed.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="field">The field storing the property's value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns>Whether the validation was successful and the property value changed as well.</returns>
+        protected bool TrySetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, out IReadOnlyCollection<ValidationResult> errors, [CallerMemberName] string? propertyName = null)
+        {
+            return TryValidateProperty(newValue, propertyName, out errors) &&
+                   SetProperty(ref field, newValue, comparer, propertyName);
+        }
+
+        /// <summary>
+        /// Tries to validate a new value for a specified property. If the validation is successful,
+        /// <see cref="ObservableObject.SetProperty{T}(T,T,Action{T},string?)"/> is called, otherwise no state change is performed.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns>Whether the validation was successful and the property value changed as well.</returns>
+        protected bool TrySetProperty<T>(T oldValue, T newValue, Action<T> callback, out IReadOnlyCollection<ValidationResult> errors, [CallerMemberName] string? propertyName = null)
+        {
+            return TryValidateProperty(newValue, propertyName, out errors) &&
+                   SetProperty(oldValue, newValue, callback, propertyName);
+        }
+
+        /// <summary>
+        /// Tries to validate a new value for a specified property. If the validation is successful,
+        /// <see cref="ObservableObject.SetProperty{T}(T,T,IEqualityComparer{T},Action{T},string?)"/> is called, otherwise no state change is performed.
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="callback">A callback to invoke to update the property value.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns>Whether the validation was successful and the property value changed as well.</returns>
+        protected bool TrySetProperty<T>(T oldValue, T newValue, IEqualityComparer<T> comparer, Action<T> callback, out IReadOnlyCollection<ValidationResult> errors, [CallerMemberName] string? propertyName = null)
+        {
+            return TryValidateProperty(newValue, propertyName, out errors) &&
+                   SetProperty(oldValue, newValue, comparer, callback, propertyName);
+        }
+
+        /// <summary>
+        /// Tries to validate a new value for a specified property. If the validation is successful,
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,TModel,Action{TModel,T},string?)"/> is called, otherwise no state change is performed.
+        /// </summary>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns>Whether the validation was successful and the property value changed as well.</returns>
+        protected bool TrySetProperty<TModel, T>(T oldValue, T newValue, TModel model, Action<TModel, T> callback, out IReadOnlyCollection<ValidationResult> errors, [CallerMemberName] string? propertyName = null)
+            where TModel : class
+        {
+            return TryValidateProperty(newValue, propertyName, out errors) &&
+                   SetProperty(oldValue, newValue, model, callback, propertyName);
+        }
+
+        /// <summary>
+        /// Tries to validate a new value for a specified property. If the validation is successful,
+        /// <see cref="ObservableObject.SetProperty{TModel,T}(T,T,IEqualityComparer{T},TModel,Action{TModel,T},string?)"/> is called, otherwise no state change is performed.
+        /// </summary>
+        /// <typeparam name="TModel">The type of model whose property (or field) to set.</typeparam>
+        /// <typeparam name="T">The type of property (or field) to set.</typeparam>
+        /// <param name="oldValue">The current property value.</param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
+        /// <param name="model">The model </param>
+        /// <param name="callback">The callback to invoke to set the target property value, if a change has occurred.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        /// <returns>Whether the validation was successful and the property value changed as well.</returns>
+        protected bool TrySetProperty<TModel, T>(T oldValue, T newValue, IEqualityComparer<T> comparer, TModel model, Action<TModel, T> callback, out IReadOnlyCollection<ValidationResult> errors, [CallerMemberName] string? propertyName = null)
+            where TModel : class
+        {
+            return TryValidateProperty(newValue, propertyName, out errors) &&
+                   SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
+        }
+
         /// <inheritdoc/>
         [Pure]
         public IEnumerable GetErrors(string? propertyName)
@@ -327,6 +436,61 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             {
                 ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             }
+        }
+
+        /// <summary>
+        /// Tries to validate a property with a specified name and a given input value, and returns
+        /// the computed errors, if any. If the property is valid, it is assumed that its value is
+        /// about to be set in the current object. Otherwise, no observable local state is modified.
+        /// </summary>
+        /// <param name="value">The value to test for the specified property.</param>
+        /// <param name="propertyName">The name of the property to validate.</param>
+        /// <param name="errors">The resulting validation errors, if any.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
+        private bool TryValidateProperty(object? value, string? propertyName, out IReadOnlyCollection<ValidationResult> errors)
+        {
+            if (propertyName is null)
+            {
+                ThrowArgumentNullExceptionForNullPropertyName();
+            }
+
+            // Add the cached errors list for later use.
+            if (!this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors))
+            {
+                propertyErrors = new List<ValidationResult>();
+
+                this.errors.Add(propertyName!, propertyErrors);
+            }
+
+            bool hasErrors = propertyErrors.Count > 0;
+
+            List<ValidationResult> localErrors = new List<ValidationResult>();
+
+            // Validate the property, by adding new errors to the local list
+            bool isValid = Validator.TryValidateProperty(
+                value,
+                new ValidationContext(this, null, null) { MemberName = propertyName },
+                localErrors);
+
+            // We only modify the state if the property is valid and it wasn't so before. In this case, we
+            // clear the cached list of errors (which is visible to consumers) and raise the necessary events.
+            if (isValid && hasErrors)
+            {
+                propertyErrors.Clear();
+
+                this.totalErrors--;
+
+                if (this.totalErrors == 0)
+                {
+                    OnPropertyChanged(HasErrorsChangedEventArgs);
+                }
+
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            }
+
+            errors = localErrors;
+
+            return isValid;
         }
 
 #pragma warning disable SA1204
