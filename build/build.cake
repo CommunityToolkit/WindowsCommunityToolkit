@@ -283,6 +283,13 @@ Task("Test")
     }
 }).DeferOnError();
 
+Task("SmokeTest")
+	.Description("Runs all Smoke Tests")
+    .Does(() =>
+{
+    NuGetRestore(baseDir + "/SmokeTests/SmokeTest.csproj");
+    MSBuild(baseDir + "/SmokeTests/SmokeTests.proj");
+}).DeferOnError();
 
 Task("MSTestUITest")
 	.Description("Runs UITests using MSTest")

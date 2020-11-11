@@ -13,7 +13,6 @@ using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-#if !WINRT
     /// <summary>
     /// Builder class used to create <see cref="ToastContent"/>
     /// </summary>
@@ -81,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
 #if WINDOWS_UWP
-
+#if !WINRT
         /// <summary>
         /// Create an instance of NotificationData that can be used to update toast that has a progress bar.
         /// </summary>
@@ -93,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="status"> A status string, which is displayed underneath the progress bar on the left. Default to empty.</param>
         /// <param name="sequence">A sequence number to prevent out-of-order updates, or assign 0 to indicate "always update".</param>
         /// <returns>An instance of NotificationData that can be used to update the toast.</returns>
-        public static NotificationData CreateProgressBarData(ToastContent toast, int index = 0, string title = default(string), double? value = null, string valueStringOverride = default(string), string status = default(string), uint sequence = 0)
+        public static NotificationData CreateProgressBarData(ToastContent toast, int index = 0, string title = default, double? value = default, string valueStringOverride = default, string status = default, uint sequence = 0)
         {
             var progressBar = toast.Visual.BindingGeneric.Children.Where(c => c is AdaptiveProgressBar).ElementAt(index) as AdaptiveProgressBar;
             if (progressBar == null)
@@ -104,30 +103,41 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             NotificationData data = new NotificationData();
             data.SequenceNumber = sequence;
 
-            if (progressBar.Title is BindableString bindableTitle && title != default(string))
+            // Native C++ doesn't support BindableString
+            if (progressBar.Title is BindableString bindableTitle && title != default)
             {
                 data.Values[bindableTitle.BindingName] = title;
             }
 
-            if (progressBar.Value is BindableProgressBarValue bindableProgressValue && value != null)
+            if (progressBar.Value is BindableProgressBarValue bindableProgressValue && value != default)
             {
                 data.Values[bindableProgressValue.BindingName] = value.ToString();
             }
 
-            if (progressBar.ValueStringOverride is BindableString bindableValueStringOverride && valueStringOverride != default(string))
+            if (progressBar.ValueStringOverride is BindableString bindableValueStringOverride && valueStringOverride != default)
             {
                 data.Values[bindableValueStringOverride.BindingName] = valueStringOverride;
             }
 
-            if (progressBar.Status is BindableString bindableStatus && status != default(string))
+            if (progressBar.Status is BindableString bindableStatus && status != default)
             {
                 data.Values[bindableStatus.BindingName] = status;
             }
 
             return data;
         }
-
 #endif
+#endif
+
+        /// <summary>
+        /// Add an Attribution Text to be displayed on the toast.
+        /// </summary>
+        /// <param name="text">Text to be displayed as Attribution Text</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddAttributionText(string text)
+        {
+            return AddAttributionText(text, default);
+        }
 
         /// <summary>
         /// Add an Attribution Text to be displayed on the toast.
@@ -135,20 +145,55 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="text">Text to be displayed as Attribution Text</param>
         /// <param name="language">The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR".</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAttributionText(string text, string language = default(string))
+        public ToastContentBuilder AddAttributionText(string text, string language)
         {
             AttributionText = new ToastGenericAttributionText()
             {
                 Text = text
             };
 
-            if (language != default(string))
+            if (language != default)
             {
                 AttributionText.Language = language;
             }
 
             return this;
         }
+
+#if WINRT
+        /// <summary>
+        /// Override the app logo with custom image of choice that will be displayed on the toast.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddAppLogoOverride(Uri uri)
+        {
+            return AddAppLogoOverride(uri, default);
+        }
+
+        /// <summary>
+        /// Override the app logo with custom image of choice that will be displayed on the toast.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <param name="hintCrop">Specify how the image should be cropped.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddAppLogoOverride(Uri uri, ToastGenericAppLogoCrop? hintCrop)
+        {
+            return AddAppLogoOverride(uri, hintCrop, default);
+        }
+
+        /// <summary>
+        /// Override the app logo with custom image of choice that will be displayed on the toast.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <param name="hintCrop">Specify how the image should be cropped.</param>
+        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddAppLogoOverride(Uri uri, ToastGenericAppLogoCrop? hintCrop, string alternateText)
+        {
+            return AddAppLogoOverride(uri, hintCrop, alternateText, default);
+        }
+#endif
 
         /// <summary>
         /// Override the app logo with custom image of choice that will be displayed on the toast.
@@ -158,30 +203,63 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAppLogoOverride(Uri uri, ToastGenericAppLogoCrop? hintCrop = null, string alternateText = default(string), bool? addImageQuery = default(bool?))
+        public ToastContentBuilder AddAppLogoOverride(
+            Uri uri,
+#if WINRT
+            ToastGenericAppLogoCrop? hintCrop,
+            string alternateText,
+            bool? addImageQuery)
+#else
+            ToastGenericAppLogoCrop? hintCrop = default,
+            string alternateText = default,
+            bool? addImageQuery = default)
+#endif
         {
             AppLogoOverrideUri = new ToastGenericAppLogo()
             {
                 Source = uri.OriginalString
             };
 
-            if (hintCrop != null)
+            if (hintCrop != default)
             {
                 AppLogoOverrideUri.HintCrop = hintCrop.Value;
             }
 
-            if (alternateText != default(string))
+            if (alternateText != default)
             {
                 AppLogoOverrideUri.AlternateText = alternateText;
             }
 
-            if (addImageQuery != default(bool?))
+            if (addImageQuery != default)
             {
                 AppLogoOverrideUri.AddImageQuery = addImageQuery;
             }
 
             return this;
         }
+
+#if WINRT
+        /// <summary>
+        /// Add a hero image to the toast.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddHeroImage(Uri uri)
+        {
+            return AddHeroImage(uri, default);
+        }
+
+        /// <summary>
+        /// Add a hero image to the toast.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddHeroImage(Uri uri, string alternateText)
+        {
+            return AddHeroImage(uri, alternateText, default);
+        }
+#endif
 
         /// <summary>
         /// Add a hero image to the toast.
@@ -190,24 +268,54 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddHeroImage(Uri uri, string alternateText = default(string), bool? addImageQuery = default(bool?))
+        public ToastContentBuilder AddHeroImage(
+            Uri uri,
+#if WINRT
+            string alternateText,
+            bool? addImageQuery)
+#else
+            string alternateText = default,
+            bool? addImageQuery = default)
+#endif
         {
             HeroImage = new ToastGenericHeroImage()
             {
                 Source = uri.OriginalString
             };
 
-            if (alternateText != default(string))
+            if (alternateText != default)
             {
                 HeroImage.AlternateText = alternateText;
             }
 
-            if (addImageQuery != default(bool?))
+            if (addImageQuery != default)
             {
                 HeroImage.AddImageQuery = addImageQuery;
             }
 
             return this;
+        }
+
+#if WINRT
+        /// <summary>
+        /// Add an image inline with other toast content.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddInlineImage(Uri uri)
+        {
+            return AddInlineImage(uri, default);
+        }
+
+        /// <summary>
+        /// Add an image inline with other toast content.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddInlineImage(Uri uri, string alternateText)
+        {
+            return AddInlineImage(uri, alternateText, default);
         }
 
         /// <summary>
@@ -216,10 +324,44 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
-        /// <param name="hintCrop">A value whether a margin is removed. images have an 8px margin around them.</param>
-        /// <param name="hintRemoveMargin">the horizontal alignment of the image.This is only supported when inside an <see cref="AdaptiveSubgroup"/>.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInlineImage(Uri uri, string alternateText = default(string), bool? addImageQuery = default(bool?), AdaptiveImageCrop? hintCrop = null, bool? hintRemoveMargin = default(bool?))
+        public ToastContentBuilder AddInlineImage(Uri uri, string alternateText, bool? addImageQuery)
+        {
+            return AddInlineImage(uri, alternateText, addImageQuery, default);
+        }
+#endif
+
+#if WINRT
+        /// <summary>
+        /// Add an image inline with other toast content.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
+        /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
+        /// <param name="hintCrop">A value whether a margin is removed. images have an 8px margin around them.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddInlineImage(
+            Uri uri,
+            string alternateText,
+            bool? addImageQuery,
+            AdaptiveImageCrop? hintCrop)
+#else
+        /// <summary>
+        /// Add an image inline with other toast content.
+        /// </summary>
+        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
+        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
+        /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
+        /// <param name="hintCrop">A value whether a margin is removed. images have an 8px margin around them.</param>
+        /// <param name="hintRemoveMargin">This property is not used. Setting this has no impact.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddInlineImage(
+            Uri uri,
+            string alternateText = default,
+            bool? addImageQuery = default,
+            AdaptiveImageCrop? hintCrop = default,
+            bool? hintRemoveMargin = default)
+#endif
         {
             var inlineImage = new AdaptiveImage()
             {
@@ -231,24 +373,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 inlineImage.HintCrop = hintCrop.Value;
             }
 
-            if (alternateText != default(string))
+            if (alternateText != default)
             {
                 inlineImage.AlternateText = alternateText;
             }
 
-            if (addImageQuery != default(bool?))
+            if (addImageQuery != default)
             {
                 inlineImage.AddImageQuery = addImageQuery;
-            }
-
-            if (hintRemoveMargin != default(bool?))
-            {
-                inlineImage.HintRemoveMargin = hintRemoveMargin;
             }
 
             return AddVisualChild(inlineImage);
         }
 
+#if !WINRT
         /// <summary>
         /// Add a progress bar to the toast.
         /// </summary>
@@ -259,7 +397,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="status">A status string which is displayed underneath the progress bar. This string should reflect the status of the operation, like "Downloading..." or "Installing...". Default to empty.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/toast-progress-bar </remarks>
-        public ToastContentBuilder AddProgressBar(string title = default(string), double? value = null, bool isIndeterminate = false, string valueStringOverride = default(string), string status = default(string))
+        public ToastContentBuilder AddProgressBar(string title = default, double? value = null, bool isIndeterminate = false, string valueStringOverride = default, string status = default)
         {
             int index = VisualChildren.Count(c => c is AdaptiveProgressBar);
 
@@ -267,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
             };
 
-            if (title == default(string))
+            if (title == default)
             {
                 progressBar.Title = new BindableString($"progressBarTitle_{index}");
             }
@@ -289,7 +427,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 progressBar.Value = value.Value;
             }
 
-            if (valueStringOverride == default(string))
+            if (valueStringOverride == default)
             {
                 progressBar.ValueStringOverride = new BindableString($"progressValueString_{index}");
             }
@@ -298,7 +436,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 progressBar.ValueStringOverride = valueStringOverride;
             }
 
-            if (status == default(string))
+            if (status == default)
             {
                 progressBar.Status = new BindableString($"progressStatus_{index}");
             }
@@ -309,16 +447,41 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             return AddVisualChild(progressBar);
         }
+#endif
+
+#if WINRT
+        /// <summary>
+        /// Add text to the toast.
+        /// </summary>
+        /// <param name="text">Custom text to display on the tile.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
+        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
+        public ToastContentBuilder AddText(string text)
+        {
+            return AddText(text, default, default);
+        }
 
         /// <summary>
         /// Add text to the toast.
         /// </summary>
         /// <param name="text">Custom text to display on the tile.</param>
-        /// <param name="hintStyle">Style that controls the text's font size, weight, and opacity.</param>
-        /// <param name="hintWrap">Indicating whether text wrapping is enabled. For Tiles, this is false by default.</param>
-        /// <param name="hintMaxLines">The maximum number of lines the text element is allowed to display. For Tiles, this is infinity by default</param>
-        /// <param name="hintMinLines">The minimum number of lines the text element must display.</param>
-        /// <param name="hintAlign">The horizontal alignment of the text</param>
+        /// <param name="hintMaxLines">The maximum number of lines the text element is allowed to display.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
+        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
+        public ToastContentBuilder AddText(string text, int? hintMaxLines)
+        {
+            return AddText(text, hintMaxLines, default);
+        }
+#endif
+
+#if WINRT
+        /// <summary>
+        /// Add text to the toast.
+        /// </summary>
+        /// <param name="text">Custom text to display on the tile.</param>
+        /// <param name="hintMaxLines">The maximum number of lines the text element is allowed to display.</param>
         /// <param name="language">
         /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual.
         /// </param>
@@ -326,7 +489,36 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
         /// <exception cref="ArgumentOutOfRangeException">Throws when <paramref name="hintMaxLines"/> value is larger than 2. </exception>
         /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
-        public ToastContentBuilder AddText(string text, AdaptiveTextStyle? hintStyle = null, bool? hintWrap = default(bool?), int? hintMaxLines = default(int?), int? hintMinLines = default(int?), AdaptiveTextAlign? hintAlign = null, string language = default(string))
+        public ToastContentBuilder AddText(
+            string text,
+            int? hintMaxLines,
+            string language)
+#else
+        /// <summary>
+        /// Add text to the toast.
+        /// </summary>
+        /// <param name="text">Custom text to display on the tile.</param>
+        /// <param name="hintStyle">This property is not used. Setting this has no effect.</param>
+        /// <param name="hintWrap">This property is not used. Setting this has no effect. If you need to disable wrapping, set hintMaxLines to 1.</param>
+        /// <param name="hintMaxLines">The maximum number of lines the text element is allowed to display.</param>
+        /// <param name="hintMinLines">hintMinLines is not used. Setting this has no effect.</param>
+        /// <param name="hintAlign">hintAlign is not used. Setting this has no effect.</param>
+        /// <param name="language">
+        /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual.
+        /// </param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throws when <paramref name="hintMaxLines"/> value is larger than 2. </exception>
+        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
+        public ToastContentBuilder AddText(
+            string text,
+            AdaptiveTextStyle? hintStyle = null,
+            bool? hintWrap = default,
+            int? hintMaxLines = default,
+            int? hintMinLines = default,
+            AdaptiveTextAlign? hintAlign = null,
+            string language = default)
+#endif
         {
             int lineCount = GetCurrentTextLineCount();
             if (GetCurrentTextLineCount() == 4)
@@ -340,22 +532,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Text = text
             };
 
-            if (hintStyle != null)
-            {
-                adaptive.HintStyle = hintStyle.Value;
-            }
-
-            if (hintAlign != null)
-            {
-                adaptive.HintAlign = hintAlign.Value;
-            }
-
-            if (hintWrap != default(bool?))
-            {
-                adaptive.HintWrap = hintWrap;
-            }
-
-            if (hintMaxLines != default(int?))
+            if (hintMaxLines != default)
             {
                 if (hintMaxLines > 2)
                 {
@@ -369,12 +546,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 adaptive.HintMaxLines = hintMaxLines;
             }
 
-            if (hintMinLines != default(int?) && hintMinLines > 0)
-            {
-                adaptive.HintMinLines = hintMinLines;
-            }
-
-            if (language != default(string))
+            if (language != default)
             {
                 adaptive.Language = language;
             }
@@ -419,6 +591,4 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return count;
         }
     }
-
-#endif
 }
