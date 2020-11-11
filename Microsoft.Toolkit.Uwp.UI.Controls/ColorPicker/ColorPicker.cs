@@ -124,6 +124,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(ColorPicker);
 
+            // WinUI3 workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
+            this.DefaultStyleResourceUri = new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml");
+
             // Setup collections
             this.SetValue(CustomPaletteColorsProperty, new ObservableCollection<Color>());
             this.CustomPaletteColors.CollectionChanged += CustomPaletteColors_CollectionChanged;

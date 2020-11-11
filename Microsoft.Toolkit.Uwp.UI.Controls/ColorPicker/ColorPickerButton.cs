@@ -89,6 +89,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ColorPickerButton()
         {
             this.DefaultStyleKey = typeof(ColorPickerButton);
+
+            // WinUI3 workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
+            this.DefaultStyleResourceUri = new global::System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml");
         }
 
         /// <inheritdoc/>
