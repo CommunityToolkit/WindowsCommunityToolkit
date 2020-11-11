@@ -543,14 +543,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SelectedItem = ItemFromContainer(item);
         }
 
-        internal IEnumerable<CarouselItem> GetCarouselItems()
-        {
-            return Enumerable
-                .Range(0, Items.Count)
-                .Select(idx => (CarouselItem)ContainerFromIndex(idx))
-                .Where(i => i != null);
-        }
-
         internal void SetSelectedItem(CarouselItem owner)
         {
             var item = ItemFromContainer(owner);

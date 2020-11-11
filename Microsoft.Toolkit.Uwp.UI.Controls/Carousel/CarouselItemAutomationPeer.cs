@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
@@ -56,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             CarouselItem owner = this.OwnerCarouselItem;
             Carousel parent = owner.ParentCarousel;
-            parent.SetSelectedItem(owner);
+            parent?.SetSelectedItem(owner);
         }
 
         /// <summary>Removes the current element from the collection of selected items.</summary>
@@ -64,7 +63,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             CarouselItem owner = this.OwnerCarouselItem;
             Carousel parent = owner.ParentCarousel;
-            parent.SelectedItem = null;
+            if (parent != null)
+            {
+                parent.SelectedItem = null;
+            }
         }
 
         /// <summary>Clears any existing selection and then selects the current element.</summary>
@@ -72,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             CarouselItem owner = this.OwnerCarouselItem;
             Carousel parent = owner.ParentCarousel;
-            parent.SetSelectedItem(owner);
+            parent?.SetSelectedItem(owner);
         }
 
         /// <summary>
@@ -105,12 +107,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            int? index = this.OwnerCarouselItem.ParentCarousel.GetCarouselItems().ToList().IndexOf(this.OwnerCarouselItem);
+            int? index = this.OwnerCarouselItem.ParentCarousel?.IndexFromContainer(this.OwnerCarouselItem);
 
             string name = base.GetNameCore();
             if (!string.IsNullOrEmpty(name))
             {
-                return $"{name} {index}";
+                return $"{name}";
             }
 
             if (this.OwnerCarouselItem != null && !string.IsNullOrEmpty(this.OwnerCarouselItem.Name))

@@ -47,10 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>An array of UI Automation providers.</returns>
         public IRawElementProviderSimple[] GetSelection()
         {
-            CarouselItem selectedCarouselItem = OwningCarousel.GetCarouselItems().FirstOrDefault(x => x.IsSelected);
-            return selectedCarouselItem != null
-                ? new[] { this.ProviderFromPeer(FromElement(selectedCarouselItem)) }
-                : new IRawElementProviderSimple[] { };
+            return OwningCarousel.ContainerFromItem(this.OwningCarousel.SelectedItem) is CarouselItem selectedCarouselItem
+                       ? new[] { this.ProviderFromPeer(FromElement(selectedCarouselItem)) }
+                       : new IRawElementProviderSimple[] { };
         }
 
         /// <summary>

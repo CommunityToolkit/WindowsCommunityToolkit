@@ -23,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string SelectedState = "Selected";
         private const string NormalState = "Normal";
 
+        private WeakReference<Carousel> parentCarousel;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CarouselItem"/> class.
         /// </summary>
@@ -34,7 +36,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(SelectorItem.IsSelectedProperty, OnIsSelectedChanged);
         }
 
-        internal Carousel ParentCarousel { get; set; }
+        internal Carousel ParentCarousel
+        {
+            get
+            {
+                this.parentCarousel.TryGetTarget(out var carousel);
+                return carousel;
+            }
+            set => this.parentCarousel = new WeakReference<Carousel>(value);
+        }
 
         /// <inheritdoc/>
         protected override void OnPointerEntered(PointerRoutedEventArgs e)
