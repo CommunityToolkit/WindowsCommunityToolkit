@@ -7,10 +7,7 @@ assignees: ''
 
 ---
 
-<!--
-PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
-ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
--->
+<!-- 🚨 Please Do Not skip any instructions and information mentioned below as they are all required and essential to investigate the issue. Issues with missing information may be closed without investigation 🚨 -->
 
 ## Describe the bug
 A clear and concise description of what the bug is.

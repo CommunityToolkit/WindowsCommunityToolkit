@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// the arrays in use are rented from the shared <see cref="ArrayPool{T}"/> instance,
     /// and that <see cref="ArrayPoolBufferWriter{T}"/> is also available on .NET Standard 2.0.
     /// </remarks>
-    [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public sealed class ArrayPoolBufferWriter<T> : IBuffer<T>, IMemoryOwner<T>
     {
