@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.System;
@@ -369,7 +369,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static async void RunInUIThread(DispatcherQueue dispatcherQueue, Action action)
         {
-            await dispatcherQueue.ExecuteOnUIThreadAsync(action, DispatcherQueuePriority.Normal);
+            await dispatcherQueue.EnqueueAsync(action, DispatcherQueuePriority.Normal);
         }
     }
 }

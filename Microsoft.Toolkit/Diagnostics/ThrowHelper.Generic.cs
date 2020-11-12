@@ -24,6 +24,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArrayTypeMismatchException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="ArrayTypeMismatchException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowArrayTypeMismatchException<T>()
+        {
+            throw new ArrayTypeMismatchException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArrayTypeMismatchException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArrayTypeMismatchException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -45,6 +57,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowArrayTypeMismatchException<T>(string message, Exception innerException)
         {
             throw new ArrayTypeMismatchException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="ArgumentException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowArgumentException<T>()
+        {
+            throw new ArgumentException();
         }
 
         /// <summary>
@@ -107,6 +131,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="ArgumentNullException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowArgumentNullException<T>()
+        {
+            throw new ArgumentNullException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="name">The argument name.</param>
         /// <exception cref="ArgumentNullException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -142,6 +178,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowArgumentNullException<T>(string name, string message)
         {
             throw new ArgumentNullException(name, message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentOutOfRangeException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowArgumentOutOfRangeException<T>()
+        {
+            throw new ArgumentOutOfRangeException();
         }
 
         /// <summary>
@@ -205,6 +253,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="COMException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="COMException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowCOMException<T>()
+        {
+            throw new COMException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="COMException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="COMException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -240,6 +300,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowCOMException<T>(string message, int error)
         {
             throw new COMException(message, error);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ExternalException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="ExternalException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowExternalException<T>()
+        {
+            throw new ExternalException();
         }
 
         /// <summary>
@@ -288,6 +360,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="FormatException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="FormatException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowFormatException<T>()
+        {
+            throw new FormatException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="FormatException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="FormatException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -312,6 +396,18 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
 #if !NETSTANDARD1_4
+        /// <summary>
+        /// Throws a new <see cref="InsufficientMemoryException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="InsufficientMemoryException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowInsufficientMemoryException<T>()
+        {
+            throw new InsufficientMemoryException();
+        }
+
         /// <summary>
         /// Throws a new <see cref="InsufficientMemoryException"/>.
         /// </summary>
@@ -344,6 +440,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="InvalidDataException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="InvalidDataException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowInvalidDataException<T>()
+        {
+            throw new InvalidDataException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="InvalidDataException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="InvalidDataException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -365,6 +473,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowInvalidDataException<T>(string message, Exception innerException)
         {
             throw new InvalidDataException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="InvalidOperationException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="InvalidOperationException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowInvalidOperationException<T>()
+        {
+            throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -398,6 +518,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="LockRecursionException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="LockRecursionException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowLockRecursionException<T>()
+        {
+            throw new LockRecursionException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="LockRecursionException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="LockRecursionException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -419,6 +551,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowLockRecursionException<T>(string message, Exception innerException)
         {
             throw new LockRecursionException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="MissingFieldException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="MissingFieldException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowMissingFieldException<T>()
+        {
+            throw new MissingFieldException();
         }
 
         /// <summary>
@@ -468,6 +612,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="MissingMemberException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="MissingMemberException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowMissingMemberException<T>()
+        {
+            throw new MissingMemberException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="MissingMemberException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingMemberException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -511,6 +667,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="MissingMethodException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="MissingMethodException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowMissingMethodException<T>()
+        {
+            throw new MissingMethodException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="MissingMethodException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingMethodException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -549,6 +717,18 @@ namespace Microsoft.Toolkit.Diagnostics
             throw new MissingMethodException(className, methodName);
         }
 #endif
+
+        /// <summary>
+        /// Throws a new <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="NotSupportedException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowNotSupportedException<T>()
+        {
+            throw new NotSupportedException();
+        }
 
         /// <summary>
         /// Throws a new <see cref="NotSupportedException"/>.
@@ -616,6 +796,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowObjectDisposedException<T>(string objectName, string message)
         {
             throw new ObjectDisposedException(objectName, message);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="OperationCanceledException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="OperationCanceledException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowOperationCanceledException<T>()
+        {
+            throw new OperationCanceledException();
         }
 
         /// <summary>
@@ -691,6 +883,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="PlatformNotSupportedException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="PlatformNotSupportedException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowPlatformNotSupportedException<T>()
+        {
+            throw new PlatformNotSupportedException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="PlatformNotSupportedException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="PlatformNotSupportedException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -712,6 +916,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowPlatformNotSupportedException<T>(string message, Exception innerException)
         {
             throw new PlatformNotSupportedException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="SynchronizationLockException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="SynchronizationLockException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowSynchronizationLockException<T>()
+        {
+            throw new SynchronizationLockException();
         }
 
         /// <summary>
@@ -745,6 +961,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="TimeoutException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="TimeoutException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowTimeoutException<T>()
+        {
+            throw new TimeoutException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="TimeoutException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="TimeoutException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -772,6 +1000,18 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws a new <see cref="UnauthorizedAccessException"/>.
         /// </summary>
         /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="UnauthorizedAccessException">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowUnauthorizedAccessException<T>()
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="UnauthorizedAccessException"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="UnauthorizedAccessException">Thrown with the specified parameter.</exception>
         /// <returns>This method always throws, so it actually never returns a value.</returns>
@@ -793,6 +1033,18 @@ namespace Microsoft.Toolkit.Diagnostics
         public static T ThrowUnauthorizedAccessException<T>(string message, Exception innerException)
         {
             throw new UnauthorizedAccessException(message, innerException);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="Win32Exception"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of expected result.</typeparam>
+        /// <exception cref="Win32Exception">Thrown with no parameters.</exception>
+        /// <returns>This method always throws, so it actually never returns a value.</returns>
+        [DoesNotReturn]
+        public static T ThrowWin32Exception<T>()
+        {
+            throw new Win32Exception();
         }
 
         /// <summary>

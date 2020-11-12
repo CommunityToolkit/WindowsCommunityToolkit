@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// An <see cref="IMemoryOwner{T}"/> implementation with an embedded length and a fast <see cref="Span{T}"/> accessor.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
-    [DebuggerTypeProxy(typeof(MemoryOwnerDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public sealed class MemoryOwner<T> : IMemoryOwner<T>
     {
@@ -285,6 +285,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             {
                 ThrowInvalidLengthException();
             }
+
+            // We're transferring the ownership of the underlying array, so the current
+            // instance no longer needs to be disposed. Because of this, we can manually
+            // suppress the finalizer to reduce the overhead on the garbage collector.
+            GC.SuppressFinalize(this);
 
             return new MemoryOwner<T>(start, length, this.pool, array!);
         }
