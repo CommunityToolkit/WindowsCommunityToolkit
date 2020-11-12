@@ -104,7 +104,7 @@ namespace UnitTests.HighPerformance.Buffers
             // by accident doesn't cause issues, and just does nothing.
         }
 
-        [TestCategory("SpanOwnerOfT")]
+        [TestCategory("MemoryOwnerOfT")]
         [TestMethod]
         public void Test_MemoryOwnerOfT_PooledBuffersAndClear()
         {
