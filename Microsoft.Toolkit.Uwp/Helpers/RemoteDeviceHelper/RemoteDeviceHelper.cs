@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.System;
 using Windows.System.RemoteSystems;
 
@@ -84,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
         {
-            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            await DispatcherQueue.EnqueueAsync(() =>
             {
                 RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystem.Id));
                 RemoteSystems.Add(args.RemoteSystem);
@@ -93,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async void RemoteSystemWatcher_RemoteSystemRemoved(RemoteSystemWatcher sender, RemoteSystemRemovedEventArgs args)
         {
-            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            await DispatcherQueue.EnqueueAsync(() =>
             {
                 RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystemId));
             });
@@ -101,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async void RemoteSystemWatcher_RemoteSystemAdded(RemoteSystemWatcher sender, RemoteSystemAddedEventArgs args)
         {
-            await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            await DispatcherQueue.EnqueueAsync(() =>
             {
                 RemoteSystems.Add(args.RemoteSystem);
             });
