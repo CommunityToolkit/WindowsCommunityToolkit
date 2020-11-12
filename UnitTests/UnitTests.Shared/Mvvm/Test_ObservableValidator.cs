@@ -88,33 +88,33 @@ namespace UnitTests.Mvvm
         {
             var model = new Person();
 
-            Assert.AreEqual(model.GetErrors(null).Cast<object>().Count(), 0);
-            Assert.AreEqual(model.GetErrors(string.Empty).Cast<object>().Count(), 0);
-            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Cast<object>().Count(), 0);
-            Assert.AreEqual(model.GetErrors(nameof(Person.Name)).Cast<object>().Count(), 0);
+            Assert.AreEqual(model.GetErrors(null).Count(), 0);
+            Assert.AreEqual(model.GetErrors(string.Empty).Count(), 0);
+            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Count(), 0);
+            Assert.AreEqual(model.GetErrors(nameof(Person.Name)).Count(), 0);
 
             model.Name = "Foo";
 
-            var errors = model.GetErrors(nameof(Person.Name)).Cast<ValidationResult>().ToArray();
+            var errors = model.GetErrors(nameof(Person.Name)).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
 
-            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Cast<object>().Count(), 0);
+            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Count(), 0);
 
-            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(null).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
 
-            errors = model.GetErrors(string.Empty).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(string.Empty).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
 
             model.Age = -1;
 
-            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(null).ToArray();
 
             Assert.AreEqual(errors.Length, 2);
             Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Name))));
@@ -122,7 +122,7 @@ namespace UnitTests.Mvvm
 
             model.Age = 26;
 
-            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(null).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Name))));
@@ -145,11 +145,11 @@ namespace UnitTests.Mvvm
 
             if (isValid)
             {
-                Assert.IsTrue(!model.GetErrors(nameof(Person.Name)).Cast<object>().Any());
+                Assert.IsTrue(!model.GetErrors(nameof(Person.Name)).Any());
             }
             else
             {
-                Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Cast<object>().Any());
+                Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Any());
             }
         }
 
@@ -196,7 +196,7 @@ namespace UnitTests.Mvvm
             // Errors should now be present
             Assert.IsTrue(model.HasErrors);
             Assert.IsTrue(events.Count == 1);
-            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Cast<ValidationResult>().Any());
+            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Any());
             Assert.IsTrue(model.HasErrors);
 
             // Trying to set a correct property should clear the errors

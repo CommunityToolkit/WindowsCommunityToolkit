@@ -326,14 +326,22 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                    SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="INotifyDataErrorInfo.GetErrors(string)"/>
         [Pure]
-        public IEnumerable GetErrors(string? propertyName)
+        public IEnumerable<ValidationResult> GetErrors(string? propertyName)
         {
             // Entity-level errors when the target property is null or empty
             if (string.IsNullOrEmpty(propertyName))
             {
-                return this.GetAllErrors();
+                // Local function to gather all the entity-level errors
+                [Pure]
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                IEnumerable<ValidationResult> GetAllErrors()
+                {
+                    return this.errors.Values.SelectMany(errors => errors);
+                }
+
+                return GetAllErrors();
             }
 
             // Property-level errors, if any
@@ -350,16 +358,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             return Array.Empty<ValidationResult>();
         }
 
-        /// <summary>
-        /// Implements the logic for entity-level errors gathering for <see cref="GetErrors"/>.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable"/> instance with all the errors in <see cref="errors"/>.</returns>
+        /// <inheritdoc/>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private IEnumerable GetAllErrors()
-        {
-            return this.errors.Values.SelectMany(errors => errors);
-        }
+        IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => GetErrors(propertyName);
 
         /// <summary>
         /// Validates a property with a specified name and a given input value.
