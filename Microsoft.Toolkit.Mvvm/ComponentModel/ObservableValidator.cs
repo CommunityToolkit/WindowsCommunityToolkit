@@ -22,12 +22,12 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="HasErrors"/>.
         /// </summary>
-        private static readonly PropertyChangedEventArgs HasErrorsChangedEventArgs = new PropertyChangedEventArgs(nameof(HasErrors));
+        private static readonly PropertyChangedEventArgs HasErrorsChangedEventArgs = new(nameof(HasErrors));
 
         /// <summary>
         /// The <see cref="Dictionary{TKey,TValue}"/> instance used to store previous validation results.
         /// </summary>
-        private readonly Dictionary<string, List<ValidationResult>> errors = new Dictionary<string, List<ValidationResult>>();
+        private readonly Dictionary<string, List<ValidationResult>> errors = new();
 
         /// <summary>
         /// Indicates the total number of properties with errors (not total errors).
@@ -380,7 +380,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // If the property isn't present in the dictionary, add it now to avoid allocations.
             if (!this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors))
             {
-                propertyErrors = new List<ValidationResult>();
+                propertyErrors = new();
 
                 this.errors.Add(propertyName!, propertyErrors);
             }
@@ -457,14 +457,14 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // Add the cached errors list for later use.
             if (!this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors))
             {
-                propertyErrors = new List<ValidationResult>();
+                propertyErrors = new();
 
                 this.errors.Add(propertyName!, propertyErrors);
             }
 
             bool hasErrors = propertyErrors.Count > 0;
 
-            List<ValidationResult> localErrors = new List<ValidationResult>();
+            List<ValidationResult> localErrors = new();
 
             // Validate the property, by adding new errors to the local list
             bool isValid = Validator.TryValidateProperty(

@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <summary>
         /// Gets the default <see cref="Ioc"/> instance.
         /// </summary>
-        public static Ioc Default { get; } = new Ioc();
+        public static Ioc Default { get; } = new();
 
         /// <summary>
         /// The <see cref="IServiceProvider"/> instance to use, if initialized.

@@ -47,8 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// <summary>
             /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration actions for each recipient.
             /// </summary>
-            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods
-                = new ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]>();
+            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods = new();
         }
 
         /// <summary>

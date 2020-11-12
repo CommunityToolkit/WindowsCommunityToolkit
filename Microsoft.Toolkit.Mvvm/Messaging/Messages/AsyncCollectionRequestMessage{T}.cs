@@ -22,13 +22,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// operations that can be executed in parallel, or <see cref="Func{T,TResult}"/> instances, which can be used so that multiple
         /// asynchronous operations are only started sequentially from <see cref="GetAsyncEnumerator"/> and do not overlap in time.
         /// </summary>
-        private readonly List<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new List<(Task<T>?, Func<CancellationToken, Task<T>>?)>();
+        private readonly List<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new();
 
         /// <summary>
         /// The <see cref="CancellationTokenSource"/> instance used to link the token passed to
         /// <see cref="GetAsyncEnumerator"/> and the one passed to all subscribers to the message.
         /// </summary>
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource cancellationTokenSource = new();
 
         /// <summary>
         /// Gets the <see cref="System.Threading.CancellationToken"/> instance that will be linked to the
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
                 cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
-            List<T> results = new List<T>(this.responses.Count);
+            List<T> results = new(this.responses.Count);
 
             await foreach (var response in this.WithCancellation(cancellationToken))
             {

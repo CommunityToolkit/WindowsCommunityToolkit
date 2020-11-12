@@ -22,17 +22,17 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="CanBeCanceled"/>.
         /// </summary>
-        internal static readonly PropertyChangedEventArgs CanBeCanceledChangedEventArgs = new PropertyChangedEventArgs(nameof(CanBeCanceled));
+        internal static readonly PropertyChangedEventArgs CanBeCanceledChangedEventArgs = new(nameof(CanBeCanceled));
 
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="IsCancellationRequested"/>.
         /// </summary>
-        internal static readonly PropertyChangedEventArgs IsCancellationRequestedChangedEventArgs = new PropertyChangedEventArgs(nameof(IsCancellationRequested));
+        internal static readonly PropertyChangedEventArgs IsCancellationRequestedChangedEventArgs = new(nameof(IsCancellationRequested));
 
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="IsRunning"/>.
         /// </summary>
-        internal static readonly PropertyChangedEventArgs IsRunningChangedEventArgs = new PropertyChangedEventArgs(nameof(IsRunning));
+        internal static readonly PropertyChangedEventArgs IsRunningChangedEventArgs = new(nameof(IsRunning));
 
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute"/> is used.
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 // Cancel the previous operation, if one is pending
                 this.cancellationTokenSource?.Cancel();
 
-                var cancellationTokenSource = this.cancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource cancellationTokenSource = this.cancellationTokenSource = new();
 
                 OnPropertyChanged(IsCancellationRequestedChangedEventArgs);
 

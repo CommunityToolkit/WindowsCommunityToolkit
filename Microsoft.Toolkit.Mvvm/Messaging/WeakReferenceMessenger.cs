@@ -46,12 +46,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// The map of currently registered recipients for all message types.
         /// </summary>
-        private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new DictionarySlim<Type2, RecipientsTable>();
+        private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new();
 
         /// <summary>
         /// Gets the default <see cref="WeakReferenceMessenger"/> instance.
         /// </summary>
-        public static WeakReferenceMessenger Default { get; } = new WeakReferenceMessenger();
+        public static WeakReferenceMessenger Default { get; } = new();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
                 // Get the conditional table associated with the target recipient, for the current pair
                 // of token and message types. If it exists, check if there is a matching token.
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
                 // Get the conditional table for the pair of type arguments, or create it if it doesn't exist
                 ref RecipientsTable? mapping = ref this.recipientsMap.GetOrAddValueRef(type2);
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                var type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
                 var enumerator = this.recipientsMap.GetEnumerator();
 
                 // Traverse all the existing token and message pairs matching the current type
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             lock (this.recipientsMap)
             {
-                Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
                 // Try to get the target table
                 if (!this.recipientsMap.TryGetValue(type2, out RecipientsTable? table))
@@ -302,22 +302,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// <summary>
             /// The underlying <see cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}"/> instance.
             /// </summary>
-            private readonly System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue> table;
+            private readonly System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue> table = new();
 
             /// <summary>
             /// A supporting linked list to store keys in <see cref="table"/>. This is needed to expose
             /// the ability to enumerate existing keys when there is no support for that in the BCL.
             /// </summary>
-            private readonly LinkedList<WeakReference<TKey>> keys;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="ConditionalWeakTable{TKey, TValue}"/> class.
-            /// </summary>
-            public ConditionalWeakTable()
-            {
-                this.table = new System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue>();
-                this.keys = new LinkedList<WeakReference<TKey>>();
-            }
+            private readonly LinkedList<WeakReference<TKey>> keys = new();
 
             /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.TryGetValue"/>
             public bool TryGetValue(TKey key, out TValue value)
@@ -365,7 +356,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     if (node.Value.TryGetTarget(out TKey? target) &&
                         this.table.TryGetValue(target!, out TValue value))
                     {
-                        yield return new KeyValuePair<TKey, TValue>(target, value);
+                        yield return new(target, value);
                     }
                     else
                     {

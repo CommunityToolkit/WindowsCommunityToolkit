@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 // Cancel the previous operation, if one is pending
                 this.cancellationTokenSource?.Cancel();
 
-                var cancellationTokenSource = this.cancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource cancellationTokenSource = this.cancellationTokenSource = new();
 
                 OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
 

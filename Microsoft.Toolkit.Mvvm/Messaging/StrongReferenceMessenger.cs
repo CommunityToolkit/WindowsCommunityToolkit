@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// so that all the existing handlers can be removed without having to dynamically create
         /// the generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
-        private readonly DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap = new DictionarySlim<Recipient, HashSet<IMapping>>();
+        private readonly DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap = new();
 
         /// <summary>
         /// The <see cref="Mapping{TMessage,TToken}"/> instance for types combination.
@@ -81,12 +81,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Each method relies on <see cref="GetOrAddMapping{TMessage,TToken}"/> to get the type-safe instance
         /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
         /// </remarks>
-        private readonly DictionarySlim<Type2, IMapping> typesMap = new DictionarySlim<Type2, IMapping>();
+        private readonly DictionarySlim<Type2, IMapping> typesMap = new();
 
         /// <summary>
         /// Gets the default <see cref="StrongReferenceMessenger"/> instance.
         /// </summary>
-        public static StrongReferenceMessenger Default { get; } = new StrongReferenceMessenger();
+        public static StrongReferenceMessenger Default { get; } = new();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return false;
                 }
 
-                var key = new Recipient(recipient);
+                Recipient key = new(recipient);
 
                 return mapping!.ContainsKey(key);
             }
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             {
                 // Get the <TMessage, TToken> registration list for this recipient
                 Mapping<TMessage, TToken> mapping = GetOrAddMapping<TMessage, TToken>();
-                var key = new Recipient(recipient);
+                Recipient key = new(recipient);
                 ref DictionarySlim<TToken, object>? map = ref mapping.GetOrAddValueRef(key);
 
                 map ??= new DictionarySlim<TToken, object>();
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 // If the recipient has no registered messages at all, ignore
-                var key = new Recipient(recipient);
+                Recipient key = new(recipient);
 
                 if (!this.recipientsMap.TryGetValue(key, out HashSet<IMapping>? set))
                 {
@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 Monitor.Enter(this.recipientsMap, ref lockTaken);
 
                 // Get the shared set of mappings for the recipient, if present
-                var key = new Recipient(recipient);
+                Recipient key = new(recipient);
 
                 if (!this.recipientsMap.TryGetValue(key, out HashSet<IMapping>? set))
                 {
@@ -295,7 +295,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return;
                 }
 
-                var key = new Recipient(recipient);
+                Recipient key = new(recipient);
 
                 if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, object>? dictionary))
                 {
@@ -443,7 +443,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            var key = new Type2(typeof(TMessage), typeof(TToken));
+            Type2 key = new(typeof(TMessage), typeof(TToken));
 
             if (this.typesMap.TryGetValue(key, out IMapping? target))
             {
@@ -472,7 +472,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            var key = new Type2(typeof(TMessage), typeof(TToken));
+            Type2 key = new(typeof(TMessage), typeof(TToken));
             ref IMapping? target = ref this.typesMap.GetOrAddValueRef(key);
 
             target ??= new Mapping<TMessage, TToken>();
