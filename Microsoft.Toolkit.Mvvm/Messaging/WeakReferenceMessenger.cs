@@ -346,25 +346,92 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
 
             /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
-            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            {
-                for (LinkedListNode<WeakReference<TKey>>? node = this.keys.First; !(node is null);)
-                {
-                    LinkedListNode<WeakReference<TKey>>? next = node.Next;
+            [Pure]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public Enumerator GetEnumerator() => new(this);
 
-                    // Get the key and value for the current node
-                    if (node.Value.TryGetTarget(out TKey? target) &&
-                        this.table.TryGetValue(target!, out TValue value))
+            /// <summary>
+            /// A custom enumerator that traverses items in a <see cref="ConditionalWeakTable{TKey, TValue}"/> instance.
+            /// </summary>
+            public ref struct Enumerator
+            {
+                /// <summary>
+                /// The owner <see cref="ConditionalWeakTable{TKey, TValue}"/> instance for the enumerator.
+                /// </summary>
+                private readonly ConditionalWeakTable<TKey, TValue> owner;
+
+                /// <summary>
+                /// The current <see cref="LinkedListNode{T}"/>, if any.
+                /// </summary>
+                private LinkedListNode<WeakReference<TKey>>? node;
+
+                /// <summary>
+                /// The current <see cref="KeyValuePair{TKey, TValue}"/> to return.
+                /// </summary>
+                private KeyValuePair<TKey, TValue> current;
+
+                /// <summary>
+                /// Indicates whether or not <see cref="MoveNext"/> has been called at least once.
+                /// </summary>
+                private bool isFirstMoveNextPending;
+
+                /// <summary>
+                /// Initializes a new instance of the <see cref="Enumerator"/> struct.
+                /// </summary>
+                /// <param name="owner">The owner <see cref="ConditionalWeakTable{TKey, TValue}"/> instance for the enumerator.</param>
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                public Enumerator(ConditionalWeakTable<TKey, TValue> owner)
+                {
+                    this.owner = owner;
+                    this.node = null;
+                    this.current = default;
+                    this.isFirstMoveNextPending = true;
+                }
+
+                /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
+                public bool MoveNext()
+                {
+                    LinkedListNode<WeakReference<TKey>>? node;
+
+                    if (!isFirstMoveNextPending)
                     {
-                        yield return new(target, value);
+                        node = this.node!.Next;
                     }
                     else
                     {
-                        // If the current key has been collected, trim the list
-                        this.keys.Remove(node);
+                        node = this.owner.keys.First;
+
+                        this.isFirstMoveNextPending = false;
                     }
 
-                    node = next;
+                    while (node is not null)
+                    {
+                        // Get the key and value for the current node
+                        if (node.Value.TryGetTarget(out TKey? target) &&
+                            this.owner.table.TryGetValue(target!, out TValue value))
+                        {
+                            this.node = node;
+                            this.current = new KeyValuePair<TKey, TValue>(target, value);
+
+                            return true;
+                        }
+                        else
+                        {
+                            // If the current key has been collected, trim the list
+                            this.owner.keys.Remove(node);
+                        }
+
+                        node = node.Next;
+                    }
+
+                    return false;
+                }
+
+                /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
+                public readonly KeyValuePair<TKey, TValue> Current
+                {
+                    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                    get => this.current;
                 }
             }
         }
