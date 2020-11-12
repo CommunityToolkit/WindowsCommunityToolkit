@@ -22,7 +22,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task StringExtensions_GetViewLocalized()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
                 var str = StringExtensions.GetViewLocalized("abc", xamlRoot.UIContext);
@@ -33,7 +33,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task StringExtensions_GetLocalized()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
                 var str = "abc".GetLocalized(xamlRoot.UIContext);
@@ -55,7 +55,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Retrieve()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var treeRoot = XamlReader.Load(
 @"<Page
@@ -91,7 +91,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Override()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var commonButtons = new CommonButtons(new TextToolbar());
                 var italicsButton = commonButtons.Italics;
@@ -109,7 +109,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Override_Fr()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 // Just double-check we've got the right environment setup in our tests.
                 //// Note: This seems to fail on XAML Islands, but the rest of the test works fine...?
