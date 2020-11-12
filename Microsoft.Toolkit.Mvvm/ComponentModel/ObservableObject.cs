@@ -27,25 +27,39 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         public event PropertyChangingEventHandler? PropertyChanging;
 
         /// <summary>
-        /// Performs the required configuration when a property has changed, and then
-        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <remarks>The base implementation only raises the <see cref="PropertyChanged"/> event.</remarks>
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        /// <param name="e">The input <see cref="PropertyChangedEventArgs"/> instance.</param>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, e);
         }
 
         /// <summary>
-        /// Performs the required configuration when a property is changing, and then
-        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// Raises the <see cref="PropertyChanging"/> event.
+        /// </summary>
+        /// <param name="e">The input <see cref="PropertyChangingEventArgs"/> instance.</param>
+        protected virtual void OnPropertyChanging(PropertyChangingEventArgs e)
+        {
+            PropertyChanging?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <remarks>The base implementation only raises the <see cref="PropertyChanging"/> event.</remarks>
-        protected virtual void OnPropertyChanging([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanging"/> event.
+        /// </summary>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        protected void OnPropertyChanging([CallerMemberName] string? propertyName = null)
+        {
+            OnPropertyChanging(new PropertyChangingEventArgs(propertyName));
         }
 
         /// <summary>

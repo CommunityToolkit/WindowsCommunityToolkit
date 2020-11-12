@@ -63,7 +63,6 @@ namespace UnitTests.HighPerformance.Helpers
             TestForType<char>();
         }
 
-#if NETCOREAPP3_1
         [TestCategory("HashCodeOfT")]
         [TestMethod]
         public void Test_HashCodeOfT_ManagedType_TestRepeat()
@@ -89,7 +88,6 @@ namespace UnitTests.HighPerformance.Helpers
                 Assert.AreEqual(hash1, hash2, $"Failed {typeof(string)} test with count {count}: got {hash1} and then {hash2}");
             }
         }
-#endif
 
         /// <summary>
         /// Performs a test for a specified type.

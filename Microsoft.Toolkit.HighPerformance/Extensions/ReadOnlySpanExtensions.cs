@@ -8,6 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+#if SPAN_RUNTIME_SUPPORT
+using Microsoft.Toolkit.HighPerformance.Memory;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -41,6 +44,54 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        {
+            // Here we assume the input index will never be negative, so we do a (nint)(uint) cast
+            // to force the JIT to skip the sign extension when going from int to native int.
+            // On .NET Core 3.1, if we only use Unsafe.Add(ref r0, i), we get the following:
+            // =============================
+            // L0000: mov rax, [rcx]
+            // L0003: movsxd rdx, edx
+            // L0006: lea rax, [rax+rdx*4]
+            // L000a: ret
+            // =============================
+            // Note the movsxd (move with sign extension) to expand the index passed in edx to
+            // the whole rdx register. This is unnecessary and more expensive than just a mov,
+            // which when done to a large register size automatically zeroes the upper bits.
+            // With the (nint)(uint) cast, we get the following codegen instead:
+            // =============================
+            // L0000: mov rax, [rcx]
+            // L0003: mov edx, edx
+            // L0005: lea rax, [rax+rdx*4]
+            // L0009: ret
+            // =============================
+            // Here we can see how the index is extended to a native integer with just a mov,
+            // which effectively only zeroes the upper bits of the same register used as source.
+            // These three casts are a bit verbose, but they do the trick on both 32 bit and 64
+            // bit architectures, producing optimal code in both cases (they are either completely
+            // elided on 32 bit systems, or result in the correct register expansion when on 64 bit).
+            // We first do an unchecked conversion to uint (which is just a reinterpret-cast). We
+            // then cast to nint, so that we can obtain an IntPtr value without the range check (since
+            // uint could be out of range there if the original index was negative). The final result
+            // is a clean mov as shown above. This will eventually be natively supported by the JIT
+            // compiler (see https://github.com/dotnet/runtime/issues/38794), but doing this here
+            // still ensures the optimal codegen even on existing runtimes (eg. .NET Core 2.1 and 3.1).
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
+
+            return ref ri;
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified index within a given <see cref="ReadOnlySpan{T}"/>, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
+        /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, nint i)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
             ref T ri = ref Unsafe.Add(ref r0, i);
@@ -106,15 +157,61 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // lookup table can just be assumed to always be false.
             bool isInRange = (uint)i < (uint)span.Length;
             byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
-            int
-                negativeFlag = rangeFlag - 1,
+            uint
+                negativeFlag = unchecked(rangeFlag - 1u),
                 mask = ~negativeFlag,
-                offset = i & mask;
+                offset = (uint)i & mask;
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            ref T r1 = ref Unsafe.Add(ref r0, offset);
+            ref T r1 = ref Unsafe.Add(ref r0, (nint)offset);
 
             return ref r1;
         }
+
+#if SPAN_RUNTIME_SUPPORT
+        /// <summary>
+        /// Returns a <see cref="ReadOnlySpan2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="ReadOnlySpan2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int height, int width)
+        {
+            return new ReadOnlySpan2D<T>(span, height, width);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ReadOnlySpan2D{T}"/> instance wrapping the underlying data for the given <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="offset">The initial offset within <paramref name="span"/>.</param>
+        /// <param name="height">The height of the resulting 2D area.</param>
+        /// <param name="width">The width of each row in the resulting 2D area.</param>
+        /// <param name="pitch">The pitch in the resulting 2D area.</param>
+        /// <returns>The resulting <see cref="ReadOnlySpan2D{T}"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when one of the input parameters is out of range.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the requested area is outside of bounds for <paramref name="span"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int offset, int height, int width, int pitch)
+        {
+            return new ReadOnlySpan2D<T>(span, offset, height, width, pitch);
+        }
+#endif
 
         /// <summary>
         /// Gets the index of an element of a given <see cref="ReadOnlySpan{T}"/> from its reference.
@@ -126,34 +223,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> does not belong to <paramref name="span"/>.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe int IndexOf<T>(this ReadOnlySpan<T> span, in T value)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, in T value)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
             ref T r1 = ref Unsafe.AsRef(value);
             IntPtr byteOffset = Unsafe.ByteOffset(ref r0, ref r1);
 
-            if (sizeof(IntPtr) == sizeof(long))
+            nint elementOffset = byteOffset / (nint)(uint)Unsafe.SizeOf<T>();
+
+            if ((nuint)elementOffset >= (uint)span.Length)
             {
-                long elementOffset = (long)byteOffset / Unsafe.SizeOf<T>();
-
-                if ((ulong)elementOffset >= (ulong)span.Length)
-                {
-                    SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
-                }
-
-                return unchecked((int)elementOffset);
+                SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
             }
-            else
-            {
-                int elementOffset = (int)byteOffset / Unsafe.SizeOf<T>();
 
-                if ((uint)elementOffset >= (uint)span.Length)
-                {
-                    SpanExtensions.ThrowArgumentOutOfRangeExceptionForInvalidReference();
-                }
-
-                return elementOffset;
-            }
+            return (int)elementOffset;
         }
 
         /// <summary>
@@ -169,9 +252,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)span.Length;
+            nint length = (nint)(uint)span.Length;
 
-            return SpanHelper.Count(ref r0, length, value);
+            return (int)SpanHelper.Count(ref r0, length, value);
         }
 
         /// <summary>
@@ -295,9 +378,37 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : notnull
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
-            IntPtr length = (IntPtr)span.Length;
+            nint length = (nint)(uint)span.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
+        }
+
+        /// <summary>
+        /// Copies the contents of a given <see cref="ReadOnlySpan{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the destination <see cref="RefEnumerable{T}"/> is shorter than the source <see cref="ReadOnlySpan{T}"/>.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CopyTo<T>(this ReadOnlySpan<T> span, RefEnumerable<T> destination)
+        {
+            destination.CopyFrom(span);
+        }
+
+        /// <summary>
+        /// Attempts to copy the contents of a given <see cref="ReadOnlySpan{T}"/> into destination <see cref="RefEnumerable{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <param name="destination">The <see cref="RefEnumerable{T}"/> instance to copy items into.</param>
+        /// <returns>Whether or not the operation was successful.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryCopyTo<T>(this ReadOnlySpan<T> span, RefEnumerable<T> destination)
+        {
+            return destination.TryCopyFrom(span);
         }
     }
 }

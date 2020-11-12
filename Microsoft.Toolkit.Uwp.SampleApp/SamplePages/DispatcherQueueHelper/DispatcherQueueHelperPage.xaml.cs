@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System;
 using Windows.UI.Xaml;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -21,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
-                int returnedFromUIThread = await dispatcherQueue.ExecuteOnUIThreadAsync<int>(() =>
+                int returnedFromUIThread = await dispatcherQueue.EnqueueAsync<int>(() =>
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
                     return 1;
