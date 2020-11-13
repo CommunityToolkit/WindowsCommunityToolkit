@@ -11,7 +11,38 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialProgressBar">
-                    <Grid Background="{TemplateBinding Background}">
+
+                    <Grid x:Name="LayoutRoot"  Background="{TemplateBinding Background}" RenderTransformOrigin="0.5,0.5">
+
+                        <Grid.RenderTransform>
+                            <RotateTransform/>
+                        </Grid.RenderTransform>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="Indeterminate" To="Determinate">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)" To="0"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Determinate" />
+                                <VisualState x:Name="Updating" />
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="360"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="720"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                            
                         <!-- Gray outline of progress bar -->
                         <Path Fill="Transparent" Stroke="{TemplateBinding Outline}" StrokeThickness="{TemplateBinding Thickness}" StrokeDashCap="Flat">
                             <Path.Data>

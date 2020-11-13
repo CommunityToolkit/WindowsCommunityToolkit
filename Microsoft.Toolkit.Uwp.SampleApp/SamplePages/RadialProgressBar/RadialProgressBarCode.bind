@@ -23,7 +23,8 @@
           Maximum="100"
           Width="@[Width:Slider:100:100-200]"
           Height="@[Height:Slider:100:100-200]"
-          Outline="@[Outline:Brush:LightGray]" />
+          Outline="@[Outline:Brush:LightGray]" 
+          IsIndeterminate="@[IsIndeterminate:Bool:False]"/>
     </Grid>
   </Grid>
 </Page>

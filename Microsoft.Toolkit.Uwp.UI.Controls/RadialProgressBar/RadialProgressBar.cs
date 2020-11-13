@@ -119,6 +119,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RadialProgressBar);
             SizeChanged += SizeChangedHandler;
+
+            // Register a callback to re-render segments when IsIndeterminate is changed
+            var token = RegisterPropertyChangedCallback(IsIndeterminateProperty, OnIsIndeterminateChanged);
+            Unloaded += (s,e) => UnregisterPropertyChangedCallback(IsIndeterminateProperty, token);
+        }
+
+        private void OnIsIndeterminateChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            RenderSegment();
         }
 
         // Render outline and progress segment when thickness is changed
@@ -161,7 +170,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var normalizedRange = ComputeNormalizedRange();
+            // Set the segment to a fixed size in case of indeterminate progress
+            var normalizedRange = IsIndeterminate ? 0.25 : ComputeNormalizedRange();
 
             var angle = 2 * Math.PI * normalizedRange;
             var size = ComputeEllipseSize();
