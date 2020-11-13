@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.Services.Maps;
 
 namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 {
@@ -143,6 +144,37 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
         private void ButtonClearToasts_Click(object sender, RoutedEventArgs e)
         {
             ToastNotificationManagerCompat.History.Clear();
+        }
+
+        private async void ButtonScheduleToast_Click(object sender, RoutedEventArgs e)
+        {
+            // Schedule a toast to appear in 5 seconds
+            new ToastContentBuilder()
+
+                // Arguments that are returned when the user clicks the toast or a button
+                .AddArgument("action", MyToastActions.ViewConversation)
+                .AddArgument("conversationId", 7764)
+
+                .AddText("Scheduled toast notification")
+
+                .Schedule(DateTime.Now.AddSeconds(5));
+
+            // Inform the user
+            var tb = new TextBlock()
+            {
+                Text = "Toast scheduled to appear in 5 seconds",
+                FontWeight = FontWeights.Bold
+            };
+
+            ContentBody.Content = tb;
+
+            // And after 5 seconds, clear the informational message
+            await Task.Delay(5000);
+
+            if (ContentBody.Content == tb)
+            {
+                ContentBody.Content = null;
+            }
         }
     }
 }

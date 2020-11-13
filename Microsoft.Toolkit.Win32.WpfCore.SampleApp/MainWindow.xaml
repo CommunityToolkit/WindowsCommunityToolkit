@@ -16,6 +16,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="ButtonPopToast"
@@ -24,6 +25,12 @@
                 Margin="0,0,6,0"/>
             <Button
                 Grid.Column="1"
+                x:Name="ButtonScheduleToast"
+                Content="Schedule toast"
+                Click="ButtonScheduleToast_Click"
+                Margin="6,0,6,0"/>
+            <Button
+                Grid.Column="2"
                 x:Name="ButtonClearToasts"
                 Content="Clear toasts"
                 Click="ButtonClearToasts_Click"
