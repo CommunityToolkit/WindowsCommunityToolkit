@@ -371,8 +371,6 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // that doesn't expose the single standard Current property.
                 while (mappingEnumerator.MoveNext())
                 {
-                    object recipient = mappingEnumerator.Key.Target;
-
                     // Pick the target handler, if the token is a match for the recipient
                     if (mappingEnumerator.Value.TryGetValue(token, out object? handler))
                     {
@@ -382,7 +380,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // We're still using a checked span accesses here though to make sure an out of
                         // bounds write can never happen even if an error was present in the logic above.
                         pairs[2 * i] = handler!;
-                        pairs[(2 * i) + 1] = recipient;
+                        pairs[(2 * i) + 1] = mappingEnumerator.Key.Target;
                         i++;
                     }
                 }
