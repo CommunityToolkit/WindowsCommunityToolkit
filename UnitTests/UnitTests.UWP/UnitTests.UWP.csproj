@@ -146,7 +146,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
-    <Compile Include="Helpers\Test_DispatcherQueueHelper.cs" />
+    <Compile Include="Extensions\Test_DispatcherQueueExtensions.cs" />
     <Compile Include="Helpers\Test_DispatcherHelper.cs" />
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
