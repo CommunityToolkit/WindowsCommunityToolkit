@@ -13,14 +13,14 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     internal static partial class MemoryStream
     {
         /// <summary>
-        /// Validates the <see cref="Stream.Position"/> argument.
+        /// Validates the <see cref="Stream.Position"/> argument (it needs to be in the [0, length]) range.
         /// </summary>
         /// <param name="position">The new <see cref="Stream.Position"/> value being set.</param>
         /// <param name="length">The maximum length of the target <see cref="Stream"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ValidatePosition(long position, int length)
         {
-            if ((ulong)position >= (ulong)length)
+            if ((ulong)position > (ulong)length)
             {
                 ThrowArgumentOutOfRangeExceptionForPosition();
             }

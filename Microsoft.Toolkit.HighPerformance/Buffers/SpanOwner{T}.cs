@@ -7,6 +7,9 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCORE_RUNTIME
+using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -31,7 +34,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// Not doing so will cause the underlying buffer not to be returned to the shared pool.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
-    [DebuggerTypeProxy(typeof(SpanOwnerDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public readonly ref struct SpanOwner<T>
     {
@@ -143,7 +146,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public Span<T> Span
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Span<T>(this.array, 0, this.length);
+            get
+            {
+#if NETCORE_RUNTIME
+                ref T r0 = ref array!.DangerousGetReference();
+
+                return MemoryMarshal.CreateSpan(ref r0, this.length);
+#else
+                return new Span<T>(this.array, 0, this.length);
+#endif
+            }
         }
 
         /// <summary>
@@ -155,6 +167,23 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public ref T DangerousGetReference()
         {
             return ref this.array.DangerousGetReference();
+        }
+
+        /// <summary>
+        /// Gets an <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.
+        /// </summary>
+        /// <returns>An <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.</returns>
+        /// <remarks>
+        /// This method is meant to be used when working with APIs that only accept an array as input, and should be used with caution.
+        /// In particular, the returned array is rented from an array pool, and it is responsibility of the caller to ensure that it's
+        /// not used after the current <see cref="SpanOwner{T}"/> instance is disposed. Doing so is considered undefined behavior,
+        /// as the same array might be in use within another <see cref="SpanOwner{T}"/> instance.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ArraySegment<T> DangerousGetArray()
+        {
+            return new ArraySegment<T>(array!, 0, this.length);
         }
 
         /// <summary>

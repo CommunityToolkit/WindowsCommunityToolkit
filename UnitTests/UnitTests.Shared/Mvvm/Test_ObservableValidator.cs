@@ -19,16 +19,28 @@ namespace UnitTests.Mvvm
         public void Test_ObservableValidator_HasErrors()
         {
             var model = new Person();
+            var args = new List<PropertyChangedEventArgs>();
+
+            model.PropertyChanged += (s, e) => args.Add(e);
 
             Assert.IsFalse(model.HasErrors);
 
             model.Name = "No";
 
+            // Verify that errors were correctly reported as changed, and that all the relevant
+            // properties were broadcast as well (both the changed property and HasErrors). We need
+            // this last one to raise notifications too so that users can bind to that in the UI.
             Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(args.Count, 2);
+            Assert.AreEqual(args[0].PropertyName, nameof(Person.Name));
+            Assert.AreEqual(args[1].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
 
             model.Name = "Valid";
 
             Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(args.Count, 4);
+            Assert.AreEqual(args[2].PropertyName, nameof(Person.Name));
+            Assert.AreEqual(args[3].PropertyName, nameof(INotifyDataErrorInfo.HasErrors));
         }
 
         [TestCategory("Mvvm")]
@@ -119,7 +131,6 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
-        [DataRow(null, false)]
         [DataRow("", false)]
         [DataRow("No", false)]
         [DataRow("This text is really, really too long for the target property", false)]
@@ -142,6 +153,60 @@ namespace UnitTests.Mvvm
             }
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_TrySetProperty()
+        {
+            var model = new Person();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            // Set a correct value, this should update the property
+            Assert.IsTrue(model.TrySetName("Hello", out var errors));
+            Assert.IsTrue(errors.Count == 0);
+            Assert.IsTrue(events.Count == 0);
+            Assert.AreEqual(model.Name, "Hello");
+            Assert.IsFalse(model.HasErrors);
+
+            // Invalid value #1, this should be ignored
+            Assert.IsFalse(model.TrySetName(null, out errors));
+            Assert.IsTrue(errors.Count > 0);
+            Assert.IsTrue(events.Count == 0);
+            Assert.AreEqual(model.Name, "Hello");
+            Assert.IsFalse(model.HasErrors);
+
+            // Invalid value #2, same as above
+            Assert.IsFalse(model.TrySetName("This string is too long for the target property in this model and should fail", out errors));
+            Assert.IsTrue(errors.Count > 0);
+            Assert.IsTrue(events.Count == 0);
+            Assert.AreEqual(model.Name, "Hello");
+            Assert.IsFalse(model.HasErrors);
+
+            // Correct value, this should update the property
+            Assert.IsTrue(model.TrySetName("Hello world", out errors));
+            Assert.IsTrue(errors.Count == 0);
+            Assert.IsTrue(events.Count == 0);
+            Assert.AreEqual(model.Name, "Hello world");
+            Assert.IsFalse(model.HasErrors);
+
+            // Actually set an invalid value to show some errors
+            model.Name = "No";
+
+            // Errors should now be present
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 1);
+            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Cast<ValidationResult>().Any());
+            Assert.IsTrue(model.HasErrors);
+
+            // Trying to set a correct property should clear the errors
+            Assert.IsTrue(model.TrySetName("This is fine", out errors));
+            Assert.IsTrue(errors.Count == 0);
+            Assert.IsTrue(events.Count == 2);
+            Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(model.Name, "This is fine");
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -153,6 +218,11 @@ namespace UnitTests.Mvvm
             {
                 get => this.name;
                 set => SetProperty(ref this.name, value, true);
+            }
+
+            public bool TrySetName(string value, out IReadOnlyCollection<ValidationResult> errors)
+            {
+                return TrySetProperty(ref name, value, out errors, nameof(Name));
             }
 
             private int age;
