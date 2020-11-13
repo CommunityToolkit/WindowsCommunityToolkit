@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 #if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Memory;
 #endif
@@ -63,6 +64,41 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return new Memory2D<T>(memory, offset, height, width, pitch);
         }
 #endif
+
+        /// <summary>
+        /// Casts a <see cref="Memory{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Memory{T}"/> of bytes.
+        /// </summary>
+        /// <typeparam name="T">The type if items in the source <see cref="Memory{T}"/>.</typeparam>
+        /// <param name="memory">The source <see cref="Memory{T}"/>, of type <typeparamref name="T"/>.</param>
+        /// <returns>A <see cref="Memory{T}"/> of bytes.</returns>
+        /// <exception cref="OverflowException">
+        /// Thrown if the <see cref="Memory{T}.Length"/> property of the new <see cref="Memory{T}"/> would exceed <see cref="int.MaxValue"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<byte> AsBytes<T>(this Memory<T> memory)
+            where T : unmanaged
+        {
+            return MemoryMarshal.AsMemory(((ReadOnlyMemory<T>)memory).Cast<T, byte>());
+        }
+
+        /// <summary>
+        /// Casts a <see cref="Memory{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of items in the source <see cref="Memory{T}"/>.</typeparam>
+        /// <typeparam name="TTo">The type of items in the destination <see cref="Memory{T}"/>.</typeparam>
+        /// <param name="memory">The source <see cref="Memory{T}"/>, of type <typeparamref name="TFrom"/>.</param>
+        /// <returns>A <see cref="Memory{T}"/> of type <typeparamref name="TTo"/></returns>
+        /// <exception cref="ArgumentException">Thrown when the data store of <paramref name="memory"/> is not supported.</exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Memory<TTo> Cast<TFrom, TTo>(this Memory<TFrom> memory)
+            where TFrom : unmanaged
+            where TTo : unmanaged
+        {
+            return MemoryMarshal.AsMemory(((ReadOnlyMemory<TFrom>)memory).Cast<TFrom, TTo>());
+        }
 
         /// <summary>
         /// Returns a <see cref="Stream"/> wrapping the contents of the given <see cref="Memory{T}"/> of <see cref="byte"/> instance.
