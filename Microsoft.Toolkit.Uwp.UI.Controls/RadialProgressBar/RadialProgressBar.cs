@@ -122,12 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Register a callback to re-render segments when IsIndeterminate is changed
             var token = RegisterPropertyChangedCallback(IsIndeterminateProperty, OnIsIndeterminateChanged);
-            Unloaded += (s,e) => UnregisterPropertyChangedCallback(IsIndeterminateProperty, token);
-        }
-
-        private void OnIsIndeterminateChanged(DependencyObject sender, DependencyProperty dp)
-        {
-            RenderSegment();
+            Unloaded += (s, e) => UnregisterPropertyChangedCallback(IsIndeterminateProperty, token);
         }
 
         // Render outline and progress segment when thickness is changed
@@ -135,6 +130,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var sender = d as RadialProgressBar;
             sender.RenderAll();
+        }
+
+        private void OnIsIndeterminateChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            RenderSegment();
         }
 
         // Render outline and progress segment when control is resized.
