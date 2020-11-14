@@ -12,10 +12,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialProgressBar">
 
-                    <Grid x:Name="LayoutRoot"  Background="{TemplateBinding Background}" RenderTransformOrigin="0.5,0.5">
+
+                    <Grid x:Name="LayoutRoot"  Background="{TemplateBinding Background}" RenderTransformOrigin="0.5,0.5"
+                          Width="{Binding Outline.Width}" Height="{Binding Outline.Height}" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                         <Grid.RenderTransform>
-                            <RotateTransform/>
+                            <RotateTransform Angle="0"/>
                         </Grid.RenderTransform>
 
                         <VisualStateManager.VisualStateGroups>
@@ -42,9 +44,9 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                            
+
                         <!-- Gray outline of progress bar -->
-                        <Path Fill="Transparent" Stroke="{TemplateBinding Outline}" StrokeThickness="{TemplateBinding Thickness}" StrokeDashCap="Flat">
+                        <Path x:Name="Outline" Fill="Transparent" Stroke="{TemplateBinding Outline}" StrokeThickness="{TemplateBinding Thickness}" StrokeDashCap="Flat">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathGeometry.Figures>

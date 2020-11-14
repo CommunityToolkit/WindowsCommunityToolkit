@@ -157,9 +157,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Size ComputeEllipseSize()
         {
             var safeThickness = Math.Max(Thickness, 0.0);
-            var width = Math.Max((ActualWidth - safeThickness) / 2.0, 0.0);
-            var height = Math.Max((ActualHeight - safeThickness) / 2.0, 0.0);
-            return new Size(width, height);
+            var safeWidthHeight = Math.Min(ActualWidth, ActualHeight);
+            var size = Math.Max((safeWidthHeight - safeThickness) / 2.0, 0.0);
+            return new Size(size, size);
         }
 
         // Render the segment representing progress ratio.
