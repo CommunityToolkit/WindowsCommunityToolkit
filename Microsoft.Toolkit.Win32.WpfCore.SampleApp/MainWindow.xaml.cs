@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.Services.Maps;
+using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 {
@@ -175,6 +177,54 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
             {
                 ContentBody.Content = null;
             }
+        }
+
+        private async void ButtonProgressToast_Click(object sender, RoutedEventArgs e)
+        {
+            const string tag = "progressToast";
+
+            new ToastContentBuilder()
+                .AddArgument("action", MyToastActions.ViewConversation)
+                .AddArgument("conversationId", 423)
+                .AddText("Sending image to conversation...")
+                .AddVisualChild(new AdaptiveProgressBar()
+                {
+                    Value = new BindableProgressBarValue("progress"),
+                    Status = "Sending..."
+                })
+                .Show(toast =>
+                {
+                    toast.Tag = tag;
+
+                    toast.Data = new NotificationData(new Dictionary<string, string>()
+                    {
+                        { "progress", "0" }
+                    });
+                });
+
+            double progress = 0;
+
+            while (progress < 1)
+            {
+                await Task.Delay(new Random().Next(1000, 3000));
+
+                progress += (new Random().NextDouble() * 0.15) + 0.1;
+
+                ToastNotificationManagerCompat.CreateToastNotifier().Update(
+                    new NotificationData(new Dictionary<string, string>()
+                    {
+                        { "progress", progress.ToString() }
+                    }), tag);
+            }
+
+            new ToastContentBuilder()
+                .AddArgument("action", MyToastActions.ViewConversation)
+                .AddArgument("conversationId", 423)
+                .AddText("Sent image to conversation!")
+                .Show(toast =>
+                {
+                    toast.Tag = tag;
+                });
         }
     }
 }
