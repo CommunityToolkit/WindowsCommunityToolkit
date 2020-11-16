@@ -28,26 +28,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         private static class MethodInfos
         {
             /// <summary>
-            /// Initializes static members of the <see cref="MethodInfos"/> class.
-            /// </summary>
-            static MethodInfos()
-            {
-                RegisterIRecipient = (
-                    from methodInfo in typeof(IMessengerExtensions).GetMethods()
-                    where methodInfo.Name == nameof(Register) &&
-                          methodInfo.IsGenericMethod &&
-                          methodInfo.GetGenericArguments().Length == 2
-                    let parameters = methodInfo.GetParameters()
-                    where parameters.Length == 3 &&
-                          parameters[1].ParameterType.IsGenericType &&
-                          parameters[1].ParameterType.GetGenericTypeDefinition() == typeof(IRecipient<>)
-                    select methodInfo).First();
-            }
-
-            /// <summary>
             /// The <see cref="MethodInfo"/> instance associated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
             /// </summary>
-            public static readonly MethodInfo RegisterIRecipient;
+            public static readonly MethodInfo RegisterIRecipient = new Action<IMessenger, IRecipient<object>, Unit>(Register).Method.GetGenericMethodDefinition();
         }
 
         /// <summary>

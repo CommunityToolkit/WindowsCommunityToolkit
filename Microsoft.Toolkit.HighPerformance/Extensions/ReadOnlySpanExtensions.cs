@@ -259,14 +259,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlySpan{T}"/> of bytes.
-        /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="T">The type if items in the source <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <param name="span">The source slice, of type <typeparamref name="T"/>.</param>
         /// <returns>A <see cref="ReadOnlySpan{T}"/> of bytes.</returns>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="T"/> contains pointers.
-        /// </exception>
         /// <exception cref="OverflowException">
         /// Thrown if the <see cref="ReadOnlySpan{T}.Length"/> property of the new <see cref="ReadOnlySpan{T}"/> would exceed <see cref="int.MaxValue"/>.
         /// </exception>
@@ -280,7 +276,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
-        /// These types may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="TFrom">The type of items in the source <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <typeparam name="TTo">The type of items in the destination <see cref="ReadOnlySpan{T}"/>.</typeparam>
@@ -289,14 +284,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// Supported only for platforms that support misaligned memory access or when the memory block is aligned by other means.
         /// </remarks>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="TFrom"/> or <typeparamref name="TTo"/> contains pointers.
-        /// </exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan<TTo> Cast<TFrom, TTo>(this ReadOnlySpan<TFrom> span)
-            where TFrom : struct
-            where TTo : struct
+            where TFrom : unmanaged
+            where TTo : unmanaged
         {
             return MemoryMarshal.Cast<TFrom, TTo>(span);
         }
