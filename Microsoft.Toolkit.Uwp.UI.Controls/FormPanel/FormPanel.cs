@@ -11,9 +11,9 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// <see cref="MultiColumnsStackPanel"/> positions its child elements vertically in one or several columns based on the <see cref="MultiColumnsStackPanel.MaxColumnWidth"/> property.
+    /// <see cref="FormPanel"/> positions its child elements vertically in one or several columns based on the <see cref="MaxColumnWidth"/> property.
     /// </summary>
-    public class MultiColumnsStackPanel : Panel
+    public class FormPanel : Panel
     {
         /// <summary>
         /// The DP to store the MaxColumnWidth value.
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty MaxColumnWidthProperty = DependencyProperty.Register(
             nameof(MaxColumnWidth),
             typeof(double),
-            typeof(MultiColumnsStackPanel),
+            typeof(FormPanel),
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty HorizontalSpacingProperty = DependencyProperty.Register(
             nameof(HorizontalSpacing),
             typeof(double),
-            typeof(MultiColumnsStackPanel),
+            typeof(FormPanel),
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty VerticalSpacingProperty = DependencyProperty.Register(
             nameof(VerticalSpacing),
             typeof(double),
-            typeof(MultiColumnsStackPanel),
+            typeof(FormPanel),
             new PropertyMetadata(0.0, OnLayoutPropertyChanged));
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
             nameof(Padding),
             typeof(Thickness),
-            typeof(MultiColumnsStackPanel),
+            typeof(FormPanel),
             new PropertyMetadata(new Thickness(0), OnLayoutPropertyChanged));
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnLayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (MultiColumnsStackPanel)d;
+            var control = (FormPanel)d;
 
             control.InvalidateMeasure();
             control.InvalidateArrange();

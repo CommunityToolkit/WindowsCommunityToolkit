@@ -272,7 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
-    <Content Include="SamplePages\MultiColumnsStackPanel\MultiColumnsStackPanel.png" />
+    <Content Include="SamplePages\FormPanel\FormPanel.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -516,8 +516,8 @@
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MultiColumnsStackPanel\MultiColumnsStackPanelPage.xaml.cs">
-      <DependentUpon>MultiColumnsStackPanelPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\FormPanel\FormPanelPage.xaml.cs">
+      <DependentUpon>FormPanelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
@@ -1001,11 +1001,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\MultiColumnsStackPanel\MultiColumnsStackPanelPage.xaml">
+    <Page Include="SamplePages\FormPanel\FormPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="SamplePages\MultiColumnsStackPanel\MultiColumnsStackPanelCode.bind">
+    <Content Include="SamplePages\FormPanel\FormPanelCode.bind">
       <SubType>Designer</SubType>
     </Content>
     <Page Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml">

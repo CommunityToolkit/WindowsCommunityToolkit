@@ -11,7 +11,7 @@
                       HorizontalScrollMode="Disabled"
                       VerticalScrollBarVisibility="Auto"
                       VerticalScrollMode="Auto">
-            <controls:MultiColumnsStackPanel HorizontalAlignment="Left"
+            <controls:FormPanel HorizontalAlignment="Left"
                                              VerticalAlignment="Top"
                                              HorizontalSpacing="@[HorizontalSpacing:Slider:12:0-120]"
                                              VerticalSpacing="@[VerticalSpacing:Slider:8:0-64]"
@@ -60,7 +60,7 @@
                 <TextBox Height="200"
                          Header="Field 29" />
                 <TextBox Header="Field 30" />
-            </controls:MultiColumnsStackPanel>
+            </controls:FormPanel>
         </ScrollViewer>
     </Grid>
 </Page>

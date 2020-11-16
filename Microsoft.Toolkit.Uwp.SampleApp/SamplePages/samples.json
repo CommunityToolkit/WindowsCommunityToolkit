@@ -208,14 +208,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/WrapPanel.md"
       },
       {
-        "Name": "MultiColumnsStackPanel",
-        "Type": "MultiColumnsStackPanelPage",
+        "Name": "FormPanel",
+        "Type": "FormPanelPage",
         "Subcategory": "Layout",
-        "About": "The MultiColumnsStackPanel Control positions child elements in fixed size columns.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MultiColumnsStackPanel",
-        "XamlCodeFile": "MultiColumnsStackPanelCode.bind",
-        "Icon": "/SamplePages/MultiColumnsStackPanel/MultiColumnsStackPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MultiColumnsStackPanel.md"
+        "About": "The FormPanel Control positions child elements in fixed size columns.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/FormPanel",
+        "XamlCodeFile": "FormPanelCode.bind",
+        "Icon": "/SamplePages/FormPanel/FormPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/FormPanel.md"
       },
       {
         "Name": "WrapLayout",

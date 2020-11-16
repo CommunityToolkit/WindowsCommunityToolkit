@@ -7,10 +7,10 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the MultiColumnsStackPanel.
+    /// A page that shows how to use the FormPanel.
     /// </summary>
-    public sealed partial class MultiColumnsStackPanelPage : Page
+    public sealed partial class FormPanelPage : Page
     {
-        public MultiColumnsStackPanelPage() => InitializeComponent();
+        public FormPanelPage() => InitializeComponent();
     }
 }
