@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public sealed override void SetLength(long value)
         {
-            MemoryStream.ThrowNotSupportedExceptionForSetLength();
+            throw MemoryStream.GetNotSupportedException();
         }
 
         /// <inheritdoc/>
