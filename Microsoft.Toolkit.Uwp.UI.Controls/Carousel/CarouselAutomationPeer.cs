@@ -82,15 +82,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            string name = base.GetNameCore();
-            if (!string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
+            string name = string.Empty;
 
             if (this.OwningCarousel != null)
             {
                 name = this.OwningCarousel.Name;
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                name = base.GetNameCore();
             }
 
             if (string.IsNullOrEmpty(name))
