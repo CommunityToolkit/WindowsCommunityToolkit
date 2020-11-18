@@ -25,9 +25,9 @@ jobs:
     displayName: Setup Environment Variables
 
   - task: NuGetToolInstaller@1
-    displayName: Use NuGet 5.6.0
+    displayName: Use NuGet 5.8.0
     inputs:
-      versionSpec: 5.6.0
+      versionSpec: 5.8.0
 
   - task: NuGetAuthenticate@0
     displayName: 'NuGet Authenticate'
@@ -47,17 +47,29 @@ jobs:
   #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
 
-  - powershell: |
-     Write-Host "##vso[task.setvariable variable=PATH;]${env:LocalAppData}\Microsoft\dotnet;${env:PATH}";
-     
-     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
-     
-     dotnet new globaljson --sdk-version "$($env:NET5_SDK_VERSION)" 
-     
-     &([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'))) -Version "$($env:NET5_SDK_VERSION)" -Architecture "x64" -AzureFeed "$($env:NET5_SDK_FEED)"
-     
-    failOnStderr: true
-    displayName: 'Install .NET 5 SDK'
+#  - powershell: |
+#     Write-Host "##vso[task.setvariable variable=PATH;]${env:LocalAppData}\Microsoft\dotnet;${env:PATH}";
+#     
+#     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
+#     
+#     dotnet new globaljson --sdk-version "$($env:NET5_SDK_VERSION)" 
+#     
+#     &([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'))) -Version "$($env:NET5_SDK_VERSION)" -Architecture "x64" -AzureFeed "$($env:NET5_SDK_FEED)"
+#     
+#    failOnStderr: true
+#    displayName: 'Install .NET 5 SDK'
+
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      version: 5.0.100
+      performMultiLevelLookup: true
+  
+# Temporary until ADO have VS16.8
+  - bash: dotnet tool update -g dotnet-vs
+  - bash: vs install preview -sku:enterprise --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools +Microsoft.VisualStudio.Workload.UniversalBuildTools +Microsoft.VisualStudio.ComponentGroup.UWP.BuildTools +Microsoft.VisualStudio.Workload.MSBuildTools +Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools +Microsoft.VisualStudio.Component.Windows10SDK +Microsoft.VisualStudio.Component.Windows10SDK.18062 +Microsoft.VisualStudio.Workload.Universal
+  - bash: echo "##vso[task.prependpath]$(vs where preview --prop=InstallationPath)\MSBuild\Current\Bin"
+# Temporary until ADO have VS16.8
 
   - powershell: .\build\build.ps1 -target=Build
     displayName: Build
