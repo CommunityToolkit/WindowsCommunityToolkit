@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public bool CanBeCanceled => !(this.cancelableExecute is null) && IsRunning;
+        public bool CanBeCanceled => this.cancelableExecute is not null && IsRunning;
 
         /// <inheritdoc/>
         public bool IsCancellationRequested => this.cancellationTokenSource?.IsCancellationRequested == true;
@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
             if (CanExecute(parameter))
             {
                 // Non cancelable command delegate
-                if (!(this.execute is null))
+                if (this.execute is not null)
                 {
                     return ExecutionTask = this.execute();
                 }
