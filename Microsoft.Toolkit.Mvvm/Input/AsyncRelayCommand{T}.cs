@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// The optional action to invoke when <see cref="CanExecute(T)"/> is used.
         /// </summary>
-        private readonly Func<T, bool>? canExecute;
+        private readonly Predicate<T>? canExecute;
 
         /// <summary>
         /// The <see cref="CancellationTokenSource"/> instance to use to cancel <see cref="cancelableExecute"/>.
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public AsyncRelayCommand(Func<T, Task> execute, Func<T, bool> canExecute)
+        public AsyncRelayCommand(Func<T, Task> execute, Predicate<T> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="cancelableExecute">The cancelable execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public AsyncRelayCommand(Func<T, CancellationToken, Task> cancelableExecute, Func<T, bool> canExecute)
+        public AsyncRelayCommand(Func<T, CancellationToken, Task> cancelableExecute, Predicate<T> canExecute)
         {
             this.cancelableExecute = cancelableExecute;
             this.canExecute = canExecute;

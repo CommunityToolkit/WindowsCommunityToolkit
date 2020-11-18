@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// The optional action to invoke when <see cref="CanExecute(T)"/> is used.
         /// </summary>
-        private readonly Func<T, bool>? canExecute;
+        private readonly Predicate<T>? canExecute;
 
         /// <inheritdoc/>
         public event EventHandler? CanExecuteChanged;
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
