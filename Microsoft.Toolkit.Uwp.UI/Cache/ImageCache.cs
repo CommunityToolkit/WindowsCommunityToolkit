@@ -7,9 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -63,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new FileNotFoundException();
             }
 
-            return await DispatcherQueue.ExecuteOnUIThreadAsync(async () =>
+            return await DispatcherQueue.EnqueueAsync(async () =>
             {
                 BitmapImage image = new BitmapImage();
 

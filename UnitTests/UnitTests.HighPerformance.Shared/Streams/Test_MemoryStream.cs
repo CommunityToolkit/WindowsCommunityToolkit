@@ -272,7 +272,7 @@ namespace UnitTests.HighPerformance.Streams
         /// <param name="count">The number of array items to create.</param>
         /// <returns>The returned random array.</returns>
         [Pure]
-        private static byte[] CreateRandomData(int count)
+        internal static byte[] CreateRandomData(int count)
         {
             var random = new Random(DateTime.Now.Ticks.GetHashCode());
 

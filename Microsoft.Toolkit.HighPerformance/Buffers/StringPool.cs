@@ -5,15 +5,13 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-#if NETCOREAPP3_1
-using System.Numerics;
-#endif
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
 #endif
+using BitOperations = Microsoft.Toolkit.HighPerformance.Helpers.Internals.BitOperations;
 
 #nullable enable
 
@@ -79,8 +77,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     a = Math.Sqrt((double)size / factor),
                     b = factor * a;
 
-                x = RoundUpPowerOfTwo((int)a);
-                y = RoundUpPowerOfTwo((int)b);
+                x = BitOperations.RoundUpPowerOfTwo((int)a);
+                y = BitOperations.RoundUpPowerOfTwo((int)b);
             }
 
             // We want to find two powers of 2 factors that produce a number
@@ -128,30 +126,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             this.numberOfMaps = x2;
 
             Size = p2;
-        }
-
-        /// <summary>
-        /// Rounds up an <see cref="int"/> value to a power of 2.
-        /// </summary>
-        /// <param name="x">The input value to round up.</param>
-        /// <returns>The smallest power of two greater than or equal to <paramref name="x"/>.</returns>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int RoundUpPowerOfTwo(int x)
-        {
-#if NETCOREAPP3_1
-            return 1 << (32 - BitOperations.LeadingZeroCount((uint)(x - 1)));
-#else
-            x--;
-            x |= x >> 1;
-            x |= x >> 2;
-            x |= x >> 4;
-            x |= x >> 8;
-            x |= x >> 16;
-            x++;
-
-            return x;
-#endif
         }
 
         /// <summary>
@@ -422,11 +396,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="value">The input <see cref="string"/> instance to cache.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public unsafe void Add(string value, int hashcode)
+            public void Add(string value, int hashcode)
             {
                 ref string target = ref TryGet(value.AsSpan(), hashcode);
 
-                if (Unsafe.AreSame(ref target, ref Unsafe.AsRef<string>(null)))
+                if (Unsafe.IsNullRef(ref target))
                 {
                     Insert(value, hashcode);
                 }
@@ -443,11 +417,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="value"/>.</returns>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public unsafe string GetOrAdd(string value, int hashcode)
+            public string GetOrAdd(string value, int hashcode)
             {
                 ref string result = ref TryGet(value.AsSpan(), hashcode);
 
-                if (!Unsafe.AreSame(ref result, ref Unsafe.AsRef<string>(null)))
+                if (!Unsafe.IsNullRef(ref result))
                 {
                     return result;
                 }
@@ -464,11 +438,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="hashcode">The precomputed hashcode for <paramref name="span"/>.</param>
             /// <returns>A <see cref="string"/> instance with the contents of <paramref name="span"/>, cached if possible.</returns>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public unsafe string GetOrAdd(ReadOnlySpan<char> span, int hashcode)
+            public string GetOrAdd(ReadOnlySpan<char> span, int hashcode)
             {
                 ref string result = ref TryGet(span, hashcode);
 
-                if (!Unsafe.AreSame(ref result, ref Unsafe.AsRef<string>(null)))
+                if (!Unsafe.IsNullRef(ref result))
                 {
                     return result;
                 }
@@ -488,11 +462,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="value">The resulting cached <see cref="string"/> instance, if present</param>
             /// <returns>Whether or not the target <see cref="string"/> instance was found.</returns>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public unsafe bool TryGet(ReadOnlySpan<char> span, int hashcode, [NotNullWhen(true)] out string? value)
+            public bool TryGet(ReadOnlySpan<char> span, int hashcode, [NotNullWhen(true)] out string? value)
             {
                 ref string result = ref TryGet(span, hashcode);
 
-                if (!Unsafe.AreSame(ref result, ref Unsafe.AsRef<string>(null)))
+                if (!Unsafe.IsNullRef(ref result))
                 {
                     value = result;
 
@@ -527,7 +501,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             private unsafe ref string TryGet(ReadOnlySpan<char> span, int hashcode)
             {
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
-                ref MapEntry entry = ref Unsafe.AsRef<MapEntry>(null);
+                ref MapEntry entry = ref Unsafe.NullRef<MapEntry>();
                 int
                     length = this.buckets.Length,
                     bucketIndex = hashcode & (length - 1);
@@ -536,7 +510,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                      (uint)i < (uint)length;
                      i = entry.NextIndex)
                 {
-                    entry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)i);
+                    entry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)i);
 
                     if (entry.HashCode == hashcode &&
                         entry.Value!.AsSpan().SequenceEqual(span))
@@ -547,7 +521,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     }
                 }
 
-                return ref Unsafe.AsRef<string>(null);
+                return ref Unsafe.NullRef<string>();
             }
 
             /// <summary>
@@ -556,7 +530,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="value">The new <see cref="string"/> instance to store.</param>
             /// <param name="hashcode">The precomputed hashcode for <paramref name="value"/>.</param>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void Insert(string value, int hashcode)
+            private void Insert(string value, int hashcode)
             {
                 ref int bucketsRef = ref this.buckets.DangerousGetReference();
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
@@ -571,7 +545,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     entryIndex = heapEntriesRef.MapIndex;
                     heapIndex = 0;
 
-                    ref MapEntry removedEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+                    ref MapEntry removedEntry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)entryIndex);
 
                     // The removal logic can be extremely optimized in this case, as we
                     // can retrieve the precomputed hashcode for the target entry by doing
@@ -588,9 +562,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 }
 
                 int bucketIndex = hashcode & (this.buckets.Length - 1);
-                ref int targetBucket = ref Unsafe.Add(ref bucketsRef, (IntPtr)(void*)(uint)bucketIndex);
-                ref MapEntry targetMapEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
-                ref HeapEntry targetHeapEntry = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)heapIndex);
+                ref int targetBucket = ref Unsafe.Add(ref bucketsRef, (nint)(uint)bucketIndex);
+                ref MapEntry targetMapEntry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)entryIndex);
+                ref HeapEntry targetHeapEntry = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)heapIndex);
 
                 // Assign the values in the new map entry
                 targetMapEntry.HashCode = hashcode;
@@ -616,7 +590,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// <param name="mapIndex">The index of the target map node to remove.</param>
             /// <remarks>The input <see cref="string"/> instance needs to already exist in the map.</remarks>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void Remove(int hashcode, int mapIndex)
+            private void Remove(int hashcode, int mapIndex)
             {
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 int
@@ -628,7 +602,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 // value we're looking for is guaranteed to be present
                 while (true)
                 {
-                    ref MapEntry candidate = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)entryIndex);
+                    ref MapEntry candidate = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)entryIndex);
 
                     // Check the current value for a match
                     if (entryIndex == mapIndex)
@@ -636,7 +610,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                         // If this was not the first list node, update the parent as well
                         if (lastIndex != EndOfList)
                         {
-                            ref MapEntry lastEntry = ref Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)lastIndex);
+                            ref MapEntry lastEntry = ref Unsafe.Add(ref mapEntriesRef, (nint)(uint)lastIndex);
 
                             lastEntry.NextIndex = candidate.NextIndex;
                         }
@@ -662,14 +636,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// </summary>
             /// <param name="heapIndex">The index of the target heap node to update.</param>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void UpdateTimestamp(ref int heapIndex)
+            private void UpdateTimestamp(ref int heapIndex)
             {
                 int
                     currentIndex = heapIndex,
                     count = this.count;
                 ref MapEntry mapEntriesRef = ref this.mapEntries.DangerousGetReference();
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
-                ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+                ref HeapEntry root = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)currentIndex);
                 uint timestamp = this.timestamp;
 
                 // Check if incrementing the current timestamp for the heap node to update
@@ -721,7 +695,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     // Check and update the left child, if necessary
                     if (left < count)
                     {
-                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)left);
+                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)left);
 
                         if (child.Timestamp < minimum.Timestamp)
                         {
@@ -733,7 +707,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     // Same check as above for the right child
                     if (right < count)
                     {
-                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)right);
+                        ref HeapEntry child = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)right);
 
                         if (child.Timestamp < minimum.Timestamp)
                         {
@@ -752,8 +726,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     }
 
                     // Update the indices in the respective map entries (accounting for the swap)
-                    Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)root.MapIndex).HeapIndex = targetIndex;
-                    Unsafe.Add(ref mapEntriesRef, (IntPtr)(void*)(uint)minimum.MapIndex).HeapIndex = currentIndex;
+                    Unsafe.Add(ref mapEntriesRef, (nint)(uint)root.MapIndex).HeapIndex = targetIndex;
+                    Unsafe.Add(ref mapEntriesRef, (nint)(uint)minimum.MapIndex).HeapIndex = currentIndex;
 
                     currentIndex = targetIndex;
 
@@ -764,7 +738,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     minimum = temp;
 
                     // Update the reference to the root node
-                    root = ref Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)currentIndex);
+                    root = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)currentIndex);
                 }
 
                 Fallback:
@@ -787,14 +761,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             /// a given number of nodes, those are all contiguous from the start of the array.
             /// </summary>
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private unsafe void UpdateAllTimestamps()
+            private void UpdateAllTimestamps()
             {
                 int count = this.count;
                 ref HeapEntry heapEntriesRef = ref this.heapEntries.DangerousGetReference();
 
                 for (int i = 0; i < count; i++)
                 {
-                    Unsafe.Add(ref heapEntriesRef, (IntPtr)(void*)(uint)i).Timestamp = (uint)i;
+                    Unsafe.Add(ref heapEntriesRef, (nint)(uint)i).Timestamp = (uint)i;
                 }
             }
         }
