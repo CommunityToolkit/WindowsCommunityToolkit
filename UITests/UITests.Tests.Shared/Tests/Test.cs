@@ -4,6 +4,7 @@
 
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -18,6 +19,21 @@ namespace UITests.Tests
     [TestClass]
     public class Test : UITest
     {
+        [ClassInitialize]
+        [TestProperty("RunAs", "User")]
+        [TestProperty("Classification", "ScenarioTestSuite")]
+        [TestProperty("Platform", "Any")]
+        public static void ClassInitialize(TestContext testContext)
+        {
+            TestEnvironment.Initialize(testContext, WinUICsUWPSampleApp);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TestEnvironment.AssemblyCleanupWorker(WinUICsUWPSampleApp);
+        }
+
         [TestMethod]
         [TestPage("SimpleTest")]
         public void SimpleTest()
