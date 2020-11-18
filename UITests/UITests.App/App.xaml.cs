@@ -31,11 +31,10 @@ namespace UITests.App
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            var testPages = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(Page)))
-                .Where(page => page.GetCustomAttribute(typeof(TestPageAttribute)) is TestPageAttribute);
+            var pages = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(Page)));
 
-            foreach (var page in testPages)
+            foreach (var page in pages)
             {
                 try
                 {

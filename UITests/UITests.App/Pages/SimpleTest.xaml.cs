@@ -10,7 +10,6 @@ namespace UITests.App.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [TestPage]
     public sealed partial class SimpleTest : Page
     {
         public SimpleTest()
