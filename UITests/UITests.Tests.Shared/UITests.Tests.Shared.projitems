@@ -8,14 +8,27 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>UITests.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)UITest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tests\Test.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tests\TextBoxMask.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Tests\" />
-  </ItemGroup>
+
+  <Choose>
+    <!-- When we're in the test harness include all '*Test.cs' files -->
+    <When Condition="'$(IsTestHarness)' == 'true' or '$(IsSharedProject)' == 'true'">
+      <ItemGroup>
+        <Compile Include="**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
+        <!-- Base test helpers -->
+        <Compile Include="$(MSBuildThisFileDirectory)UITest.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
+        <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+      </ItemGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <!-- When we're in the UI app used by the test harness, include all the pages -->
+    <When Condition="'$(IsTestHarness)' != 'true' or '$(IsSharedProject)' == 'true'">
+      <ItemGroup>
+        <Page Include="**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+        <Compile Include="**\*Page.xaml.cs" DependentUpon="%(Filename)" />
+      </ItemGroup>
+    </When>
+  </Choose>
 </Project>

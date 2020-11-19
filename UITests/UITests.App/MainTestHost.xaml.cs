@@ -10,11 +10,14 @@ using Windows.UI.Xaml.Input;
 
 namespace UITests.App
 {
-    public sealed partial class MainPage
+    /// <summary>
+    /// MainPage hosting all other test pages.
+    /// </summary>
+    public sealed partial class MainTestHost
     {
         private readonly Dictionary<string, Type> pageMap;
 
-        public MainPage()
+        public MainTestHost()
         {
             InitializeComponent();
             pageMap = ((App)Application.Current).TestPages;

@@ -130,14 +130,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="MainTestHost.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SimpleTest.xaml.cs">
-      <DependentUpon>SimpleTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Controls\TextBoxMaskTestPage.xaml.cs">
-      <DependentUpon>TextBoxMaskTestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -161,17 +155,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="MainTestHost.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SimpleTest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Controls\TextBoxMaskTestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -266,4 +252,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
 </Project>

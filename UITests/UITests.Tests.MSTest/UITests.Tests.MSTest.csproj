@@ -13,6 +13,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
+
+    <IsTestHarness>true</IsTestHarness>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,5 +29,5 @@
     <PackageReference Include="Microsoft.Windows.Apps.Test" Version="1.0.181205002" />
   </ItemGroup>
 
-  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" />
+  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
 </Project>

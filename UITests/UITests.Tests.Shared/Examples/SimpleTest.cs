@@ -17,7 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UITests.Tests
 {
     [TestClass]
-    public class Test : UITest
+    public class SimpleTest : UITest
     {
         [ClassInitialize]
         [TestProperty("RunAs", "User")]
@@ -36,7 +36,7 @@ namespace UITests.Tests
 
         [TestMethod]
         [TestPage("SimpleTest")]
-        public void SimpleTest()
+        public void SimpleTestMethod()
         {
             var button = new Button(FindElement.ByName("Click Me"));
             var textBlock = new TextBlock(FindElement.ById("textBlock"));
