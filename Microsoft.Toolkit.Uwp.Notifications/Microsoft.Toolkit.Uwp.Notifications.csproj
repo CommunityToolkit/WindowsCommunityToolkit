@@ -1,7 +1,9 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.1</TargetFrameworks>
+    <!--<TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.1</TargetFrameworks>-->
+    <!-- Removed 'native' target to unblock CI on VS 16.8, tied to changes breaking workaround for https://github.com/NuGet/Home/issues/5154 -->
+    <TargetFrameworks>netstandard1.4;uap10.0;net461;netcoreapp3.1</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -25,23 +27,17 @@
       </ItemGroup>
       <PropertyGroup>
         <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
-        <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
+        <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
       </PropertyGroup>
     </When>
 
-    <!--Non-desktop apps (UWP, libraries, ASP.NET servers)-->
-    <Otherwise>
-      <ItemGroup>
-        <!--Remove the DesktopNotificationManager code-->
-        <Compile Remove="DesktopNotificationManager\**\*" />
-      </ItemGroup>
-    </Otherwise>
-
   </Choose>
 
-  <!--NET Core desktop apps also need the Registry NuGet package-->
+  <!--NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically-->
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
