@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 mapping ??= new RecipientsTable();
 
                 // Get or create the handlers dictionary for the target recipient
-                var map = Unsafe.As<DictionarySlim<TToken, object>>(mapping.GetValue(recipient, _ => new DictionarySlim<TToken, object>()));
+                var map = Unsafe.As<DictionarySlim<TToken, object>>(mapping.GetValue(recipient, static _ => new DictionarySlim<TToken, object>()));
 
                 // Add the new registration entry
                 ref object? registeredHandler = ref map.GetOrAddValueRef(token);

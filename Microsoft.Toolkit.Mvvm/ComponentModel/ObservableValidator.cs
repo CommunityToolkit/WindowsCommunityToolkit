@@ -338,7 +338,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 [MethodImpl(MethodImplOptions.NoInlining)]
                 IEnumerable<ValidationResult> GetAllErrors()
                 {
-                    return this.errors.Values.SelectMany(errors => errors);
+                    return this.errors.Values.SelectMany(static errors => errors);
                 }
 
                 return GetAllErrors();
