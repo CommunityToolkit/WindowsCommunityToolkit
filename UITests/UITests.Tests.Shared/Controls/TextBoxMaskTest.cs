@@ -17,7 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UITests.Tests
 {
     [TestClass]
-    public class TextBoxMask : UITest
+    public class TextBoxMaskTest : UITestBase
     {
         [ClassInitialize]
         [TestProperty("RunAs", "User")]

@@ -12,7 +12,7 @@ namespace UITests.App.Pages
     /// </summary>
     public sealed partial class SimpleTestPage : Page
     {
-        public SimpleTest()
+        public SimpleTestPage()
         {
             this.InitializeComponent();
         }

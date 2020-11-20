@@ -20,10 +20,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UITests.Tests
 {
-    public abstract class UITest
+    public abstract class UITestBase
     {
-        public TestContext TestContext { get; set; }
-
         public static TestApplicationInfo WinUICsUWPSampleApp
         {
             get
@@ -78,6 +76,7 @@ namespace UITests.Tests
             }
         }
 
+        public TestContext TestContext { get; set; }
 
         [TestInitialize]
         public void TestInitalize()

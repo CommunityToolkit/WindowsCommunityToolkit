@@ -17,7 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UITests.Tests
 {
     [TestClass]
-    public class SimpleTest : UITest
+    public class SimpleTest : UITestBase
     {
         [ClassInitialize]
         [TestProperty("RunAs", "User")]
