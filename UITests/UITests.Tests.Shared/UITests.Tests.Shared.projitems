@@ -11,7 +11,7 @@
 
   <Choose>
     <!-- When we're in the test harness include all '*Test.cs' files -->
-    <When Condition="'$(IsTestHarness)' == 'true' or '$(IsSharedProject)' == 'true'">
+    <When Condition="'$(IsTestHarness)' == 'true'">
       <ItemGroup>
         <Compile Include="**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
         <!-- Base test helpers -->
@@ -24,11 +24,22 @@
 
   <Choose>
     <!-- When we're in the UI app used by the test harness, include all the pages -->
-    <When Condition="'$(IsTestHarness)' != 'true' or '$(IsSharedProject)' == 'true'">
+    <When Condition="'$(IsTestHost)' == 'true'">
       <ItemGroup>
         <Page Include="**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
         <Compile Include="**\*Page.xaml.cs" DependentUpon="%(Filename)" />
       </ItemGroup>
     </When>
   </Choose>
+
+  <!-- Have a None Include as well to make all items visible in VS in the Shared Project -->
+  <ItemGroup>
+    <None Include="**\*Test.cs" Exclude="**\bin\**\*Test.cs;**\obj\**\*Test.cs"/>
+    <None Include="**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+    <None Include="**\*Page.xaml.cs" DependentUpon="%(Filename)" />
+    <!-- Base test helpers -->
+    <None Include="$(MSBuildThisFileDirectory)UITest.cs" />
+    <None Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
+    <None Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+  </ItemGroup>
 </Project>

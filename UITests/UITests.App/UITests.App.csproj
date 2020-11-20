@@ -27,6 +27,7 @@
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <IsTestHost>true</IsTestHost>
   </PropertyGroup>
   <Target Name="Pack">
   </Target>
