@@ -16,8 +16,14 @@ namespace UnitTests.Extensions
         [TestMethod]
         [DataRow(0, 0, 2, 2, 0, 0, 2, 2, true)]// Full intersection.
         [DataRow(0, 0, 2, 2, 1, 1, 2, 2, true)]// Partial intersection.
-        [DataRow(0, 0, 2, 2, 2, 0, 2, 2, true)]// Edge intersection.
-        [DataRow(0, 0, 2, 2, 2, 2, 2, 2, true)]// Corner intersection.
+        [DataRow(0, 0, 2, 2, -2, 0, 2, 2, true)]// Left edge intersection.
+        [DataRow(0, 0, 2, 2, 0, -2, 2, 2, true)]// Top edge intersection.
+        [DataRow(0, 0, 2, 2, 2, 0, 2, 2, true)]// Right edge intersection.
+        [DataRow(0, 0, 2, 2, 0, 2, 2, 2, true)]// Bottom edge intersection.
+        [DataRow(0, 0, 2, 2, -2, -2, 2, 2, true)]// Left top corner(0, 0) intersection.
+        [DataRow(0, 0, 2, 2, 2, -2, 2, 2, true)]// Right top corner(2, 0) intersection.
+        [DataRow(0, 0, 2, 2, 2, 2, 2, 2, true)]// Right bottom corner(2, 2) intersection.
+        [DataRow(0, 0, 2, 2, -2, 2, 2, 2, true)]// Left bottom corner(0, 2) intersection.
         [DataRow(0, 0, 2, 2, 3, 0, 2, 2, false)]// No intersection.
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1117:Parameters should be on same line or separate lines", Justification = "Put the parameters of the same rectangle on the same line is clearer.")]
         public static void Test_RectExtensions_IntersectsWith(
