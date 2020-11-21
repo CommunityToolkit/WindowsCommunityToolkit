@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="OverflowException"/> when the "column" parameter is invalid.
         /// </summary>
-        public static void ThrowOverflowException()
+        private static void ThrowOverflowException()
         {
             throw new OverflowException();
         }

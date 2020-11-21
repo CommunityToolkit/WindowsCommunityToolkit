@@ -316,7 +316,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "depth" parameter is invalid.
         /// </summary>
-        public static void ThrowArgumentOutOfRangeExceptionForDepth()
+        private static void ThrowArgumentOutOfRangeExceptionForDepth()
         {
             throw new ArgumentOutOfRangeException("depth");
         }
