@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(uint value, int n)
+        public static unsafe bool HasFlag(uint value, int n)
         {
             // Read the n-th bit, downcast to byte
             byte flag = (byte)((value >> n) & 1);
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // compared the previous computed flag against 0, the assembly
             // would have had to perform the test, set the non-zero
             // flag and then extend the (byte) result to eax.
-            return Unsafe.As<byte, bool>(ref flag);
+            return *(bool*)&flag;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasLookupFlag(uint table, int x, int min = 0)
+        public static unsafe bool HasLookupFlag(uint table, int x, int min = 0)
         {
             // First, the input value is scaled down by the given minimum.
             // This step will be skipped entirely if min is just the default of 0.
@@ -91,14 +91,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // as a bool just like in the HasFlag method above, and then returned.
             int i = x - min;
             bool isInRange = (uint)i < 32u;
-            byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
+            byte byteFlag = *(byte*)&isInRange;
             int
                 negativeFlag = byteFlag - 1,
                 mask = ~negativeFlag,
                 shift = unchecked((int)((table >> i) & 1)),
                 and = shift & mask;
             byte result = unchecked((byte)and);
-            bool valid = Unsafe.As<byte, bool>(ref result);
+            bool valid = *(bool*)&result;
 
             return valid;
         }
@@ -194,7 +194,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SetFlag(uint value, int n, bool flag)
+        public static unsafe uint SetFlag(uint value, int n, bool flag)
         {
             // Shift a bit left to the n-th position, negate the
             // resulting value and perform an AND with the input value.
@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // operation. This will always guaranteed to work, thanks to the
             // initial code clearing that bit before setting it again.
             uint
-                flag32 = Unsafe.As<bool, byte>(ref flag),
+                flag32 = *(byte*)&flag,
                 shift = flag32 << n,
                 or = and | shift;
 
@@ -306,12 +306,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(ulong value, int n)
+        public static unsafe bool HasFlag(ulong value, int n)
         {
             // Same logic as the uint version, see that for more info
             byte flag = (byte)((value >> n) & 1);
 
-            return Unsafe.As<byte, bool>(ref flag);
+            return *(bool*)&flag;
         }
 
         /// <summary>
@@ -328,18 +328,18 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasLookupFlag(ulong table, int x, int min = 0)
+        public static unsafe bool HasLookupFlag(ulong table, int x, int min = 0)
         {
             int i = x - min;
             bool isInRange = (uint)i < 64u;
-            byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
+            byte byteFlag = *(byte*)&isInRange;
             int
                 negativeFlag = byteFlag - 1,
                 mask = ~negativeFlag,
                 shift = unchecked((int)((table >> i) & 1)),
                 and = shift & mask;
             byte result = unchecked((byte)and);
-            bool valid = Unsafe.As<byte, bool>(ref result);
+            bool valid = *(bool*)&result;
 
             return valid;
         }
@@ -373,13 +373,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong SetFlag(ulong value, int n, bool flag)
+        public static unsafe ulong SetFlag(ulong value, int n, bool flag)
         {
             ulong
                 bit = 1ul << n,
                 not = ~bit,
                 and = value & not,
-                flag64 = Unsafe.As<bool, byte>(ref flag),
+                flag64 = *(byte*)&flag,
                 shift = flag64 << n,
                 or = and | shift;
 
