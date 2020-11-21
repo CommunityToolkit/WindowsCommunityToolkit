@@ -17,6 +17,8 @@ using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
+#pragma warning disable CA2231
+
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
     /// <summary>
