@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         {
             IServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, serviceProvider, null);
 
-            if (!(oldServices is null))
+            if (oldServices is not null)
             {
                 ThrowInvalidOperationExceptionForRepeatedConfiguration();
             }

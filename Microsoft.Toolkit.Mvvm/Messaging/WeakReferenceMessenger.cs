@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Add the new registration entry
                 ref object? registeredHandler = ref map.GetOrAddValueRef(token);
 
-                if (!(registeredHandler is null))
+                if (registeredHandler is not null)
                 {
                     ThrowInvalidOperationExceptionForDuplicateRegistration();
                 }

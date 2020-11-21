@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Add the new registration entry
                 ref object? registeredHandler = ref map.GetOrAddValueRef(token);
 
-                if (!(registeredHandler is null))
+                if (registeredHandler is not null)
                 {
                     ThrowInvalidOperationExceptionForDuplicateRegistration();
                 }
@@ -273,7 +273,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove references to avoid leaks coming from the shared memory pool.
                 // We manually create a span and clear it as a small optimization, as
                 // arrays rented from the pool can be larger than the requested size.
-                if (!(maps is null))
+                if (maps is not null)
                 {
                     maps.AsSpan(0, i).Clear();
 

@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
                     yield break;
                 }
 
-                if (!(task is null))
+                if (task is not null)
                 {
                     yield return await task.ConfigureAwait(false);
                 }
