@@ -47,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Memory\Test_Memory2D{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Memory\Test_Span2D{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IMemoryOwnerStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IBufferWriterStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.ThrowExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Box{T}.cs" />
