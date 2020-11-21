@@ -11,6 +11,8 @@ namespace UnitTests.Diagnostics
     [TestClass]
     public partial class Test_Guard
     {
+        private const float PI = 3.14159274f;
+
         [TestCategory("Guard")]
         [TestMethod]
         public void Test_Guard_IsNull_Ok()
@@ -156,7 +158,7 @@ namespace UnitTests.Diagnostics
         public void Test_Guard_IsBitwiseEqualTo_Ok()
         {
             Guard.IsBitwiseEqualTo(byte.MaxValue, byte.MaxValue, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
-            Guard.IsBitwiseEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
+            Guard.IsBitwiseEqualTo(PI, PI, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
             Guard.IsBitwiseEqualTo(double.Epsilon, double.Epsilon, nameof(Test_Guard_IsBitwiseEqualTo_Ok));
 
             var guid = Guid.NewGuid();
@@ -326,7 +328,7 @@ namespace UnitTests.Diagnostics
         public void Test_Guard_IsLessThan_Ok()
         {
             Guard.IsLessThan(1, 2, nameof(Test_Guard_IsLessThan_Ok));
-            Guard.IsLessThan(1.2f, 3.14f, nameof(Test_Guard_IsLessThan_Ok));
+            Guard.IsLessThan(1.2f, PI, nameof(Test_Guard_IsLessThan_Ok));
             Guard.IsLessThan(DateTime.Now, DateTime.MaxValue, nameof(Test_Guard_IsLessThan_Ok));
         }
 
@@ -352,8 +354,8 @@ namespace UnitTests.Diagnostics
         {
             Guard.IsLessThanOrEqualTo(1, 2, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
             Guard.IsLessThanOrEqualTo(1, 1, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
-            Guard.IsLessThanOrEqualTo(0.1f, MathF.PI, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
-            Guard.IsLessThanOrEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
+            Guard.IsLessThanOrEqualTo(0.1f, PI, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
+            Guard.IsLessThanOrEqualTo(PI, PI, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
             Guard.IsLessThanOrEqualTo(DateTime.Today, DateTime.MaxValue, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
             Guard.IsLessThanOrEqualTo(DateTime.MaxValue, DateTime.MaxValue, nameof(Test_Guard_IsLessThanOrEqualTo_Ok));
         }
@@ -371,7 +373,7 @@ namespace UnitTests.Diagnostics
         public void Test_Guard_IsGreaterThan_Ok()
         {
             Guard.IsGreaterThan(2, 1, nameof(Test_Guard_IsGreaterThan_Ok));
-            Guard.IsGreaterThan(3.14f, 2.1f, nameof(Test_Guard_IsGreaterThan_Ok));
+            Guard.IsGreaterThan(PI, 2.1f, nameof(Test_Guard_IsGreaterThan_Ok));
             Guard.IsGreaterThan(DateTime.MaxValue, DateTime.Today, nameof(Test_Guard_IsGreaterThan_Ok));
         }
 
@@ -397,8 +399,8 @@ namespace UnitTests.Diagnostics
         {
             Guard.IsGreaterThanOrEqualTo(2, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
             Guard.IsGreaterThanOrEqualTo(1, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
-            Guard.IsGreaterThanOrEqualTo(MathF.PI, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
-            Guard.IsGreaterThanOrEqualTo(MathF.PI, MathF.PI, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
+            Guard.IsGreaterThanOrEqualTo(PI, 1, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
+            Guard.IsGreaterThanOrEqualTo(PI, PI, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
             Guard.IsGreaterThanOrEqualTo(DateTime.MaxValue, DateTime.Today, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
             Guard.IsGreaterThanOrEqualTo(DateTime.MaxValue, DateTime.MaxValue, nameof(Test_Guard_IsGreaterThanOrEqualTo_Ok));
         }
@@ -417,11 +419,11 @@ namespace UnitTests.Diagnostics
         {
             Guard.IsInRange(1, 0, 4, nameof(Test_Guard_IsInRange_Ok));
             Guard.IsInRange(0, 0, 2, nameof(Test_Guard_IsInRange_Ok));
-            Guard.IsInRange(3.14f, 0, 10, nameof(Test_Guard_IsInRange_Ok));
-            Guard.IsInRange(1, 0, 3.14f, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(PI, 0, 10, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(1, 0, PI, nameof(Test_Guard_IsInRange_Ok));
             Guard.IsInRange(1, -50, 2, nameof(Test_Guard_IsInRange_Ok));
             Guard.IsInRange(-44, -44, 0, nameof(Test_Guard_IsInRange_Ok));
-            Guard.IsInRange(3.14f, -float.Epsilon, 22, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(PI, -float.Epsilon, 22, nameof(Test_Guard_IsInRange_Ok));
             Guard.IsInRange(1, int.MinValue, int.MaxValue, nameof(Test_Guard_IsInRange_Ok));
         }
 
@@ -456,7 +458,7 @@ namespace UnitTests.Diagnostics
             Guard.IsNotInRange(0, 4, 10, nameof(Test_Guard_IsNotInRange_Ok));
             Guard.IsNotInRange(-4, 0, 2, nameof(Test_Guard_IsNotInRange_Ok));
             Guard.IsNotInRange(12f, 0, 10, nameof(Test_Guard_IsNotInRange_Ok));
-            Guard.IsNotInRange(-1, 0, 3.14f, nameof(Test_Guard_IsNotInRange_Ok));
+            Guard.IsNotInRange(-1, 0, PI, nameof(Test_Guard_IsNotInRange_Ok));
         }
 
         [TestCategory("Guard")]
@@ -552,7 +554,7 @@ namespace UnitTests.Diagnostics
         public void Test_Guard_IsBetween_Ok()
         {
             Guard.IsBetween(1, 0, 4, nameof(Test_Guard_IsBetween_Ok));
-            Guard.IsBetween(3.14f, 0, 10, nameof(Test_Guard_IsBetween_Ok));
+            Guard.IsBetween(PI, 0, 10, nameof(Test_Guard_IsBetween_Ok));
             Guard.IsBetween(1, 0, 3.14, nameof(Test_Guard_IsBetween_Ok));
         }
 
