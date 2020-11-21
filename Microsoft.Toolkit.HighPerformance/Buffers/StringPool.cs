@@ -5,9 +5,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-#if NETCOREAPP3_1 || NET5_0
-using System.Numerics;
-#endif
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Toolkit.HighPerformance.Extensions;
