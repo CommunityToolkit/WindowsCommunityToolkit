@@ -10,8 +10,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 #endif
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>

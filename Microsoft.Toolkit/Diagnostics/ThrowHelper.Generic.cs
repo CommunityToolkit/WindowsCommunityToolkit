@@ -11,8 +11,6 @@ using System.Runtime.InteropServices;
 #endif
 using System.Threading;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>

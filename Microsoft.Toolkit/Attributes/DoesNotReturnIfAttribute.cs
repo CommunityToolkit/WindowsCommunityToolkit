@@ -10,7 +10,7 @@ namespace System.Diagnostics.CodeAnalysis
     /// Specifies that a given <see cref="ParameterValue"/> also indicates
     /// whether the method will not return (eg. throw an exception).
     /// </summary>
-    /// <remarks>Internal copy of the .NET Standard 2.1 attribute.</remarks>
+    /// <remarks>Internal copy from the BCL attribute.</remarks>
     [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class DoesNotReturnIfAttribute : Attribute
     {

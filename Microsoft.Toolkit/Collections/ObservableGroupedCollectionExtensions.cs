@@ -8,8 +8,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Collections
 {
     /// <summary>
@@ -28,6 +26,7 @@ namespace Microsoft.Toolkit.Collections
         /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
         [Pure]
         public static ObservableGroup<TKey, TValue> First<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            where TKey : notnull
         {
             ObservableGroup<TKey, TValue>? group = source.FirstOrDefault(key);
 
@@ -49,6 +48,7 @@ namespace Microsoft.Toolkit.Collections
         /// <returns>The first group matching <paramref name="key"/> or null.</returns>
         [Pure]
         public static ObservableGroup<TKey, TValue>? FirstOrDefault<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
@@ -74,6 +74,7 @@ namespace Microsoft.Toolkit.Collections
         private static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq<TKey, TValue>(
             ObservableGroupedCollection<TKey, TValue> source,
             TKey key)
+            where TKey : notnull
             => source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
 
         /// <summary>
@@ -92,6 +93,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             int index)
+            where TKey : notnull
             => source.First(key)[index];
 
         /// <summary>
@@ -108,6 +110,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             int index)
+            where TKey : notnull
         {
             var group = source.FirstOrDefault(key);
 
@@ -133,6 +136,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             TValue value)
+            where TKey : notnull
             => AddGroup(source, key, new[] { value });
 
         /// <summary>
@@ -148,6 +152,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             params TValue[] collection)
+            where TKey : notnull
             => source.AddGroup(key, (IEnumerable<TValue>)collection);
 
         /// <summary>
@@ -163,6 +168,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             IEnumerable<TValue> collection)
+            where TKey : notnull
         {
             var group = new ObservableGroup<TKey, TValue>(key, collection);
             source.Add(group);
@@ -184,6 +190,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             TValue item)
+            where TKey : notnull
         {
             var group = source.FirstOrDefault(key);
 
@@ -215,6 +222,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             TValue item)
+            where TKey : notnull
         {
             var existingGroup = source.First(key);
             existingGroup.Insert(index, item);
@@ -239,6 +247,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             TValue item)
+            where TKey : notnull
         {
             var existingGroup = source.First(key);
             existingGroup[index] = item;
@@ -257,6 +266,7 @@ namespace Microsoft.Toolkit.Collections
         public static void RemoveGroup<TKey, TValue>(
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
@@ -284,6 +294,7 @@ namespace Microsoft.Toolkit.Collections
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void RemoveGroupWithLinq<TKey, TValue>(ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            where TKey : notnull
         {
             var index = 0;
             foreach (var group in source)
@@ -313,6 +324,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             TValue item,
             bool removeGroupIfEmpty = true)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
@@ -349,6 +361,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             TValue item,
             bool removeGroupIfEmpty)
+            where TKey : notnull
         {
             var index = 0;
             foreach (var group in source)
@@ -385,6 +398,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             bool removeGroupIfEmpty = true)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
@@ -421,6 +435,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             bool removeGroupIfEmpty)
+            where TKey : notnull
         {
             var groupIndex = 0;
             foreach (var group in source)

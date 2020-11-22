@@ -9,7 +9,7 @@ namespace System.Diagnostics.CodeAnalysis
     /// <summary>
     /// Applied to a method that will never return under any circumstance.
     /// </summary>
-    /// <remarks>Internal copy of the .NET Standard 2.1 attribute.</remarks>
+    /// <remarks>Internal copy from the BCL attribute.</remarks>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     internal sealed class DoesNotReturnAttribute : Attribute
     {

@@ -17,15 +17,16 @@ namespace Microsoft.Toolkit.Collections
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name = "TValue" > The type of the items in the collection.</typeparam>
     public sealed class ReadOnlyObservableGroupedCollection<TKey, TValue> : ReadOnlyObservableCollection<ReadOnlyObservableGroup<TKey, TValue>>
+        where TKey : notnull
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyObservableGroupedCollection{TKey, TValue}"/> class.
         /// </summary>
         /// <param name="collection">The source collection to wrap.</param>
         public ReadOnlyObservableGroupedCollection(ObservableGroupedCollection<TKey, TValue> collection)
-            : this(collection.Select(g => new ReadOnlyObservableGroup<TKey, TValue>(g)))
+            : this(collection.Select(static g => new ReadOnlyObservableGroup<TKey, TValue>(g)))
         {
-            ((INotifyCollectionChanged)collection).CollectionChanged += this.OnSourceCollectionChanged;
+            ((INotifyCollectionChanged)collection).CollectionChanged += OnSourceCollectionChanged;
         }
 
         /// <summary>
@@ -42,11 +43,11 @@ namespace Microsoft.Toolkit.Collections
         /// </summary>
         /// <param name="collection">The initial data to add in the grouped collection.</param>
         public ReadOnlyObservableGroupedCollection(IEnumerable<IGrouping<TKey, TValue>> collection)
-            : this(collection.Select(g => new ReadOnlyObservableGroup<TKey, TValue>(g.Key, g)))
+            : this(collection.Select(static g => new ReadOnlyObservableGroup<TKey, TValue>(g.Key, g)))
         {
         }
 
-        private void OnSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             // Even if the NotifyCollectionChangedEventArgs allows multiple items, the actual implementation is only
             // reporting the changes one by one. We consider only this case for now.
@@ -64,7 +65,12 @@ namespace Microsoft.Toolkit.Collections
                 ThrowNotSupportedException();
             }
 
-            var newItem = e.NewItems?.Cast<ObservableGroup<TKey, TValue>>()?.FirstOrDefault();
+            ObservableGroup<TKey, TValue>? newItem = e.NewItems?.Cast<ObservableGroup<TKey, TValue>>()?.FirstOrDefault();
+
+            if (newItem is null)
+            {
+                return;
+            }
 
             switch (e.Action)
             {

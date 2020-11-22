@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-#nullable enable
 #pragma warning disable CS8777
 
 namespace Microsoft.Toolkit.Diagnostics

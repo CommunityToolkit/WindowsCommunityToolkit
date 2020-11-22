@@ -10,7 +10,7 @@ namespace System.Diagnostics.CodeAnalysis
     /// Specifies that an output will not be <see langword="null"/> even if the corresponding type allows it.
     /// Specifies that an input argument was not <see langword="null"/> when the call returns.
     /// </summary>
-    /// <remarks>Internal copy of the .NET Standard 2.1 attribute.</remarks>
+    /// <remarks>Internal copy from the BCL attribute.</remarks>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue)]
     internal sealed class NotNullAttribute : Attribute
     {
