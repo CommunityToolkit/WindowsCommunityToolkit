@@ -39,6 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register(nameof(CloseButtonForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
+        private WeakReference<BladeView> _parentBladeView;
+
         /// <summary>
         /// Gets or sets the foreground color of the close button
         /// </summary>
@@ -84,7 +86,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsOpenProperty, value); }
         }
 
-        internal BladeView ParentBladeView { get; set; }
+        internal BladeView ParentBladeView
+        {
+            get
+            {
+                this._parentBladeView.TryGetTarget(out var bladeView);
+                return bladeView;
+            }
+            set => this._parentBladeView = new WeakReference<BladeView>(value);
+        }
 
         private static void IsOpenChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {

@@ -212,13 +212,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
             }
         }
-
-        internal IEnumerable<BladeItem> GetBladeItems()
-        {
-            return Enumerable
-                .Range(0, Items.Count)
-                .Select(idx => (BladeItem)ContainerFromIndex(idx))
-                .Where(i => i != null);
-        }
     }
 }

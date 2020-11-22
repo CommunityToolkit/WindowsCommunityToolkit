@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
@@ -35,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The control type.</returns>
         protected override AutomationControlType GetAutomationControlTypeCore()
         {
-            return AutomationControlType.Custom;
+            return AutomationControlType.ListItem;
         }
 
         /// <summary>
@@ -59,25 +61,97 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            int? index = this.OwnerBladeItem.ParentBladeView.GetBladeItems().ToList().IndexOf(this.OwnerBladeItem);
-
-            string name = base.GetNameCore();
+            string name = AutomationProperties.GetName(this.OwnerBladeItem);
             if (!string.IsNullOrEmpty(name))
             {
-                return $"{name} {index}";
+                return name;
             }
 
-            if (this.OwnerBladeItem != null && !string.IsNullOrEmpty(this.OwnerBladeItem.Name))
+            name = this.OwnerBladeItem.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                return this.OwnerBladeItem.Name;
+                return name;
             }
 
-            if (string.IsNullOrEmpty(name))
+            TextBlock textBlock = this.OwnerBladeItem.FindDescendant<TextBlock>();
+            if (textBlock != null)
             {
-                name = this.GetClassName();
+                return textBlock.Text;
             }
 
-            return $"{name} {index}";
+            name = base.GetNameCore();
+            if (!string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Called by GetAutomationId that gets the **AutomationId** of the element that is associated with the automation peer.
+        /// </summary>
+        /// <returns>
+        /// The string that contains the automation ID.
+        /// </returns>
+        protected override string GetAutomationIdCore()
+        {
+            string automationId = base.GetAutomationIdCore();
+            if (!string.IsNullOrEmpty(automationId))
+            {
+                return automationId;
+            }
+
+            if (this.OwnerBladeItem != null)
+            {
+                return this.GetNameCore();
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Returns the size of the set where the element that is associated with the automation peer is located.
+        /// </summary>
+        /// <returns>
+        /// The size of the set.
+        /// </returns>
+        protected override int GetSizeOfSetCore()
+        {
+            int sizeOfSet = base.GetSizeOfSetCore();
+
+            if (sizeOfSet != -1)
+            {
+                return sizeOfSet;
+            }
+
+            BladeItem owner = this.OwnerBladeItem;
+            BladeView parent = owner.ParentBladeView;
+            sizeOfSet = parent.Items.Count;
+
+            return sizeOfSet;
+        }
+
+        /// <summary>
+        /// Returns the ordinal position in the set for the element that is associated with the automation peer.
+        /// </summary>
+        /// <returns>
+        /// The ordinal position in the set.
+        /// </returns>
+        protected override int GetPositionInSetCore()
+        {
+            int positionInSet = base.GetPositionInSetCore();
+
+            if (positionInSet != -1)
+            {
+                return positionInSet;
+            }
+
+            BladeItem owner = this.OwnerBladeItem;
+            BladeView parent = owner.ParentBladeView;
+            positionInSet = parent.IndexFromContainer(owner);
+
+            return positionInSet;
         }
     }
 }

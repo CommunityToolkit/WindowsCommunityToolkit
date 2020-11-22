@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The control type.</returns>
         protected override AutomationControlType GetAutomationControlTypeCore()
         {
-            return AutomationControlType.Custom;
+            return AutomationControlType.List;
         }
 
         /// <summary>
@@ -63,23 +64,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            string name = base.GetNameCore();
+            string name = AutomationProperties.GetName(this.OwningBladeView);
             if (!string.IsNullOrEmpty(name))
             {
                 return name;
             }
 
-            if (this.OwningBladeView != null)
+            name = this.OwningBladeView.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                name = this.OwningBladeView.Name;
+                return name;
             }
 
-            if (string.IsNullOrEmpty(name))
+            name = base.GetNameCore();
+            if (!string.IsNullOrEmpty(name))
             {
-                name = this.GetClassName();
+                return name;
             }
 
-            return name;
+            return string.Empty;
         }
 
         /// <summary>
