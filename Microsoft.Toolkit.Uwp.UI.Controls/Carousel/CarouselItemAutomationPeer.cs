@@ -3,8 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
@@ -61,12 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <summary>Removes the current element from the collection of selected items.</summary>
         public void RemoveFromSelection()
         {
-            CarouselItem owner = this.OwnerCarouselItem;
-            Carousel parent = owner.ParentCarousel;
-            if (parent != null)
-            {
-                parent.SelectedItem = null;
-            }
+            // Cannot remove the selection of a Carousel control.
         }
 
         /// <summary>Clears any existing selection and then selects the current element.</summary>
@@ -107,25 +105,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            int? index = this.OwnerCarouselItem.ParentCarousel?.IndexFromContainer(this.OwnerCarouselItem);
-
-            string name = base.GetNameCore();
+            string name = AutomationProperties.GetName(this.OwnerCarouselItem);
             if (!string.IsNullOrEmpty(name))
             {
-                return $"{name}";
+                return name;
             }
 
-            if (this.OwnerCarouselItem != null && !string.IsNullOrEmpty(this.OwnerCarouselItem.Name))
+            name = this.OwnerCarouselItem.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                return this.OwnerCarouselItem.Name;
+                return name;
             }
 
-            if (string.IsNullOrEmpty(name))
+            var textBlock = this.OwnerCarouselItem.FindDescendant<TextBlock>();
+            if (textBlock != null)
             {
-                name = this.GetClassName();
+                return textBlock.Name;
             }
 
-            return $"{name} {index}";
+            name = base.GetNameCore();
+            if (!string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Called by GetAutomationId that gets the **AutomationId** of the element that is associated with the automation peer.
+        /// </summary>
+        /// <returns>
+        /// The string that contains the automation ID.
+        /// </returns>
+        protected override string GetAutomationIdCore()
+        {
+            var automationId = base.GetAutomationIdCore();
+            if (!string.IsNullOrEmpty(automationId))
+            {
+                return automationId;
+            }
+
+            if (this.OwnerCarouselItem != null)
+            {
+                return this.GetNameCore();
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -142,6 +168,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             }
 
             return base.GetPatternCore(patternInterface);
+        }
+
+        /// <summary>
+        /// Returns the size of the set where the element that is associated with the automation peer is located.
+        /// </summary>
+        /// <returns>
+        /// The size of the set.
+        /// </returns>
+        protected override int GetSizeOfSetCore()
+        {
+            int sizeOfSet = base.GetSizeOfSetCore();
+
+            if (sizeOfSet != -1)
+            {
+                return sizeOfSet;
+            }
+
+            CarouselItem owner = this.OwnerCarouselItem;
+            Carousel parent = owner.ParentCarousel;
+            sizeOfSet = parent.Items.Count;
+
+            return sizeOfSet;
+        }
+
+        /// <summary>
+        /// Returns the ordinal position in the set for the element that is associated with the automation peer.
+        /// </summary>
+        /// <returns>
+        /// The ordinal position in the set.
+        /// </returns>
+        protected override int GetPositionInSetCore()
+        {
+            int positionInSet = base.GetPositionInSetCore();
+
+            if (positionInSet != -1)
+            {
+                return positionInSet;
+            }
+
+            CarouselItem owner = this.OwnerCarouselItem;
+            Carousel parent = owner.ParentCarousel;
+            positionInSet = parent.IndexFromContainer(owner);
+
+            return positionInSet;
         }
     }
 }
