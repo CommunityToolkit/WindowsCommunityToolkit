@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             var textBlock = this.OwnerCarouselItem.FindDescendant<TextBlock>();
             if (textBlock != null)
             {
-                return textBlock.Name;
+                return textBlock.Text;
             }
 
             name = base.GetNameCore();
