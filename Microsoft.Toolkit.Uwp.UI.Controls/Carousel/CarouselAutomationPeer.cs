@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 
         /// <summary>Gets a value indicating whether the UI Automation provider requires at least one child element to be selected.</summary>
         /// <returns>True if selection is required; otherwise, false.</returns>
-        public bool IsSelectionRequired => false;
+        public bool IsSelectionRequired => true;
 
         private Carousel OwningCarousel
         {
@@ -82,24 +82,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            string name = string.Empty;
-
-            if (this.OwningCarousel != null)
+            string name = AutomationProperties.GetName(this.OwningCarousel);
+            if (!string.IsNullOrEmpty(name))
             {
-                name = this.OwningCarousel.Name;
+                return name;
             }
 
-            if (string.IsNullOrEmpty(name))
+            name = this.OwningCarousel.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                name = base.GetNameCore();
+                return name;
             }
 
-            if (string.IsNullOrEmpty(name))
+            name = base.GetNameCore();
+            if (!string.IsNullOrEmpty(name))
             {
-                name = this.GetClassName();
+                return name;
             }
 
-            return name;
+            return string.Empty;
         }
 
         /// <summary>
