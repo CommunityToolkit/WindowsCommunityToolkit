@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 #nullable enable
+#pragma warning disable CS8777
 
 namespace Microsoft.Toolkit.Diagnostics
 {
@@ -43,9 +44,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrEmpty(text))
             {
-#pragma warning disable CS8777 // Does not return when text is null
                 return;
-#pragma warning restore CS8777
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
@@ -97,9 +96,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
-#pragma warning disable CS8777 // Does not return when text is null
                 return;
-#pragma warning restore CS8777
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhiteSpace(text, name);
@@ -117,9 +114,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
-#pragma warning disable CS8777 // Does not return when text is null
                 return;
-#pragma warning restore CS8777
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhiteSpace(text, name);
