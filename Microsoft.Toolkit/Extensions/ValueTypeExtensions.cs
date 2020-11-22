@@ -55,12 +55,11 @@ namespace Microsoft.Toolkit.Extensions
             p[0] = '0';
             p[1] = 'x';
 
-            ref byte r0 = ref Unsafe.As<T, byte>(ref value);
             ref byte rh = ref MemoryMarshal.GetReference(HexCharactersTable);
 
             for (int i = 0, j = bufferSize - 2; i < sizeOfT; i++, j -= 2)
             {
-                byte b = Unsafe.Add(ref r0, i);
+                byte b = ((byte*)&value)[i];
                 int
                     low = b & 0x0F,
                     high = (b & 0xF0) >> 4;
