@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Collections
         {
             if (source.TryGetList(out var list))
             {
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -272,7 +272,7 @@ namespace Microsoft.Toolkit.Collections
             if (source.TryGetList(out var list))
             {
                 var index = 0;
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -327,7 +327,7 @@ namespace Microsoft.Toolkit.Collections
             if (source.TryGetList(out var list))
             {
                 var index = 0;
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -398,7 +398,7 @@ namespace Microsoft.Toolkit.Collections
             if (source.TryGetList(out var list))
             {
                 var groupIndex = 0;
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
