@@ -91,15 +91,22 @@ namespace Microsoft.Toolkit.Mvvm.Input
             get => this.executionTask;
             private set
             {
-                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ => OnPropertyChanged(nameof(IsRunning))))
+                if (SetPropertyAndNotifyOnCompletion(ref this.executionTask, value, _ =>
                 {
-                    OnPropertyChanged(nameof(IsRunning));
+                    // When the task completes
+                    OnPropertyChanged(AsyncRelayCommand.IsRunningChangedEventArgs);
+                    OnPropertyChanged(AsyncRelayCommand.CanBeCanceledChangedEventArgs);
+                }))
+                {
+                    // When setting the task
+                    OnPropertyChanged(AsyncRelayCommand.IsRunningChangedEventArgs);
+                    OnPropertyChanged(AsyncRelayCommand.CanBeCanceledChangedEventArgs);
                 }
             }
         }
 
         /// <inheritdoc/>
-        public bool CanBeCanceled => !(this.cancelableExecute is null);
+        public bool CanBeCanceled => !(this.cancelableExecute is null) && IsRunning;
 
         /// <inheritdoc/>
         public bool IsCancellationRequested => this.cancellationTokenSource?.IsCancellationRequested == true;
@@ -163,7 +170,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
                 var cancellationTokenSource = this.cancellationTokenSource = new CancellationTokenSource();
 
-                OnPropertyChanged(nameof(IsCancellationRequested));
+                OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
 
                 // Invoke the cancelable command delegate with a new linked token
                 return ExecutionTask = this.cancelableExecute!(parameter, cancellationTokenSource.Token);
@@ -183,7 +190,8 @@ namespace Microsoft.Toolkit.Mvvm.Input
         {
             this.cancellationTokenSource?.Cancel();
 
-            OnPropertyChanged(nameof(IsCancellationRequested));
+            OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
+            OnPropertyChanged(AsyncRelayCommand.CanBeCanceledChangedEventArgs);
         }
     }
 }
