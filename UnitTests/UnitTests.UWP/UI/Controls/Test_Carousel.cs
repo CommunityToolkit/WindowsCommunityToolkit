@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using Windows.UI.Xaml.Automation;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
@@ -21,18 +22,23 @@ namespace UnitTests.UWP.UI.Controls
         [UITestMethod]
         public void ShouldConfigureCarouselAutomationPeer()
         {
+            const string automationName = "MyAutomationPhotoItems";
+            const string name = "MyPhotoItems";
+
             var items = new ObservableCollection<PhotoDataItem> { new PhotoDataItem { Title = "Hello" }, new PhotoDataItem { Title = "World" } };
             var carousel = new Carousel { ItemsSource = items };
 
-            var carouselPeer = FrameworkElementAutomationPeer.CreatePeerForElement(carousel) as CarouselAutomationPeer;
+            var carouselAutomationPeer = FrameworkElementAutomationPeer.CreatePeerForElement(carousel) as CarouselAutomationPeer;
 
-            Assert.IsNotNull(carouselPeer, "Verify that the AutomationPeer is CarouselAutomationPeer.");
-            Assert.IsFalse(carouselPeer.CanSelectMultiple, "Verify that CarouselAutomationPeer.CanSelectMultiple is false.");
-            Assert.IsFalse(carouselPeer.IsSelectionRequired, "Verify that CarouselAutomationPeer.IsSelectionRequired is false.");
+            Assert.IsNotNull(carouselAutomationPeer, "Verify that the AutomationPeer is CarouselAutomationPeer.");
+            Assert.IsFalse(carouselAutomationPeer.CanSelectMultiple, "Verify that CarouselAutomationPeer.CanSelectMultiple is false.");
+            Assert.IsTrue(carouselAutomationPeer.IsSelectionRequired, "Verify that CarouselAutomationPeer.IsSelectionRequired is false.");
 
-            Assert.IsTrue(carouselPeer.GetName().Contains(nameof(Carousel)), "Verify that the UIA name contains the class name of the Carousel.");
-            carousel.Name = "TextItems";
-            Assert.IsTrue(carouselPeer.GetName().Contains(carousel.Name), "Verify that the UIA name contains the given name of the Carousel.");
+            carousel.SetValue(AutomationProperties.NameProperty, automationName);
+            Assert.IsTrue(carouselAutomationPeer.GetName().Contains(automationName), "Verify that the UIA name contains the given AutomationProperties.Name of the Carousel.");
+
+            carousel.Name = name;
+            Assert.IsTrue(carouselAutomationPeer.GetName().Contains(name), "Verify that the UIA name contains the given Name of the Carousel.");
         }
 
         public class PhotoDataItem

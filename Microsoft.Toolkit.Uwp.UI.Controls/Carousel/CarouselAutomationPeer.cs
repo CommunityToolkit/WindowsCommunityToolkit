@@ -82,13 +82,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            string name = AutomationProperties.GetName(this.OwningCarousel);
+            string name = this.OwningCarousel.Name;
             if (!string.IsNullOrEmpty(name))
             {
                 return name;
             }
 
-            name = this.OwningCarousel.Name;
+            name = AutomationProperties.GetName(this.OwningCarousel);
             if (!string.IsNullOrEmpty(name))
             {
                 return name;
