@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="str">The string to test.</param>
         /// <returns><c>true</c> for a valid decimal number; otherwise, <c>false</c>.</returns>
-        public static bool IsDecimal([NotNullWhen(true), MaybeNullWhen(false)] this string? str)
+        public static bool IsDecimal([NotNullWhen(true)] this string? str)
         {
             return decimal.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out _);
         }
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="str">The string to test.</param>
         /// <returns><c>true</c> for a valid integer; otherwise, <c>false</c>.</returns>
-        public static bool IsNumeric([NotNullWhen(true), MaybeNullWhen(false)] this string? str)
+        public static bool IsNumeric([NotNullWhen(true)] this string? str)
         {
             return int.TryParse(str, out _);
         }
