@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Extensions
     public static class ValueTypeExtensions
     {
         /// <summary>
-        /// Gets the table of hex characters (doesn't allocate, maps to .text section, see <see href="https://github.com/dotnet/roslyn/pull/24621"/>)
+        /// Gets the table of hex characters (doesn't allocate, maps to .text section, see <see href="https://github.com/dotnet/roslyn/pull/24621"/>).
         /// </summary>
         private static ReadOnlySpan<byte> HexCharactersTable => new[]
         {

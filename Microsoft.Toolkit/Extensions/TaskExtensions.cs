@@ -69,8 +69,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <remarks>This method does not block if <paramref name="task"/> has not completed yet.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [return: MaybeNull]
-        public static T GetResultOrDefault<T>(this Task<T> task)
+        public static T? GetResultOrDefault<T>(this Task<T?> task)
         {
 #if NETSTANDARD2_1
             return task.IsCompletedSuccessfully ? task.Result : default;
