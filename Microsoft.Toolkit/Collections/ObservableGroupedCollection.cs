@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Collections
         {
             list = Items as List<ObservableGroup<TKey, TValue>>;
 
-            return !(list is null);
+            return list is not null;
         }
     }
 }
