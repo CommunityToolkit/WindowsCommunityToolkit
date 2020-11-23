@@ -49,8 +49,8 @@ namespace Microsoft.Toolkit.Collections
 
         private void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            // Even if the NotifyCollectionChangedEventArgs allows multiple items, the actual implementation is only
-            // reporting the changes one by one. We consider only this case for now.
+            // Even if NotifyCollectionChangedEventArgs allows multiple items, the actual implementation
+            // is only reporting the changes one by one. We consider only this case for now.
             if (e.OldItems?.Count > 1 || e.NewItems?.Count > 1)
             {
                 static void ThrowNotSupportedException()
@@ -65,27 +65,32 @@ namespace Microsoft.Toolkit.Collections
                 ThrowNotSupportedException();
             }
 
-            ObservableGroup<TKey, TValue>? newItem = e.NewItems?.Cast<ObservableGroup<TKey, TValue>>()?.FirstOrDefault();
-
-            if (newItem is null)
-            {
-                return;
-            }
-
             switch (e.Action)
             {
-                case NotifyCollectionChangedAction.Add:
-                    Items.Insert(e.NewStartingIndex, new ReadOnlyObservableGroup<TKey, TValue>(newItem));
+                case NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace:
+
+                    // We only need to find the new item if the operation is either add or remove. In this
+                    // case we just directly find the first item that was modified, or throw if it's not present.
+                    // This normally never happens anyway - add and replace should always have a target element.
+                    ObservableGroup<TKey, TValue> newItem = e.NewItems!.Cast<ObservableGroup<TKey, TValue>>().First();
+
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        Items.Insert(e.NewStartingIndex, new ReadOnlyObservableGroup<TKey, TValue>(newItem));
+                    }
+                    else
+                    {
+                        Items[e.OldStartingIndex] = new ReadOnlyObservableGroup<TKey, TValue>(newItem);
+                    }
+
                     break;
                 case NotifyCollectionChangedAction.Move:
+
                     // Our inner Items list is our own ObservableCollection<ReadOnlyObservableGroup<TKey, TValue>> so we can safely cast Items to its concrete type here.
                     ((ObservableCollection<ReadOnlyObservableGroup<TKey, TValue>>)Items).Move(e.OldStartingIndex, e.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     Items.RemoveAt(e.OldStartingIndex);
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    Items[e.OldStartingIndex] = new ReadOnlyObservableGroup<TKey, TValue>(newItem);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     Items.Clear();
