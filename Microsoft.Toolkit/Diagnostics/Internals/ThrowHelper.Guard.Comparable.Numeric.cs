@@ -93,5 +93,25 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(double).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
         }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsCloseTo(nint,nint,nuint,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
+        internal static void ThrowArgumentExceptionForIsCloseTo(nint value, nint target, nuint delta, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(nint).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotCloseTo(nint,nint,nuint,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        [DoesNotReturn]
+        internal static void ThrowArgumentExceptionForIsNotCloseTo(nint value, nint target, nuint delta, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(nint).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}");
+        }
     }
 }

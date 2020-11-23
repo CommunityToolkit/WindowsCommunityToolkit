@@ -207,5 +207,65 @@ namespace Microsoft.Toolkit.Diagnostics
 
             ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
         }
+
+        /// <summary>
+        /// Asserts that the input value must be within a given distance from a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="target">The target <see langword="nint"/> value to test for.</param>
+        /// <param name="delta">The maximum distance to allow between <paramref name="value"/> and <paramref name="target"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if (<paramref name="value"/> - <paramref name="target"/>) > <paramref name="delta"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsCloseTo(nint value, nint target, nuint delta, string name)
+        {
+            nuint difference;
+
+            if (value >= target)
+            {
+                difference = (nuint)(value - target);
+            }
+            else
+            {
+                difference = (nuint)(target - value);
+            }
+
+            if (difference <= delta)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be within a given distance from a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="target">The target <see langword="nint"/> value to test for.</param>
+        /// <param name="delta">The maximum distance to allow between <paramref name="value"/> and <paramref name="target"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if (<paramref name="value"/> - <paramref name="target"/>) &lt;= <paramref name="delta"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotCloseTo(nint value, nint target, nuint delta, string name)
+        {
+            nuint difference;
+
+            if (value >= target)
+            {
+                difference = (nuint)(value - target);
+            }
+            else
+            {
+                difference = (nuint)(target - value);
+            }
+
+            if (difference > delta)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
+        }
     }
 }
