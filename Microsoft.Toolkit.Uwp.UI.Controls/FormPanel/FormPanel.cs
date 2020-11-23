@@ -52,8 +52,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(new Thickness(0), OnLayoutPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the padding inside the control.
+        /// Gets or sets the distance between the border and its child object.
         /// </summary>
+        /// <returns>
+        /// The dimensions of the space between the border and its child as a Thickness value.
+        /// Thickness is a structure that stores dimension values using pixel measures.
+        /// </returns>
         public Thickness Padding
         {
             get => (Thickness)GetValue(PaddingProperty);
@@ -91,9 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnLayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (FormPanel)d;
-
             control.InvalidateMeasure();
-            control.InvalidateArrange();
         }
 
         /// <inheritdoc/>
