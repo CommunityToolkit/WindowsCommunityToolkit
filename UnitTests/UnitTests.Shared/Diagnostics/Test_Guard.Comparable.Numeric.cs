@@ -25,7 +25,7 @@ namespace UnitTests.Diagnostics
         [DataRow(-500, -530, 50u, true)]
         [DataRow(1000, 800, 200u, true)]
         [DataRow(int.MaxValue, int.MaxValue - 10, 10u, true)]
-        public void Test_Guard_IsCloseToInt(int value, int target, uint delta, bool isClose)
+        public void Test_Guard_IsCloseOrNotToInt(int value, int target, uint delta, bool isClose)
         {
             void Test(int value, int target)
             {
@@ -33,7 +33,7 @@ namespace UnitTests.Diagnostics
 
                 try
                 {
-                    Guard.IsCloseTo(value, target, delta, nameof(Test_Guard_IsCloseToInt));
+                    Guard.IsCloseTo(value, target, delta, nameof(Test_Guard_IsCloseOrNotToInt));
                 }
                 catch (ArgumentException)
                 {
@@ -41,6 +41,19 @@ namespace UnitTests.Diagnostics
                 }
 
                 Assert.AreEqual(isClose, !isFailed);
+
+                isFailed = false;
+
+                try
+                {
+                    Guard.IsNotCloseTo(value, target, delta, nameof(Test_Guard_IsCloseOrNotToInt));
+                }
+                catch (ArgumentException)
+                {
+                    isFailed = true;
+                }
+
+                Assert.AreEqual(isClose, isFailed);
             }
 
             Test(value, target);
@@ -70,7 +83,7 @@ namespace UnitTests.Diagnostics
 
                 try
                 {
-                    Guard.IsCloseTo(value, target, delta, nameof(Test_Guard_IsCloseToInt));
+                    Guard.IsCloseTo(value, target, delta, nameof(Test_Guard_IsCloseToFloat));
                 }
                 catch (ArgumentException)
                 {
@@ -78,6 +91,19 @@ namespace UnitTests.Diagnostics
                 }
 
                 Assert.AreEqual(isClose, !isFailed);
+
+                isFailed = false;
+
+                try
+                {
+                    Guard.IsNotCloseTo(value, target, delta, nameof(Test_Guard_IsCloseToFloat));
+                }
+                catch (ArgumentException)
+                {
+                    isFailed = true;
+                }
+
+                Assert.AreEqual(isClose, isFailed);
             }
 
             Test(value, target);
