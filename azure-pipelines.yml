@@ -105,3 +105,10 @@ jobs:
       pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
       artifactType: container
       artifactName: SmokeTestBundles
+
+  - task: NDependTask@1
+    displayName: 'NDependTask '
+    inputs:
+      excluded: '*test*;*sample*'
+    env:
+      SYSTEM_ACCESSTOKEN: $(system.accesstoken)
