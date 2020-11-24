@@ -35,7 +35,7 @@ namespace UITests.Tests
         }
 
         [TestMethod]
-        [TestPage("SimpleTest")]
+        [TestPage("SimpleTestPage")]
         public void SimpleTestMethod()
         {
             var button = new Button(FindElement.ByName("Click Me"));

@@ -132,7 +132,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainTestHost.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+      <DependentUpon>MainTestHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

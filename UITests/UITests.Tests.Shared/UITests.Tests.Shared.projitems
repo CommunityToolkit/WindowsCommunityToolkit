@@ -26,7 +26,7 @@
     <!-- When we're in the UI app used by the test harness, include all the pages -->
     <When Condition="'$(IsTestHost)' == 'true'">
       <ItemGroup>
-        <Page Include="$(MSBuildThisFileDirectory)**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+        <Page Include="$(MSBuildThisFileDirectory)**\*Page.xaml" Exclude="**\bin\**\*Page.xaml;**\obj\**\*Page.xaml" Link="%(RecursiveDir)%(FileName)%(Extension)" SubType="Designer" Generator="MSBuild:Compile" />
         <Compile Include="$(MSBuildThisFileDirectory)**\*Page.xaml.cs" DependentUpon="%(Filename)" />
       </ItemGroup>
     </When>
