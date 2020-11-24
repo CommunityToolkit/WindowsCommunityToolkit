@@ -451,7 +451,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "row" parameter is invalid.
         /// </summary>
-        public static void ThrowArgumentOutOfRangeExceptionForRow()
+        private static void ThrowArgumentOutOfRangeExceptionForRow()
         {
             throw new ArgumentOutOfRangeException("row");
         }
@@ -459,7 +459,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "column" parameter is invalid.
         /// </summary>
-        public static void ThrowArgumentOutOfRangeExceptionForColumn()
+        private static void ThrowArgumentOutOfRangeExceptionForColumn()
         {
             throw new ArgumentOutOfRangeException("column");
         }
