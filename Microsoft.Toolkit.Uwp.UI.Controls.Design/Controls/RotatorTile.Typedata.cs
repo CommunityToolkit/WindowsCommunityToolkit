@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type RotatorTile = typeof(RotatorTile);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string RotatorTile = RootNamespace + "." + nameof(RotatorTile);
@@ -26,5 +20,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string RotateDirection = nameof(RotateDirection);
         internal const string RotationDelay = nameof(RotationDelay);
     }
-#endif
 }

@@ -4,17 +4,10 @@
 
 using System.ComponentModel;
 
-#if VS_DESIGNER_PROCESS_ISOLATION
-using Microsoft.Windows.Design;
-using Microsoft.Windows.Design.Features;
-using Microsoft.Windows.Design.Metadata;
-using Microsoft.Windows.Design.Model;
-#else
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Features;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Model;
-#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {

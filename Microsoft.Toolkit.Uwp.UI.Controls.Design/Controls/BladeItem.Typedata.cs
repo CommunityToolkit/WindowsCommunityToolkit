@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type BladeItem = typeof(BladeItem);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string BladeItem = RootNamespace + "." + nameof(BladeItem);
@@ -25,5 +19,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string TitleBarBackground = nameof(TitleBarBackground);
         internal const string TitleBarVisibility = nameof(TitleBarVisibility);
     }
-#endif
 }

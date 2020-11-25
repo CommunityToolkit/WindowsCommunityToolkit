@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type ScrollHeader = typeof(ScrollHeader);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string ScrollHeader = RootNamespace + "." + nameof(ScrollHeader);
@@ -21,5 +15,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal const string Mode = nameof(Mode);
     }
-#endif
 }

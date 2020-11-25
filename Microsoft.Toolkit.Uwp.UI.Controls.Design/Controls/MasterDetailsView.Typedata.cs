@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type MasterDetailsView = typeof(MasterDetailsView);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string MasterDetailsView = RootNamespace + "." + nameof(MasterDetailsView);
@@ -31,5 +25,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string SelectedItem = nameof(SelectedItem);
         internal const string ViewState = nameof(ViewState);
     }
-#endif
 }

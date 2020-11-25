@@ -6,17 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type DataGrid = typeof(DataGrid);
-        internal static readonly Type DataGridColumn = typeof(DataGridColumn);
-        internal static readonly Type DataGridBoundColumn = typeof(DataGridBoundColumn);
-        internal static readonly Type DataGridTextColumn = typeof(DataGridTextColumn);
-        internal static readonly Type DataGridCheckBoxColumn = typeof(DataGridCheckBoxColumn);
-        internal static readonly Type DataGridTemplateColumn = typeof(DataGridTemplateColumn);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string DataGrid = RootNamespace + "." + nameof(DataGrid);
@@ -111,5 +100,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string CellEditingTemplate = nameof(CellEditingTemplate);
         internal const string CellTemplate = nameof(CellTemplate);
     }
-#endif
 }

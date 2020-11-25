@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type ImageEx = typeof(ImageEx);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string ImageEx = RootNamespace + "." + nameof(ImageEx);
@@ -21,5 +15,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal const string NineGrid = nameof(NineGrid);
     }
-#endif
 }

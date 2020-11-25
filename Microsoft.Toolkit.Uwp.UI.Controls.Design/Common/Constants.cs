@@ -9,13 +9,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if !VS_DESIGNER_PROCESS_ISOLATION
     internal static partial class ControlTypes
     {
         // HACK: Don't forget to update, if the namespace changes.
         public const string RootNamespace = "Microsoft.Toolkit.Uwp.UI.Controls";
     }
-#endif
+
     /// <summary>
     /// Names for ToolboxCategoryAttribute.
     /// </summary>

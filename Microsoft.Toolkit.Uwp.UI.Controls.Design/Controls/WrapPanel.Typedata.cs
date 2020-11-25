@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type WrapPanel = typeof(WrapPanel);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string WrapPanel = RootNamespace + "." + nameof(WrapPanel);
@@ -23,5 +17,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string Orientation = nameof(Orientation);
         internal const string VerticalSpacing = nameof(VerticalSpacing);
     }
-#endif
 }

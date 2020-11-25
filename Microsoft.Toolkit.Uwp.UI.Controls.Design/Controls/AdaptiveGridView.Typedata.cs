@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type AdaptiveGridView = typeof(AdaptiveGridView);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string AdaptiveGridView = RootNamespace + "." + nameof(AdaptiveGridView);
@@ -25,5 +19,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string OneRowModeEnabled = nameof(OneRowModeEnabled);
         internal const string StretchContentForSingleRow = nameof(StretchContentForSingleRow);
     }
-#endif
 }

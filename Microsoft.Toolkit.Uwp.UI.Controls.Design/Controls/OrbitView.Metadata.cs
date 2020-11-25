@@ -6,13 +6,8 @@ using System.ComponentModel;
 
 using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
 
-#if VS_DESIGNER_PROCESS_ISOLATION
-using Microsoft.Windows.Design;
-using Microsoft.Windows.Design.Metadata;
-#else
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
-#endif
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {

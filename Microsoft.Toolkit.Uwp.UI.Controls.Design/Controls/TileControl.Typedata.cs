@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type TileControl = typeof(TileControl);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string TileControl = RootNamespace + "." + nameof(TileControl);
@@ -31,5 +25,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string ScrollOrientation = nameof(ScrollOrientation);
         internal const string ScrollViewerContainer = nameof(ScrollViewerContainer);
     }
-#endif
 }

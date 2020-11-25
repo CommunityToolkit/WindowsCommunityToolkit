@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type BladeView = typeof(BladeView);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string BladeView = RootNamespace + "." + nameof(BladeView);
@@ -24,5 +18,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string BladeMode = nameof(BladeMode);
         internal const string Items = nameof(Items);
     }
-#endif
 }

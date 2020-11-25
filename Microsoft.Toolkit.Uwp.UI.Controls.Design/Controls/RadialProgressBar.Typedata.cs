@@ -6,12 +6,6 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-#if VS_DESIGNER_PROCESS_ISOLATION
-    internal static partial class ControlTypes
-    {
-        internal static readonly Type RadialProgressBar = typeof(RadialProgressBar);
-    }
-#else
     internal static partial class ControlTypes
     {
         internal const string RadialProgressBar = RootNamespace + "." + nameof(RadialProgressBar);
@@ -23,5 +17,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string Thickness = nameof(Thickness);
         internal const string Value = nameof(Value);
     }
-#endif
 }

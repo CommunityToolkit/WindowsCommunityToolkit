@@ -78,9 +78,9 @@
     <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\Common\Constants.cs" Link="Common\Constants.cs" />
     <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
     <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Design\MetadataRegistration.cs" Link="MetadataRegistration.cs" />
     <Compile Include="Controls\MarkdownTextBlock.Metadata.cs" />
     <Compile Include="Controls\MarkdownTextBlock.Typedata.cs" />
-    <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
