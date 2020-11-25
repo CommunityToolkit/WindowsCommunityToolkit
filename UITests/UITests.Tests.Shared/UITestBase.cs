@@ -6,9 +6,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using System.Diagnostics;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -78,8 +82,10 @@ namespace UITests.Tests
 
         public TestContext TestContext { get; set; }
 
+        private AppServiceConnection CommunicationService { get; set; }
+
         [TestInitialize]
-        public void TestInitalize()
+        public async Task TestInitialize()
         {
 #if USING_TAEF
             var fullTestName = TestContext.TestName;
@@ -109,9 +115,49 @@ namespace UITests.Tests
                 return;
             }
 
-            var pageTextBox = FindElement.ById<Edit>("PageName");
-            pageTextBox.SetValue(attribute.XamlFile);
-            KeyboardHelper.PressKey(Key.Enter);
+            var pageName = attribute.XamlFile;
+
+            Log.Comment("[Harness] Sending Hose Page Request: {0}", pageName);
+
+            // Make the connection if we haven't already.
+            if (CommunicationService == null)
+            {
+                CommunicationService = new AppServiceConnection();
+
+                // Here, we use the app service name defined in the app service 
+                // provider's Package.appxmanifest file in the <Extension> section.
+                CommunicationService.AppServiceName = "TestHarnessCommunicationService";
+
+                // Use Windows.ApplicationModel.Package.Current.Id.FamilyName
+                // within the app service provider to get this value.
+                CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t";
+
+                var status = await CommunicationService.OpenAsync();
+
+                if (status != AppServiceConnectionStatus.Success)
+                {
+                    Log.Error("Failed to connect to App Service host.");
+                    CommunicationService = null;
+                    throw new Exception("Failed to connect to App Service host.");
+                }
+            }
+
+            // Call the service.
+            var message = new ValueSet();
+            message.Add("Command", "Start");
+            message.Add("Page", pageName);
+
+            AppServiceResponse response = await CommunicationService.SendMessageAsync(message);
+            string result = string.Empty;
+
+            if (response.Status == AppServiceResponseStatus.Success)
+            {
+                // Get the data  that the service sent to us.
+                if (response.Message["Status"] as string == "OK")
+                {
+                    result = response.Message["Result"] as string;
+                }
+            }
         }
     }
 }

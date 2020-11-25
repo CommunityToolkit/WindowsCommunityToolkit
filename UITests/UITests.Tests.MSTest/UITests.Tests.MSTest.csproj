@@ -3,7 +3,7 @@
 
   <PropertyGroup>
 
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
     <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.1</TargetFrameworkVersion>
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>

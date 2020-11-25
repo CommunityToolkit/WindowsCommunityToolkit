@@ -131,6 +131,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="App.AppService.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainTestHost.xaml.cs">
       <DependentUpon>MainTestHost.xaml</DependentUpon>
     </Compile>
