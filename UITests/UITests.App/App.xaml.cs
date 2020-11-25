@@ -18,10 +18,19 @@ namespace UITests.App
     {
         internal Dictionary<string, Type> TestPages { get; } = new Dictionary<string, Type>();
 
+        internal MainTestHost host;
+
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += this.App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            // TODO: Log to a file?
+            Log("Unhandled Exception: " + e.Message);
         }
 
         /// <summary>

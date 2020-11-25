@@ -117,14 +117,16 @@ namespace UITests.Tests
 
             var pageName = attribute.XamlFile;
 
-            Log.Comment("[Harness] Sending Hose Page Request: {0}", pageName);
+            Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
 
             // Make the connection if we haven't already.
             if (CommunicationService == null)
             {
                 CommunicationService = new AppServiceConnection();
 
-                // Here, we use the app service name defined in the app service 
+                CommunicationService.RequestReceived += this.CommunicationService_RequestReceived;
+
+                // Here, we use the app service name defined in the app service
                 // provider's Package.appxmanifest file in the <Extension> section.
                 CommunicationService.AppServiceName = "TestHarnessCommunicationService";
 
@@ -155,8 +157,53 @@ namespace UITests.Tests
                 // Get the data  that the service sent to us.
                 if (response.Message["Status"] as string == "OK")
                 {
-                    result = response.Message["Result"] as string;
+                    Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+                    return;
                 }
+            }
+
+            // Error case, we didn't get confirmation of test starting.
+            throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
+        }
+
+        private void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            AppServiceDeferral messageDeferral = args.GetDeferral();
+            ValueSet message = args.Request.Message;
+            string cmd = message["Command"] as string;
+
+            try
+            {
+                // Return the data to the caller.
+                if (cmd == "Log")
+                {
+                    string level = message["Level"] as string;
+                    string msg = message["Message"] as string;
+
+                    switch (level)
+                    {
+                        case "Comment":
+                            Log.Comment("[Host] {0}", msg);
+                            break;
+                        case "Warning":
+                            Log.Warning("[Host] {0}", msg);
+                            break;
+                        case "Error":
+                            Log.Error("[Host] {0}", msg);
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // Your exception handling code here.
+                Debug.WriteLine("Exception receiving message: " + e.Message);
+            }
+            finally
+            {
+                // Complete the deferral so that the platform knows that we're done responding to the app service call.
+                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
+                messageDeferral.Complete();
             }
         }
     }

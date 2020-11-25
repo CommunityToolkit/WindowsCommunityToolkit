@@ -8,6 +8,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace UITests.App
 {
@@ -47,13 +49,26 @@ namespace UITests.App
                     Debug.WriteLine("[Host] Received request for Page: " + pageName);
 
                     ValueSet returnMessage = new ValueSet();
-                    returnMessage.Add("Status", "OK");
+
+                    if (host != null)
+                    {
+                        if (host.OpenPage(pageName))
+                        {
+                            returnMessage.Add("Status", "OK");
+                        }
+                        else
+                        {
+                            returnMessage.Add("Status", "BAD");
+                        }
+                    }
+
                     await args.Request.SendResponseAsync(returnMessage);
                 }
             }
             catch (Exception e)
             {
                 // Your exception handling code here.
+                Log("Exception processing request: " + e.Message);
             }
             finally
             {
@@ -71,6 +86,18 @@ namespace UITests.App
         private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
             _appServiceDeferral.Complete();
+        }
+
+        public async void Log(string msg)
+        {
+            var message = new ValueSet();
+            message.Add("Command", "Log");
+            message.Add("Level", "Comment");
+            message.Add("Message", msg);
+
+            await _appServiceConnection.SendMessageAsync(message);
+
+            // TODO: do we care if we have a problem here?
         }
     }
 }

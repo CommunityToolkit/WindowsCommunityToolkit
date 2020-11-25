@@ -20,6 +20,7 @@ namespace UITests.App.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             textBlock.Text = "Clicked";
+            (App.Current as App).Log("Button Clicked!");
         }
     }
 }
