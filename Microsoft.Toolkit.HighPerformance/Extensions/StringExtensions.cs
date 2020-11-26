@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if !NETCOREAPP3_1
+#if NETCOREAPP2_1 || NETSTANDARD
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReference(this string text)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             return ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
             var stringData = Unsafe.As<RawStringData>(text)!;
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReferenceAt(this string text, int i)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
             ref char r0 = ref Unsafe.As<RawStringData>(text)!.Data;

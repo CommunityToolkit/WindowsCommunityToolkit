@@ -7,7 +7,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCORE_RUNTIME
+#if NETCORE_RUNTIME || NET5_0
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
-#if NETCORE_RUNTIME
+#if NETCORE_RUNTIME || NET5_0
                 ref T r0 = ref array!.DangerousGetReferenceAt(this.start);
 
                 // On .NET Core runtimes, we can manually create a span from the starting reference to

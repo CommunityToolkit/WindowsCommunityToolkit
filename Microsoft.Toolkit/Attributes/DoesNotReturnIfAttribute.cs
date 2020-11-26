@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if !NETSTANDARD2_1
+#if !NETSTANDARD2_1_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis
 {
@@ -10,7 +10,7 @@ namespace System.Diagnostics.CodeAnalysis
     /// Specifies that a given <see cref="ParameterValue"/> also indicates
     /// whether the method will not return (eg. throw an exception).
     /// </summary>
-    /// <remarks>Internal copy of the .NET Standard 2.1 attribute.</remarks>
+    /// <remarks>Internal copy from the BCL attribute.</remarks>
     [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class DoesNotReturnIfAttribute : Attribute
     {

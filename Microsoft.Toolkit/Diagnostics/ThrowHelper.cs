@@ -11,8 +11,6 @@ using System.Runtime.InteropServices;
 #endif
 using System.Threading;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
@@ -36,7 +34,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArrayTypeMismatchException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowArrayTypeMismatchException(string message)
+        public static void ThrowArrayTypeMismatchException(string? message)
         {
             throw new ArrayTypeMismatchException(message);
         }
@@ -48,7 +46,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ArrayTypeMismatchException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArrayTypeMismatchException(string message, Exception innerException)
+        public static void ThrowArrayTypeMismatchException(string? message, Exception? innerException)
         {
             throw new ArrayTypeMismatchException(message, innerException);
         }
@@ -69,7 +67,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentException(string message)
+        public static void ThrowArgumentException(string? message)
         {
             throw new ArgumentException(message);
         }
@@ -81,7 +79,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ArgumentException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentException(string message, Exception innerException)
+        public static void ThrowArgumentException(string? message, Exception? innerException)
         {
             throw new ArgumentException(message, innerException);
         }
@@ -93,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentException(string name, string message)
+        public static void ThrowArgumentException(string? name, string? message)
         {
             throw new ArgumentException(message, name);
         }
@@ -106,7 +104,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ArgumentException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentException(string name, string message, Exception innerException)
+        public static void ThrowArgumentException(string? name, string? message, Exception? innerException)
         {
             throw new ArgumentException(message, name, innerException);
         }
@@ -127,7 +125,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The argument name.</param>
         /// <exception cref="ArgumentNullException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentNullException(string name)
+        public static void ThrowArgumentNullException(string? name)
         {
             throw new ArgumentNullException(name);
         }
@@ -139,7 +137,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ArgumentNullException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentNullException(string name, Exception innerException)
+        public static void ThrowArgumentNullException(string? name, Exception? innerException)
         {
             throw new ArgumentNullException(name, innerException);
         }
@@ -151,7 +149,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentNullException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentNullException(string name, string message)
+        public static void ThrowArgumentNullException(string? name, string? message)
         {
             throw new ArgumentNullException(name, message);
         }
@@ -172,7 +170,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The argument name.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeException(string name)
+        public static void ThrowArgumentOutOfRangeException(string? name)
         {
             throw new ArgumentOutOfRangeException(name);
         }
@@ -184,7 +182,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeException(string name, Exception innerException)
+        public static void ThrowArgumentOutOfRangeException(string? name, Exception? innerException)
         {
             throw new ArgumentOutOfRangeException(name, innerException);
         }
@@ -196,7 +194,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeException(string name, string message)
+        public static void ThrowArgumentOutOfRangeException(string? name, string? message)
         {
             throw new ArgumentOutOfRangeException(name, message);
         }
@@ -209,7 +207,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeException(string name, object value, string message)
+        public static void ThrowArgumentOutOfRangeException(string? name, object? value, string? message)
         {
             throw new ArgumentOutOfRangeException(name, value, message);
         }
@@ -231,7 +229,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="COMException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowCOMException(string message)
+        public static void ThrowCOMException(string? message)
         {
             throw new COMException(message);
         }
@@ -243,7 +241,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="COMException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowCOMException(string message, Exception innerException)
+        public static void ThrowCOMException(string? message, Exception? innerException)
         {
             throw new COMException(message, innerException);
         }
@@ -255,7 +253,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="error">The HRESULT of the errror to include.</param>
         /// <exception cref="COMException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowCOMException(string message, int error)
+        public static void ThrowCOMException(string? message, int error)
         {
             throw new COMException(message, error);
         }
@@ -276,7 +274,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ExternalException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowExternalException(string message)
+        public static void ThrowExternalException(string? message)
         {
             throw new ExternalException(message);
         }
@@ -288,7 +286,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ExternalException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowExternalException(string message, Exception innerException)
+        public static void ThrowExternalException(string? message, Exception? innerException)
         {
             throw new ExternalException(message, innerException);
         }
@@ -300,7 +298,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="error">The HRESULT of the errror to include.</param>
         /// <exception cref="ExternalException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowExternalException(string message, int error)
+        public static void ThrowExternalException(string? message, int error)
         {
             throw new ExternalException(message, error);
         }
@@ -322,7 +320,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="FormatException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowFormatException(string message)
+        public static void ThrowFormatException(string? message)
         {
             throw new FormatException(message);
         }
@@ -334,7 +332,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="FormatException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowFormatException(string message, Exception innerException)
+        public static void ThrowFormatException(string? message, Exception? innerException)
         {
             throw new FormatException(message, innerException);
         }
@@ -356,7 +354,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="InsufficientMemoryException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowInsufficientMemoryException(string message)
+        public static void ThrowInsufficientMemoryException(string? message)
         {
             throw new InsufficientMemoryException(message);
         }
@@ -368,7 +366,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="InsufficientMemoryException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowInsufficientMemoryException(string message, Exception innerException)
+        public static void ThrowInsufficientMemoryException(string? message, Exception? innerException)
         {
             throw new InsufficientMemoryException(message, innerException);
         }
@@ -390,7 +388,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="InvalidDataException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowInvalidDataException(string message)
+        public static void ThrowInvalidDataException(string? message)
         {
             throw new InvalidDataException(message);
         }
@@ -402,7 +400,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="InvalidDataException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowInvalidDataException(string message, Exception innerException)
+        public static void ThrowInvalidDataException(string? message, Exception? innerException)
         {
             throw new InvalidDataException(message, innerException);
         }
@@ -423,7 +421,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="InvalidOperationException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowInvalidOperationException(string message)
+        public static void ThrowInvalidOperationException(string? message)
         {
             throw new InvalidOperationException(message);
         }
@@ -435,7 +433,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="InvalidOperationException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowInvalidOperationException(string message, Exception innerException)
+        public static void ThrowInvalidOperationException(string? message, Exception? innerException)
         {
             throw new InvalidOperationException(message, innerException);
         }
@@ -456,7 +454,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="LockRecursionException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowLockRecursionException(string message)
+        public static void ThrowLockRecursionException(string? message)
         {
             throw new LockRecursionException(message);
         }
@@ -468,7 +466,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="LockRecursionException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowLockRecursionException(string message, Exception innerException)
+        public static void ThrowLockRecursionException(string? message, Exception? innerException)
         {
             throw new LockRecursionException(message, innerException);
         }
@@ -489,7 +487,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingFieldException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingFieldException(string message)
+        public static void ThrowMissingFieldException(string? message)
         {
             throw new MissingFieldException(message);
         }
@@ -501,7 +499,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="MissingFieldException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingFieldException(string message, Exception innerException)
+        public static void ThrowMissingFieldException(string? message, Exception? innerException)
         {
             throw new MissingFieldException(message, innerException);
         }
@@ -514,7 +512,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="fieldName">The target field being retrieved.</param>
         /// <exception cref="MissingFieldException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingFieldException(string className, string fieldName)
+        public static void ThrowMissingFieldException(string? className, string? fieldName)
         {
             throw new MissingFieldException(className, fieldName);
         }
@@ -536,7 +534,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingMemberException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingMemberException(string message)
+        public static void ThrowMissingMemberException(string? message)
         {
             throw new MissingMemberException(message);
         }
@@ -548,7 +546,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="MissingMemberException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingMemberException(string message, Exception innerException)
+        public static void ThrowMissingMemberException(string? message, Exception? innerException)
         {
             throw new MissingMemberException(message, innerException);
         }
@@ -561,7 +559,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="memberName">The target member being retrieved.</param>
         /// <exception cref="MissingMemberException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingMemberException(string className, string memberName)
+        public static void ThrowMissingMemberException(string? className, string? memberName)
         {
             throw new MissingMemberException(className, memberName);
         }
@@ -583,7 +581,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="MissingMethodException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingMethodException(string message)
+        public static void ThrowMissingMethodException(string? message)
         {
             throw new MissingMethodException(message);
         }
@@ -595,7 +593,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="MissingMethodException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingMethodException(string message, Exception innerException)
+        public static void ThrowMissingMethodException(string? message, Exception? innerException)
         {
             throw new MissingMethodException(message, innerException);
         }
@@ -608,7 +606,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="methodName">The target method being retrieved.</param>
         /// <exception cref="MissingMethodException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowMissingMethodException(string className, string methodName)
+        public static void ThrowMissingMethodException(string? className, string? methodName)
         {
             throw new MissingMethodException(className, methodName);
         }
@@ -630,7 +628,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="NotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowNotSupportedException(string message)
+        public static void ThrowNotSupportedException(string? message)
         {
             throw new NotSupportedException(message);
         }
@@ -642,7 +640,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="NotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowNotSupportedException(string message, Exception innerException)
+        public static void ThrowNotSupportedException(string? message, Exception? innerException)
         {
             throw new NotSupportedException(message, innerException);
         }
@@ -653,7 +651,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="objectName">The name of the disposed object.</param>
         /// <exception cref="ObjectDisposedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowObjectDisposedException(string objectName)
+        public static void ThrowObjectDisposedException(string? objectName)
         {
             throw new ObjectDisposedException(objectName);
         }
@@ -665,7 +663,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="ObjectDisposedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowObjectDisposedException(string objectName, Exception innerException)
+        public static void ThrowObjectDisposedException(string? objectName, Exception? innerException)
         {
             throw new ObjectDisposedException(objectName, innerException);
         }
@@ -677,7 +675,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ObjectDisposedException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowObjectDisposedException(string objectName, string message)
+        public static void ThrowObjectDisposedException(string? objectName, string? message)
         {
             throw new ObjectDisposedException(objectName, message);
         }
@@ -698,7 +696,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="OperationCanceledException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowOperationCanceledException(string message)
+        public static void ThrowOperationCanceledException(string? message)
         {
             throw new OperationCanceledException(message);
         }
@@ -710,7 +708,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="OperationCanceledException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowOperationCanceledException(string message, Exception innerException)
+        public static void ThrowOperationCanceledException(string? message, Exception? innerException)
         {
             throw new OperationCanceledException(message, innerException);
         }
@@ -733,7 +731,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="token">The <see cref="CancellationToken"/> in use.</param>
         /// <exception cref="OperationCanceledException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowOperationCanceledException(string message, CancellationToken token)
+        public static void ThrowOperationCanceledException(string? message, CancellationToken token)
         {
             throw new OperationCanceledException(message, token);
         }
@@ -746,7 +744,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="token">The <see cref="CancellationToken"/> in use.</param>
         /// <exception cref="OperationCanceledException">Thrown with the specified parameters.</exception>
         [DoesNotReturn]
-        public static void ThrowOperationCanceledException(string message, Exception innerException, CancellationToken token)
+        public static void ThrowOperationCanceledException(string? message, Exception? innerException, CancellationToken token)
         {
             throw new OperationCanceledException(message, innerException, token);
         }
@@ -767,7 +765,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="PlatformNotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowPlatformNotSupportedException(string message)
+        public static void ThrowPlatformNotSupportedException(string? message)
         {
             throw new PlatformNotSupportedException(message);
         }
@@ -779,7 +777,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="PlatformNotSupportedException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowPlatformNotSupportedException(string message, Exception innerException)
+        public static void ThrowPlatformNotSupportedException(string? message, Exception? innerException)
         {
             throw new PlatformNotSupportedException(message, innerException);
         }
@@ -800,7 +798,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="SynchronizationLockException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowSynchronizationLockException(string message)
+        public static void ThrowSynchronizationLockException(string? message)
         {
             throw new SynchronizationLockException(message);
         }
@@ -812,7 +810,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="SynchronizationLockException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowSynchronizationLockException(string message, Exception innerException)
+        public static void ThrowSynchronizationLockException(string? message, Exception? innerException)
         {
             throw new SynchronizationLockException(message, innerException);
         }
@@ -833,7 +831,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="TimeoutException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowTimeoutException(string message)
+        public static void ThrowTimeoutException(string? message)
         {
             throw new TimeoutException(message);
         }
@@ -845,7 +843,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="TimeoutException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowTimeoutException(string message, Exception innerException)
+        public static void ThrowTimeoutException(string? message, Exception? innerException)
         {
             throw new TimeoutException(message, innerException);
         }
@@ -866,7 +864,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="UnauthorizedAccessException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowUnauthorizedAccessException(string message)
+        public static void ThrowUnauthorizedAccessException(string? message)
         {
             throw new UnauthorizedAccessException(message);
         }
@@ -878,7 +876,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="UnauthorizedAccessException">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowUnauthorizedAccessException(string message, Exception innerException)
+        public static void ThrowUnauthorizedAccessException(string? message, Exception? innerException)
         {
             throw new UnauthorizedAccessException(message, innerException);
         }
@@ -911,7 +909,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowWin32Exception(int error, string message)
+        public static void ThrowWin32Exception(int error, string? message)
         {
             throw new Win32Exception(error, message);
         }
@@ -922,7 +920,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowWin32Exception(string message)
+        public static void ThrowWin32Exception(string? message)
         {
             throw new Win32Exception(message);
         }
@@ -934,7 +932,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
         /// <exception cref="Win32Exception">Thrown with the specified parameter.</exception>
         [DoesNotReturn]
-        public static void ThrowWin32Exception(string message, Exception innerException)
+        public static void ThrowWin32Exception(string? message, Exception? innerException)
         {
             throw new Win32Exception(message, innerException);
         }

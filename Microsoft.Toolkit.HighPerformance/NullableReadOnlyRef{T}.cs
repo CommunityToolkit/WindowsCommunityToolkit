@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Gets a value indicating whether or not the current <see cref="NullableReadOnlyRef{T}"/> instance wraps a valid reference that can be accessed.
         /// </summary>
-        public bool HasValue
+        public unsafe bool HasValue
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 // See comment in NullableRef<T> about this
                 byte length = unchecked((byte)this.span.Length);
 
-                return Unsafe.As<byte, bool>(ref length);
+                return *(bool*)&length;
             }
         }
 
