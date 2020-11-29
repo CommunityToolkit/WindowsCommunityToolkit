@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 
 namespace Microsoft.Toolkit.Diagnostics
@@ -18,41 +17,37 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanRead"/> fails.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support reading");
+            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support reading", name);
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanWrite"/> fails.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support writing");
+            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support writing", name);
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanSeek"/> fails.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support seeking");
+            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support seeking", name);
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsAtStartPosition"/> fails.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) must be at position {0.ToAssertString()}, was at {stream.Position.ToAssertString()}");
+            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) must be at position {0.ToAssertString()}, was at {stream.Position.ToAssertString()}", name);
         }
     }
 }
