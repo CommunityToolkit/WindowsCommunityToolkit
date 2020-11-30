@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsCloseTo(int value, int target, uint delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(int).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((double)((long)value - target)).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(int).ToTypeString()}) must be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs((double)((long)value - target)))}", name);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(int value, int target, uint delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(int).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((double)((long)value - target)).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(int).ToTypeString()}) must not be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs((double)((long)value - target)))}", name);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsCloseTo(long value, long target, ulong delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(long).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((decimal)value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(long).ToTypeString()}) must be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs((decimal)value - target))}", name);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(long value, long target, ulong delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(long).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((decimal)value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(long).ToTypeString()}) must not be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs((decimal)value - target))}", name);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsCloseTo(float value, float target, float delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(float).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(float).ToTypeString()}) must be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs(value - target))}", name);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(float value, float target, float delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(float).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(float).ToTypeString()}) must not be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs(value - target))}", name);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsCloseTo(double value, double target, double delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(double).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(double).ToTypeString()}) must be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs(value - target))}", name);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(double value, double target, double delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(double).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(double).ToTypeString()}) must not be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs(value - target))}", name);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsCloseTo(nint value, nint target, nuint delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(nint).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(nint).ToTypeString()}) must be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs(value - target))}", name);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotCloseTo(nint value, nint target, nuint delta, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(nint).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs(value - target).ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(nint).ToTypeString()}) must not be within a distance of {AssertString(delta)} from {AssertString(target)}, was {AssertString(value)} and had a distance of {AssertString(Math.Abs(value - target))}", name);
         }
     }
 }

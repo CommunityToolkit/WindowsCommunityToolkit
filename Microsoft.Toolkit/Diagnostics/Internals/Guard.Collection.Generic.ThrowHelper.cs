@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(Span<T>).ToTypeString()}) must not be empty", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(Span<T>).ToTypeString()}) must not be empty", name);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(ReadOnlySpan<T>).ToTypeString()}) must not be empty", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(ReadOnlySpan<T>).ToTypeString()}) must not be empty", name);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotEmpty<T>(string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be empty", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(T).ToTypeString()}) must not be empty", name);
         }
     }
 }

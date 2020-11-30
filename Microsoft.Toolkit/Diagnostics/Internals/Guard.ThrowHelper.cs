@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="obj">The input <see cref="object"/> to format.</param>
         /// <returns>A formatted representation of <paramref name="obj"/> to display in error messages.</returns>
         [Pure]
-        private static string ToAssertString(this object? obj)
+        private static string AssertString(object? obj)
         {
             return obj switch
             {
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Diagnostics
         internal static void ThrowArgumentExceptionForIsNull<T>(T value, string name)
             where T : class
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be null, was {value.ToAssertString()} ({value.GetType().ToTypeString()})", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(T).ToTypeString()}) must be null, was {AssertString(value)} ({value.GetType().ToTypeString()})", name);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Diagnostics
         internal static void ThrowArgumentExceptionForIsNull<T>(T? value, string name)
             where T : struct
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(T?).ToTypeString()}) must be null, was {value.ToAssertString()} ({typeof(T).ToTypeString()})", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(T?).ToTypeString()}) must be null, was {AssertString(value)} ({typeof(T).ToTypeString()})", name);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentNullExceptionForIsNotNull<T>(string name)
         {
-            throw new ArgumentNullException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be not null)");
+            throw new ArgumentNullException(name, $"Parameter {AssertString(name)} ({typeof(T).ToTypeString()}) must be not null)");
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsOfType<T>(object value, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotOfType<T>(object value, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must not be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must not be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsOfType(object value, Type type, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotOfType(object value, Type type, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must not be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must not be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsAssignableToType<T>(object value, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotAssignableToType<T>(object value, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must not be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must not be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsAssignableToType(object value, Type type, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsNotAssignableToType(object value, Type type, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must not be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must not be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}", name);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Diagnostics
         internal static void ThrowArgumentExceptionForIsReferenceEqualTo<T>(string name)
             where T : class
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be the same instance as the target object", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(T).ToTypeString()}) must be the same instance as the target object", name);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.Diagnostics
         internal static void ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(string name)
             where T : class
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be the same instance as the target object", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(T).ToTypeString()}) must not be the same instance as the target object", name);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsTrue(string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be true, was false", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be true, was false", name);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsTrue(string name, string message)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be true, was false: {message.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be true, was false: {AssertString(message)}", name);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsFalse(string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be false, was true", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be false, was true", name);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsFalse(string name, string message)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} must be false, was true: {message.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} must be false, was true: {AssertString(message)}", name);
         }
     }
 }

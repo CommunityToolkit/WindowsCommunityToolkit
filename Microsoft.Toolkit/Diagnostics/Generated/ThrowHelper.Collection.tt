@@ -24,7 +24,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must be empty, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must be empty, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size equal to {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size equal to {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeNotEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size not equal to {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size not equal to {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size over {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size over {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size of at least {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size of at least {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeLessThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            throw new ArgumentException($"Parameter {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than or equal to {size}, had a size of {<#=item.Name#>.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than or equal to {size}, had a size of {AssertString(<#=item.Name#>.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
         {
-            throw new ArgumentException($"The source {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size equal to {destination.<#=item.Size#>.ToAssertString()} (the destination), had a size of {source.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"The source {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size equal to {AssertString(destination.<#=item.Size#>)} (the destination), had a size of {AssertString(source.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
         {
-            throw new ArgumentException($"The source {name.ToAssertString()} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than or equal to {destination.<#=item.Size#>.ToAssertString()} (the destination), had a size of {source.<#=item.Size#>.ToAssertString()}", name);
+            throw new ArgumentException($"The source {AssertString(name)} ({typeof(<#=item.Type#>).ToTypeString()}) must have a size less than or equal to {AssertString(destination.<#=item.Size#>)} (the destination), had a size of {AssertString(source.<#=item.Size#>)}", name);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
-            throw new ArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
+            throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must be in the range given by <0> and {AssertString(<#=item.Name#>.<#=item.Size#>)} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {AssertString(index)}");
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [DoesNotReturn]
         internal static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
-            throw new ArgumentOutOfRangeException(name, index, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be an invalid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
+            throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(<#=item.Name#>.<#=item.Size#>)} to be an invalid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {AssertString(index)}");
         }
 <#
 });

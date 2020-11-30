@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
         {
-            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support reading", name);
+            throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support reading", name);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
         {
-            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support writing", name);
+            throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support writing", name);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
         {
-            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support seeking", name);
+            throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support seeking", name);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [DoesNotReturn]
         internal static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
         {
-            throw new ArgumentException($"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) must be at position {0.ToAssertString()}, was at {stream.Position.ToAssertString()}", name);
+            throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) must be at position {AssertString(0)}, was at {AssertString(stream.Position)}", name);
         }
     }
 }
