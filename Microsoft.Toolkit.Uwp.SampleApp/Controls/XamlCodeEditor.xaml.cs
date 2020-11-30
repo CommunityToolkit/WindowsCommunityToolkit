@@ -123,12 +123,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public DateTime TimeSampleEditedLast { get; private set; } = DateTime.MinValue;
 
-        private CssLineStyle _errorStyle_Light = new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6)) };
-        private CssLineStyle _errorStyle_Dark = new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0x6E, 0x00, 0x00)) };
-
         private CssLineStyle ErrorStyle
         {
-            get => _themeListener.CurrentTheme.Equals(ApplicationTheme.Light) ? _errorStyle_Light : _errorStyle_Dark;
+            get => _themeListener.CurrentTheme.Equals(ApplicationTheme.Light) ? 
+                new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6)) } : 
+                new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0x6E, 0x00, 0x00)) };
         }
 
         private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
