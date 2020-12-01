@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -8,19 +8,19 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.HighPerformance.Streams
 {
     /// <summary>
-    /// A <see cref="Stream"/> implementation wrapping a <see cref="System.Memory{T}"/> or <see cref="System.ReadOnlyMemory{T}"/> instance.
+    /// A factory class to produce <see cref="MemoryStream{TSource}"/> instances.
     /// </summary>
-    internal partial class MemoryStream
+    internal static partial class MemoryStream
     {
         /// <summary>
-        /// Validates the <see cref="Stream.Position"/> argument.
+        /// Validates the <see cref="Stream.Position"/> argument (it needs to be in the [0, length]) range.
         /// </summary>
         /// <param name="position">The new <see cref="Stream.Position"/> value being set.</param>
         /// <param name="length">The maximum length of the target <see cref="Stream"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void ValidatePosition(long position, int length)
+        public static void ValidatePosition(long position, int length)
         {
-            if ((ulong)position >= (ulong)length)
+            if ((ulong)position > (ulong)length)
             {
                 ThrowArgumentOutOfRangeExceptionForPosition();
             }
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <param name="offset">The offset within <paramref name="buffer"/>.</param>
         /// <param name="count">The number of elements to process within <paramref name="buffer"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void ValidateBuffer(byte[]? buffer, int offset, int count)
+        public static void ValidateBuffer(byte[]? buffer, int offset, int count)
         {
             if (buffer is null)
             {
@@ -57,24 +57,24 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         }
 
         /// <summary>
-        /// Validates the <see cref="CanWrite"/> property.
+        /// Validates the <see cref="MemoryStream{TSource}.CanWrite"/> property.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ValidateCanWrite()
+        public static void ValidateCanWrite(bool canWrite)
         {
-            if (!CanWrite)
+            if (!canWrite)
             {
-                ThrowNotSupportedExceptionForCanWrite();
+                ThrowNotSupportedException();
             }
         }
 
         /// <summary>
-        /// Validates that the current instance hasn't been disposed.
+        /// Validates that a given <see cref="Stream"/> instance hasn't been disposed.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ValidateDisposed()
+        public static void ValidateDisposed(bool disposed)
         {
-            if (this.disposed)
+            if (disposed)
             {
                 ThrowObjectDisposedException();
             }

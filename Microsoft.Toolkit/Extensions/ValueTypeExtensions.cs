@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Extensions
     public static class ValueTypeExtensions
     {
         /// <summary>
-        /// Gets the table of hex characters (doesn't allocate, maps to .text section, see <see href="https://github.com/dotnet/roslyn/pull/24621"/>)
+        /// Gets the table of hex characters (doesn't allocate, maps to .text section, see <see href="https://github.com/dotnet/roslyn/pull/24621"/>).
         /// </summary>
         private static ReadOnlySpan<byte> HexCharactersTable => new[]
         {
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </code>
         /// </remarks>
         [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [SkipLocalsInit]
         public static unsafe string ToHexString<T>(this T value)
             where T : unmanaged
         {
@@ -55,12 +55,11 @@ namespace Microsoft.Toolkit.Extensions
             p[0] = '0';
             p[1] = 'x';
 
-            ref byte r0 = ref Unsafe.As<T, byte>(ref value);
             ref byte rh = ref MemoryMarshal.GetReference(HexCharactersTable);
 
             for (int i = 0, j = bufferSize - 2; i < sizeOfT; i++, j -= 2)
             {
-                byte b = Unsafe.Add(ref r0, i);
+                byte b = ((byte*)&value)[i];
                 int
                     low = b & 0x0F,
                     high = (b & 0xF0) >> 4;

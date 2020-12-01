@@ -9,6 +9,11 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+#if SPAN_RUNTIME_SUPPORT
+using RuntimeHelpers = System.Runtime.CompilerServices.RuntimeHelpers;
+#else
+using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+#endif
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
@@ -25,14 +30,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
     /// For more info, see <see href="https://docs.microsoft.com/en-us/dotnet/api/system.object.gethashcode#remarks"/>.
     /// </remarks>
     public struct HashCode<T>
-#if SPAN_RUNTIME_SUPPORT
         where T : notnull
-#else
-        // If we lack the RuntimeHelpers.IsReferenceOrContainsReferences<T> API,
-        // we need to constraint the generic type parameter to unmanaged, as we
-        // wouldn't otherwise be able to properly validate it at runtime.
-        where T : unmanaged
-#endif
     {
         /// <summary>
         /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance using the xxHash32 algorithm.
@@ -61,19 +59,23 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
 
-#if SPAN_RUNTIME_SUPPORT
             // If typeof(T) is not unmanaged, iterate over all the items one by one.
             // This check is always known in advance either by the JITter or by the AOT
             // compiler, so this branch will never actually be executed by the code.
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                return SpanHelper.GetDjb2HashCode(ref r0, (IntPtr)span.Length);
+                return SpanHelper.GetDjb2HashCode(ref r0, (nint)(uint)span.Length);
             }
-#endif
 
-            // Get the info for the target memory area to process
+            // Get the info for the target memory area to process.
+            // The line below is computing the total byte size for the span,
+            // and we cast both input factors to uint first to avoid sign extensions
+            // (they're both guaranteed to always be positive values), and to let the
+            // JIT avoid the 64 bit computation entirely when running in a 32 bit
+            // process. In that case it will just compute the byte size as a 32 bit
+            // multiplication with overflow, which is guaranteed never to happen anyway.
             ref byte rb = ref Unsafe.As<T, byte>(ref r0);
-            IntPtr length = (IntPtr)((long)span.Length * Unsafe.SizeOf<T>());
+            nint length = (nint)((uint)span.Length * (uint)Unsafe.SizeOf<T>());
 
             return SpanHelper.GetDjb2LikeByteHash(ref rb, length);
         }

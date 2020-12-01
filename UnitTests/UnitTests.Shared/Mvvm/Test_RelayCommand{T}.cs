@@ -35,7 +35,7 @@ namespace UnitTests.Mvvm
             Assert.AreSame(args.Item1, command);
             Assert.AreSame(args.Item2, EventArgs.Empty);
 
-            command.Execute("Hello");
+            command.Execute((object)"Hello");
 
             Assert.AreEqual(text, "Hello");
 
@@ -57,13 +57,29 @@ namespace UnitTests.Mvvm
 
             Assert.ThrowsException<InvalidCastException>(() => command.CanExecute(new object()));
 
-            command.Execute("Hello");
+            command.Execute((object)"Hello");
 
             Assert.AreEqual(text, "Hello");
 
             command.Execute(null);
 
             Assert.AreEqual(text, "Hello");
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_RelayCommand_NullWithValueType()
+        {
+            int n = 0;
+
+            var command = new RelayCommand<int>(i => n = i);
+
+            // Special case for null value types
+            Assert.IsTrue(command.CanExecute(null));
+
+            command = new RelayCommand<int>(i => n = i, i => i > 0);
+
+            Assert.ThrowsException<NullReferenceException>(() => command.CanExecute(null));
         }
     }
 }

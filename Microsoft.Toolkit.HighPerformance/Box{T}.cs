@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 ThrowInvalidCastExceptionForGetFrom();
             }
 
-            return Unsafe.As<Box<T>>(obj);
+            return Unsafe.As<Box<T>>(obj)!;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Box<T> DangerousGetFrom(object obj)
         {
-            return Unsafe.As<Box<T>>(obj);
+            return Unsafe.As<Box<T>>(obj)!;
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             if (obj.GetType() == typeof(T))
             {
-                box = Unsafe.As<Box<T>>(obj);
+                box = Unsafe.As<Box<T>>(obj)!;
 
                 return true;
             }
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator T(Box<T> box)
         {
-            return Unsafe.Unbox<T>(box);
+            return (T)(object)box;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.HighPerformance
             // manually be implemented in the Box<T> type. For instance, boxing a float
             // and calling ToString() on it directly, on its boxed object or on a Box<T>
             // reference retrieved from it will produce the same result in all cases.
-            return Unsafe.As<Box<T>>(value);
+            return Unsafe.As<Box<T>>(value)!;
         }
 
         /// <inheritdoc/>
@@ -180,7 +180,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="InvalidCastException"/> when a cast from an invalid <see cref="object"/> is attempted.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidCastExceptionForGetFrom()
         {
             throw new InvalidCastException($"Can't cast the input object to the type Box<{typeof(T)}>");

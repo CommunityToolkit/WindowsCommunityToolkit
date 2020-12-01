@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnitTests.HighPerformance.Shared.Buffers;
 
 namespace UnitTests.HighPerformance.Buffers
 {
@@ -28,6 +29,39 @@ namespace UnitTests.HighPerformance.Buffers
 
             Assert.IsTrue(buffer.Memory.Span.ToArray().All(i => i == 42));
             Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
+        }
+
+        [TestCategory("MemoryOwnerOfT")]
+        [TestMethod]
+        public void Test_MemoryOwnerOfT_AllocateFromCustomPoolAndGetMemoryAndSpan()
+        {
+            var pool = new TrackingArrayPool<int>();
+
+            using (var buffer = MemoryOwner<int>.Allocate(127, pool))
+            {
+                Assert.AreEqual(pool.RentedArrays.Count, 1);
+
+                Assert.IsTrue(buffer.Length == 127);
+                Assert.IsTrue(buffer.Memory.Length == 127);
+                Assert.IsTrue(buffer.Span.Length == 127);
+
+                buffer.Span.Fill(42);
+
+                Assert.IsTrue(buffer.Memory.Span.ToArray().All(i => i == 42));
+                Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
+            }
+
+            Assert.AreEqual(pool.RentedArrays.Count, 0);
+        }
+
+        [TestCategory("MemoryOwnerOfT")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_MemoryOwnerOfT_InvalidRequestedSize()
+        {
+            using var buffer = MemoryOwner<int>.Allocate(-1);
+
+            Assert.Fail("You shouldn't be here");
         }
 
         [TestCategory("MemoryOwnerOfT")]
@@ -70,7 +104,7 @@ namespace UnitTests.HighPerformance.Buffers
             // by accident doesn't cause issues, and just does nothing.
         }
 
-        [TestCategory("HashCodeOfT")]
+        [TestCategory("MemoryOwnerOfT")]
         [TestMethod]
         public void Test_MemoryOwnerOfT_PooledBuffersAndClear()
         {
@@ -88,6 +122,45 @@ namespace UnitTests.HighPerformance.Buffers
             {
                 Assert.IsTrue(buffer.Span.ToArray().All(i => i == 0));
             }
+        }
+
+        [TestCategory("MemoryOwnerOfT")]
+        [TestMethod]
+        public void Test_MemoryOwnerOfT_AllocateAndGetArray()
+        {
+            var buffer = MemoryOwner<int>.Allocate(127);
+
+            // Here we allocate a MemoryOwner<T> instance with a requested size of 127, which means it
+            // internally requests an array of size 127 from ArrayPool<T>.Shared. We then get the array
+            // segment, so we need to verify that (since buffer is not disposed) the returned array is
+            // not null, is of size >= the requested one (since ArrayPool<T> by definition returns an
+            // array that is at least of the requested size), and that the offset and count properties
+            // match our input values (same length, and offset at 0 since the buffer was not sliced).
+            var segment = buffer.DangerousGetArray();
+
+            Assert.IsNotNull(segment.Array);
+            Assert.IsTrue(segment.Array.Length >= buffer.Length);
+            Assert.AreEqual(segment.Offset, 0);
+            Assert.AreEqual(segment.Count, buffer.Length);
+
+            var second = buffer.Slice(10, 80);
+
+            // The original buffer instance is disposed here, because calling Slice transfers
+            // the ownership of the internal buffer to the new instance (this is documented in
+            // XML docs for the MemoryOwner<T>.Slice method).
+            Assert.ThrowsException<ObjectDisposedException>(() => buffer.DangerousGetArray());
+
+            segment = second.DangerousGetArray();
+
+            // Same as before, but we now also verify the initial offset != 0, as we used Slice
+            Assert.IsNotNull(segment.Array);
+            Assert.IsTrue(segment.Array.Length >= second.Length);
+            Assert.AreEqual(segment.Offset, 10);
+            Assert.AreEqual(segment.Count, second.Length);
+
+            second.Dispose();
+
+            Assert.ThrowsException<ObjectDisposedException>(() => second.DangerousGetArray());
         }
     }
 }
