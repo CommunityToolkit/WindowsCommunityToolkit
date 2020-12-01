@@ -1,3 +1,6 @@
+<!-- 🚨 It is essential to keep the **☑️ Allow edits by maintainers** checked in Pull Request Template as it increases collaboration by permitting commits to the PR branch created from a fork 🚨 -->
+
+
 ## Fixes #
 <!-- Add the relevant issue number after the "#" mentioned above (for ex: Fixes #1234) which will automatically close the issue once the PR is merged. -->
 
