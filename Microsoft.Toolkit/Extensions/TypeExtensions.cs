@@ -11,8 +11,6 @@ using System.Reflection;
 #endif
 using System.Runtime.CompilerServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Extensions
 {
     /// <summary>
