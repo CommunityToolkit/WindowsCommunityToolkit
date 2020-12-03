@@ -17,6 +17,8 @@ using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
+#pragma warning disable CA2231
+
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
     /// <summary>
@@ -615,7 +617,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (!(this.instance is null))
+                if (this.instance is not null)
                 {
 #if SPAN_RUNTIME_SUPPORT
                     if (this.instance is MemoryManager<T> memoryManager)
@@ -753,7 +755,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A <see cref="MemoryHandle"/> instance wrapping the pinned handle.</returns>
         public unsafe MemoryHandle Pin()
         {
-            if (!(this.instance is null))
+            if (this.instance is not null)
             {
                 if (this.instance is MemoryManager<T> memoryManager)
                 {
@@ -794,7 +796,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     // difference between the start of the Span<char> (which directly wraps just the actual character data
                     // within the string), and the input reference, which we can get from the byte offset in use. The result
                     // is the character index which we can use to create the final Memory<char> instance.
-                    string text = Unsafe.As<string>(this.instance);
+                    string text = Unsafe.As<string>(this.instance)!;
                     int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
@@ -802,16 +804,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 }
                 else if (this.instance is MemoryManager<T> memoryManager)
                 {
-                    unsafe
-                    {
-                        // If the object is a MemoryManager<T>, just slice it as needed
-                        memory = memoryManager.Memory.Slice((int)(void*)this.offset, this.height * this.width);
-                    }
+                    // If the object is a MemoryManager<T>, just slice it as needed
+                    memory = memoryManager.Memory.Slice((int)(nint)this.offset, this.height * this.width);
                 }
                 else if (this.instance.GetType() == typeof(T[]))
                 {
                     // If it's a T[] array, also handle the initial offset
-                    T[] array = Unsafe.As<T[]>(this.instance);
+                    T[] array = Unsafe.As<T[]>(this.instance)!;
                     int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
 
                     memory = array.AsMemory(index, this.height * this.width);
@@ -879,7 +878,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode()
         {
-            if (!(this.instance is null))
+            if (this.instance is not null)
             {
 #if !NETSTANDARD1_4
                 return HashCode.Combine(

@@ -10,8 +10,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Extensions;
 #endif
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
@@ -70,7 +68,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : class
         {
-            if (!(value is null))
+            if (value is not null)
             {
                 return;
             }
@@ -90,7 +88,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotNull<T>([NotNull] T? value, string name)
             where T : struct
         {
-            if (!(value is null))
+            if (value is not null)
             {
                 return;
             }
@@ -198,7 +196,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotAssignableToType<T>(object value, string name)
         {
-            if (!(value is T))
+            if (value is not T)
             {
                 return;
             }

@@ -273,6 +273,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\FormPanel\FormPanel.png" />
+    <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -510,6 +511,12 @@
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml.cs">
+      <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ColorPicker\ColorPickerPage.xaml.cs">
+      <DependentUpon>ColorPickerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
@@ -624,6 +631,8 @@
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
     <Content Include="SamplePages\FocusBehavior\FocusBehaviorXaml.bind" />
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
+    <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
+    <Content Include="SamplePages\ColorPicker\ColorPickerButtonXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -996,6 +1005,14 @@
     <Page Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ColorPicker\ColorPickerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>

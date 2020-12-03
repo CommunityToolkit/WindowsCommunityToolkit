@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         {
             if (!canWrite)
             {
-                ThrowNotSupportedExceptionForCanWrite();
+                ThrowNotSupportedException();
             }
         }
 

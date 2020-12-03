@@ -15,21 +15,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Small Square Tile
         /// </summary>
-        Small = 0,
+        Small = 1,
 
         /// <summary>
         /// Medium Square Tile
         /// </summary>
-        Medium = 1,
+        Medium = 2,
 
         /// <summary>
         /// Wide Rectangle Tile
         /// </summary>
-        Wide = 2,
+        Wide = 4,
 
         /// <summary>
         /// Large Square Tile
         /// </summary>
-        Large = 4
+        Large = 8
     }
 }
