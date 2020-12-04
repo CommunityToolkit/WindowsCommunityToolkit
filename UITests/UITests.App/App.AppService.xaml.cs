@@ -53,9 +53,8 @@ namespace UITests.App
 
                     if (host != null)
                     {
-                        // TODO: Think tried to make this async before but it blewup the runtime for some reason...
-                        // We'd like the OpenPage method to ensure the navigation has finished.
-                        if (host.OpenPage(pageName))
+                        // We await the OpenPage method to ensure the navigation has finished.
+                        if (await host.OpenPage(pageName))
                         {
                             returnMessage.Add("Status", "OK");
                         }
