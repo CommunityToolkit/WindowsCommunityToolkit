@@ -222,6 +222,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
+        /// Use the value of specified ExpressionNode to determine if this composition conditional value modifier should be chosen.
+        /// </summary>
+        /// <param name="modifier">The modifier.</param>
+        /// <param name="expressionNode">The root ExpressionNode that represents the ExpressionAnimation.</param>
+        public static void SetCondition(this CompositionConditionalValue modifier, ExpressionNode expressionNode)
+        {
+            modifier.Condition = CreateExpressionAnimationFromNode(modifier.Compositor, expressionNode);
+        }
+
+        /// <summary>
+        /// Use the value of specified ExpressionNode as the resting value for this composition conditional value
+        /// </summary>
+        /// <param name="modifier">The modifier.</param>
+        /// <param name="expressionNode">The root ExpressionNode that represents the ExpressionAnimation.</param>
+        public static void SetRestingValue(this CompositionConditionalValue modifier, ExpressionNode expressionNode)
+        {
+            modifier.Value = CreateExpressionAnimationFromNode(modifier.Compositor, expressionNode);
+        }
+
+        /// <summary>
         /// Creates the expression animation from node.
         /// </summary>
         /// <param name="compositor">The compositor.</param>
