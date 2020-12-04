@@ -10,6 +10,8 @@
     <Grid>
         <testhelpers:TestAutomationHelpersPanel />
 
-        <Frame x:Name="navigationFrame" />
+        <Frame x:Name="navigationFrame"
+               Navigated="NavigationFrame_Navigated"
+               NavigationFailed="NavigationFrame_NavigationFailed" />
     </Grid>
 </Page>

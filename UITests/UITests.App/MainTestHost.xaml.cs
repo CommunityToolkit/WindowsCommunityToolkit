@@ -5,7 +5,9 @@
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
+using UITests.App.Pages;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,37 +20,60 @@ namespace UITests.App
     /// </summary>
     public sealed partial class MainTestHost
     {
-        private readonly Dictionary<string, Type> pageMap;
+        private DispatcherQueue _queue;
 
-        private DispatcherQueue queue;
+        private Assembly _executingAssembly = Assembly.GetExecutingAssembly();
 
         public MainTestHost()
         {
             InitializeComponent();
             ((App)Application.Current).host = this;
-            pageMap = ((App)Application.Current).TestPages;
-            queue = DispatcherQueue.GetForCurrentThread();
+            _queue = DispatcherQueue.GetForCurrentThread();
         }
 
         internal bool OpenPage(string pageName)
         {
             try
             {
-                ((App)Application.Current).Log("Trying to Load Page: " + pageName);
+                Log.Comment("Trying to Load Page: " + pageName);
 
                 // Ensure we're on the UI thread as we'll be called from the AppService now.
-                queue.EnqueueAsync(() =>
+                _queue.EnqueueAsync(() =>
                 {
-                    navigationFrame.Navigate(pageMap[pageName]);
+                    navigationFrame.Navigate(FindPageType(pageName));
                 });
             }
             catch (Exception e)
             {
-                ((App)Application.Current).Log(string.Format("Exception Loading Page {0}: {1} ", pageName, e.Message));
+                Log.Error("Exception Finding Page {0}: {1} ", pageName, e.Message);
                 return false;
             }
 
             return true;
+        }
+
+        private Type FindPageType(string pageName)
+        {
+            try
+            {
+                return _executingAssembly.GetType("UITests.App.Pages." + pageName);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Exception Finding Page {0}: {1} ", pageName, e.Message);
+            }
+
+            return null;
+        }
+
+        private void NavigationFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            Log.Comment("Navigated to Page {0}", e.SourcePageType.FullName);
+        }
+
+        private void NavigationFrame_NavigationFailed(object sender, Windows.UI.Xaml.Navigation.NavigationFailedEventArgs e)
+        {
+            Log.Error("Failed to navigate to page {0}", e.SourcePageType.FullName);
         }
     }
 }

@@ -21,12 +21,12 @@ namespace UITests.Tests
 
         public static void Warning(string format, params object[] args)
         {
-            LogMessage(format, args);
+            LogMessage("[Warning] " + format, args);
         }
 
         public static void Error(string format, params object[] args)
         {
-            LogMessage(format, args);
+            LogMessage("[Error] " + format, args);
         }
 
         private static void LogMessage(string format, object[] args)

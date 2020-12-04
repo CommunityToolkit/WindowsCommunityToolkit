@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using UITests.App.Pages;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
@@ -46,12 +47,14 @@ namespace UITests.App
                 {
                     var pageName = message["Page"] as string;
 
-                    Debug.WriteLine("[Host] Received request for Page: " + pageName);
+                    Log.Comment("Received request for Page: {0}", pageName);
 
                     ValueSet returnMessage = new ValueSet();
 
                     if (host != null)
                     {
+                        // TODO: Think tried to make this async before but it blewup the runtime for some reason...
+                        // We'd like the OpenPage method to ensure the navigation has finished.
                         if (host.OpenPage(pageName))
                         {
                             returnMessage.Add("Status", "OK");
@@ -68,7 +71,7 @@ namespace UITests.App
             catch (Exception e)
             {
                 // Your exception handling code here.
-                Log("Exception processing request: " + e.Message);
+                Log.Error("Exception processing request: {0}", e.Message);
             }
             finally
             {
@@ -88,11 +91,11 @@ namespace UITests.App
             _appServiceDeferral.Complete();
         }
 
-        public async void Log(string msg)
+        public async void SendLogMessage(string level, string msg)
         {
             var message = new ValueSet();
             message.Add("Command", "Log");
-            message.Add("Level", "Comment");
+            message.Add("Level", level);
             message.Add("Message", msg);
 
             await _appServiceConnection.SendMessageAsync(message);

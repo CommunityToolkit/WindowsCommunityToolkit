@@ -158,6 +158,8 @@ namespace UITests.Tests
                 if (response.Message["Status"] as string == "OK")
                 {
                     Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+                    Wait.ForIdle();
+                    Log.Comment("[Harness] Starting Test for {0}...", pageName);
                     return;
                 }
             }
@@ -196,8 +198,7 @@ namespace UITests.Tests
             }
             catch (Exception e)
             {
-                // Your exception handling code here.
-                Debug.WriteLine("Exception receiving message: " + e.Message);
+                Log.Error("Exception receiving message: {0}", e.Message);
             }
             finally
             {

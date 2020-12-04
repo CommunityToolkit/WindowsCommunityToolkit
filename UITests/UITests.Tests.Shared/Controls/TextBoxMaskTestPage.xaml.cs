@@ -36,6 +36,7 @@ namespace UITests.App.Pages
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
             Value = NEW_VALUE;
+            Log.Comment("Value Changed to {0}", Value);
         }
     }
 }

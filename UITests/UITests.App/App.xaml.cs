@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UITests.App.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -16,8 +17,7 @@ namespace UITests.App
 {
     public sealed partial class App
     {
-        internal Dictionary<string, Type> TestPages { get; } = new Dictionary<string, Type>();
-
+        // TODO: Create a better pattern here to connect these.
         internal MainTestHost host;
 
         public App()
@@ -29,8 +29,8 @@ namespace UITests.App
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            // TODO: Log to a file?
-            Log("Unhandled Exception: " + e.Message);
+            // TODO: Also Log to a file?
+            Log.Error("Unhandled Exception: " + e.Message);
         }
 
         /// <summary>
@@ -40,21 +40,6 @@ namespace UITests.App
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            var pages = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(Page)));
-
-            foreach (var page in pages)
-            {
-                try
-                {
-                    TestPages.Add(page.Name, page);
-                }
-                catch (ArgumentException ex)
-                {
-                    throw new Exception("Two or more test pages share a name.", ex);
-                }
-            }
-
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -97,6 +82,7 @@ namespace UITests.App
         /// <param name="e">Details about the navigation failure</param>
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            Log.Error("Failed to load root page: " + e.SourcePageType.FullName);
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 

@@ -137,6 +137,7 @@
     <Compile Include="MainTestHost.xaml.cs">
       <DependentUpon>MainTestHost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestInterop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
