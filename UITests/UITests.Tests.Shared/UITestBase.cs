@@ -87,6 +87,8 @@ namespace UITests.Tests
         [TestInitialize]
         public async Task TestInitialize()
         {
+            PreTestSetup();
+
 #if USING_TAEF
             var fullTestName = TestContext.TestName;
             var lastDotIndex = fullTestName.LastIndexOf('.');
@@ -206,6 +208,17 @@ namespace UITests.Tests
                 // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
                 messageDeferral.Complete();
             }
+        }
+
+        // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
+        // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
+        // our loading.
+        private void PreTestSetup()
+        {
+            _ = new TestSetupHelper(new string[] { }, new TestSetupHelper.TestSetupHelperOptions()
+            {
+                AutomationIdOfSafeItemToClick = null
+            });
         }
     }
 }
