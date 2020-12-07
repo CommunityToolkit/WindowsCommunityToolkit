@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
     /// action, and providing an <see cref="ExecutionTask"/> property that notifies changes when
     /// <see cref="ExecuteAsync"/> is invoked and when the returned <see cref="Task"/> completes.
     /// </summary>
-    public sealed class AsyncRelayCommand : ObservableObject, IAsyncRelayCommand
+    public class AsyncRelayCommand : ObservableObject, IAsyncRelayCommand
     {
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="CanBeCanceled"/>.
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         private CancellationTokenSource? cancellationTokenSource;
 
         /// <inheritdoc/>
-        public event EventHandler? CanExecuteChanged;
+        public virtual event EventHandler? CanExecuteChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncRelayCommand"/> class that can always execute.
@@ -120,6 +120,9 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 }
             }
         }
+
+        /// <inheritdoc/>
+        public bool CanAlwaysExecute => this.canExecute is null;
 
         /// <inheritdoc/>
         public bool CanBeCanceled => !(this.cancelableExecute is null) && IsRunning;

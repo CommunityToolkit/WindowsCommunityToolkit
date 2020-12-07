@@ -16,5 +16,10 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// Notifies that the <see cref="ICommand.CanExecute"/> property has changed.
         /// </summary>
         void NotifyCanExecuteChanged();
+
+        /// <summary>
+        /// Gets a value indicating whether this command can always be executed. True if the command was created without execution status logic.
+        /// </summary>
+        bool CanAlwaysExecute { get; }
     }
 }

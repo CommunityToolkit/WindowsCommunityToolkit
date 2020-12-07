@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
     /// method is <see langword="true"/>. This type does not allow you to accept command parameters
     /// in the <see cref="Execute"/> and <see cref="CanExecute"/> callback methods.
     /// </summary>
-    public sealed class RelayCommand : IRelayCommand
+    public class RelayCommand : IRelayCommand
     {
         /// <summary>
         /// The <see cref="Action"/> to invoke when <see cref="Execute"/> is used.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         private readonly Func<bool>? canExecute;
 
         /// <inheritdoc/>
-        public event EventHandler? CanExecuteChanged;
+        public virtual event EventHandler? CanExecuteChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RelayCommand"/> class that can always execute.
@@ -52,6 +52,9 @@ namespace Microsoft.Toolkit.Mvvm.Input
             this.execute = execute;
             this.canExecute = canExecute;
         }
+
+        /// <inheritdoc/>
+        public bool CanAlwaysExecute => this.canExecute is null;
 
         /// <inheritdoc/>
         public void NotifyCanExecuteChanged()

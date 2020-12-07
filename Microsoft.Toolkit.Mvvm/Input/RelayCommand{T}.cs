@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
     /// in the <see cref="Execute(T)"/> and <see cref="CanExecute(T)"/> callback methods.
     /// </summary>
     /// <typeparam name="T">The type of parameter being passed as input to the callbacks.</typeparam>
-    public sealed class RelayCommand<T> : IRelayCommand<T>
+    public class RelayCommand<T> : IRelayCommand<T>
     {
         /// <summary>
         /// The <see cref="Action"/> to invoke when <see cref="Execute(T)"/> is used.
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         private readonly Func<T, bool>? canExecute;
 
         /// <inheritdoc/>
-        public event EventHandler? CanExecuteChanged;
+        public virtual event EventHandler? CanExecuteChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class that can always execute.
@@ -59,6 +59,9 @@ namespace Microsoft.Toolkit.Mvvm.Input
             this.execute = execute;
             this.canExecute = canExecute;
         }
+
+        /// <inheritdoc/>
+        public bool CanAlwaysExecute => this.canExecute is null;
 
         /// <inheritdoc/>
         public void NotifyCanExecuteChanged()

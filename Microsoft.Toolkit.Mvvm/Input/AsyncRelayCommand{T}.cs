@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
     /// A generic command that provides a more specific version of <see cref="AsyncRelayCommand"/>.
     /// </summary>
     /// <typeparam name="T">The type of parameter being passed as input to the callbacks.</typeparam>
-    public sealed class AsyncRelayCommand<T> : ObservableObject, IAsyncRelayCommand<T>
+    public class AsyncRelayCommand<T> : ObservableObject, IAsyncRelayCommand<T>
     {
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute(T)"/> is used.
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         private CancellationTokenSource? cancellationTokenSource;
 
         /// <inheritdoc/>
-        public event EventHandler? CanExecuteChanged;
+        public virtual event EventHandler? CanExecuteChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncRelayCommand{T}"/> class that can always execute.
@@ -104,6 +104,9 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 }
             }
         }
+
+        /// <inheritdoc/>
+        public bool CanAlwaysExecute => this.canExecute is null;
 
         /// <inheritdoc/>
         public bool CanBeCanceled => !(this.cancelableExecute is null) && IsRunning;
