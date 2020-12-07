@@ -123,13 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 return textBlock.Text;
             }
 
-            name = base.GetNameCore();
-            if (!string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
-
-            return string.Empty;
+            return base.GetNameCore();
         }
 
         /// <summary>
@@ -209,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 
             CarouselItem owner = this.OwnerCarouselItem;
             Carousel parent = owner.ParentCarousel;
-            positionInSet = parent.IndexFromContainer(owner);
+            positionInSet = parent.IndexFromContainer(owner) + 1;
 
             return positionInSet;
         }

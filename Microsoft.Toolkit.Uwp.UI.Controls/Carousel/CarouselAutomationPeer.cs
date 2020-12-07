@@ -94,13 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 return name;
             }
 
-            name = base.GetNameCore();
-            if (!string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
-
-            return string.Empty;
+            return base.GetNameCore();
         }
 
         /// <summary>
