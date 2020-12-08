@@ -2,23 +2,23 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.Foundation;
+using Windows.UI.Composition;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Numerics;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-    using Microsoft.Toolkit.Uwp.UI.Extensions;
-    using Windows.Foundation;
-    using Windows.UI.Composition;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Hosting;
-    using Windows.UI.Xaml.Media;
-
     /// <summary>
     /// A ContentControl that show an image repeated many times.
     /// The control can be synchronized with a ScrollViewer and animated easily.
