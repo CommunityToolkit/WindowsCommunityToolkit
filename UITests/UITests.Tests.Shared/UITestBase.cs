@@ -58,14 +58,14 @@ namespace UITests.Tests
                 }
 
                 return new TestApplicationInfo(
-                    "UITests.App",
-                    "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App",
-                    "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
-                    "UITests.App",
-                    "UITests.App.exe",
-                    mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
-                    "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
-                    baseDirectory);
+                    testAppPackageName: "UITests.App",
+                    testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App",
+                    testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
+                    testAppMainWindowTitle: "UITests.App",
+                    processName: "UITests.App.exe",
+                    installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
+                    certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
+                    baseAppxDir: baseDirectory);
             }
         }
 
