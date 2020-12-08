@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
@@ -76,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (e.Key == Windows.System.VirtualKey.Down && SamplePickerGrid.Visibility == Windows.UI.Xaml.Visibility.Visible)
             {
                 // If we try and navigate down out of the textbox (and there's search results), go to the search results.
-                DispatcherHelper.ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
+                dispatcherQueue.EnqueueAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
             }
         }
 
