@@ -20,58 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Xaml.Media;
 
     /// <summary>
-    /// Orientation of the scroll
-    /// </summary>
-    public enum ScrollOrientation
-    {
-        /// <summary>
-        /// Scroll only Horizontally (and optimize the number of image used)
-        /// </summary>
-        Horizontal,
-
-        /// <summary>
-        /// Scroll only Vertically (and optimize the number of image used)
-        /// </summary>
-        Vertical,
-
-        /// <summary>
-        /// Scroll both Horizontally and vertically
-        /// </summary>
-        Both
-    }
-
-    /// <summary>
-    /// Image alignment
-    /// </summary>
-    public enum ImageAlignment
-    {
-        /// <summary>
-        /// No alignment needed
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Align to Left when the property ScrollOrientation is Horizontal
-        /// </summary>
-        Left,
-
-        /// <summary>
-        /// Align to Right when the property ScrollOrientation is Horizontal
-        /// </summary>
-        Right,
-
-        /// <summary>
-        /// Align to Top when the property ScrollOrientation is Vertical
-        /// </summary>
-        Top,
-
-        /// <summary>
-        /// Align to Bottom when the property ScrollOrientation is Vertical
-        /// </summary>
-        Bottom
-    }
-
-    /// <summary>
     /// A ContentControl that show an image repeated many times.
     /// The control can be synchronized with a ScrollViewer and animated easily.
     /// </summary>
