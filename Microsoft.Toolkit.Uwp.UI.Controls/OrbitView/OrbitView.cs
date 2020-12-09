@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Expressions;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;

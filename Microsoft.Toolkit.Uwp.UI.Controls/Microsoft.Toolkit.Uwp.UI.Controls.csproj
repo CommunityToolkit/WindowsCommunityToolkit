@@ -51,6 +51,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Expressions\Microsoft.Toolkit.Uwp.UI.Expressions.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
  

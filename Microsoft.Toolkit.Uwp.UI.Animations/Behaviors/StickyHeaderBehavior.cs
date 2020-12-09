@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
+using Microsoft.Toolkit.Uwp.UI.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Composition;

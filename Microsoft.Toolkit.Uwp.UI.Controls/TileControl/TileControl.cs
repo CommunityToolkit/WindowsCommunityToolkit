@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System.Numerics;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+    using Microsoft.Toolkit.Uwp.UI.Expressions;
     using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Windows.Foundation;
     using Windows.UI.Composition;
