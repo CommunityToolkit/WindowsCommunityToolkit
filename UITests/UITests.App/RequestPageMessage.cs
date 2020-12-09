@@ -6,13 +6,13 @@ using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace UITests.App
 {
-    public class RequestPageMessage : AsyncRequestMessage<bool>
+    public sealed class RequestPageMessage : AsyncRequestMessage<bool>
     {
-        public string PageName { get; private set; }
-
         public RequestPageMessage(string name)
         {
             PageName = name;
         }
+        
+        public string PageName { get; }
     }
 }

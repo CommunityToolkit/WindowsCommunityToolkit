@@ -53,7 +53,7 @@ namespace UITests.App
                     ValueSet returnMessage = new ValueSet();
 
                     // We await the OpenPage method to ensure the navigation has finished.
-                    if (await WeakReferenceMessenger.Default.Send<RequestPageMessage>(new (pageName)))
+                    if (await WeakReferenceMessenger.Default.Send(new RequestPageMessage(pageName)))
                     {
                         returnMessage.Add("Status", "OK");
                     }

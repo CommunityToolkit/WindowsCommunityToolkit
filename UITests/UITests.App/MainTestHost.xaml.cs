@@ -30,7 +30,7 @@ namespace UITests.App
         {
             InitializeComponent();
 
-            WeakReferenceMessenger.Default.RegisterAll(this);
+            WeakReferenceMessenger.Default.Register<RequestPageMessage>(this);
 
             _queue = DispatcherQueue.GetForCurrentThread();
         }

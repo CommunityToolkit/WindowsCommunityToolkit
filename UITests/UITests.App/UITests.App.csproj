@@ -10,7 +10,6 @@
     <RootNamespace>UITests.App</RootNamespace>
     <AssemblyName>UITests.App</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <LangVersion>9.0</LangVersion>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
