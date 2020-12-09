@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +13,6 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
-using System.Diagnostics;
 
 #if USING_TAEF
 using WEX.Logging.Interop;

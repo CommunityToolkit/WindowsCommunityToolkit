@@ -2,16 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Uwp.Extensions;
 using UITests.App.Pages;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace UITests.App
@@ -19,7 +18,7 @@ namespace UITests.App
     /// <summary>
     /// MainPage hosting all other test pages.
     /// </summary>
-    public sealed partial class MainTestHost
+    public sealed partial class MainTestHost : IRecipient<RequestPageMessage>
     {
         private DispatcherQueue _queue;
 
@@ -30,12 +29,19 @@ namespace UITests.App
         public MainTestHost()
         {
             InitializeComponent();
-            ((App)Application.Current).host = this;
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
+
             _queue = DispatcherQueue.GetForCurrentThread();
         }
 
-        // TODO: we should better expose how to control the MainTestHost vs. making this internal.
-        internal async Task<bool> OpenPage(string pageName)
+        public void Receive(RequestPageMessage message)
+        {
+            // Reply with task back to so it can be properly awaited link:App.AppService.xaml.cs#L56
+            message.Reply(OpenPage(message.PageName));
+        }
+
+        private async Task<bool> OpenPage(string pageName)
         {
             try
             {

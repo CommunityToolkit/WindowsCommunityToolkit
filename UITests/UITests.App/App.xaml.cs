@@ -15,11 +15,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UITests.App
 {
+    /// <summary>
+    /// Application class for hosting UI pages to test.
+    /// </summary>
     public sealed partial class App
     {
-        // TODO: Create a better pattern here to connect these.
-        internal MainTestHost host;
-
         public App()
         {
             this.InitializeComponent();

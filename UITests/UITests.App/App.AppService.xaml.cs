@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using UITests.App.Pages;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
@@ -51,17 +52,14 @@ namespace UITests.App
 
                     ValueSet returnMessage = new ValueSet();
 
-                    if (host != null)
+                    // We await the OpenPage method to ensure the navigation has finished.
+                    if (await WeakReferenceMessenger.Default.Send<RequestPageMessage>(new (pageName)))
                     {
-                        // We await the OpenPage method to ensure the navigation has finished.
-                        if (await host.OpenPage(pageName))
-                        {
-                            returnMessage.Add("Status", "OK");
-                        }
-                        else
-                        {
-                            returnMessage.Add("Status", "BAD");
-                        }
+                        returnMessage.Add("Status", "OK");
+                    }
+                    else
+                    {
+                        returnMessage.Add("Status", "BAD");
                     }
 
                     await args.Request.SendResponseAsync(returnMessage);
