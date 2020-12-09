@@ -40,7 +40,7 @@ namespace UnitTests.HighPerformance.Helpers
             }
         }
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
         [TestCategory("ParallelHelper")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]

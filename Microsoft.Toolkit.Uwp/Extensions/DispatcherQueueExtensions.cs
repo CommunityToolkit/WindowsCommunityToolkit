@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.System;
 
@@ -61,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                     }
                 }))
                 {
-                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                    taskCompletionSource.SetException(GetEnqueueException("Failed to enqueue the operation"));
                 }
 
                 return taskCompletionSource.Task;
@@ -110,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                     }
                 }))
                 {
-                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                    taskCompletionSource.SetException(GetEnqueueException("Failed to enqueue the operation"));
                 }
 
                 return taskCompletionSource.Task;
@@ -143,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                         return awaitableResult;
                     }
 
-                    return Task.FromException(new InvalidOperationException("The Task returned by function cannot be null."));
+                    return Task.FromException(GetEnqueueException("The Task returned by function cannot be null."));
                 }
                 catch (Exception e)
                 {
@@ -167,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                         }
                         else
                         {
-                            taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                            taskCompletionSource.SetException(GetEnqueueException("The Task returned by function cannot be null."));
                         }
                     }
                     catch (Exception e)
@@ -176,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                     }
                 }))
                 {
-                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                    taskCompletionSource.SetException(GetEnqueueException("Failed to enqueue the operation"));
                 }
 
                 return taskCompletionSource.Task;
@@ -206,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                         return awaitableResult;
                     }
 
-                    return Task.FromException<T>(new InvalidOperationException("The Task returned by function cannot be null."));
+                    return Task.FromException<T>(GetEnqueueException("The Task returned by function cannot be null."));
                 }
                 catch (Exception e)
                 {
@@ -230,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                         }
                         else
                         {
-                            taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                            taskCompletionSource.SetException(GetEnqueueException("The Task returned by function cannot be null."));
                         }
                     }
                     catch (Exception e)
@@ -239,13 +240,24 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                     }
                 }))
                 {
-                    taskCompletionSource.SetException(new InvalidOperationException("Failed to enqueue the operation"));
+                    taskCompletionSource.SetException(GetEnqueueException("Failed to enqueue the operation"));
                 }
 
                 return taskCompletionSource.Task;
             }
 
             return TryEnqueueAsync(dispatcher, function, priority);
+        }
+
+        /// <summary>
+        /// Creates an <see cref="InvalidOperationException"/> to return when an enqueue operation fails.
+        /// </summary>
+        /// <param name="message">The message of the exception.</param>
+        /// <returns>An <see cref="InvalidOperationException"/> with a specified message.</returns>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static InvalidOperationException GetEnqueueException(string message)
+        {
+            return new InvalidOperationException(message);
         }
     }
 }

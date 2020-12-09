@@ -4,6 +4,10 @@
       <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
         <PackageReference Include="Microsoft.WinUI" Version="$(MicrosoftWinUIVersion)"/>
       </ItemGroup>
+      <PropertyGroup>
+        <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
+        <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
+      </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
       </PropertyGroup>

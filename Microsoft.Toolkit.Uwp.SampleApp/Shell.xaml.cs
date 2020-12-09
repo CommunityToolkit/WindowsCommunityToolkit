@@ -16,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
+        private readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
         public static Shell Current { get; private set; }
 
         public Shell()

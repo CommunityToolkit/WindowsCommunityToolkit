@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Collections
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
     [DebuggerDisplay("Key = {Key}, Count = {Count}")]
     public class ObservableGroup<TKey, TValue> : ObservableCollection<TValue>, IGrouping<TKey, TValue>, IReadOnlyObservableGroup
+        where TKey : notnull
     {
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="Key"/>
@@ -30,7 +31,7 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="key">The key for the group.</param>
         public ObservableGroup(TKey key)
         {
-            Key = key;
+            this.key = key;
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace Microsoft.Toolkit.Collections
         public ObservableGroup(IGrouping<TKey, TValue> grouping)
             : base(grouping)
         {
-            Key = grouping.Key;
+            this.key = grouping.Key;
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Microsoft.Toolkit.Collections
         public ObservableGroup(TKey key, IEnumerable<TValue> collection)
             : base(collection)
         {
-            Key = key;
+            this.key = key;
         }
 
         private TKey key;
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Collections
             get => this.key;
             set
             {
-                if (!EqualityComparer<TKey>.Default.Equals(this.key, value))
+                if (!EqualityComparer<TKey>.Default.Equals(this.key!, value))
                 {
                     this.key = value;
 

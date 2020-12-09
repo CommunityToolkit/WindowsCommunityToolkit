@@ -6,7 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+#if WINDOWS_UWP
 using Windows.UI.Notifications;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
