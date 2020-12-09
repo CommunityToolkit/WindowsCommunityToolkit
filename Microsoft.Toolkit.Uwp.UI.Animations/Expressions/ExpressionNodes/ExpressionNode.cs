@@ -502,6 +502,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     ret = $"({Children[0].ToExpressionStringInternal()} {GetOperationString()} {Children[1].ToExpressionStringInternal()})";
                     break;
 
+                case OperationType.UnaryOperator:
+                    if (Children.Count != 1)
+                    {
+                        throw new Exception("Can't have an unary operator that doesn't have exactly one params");
+                    }
+
+                    ret = $"( {GetOperationString()} {Children[0].ToExpressionStringInternal()} )";
+                    break;
+
                 case OperationType.Constant:
                     if (Children.Count == 0)
                     {

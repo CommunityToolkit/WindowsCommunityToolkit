@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
             else if (sizeof(TFrom) == 1)
             {
-                return length / sizeof(TTo);
+                return (int)((uint)length / (uint)sizeof(TTo));
             }
             else
             {

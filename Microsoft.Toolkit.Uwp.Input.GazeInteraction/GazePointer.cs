@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -298,20 +299,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
         /// </summary>
         public bool IsAlwaysActivated { get; set; }
 
-        private static GazePointer _instance = null;
+        private static ThreadLocal<GazePointer> _instance = new ThreadLocal<GazePointer>(() => new GazePointer());
 
-        internal static GazePointer Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new GazePointer();
-                }
-
-                return _instance;
-            }
-        }
+        internal static GazePointer Instance => _instance.Value;
 
         internal void AddRoot(int proxyId)
         {
