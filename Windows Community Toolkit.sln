@@ -55,12 +55,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		settings.xamlstyler = settings.xamlstyler
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Design", "Microsoft.Toolkit.Uwp.UI.Controls.Design\Microsoft.Toolkit.Uwp.UI.Controls.Design.csproj", "{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Design\Microsoft.Toolkit.Uwp.UI.Controls.DesignTools.csproj", "{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E9FAABFB-D726-42C1-83C1-CB46A29FEA81} = {E9FAABFB-D726-42C1-83C1-CB46A29FEA81}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Design", "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Design\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Design.csproj", "{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Design\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.DesignTools.csproj", "{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DAEB9CEC-C817-33B2-74B2-BC379380DB72} = {DAEB9CEC-C817-33B2-74B2-BC379380DB72}
 	EndProjectSection
@@ -110,7 +110,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{88C6FFBE-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj", "{6FEDF199-B052-49DD-8F3E-2A9224998E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design.csproj", "{67FE47A0-CA93-4680-B770-A0A48C1DBC40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Design\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.DesignTools.csproj", "{67FE47A0-CA93-4680-B770-A0A48C1DBC40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FEDF199-B052-49DD-8F3E-2A9224998E0F} = {6FEDF199-B052-49DD-8F3E-2A9224998E0F}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.WpfCore.SampleApp", "Microsoft.Toolkit.Win32.WpfCore.SampleApp\Microsoft.Toolkit.Win32.WpfCore.SampleApp.csproj", "{0037E4C9-7AF3-4ADD-8156-5AEFA6C36405}"
 EndProject
