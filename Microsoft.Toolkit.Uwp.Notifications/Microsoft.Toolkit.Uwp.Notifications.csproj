@@ -16,6 +16,8 @@
     <ShouldAddWinUI>true</ShouldAddWinUI>
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
+    <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <NoWarn>NU1701</NoWarn> <!-- Temporary fix for WinUI3 -->
   </PropertyGroup>
 
