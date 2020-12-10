@@ -25,7 +25,7 @@ namespace UnitTests.XamlIslands.UWPApp
             {
                 var xamlItemsPanelTemplate = @"<ItemsPanelTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
-                                                 xmlns:controls='using:Microsoft.Toolkit.Uwp.UI.Controls'>
+                                                 xmlns:controls='using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives'>
                       <controls:WrapPanel Padding='0,0,0,0'
                                           VerticalSpacing='5'
                                           HorizontalSpacing='5' />

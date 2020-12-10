@@ -4,7 +4,7 @@
 
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
     /// Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.

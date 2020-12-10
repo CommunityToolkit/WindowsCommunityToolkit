@@ -9,7 +9,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
     /// The UniformGrid control presents information within a Grid with even spacing.

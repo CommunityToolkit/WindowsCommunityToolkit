@@ -6,7 +6,7 @@ using System.Collections;
 using System.Drawing;
 using Microsoft.Toolkit.Diagnostics;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
     /// Referencable class object we can use to have a reference shared between

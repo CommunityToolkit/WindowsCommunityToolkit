@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:primitiveControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox/TokenizingTextBoxItem.Token.xaml"/>
@@ -51,7 +52,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <controls:WrapPanel ex:FrameworkElementExtensions.AncestorType="controls:TokenizingTextBox"
+                    <primitiveControls:WrapPanel ex:FrameworkElementExtensions.AncestorType="controls:TokenizingTextBox"
                                         HorizontalSpacing="{Binding (ex:FrameworkElementExtensions.Ancestor).TokenSpacing,RelativeSource={RelativeSource Self}}"
                                         VerticalSpacing="{Binding (ex:FrameworkElementExtensions.Ancestor).TokenSpacing,RelativeSource={RelativeSource Self}}"
                                         StretchChild="Last"/>

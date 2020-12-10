@@ -4,6 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:primitiveControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
@@ -61,7 +62,7 @@
         </DataTemplate>
 
         <ItemsPanelTemplate x:Key="ItemsWrapGridHorizontalTemplate">
-            <controls:WrapPanel Orientation="Horizontal"></controls:WrapPanel>
+            <primitiveControls:WrapPanel Orientation="Horizontal"></primitiveControls:WrapPanel>
         </ItemsPanelTemplate>
     </Page.Resources>
 
