@@ -13,8 +13,9 @@ variables:
   BuildConfiguration: Release
 
 jobs:
-- job: ToolkitBuild
-  timeoutInMinutes: 120
+### BUILD ###
+- job: BuildBits
+  timeoutInMinutes: 60
   
   steps:
   - task: BatchScript@1
@@ -45,15 +46,10 @@ jobs:
   - powershell: .\build\build.ps1 -target=Build
     displayName: Build
 
+  ### Unit Tests ###
+  
   - powershell: .\build\build.ps1 -target=Test
-    displayName: Test
-    timeoutInMinutes: 15
-
-  - powershell: .\build\build.ps1 -target=Package
-    displayName: Package
-
-  - powershell: .\build\build.ps1 -target=SmokeTest
-    displayName: SmokeTest
+    displayName: Test    
 
   - task: PublishTestResults@2
     inputs:
@@ -76,6 +72,11 @@ jobs:
       artifactName: WexErrorLogFileOutput
     condition: failed()
 
+  ### Package ###
+
+  - powershell: .\build\build.ps1 -target=Package
+    displayName: Package
+
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
     inputs:
@@ -92,6 +93,25 @@ jobs:
       pathToPublish: .\bin\nupkg
       artifactType: container
       artifactName: Packages
+
+### Smoke Tests ###
+
+- job: SmokeTests
+  dependsOn: BuildBits
+  timeoutInMinutes: 40
+  
+  steps:
+  - task: DownloadBuildArtifacts@0
+    displayName: Download NuGet Packages Artifact
+    inputs:
+      artifactName: Packages
+      downloadPath: .\bin
+
+  - powershell: Expand-Archive -Path '.\bin\Packages.zip' -DestinationPath '.\bin\nupkg'
+    displayName: Expand NuGet Archive
+
+  - powershell: .\build\build.ps1 -target=SmokeTest
+    displayName: SmokeTest
 
   - task: CopyFiles@2
     inputs:

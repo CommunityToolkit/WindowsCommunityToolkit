@@ -12,7 +12,7 @@
           Inputs="@(ProjectsToBuild)"
           Outputs="%(Filename)">
 
-    <Message Importance="High" Text="Building project %(ProjectsToBuild.Filename): (%(ProjectsToBuild.Configuration)|%(ProjectsToBuild.Platform))" />
+    <Message Importance="High" Text="Building project %(ProjectsToBuild.Identity): (%(ProjectsToBuild.Configuration)|%(ProjectsToBuild.Platform))" />
 
     <MSBuild Projects="SmokeTest.csproj"
               Targets="restore;build"
