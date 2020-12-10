@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
-        private readonly DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private readonly DispatcherTimer keyDebounceTimer = new DispatcherTimer();
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -251,7 +251,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.Right:
                     if (_toolTip != null)
                     {
-                        dispatcherTimer.Debounce(
+                        keyDebounceTimer.Debounce(
                             () => _toolTip.Visibility = Visibility.Collapsed,
                             TimeToHideToolTipOnKeyUp);
                     }
