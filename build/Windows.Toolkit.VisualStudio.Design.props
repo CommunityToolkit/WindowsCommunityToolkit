@@ -1,0 +1,21 @@
+<Project>
+
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::ValueOrDefault('$(BaseIntermediateOutputPath)', 'obj'))))</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="$(MSBuildProjectName.EndsWith('.Design'))">
+      <PropertyGroup>
+        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)Design\</MSBuildProjectExtensionsPath>
+      </PropertyGroup>
+    </When>
+    <When Condition="$(MSBuildProjectName.EndsWith('.DesignTools'))">
+      <PropertyGroup>
+        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)DesignTools\</MSBuildProjectExtensionsPath>
+      </PropertyGroup>
+    </When>
+    <Otherwise/>
+  </Choose>
+
+</Project>
