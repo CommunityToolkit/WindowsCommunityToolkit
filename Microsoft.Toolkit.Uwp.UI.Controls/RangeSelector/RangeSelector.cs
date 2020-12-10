@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
-        private readonly DispatcherTimer keyDebounceTimer = new DispatcherTimer();
+        private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
