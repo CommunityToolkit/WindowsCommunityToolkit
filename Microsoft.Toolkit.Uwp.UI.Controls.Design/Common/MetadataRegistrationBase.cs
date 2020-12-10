@@ -2,42 +2,55 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Windows.Design.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 
+using Microsoft.Toolkit.Uwp.Design.Types;
+
+using Microsoft.VisualStudio.DesignTools.Extensibility;
+using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
+
 namespace Microsoft.Toolkit.Uwp.Design.Common
 {
-    public class MetadataRegistrationBase
+    public abstract class MetadataRegistrationBase : IProvideAttributeTable
     {
         private AttributeTable masterMetadataTable;
 
         internal MetadataRegistrationBase() { }
 
         /// <summary>
-		/// Build design time metadata attribute table.
-		/// </summary>
-		/// <returns>Custom attribute table.</returns>
-		protected virtual AttributeTable BuildAttributeTable()
+        /// Build design time metadata attribute table.
+        /// </summary>
+        /// <returns>Custom attribute table.</returns>
+        protected virtual AttributeTable BuildAttributeTable()
         {
-            AttributeTableBuilder builder = new AttributeTableBuilder();
+            var builder = new AttributeTableBuilder();
 
             AddDescriptions(builder);
             AddAttributes(builder);
             AddTables(builder, this);
+
             masterMetadataTable = builder.CreateTable();
             return masterMetadataTable;
         }
 
+        #region IProvideAttributeTable Members
+
         /// <summary>
-        /// Find all AttributeTableBuilder subclasses in the assembly 
+        /// Gets the AttributeTable for design time metadata.
+        /// </summary>
+        public AttributeTable AttributeTable => BuildAttributeTable();
+
+        #endregion
+
+        /// <summary>
+        /// Find all AttributeTableBuilder subclasses in the assembly
         /// and add their attributes to the assembly attribute table.
         /// </summary>
         /// <param name="builder">The assembly attribute table builder.</param>
@@ -53,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                 {
                     try
                     {
-                        AttributeTableBuilder atb = (AttributeTableBuilder)Activator.CreateInstance(t);
+                        var atb = (AttributeTableBuilder)Activator.CreateInstance(t);
                         builder.AddTable(atb.CreateTable());
                     }
                     catch (Exception)
@@ -75,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
         protected string AssemblyFullName { get; set; }
 
         /// <summary>
-        /// Create description attribute from run time assembly xml file.
+        /// Create description attribute from run time assembly XML file.
         /// </summary>
         /// <param name="builder">The assembly attribute table builder.</param>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Design time dll should not fail.")]
@@ -83,36 +96,36 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
         {
             Debug.Assert(builder != null, "AddDescriptions is called with null parameter!");
 
-            if (string.IsNullOrEmpty(XmlResourceName) ||
-                string.IsNullOrEmpty(AssemblyFullName))
-            {
-                return;
-            }
-            XDocument xdoc = null;
+            if (string.IsNullOrEmpty(XmlResourceName) || string.IsNullOrEmpty(AssemblyFullName)) return;
+
+            XDocument xDoc;
             try
             {
-                xdoc = XDocument.Load(new StreamReader(
-                    Assembly.GetExecutingAssembly().GetManifestResourceStream(XmlResourceName)));
+                xDoc = XDocument.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(XmlResourceName));
             }
-            catch { return; }
-            if (xdoc == null)
+            catch
             {
                 return;
             }
 
-            foreach (XElement member in xdoc.Descendants("member"))
+            if (xDoc == null) return;
+
+            foreach (XElement member in xDoc.Descendants("member"))
             {
                 try
                 {
                     string name = (string)member.Attribute("name");
-                    if (name == null)
-                        continue;
+
+                    if (name == null) continue;
+
                     bool isType = name.StartsWith("T:", StringComparison.OrdinalIgnoreCase);
-                    if (isType ||
-                        name.StartsWith("P:", StringComparison.OrdinalIgnoreCase))
+                    bool isProperty = name.StartsWith("P:", StringComparison.OrdinalIgnoreCase);
+
+                    if (isType || isProperty)
                     {
                         int lastDot = name.Length;
                         string typeName;
+
                         if (isType)
                         {
                             typeName = name.Substring(2); // skip leading "T:"
@@ -122,86 +135,74 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
                             lastDot = name.LastIndexOf('.');
                             typeName = name.Substring(2, lastDot - 2);
                         }
-                        typeName += AssemblyFullName;
 
-                        Type t = Type.GetType(typeName);
-                        if (t != null && t.IsPublic && t.IsClass &&
-                            t.IsSubclassOf(Types.PlatformTypes.DependencyObjectType))
+                        var type = Type.GetType(typeName + ", " + AssemblyFullName);
+
+                        if (type != null && type.IsPublic && type.IsClass && type.IsSubclassOf(PlatformTypes.DependencyObject))
                         {
                             string desc = ParseDescription(member);
-                            if (desc == null)
-                                continue;
 
-                            desc = desc.Trim();
-                            desc = string.Join(" ", desc.Split(new char[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
+                            if (desc == null) continue;
+
+                            desc = string.Join(" ", desc.Trim().Split(new char[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
+
                             if (isType)
                             {
-                                bool isBrowsable = true;
-                                try
+                                if (IsBrowsable(type))
                                 {
-                                    isBrowsable = IsBrowsable(t);
+                                    builder.AddCustomAttributes(typeName, new DescriptionAttribute(desc));
                                 }
-                                catch { isBrowsable = false; }
-                                if (isBrowsable)
-                                    builder.AddCallback(t, b => b.AddCustomAttributes(new DescriptionAttribute(desc)));
                                 else //Hide from intellisense
                                 {
-                                    builder.AddCallback(t, b => b.AddCustomAttributes(
+                                    builder.AddCustomAttributes(typeName,
                                         new BrowsableAttribute(false),
-                                        new Microsoft.Windows.Design.ToolboxBrowsableAttribute(false),
-                                        new ToolboxItemAttribute(false)));
+                                        new ToolboxBrowsableAttribute(false),
+                                        new ToolboxItemAttribute(false));
                                 }
                             }
                             else
                             {
-                                string propName = name.Substring(lastDot + 1);
-                                PropertyInfo pi = t.GetProperty(propName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                                var propertyName = name.Substring(lastDot + 1);
+                                PropertyInfo pi = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                                 if (pi != null)
                                 {
-                                    bool isBrowsable = true;
-                                    try
+                                    if (IsBrowsable(type))
                                     {
-                                        isBrowsable = IsBrowsable(pi);
+                                        builder.AddCustomAttributes(typeName, propertyName, new DescriptionAttribute(desc));
                                     }
-                                    catch { isBrowsable = false; }
-                                    if (isBrowsable)
-                                        builder.AddCallback(t, b => b.AddCustomAttributes(propName, new DescriptionAttribute(desc)));
                                     else //Hide from intellisense
-                                        builder.AddCallback(t, b => b.AddCustomAttributes(new BrowsableAttribute(false)));
+                                    {
+                                        builder.AddCustomAttributes(typeName, new BrowsableAttribute(false));
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                catch (Exception)
+                catch
                 {
                 }
             }
         }
-        private static bool IsBrowsable(Type t)
-        {
-            var attrs = t.GetCustomAttributes(Types.PlatformTypes.EditorBrowsableAttributeType, false);
-            foreach (var attr in attrs)
-            {
-                return Types.PlatformTypes.IsBrowsable(attr);
-            }
-            return true;
-        }
 
-        private static bool IsBrowsable(System.Reflection.PropertyInfo pi)
+        private static bool IsBrowsable(MemberInfo typeOrMember)
         {
-            var attrs = pi.GetCustomAttributes(Types.PlatformTypes.EditorBrowsableAttributeType, false);
-            foreach (var attr in attrs)
+            EditorBrowsableAttribute attribute;
+            try
             {
-                return Types.PlatformTypes.IsBrowsable(attr);
+                attribute = typeOrMember.GetCustomAttribute<EditorBrowsableAttribute>(false);
             }
-            return true;
+            catch
+            {
+                return true; // If there is no [EditorBrowsable] attribute present, we'll show it by default.
+            }
+            return attribute.State != EditorBrowsableState.Never;
         }
 
         /// <summary>
-        /// Create description string from xml doc summary tag.
+        /// Create description string from XML doc summary tag.
         /// </summary>
-        /// <param name="member">A single node of the xml doc.</param>
+        /// <param name="member">A single node of the XML doc.</param>
         /// <returns>Description string.</returns>
         private static string ParseDescription(XElement member)
         {
