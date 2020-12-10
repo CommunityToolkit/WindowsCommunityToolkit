@@ -11,6 +11,7 @@ using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
 using Windows.System.Threading;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -130,8 +131,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private CssLineStyle ErrorStyle
         {
             get => _themeListener.CurrentTheme.Equals(ApplicationTheme.Light) ?
-                new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6)) } :
-                new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0x66, 0x00, 0x00)) };
+                new CssLineStyle(XamlCodeRenderer) { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6)) } :
+                new CssLineStyle(XamlCodeRenderer) { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0x66, 0x00, 0x00)) };
         }
 
         private CssGlyphStyle _errorIconStyle;
