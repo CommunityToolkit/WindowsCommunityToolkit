@@ -21,9 +21,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method does not contain branching instructions.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte ToByte(this bool flag)
+        public static unsafe byte ToByte(this bool flag)
         {
-            return Unsafe.As<bool, byte>(ref flag);
+            return *(byte*)&flag;
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Obsolete("Use ToByte instead.")]
-        public static int ToInt(this bool flag)
+        public static unsafe int ToInt(this bool flag)
         {
-            return Unsafe.As<bool, byte>(ref flag);
+            return *(byte*)&flag;
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ToBitwiseMask32(this bool flag)
+        public static unsafe int ToBitwiseMask32(this bool flag)
         {
-            byte rangeFlag = Unsafe.As<bool, byte>(ref flag);
+            byte rangeFlag = *(byte*)&flag;
             int
                 negativeFlag = rangeFlag - 1,
                 mask = ~negativeFlag;
@@ -75,9 +75,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method does not contain branching instructions. See additional note in <see cref="ToBitwiseMask32"/>.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToBitwiseMask64(this bool flag)
+        public static unsafe long ToBitwiseMask64(this bool flag)
         {
-            byte rangeFlag = Unsafe.As<bool, byte>(ref flag);
+            byte rangeFlag = *(byte*)&flag;
             long
                 negativeFlag = (long)rangeFlag - 1,
                 mask = ~negativeFlag;

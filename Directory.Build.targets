@@ -1,32 +1,19 @@
 <Project>
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17763' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">
-      <!-- UAP versions for uap10.0 where TPMV isn't implied -->
-      <PropertyGroup>
-        <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
-        <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
-      </PropertyGroup>
 
-      <PropertyGroup Condition="'$(DebugType)' == ''">
-        <DebugType>Portable</DebugType>
-      </PropertyGroup>
+  <PropertyGroup>
+    <UseUWP Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17763' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">true</UseUWP>
+  </PropertyGroup>
 
-      <ItemGroup>
-        <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
-          <Name>Windows Desktop Extensions for the UWP</Name>
-        </SDKReference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  
   <Choose>
-    <When Condition="'$(TargetFramework.Contains(`uap10.0`))' == 'false' and '$(TargetFramework)' != 'native' and '$(IsSampleProject)' != 'true'">
+    <When Condition="!$(TargetFramework.Contains(`uap10.0`)) and '$(TargetFramework)' != 'native' and '$(IsSampleProject)' != 'true'">
       <PropertyGroup>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
       </PropertyGroup>
     </When>
   </Choose>
+
+  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.Uwp.Build.targets" Condition="'$(UseUWP)' == 'true'"/>
 
   <Target Name="AddCommitHashToAssemblyAttributes" BeforeTargets="GetAssemblyAttributes">
     <ItemGroup>
@@ -36,4 +23,5 @@
       </AssemblyAttribute>
     </ItemGroup>
   </Target>
+
 </Project>

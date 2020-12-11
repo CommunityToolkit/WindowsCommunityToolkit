@@ -15,6 +15,8 @@ using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
+#pragma warning disable CS0809, CA1065
+
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
     /// <summary>
@@ -1093,7 +1095,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             return array;
         }
 
-#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         /// <inheritdoc cref="Span{T}.Equals(object)"/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Equals() on Span will always throw an exception. Use == instead.")]
@@ -1109,7 +1110,6 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         {
             throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.Span2D<T>.GetHashCode() is not supported");
         }
-#pragma warning restore CS0809
 
         /// <inheritdoc/>
         public override string ToString()
