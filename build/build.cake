@@ -223,7 +223,6 @@ Task("Package")
     }
     .SetConfiguration("Release")
     .WithTarget("Pack")
-    .WithTarget("Microsoft_Toolkit_Uwp_Notifications")
     .WithProperty("GenerateLibraryLayout", "true")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
@@ -314,8 +313,8 @@ Task("MSTestUITest")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    // .IsDependentOn("Build")
-    // .IsDependentOn("Test")
+    .IsDependentOn("Build")
+    .IsDependentOn("Test")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")
