@@ -15,6 +15,8 @@
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
     <IsPackable>false</IsPackable>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+    <IsTestHarness>true</IsTestHarness>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'"
+                      Include="Microsoft.Windows.SDK.Contracts"
+                      Version="10.0.19041.0" />
+    
     <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
     <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
     <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />
@@ -64,5 +70,5 @@
     </None>
   </ItemGroup>
 
-  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" />
+  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
 </Project>
