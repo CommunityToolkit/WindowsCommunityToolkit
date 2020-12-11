@@ -4,16 +4,16 @@
 
 using System;
 using System.Collections.Concurrent;
-using Microsoft.UI.Xaml;
+using Microsoft.System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Set of extention methods for using <see cref="DispatcherTimer"/>.
+    /// Set of extention methods for using <see cref="DispatcherQueueTimer"/>.
     /// </summary>
-    public static class DispatcherTimerExtensions
+    public static class DispatcherQueueTimerExtensions
     {
-        private static ConcurrentDictionary<DispatcherTimer, Action> _debounceInstances = new ConcurrentDictionary<DispatcherTimer, Action>();
+        private static ConcurrentDictionary<DispatcherQueueTimer, Action> _debounceInstances = new ConcurrentDictionary<DispatcherQueueTimer, Action>();
 
         /// <summary>
         /// <para>Used to debounce (rate-limit) an event.  The action will be postponed and executed after the interval has elapsed.  At the end of the interval, the function will be called with the arguments that were passed most recently to the debounced function.</para>
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="immediate">Determines if the action execute on the leading edge instead of trailing edge.</param>
         /// <example>
         /// <code>
-        /// private DispatcherTimer _typeTimer = new DispatcherTimer();
+        /// private DispatcherQueueTimer _typeTimer = new DispatcherQueueTimer();
         ///
         /// _typeTimer.Debounce(async () =>
         ///     {
@@ -35,10 +35,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         ///     }, TimeSpan.FromSeconds(0.3));
         /// </code>
         /// </example>
-        public static void Debounce(this DispatcherTimer timer, Action action, TimeSpan interval, bool immediate = false)
+        public static void Debounce(this DispatcherQueueTimer timer, Action action, TimeSpan interval, bool immediate = false)
         {
             // Check and stop any existing timer
-            var timeout = timer.IsEnabled;
+            var timeout = timer.IsRunning;
             if (timeout)
             {
                 timer.Stop();
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Timer_Tick(object sender, object e)
         {
             // This event is only registered/run if we weren't in immediate mode above
-            if (sender is DispatcherTimer timer)
+            if (sender is DispatcherQueueTimer timer)
             {
                 timer.Tick -= Timer_Tick;
                 timer.Stop();
