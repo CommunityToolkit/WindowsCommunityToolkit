@@ -137,14 +137,17 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UITests.Tests.Shared", "UIT
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{05c83067-fa46-45e2-bec4-edee84ad18d0}*SharedItemsImports = 4
 		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{1d8b0260-5c17-41da-9c38-1e37441b3925}*SharedItemsImports = 13
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{4e9466d1-d5aa-46ac-801b-c8fdab79f0d4}*SharedItemsImports = 13
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{5524523e-db0f-41f7-a0d4-43128422a342}*SharedItemsImports = 4
+		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{5f720475-e263-4a5a-8c88-2b805b45b5bc}*SharedItemsImports = 5
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{7878cd00-85e8-4d02-9757-8a43db4c6510}*SharedItemsImports = 5
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{9b3a94a6-0d29-4523-880b-6938e2efeef7}*SharedItemsImports = 13
 		UnitTests\UnitTests.Shared\UnitTests.Shared.projitems*{a139968e-ad78-4e8c-93b8-9a5523bcac89}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
+		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{c8182ef0-77fb-4b43-a588-c71748a309c7}*SharedItemsImports = 5
 		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{d9bdbc68-3d0a-47fc-9c88-0bf769101644}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -885,6 +888,8 @@ Global
 		{54349AB0-9E41-4AA6-849C-EC9CE80CDD2A}.Release|x86.Build.0 = Release|Any CPU
 		{54349AB0-9E41-4AA6-849C-EC9CE80CDD2A}.Release|x86.Deploy.0 = Release|Any CPU
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|Any CPU.Build.0 = Debug|x86
+		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM.ActiveCfg = Debug|ARM
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM.Build.0 = Debug|ARM
 		{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}.Debug|ARM.Deploy.0 = Debug|ARM
