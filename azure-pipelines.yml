@@ -87,12 +87,12 @@ jobs:
       ArtifactDirectory: bin\nupkg
     condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: Publish Package Artifacts
     inputs:
-      pathToPublish: .\bin\nupkg
-      artifactType: container
+      targetPath: .\bin\nupkg
       artifactName: Packages
+          
 
 ### Smoke Tests ###
 
@@ -101,14 +101,14 @@ jobs:
   timeoutInMinutes: 40
   
   steps:
-  - task: DownloadBuildArtifacts@0
+  - task: DownloadPipelineArtifact@2
     displayName: Download NuGet Packages Artifact
     inputs:
-      artifactName: Packages
-      downloadPath: .\bin
+      artifact: Packages
+      path: .\bin\nupkg
 
-  - powershell: Expand-Archive -Path '.\bin\Packages.zip' -DestinationPath '.\bin\nupkg'
-    displayName: Expand NuGet Archive
+  - powershell: dir .\bin\nupkg
+    displayName: List NuGet Archive
 
   - powershell: .\build\build.ps1 -target=SmokeTest
     displayName: SmokeTest
