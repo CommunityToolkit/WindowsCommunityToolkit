@@ -16,6 +16,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class MasterDetailsView
     {
         /// <summary>
+        /// Identifies the SelectedIndex dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty =
+            DependencyProperty.Register(
+                nameof(SelectedIndex),
+                typeof(int),
+                typeof(MasterDetailsView),
+                new PropertyMetadata(-1, OnSelectedIndexChanged));
+
+        /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="SelectedItem"/> dependency property.</returns>
@@ -146,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnDetailsCommandBarChanged));
 
         /// <summary>
-        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependancy property
+        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property
         /// </summary>
         public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
             nameof(CompactModeThresholdWidth),
@@ -155,13 +165,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
 
         /// <summary>
-        /// Identifies the <see cref="BackButtonBehavior"/> dependancy property
+        /// Identifies the <see cref="BackButtonBehavior"/> dependency property
         /// </summary>
         public static readonly DependencyProperty BackButtonBehaviorProperty = DependencyProperty.Register(
             nameof(BackButtonBehavior),
             typeof(BackButtonBehavior),
             typeof(MasterDetailsView),
             new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
+
+        /// <summary>
+        /// Gets or sets the index of the current selection.
+        /// </summary>
+        /// <returns>The index of the current selection, or -1 if the selection is empty.</returns>
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the selected item.
@@ -303,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the Threshold width that witll trigger the control to go into compact mode
+        /// Gets or sets the Threshold width that will trigger the control to go into compact mode
         /// </summary>
         public double CompactModeThresholdWidth
         {

@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
+    /// Provides attached dependency properties and methods for the <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/> control.
     /// </summary>
     public partial class ScrollViewerExtensions
     {
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Get <see cref="EnableMiddleClickScrollingProperty"/>. Returns `true` if middle click scrolling is enabled else retuen `false`
+        /// Get <see cref="EnableMiddleClickScrollingProperty"/>. Returns `true` if middle click scrolling is enabled else return `false`
         /// </summary>
         /// <param name="obj">The <see cref="DependencyObject"/> to get the associated `bool`</param>
         /// <returns>The `bool` associated with the <see cref="DependencyObject"/></returns>

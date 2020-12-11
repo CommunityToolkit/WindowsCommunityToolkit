@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
-        /// <remarks>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</remarks>
+        /// <remarks>Calling this method isn't mandatory, because the token is get/refreshed every time is needed. However, it is called at startup, it can speed-up subsequent requests.</remarks>
         Task InitializeAsync();
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks>
-        /// <para>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</para>
+        /// <para>Calling this method isn't mandatory, because the token is get/refreshed every time is needed. However, it is called at startup, it can speed-up subsequent requests.</para>
         /// <para>You must register Microsoft Translator on https://portal.azure.com to obtain the Subscription key needed to use the service.</para>
         /// </remarks>
         Task InitializeAsync(string subscriptionKey, string language = null);

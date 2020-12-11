@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(nameof(Text), typeof(string), typeof(XamlCodeEditor), new PropertyMetadata(string.Empty));
 
+        private ThemeListener _themeListener = new ThemeListener();
+
         public XamlCodeEditor()
         {
             this.InitializeComponent();
@@ -40,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             // Highlight Error Line
             XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
                 range,
-                new IModelDecorationOptions() { IsWholeLine = true, ClassName = _errorStyle, HoverMessage = new string[] { error.Message }.ToMarkdownString() }));
+                new IModelDecorationOptions() { IsWholeLine = true, ClassName = ErrorStyle, HoverMessage = new string[] { error.Message }.ToMarkdownString() }));
 
             // Show Glyph Icon
             XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
@@ -93,10 +95,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 // TODO: Mark Dirty here if we want to prevent overwrites.
 
                 // Setup Time for Auto-Compile
-                this._autocompileTimer?.Cancel(); // Stop Old Timer
+                this._autoCompileTimer?.Cancel(); // Stop Old Timer
 
                 // Create Compile Timer
-                this._autocompileTimer = ThreadPoolTimer.CreateTimer(
+                this._autoCompileTimer = ThreadPoolTimer.CreateTimer(
                     e =>
                     {
                         UpdateRequested?.Invoke(this, EventArgs.Empty);
@@ -121,17 +123,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public DateTime TimeSampleEditedLast { get; private set; } = DateTime.MinValue;
 
-        private CssLineStyle _errorStyle = new CssLineStyle()
+        private CssLineStyle ErrorStyle
         {
-            BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
-        };
+            get => _themeListener.CurrentTheme.Equals(ApplicationTheme.Light) ?
+                new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6)) } :
+                new CssLineStyle() { BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0x66, 0x00, 0x00)) };
+        }
 
         private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
         {
             GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
         };
 
-        private ThreadPoolTimer _autocompileTimer;
+        private ThreadPoolTimer _autoCompileTimer;
 
         public event EventHandler UpdateRequested;
 

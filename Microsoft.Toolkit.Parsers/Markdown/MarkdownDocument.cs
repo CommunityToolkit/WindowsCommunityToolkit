@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdownText"> The markdown text. </param>
         public void Parse(string markdownText)
         {
-            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out int actualEnd);
+            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out _);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
             for (int i = Blocks.Count - 1; i >= 0; i--)
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             var paragraphText = new StringBuilder();
 
             // These are needed to parse underline-style header blocks.
-            int previousRealtStartOfLine = start;
+            int previousRealStartOfLine = start;
             int previousStartOfLine = start;
             int previousEndOfLine = start;
 
@@ -160,18 +160,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     else
                     {
                         int lastIndentation = 0;
-                        string lastline = null;
+                        string lastLine = null;
 
                         // Determines how many Quote levels were in the last line.
                         if (realStartOfLine > 0)
                         {
-                            lastline = markdown.Substring(previousRealtStartOfLine, previousEndOfLine - previousRealtStartOfLine);
-                            lastIndentation = lastline.Count(c => c == '>');
+                            lastLine = markdown.Substring(previousRealStartOfLine, previousEndOfLine - previousRealStartOfLine);
+                            lastIndentation = lastLine.Count(c => c == '>');
                         }
 
                         var currentEndOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out _);
-                        var currentline = markdown.Substring(realStartOfLine, currentEndOfLine - realStartOfLine);
-                        var currentIndentation = currentline.Count(c => c == '>');
+                        var currentLine = markdown.Substring(realStartOfLine, currentEndOfLine - realStartOfLine);
+                        var currentIndentation = currentLine.Count(c => c == '>');
                         var firstChar = markdown[realStartOfLine];
 
                         // This is a quote that doesn't start with a Quote marker, but carries on from the last line.
@@ -233,9 +233,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                             realStartOfLine = startOfLine;
                             endOfLine = startOfLine + 3;
                             startOfNextLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out startOfNextLine);
-                        }
 
-                        paragraphText.Clear();
+                            paragraphText.Clear();
+                        }
                     }
 
                     if (newBlockElement == null && nonSpaceChar == '#' && nonSpacePos == startOfLine)
@@ -364,7 +364,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
 
                 // Repeat.
-                previousRealtStartOfLine = realStartOfLine;
+                previousRealStartOfLine = realStartOfLine;
                 previousStartOfLine = startOfLine;
                 previousEndOfLine = endOfLine;
                 startOfLine = startOfNextLine;

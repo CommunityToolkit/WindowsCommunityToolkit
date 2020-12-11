@@ -73,6 +73,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // If we're not displaying any rows or if we have infinite space the, relative height of our rows is 0
                 if (this.DisplayData.LastScrollingSlot == -1 || double.IsPositiveInfinity(this.AvailableSlotElementRoom))
                 {
+                    if (_oldEdgedRowsHeightCalculated > 0)
+                    {
+                        _oldEdgedRowsHeightCalculated = 0;
+
+                        LoadMoreDataFromIncrementalItemsSource(0);
+                    }
+
                     return 0;
                 }
 
@@ -125,8 +132,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // TODO: Update the DetailsHeightEstimate
                 double totalDetailsHeight = detailsCount * this.RowDetailsHeightEstimate;
+                double newEdgedRowsHeightCalculated = totalRowsHeight + totalDetailsHeight;
+                bool loadMoreDataFromIncrementalItemsSource = newEdgedRowsHeightCalculated < _oldEdgedRowsHeightCalculated;
 
-                return totalRowsHeight + totalDetailsHeight;
+                _oldEdgedRowsHeightCalculated = newEdgedRowsHeightCalculated;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource(newEdgedRowsHeightCalculated);
+                }
+
+                return newEdgedRowsHeightCalculated;
             }
         }
 
@@ -331,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Debug.Assert(rowIndex != -1, "Expected rowIndex other than -1.");
             if (_showDetailsTable.Contains(rowIndex))
             {
-                // The user explicity set DetailsVisibility on a row so we should respect that
+                // The user explicitly set DetailsVisibility on a row so we should respect that
                 return _showDetailsTable.GetValueAt(rowIndex);
             }
             else
@@ -535,7 +551,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     verticalOffset = this.DisplayData.PendingVerticalScrollHeight;
                 }
 
-                _verticalOffset = 0;
+                VerticalOffset = 0;
                 this.NegVerticalOffset = 0;
 
                 if (clearRows)
@@ -721,11 +737,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            _verticalOffset += deltaY;
+            VerticalOffset += deltaY;
             if (_verticalOffset < 0 || this.DisplayData.FirstScrollingSlot == 0)
             {
                 // We scrolled too far because a row's height was larger than its approximation.
-                _verticalOffset = this.NegVerticalOffset;
+                VerticalOffset = this.NegVerticalOffset;
             }
 
             // TODO: in certain cases (eg, variable row height), this may not be true
@@ -1407,7 +1423,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (this.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Visible)
             {
-                // Total rows minus ones which explicity turned details off
+                // Total rows minus ones which explicitly turned details off
                 return indexCount - _showDetailsTable.GetIndexCount(lowerBound, upperBound, Visibility.Collapsed);
             }
             else if (this.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Collapsed)
@@ -1521,7 +1537,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Figure out which slots actually need to be expanded since some might already be collapsed
             double currentHeightChange = 0;
             int firstSlot = startSlot;
-            int lastSlot = endSlot;
+            int lastSlot;
             while (firstSlot <= endSlot)
             {
                 firstSlot = _collapsedSlotsTable.GetNextIndex(firstSlot - 1);
@@ -1537,9 +1553,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (!isHeaderDisplayed)
                     {
                         // Estimate the height change if the slots aren't displayed.  If they are displayed, we can add real values
-                        double headerHeight = 0;
                         double rowCount = lastSlot - firstSlot + 1;
-                        rowCount -= GetRowGroupHeaderCount(firstSlot, lastSlot, Visibility.Collapsed, out headerHeight);
+                        rowCount -= GetRowGroupHeaderCount(firstSlot, lastSlot, Visibility.Collapsed, out var headerHeight);
                         double detailsCount = GetDetailsCountInclusive(firstSlot, lastSlot);
                         currentHeightChange += headerHeight + (detailsCount * this.RowDetailsHeightEstimate) + (rowCount * this.RowHeightEstimate);
                     }
@@ -1731,9 +1746,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Returns an estimate for the height of the slots between fromSlot and toSlot
         private double GetHeightEstimate(int fromSlot, int toSlot)
         {
-            double headerHeight = 0;
             double rowCount = toSlot - fromSlot + 1;
-            rowCount -= GetRowGroupHeaderCount(fromSlot, toSlot, Visibility.Visible, out headerHeight);
+            rowCount -= GetRowGroupHeaderCount(fromSlot, toSlot, Visibility.Visible, out var headerHeight);
             double detailsCount = GetDetailsCountInclusive(fromSlot, toSlot);
 
             return headerHeight + (detailsCount * this.RowDetailsHeightEstimate) + (rowCount * this.RowHeightEstimate);
@@ -2239,7 +2253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnInsertedElement_Phase2(int slot, bool updateVerticalScrollBarOnly, bool isCollapsed)
         {
-            Debug.Assert(slot >= 0, "Expected positve slot.");
+            Debug.Assert(slot >= 0, "Expected positive slot.");
 
             if (!isCollapsed)
             {
@@ -2690,6 +2704,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CorrectSlotsAfterDeletion(slot, isRow);
 
             OnRemovedElement(slot, item, isRow);
+
+            // Synchronize CurrentCellCoordinates, CurrentColumn, CurrentColumnIndex, CurrentItem
+            // and CurrentSlot with the currently edited cell, since OnRemovingElement called
+            // SetCurrentCellCore(-1, -1) to temporarily reset the current cell.
+            if (_temporarilyResetCurrentCell &&
+                _editingColumnIndex != -1 &&
+                _previousCurrentItem != null &&
+                this.EditingRow != null &&
+                this.EditingRow.Slot != -1)
+            {
+                ProcessSelectionAndCurrency(
+                    columnIndex: _editingColumnIndex,
+                    item: _previousCurrentItem,
+                    backupSlot: this.EditingRow.Slot,
+                    action: DataGridSelectionAction.None,
+                    scrollIntoView: false);
+            }
         }
 
         private void RemoveNonDisplayedRows(int newFirstDisplayedSlot, int newLastDisplayedSlot)
@@ -2749,7 +2780,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (slot >= this.DisplayData.FirstScrollingSlot &&
                 slot <= this.DisplayData.LastScrollingSlot)
             {
-                // Additional row takes the spot of a displayed row - it is necessarilly displayed
+                // Additional row takes the spot of a displayed row - it is necessarily displayed
                 return true;
             }
             else if (this.DisplayData.FirstScrollingSlot == -1 &&
@@ -2943,7 +2974,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (DoubleUtil.LessThan(firstRowHeight, this.NegVerticalOffset))
                 {
                     // We've scrolled off more of the first row than what's possible.  This can happen
-                    // if the first row got shorter (Ex: Collpasing RowDetails) or if the user has a recycling
+                    // if the first row got shorter (Ex: Collapsing RowDetails) or if the user has a recycling
                     // cleanup issue.  In this case, simply try to display the next row as the first row instead
                     if (newFirstScrollingSlot < this.SlotCount - 1)
                     {
@@ -2968,12 +2999,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (previousSlot == -1)
                         {
                             this.NegVerticalOffset = 0;
-                            _verticalOffset = 0;
+                            VerticalOffset = 0;
                         }
                         else
                         {
                             this.NegVerticalOffset -= firstElementHeight;
-                            _verticalOffset = Math.Max(0, _verticalOffset - firstElementHeight);
+                            VerticalOffset = Math.Max(0, _verticalOffset - firstElementHeight);
                             firstElementSlot = previousSlot;
                             firstElementHeight = GetExactSlotElementHeight(firstElementSlot);
                         }
@@ -2991,18 +3022,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (this.DisplayData.FirstScrollingSlot == 0)
                 {
-                    _verticalOffset = this.NegVerticalOffset;
+                    VerticalOffset = this.NegVerticalOffset;
                 }
                 else if (DoubleUtil.GreaterThan(this.NegVerticalOffset, newVerticalOffset))
                 {
                     // The scrolled-in row was larger than anticipated. Adjust the DataGrid so the ScrollBar thumb
                     // can stay in the same place
                     this.NegVerticalOffset = newVerticalOffset;
-                    _verticalOffset = newVerticalOffset;
+                    VerticalOffset = newVerticalOffset;
                 }
                 else
                 {
-                    _verticalOffset = newVerticalOffset;
+                    VerticalOffset = newVerticalOffset;
                 }
 
                 Debug.Assert(

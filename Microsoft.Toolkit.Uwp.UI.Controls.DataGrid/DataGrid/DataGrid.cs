@@ -130,6 +130,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DATAGRID_defaultMinColumnWidth = 20;
         private const double DATAGRID_defaultMaxColumnWidth = double.PositiveInfinity;
 
+        private const double DATAGRID_defaultIncrementalLoadingThreshold = 3.0;
+        private const double DATAGRID_defaultDataFetchSize = 3.0;
+
         // 2 seconds delay used to hide the scroll bars for example when OS animations are turned off.
         private const int DATAGRID_noScrollBarCountdownMs = 2000;
 
@@ -202,6 +205,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int _noCurrentCellChangeCount;
         private int _noFocusedColumnChangeCount;
         private int _noSelectionChangeCount;
+
+        private double _oldEdgedRowsHeightCalculated = 0.0;
 
         // Set to True to favor mouse indicators over panning indicators for the scroll bars.
         private bool _preferMouseIndicators;
@@ -356,12 +361,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<DataGridRowDetailsEventArgs> RowDetailsVisibilityChanged;
 
         /// <summary>
-        /// Occurs when the row has been successfully committed or cancelled.
+        /// Occurs when the row has been successfully committed or canceled.
         /// </summary>
         public event EventHandler<DataGridRowEditEndedEventArgs> RowEditEnded;
 
         /// <summary>
-        /// Occurs immediately before the row has been successfully committed or cancelled.
+        /// Occurs immediately before the row has been successfully committed or canceled.
         /// </summary>
         public event EventHandler<DataGridRowEditEndingEventArgs> RowEditEnding;
 
@@ -863,6 +868,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the amount of data to fetch for virtualizing/prefetch operations.
+        /// </summary>
+        /// <returns>
+        /// The amount of data to fetch per interval, in pages.
+        /// </returns>
+        public double DataFetchSize
+        {
+            get { return (double)GetValue(DataFetchSizeProperty); }
+            set { SetValue(DataFetchSizeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DataFetchSize"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DataFetchSizeProperty =
+            DependencyProperty.Register(
+                nameof(DataFetchSize),
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(DATAGRID_defaultDataFetchSize, OnDataFetchSizePropertyChanged));
+
+        /// <summary>
+        /// DataFetchSizeProperty property changed handler.
+        /// </summary>
+        /// <param name="d">DataGrid that changed its DataFetchSize.</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
+        private static void OnDataFetchSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            if (!dataGrid.IsHandlerSuspended(e.Property))
+            {
+                double oldValue = (double)e.OldValue;
+                double newValue = (double)e.NewValue;
+
+                if (double.IsNaN(newValue))
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.DataFetchSize));
+                }
+
+                if (newValue < 0)
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.DataFetchSize), 0);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the style that is used when rendering the drag indicator
         /// that is displayed while dragging column headers.
         /// </summary>
@@ -1264,6 +1318,82 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the threshold range that governs when the DataGrid class will begin to prefetch more items.
+        /// </summary>
+        /// <returns>
+        /// The loading threshold, in terms of pages.
+        /// </returns>
+        public double IncrementalLoadingThreshold
+        {
+            get { return (double)GetValue(IncrementalLoadingThresholdProperty); }
+            set { SetValue(IncrementalLoadingThresholdProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IncrementalLoadingThreshold"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty IncrementalLoadingThresholdProperty =
+            DependencyProperty.Register(
+                nameof(IncrementalLoadingThreshold),
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(DATAGRID_defaultIncrementalLoadingThreshold, OnIncrementalLoadingThresholdPropertyChanged));
+
+        /// <summary>
+        /// IncrementalLoadingThresholdProperty property changed handler.
+        /// </summary>
+        /// <param name="d">DataGrid that changed its IncrementalLoadingThreshold.</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
+        private static void OnIncrementalLoadingThresholdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            if (!dataGrid.IsHandlerSuspended(e.Property))
+            {
+                double oldValue = (double)e.OldValue;
+                double newValue = (double)e.NewValue;
+
+                if (double.IsNaN(newValue))
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.IncrementalLoadingThreshold));
+                }
+
+                if (newValue < 0)
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.IncrementalLoadingThreshold), 0);
+                }
+
+                if (newValue > oldValue)
+                {
+                    dataGrid.LoadMoreDataFromIncrementalItemsSource();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates the conditions for prefetch operations by the DataGrid class.
+        /// </summary>
+        /// <returns>
+        /// An enumeration value that indicates the conditions that trigger prefetch operations. The default is **Edge**.
+        /// </returns>
+        public IncrementalLoadingTrigger IncrementalLoadingTrigger
+        {
+            get { return (IncrementalLoadingTrigger)GetValue(IncrementalLoadingTriggerProperty); }
+            set { SetValue(IncrementalLoadingTriggerProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IncrementalLoadingTrigger"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty IncrementalLoadingTriggerProperty =
+            DependencyProperty.Register(
+                nameof(IncrementalLoadingTrigger),
+                typeof(IncrementalLoadingTrigger),
+                typeof(DataGrid),
+                new PropertyMetadata(IncrementalLoadingTrigger.Edge));
+
+        /// <summary>
         /// Gets or sets a collection that is used to generate the content of the control.
         /// </summary>
         public IEnumerable ItemsSource
@@ -1273,7 +1403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemsSource dependency property.
+        /// Identifies the <see cref="ItemsSource"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(
@@ -2684,7 +2814,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.HorizontalAdjustment = 0;
                 }
 
+                bool loadMoreDataFromIncrementalItemsSource = _rowsPresenterAvailableSize.HasValue && value.HasValue && value.Value.Height > _rowsPresenterAvailableSize.Value.Height;
+
                 _rowsPresenterAvailableSize = value;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource();
+                }
             }
         }
 
@@ -2732,6 +2869,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get
             {
                 return _verticalOffset;
+            }
+
+            set
+            {
+                bool loadMoreDataFromIncrementalItemsSource = _verticalOffset < value;
+
+                _verticalOffset = value;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource();
+                }
             }
         }
 
@@ -3050,7 +3199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                int slot = -1;
+                int slot;
                 DataGridRowGroupInfo rowGroupInfo = null;
                 ICollectionViewGroup collectionViewGroup = item as ICollectionViewGroup;
                 if (collectionViewGroup != null)
@@ -3058,7 +3207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     rowGroupInfo = RowGroupInfoFromCollectionViewGroup(collectionViewGroup);
                     if (rowGroupInfo == null)
                     {
-                        Debug.Assert(false, "Expected non-null rowGroupInfo.");
+                        Debug.Fail("Expected non-null rowGroupInfo.");
                         return;
                     }
 
@@ -3159,7 +3308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Update our estimates now that the DataGrid has all of the information necessary
                 UpdateRowDetailsHeightEstimate();
 
-                // Update frozen columns to account for columns added prior to loading or autogenerated columns
+                // Update frozen columns to account for columns added prior to loading or auto-generated columns
                 if (this.FrozenColumnCountWithFiller > 0)
                 {
                     ProcessFrozenColumnCount(this);
@@ -3239,7 +3388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _columnHeadersPresenter.OwningGrid = this;
 
-                // Columns were added before before our Template was applied, add the ColumnHeaders now
+                // Columns were added before our Template was applied, add the ColumnHeaders now
                 List<DataGridColumn> sortedInternal = new List<DataGridColumn>(this.ColumnsItemsInternal);
                 sortedInternal.Sort(new DisplayIndexComparer());
                 foreach (DataGridColumn column in sortedInternal)
@@ -3563,7 +3712,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!e.Handled)
             {
                 PointerPoint pointerPoint = e.GetCurrentPoint(this);
-                bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel;
+
+                // A horizontal scroll happens if the mouse has a horizontal wheel OR if the horizontal scrollbar is not disabled AND the vertical scrollbar IS disabled
+                bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel ||
+                    (this.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled && this.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled);
 
                 if ((isForHorizontalScroll && this.HorizontalScrollBarVisibility == ScrollBarVisibility.Disabled) ||
                     (!isForHorizontalScroll && this.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled))
@@ -3572,7 +3724,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 double offsetDelta = -pointerPoint.Properties.MouseWheelDelta / DATAGRID_mouseWheelDeltaDivider;
-                if (isForHorizontalScroll)
+                if (isForHorizontalScroll && pointerPoint.Properties.IsHorizontalMouseWheel)
                 {
                     offsetDelta *= -1.0;
                 }
@@ -3860,6 +4012,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return null;
+        }
+
+        internal void LoadMoreDataFromIncrementalItemsSource()
+        {
+            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
         }
 
         internal void OnRowDetailsChanged()
@@ -5477,13 +5634,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // Keep track of which row contains the newly focused element
-            DataGridRow focusedRow = null;
             DependencyObject focusedElement = e.OriginalSource as DependencyObject;
             _focusedObject = focusedElement;
             while (focusedElement != null)
             {
-                focusedRow = focusedElement as DataGridRow;
+                // Keep track of which row contains the newly focused element
+                var focusedRow = focusedElement as DataGridRow;
                 if (focusedRow != null && focusedRow.OwningGrid == this && _focusedRow != focusedRow)
                 {
                     ResetFocusedRow();
@@ -5543,8 +5699,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (this.ColumnHeaders != null && this.AreColumnHeadersVisible)
                     {
-                        bool ctrl, shift;
-                        KeyboardHelper.GetMetaKeyState(out ctrl, out shift);
+                        KeyboardHelper.GetMetaKeyState(out _, out var shift);
 
                         if (shift && this.LastHandledKeyDown != VirtualKey.Tab)
                         {
@@ -5575,7 +5730,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Walk up the visual tree of the newly focused element
                 // to determine if focus is still within DataGrid.
-                object focusedObject = FocusManager.GetFocusedElement();
+                object focusedObject = GetFocusedElement();
                 DependencyObject focusedDependencyObject = focusedObject as DependencyObject;
 
                 while (focusedDependencyObject != null)
@@ -5586,20 +5741,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         break;
                     }
 
-                    // Walk up the visual tree.  If we hit the root, try using the framework element's
+                    // Walk up the visual tree. Try using the framework element's
                     // parent.  We do this because Popups behave differently with respect to the visual tree,
                     // and it could have a parent even if the VisualTreeHelper doesn't find it.
-                    DependencyObject parent = VisualTreeHelper.GetParent(focusedDependencyObject);
-                    if (parent == null)
+                    DependencyObject parent = null;
+                    FrameworkElement element = focusedDependencyObject as FrameworkElement;
+                    if (element == null)
                     {
-                        FrameworkElement element = focusedDependencyObject as FrameworkElement;
-                        if (element != null)
+                        parent = VisualTreeHelper.GetParent(focusedDependencyObject);
+                    }
+                    else
+                    {
+                        parent = element.Parent;
+                        if (parent == null)
                         {
-                            parent = element.Parent;
-                            if (parent != null)
-                            {
-                                dataGridWillReceiveRoutedEvent = false;
-                            }
+                            parent = VisualTreeHelper.GetParent(focusedDependencyObject);
+                        }
+                        else
+                        {
+                            dataGridWillReceiveRoutedEvent = false;
                         }
                     }
 
@@ -5636,6 +5796,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private object GetFocusedElement()
+        {
+            if (TypeHelper.IsXamlRootAvailable && XamlRoot != null)
+            {
+                return FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                return FocusManager.GetFocusedElement();
+            }
+        }
+
         private void DataGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType != PointerDeviceType.Touch)
@@ -5662,7 +5834,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void DataGrid_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             // Don't process if this is a generated replay of the event.
-            if (TypeHelper.IsRS3OrHigher && e.IsGenerated)
+            if (e.IsGenerated)
             {
                 return;
             }
@@ -5760,7 +5932,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 OnCellEditEnding(e);
                 if (e.Cancel)
                 {
-                    // CellEditEnding has been cancelled
+                    // CellEditEnding has been canceled
                     return false;
                 }
 
@@ -5841,7 +6013,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // TODO: Figure out if we should restore a cached this.IsTabStop.
                 this.IsTabStop = true;
-                if (keepFocus && editingElement.ContainsFocusedElement())
+                if (keepFocus && editingElement.ContainsFocusedElement(this))
                 {
                     this.Focus(FocusState.Programmatic);
                 }
@@ -5890,7 +6062,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 OnRowEditEnding(e);
                 if (e.Cancel)
                 {
-                    // RowEditEnding has been cancelled
+                    // RowEditEnding has been canceled
                     return false;
                 }
 
@@ -5943,7 +6115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Some EditableCollectionViews (ListCollectionView in particular) do not raise CurrentChanged when CommitEdit
                 // changes the position of the CurrentItem.  Instead, they raise a PropertyChanged event for PositionChanged.
-                // We recognize that case here and setup the CurrentItem again if one exists but it was removed and readded
+                // We recognize that case here and setup the CurrentItem again if one exists but it was removed and re-added
                 // during Commit.  This is better than reacting to PositionChanged which would double the work in most cases
                 // and likely introduce regressions.
                 UpdateStateOnCurrentChanged(this.DataConnection.CollectionView.CurrentItem, this.DataConnection.CollectionView.CurrentPosition);
@@ -6080,7 +6252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _previousAutomationFocusCoordinates = new DataGridCellCoordinates(this.CurrentCellCoordinates);
 
                 // If the DataGrid itself has focus, we want to move automation focus to the new current element
-                object focusedObject = FocusManager.GetFocusedElement();
+                object focusedObject = GetFocusedElement();
                 if (focusedObject == this && AutomationPeer.ListenerExists(AutomationEvents.AutomationFocusChanged))
                 {
                     peer.RaiseAutomationFocusChangedEvent(this.CurrentSlot, this.CurrentColumnIndex);
@@ -6135,7 +6307,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGridCell dataGridCell = this.EditingRow.Cells[_editingColumnIndex];
             if (setFocus)
             {
-                if (dataGridCell.ContainsFocusedElement())
+                if (dataGridCell.ContainsFocusedElement(this))
                 {
                     success = true;
                 }
@@ -6406,6 +6578,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void LoadMoreDataFromIncrementalItemsSource(double totalVisibleHeight)
+        {
+            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && DataConnection.IsDataSourceIncremental && DataConnection.HasMoreItems && !DataConnection.IsLoadingMoreItems)
+            {
+                var bottomScrolledOffHeight = Math.Max(0, totalVisibleHeight - CellsHeight - VerticalOffset);
+
+                if ((IncrementalLoadingThreshold * CellsHeight) >= bottomScrolledOffHeight)
+                {
+                    var numberOfRowsToLoad = Math.Max(1, (int)(DataFetchSize * CellsHeight / RowHeightEstimate));
+
+                    DataConnection.LoadMoreItems((uint)numberOfRowsToLoad);
+                }
+            }
+        }
+
         private void MakeFirstDisplayedCellCurrentCell()
         {
             if (this.CurrentColumnIndex != -1)
@@ -6424,7 +6611,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // No current cell, therefore no selection either - try to set the current cell to the
             // ItemsSource's ICollectionView.CurrentItem if it exists, otherwise use the first displayed cell.
-            int slot = 0;
+            int slot;
             if (this.DataConnection.CollectionView != null)
             {
                 if (this.DataConnection.CollectionView.IsCurrentBeforeFirst ||
@@ -6883,7 +7070,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // If Enter was used by a TextBox, we shouldn't handle the key
-                TextBox focusedTextBox = FocusManager.GetFocusedElement() as TextBox;
+                TextBox focusedTextBox = GetFocusedElement() as TextBox;
                 if (focusedTextBox != null && focusedTextBox.AcceptsReturn)
                 {
                     return false;
@@ -7976,7 +8163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetVerticalOffset(double newVerticalOffset)
         {
-            _verticalOffset = newVerticalOffset;
+            VerticalOffset = newVerticalOffset;
 
             if (_vScrollBar != null && !DoubleUtil.AreClose(newVerticalOffset, _vScrollBar.Value))
             {
@@ -8476,7 +8663,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Selecting a single row or multi-selecting with Ctrl.
                     if (this.SelectionMode == DataGridSelectionMode.Single || !ctrl)
                     {
-                        // Unselect the currectly selected rows except the new selected row.
+                        // Unselect the correctly selected rows except the new selected row.
                         action = DataGridSelectionAction.SelectCurrent;
                     }
                     else

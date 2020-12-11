@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
 #if WINRT
         /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
+        /// Initialize underlying provider with relevant token information for UWP.
         /// </summary>
         /// <param name="appKey">App key.</param>
         /// <param name="appSecret">App secret.</param>
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <returns>Success or failure.</returns>
@@ -181,15 +181,6 @@ namespace Microsoft.Toolkit.Services.Weibo
         public Task<bool> LoginAsync()
         {
             return Provider.LoginAsync();
-        }
-
-        /// <summary>
-        /// Log user out of Weibo.
-        /// </summary>
-        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
-        public void Logout()
-        {
-            Provider.Logout();
         }
 
         /// <summary>

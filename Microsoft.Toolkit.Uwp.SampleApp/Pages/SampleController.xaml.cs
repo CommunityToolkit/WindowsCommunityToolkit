@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -53,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
-            DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
+            DocumentationTextBlock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
@@ -161,11 +160,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }));
         }
 
-        public async Task RefreshXamlRenderAsync()
+        public void RefreshXamlRender()
         {
             if (CurrentSample != null)
             {
-                var code = string.Empty;
+                string code;
                 if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
                 {
                     code = CurrentSample.BindedXamlCode;
@@ -177,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (!string.IsNullOrWhiteSpace(code))
                 {
-                    await UpdateXamlRenderAsync(code);
+                    UpdateXamlRender(code);
                 }
             }
         }
@@ -225,24 +224,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                DataContext = CurrentSample;
-
-                var propertyDesc = CurrentSample.PropertyDescriptor;
-
                 InfoAreaPivot.Items.Clear();
-
-                if (propertyDesc != null)
-                {
-                    _xamlRenderer.DataContext = propertyDesc.Expando;
-                }
-
-                if (propertyDesc != null && propertyDesc.Options.Count > 0)
-                {
-                    InfoAreaPivot.Items.Add(PropertiesPivotItem);
-                }
 
                 if (CurrentSample.HasXAMLCode)
                 {
+                    // Load Sample Properties before we load sample (if we haven't before)
+                    await CurrentSample.PreparePropertyDescriptorAsync();
+
+                    // We only have properties on examples with live XAML
+                    var propertyDesc = CurrentSample.PropertyDescriptor;
+
+                    if (propertyDesc != null)
+                    {
+                        _xamlRenderer.DataContext = propertyDesc.Expando;
+                    }
+
+                    if (propertyDesc?.Options.Count > 0)
+                    {
+                        InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                    }
+
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
@@ -270,14 +271,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
-                if (CurrentSample.HasJavaScriptCode)
-                {
-                    var code = await CurrentSample.GetJavaScriptSourceAsync();
-
-                    JavaScriptCodeRenderer.SetCode(code, "js");
-                    InfoAreaPivot.Items.Add(JavaScriptPivotItem);
-                }
-
                 if (CurrentSample.HasDocumentation)
                 {
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
@@ -286,12 +279,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     documentationPath = path;
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
-                        DocumentationTextblock.Text = contents;
+                        DocumentationTextBlock.Text = contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
 
-                // Hide the Github button if there isn't a CodeUrl.
+                // Hide the GitHub button if there isn't a CodeUrl.
                 if (string.IsNullOrEmpty(CurrentSample.CodeUrl))
                 {
                     GithubButton.Visibility = Visibility.Collapsed;
@@ -300,6 +293,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     GithubButton.Visibility = Visibility.Visible;
                 }
+
+                DataContext = CurrentSample;
 
                 if (InfoAreaPivot.Items.Count == 0)
                 {
@@ -358,7 +353,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 _lastRenderedProperties = true;
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
-                var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
+                UpdateXamlRender(CurrentSample.BindedXamlCode);
             }
         }
 
@@ -384,7 +379,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     _lastRenderedProperties = true;
 
-                    var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
+                    UpdateXamlRender(CurrentSample.BindedXamlCode);
                 }
 
                 return;
@@ -398,7 +393,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
 
-                var t = UpdateXamlRenderAsync(CurrentSample.UpdatedXamlCode);
+                UpdateXamlRender(CurrentSample.UpdatedXamlCode);
                 await XamlCodeEditor.ResetPosition();
 
                 XamlCodeEditor.Focus(FocusState.Programmatic);
@@ -418,34 +413,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 return;
             }
-
-            if (CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
-            {
-                var code = await CurrentSample.GetJavaScriptSourceAsync();
-                JavaScriptCodeRenderer.SetCode(code, "js");
-
-                return;
-            }
         }
 
         private async void XamlCodeEditor_UpdateRequested(object sender, EventArgs e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                var t = UpdateXamlRenderAsync(XamlCodeEditor.Text);
+                UpdateXamlRender(XamlCodeEditor.Text);
             });
         }
 
-        private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
+        private async void DocumentationTextBlock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", e.Link);
-            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            var link = e.Link;
+            if (e.Link.EndsWith(".md"))
             {
-                await Launcher.LaunchUriAsync(new Uri(e.Link));
+                link = string.Format("https://docs.microsoft.com/en-us/windows/communitytoolkit/{0}/{1}", CurrentSample.CategoryName.ToLower(), link.Replace(".md", string.Empty));
+            }
+
+            if (Uri.TryCreate(link, UriKind.Absolute, out Uri result))
+            {
+                await Launcher.LaunchUriAsync(result);
             }
         }
 
-        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextBlock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
             var deferral = e.GetDeferral();
             BitmapImage image = null;
@@ -494,8 +487,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async Task UpdateXamlRenderAsync(string text)
+        private void UpdateXamlRender(string text)
         {
+            if (XamlCodeEditor == null)
+            {
+                return;
+            }
+
             // Hide any Previous Errors
             XamlCodeEditor.ClearErrors();
 
@@ -583,8 +581,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (XamlCodeEditor.TimeSampleEditedFirst != DateTime.MinValue &&
                     XamlCodeEditor.TimeSampleEditedLast != DateTime.MinValue)
                 {
-                    int secondsEdditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
-                    TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEdditingSample);
+                    int secondsEditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
+                    TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEditingSample);
                 }
                 else
                 {

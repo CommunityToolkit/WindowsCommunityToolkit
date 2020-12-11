@@ -1,0 +1,35 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.IconExtensionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      mc:Ignorable="d">
+    <Grid>
+        <StackPanel>
+
+            <CommandBar>
+                <AppBarButton Icon="{ex:FontIcon Glyph=&#xE102;}"/>
+                <AppBarButton Icon="{ex:SymbolIcon Symbol=Play}"/>
+            </CommandBar>
+
+            <SwipeControl>
+                <SwipeControl.LeftItems>
+                    <SwipeItems Mode="Reveal">
+                        <SwipeItem Text="Accept" IconSource="{ex:FontIconSource Glyph=&#xE10B;}"/>
+                        <SwipeItem Text="Play" IconSource="{ex:SymbolIconSource Symbol=Play}"/>
+                        <SwipeItem IconSource="{ex:BitmapIconSource Source=/Assets/ToolkitLogo.png}"/>
+                    </SwipeItems>
+                </SwipeControl.LeftItems>
+            </SwipeControl>
+
+            <Button>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Icon="{ex:BitmapIcon Source=/Assets/ToolkitLogo.png}" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -8,12 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Parsers;
 using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.OAuth;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 #if WINRT
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -166,17 +165,6 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Log user out of Weibo.
         /// </summary>
-        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
-        public void Logout()
-        {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            LogoutAsync();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        }
-
-        /// <summary>
-        /// Log user out of Weibo.
-        /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task LogoutAsync()
         {
@@ -185,7 +173,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             if (credential != null)
             {
                 _passwordManager.Remove(PasswordKey);
-               await _storageManager.SetAsync(StorageKey, null);
+                await _storageManager.SetAsync(StorageKey, null);
             }
 
             Uid = null;
@@ -235,15 +223,15 @@ namespace Microsoft.Toolkit.Services.Weibo
                 data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
 
-            JObject jObject = JObject.Parse(data);
+            var jObject = JsonDocument.Parse(data);
 
-            string accessToken = jObject["access_token"].ToObject<string>();
+            string accessToken = jObject.RootElement.GetProperty("access_token").GetString();
             if (string.IsNullOrEmpty(accessToken))
             {
                 throw new NullReferenceException("The accessToken is null.");
             }
 
-            long uid = jObject["uid"].ToObject<long>();
+            long uid = jObject.RootElement.GetProperty("uid").GetInt64();
 
             Uid = uid;
             _tokens.AccessToken = accessToken;
@@ -276,7 +264,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                 WeiboOAuthRequest request = new WeiboOAuthRequest();
                 rawResult = await request.ExecuteGetAsync(uri, _tokens);
-                return JsonConvert.DeserializeObject<WeiboUser>(rawResult);
+                return JsonSerializer.Deserialize<WeiboUser>(rawResult);
             }
             catch (UserNotFoundException)
             {
@@ -286,7 +274,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             {
                 if (!string.IsNullOrEmpty(rawResult))
                 {
-                    var error = JsonConvert.DeserializeObject<WeiboError>(rawResult);
+                    var error = JsonSerializer.Deserialize<WeiboError>(rawResult);
 
                     throw new WeiboException { Error = error };
                 }
@@ -327,7 +315,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             {
                 if (!string.IsNullOrEmpty(rawResult))
                 {
-                    var errors = JsonConvert.DeserializeObject<WeiboError>(rawResult);
+                    var errors = JsonSerializer.Deserialize<WeiboError>(rawResult);
 
                     throw new WeiboException { Error = errors };
                 }

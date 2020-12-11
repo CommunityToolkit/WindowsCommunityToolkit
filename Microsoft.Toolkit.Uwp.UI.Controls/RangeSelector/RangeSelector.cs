@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -35,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DefaultMinimum = 0.0;
         private const double DefaultMaximum = 1.0;
         private const double DefaultStepFrequency = 1;
+        private static readonly TimeSpan TimeToHideToolTipOnKeyUp = TimeSpan.FromSeconds(1);
 
         /// <summary>
         /// Identifies the Minimum dependency property.
@@ -60,6 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the StepFrequency dependency property.
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
+
+        private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -152,6 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _minThumb.DragDelta += MinThumb_DragDelta;
                 _minThumb.DragStarted += MinThumb_DragStarted;
                 _minThumb.KeyDown += MinThumb_KeyDown;
+                _minThumb.KeyUp += Thumb_KeyUp;
             }
 
             if (_maxThumb != null)
@@ -160,6 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragDelta += MaxThumb_DragDelta;
                 _maxThumb.DragStarted += MaxThumb_DragStarted;
                 _maxThumb.KeyDown += MaxThumb_KeyDown;
+                _maxThumb.KeyUp += Thumb_KeyUp;
             }
 
             if (_containerCanvas != null)
@@ -189,12 +195,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Left:
                     RangeMin -= StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMinKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMin += StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMinKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
                     e.Handled = true;
                     break;
             }
@@ -206,12 +222,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Left:
                     RangeMax -= StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMaxKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMax += StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMaxKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void Thumb_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                case VirtualKey.Right:
+                    if (_toolTip != null)
+                    {
+                        keyDebounceTimer.Debounce(
+                            () => _toolTip.Visibility = Visibility.Collapsed,
+                            TimeToHideToolTipOnKeyUp);
+                    }
+
                     e.Handled = true;
                     break;
             }
@@ -240,6 +284,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
 
+            if (_toolTip != null)
+            {
+                _toolTip.Visibility = Visibility.Collapsed;
+            }
+
             VisualStateManager.GoToState(this, "Normal", false);
         }
 
@@ -262,6 +311,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             SyncThumbs();
+
+            if (_toolTip != null)
+            {
+                _toolTip.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -586,7 +640,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            toolTip.Text = string.Format("{0:0.##}", newValue);
+            if (toolTip != null)
+            {
+                toolTip.Text = string.Format("{0:0.##}", newValue);
+            }
         }
 
         /// <summary>
@@ -636,7 +693,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SyncThumbs()
+        private void SyncThumbs(bool fromMinKeyDown = false, bool fromMaxKeyDown = false)
         {
             if (_containerCanvas == null)
             {
@@ -648,6 +705,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Canvas.SetLeft(_minThumb, relativeLeft);
             Canvas.SetLeft(_maxThumb, relativeRight);
+
+            if (fromMinKeyDown || fromMaxKeyDown)
+            {
+                DragThumb(
+                    fromMinKeyDown ? _minThumb : _maxThumb,
+                    fromMinKeyDown ? 0 : Canvas.GetLeft(_minThumb),
+                    fromMinKeyDown ? Canvas.GetLeft(_maxThumb) : DragWidth(),
+                    fromMinKeyDown ? relativeLeft : relativeRight);
+                if (_toolTipText != null)
+                {
+                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeMin : RangeMax);
+                }
+            }
 
             SyncActiveRectangle();
         }

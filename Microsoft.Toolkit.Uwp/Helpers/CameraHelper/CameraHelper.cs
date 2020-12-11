@@ -15,23 +15,21 @@ using Windows.Media.MediaProperties;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Camera Helper class to capture frames from available camera sources.
+    /// Helper class for capturing frames from available camera sources.
     /// Make sure you have the capability webcam enabled for your app to access the device's camera.
     /// </summary>
     public class CameraHelper : IDisposable
     {
         private static IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
-        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
         private MediaFrameSourceGroup _group;
-        private MediaFrameSource _previewFrameSource;
-        private List<MediaFrameFormat> _frameFormatsAvailable;
         private bool groupChanged = false;
         private bool _initialized;
 
         /// <summary>
-        /// Gets a list of MediaFrameSourceGroups available for video preview or video record.
+        /// Gets a list of <see cref="MediaFrameSourceGroup"/> available for video preview or video record.
         /// </summary>
         /// <returns>A <see cref="MediaFrameSourceGroup"/> list.</returns>
         public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetFrameSourceGroupsAsync()
@@ -51,9 +49,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Gets the available MediaFrameFormats on the source.
+        /// Gets a list of <see cref="MediaFrameFormat"/> available on the source.
         /// </summary>
-        public List<MediaFrameFormat> FrameFormatsAvailable { get => _frameFormatsAvailable; }
+        public IReadOnlyList<MediaFrameFormat> FrameFormatsAvailable { get; private set; }
 
         /// <summary>
         /// Gets or sets the source group for camera video preview.
@@ -71,10 +69,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets the currently selected <see cref="MediaFrameSource"/> for video preview.
         /// </summary>
-        public MediaFrameSource PreviewFrameSource { get => _previewFrameSource; }
+        public MediaFrameSource PreviewFrameSource { get; private set; }
 
         /// <summary>
-        /// Event raised when a new frame arrives.
+        /// Occurs when a new frame arrives.
         /// </summary>
         public event EventHandler<FrameEventArgs> FrameArrived;
 
@@ -89,9 +87,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             CameraHelperResult result;
             try
             {
-                await semaphoreSlim.WaitAsync();
+                await _semaphoreSlim.WaitAsync();
 
-                // if FrameSourceGroup hasn't changed from last initialiazation, just return back.
+                // if FrameSourceGroup hasn't changed from last initialization, just return back.
                 if (_initialized && _group != null && !groupChanged)
                 {
                     return CameraHelperResult.Success;
@@ -118,11 +116,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
                 else
                 {
-                    // verify selected group is part of existing FrameSourceGroups
+                    // Verify selected group is part of existing FrameSourceGroups
                     _group = _frameSourceGroups.FirstOrDefault(g => g.Id == _group.Id);
                 }
 
-                // if there is no camera source available, we can't proceed.
+                // If there is no camera source available, we can't proceed
                 if (_group == null)
                 {
                     return CameraHelperResult.NoFrameSourceGroupAvailable;
@@ -130,13 +128,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 result = await InitializeMediaCaptureAsync();
 
-                if (_previewFrameSource != null)
+                if (PreviewFrameSource != null)
                 {
-                    _frameReader = await _mediaCapture.CreateFrameReaderAsync(_previewFrameSource);
-                    if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.Media.Capture.Frames.MediaFrameReader", "AcquisitionMode"))
-                    {
-                        _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
-                    }
+                    _frameReader = await _mediaCapture.CreateFrameReaderAsync(PreviewFrameSource);
+                    _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
 
                     _frameReader.FrameArrived += Reader_FrameArrived;
 
@@ -164,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             finally
             {
-                semaphoreSlim.Release();
+                _semaphoreSlim.Release();
             }
         }
 
@@ -174,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task CleanUpAsync()
         {
-            await semaphoreSlim.WaitAsync();
+            await _semaphoreSlim.WaitAsync();
             try
             {
                 _initialized = false;
@@ -188,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             finally
             {
-                semaphoreSlim.Release();
+                _semaphoreSlim.Release();
             }
         }
 
@@ -211,35 +206,35 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 await _mediaCapture.InitializeAsync(settings);
 
                 // Find the first video preview or record stream available
-                _previewFrameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoPreview
+                PreviewFrameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoPreview
                                                                                       && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
-                if (_previewFrameSource == null)
+                if (PreviewFrameSource == null)
                 {
-                    _previewFrameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
+                    PreviewFrameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
                                                                                           && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
                 }
 
-                if (_previewFrameSource == null)
+                if (PreviewFrameSource == null)
                 {
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
 
-                // get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
-                _frameFormatsAvailable = _previewFrameSource.SupportedFormats.Where(format =>
+                // Get only formats of a certain frame-rate and compatible subtype for previewing, order them by resolution
+                FrameFormatsAvailable = PreviewFrameSource.SupportedFormats.Where(format =>
                     format.FrameRate.Numerator / format.FrameRate.Denominator >= 15 // fps
                     && (string.Compare(format.Subtype, MediaEncodingSubtypes.Nv12, true) == 0
                         || string.Compare(format.Subtype, MediaEncodingSubtypes.Bgra8, true) == 0
                         || string.Compare(format.Subtype, MediaEncodingSubtypes.Yuy2, true) == 0
                         || string.Compare(format.Subtype, MediaEncodingSubtypes.Rgb32, true) == 0))?.OrderBy(format => format.VideoFormat.Width * format.VideoFormat.Height).ToList();
 
-                if (_frameFormatsAvailable == null || !_frameFormatsAvailable.Any())
+                if (FrameFormatsAvailable == null || !FrameFormatsAvailable.Any())
                 {
                     return CameraHelperResult.NoCompatibleFrameFormatAvailable;
                 }
 
-                // set the format with the higest resolution available by default
-                var defaultFormat = _frameFormatsAvailable.Last();
-                await _previewFrameSource.SetFormatAsync(defaultFormat);
+                // Set the format with the highest resolution available by default
+                var defaultFormat = FrameFormatsAvailable.Last();
+                await PreviewFrameSource.SetFormatAsync(defaultFormat);
             }
             catch (UnauthorizedAccessException)
             {
@@ -270,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Stops reading from the frame reader, disposes of the reader.
+        /// Stops reading from the frame reader and disposes of the reader.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task StopReaderAsync()
@@ -306,19 +301,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private bool disposedValue = false;
 
-        private async void Dispose(bool disposing)
+        /// <inheritdoc/>
+        public async void Dispose()
         {
             if (!disposedValue)
             {
                 disposedValue = true;
                 await CleanUpAsync();
             }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Dispose(true);
         }
     }
 }

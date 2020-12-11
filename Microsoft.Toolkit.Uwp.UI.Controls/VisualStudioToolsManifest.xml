@@ -13,14 +13,12 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedContentControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedItemsControl" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedTextBlock" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageEx" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageExBase" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.InfiniteCanvas" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.LayoutTransformControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Loading" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MarkdownTextBlock" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MasterDetailsView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Menu" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MenuItem" />
@@ -33,8 +31,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabView" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabViewItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.UniformGrid" />

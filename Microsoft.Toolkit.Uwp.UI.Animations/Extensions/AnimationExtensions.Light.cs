@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Effects;
@@ -26,32 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// This is to stop multiplication of point lights on a single visual.
         /// </summary>
         private static Dictionary<Visual, PointLight> pointLights = new Dictionary<Visual, PointLight>();
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is lighting supported.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is lighting supported; otherwise, <c>false</c>.
-        /// </value>
-        public static bool IsLightingSupported
-        {
-            get
-            {
-                bool lightingSupported = true;
-
-                if (!Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", "SetElementChildVisual"))
-                {
-                    lightingSupported = false;
-                }
-
-                if (!Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Composition.CompositionSurfaceBrush"))
-                {
-                    lightingSupported = false;
-                }
-
-                return lightingSupported;
-            }
-        }
 
         /// <summary>
         /// Animates a point light and it's distance.
@@ -93,7 +67,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="color">The color of the spotlight.</param>
         /// <param name="easingType">The easing function</param>
         /// <param name="easingMode">The easing mode</param>
-        /// <seealso cref="IsLightingSupported" />
         /// <returns>
         /// An Animation Set.
         /// </returns>
@@ -107,11 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = EasingType.Default,
             EasingMode easingMode = EasingMode.EaseOut)
         {
-            if (!IsLightingSupported)
-            {
-                return null;
-            }
-
             if (animationSet == null)
             {
                 return null;
@@ -134,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var task = new AnimationTask();
             task.AnimationSet = animationSet;
 
-            task.Task = DispatcherHelper.ExecuteOnUIThreadAsync(
+            task.Task = visual.DispatcherQueue.EnqueueAsync(
                 () =>
             {
                 const string sceneName = "PointLightScene";
@@ -216,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 pointLights[visual] = pointLight;
-            }, Windows.UI.Core.CoreDispatcherPriority.Normal);
+            });
 
             animationSet.AddAnimationThroughTask(task);
             return animationSet;

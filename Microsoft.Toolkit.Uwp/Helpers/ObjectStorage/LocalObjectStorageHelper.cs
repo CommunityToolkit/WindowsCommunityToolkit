@@ -7,14 +7,18 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Store data in the Local environment (only on the current device)
+    /// Store data in the Local environment (only on the current device).
     /// </summary>
     public class LocalObjectStorageHelper : BaseObjectStorageHelper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalObjectStorageHelper"/> class.
+        /// Initializes a new instance of the <see cref="LocalObjectStorageHelper"/> class,
+        /// which can read and write data using the provided <see cref="IObjectSerializer"/>;
+        /// if none is provided, a default Json serializer will be used.
         /// </summary>
-        public LocalObjectStorageHelper()
+        /// <param name="objectSerializer">The serializer to use.</param>
+        public LocalObjectStorageHelper(IObjectSerializer objectSerializer = null)
+            : base(objectSerializer)
         {
             Settings = ApplicationData.Current.LocalSettings;
             Folder = ApplicationData.Current.LocalFolder;

@@ -1,8 +1,10 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -99,6 +101,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(WrapPanel),
                 new PropertyMetadata(default(Thickness), LayoutPropertyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating how to arrange child items
+        /// </summary>
+        public StretchChild StretchChild
+        {
+            get { return (StretchChild)GetValue(StretchChildProperty); }
+            set { SetValue(StretchChildProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="StretchChild"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="StretchChild"/> dependency property.</returns>
+        public static readonly DependencyProperty StretchChildProperty =
+            DependencyProperty.Register(
+                nameof(StretchChild),
+                typeof(StretchChild),
+                typeof(WrapPanel),
+                new PropertyMetadata(StretchChild.None, LayoutPropertyChanged));
+
         private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WrapPanel wp)
@@ -108,104 +130,130 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private readonly List<Row> _rows = new List<Row>();
+
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
-            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
-            var totalMeasure = UvMeasure.Zero;
-            var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
-            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
-            var lineMeasure = UvMeasure.Zero;
-
+            var childAvailableSize = new Size(
+                availableSize.Width - Padding.Left - Padding.Right,
+                availableSize.Height - Padding.Top - Padding.Bottom);
             foreach (var child in Children)
             {
-                child.Measure(availableSize);
-
-                var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-
-                if (parentMeasure.U >= currentMeasure.U + lineMeasure.U + spacingMeasure.U)
-                {
-                    lineMeasure.U += currentMeasure.U + spacingMeasure.U;
-                    lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
-                }
-                else
-                {
-                    // new line should be added
-                    // to get the max U to provide it correctly to ui width ex: ---| or -----|
-                    totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V + spacingMeasure.V;
-
-                    // if the next new row still can handle more controls
-                    if (parentMeasure.U > currentMeasure.U)
-                    {
-                        // set lineMeasure initial values to the currentMeasure to be calculated later on the new loop
-                        lineMeasure = currentMeasure;
-                    }
-
-                    // the control will take one row alone
-                    else
-                    {
-                        // validate the new control measures
-                        totalMeasure.U = Math.Max(currentMeasure.U, totalMeasure.U);
-                        totalMeasure.V += currentMeasure.V;
-
-                        // add new empty line
-                        lineMeasure = UvMeasure.Zero;
-                    }
-                }
+                child.Measure(childAvailableSize);
             }
 
-            // update value with the last line
-            // if the the last loop is(parentMeasure.U > currentMeasure.U + lineMeasure.U) the total isn't calculated then calculate it
-            // if the last loop is (parentMeasure.U > currentMeasure.U) the currentMeasure isn't added to the total so add it here
-            // for the last condition it is zeros so adding it will make no difference
-            // this way is faster than an if condition in every loop for checking the last item
-            totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-            totalMeasure.V += lineMeasure.V;
-
-            totalMeasure.U = Math.Ceiling(totalMeasure.U);
-
-            return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
+            var requiredSize = UpdateRows(availableSize);
+            return requiredSize;
         }
 
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+            if ((Orientation == Orientation.Horizontal && finalSize.Width < DesiredSize.Width) ||
+                (Orientation == Orientation.Vertical && finalSize.Height < DesiredSize.Height))
+            {
+                // We haven't received our desired size. We need to refresh the rows.
+                UpdateRows(finalSize);
+            }
+
+            if (_rows.Count > 0)
+            {
+                // Now that we have all the data, we do the actual arrange pass
+                var childIndex = 0;
+                foreach (var row in _rows)
+                {
+                    foreach (var rect in row.ChildrenRects)
+                    {
+                        var child = Children[childIndex++];
+                        var arrangeRect = new UvRect
+                        {
+                            Position = rect.Position,
+                            Size = new UvMeasure { U = rect.Size.U, V = row.Size.V },
+                        };
+
+                        var finalRect = arrangeRect.ToRect(Orientation);
+                        child.Arrange(finalRect);
+                    }
+                }
+            }
+
+            return finalSize;
+        }
+
+        private Size UpdateRows(Size availableSize)
+        {
+            _rows.Clear();
+
             var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
             var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
+
+            if (Children.Count == 0)
+            {
+                var emptySize = paddingStart.Add(paddingEnd).ToSize(Orientation);
+                return emptySize;
+            }
+
+            var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
+            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
-            double currentV = 0;
-            foreach (var child in Children)
+            var currentRow = new Row(new List<UvRect>(), default);
+            var finalMeasure = new UvMeasure(Orientation, width: 0.0, height: 0.0);
+            void Arrange(UIElement child, bool isLast = false)
             {
-                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize);
+                if (desiredMeasure.U == 0)
+                {
+                    return; // if an item is collapsed, avoid adding the spacing
+                }
+
                 if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
                     position.U = paddingStart.U;
-                    position.V += currentV + spacingMeasure.V;
-                    currentV = 0;
+                    position.V += currentRow.Size.V + spacingMeasure.V;
+
+                    _rows.Add(currentRow);
+                    currentRow = new Row(new List<UvRect>(), default);
                 }
 
-                // Place the item
-                if (Orientation == Orientation.Horizontal)
+                // Stretch the last item to fill the available space
+                if (isLast)
                 {
-                    child.Arrange(new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height));
+                    desiredMeasure.U = parentMeasure.U - position.U;
                 }
-                else
-                {
-                    child.Arrange(new Rect(position.V, position.U, child.DesiredSize.Width, child.DesiredSize.Height));
-                }
+
+                currentRow.Add(position, desiredMeasure);
 
                 // adjust the location for the next items
                 position.U += desiredMeasure.U + spacingMeasure.U;
-                currentV = Math.Max(desiredMeasure.V, currentV);
+                finalMeasure.U = Math.Max(finalMeasure.U, position.U);
             }
 
-            return finalSize;
+            var lastIndex = Children.Count - 1;
+            for (var i = 0; i < lastIndex; i++)
+            {
+                Arrange(Children[i]);
+            }
+
+            Arrange(Children[lastIndex], StretchChild == StretchChild.Last);
+            if (currentRow.ChildrenRects.Count > 0)
+            {
+                _rows.Add(currentRow);
+            }
+
+            if (_rows.Count == 0)
+            {
+                var emptySize = paddingStart.Add(paddingEnd).ToSize(Orientation);
+                return emptySize;
+            }
+
+            // Get max V here before computing final rect
+            var lastRowRect = _rows.Last().Rect;
+            finalMeasure.V = lastRowRect.Position.V + lastRowRect.Size.V;
+            var finalRect = finalMeasure.Add(paddingEnd).ToSize(Orientation);
+            return finalRect;
         }
     }
 }

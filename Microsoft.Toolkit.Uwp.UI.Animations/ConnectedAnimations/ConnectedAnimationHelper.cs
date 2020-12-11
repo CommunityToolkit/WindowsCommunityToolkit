@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -34,11 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 throw new ArgumentNullException(nameof(frame));
             }
 
-            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
-            {
-                return;
-            }
-
             frame.Navigating += Frame_Navigating;
             frame.Navigated += Frame_Navigated;
         }
@@ -50,8 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void Frame_Navigating(object sender, Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
         {
-            object parameter = null;
-
+            object parameter;
             if (_nextParameter != null)
             {
                 parameter = _nextParameter;
@@ -70,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ConnectedAnimation animation = null;
 
-                if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
+                if (props.IsListAnimation && parameter != null)
                 {
                     foreach (var listAnimProperty in props.ListAnimProperties)
                     {
@@ -98,8 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 if (animation != null &&
-                    e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back &&
-                    ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
+                    e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
                 {
                     UseDirectConnectedAnimationConfiguration(animation);
                 }
@@ -117,10 +109,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            void loadedHandler(object s, RoutedEventArgs args)
+            void LoadedHandler(object s, RoutedEventArgs args)
             {
                 var page = s as Page;
-                page.Loaded -= loadedHandler;
+                page.Loaded -= LoadedHandler;
 
                 object parameter;
                 if (_nextParameter != null)
@@ -148,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     var animationHandled = false;
                     if (connectedAnimation != null)
                     {
-                        if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
+                        if (props.IsListAnimation && parameter != null)
                         {
                             foreach (var listAnimProperty in props.ListAnimProperties)
                             {
@@ -175,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         }
                         else if (!props.IsListAnimation)
                         {
-                            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
+                            if (coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
                             {
                                 connectedAnimation.TryStart(props.Element, coordinatedElements);
                             }
@@ -205,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 _nextParameter = null;
             }
 
-            navigatedPage.Loaded += loadedHandler;
+            navigatedPage.Loaded += LoadedHandler;
         }
 
         private void UseDirectConnectedAnimationConfiguration(ConnectedAnimation animation)

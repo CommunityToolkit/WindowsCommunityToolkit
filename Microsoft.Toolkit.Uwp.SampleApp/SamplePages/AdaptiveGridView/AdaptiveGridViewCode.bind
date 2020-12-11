@@ -23,6 +23,7 @@
   
     <Grid>
         <controls:AdaptiveGridView Name="AdaptiveGridViewControl"
+                                   StretchContentForSingleRow="@[StretchContentForSingleRow:Bool:false]"
                                    OneRowModeEnabled="@[OneRowModeEnabled:Bool:false]"
                                    ItemHeight="@[ItemHeight:Slider:200:50-500]"
                                    DesiredWidth="@[DesiredWidth:Slider:300:50-500]"

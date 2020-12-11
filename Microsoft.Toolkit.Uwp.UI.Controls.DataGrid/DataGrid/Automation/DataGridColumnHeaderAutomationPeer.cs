@@ -50,7 +50,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return Owner.GetType().Name;
+            string classNameCore = Owner.GetType().Name;
+#if DEBUG_AUTOMATION
+            System.Diagnostics.Debug.WriteLine("DataGridColumnHeaderAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>
@@ -99,19 +103,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 switch (patternInterface)
                 {
                     case PatternInterface.Invoke:
-                    {
-                       // this.OwningHeader.OwningGrid.DataConnection.AllowSort property is ignored because of the DataGrid.Sorting custom sorting capability.
-                       if (this.OwningHeader.OwningGrid.CanUserSortColumns &&
-                           this.OwningHeader.OwningColumn.CanUserSort)
+                        // this.OwningHeader.OwningGrid.DataConnection.AllowSort property is ignored because of the DataGrid.Sorting custom sorting capability.
+                        if (this.OwningHeader.OwningGrid.CanUserSortColumns &&
+                            this.OwningHeader.OwningColumn.CanUserSort)
                         {
                             return this;
                         }
 
                         break;
-                    }
 
                     case PatternInterface.ScrollItem:
-                    {
                         if (this.OwningHeader.OwningGrid.HorizontalScrollBar != null &&
                             this.OwningHeader.OwningGrid.HorizontalScrollBar.Maximum > 0)
                         {
@@ -119,10 +120,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                         }
 
                         break;
-                    }
 
                     case PatternInterface.Transform:
-                    {
                         if (this.OwningHeader.OwningColumn != null &&
                             this.OwningHeader.OwningColumn.ActualCanUserResize)
                         {
@@ -130,7 +129,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                         }
 
                         break;
-                    }
                 }
             }
 

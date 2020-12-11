@@ -21,11 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty StretchProperty = DependencyProperty.Register(nameof(Stretch), typeof(Stretch), typeof(ImageExBase), new PropertyMetadata(Stretch.Uniform));
 
         /// <summary>
-        /// Identifies the <see cref="CornerRadius"/> dependency property.
-        /// </summary>
-        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(new CornerRadius(0)));
-
-        /// <summary>
         /// Identifies the <see cref="DecodePixelHeight"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DecodePixelHeightProperty = DependencyProperty.Register(nameof(DecodePixelHeight), typeof(int), typeof(ImageExBase), new PropertyMetadata(0));
@@ -49,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="CachingStrategy"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CachingStrategyProperty = DependencyProperty.Register(nameof(CachingStrategy), typeof(ImageExCachingStrategy), typeof(ImageExBase), new PropertyMetadata(ImageExCachingStrategy.Custom));
+
+        /// <summary>
+        /// Identifies the <see cref="EnableLazyLoading"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
 
         /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
@@ -75,16 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets a value indicating whether control has been initialized.
         /// </summary>
         public bool IsInitialized { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the CornerRadius for underlying image. <para/>
-        /// Used to created rounded/circular images.
-        /// </summary>
-        public new CornerRadius CornerRadius
-        {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
-        }
 
         /// <summary>
         /// Gets or sets DecodePixelHeight for underlying bitmap
@@ -138,6 +128,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ImageExCachingStrategy)GetValue(CachingStrategyProperty); }
             set { SetValue(CachingStrategyProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets is lazy loading enable. (17763 or higher supported)
+        /// </summary>
+        /// <remarks>Windows 10 build 17763 or higher required.</remarks>
+        public bool EnableLazyLoading
+        {
+            get { return (bool)GetValue(EnableLazyLoadingProperty); }
+            set { SetValue(EnableLazyLoadingProperty, value); }
         }
     }
 }

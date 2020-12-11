@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -53,13 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(1.0, OnShadowOpacityChanged));
 
         /// <summary>
-        /// Gets a value indicating whether the platform supports drop shadows.
+        /// Identifies the <see cref="IsMasked"/> dependency property.
         /// </summary>
-        /// <remarks>
-        /// On platforms not supporting drop shadows, this control has no effect.
-        /// </remarks>
-        public static bool IsSupported =>
-            (!DesignTimeHelpers.IsRunningInLegacyDesignerMode) && ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
+        public static readonly DependencyProperty IsMaskedProperty =
+            DependencyProperty.Register(nameof(IsMasked), typeof(bool), typeof(DropShadowPanel), new PropertyMetadata(true, OnIsMaskedChanged));
 
         /// <summary>
          /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
@@ -182,57 +177,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the panel uses an alpha mask to create a more precise shadow vs. a quicker rectangle shape.
+        /// </summary>
+        /// <remarks>
+        /// Turn this off to lose fidelity and gain performance of the panel.
+        /// </remarks>
+        public bool IsMasked
+        {
+            get { return (bool)GetValue(IsMaskedProperty); }
+            set { SetValue(IsMaskedProperty, value); }
+        }
+
         private static void OnBlurRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
             {
-                var panel = d as DropShadowPanel;
-                panel?.OnBlurRadiusChanged((double)e.NewValue);
+                panel.OnBlurRadiusChanged((double)e.NewValue);
             }
         }
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
             {
-                var panel = d as DropShadowPanel;
-                panel?.OnColorChanged((Color)e.NewValue);
+                panel.OnColorChanged((Color)e.NewValue);
             }
         }
 
         private static void OnOffsetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
             {
-                var panel = d as DropShadowPanel;
-                panel?.OnOffsetXChanged((double)e.NewValue);
+                panel.OnOffsetXChanged((double)e.NewValue);
             }
         }
 
         private static void OnOffsetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
             {
-                var panel = d as DropShadowPanel;
-                panel?.OnOffsetYChanged((double)e.NewValue);
+                panel.OnOffsetYChanged((double)e.NewValue);
             }
         }
 
         private static void OnOffsetZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
             {
-                var panel = d as DropShadowPanel;
-                panel?.OnOffsetZChanged((double)e.NewValue);
+                panel.OnOffsetZChanged((double)e.NewValue);
             }
         }
 
         private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
             {
-                var panel = d as DropShadowPanel;
-                panel?.OnShadowOpacityChanged((double)e.NewValue);
+                panel.OnShadowOpacityChanged((double)e.NewValue);
+            }
+        }
+
+        private static void OnIsMaskedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && d is DropShadowPanel panel)
+            {
+                panel.UpdateShadowMask();
             }
         }
     }

@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Uri _uri;
         private bool _isHttpSource;
         private CancellationTokenSource _tokenSource = null;
+        private object _lazyLoadingSource;
 
         /// <summary>
         /// Gets or sets the source used by the image
@@ -41,9 +42,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as ImageExBase;
 
+            if (control == null)
+            {
+                return;
+            }
+
             if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
             {
-                control?.SetSource(e.NewValue);
+                if (e.NewValue == null || !control.EnableLazyLoading || control._isInViewport)
+                {
+                    control._lazyLoadingSource = null;
+                    control.SetSource(e.NewValue);
+                }
+                else
+                {
+                    control._lazyLoadingSource = e.NewValue;
+                }
             }
         }
 
@@ -184,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 lock (LockObj)
                 {
-                    // If you have many imageEx in a virtualized listview for instance
+                    // If you have many imageEx in a virtualized ListView for instance
                     // controls will be recycled and the uri will change while waiting for the previous one to load
                     if (_uri == imageUri)
                     {

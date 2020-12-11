@@ -4,6 +4,7 @@
 
 using System;
 using Windows.Graphics.Display;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -17,13 +18,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private const float CentimeterToInchRatio = 2.54f;
 
         /// <summary>
-        /// Convert a value from a screen unit to another one (ex: 1cm => 37.7953px)
+        /// Converts a screen unit to another screen unit (ex: 1cm => 37.7953px).
         /// </summary>
         /// <param name="from">Start unit</param>
         /// <param name="to">End unit</param>
         /// <param name="value">The value to convert (using start unit)</param>
-        /// <returns>Returns the result of the conversion</returns>
-        public static float Convert(ScreenUnit from, ScreenUnit to, float value)
+        /// <param name="xamlRoot">The XamlRoot that will be used to get the screen scale. Required on Xaml Islands.</param>
+        /// <returns>The result of the conversion</returns>
+        public static float Convert(ScreenUnit from, ScreenUnit to, float value, XamlRoot xamlRoot = null)
         {
             if (from == to)
             {
@@ -45,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                     if (to == ScreenUnit.EffectivePixel)
                     {
-                        return value / (float)DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                        return value / GetScale(xamlRoot);
                     }
 
                     throw new ArgumentOutOfRangeException(nameof(to));
@@ -79,13 +81,25 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 case ScreenUnit.EffectivePixel:
                     if (to == ScreenUnit.Pixel)
                     {
-                        return value * (float)DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                        return value * GetScale(xamlRoot);
                     }
 
                     throw new ArgumentOutOfRangeException(nameof(to));
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(from));
+            }
+        }
+
+        private static float GetScale(XamlRoot xamlRoot)
+        {
+            if (xamlRoot != null)
+            {
+                return (float)xamlRoot.RasterizationScale;
+            }
+            else
+            {
+                return (float)DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
             }
         }
     }

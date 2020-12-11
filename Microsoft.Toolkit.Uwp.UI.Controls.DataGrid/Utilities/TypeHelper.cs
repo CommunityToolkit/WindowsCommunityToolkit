@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.Utilities
 {
@@ -17,8 +18,8 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         internal const char PropertyNameSeparator = '.';
         internal const char RightIndexerToken = ']';
 
-        private static bool isAPIContractAvailableInitialized = false;
-        private static bool isRS3OrHigher = false;
+        private static bool isAPIsAvailableInitialized = false;
+        private static bool isXamlRootAvailable = false;
 
         // Methods
         private static Type FindGenericType(Type definition, Type type)
@@ -113,6 +114,11 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             return defaultMemberAttribute == null ? null : defaultMemberAttribute.MemberName;
         }
 
+        internal static string GetBindingPropertyName(this Binding binding)
+        {
+            return binding?.Path?.Path?.Split('.')?.LastOrDefault();
+        }
+
         /// <summary>
         /// Finds the PropertyInfo for the specified property path within this Type, and returns
         /// the value of GetShortName on its DisplayAttribute, if one exists. GetShortName will return
@@ -176,8 +182,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             List<string> propertyNames = SplitPropertyPath(propertyPath);
             for (int i = 0; i < propertyNames.Count; i++)
             {
-                object[] index = null;
-                propertyInfo = propertyType.GetPropertyOrIndexer(propertyNames[i], out index);
+                propertyInfo = propertyType.GetPropertyOrIndexer(propertyNames[i], out var index);
                 if (propertyInfo == null)
                 {
                     item = null;
@@ -272,9 +277,8 @@ namespace Microsoft.Toolkit.Uwp.Utilities
                 return null;
             }
 
-            PropertyInfo indexer = null;
-            string stringIndex = propertyPath.Substring(1, propertyPath.Length - 2);
-            indexer = FindIndexerInMembers(type.GetDefaultMembers(), stringIndex, out index);
+            var stringIndex = propertyPath.Substring(1, propertyPath.Length - 2);
+            var indexer = FindIndexerInMembers(type.GetDefaultMembers(), stringIndex, out index);
             if (indexer != null)
             {
                 // We found the indexer, so return it.
@@ -357,6 +361,50 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         }
 
         /// <summary>
+        /// Sets the value of a given property path on a particular item.
+        /// </summary>
+        /// <param name="item">Parent data item.</param>
+        /// <param name="newValue">New child value</param>
+        /// <param name="propertyPath">Property path</param>
+        internal static void SetNestedPropertyValue(ref object item, object newValue, string propertyPath)
+        {
+            if (string.IsNullOrEmpty(propertyPath))
+            {
+                item = newValue;
+            }
+            else
+            {
+                var propertyPathParts = SplitPropertyPath(propertyPath);
+
+                if (propertyPathParts.Count == 1)
+                {
+                    item?.GetType().GetProperty(propertyPath)?.SetValue(item, newValue);
+                }
+                else
+                {
+                    object temporaryItem = item;
+                    object nextToLastItem = null;
+
+                    PropertyInfo propertyInfo = null;
+
+                    for (var i = 0; i < propertyPathParts.Count; i++)
+                    {
+                        propertyInfo = temporaryItem?.GetType().GetProperty(propertyPathParts[i]);
+
+                        if (i == propertyPathParts.Count - 2)
+                        {
+                            nextToLastItem = propertyInfo?.GetValue(temporaryItem);
+                        }
+
+                        temporaryItem = propertyInfo?.GetValue(temporaryItem);
+                    }
+
+                    propertyInfo?.SetValue(nextToLastItem, newValue);
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns a list of substrings where each one represents a single property within a nested
         /// property path which may include indexers.  For example, the string "abc.d[efg][h].ijk"
         /// would return the substrings: "abc", "d", "[efg]", "[h]", and "ijk".
@@ -410,23 +458,23 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             return instance == null ? null : instance.GetType();
         }
 
-        internal static bool IsRS3OrHigher
+        internal static bool IsXamlRootAvailable
         {
             get
             {
-                if (!isAPIContractAvailableInitialized)
+                if (!isAPIsAvailableInitialized)
                 {
-                    InitializeAPIContractAvailable();
+                    InitializeAPIsAvailable();
                 }
 
-                return isRS3OrHigher;
+                return isXamlRootAvailable;
             }
         }
 
-        internal static void InitializeAPIContractAvailable()
+        internal static void InitializeAPIsAvailable()
         {
-            isRS3OrHigher = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
-            isAPIContractAvailableInitialized = true;
+            isXamlRootAvailable = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
+            isAPIsAvailableInitialized = true;
         }
     }
 }

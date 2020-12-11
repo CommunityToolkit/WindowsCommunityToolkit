@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
@@ -66,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Tapp an item
+        /// Tap an item
         /// </summary>
         private void OnTapped(object sender, TappedRoutedEventArgs e)
         {
@@ -141,9 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Need to know which direction we took for this manipulation.
             var translation = Carousel.Orientation == Orientation.Horizontal ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 
-            // if manipulation is not enough to change index we will have to force refresh
-            var lastIndex = Carousel.SelectedIndex;
-
             // potentially border effects
             bool hasBreak = false;
 
@@ -186,6 +184,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal void UpdatePosition()
         {
+            if (storyboard?.GetCurrentState() == ClockState.Active)
+            {
+                storyboard.SkipToFill();
+            }
+
             storyboard = new Storyboard();
             ManipulationMode = ManipulationModes.None;
 
@@ -206,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Apply projection
                 ApplyProjection(item, props, storyboard);
 
-                // Zindex and Opacity
+                // Z index and Opacity
                 var deltaFromSelectedIndex = Math.Abs(Carousel.SelectedIndex - i);
                 int zindex = (Carousel.Items.Count * 100) - deltaFromSelectedIndex;
                 Canvas.SetZIndex(item, zindex);
@@ -245,10 +248,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            var width = 0d;
-            var height = 0d;
-
             // It's a Auto size, so we define the size should be 3 items
+            double width;
             if (double.IsInfinity(availableSize.Width))
             {
                 width = Carousel.Orientation == Orientation.Horizontal ? containerWidth * (Children.Count > 3 ? 3 : Children.Count) : containerWidth;
@@ -259,6 +260,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // It's a Auto size, so we define the size should be 3 items
+            double height;
             if (double.IsInfinity(availableSize.Height))
             {
                 height = Carousel.Orientation == Orientation.Vertical ? containerHeight * (Children.Count > 3 ? 3 : Children.Count) : containerHeight;
@@ -282,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double centerLeft = 0;
             double centerTop = 0;
 
-            Clip = new RectangleGeometry { Rect = new Rect(0, 0, finalSize.Width, finalSize.Height) };
+            Clip = new RectangleGeometry { Rect = finalSize.ToRect() };
 
             for (int i = 0; i < Children.Count; i++)
             {
@@ -319,7 +321,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // apply the projection to the current object
                 ApplyProjection(container, proj);
 
-                // calculate zindex and opacity
+                // calculate z index and opacity
                 int zindex = (Children.Count * 100) - deltaFromSelectedIndex;
                 Canvas.SetZIndex(container, zindex);
             }
@@ -380,7 +382,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Return the new projection</returns>
         private Proj GetProjectionFromManipulation(UIElement element, double delta)
         {
-            PlaneProjection projection = element.Projection as PlaneProjection;
             CompositeTransform compositeTransform = element.RenderTransform as CompositeTransform;
 
             var bounds = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;
@@ -404,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var rotationY = Carousel.ItemRotationY;
             var rotationZ = Carousel.ItemRotationZ;
 
-            // if the relativeposition is inside the bounds so calculate the proportionals
+            // if the relative position is inside the bounds so calculate the proportionals
             if (relativePosition <= maxBounds)
             {
                 depth = relativePosition * depth / maxBounds;
@@ -432,10 +433,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // margin
             var margin = Carousel.ItemMargin;
 
-            // we want the middle image to be indice 0, to be sure the centered image is with no rotation
+            // we want the middle image to be index 0, to be sure the centered image is with no rotation
             var relativeIndex = childIndex - Carousel.SelectedIndex;
 
-            // size beetween each element
+            // size between each element
             var widthOrHeight = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;
 
             // calculate the position with the margin applied

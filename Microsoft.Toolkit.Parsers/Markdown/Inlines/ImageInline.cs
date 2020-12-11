@@ -73,8 +73,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <returns> A parsed markdown image, or <c>null</c> if this is not a markdown image. </returns>
         internal static InlineParseResult Parse(string markdown, int start, int end)
         {
-            int refstart = 0;
-
             // Expect a '!' character.
             if (start >= end || markdown[start] != '!')
             {
@@ -120,7 +118,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             if (pos < end && markdown[pos] == '[')
             {
-                refstart = pos;
+                int refStart = pos;
 
                 // Find the reference ']' character
                 while (pos < end)
@@ -133,7 +131,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     pos++;
                 }
 
-                reference = markdown.Substring(refstart + 1, pos - refstart - 1);
+                reference = markdown.Substring(refStart + 1, pos - refStart - 1);
             }
             else if (pos < end && markdown[pos] == '(')
             {
@@ -158,10 +156,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 if (imageDimensionsPos > 0)
                 {
                     // trying to find 'x' which separates image width and height
-                    var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
+                    var dimensionsSeparatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
 
                     // didn't find separator, trying to parse value as imageWidth
-                    if (dimensionsSepatorPos == -1)
+                    if (dimensionsSeparatorPos == -1)
                     {
                         var imageWidthStr = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
 

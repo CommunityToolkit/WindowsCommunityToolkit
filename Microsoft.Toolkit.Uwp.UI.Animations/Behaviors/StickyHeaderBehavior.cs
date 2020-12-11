@@ -3,14 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -104,13 +105,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         private bool AssignAnimation()
         {
             StopAnimation();
-
-            // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
-            if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
-            {
-                // Just return true since it's not supported
-                return true;
-            }
 
             if (AssociatedObject == null)
             {
@@ -235,9 +229,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             var scroller = (ScrollViewer)sender;
 
-            var focusedElement = FocusManager.GetFocusedElement();
+            object focusedElement;
+            if (ApiInformationHelper.IsXamlRootAvailable && scroller.XamlRoot != null)
+            {
+                focusedElement = FocusManager.GetFocusedElement(scroller.XamlRoot);
+            }
+            else
+            {
+                focusedElement = FocusManager.GetFocusedElement();
+            }
 
-            if (focusedElement is UIElement element)
+            // To prevent Popups (Flyouts...) from triggering the autoscroll, we check if the focused element has a valid parent.
+            // Popups have no parents, whereas a normal Item would have the ListView as a parent.
+            if (focusedElement is UIElement element && VisualTreeHelper.GetParent(element) != null)
             {
                 FrameworkElement header = (FrameworkElement)HeaderElement;
 

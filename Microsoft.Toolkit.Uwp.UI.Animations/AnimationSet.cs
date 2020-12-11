@@ -626,8 +626,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (_animationTCS != null && !_animationTCS.Task.IsCompleted)
             {
-                Completed?.Invoke(this, new AnimationSetCompletedEventArgs() { Completed = _storyboardCompleted && _compositionCompleted });
                 _animationTCS.SetResult(State == AnimationSetState.Completed);
+                Completed?.Invoke(this, new AnimationSetCompletedEventArgs() { Completed = _storyboardCompleted && _compositionCompleted });
             }
         }
     }

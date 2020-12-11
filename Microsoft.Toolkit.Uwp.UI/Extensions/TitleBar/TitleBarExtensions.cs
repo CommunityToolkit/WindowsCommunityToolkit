@@ -4,7 +4,6 @@
 
 using Windows.UI;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -14,11 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     public static class TitleBarExtensions
     {
-        /// <summary>
-        /// Gets a value indicating whether TitleBar is supported or not.
-        /// </summary>
-        public static bool IsTitleBarSupported => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationViewTitleBar");
-
         /// <summary>
         /// Gets Color for <see cref="ApplicationViewTitleBar.BackgroundColor"/>
         /// </summary>
@@ -405,7 +399,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static ApplicationViewTitleBar GetTitleBar()
         {
-            return IsTitleBarSupported ? Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar : null;
+            return ApplicationView.GetForCurrentView()?.TitleBar;
         }
     }
 }

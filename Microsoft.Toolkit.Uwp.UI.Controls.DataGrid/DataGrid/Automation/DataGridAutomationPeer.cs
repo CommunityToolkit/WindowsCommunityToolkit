@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-// #define DEBUG_AUTOMATION
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -184,7 +183,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>The string that contains the name.</returns>
         protected override string GetClassNameCore()
         {
-            return Owner.GetType().Name;
+            string classNameCore = Owner.GetType().Name;
+#if DEBUG_AUTOMATION
+            Debug.WriteLine("DataGridAutomationPeer.GetClassNameCore returns " + classNameCore);
+#endif
+            return classNameCore;
         }
 
         /// <summary>
@@ -211,6 +214,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                     name = this.GetClassName();
                 }
             }
+
+#if DEBUG_AUTOMATION
+            Debug.WriteLine("DataGridAutomationPeer.GetNameCore returns " + name);
+#endif
 
             return name;
         }
@@ -724,8 +731,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 {
                     if (item != null)
                     {
-                        DataGridItemAutomationPeer peer = null;
-
+                        DataGridItemAutomationPeer peer;
                         if (oldChildren.ContainsKey(item))
                         {
                             peer = oldChildren[item] as DataGridItemAutomationPeer;

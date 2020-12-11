@@ -7,13 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -22,6 +24,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private Sample _currentSample;
         private SampleCategory _selectedCategory;
+
+        public CollectionViewSource SampleView { get; } = new CollectionViewSource();
 
         private Sample CurrentSample
         {
@@ -33,11 +37,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set
             {
                 _currentSample = value;
-                var nop = SetNavViewSelection();
+                _ = SetNavViewSelectionAsync();
             }
         }
 
-        private async Task SetNavViewSelection()
+        private async Task SetNavViewSelectionAsync()
         {
             if (_currentSample != null)
             {
@@ -56,13 +60,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HideSamplePicker()
         {
-            SamplePickerGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            SamplePickerGrid.Visibility = Visibility.Collapsed;
             _selectedCategory = null;
 
-            var noop = SetNavViewSelection();
+            _ = SetNavViewSelectionAsync();
         }
 
-        private async void ShowSamplePicker(Sample[] samples = null)
+        private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
         {
             if (samples == null && _currentSample != null)
             {
@@ -93,6 +97,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             SamplePickerGridView.ItemsSource = samples;
 
+            var groups = samples.GroupBy(sample => sample.Subcategory);
+
+            if (group && groups.Count() > 1)
+            {
+                SampleView.IsSourceGrouped = true;
+                SampleView.Source = groups.OrderBy(g => g.Key);
+            }
+            else
+            {
+                SampleView.IsSourceGrouped = false;
+                SampleView.Source = samples;
+            }
+
+            SamplePickerGridView.ItemsSource = SampleView.View;
+
             if (_currentSample != null && samples.Contains(_currentSample))
             {
                 SamplePickerGridView.SelectedItem = _currentSample;
@@ -107,7 +126,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem is SampleCategory category)
+            //// Temp Workaround for WinUI Bug https://github.com/microsoft/microsoft-ui-xaml/issues/2520
+            var invokedItem = args.InvokedItem;
+            if (invokedItem is FrameworkElement fe && fe.DataContext is SampleCategory cat2)
+            {
+                invokedItem = cat2;
+            }
+            //// End Workaround - args.InvokedItem
+
+            if (invokedItem is SampleCategory category)
             {
                 if (SamplePickerGrid.Visibility != Visibility.Collapsed && _selectedCategory == category)
                 {
@@ -118,7 +145,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 else
                 {
                     _selectedCategory = category;
-                    ShowSamplePicker(category.Samples);
+                    ShowSamplePicker(category.Samples, true);
+
+                    // Then Focus on Picker
+                    dispatcherQueue.EnqueueAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
             }
             else if (args.IsSettingsInvoked)
@@ -171,7 +201,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (button != null)
             {
                 button.Click -= MoreInfoClicked;
+                button.LostFocus -= MoreInfoLostFocus;
                 button.Click += MoreInfoClicked;
+                button.LostFocus += MoreInfoLostFocus;
             }
 
             var itemIndex = SamplePickerGridView.IndexFromContainer(itemContainer);
@@ -233,13 +265,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void MoreInfoClicked(object sender, RoutedEventArgs e)
         {
-            if (MoreInfoContent == null)
-            {
-                return;
-            }
-
             var button = (Button)sender;
-            var sample = button.DataContext as Sample;
+            var sampleData = button.DataContext as Sample;
 
             var container = button.FindAscendant<GridViewItem>();
             if (container == null)
@@ -247,8 +274,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
+            InitMoreInfoContentContainer(container);
+            MoreInfoContent.DataContext = sampleData;
 
+            if (MoreInfoCanvas.Visibility == Visibility.Visible)
+            {
+                HideMoreInfo();
+            }
+            else
+            {
+                MoreInfoCanvas.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void MoreInfoLostFocus(object sender, RoutedEventArgs e)
+        {
+            HideMoreInfo();
+        }
+
+        private void InitMoreInfoContentContainer(GridViewItem container)
+        {
+            if (MoreInfoContent == null)
+            {
+                return;
+            }
+
+            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
             var x = point.X - ((MoreInfoContent.Width - container.ActualWidth) / 2);
             var y = point.Y - ((MoreInfoContent.Height - container.ActualHeight) / 2);
 
@@ -265,9 +316,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var centerY = (point.Y + (container.ActualHeight / 2)) - y;
 
             VisualExtensions.SetCenterPoint(MoreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
-
-            MoreInfoContent.DataContext = sample;
-            MoreInfoCanvas.Visibility = Visibility.Visible;
         }
 
         private void HideMoreInfo()
@@ -282,12 +330,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (MoreInfoImage != null && MoreInfoContent.DataContext != null)
             {
                 var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
-                if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
-                {
-                    animation.Configuration = new DirectConnectedAnimationConfiguration();
-                }
+                animation.Configuration = new DirectConnectedAnimationConfiguration();
 
-                var t = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
+                _ = SamplePickerGridView.TryStartConnectedAnimationAsync(animation, MoreInfoContent.DataContext, "SampleIcon");
             }
 
             MoreInfoContent.DataContext = null;

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -21,42 +20,43 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
             darkTheme = themes.ThemeDictionaries["Dark"] as ResourceDictionary;
             lightTheme = themes.ThemeDictionaries["Light"] as ResourceDictionary;
 
-            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush"))
+            AddAcrylic(new ThemeAcrylic
             {
-                AddAcrylic(new ThemeAcrylic
+                Name = "Background-AboutPage-SidePane",
+                DarkAcrylic = new AcrylicBrush
                 {
-                    Name = "Background-AboutPage-SidePane",
-                    DarkAcrylic = new AcrylicBrush
-                    {
-                        TintColor = Helpers.ColorHelper.ToColor("#FF333333"),
-                        TintOpacity = 0.8,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop
-                    },
-                    LightAcrylic = new AcrylicBrush
-                    {
-                        TintColor = Colors.White,
-                        TintOpacity = 0.8,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
-                    }
-                });
+                    TintColor = Helpers.ColorHelper.ToColor("#FF333333"),
+                    TintOpacity = 0.8,
+                    BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                    FallbackColor = Helpers.ColorHelper.ToColor("#FF333333")
+                },
+                LightAcrylic = new AcrylicBrush
+                {
+                    TintColor = Colors.White,
+                    TintOpacity = 0.8,
+                    BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                    FallbackColor = Colors.White
+                }
+            });
 
-                AddAcrylic(new ThemeAcrylic
+            AddAcrylic(new ThemeAcrylic
+            {
+                Names = new[] { "Commands-Background" },
+                DarkAcrylic = new AcrylicBrush
                 {
-                    Names = new[] { "Commands-Background" },
-                    DarkAcrylic = new AcrylicBrush
-                    {
-                        TintColor = Helpers.ColorHelper.ToColor("#FF111111"),
-                        TintOpacity = 0.7,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop
-                    },
-                    LightAcrylic = new AcrylicBrush
-                    {
-                        TintColor = Helpers.ColorHelper.ToColor("#FFDDDDDD"),
-                        TintOpacity = 0.6,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
-                    }
-                });
-            }
+                    TintColor = Helpers.ColorHelper.ToColor("#FF111111"),
+                    TintOpacity = 0.7,
+                    BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                    FallbackColor = Helpers.ColorHelper.ToColor("#FF111111")
+                },
+                LightAcrylic = new AcrylicBrush
+                {
+                    TintColor = Helpers.ColorHelper.ToColor("#FFDDDDDD"),
+                    TintOpacity = 0.6,
+                    BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                    FallbackColor = Helpers.ColorHelper.ToColor("#FFDDDDDD")
+                }
+            });
         }
 
         private static void AddAcrylic(ThemeAcrylic resource)

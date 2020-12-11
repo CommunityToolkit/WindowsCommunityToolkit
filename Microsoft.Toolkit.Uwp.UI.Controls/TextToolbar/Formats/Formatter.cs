@@ -5,7 +5,6 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Windows.UI.Text;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
@@ -14,16 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
     /// </summary>
     public abstract class Formatter
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Formatter"/> class.
-        /// </summary>
-        /// <param name="model">The <see cref="TextToolbar"/>where Formatter is used</param>
-        public Formatter(TextToolbar model)
-        {
-            Model = model;
-            Model.EditorChanged += Model_EditorChanged;
-        }
-
         /// <summary>
         /// Called when text editor has changed
         /// </summary>
@@ -43,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         }
 
         /// <summary>
-        /// Called for Changes to Selction (Requires unhook if switching RichEditBox).
+        /// Called for Changes to Selection (Requires unhook if switching RichEditBox).
         /// </summary>
         /// <param name="sender">Editor</param>
         /// <param name="e">Args</param>
@@ -81,8 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
             int counter = 0;
             bool atNewLine = false;
 
-            string docText = string.Empty;
-            Model.Editor.Document.GetText(TextGetOptions.NoHidden, out docText);
+            Model.Editor.Document.GetText(TextGetOptions.NoHidden, out var docText);
             var lines = docText.Split(new string[] { Return }, StringSplitOptions.None);
 
             foreach (var line in lines)
@@ -157,7 +145,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <summary>
         /// Gets the source Toolbar
         /// </summary>
-        public TextToolbar Model { get; }
+        public TextToolbar Model { get; private set; }
+
+        /// <summary>
+        /// This method is called to unset event handlers that might have been registers by <see cref="SetModel(TextToolbar)"/>
+        /// </summary>
+        /// <param name="model">The old <see cref="TextToolbar"/> the Formatter was associated with</param>
+        public virtual void UnsetModel(TextToolbar model)
+        {
+            model.EditorChanged -= Model_EditorChanged;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="TextToolbar"/> where the Formatter is used
+        /// </summary>
+        /// <param name="model">The <see cref="TextToolbar"/> where Formatter is used</param>
+        public virtual void SetModel(TextToolbar model)
+        {
+            if (Model != null)
+            {
+                Model.EditorChanged -= Model_EditorChanged;
+            }
+
+            Model = model;
+            Model.EditorChanged += Model_EditorChanged;
+        }
 
         /// <summary>
         /// Gets or sets a map of the Actions taken when a button is pressed. Required for Common Button actions (Unless you override both Activation and ShiftActivation)
@@ -176,8 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get
             {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out var currentvalue);
                 return currentvalue;
             }
         }

@@ -5,26 +5,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Extensions;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The UniformGrid control presents information within a Grid with even spacing.
     /// </summary>
-    [Bindable]
     public partial class UniformGrid : Grid
     {
-        // Guard for 15063 as Grid Spacing only works on 16299+.
-        private static bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.Grid", "ColumnSpacing");
-
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
+
+        /// <summary>
+        /// The <see cref="TakenSpotsReferenceHolder"/> instance in use, if any.
+        /// </summary>
+        private TakenSpotsReferenceHolder _spotref;
 
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
@@ -42,7 +40,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetupRowDefinitions(rows);
             SetupColumnDefinitions(columns);
 
-            var spotref = new TakenSpotsReferenceHolder(rows, columns);
+            TakenSpotsReferenceHolder spotref;
+
+            // If the last spot holder matches the size currently in use, just reset
+            // that instance and reuse it to avoid allocating a new bit array.
+            if (_spotref != null && _spotref.Height == rows && _spotref.Width == columns)
+            {
+                spotref = _spotref;
+
+                spotref.Reset();
+            }
+            else
+            {
+                spotref = _spotref = new TakenSpotsReferenceHolder(rows, columns);
+            }
 
             // Figure out which children we should automatically layout and where available openings are.
             foreach (var child in visible)
@@ -62,7 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     SetAutoLayout(child, false);
-                    spotref.SpotsTaken.Fill(true, row, col, colspan, rowspan); // row, col, width, height
+
+                    spotref.Fill(true, row, col, colspan, rowspan);
                 }
             }
 
@@ -71,12 +83,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double columnSpacingSize = 0;
             double rowSpacingSize = 0;
 
-            // Guard for 15063 as Grid Spacing only works on 16299+.
-            if (_hasGridSpacing)
-            {
-                columnSpacingSize = ColumnSpacing * (columns - 1);
-                rowSpacingSize = RowSpacing * (rows - 1);
-            }
+            columnSpacingSize = ColumnSpacing * (columns - 1);
+            rowSpacingSize = RowSpacing * (rows - 1);
 
             Size childSize = new Size(
                 (availableSize.Width - columnSpacingSize) / columns,
@@ -110,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (rowspan > 1 || colspan > 1)
                         {
                             // TODO: Need to tie this into iterator
-                            spotref.SpotsTaken.Fill(true, row, column, GetColumnSpan(child), GetRowSpan(child)); // row, col, width, height
+                            spotref.Fill(true, row, column, colspan, rowspan);
                         }
                     }
                     else
@@ -145,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return our desired size based on the largest child we found, our dimensions, and spacing.
-            var desiredSize = new Size((maxWidth * (double)columns) + columnSpacingSize, (maxHeight * (double)rows) + rowSpacingSize);
+            var desiredSize = new Size((maxWidth * columns) + columnSpacingSize, (maxHeight * rows) + rowSpacingSize);
 
             // Required to perform regular grid measurement, but ignore result.
             base.MeasureOverride(desiredSize);
@@ -162,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Make sure all overflown elements have no size.
             foreach (var child in _overflow)
             {
-                child.Arrange(new Rect(0, 0, 0, 0));
+                child.Arrange(default);
             }
 
             _overflow = new List<UIElement>(); // Reset for next time.

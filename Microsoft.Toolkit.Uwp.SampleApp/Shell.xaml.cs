@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -14,6 +15,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
     {
+        private readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
         public static Shell Current { get; private set; }
 
         public Shell()
@@ -64,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         /// <summary>
-        /// Attach a ScrollViewer to Parallax hosting the backround image
+        /// Attach a ScrollViewer to Parallax hosting the background image
         /// </summary>
         /// <param name="viewer">The ScrollViewer</param>
         public void AttachScroll(ScrollViewer viewer)

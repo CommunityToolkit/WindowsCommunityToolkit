@@ -76,7 +76,7 @@
     <!--Column Grid Splitter-->
     <controls:GridSplitter
             GripperCursor="@[GripperCursor:Enum:GripperCursorType.Default]"
-            HorizontalAlignment="@[HorizontalAlignment:Enum:HorizontalAlignment.Left]"
+            HorizontalAlignment="Left"
             Grid.Column="@[Column:Slider:1:0-2]"
             ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
             ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]"
@@ -97,8 +97,7 @@
       <controls:GridSplitter.RenderTransform>
         <TranslateTransform Y="-8" />
       </controls:GridSplitter.RenderTransform>
-      <controls:GridSplitter.Element>
-        <Grid>
+      <controls:GridSplitter.Element>  
           <TextBlock HorizontalAlignment="Center"
                          IsHitTestVisible="False"
                          VerticalAlignment="Center"
@@ -106,7 +105,6 @@
                          Foreground="White"
                          FontFamily="Segoe MDL2 Assets">
           </TextBlock>
-        </Grid>
       </controls:GridSplitter.Element>
     </controls:GridSplitter>
     

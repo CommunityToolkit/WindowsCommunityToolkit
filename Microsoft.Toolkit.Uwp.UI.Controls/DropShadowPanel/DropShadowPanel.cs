@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(DropShadowPanel);
 
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (!IsSupported)
+            if (DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 return;
             }
@@ -86,12 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            UpdateShadowMask();
+
             base.OnContentChanged(oldContent, newContent);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 UpdateShadowSize();
             }
@@ -101,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             UpdateShadowMask();
 
-            if (IsSupported)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 UpdateShadowSize();
             }
@@ -125,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetXChanged(double newValue)
         {
-            if (IsSupported && _dropShadow != null)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && _dropShadow != null)
             {
                 UpdateShadowOffset((float)newValue, _dropShadow.Offset.Y, _dropShadow.Offset.Z);
             }
@@ -133,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetYChanged(double newValue)
         {
-            if (IsSupported && _dropShadow != null)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && _dropShadow != null)
             {
                 UpdateShadowOffset(_dropShadow.Offset.X, (float)newValue, _dropShadow.Offset.Z);
             }
@@ -141,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetZChanged(double newValue)
         {
-            if (IsSupported && _dropShadow != null)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && _dropShadow != null)
             {
                 UpdateShadowOffset(_dropShadow.Offset.X, _dropShadow.Offset.Y, (float)newValue);
             }
@@ -157,12 +159,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateShadowMask()
         {
-            if (!IsSupported)
+            if (DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 return;
             }
 
-            if (Content != null)
+            if (Content != null && IsMasked)
             {
                 CompositionBrush mask = null;
 

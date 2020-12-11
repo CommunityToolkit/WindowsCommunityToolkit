@@ -5,14 +5,11 @@
 using System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using NotificationsVisualizerLibrary;
-using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -29,21 +26,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public static ToastContent GenerateToastContent()
         {
-            // Start by constructing the visual portion of the toast
-            ToastBindingGeneric binding = new ToastBindingGeneric();
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Include launch string so we know what to open when user clicks toast
+            builder.AddArgument("action", "viewForecast");
+            builder.AddArgument("zip", 98008);
 
             // We'll always have this summary text on our toast notification
             // (it is required that your toast starts with a text element)
-            binding.Children.Add(new AdaptiveText()
-            {
-                Text = "Today will be mostly sunny with a high of 63 and a low of 42."
-            });
+            builder.AddText("Today will be mostly sunny with a high of 63 and a low of 42.");
 
             // If Adaptive Toast Notifications are supported
             if (IsAdaptiveToastSupported())
             {
                 // Use the rich Tile-like visual layout
-                binding.Children.Add(new AdaptiveGroup()
+                builder.AddVisualChild(new AdaptiveGroup()
                 {
                     Children =
                     {
@@ -60,59 +57,68 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             else
             {
                 // We'll just add two simple lines of text
-                binding.Children.Add(new AdaptiveText()
-                {
-                    Text = "Monday ⛅ 63° / 42°"
-                });
-
-                binding.Children.Add(new AdaptiveText()
-                {
-                    Text = "Tuesday ☁ 57° / 38°"
-                });
+                builder.AddText("Monday ⛅ 63° / 42°")
+                    .AddText("Tuesday ☁ 57° / 38°");
             }
 
-            // Construct the entire notification
-            return new ToastContent()
-            {
-                Visual = new ToastVisual()
-                {
-                    // Use our binding from above
-                    BindingGeneric = binding,
+            // Set the base URI for the images, so we don't redundantly specify the entire path
+            builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);
 
-                    // Set the base URI for the images, so we don't redundantly specify the entire path
-                    BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative)
-                },
-
-                // Include launch string so we know what to open when user clicks toast
-                Launch = "action=viewForecast&zip=98008"
-            };
+            return builder.Content;
         }
 
         public static TileContent GenerateTileContent()
         {
-            return new TileContent()
-            {
-                Visual = new TileVisual()
-                {
-                    TileSmall = GenerateTileBindingSmall(),
-                    TileMedium = GenerateTileBindingMedium(),
-                    TileWide = GenerateTileBindingWide(),
-                    TileLarge = GenerateTileBindingLarge(),
+            TileContentBuilder builder = new TileContentBuilder();
 
-                    // Set the base URI for the images, so we don't redundantly specify the entire path
-                    BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative)
-                }
-            };
+            // Small Tile
+            builder.AddTile(Notifications.TileSize.Small)
+                .SetTextStacking(TileTextStacking.Center, Notifications.TileSize.Small)
+                .AddText("Mon", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Body, hintAlign: AdaptiveTextAlign.Center)
+                .AddText("63°", Notifications.TileSize.Small, hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center);
+
+            // Medium Tile
+            builder.AddTile(Notifications.TileSize.Medium)
+                .AddAdaptiveTileVisualChild(
+                    new AdaptiveGroup()
+                    {
+                        Children =
+                        {
+                            GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
+                            GenerateSubgroup("Tue", "Cloudy.png", 57, 38)
+                        }
+                    }, Notifications.TileSize.Medium);
+
+            // Wide Tile
+            builder.AddTile(Notifications.TileSize.Wide)
+                .AddAdaptiveTileVisualChild(
+                new AdaptiveGroup()
+                {
+                    Children =
+                    {
+                        GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
+                        GenerateSubgroup("Tue", "Cloudy.png", 57, 38),
+                        GenerateSubgroup("Wed", "Sunny.png", 59, 43),
+                        GenerateSubgroup("Thu", "Sunny.png", 62, 42),
+                        GenerateSubgroup("Fri", "Sunny.png", 71, 66)
+                    }
+                }, Notifications.TileSize.Wide);
+
+            // Large tile
+            builder.AddTile(Notifications.TileSize.Large, GenerateLargeTileContent());
+
+            // Set the base URI for the images, so we don't redundantly specify the entire path
+            builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);
+
+            return builder.Content;
         }
 
         private static bool IsAdaptiveToastSupported()
         {
             switch (AnalyticsInfo.VersionInfo.DeviceFamily)
             {
-                // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-                case "Windows.Mobile":
                 case "Windows.Desktop":
-                    return ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
+                    return true;
 
                 // Other device families do not support adaptive toasts
                 default:
@@ -120,143 +126,67 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private static TileBinding GenerateTileBindingSmall()
+        private static TileBindingContentAdaptive GenerateLargeTileContent()
         {
-            return new TileBinding()
+            return new TileBindingContentAdaptive()
             {
-                Content = new TileBindingContentAdaptive()
+                Children =
                 {
-                    TextStacking = TileTextStacking.Center,
-
-                    Children =
+                    new AdaptiveGroup()
                     {
-                        new AdaptiveText()
+                        Children =
                         {
-                            Text = "Mon",
-                            HintStyle = AdaptiveTextStyle.Body,
-                            HintAlign = AdaptiveTextAlign.Center
-                        },
-
-                        new AdaptiveText()
-                        {
-                            Text = "63°",
-                            HintStyle = AdaptiveTextStyle.Base,
-                            HintAlign = AdaptiveTextAlign.Center
-                        }
-                    }
-                }
-            };
-        }
-
-        private static TileBinding GenerateTileBindingMedium()
-        {
-            return new TileBinding()
-            {
-                Content = new TileBindingContentAdaptive()
-                {
-                    Children =
-                    {
-                        new AdaptiveGroup()
-                        {
-                            Children =
+                            new AdaptiveSubgroup()
                             {
-                                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
-                                GenerateSubgroup("Tue", "Cloudy.png", 57, 38)
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        private static TileBinding GenerateTileBindingWide()
-        {
-            return new TileBinding()
-            {
-                Content = new TileBindingContentAdaptive()
-                {
-                    Children =
-                    {
-                        new AdaptiveGroup()
-                        {
-                            Children =
-                            {
-                                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
-                                GenerateSubgroup("Tue", "Cloudy.png", 57, 38),
-                                GenerateSubgroup("Wed", "Sunny.png", 59, 43),
-                                GenerateSubgroup("Thu", "Sunny.png", 62, 42),
-                                GenerateSubgroup("Fri", "Sunny.png", 71, 66)
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        private static TileBinding GenerateTileBindingLarge()
-        {
-            return new TileBinding()
-            {
-                Content = new TileBindingContentAdaptive()
-                {
-                    Children =
-                    {
-                        new AdaptiveGroup()
-                        {
-                            Children =
-                            {
-                                new AdaptiveSubgroup()
+                                HintWeight = 30,
+                                Children =
                                 {
-                                    HintWeight = 30,
-                                    Children =
-                                    {
-                                        new AdaptiveImage() { Source = "Mostly Cloudy.png" }
-                                    }
-                                },
+                                    new AdaptiveImage() { Source = "Mostly Cloudy.png" }
+                                }
+                            },
 
-                                new AdaptiveSubgroup()
+                            new AdaptiveSubgroup()
+                            {
+                                Children =
                                 {
-                                    Children =
+                                    new AdaptiveText()
                                     {
-                                        new AdaptiveText()
-                                        {
-                                            Text = "Monday",
-                                            HintStyle = AdaptiveTextStyle.Base
-                                        },
+                                        Text = "Monday",
+                                        HintStyle = AdaptiveTextStyle.Base
+                                    },
 
-                                        new AdaptiveText()
-                                        {
-                                            Text = "63° / 42°"
-                                        },
+                                    new AdaptiveText()
+                                    {
+                                        Text = "63° / 42°"
+                                    },
 
-                                        new AdaptiveText()
-                                        {
-                                            Text = "20% chance of rain",
-                                            HintStyle = AdaptiveTextStyle.CaptionSubtle
-                                        },
+                                    new AdaptiveText()
+                                    {
+                                        Text = "20% chance of rain",
+                                        HintStyle = AdaptiveTextStyle.CaptionSubtle
+                                    },
 
-                                        new AdaptiveText()
-                                        {
-                                            Text = "Winds 5 mph NE",
-                                            HintStyle = AdaptiveTextStyle.CaptionSubtle
-                                        }
+                                    new AdaptiveText()
+                                    {
+                                        Text = "Winds 5 mph NE",
+                                        HintStyle = AdaptiveTextStyle.CaptionSubtle
                                     }
                                 }
                             }
-                        },
+                        }
+                    },
 
-                        // For spacing
-                        new AdaptiveText(),
+                    // For spacing
+                    new AdaptiveText(),
 
-                        new AdaptiveGroup()
+                    new AdaptiveGroup()
+                    {
+                        Children =
                         {
-                            Children =
-                            {
-                                GenerateLargeSubgroup("Tue", "Cloudy.png", 57, 38),
-                                GenerateLargeSubgroup("Wed", "Sunny.png", 59, 43),
-                                GenerateLargeSubgroup("Thu", "Sunny.png", 62, 42),
-                                GenerateLargeSubgroup("Fri", "Sunny.png", 71, 66)
-                            }
+                            GenerateLargeSubgroup("Tue", "Cloudy.png", 57, 38),
+                            GenerateLargeSubgroup("Wed", "Sunny.png", 59, 43),
+                            GenerateLargeSubgroup("Thu", "Sunny.png", 62, 42),
+                            GenerateLargeSubgroup("Fri", "Sunny.png", 71, 66)
                         }
                     }
                 }
@@ -356,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void PopToast()
         {
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
         }
 
         private void Initialize()
@@ -380,7 +310,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
                 tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
                 tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
-                var dontWait = tile.UpdateAsync(); // Commit changes (no need to await)
+                _ = tile.UpdateAsync(); // Commit changes (no need to await)
 
                 tile.CreateTileUpdater().Update(new TileNotification(_tileContent.GetXml()));
             }

@@ -4,7 +4,7 @@
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -17,70 +17,70 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets or sets the direct message id.
         /// </summary>
         /// <value>The direct message id.</value>
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("id")]
         public decimal Id { get; set; }
 
         /// <summary>
         /// Gets or sets the sender id.
         /// </summary>
         /// <value>The sender id.</value>
-        [JsonProperty(PropertyName = "sender_id")]
+        [JsonPropertyName("sender_id")]
         public decimal SenderId { get; set; }
 
         /// <summary>
         /// Gets or sets the direct message text.
         /// </summary>
         /// <value>The direct message text.</value>
-        [JsonProperty(PropertyName = "text")]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
         /// <summary>
         /// Gets or sets the recipient id.
         /// </summary>
         /// <value>The recipient id.</value>
-        [JsonProperty(PropertyName = "recipient_id")]
+        [JsonPropertyName("recipient_id")]
         public decimal RecipientId { get; set; }
 
         /// <summary>
         /// Gets or sets the created date.
         /// </summary>
         /// <value>The created date.</value>
-        [JsonProperty(PropertyName = "created_at")]
+        [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the sender screen.
         /// </summary>
         /// <value>The name of the sender screen.</value>
-        [JsonProperty(PropertyName = "sender_screen_name")]
+        [JsonPropertyName("sender_screen_name")]
         public string SenderScreenName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the recipient screen.
         /// </summary>
         /// <value>The name of the recipient screen.</value>
-        [JsonProperty(PropertyName = "recipient_screen_name")]
+        [JsonPropertyName("recipient_screen_name")]
         public string RecipientScreenName { get; set; }
 
         /// <summary>
         /// Gets or sets the sender.
         /// </summary>
         /// <value>The sender.</value>
-        [JsonProperty(PropertyName = "sender")]
+        [JsonPropertyName("sender")]
         public TwitterUser Sender { get; set; }
 
         /// <summary>
         /// Gets or sets the recipient.
         /// </summary>
         /// <value>The recipient.</value>
-        [JsonProperty(PropertyName = "recipient")]
+        [JsonPropertyName("recipient")]
         public TwitterUser Recipient { get; set; }
 
         /// <summary>
         /// Gets or sets the entities.
         /// </summary>
         /// <value>The entities.</value>
-        [JsonProperty(PropertyName = "entities")]
+        [JsonPropertyName("entities")]
         public TwitterEntities Entities { get; set; }
 
         /// <summary>

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Windows.System;
@@ -15,13 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
     /// </summary>
     public class RichTextFormatter : Formatter
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RichTextFormatter"/> class.
-        /// </summary>
-        /// <param name="model">The <see cref="TextToolbar"/></param>
-        public RichTextFormatter(TextToolbar model)
-            : base(model)
+        /// <inheritdoc/>
+        public override void SetModel(TextToolbar model)
         {
+            base.SetModel(model);
+
             CommonButtons = new CommonButtons(model);
             ButtonActions = new RichTextButtonActions(this);
         }
@@ -87,15 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             base.OnSelectionChanged();
         }
 
-        private CommonButtons CommonButtons { get; }
+        private CommonButtons CommonButtons { get; set; }
 
         /// <inheritdoc/>
         public override string Text
         {
             get
             {
-                string currentvalue = string.Empty;
-                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out var currentvalue);
                 return currentvalue;
             }
         }
@@ -122,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 StrikeButton = CommonButtons.Strikethrough;
                 Underline = new ToolbarButton
                 {
-                    ToolTip = Model.Labels.UnderlineLabel,
+                    ToolTip = "WCT_TextToolbar_UnderlineLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
                     Activation = ((RichTextButtonActions)ButtonActions).FormatUnderline

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
@@ -18,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public partial class TextBoxMask
     {
         private const string DefaultPlaceHolder = "_";
+        private const char EscapeChar = '\\';
         private static readonly KeyValuePair<char, string> AlphaCharacterRepresentation = new KeyValuePair<char, string>('a', "[A-Za-z]");
         private static readonly KeyValuePair<char, string> NumericCharacterRepresentation = new KeyValuePair<char, string>('9', "[0-9]");
         private static readonly KeyValuePair<char, string> AlphaNumericRepresentation = new KeyValuePair<char, string>('*', "[A-Za-z0-9]");
@@ -43,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var textbox = (TextBox)sender;
 
-            // incase no value is provided us it as normal textbox
+            // In case no value is provided, use it as normal textbox
             var mask = textbox.GetValue(MaskProperty) as string;
             if (string.IsNullOrWhiteSpace(mask))
             {
@@ -55,6 +57,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 throw new ArgumentException("PlaceHolder can't be null or empty");
             }
+
+            var escapedChars = new List<int>();
+
+            var builder = new StringBuilder(mask);
+            for (int i = 0; i < builder.Length - 1; i++)
+            {
+                if (builder[i] == EscapeChar)
+                {
+                    escapedChars.Add(i);
+                    builder.Remove(i, 1);
+                }
+            }
+
+            var escapedMask = builder.ToString();
+
+            textbox.SetValue(EscapedCharacterIndicesProperty, escapedChars);
+            textbox.SetValue(EscapedMaskProperty, escapedMask);
 
             var placeHolder = placeHolderValue[0];
 
@@ -92,11 +111,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             textbox.SetValue(RepresentationDictionaryProperty, representationDictionary);
 
-            var displayText = mask;
-            foreach (var key in representationDictionary.Keys)
+            var displayTextBuilder = new StringBuilder(escapedMask);
+            for (int i = 0; i < displayTextBuilder.Length; i++)
             {
-                displayText = displayText.Replace(key, placeHolder);
+                if (escapedChars.Contains(i))
+                {
+                    continue;
+                }
+
+                foreach (var key in representationDictionary.Keys)
+                {
+                    if (displayTextBuilder[i] == key)
+                    {
+                        displayTextBuilder[i] = placeHolder;
+                    }
+                }
             }
+
+            var displayText = displayTextBuilder.ToString();
 
             if (string.IsNullOrEmpty(textbox.Text))
             {
@@ -107,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var textboxInitialValue = textbox.Text;
                 textbox.Text = displayText;
                 int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolder, oldSelectionStart);
+                SetTextBoxValue(textboxInitialValue, textbox, escapedMask, escapedChars, representationDictionary, placeHolder, oldSelectionStart);
             }
 
             textbox.TextChanging += Textbox_TextChanging;
@@ -173,10 +205,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 return;
             }
 
+            var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
+            var escapedChars = textbox.GetValue(EscapedCharacterIndicesProperty) as List<int>;
+
             // to update the textbox text without triggering TextChanging text
             int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             textbox.TextChanging -= Textbox_TextChanging;
-            SetTextBoxValue(pasteText, textbox, mask, representationDictionary, placeHolderValue[0], oldSelectionStart);
+            SetTextBoxValue(pasteText, textbox, escapedMask, escapedChars, representationDictionary, placeHolderValue[0], oldSelectionStart);
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.TextChanging += Textbox_TextChanging;
         }
@@ -185,6 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             string newValue,
             TextBox textbox,
             string mask,
+            List<int> escapedChars,
             Dictionary<char, string> representationDictionary,
             char placeholder,
             int oldSelectionStart)
@@ -198,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var selectedChar = newValue[i - oldSelectionStart];
 
                 // If dynamic character a,9,* or custom
-                if (representationDictionary.ContainsKey(maskChar))
+                if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(i))
                 {
                     var pattern = representationDictionary[maskChar];
                     if (Regex.IsMatch(selectedChar.ToString(), pattern))
@@ -225,13 +261,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)
         {
-            var mask = textbox.GetValue(MaskProperty) as string;
+            var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
+            var escapedChars = textbox.GetValue(EscapedCharacterIndicesProperty) as List<int>;
+
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
             var oldText = textbox.GetValue(OldTextProperty) as string;
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             var oldSelectionLength = (int)textbox.GetValue(OldSelectionLengthProperty);
-            if (string.IsNullOrWhiteSpace(mask) ||
+            if (string.IsNullOrWhiteSpace(escapedMask) ||
                 representationDictionary == null ||
                 string.IsNullOrEmpty(placeHolderValue) ||
                 oldText == null)
@@ -262,7 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // case adding data at the end of the textbox
             if (oldSelectionStart >= oldText.Length && !isDeleteOrBackspace)
             {
-                textbox.Text = oldText;
+                textbox.Text = textbox.Text.Substring(0, oldText.Length);
                 if (oldText.Length >= 0)
                 {
                     textbox.SelectionStart = oldText.Length;
@@ -289,12 +327,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 if (string.IsNullOrEmpty(textbox.Text))
                 {
                     textbox.Text = displayText;
+                    return;
                 }
                 else
                 {
                     var textboxInitialValue = textbox.Text;
                     textbox.Text = displayText;
-                    SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolderValue[0], 0);
+                    SetTextBoxValue(textboxInitialValue, textbox, escapedMask, escapedChars, representationDictionary, placeHolderValue[0], 0);
                     textbox.SetValue(OldTextProperty, textbox.Text);
                     return;
                 }
@@ -302,15 +341,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (!isDeleteOrBackspace)
             {
-                // Case change happended due to user input
+                // In case the change happened due to user input
                 var selectedChar = textbox.SelectionStart > 0 ?
                                     textbox.Text[textbox.SelectionStart - 1] :
                                     placeHolder;
 
-                var maskChar = mask[newSelectionIndex];
+                var maskChar = escapedMask[newSelectionIndex];
 
                 // If dynamic character a,9,* or custom
-                if (representationDictionary.ContainsKey(maskChar))
+                if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(newSelectionIndex))
                 {
                     var pattern = representationDictionary[maskChar];
                     if (Regex.IsMatch(selectedChar.ToString(), pattern))
@@ -354,10 +393,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex);
                     i++)
                 {
-                    var maskChar = mask[i];
+                    var maskChar = escapedMask[i];
 
                     // If dynamic character a,9,* or custom
-                    if (representationDictionary.ContainsKey(maskChar))
+                    if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(i))
                     {
                         textArray[i] = placeHolder;
                     }
@@ -372,17 +411,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
-            textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(mask, newSelectionIndex, representationDictionary);
+            textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(escapedMask, escapedChars, newSelectionIndex, representationDictionary);
         }
 
-        private static int GetSelectionStart(string mask, int selectionIndex, Dictionary<char, string> representationDictionary)
+        private static int GetSelectionStart(string mask, List<int> escapedChars, int selectionIndex, Dictionary<char, string> representationDictionary)
         {
             for (int i = selectionIndex; i < mask.Length; i++)
             {
                 var maskChar = mask[i];
 
                 // If dynamic character a,9,* or custom
-                if (representationDictionary.ContainsKey(maskChar))
+                if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(i))
                 {
                     return i;
                 }

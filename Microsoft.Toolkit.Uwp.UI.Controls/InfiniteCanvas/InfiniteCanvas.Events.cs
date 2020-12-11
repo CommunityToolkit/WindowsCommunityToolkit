@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // work around to virtual drawing surface bug.
             await Task.Delay(1000);
-            _drawingSurfaceRenderer.ReDraw(ViewPort);
+            _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -138,6 +138,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!e.IsIntermediate)
             {
+                _drawingSurfaceRenderer.SetScale(_infiniteCanvasScrollViewer.ZoomFactor);
+
                 ReDrawCanvas();
             }
         }

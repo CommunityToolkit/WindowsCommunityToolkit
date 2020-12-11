@@ -4,11 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -37,10 +38,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return (await GetCategoriesAsync()).SelectMany(c => c.Samples).FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static async Task<Sample[]> FindSamplesByName(string name)
+        public static async Task<Sample[]> FindSample(string name)
         {
             var query = name.ToLower();
-            return (await GetCategoriesAsync()).SelectMany(c => c.Samples).Where(s => s.Name.ToLower().Contains(query)).ToArray();
+            return (await GetCategoriesAsync())
+                .SelectMany(c => c.Samples)
+                .Where(s => s.Name.ToLower().Contains(query) ||
+                            s.Subcategory?.ToLower()?.Contains(query) == true ||
+                            s.About.ToLower().Contains(query))
+                .ToArray();
         }
 
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
@@ -51,8 +57,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 List<SampleCategory> allCategories;
                 using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
                 {
-                    var jsonString = await jsonStream.ReadTextAsync();
-                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+                    allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream.AsStream(), new JsonSerializerOptions
+                    {
+                        ReadCommentHandling = JsonCommentHandling.Skip
+                    });
                 }
 
                 // Check API
@@ -68,7 +76,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         if (sample.IsSupported)
                         {
                             finalSamples.Add(sample);
-                            await sample.PreparePropertyDescriptorAsync();
                         }
                     }
 

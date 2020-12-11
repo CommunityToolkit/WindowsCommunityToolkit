@@ -9,32 +9,32 @@ using Windows.ApplicationModel.Background;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// This class provides static helper methods for background task.
+    /// This class provides static helper methods for background tasks.
     /// </summary>
     public static class BackgroundTaskHelper
     {
         /// <summary>
-        /// Check if a background task is registered.
+        /// Determines whether a background task is registered.
         /// </summary>
         /// <param name="backgroundTaskName">The name of the background task class</param>
-        /// <returns>True/False indicating if a background task was registered or not</returns>
+        /// <returns><c>true</c> if a background task was registered; otherwise, <c>false</c>.</returns>
         public static bool IsBackgroundTaskRegistered(string backgroundTaskName)
         {
             return BackgroundTaskRegistration.AllTasks.Any(t => t.Value.Name == backgroundTaskName);
         }
 
         /// <summary>
-        /// Check if a background task is registered.
+        /// Determines whether a background task is registered.
         /// </summary>
         /// <param name="backgroundTaskType">The type of the background task. This class has to implement IBackgroundTask</param>
-        /// <returns>True/False indicating if a background task was registered or not</returns>
+        /// <returns><c>true</c> if a background task was registered; otherwise, <c>false</c>.</returns>
         public static bool IsBackgroundTaskRegistered(Type backgroundTaskType)
         {
             return IsBackgroundTaskRegistered(backgroundTaskType.Name);
         }
 
         /// <summary>
-        /// Register a background task with conditions.
+        /// Registers a background task with conditions.
         /// If the task is already registered, return null.
         /// Or set <paramref name="forceRegister"/> to true to un-register the old one and then re-register.
         /// </summary>
@@ -63,8 +63,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             // build the background task
-            BackgroundTaskBuilder builder = new BackgroundTaskBuilder();
-            builder.Name = backgroundTaskName;
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
+            {
+                Name = backgroundTaskName
+            };
 
             // check if we are registering in SPM mode
             if (backgroundTaskEntryPoint != string.Empty)
@@ -86,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Register a background task with conditions.
+        /// Registers a background task with conditions.
         /// If the task is already registered and has the same trigger, returns the existing registration if it has the same trigger.
         /// If the task is already registered but has different trigger, return null by default.
         /// Or set <paramref name="forceRegister"/> to true to un-register the old one and then re-register.
@@ -103,8 +105,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This registers under the Single Process Model. WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later.
-        /// Register a background task with conditions.
+        /// Registers under the Single Process Model. WARNING: Single Process Model only works with Windows 10 Anniversary Update (14393) and later.
+        /// Registers a background task with conditions.
         /// If the task is already registered and has the same trigger, returns the existing registration if it has the same trigger.
         /// If the task is already registered but has different trigger, return null by default.
         /// Or set <paramref name="forceRegister"/> to true to un-register the old one and then re-register.
@@ -121,17 +123,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Unregister a background task
+        /// Unregisters a background task.
         /// </summary>
         /// <param name="backgroundTaskType">The type of the background task</param>
-        /// /// <param name="forceExit">Force the background task to quit if it is currently running (at the time of unregistering). Default value is true.</param>
+        /// <param name="forceExit">Force the background task to quit if it is currently running (at the time of unregistering). Default value is true.</param>
         public static void Unregister(Type backgroundTaskType, bool forceExit = true)
         {
             Unregister(backgroundTaskType.Name, forceExit);
         }
 
         /// <summary>
-        /// Unregister a background task
+        /// Unregisters a background task.
         /// </summary>
         /// <param name="backgroundTaskName">The name of the background task class</param>
         /// <param name="forceExit">Force the background task to quit if it is currently running (at the time of unregistering). Default value is true.</param>
@@ -141,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Unregister a background task
+        /// Unregisters a background task.
         /// </summary>
         /// <param name="backgroundTask">A background task that was previously registered with the system</param>
         /// <param name="forceExit">Force the background task to quit if it is currently running (at the time of unregistering). Default value is true.</param>
@@ -151,20 +153,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Get the registered background task of the given type.
+        /// Returns the registered background task of the given type.
         /// </summary>
         /// <param name="backgroundTaskType">Type of the background task class. This class has to implement IBackgroundTask</param>
-        /// <returns>Background task if there is such background task registered. Otherwise, null</returns>
+        /// <returns>The registered background task if it exists; otherwise, <c>null</c>.</returns>
         public static IBackgroundTaskRegistration GetBackgroundTask(Type backgroundTaskType)
         {
             return GetBackgroundTask(backgroundTaskType.Name);
         }
 
         /// <summary>
-        /// Get the registered background task of the given type.
+        /// Returns the registered background task of the given type.
         /// </summary>
         /// <param name="backgroundTaskName">Name of the background task class</param>
-        /// <returns>background task if there is such background task registered. Otherwise, null</returns>
+        /// <returns>The registered background task if it exists; otherwise, <c>null</c>.</returns>
         public static IBackgroundTaskRegistration GetBackgroundTask(string backgroundTaskName)
         {
             return BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == backgroundTaskName).Value;

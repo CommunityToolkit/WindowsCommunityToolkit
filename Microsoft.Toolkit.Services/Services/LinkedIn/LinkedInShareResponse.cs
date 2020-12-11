@@ -10,12 +10,12 @@ namespace Microsoft.Toolkit.Services.LinkedIn
     public class LinkedInShareResponse
     {
         /// <summary>
-        /// Gets or sets updatekey property.
+        /// Gets or sets UpdateKey property.
         /// </summary>
         public string UpdateKey { get; set; }
 
         /// <summary>
-        /// Gets or sets updateurl property.
+        /// Gets or sets UpdateUrl property.
         /// </summary>
         public string UpdateUrl { get; set; }
     }

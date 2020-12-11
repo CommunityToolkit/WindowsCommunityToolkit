@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -64,12 +65,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsInfinity(width))
             {
-                width = Window.Current.Bounds.Width;
+                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                {
+                    width = XamlRoot.Size.Width;
+                }
+                else
+                {
+                    width = Window.Current.Bounds.Width;
+                }
             }
 
             if (double.IsInfinity(height))
             {
-                height = Window.Current.Bounds.Height;
+                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                {
+                    height = XamlRoot.Size.Height;
+                }
+                else
+                {
+                    height = Window.Current.Bounds.Height;
+                }
             }
 
             var finalSize = new Size(width, height);
@@ -117,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var y_normalized = (finalSize.Height / 2) - y - (element.DesiredSize.Height / 2);
                 var point = new Point(x_normalized, y_normalized);
 
-                element.Arrange(new Rect(point, element.DesiredSize));
+                element.Arrange(point.ToRect(element.DesiredSize));
 
                 var elementProperties = new OrbitViewElementProperties()
                 {

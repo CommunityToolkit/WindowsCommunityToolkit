@@ -1,0 +1,190 @@
+private async void EmailTokenItemClick(object sender, ItemClickEventArgs e)
+{
+    MessageDialog md = new MessageDialog($"email address {(e.ClickedItem as SampleEmailDataType)?.EmailAddress} clicked", "Clicked Item");
+    await md.ShowAsync();
+}
+
+private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+{
+    if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+    {
+        _acv.RefreshFilter();
+    }
+}
+
+private void TokenItemCreating(object sender, TokenItemAddingEventArgs e)
+{
+    // Take the user's text and convert it to our data type (if we have a matching one).
+    e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+
+    // Otherwise, create a new version of our data type
+    if (e.Item == null)
+    {
+        e.Item = new SampleDataType()
+        {
+            Text = e.TokenText,
+            Icon = Symbol.OutlineStar
+        };
+    }
+}
+
+private void TokenItemAdded(TokenizingTextBox sender, object data)
+{
+    // TODO: Add InApp Notification?
+    if (data is SampleDataType sample)
+    {
+        Debug.WriteLine("Added Token: " + sample.Text);
+    }
+    else
+    {
+        Debug.WriteLine("Added Token: " + data);
+    }
+}
+
+private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovingEventArgs args)
+{
+    if (args.Item is SampleDataType sample)
+    {
+        Debug.WriteLine("Removed Token: " + sample.Text);
+    }
+    else
+    {
+        Debug.WriteLine("Removed Token: " + args.Item);
+    }
+}
+
+private void EmailTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+{
+    if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+    {
+        _acvEmail.RefreshFilter();
+    }
+}
+
+private void EmailTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+{
+    // Search our list for a matching person
+    foreach (var person in _emailSamples)
+    {
+        if (args.TokenText.Contains(person.EmailAddress) ||
+            args.TokenText.Contains(person.DisplayName, StringComparison.CurrentCultureIgnoreCase))
+        {
+            args.Item = person;
+            return;
+        }
+    }
+
+    // Otherwise don't create a token.
+    args.Cancel = true;
+}
+
+private void EmailTokenItemAdded(TokenizingTextBox sender, object args)
+{
+    if (args is SampleEmailDataType sample)
+    {
+        Debug.WriteLine("Added Email: " + sample.DisplayName);
+    }
+    else
+    {
+        Debug.WriteLine("Added Token: " + args);
+    }
+
+    _acvEmail.RefreshFilter();
+}
+
+private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
+{
+    if (args is SampleEmailDataType sample)
+    {
+        Debug.WriteLine("Removed Email: " + sample.DisplayName);
+    }
+    else
+    {
+        Debug.WriteLine("Removed Token: " + args);
+    }
+
+    _acvEmail.RefreshFilter();
+}
+
+private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
+{
+    if (e.ClickedItem != null && e.ClickedItem is SampleEmailDataType email)
+    {
+        _ttbEmail.Text = string.Empty; // Clear current text
+
+        _ttbEmail.AddTokenItem(email); // Insert new token with picked item to current text location
+
+        _acvEmail.RefreshFilter();
+
+        _ttbEmail.Focus(FocusState.Programmatic); // Give focus back to type another filter
+    }
+}
+
+private async void ClearButtonClick(object sender, RoutedEventArgs e)
+{
+    await _ttbEmail.Clear();
+    _acvEmail.RefreshFilter();
+
+    await _ttb.Clear();
+}
+
+private async void ShowEmailSelectedClick(object sender, RoutedEventArgs e)
+{
+    // Grab the list of items and identify which ones are free text, which ones are tokens
+    string message = string.Empty;
+
+    foreach (var item in _ttbEmail.Items)
+    {
+        if (!string.IsNullOrEmpty(message))
+        {
+            message += "\r\n";
+        }
+
+        message += item is ITokenStringContainer ? "Unrslvd: " : "Token  : ";
+        var textVal = item.ToString();
+
+        message += string.IsNullOrEmpty(textVal) ? "<empty>" : textVal;
+    }
+
+    MessageDialog md = new MessageDialog(message, "Item List with type");
+    await md.ShowAsync();
+}
+
+private async void ShowSelectedTextClick(object sender, RoutedEventArgs e)
+{
+    // Grab the list of items and identify which ones are free text, which ones are tokens
+    string message = _ttbEmail.SelectedTokenText;
+
+    if (_ttbEmail.SelectedItems.Count == 0)
+    {
+        message = "<Nothing Selected>";
+    }
+
+    MessageDialog md = new MessageDialog(message, "Selected Tokens as Text");
+    await md.ShowAsync();
+}
+
+// Move to Email Suggest ListView list when we keydown from the TTB
+private void EmailPreviewKeyDown(object sender, KeyRoutedEventArgs e)
+{
+    if (e.Key == Windows.System.VirtualKey.Down && _ttbEmailSuggestions != null)
+    {
+        e.Handled = true;
+
+        _ttbEmailSuggestions.SelectedIndex = 0;
+
+        _ttbEmailSuggestions.Focus(FocusState.Programmatic);
+    }
+}
+
+private void EmailList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+{
+    if (e.Key == Windows.System.VirtualKey.Up &&
+        _ttbEmailSuggestions != null && _ttbEmail != null &&
+        _ttbEmailSuggestions.SelectedIndex == 0)
+    {
+        e.Handled = true;
+
+        _ttbEmail.Focus(FocusState.Programmatic); // Give focus back to type another filter
+    }
+}

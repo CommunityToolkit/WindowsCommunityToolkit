@@ -12,6 +12,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class HeaderedContentControl : ContentControl
     {
+        private const string PartHeaderPresenter = "HeaderPresenter";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderedContentControl"/> class.
         /// </summary>
@@ -78,6 +80,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(HeaderTemplateProperty, value); }
         }
 
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            SetHeaderVisibility();
+            SetOrientation();
+        }
+
         /// <summary>
         /// Called when the <see cref="Header"/> property changes.
         /// </summary>
@@ -90,18 +101,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (HeaderedContentControl)d;
-
-            var orientation = control.Orientation == Orientation.Vertical
-                ? nameof(Orientation.Vertical)
-                : nameof(Orientation.Horizontal);
-
-            VisualStateManager.GoToState(control, orientation, true);
+            control.SetOrientation();
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (HeaderedContentControl)d;
+            control.SetHeaderVisibility();
             control.OnHeaderChanged(e.OldValue, e.NewValue);
+        }
+
+        private void SetHeaderVisibility()
+        {
+            if (GetTemplateChild(PartHeaderPresenter) is FrameworkElement headerPresenter)
+            {
+                if (Header is string headerText)
+                {
+                    headerPresenter.Visibility = string.IsNullOrEmpty(headerText)
+                        ? Visibility.Collapsed
+                        : Visibility.Visible;
+                }
+                else
+                {
+                    headerPresenter.Visibility = Header != null
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void SetOrientation()
+        {
+            var orientation = this.Orientation == Orientation.Vertical
+                ? nameof(Orientation.Vertical)
+                : nameof(Orientation.Horizontal);
+
+            VisualStateManager.GoToState(this, orientation, true);
         }
     }
 }

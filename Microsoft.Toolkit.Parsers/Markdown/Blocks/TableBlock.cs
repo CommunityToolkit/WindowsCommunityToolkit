@@ -54,8 +54,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             actualEnd = start;
 
             // First thing to do is to check if there is a vertical bar on the line.
-            int barOrNewLineIndex = markdown.IndexOf('|', start, endOfFirstLine - start);
-            if (barOrNewLineIndex < 0)
+            var barSections = markdown.Substring(start, endOfFirstLine - start).Split('|');
+
+            var allBarsEscaped = true;
+
+            // we can skip the last section, because there is no bar at the end of it
+            for (var i = 0; i < barSections.Length - 1; i++)
+            {
+                var barSection = barSections[i];
+                if (!barSection.EndsWith("\\"))
+                {
+                    allBarsEscaped = false;
+                    break;
+                }
+            }
+
+            if (allBarsEscaped)
             {
                 return null;
             }
@@ -208,7 +222,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     while (pos < maxEndingPos)
                     {
                         char c = markdown[pos];
-                        if (c == '|')
+                        if (c == '|' && (pos == 0 || markdown[pos - 1] != '\\'))
                         {
                             lineHasVerticalBar = true;
                             endOfLineFound = false;
@@ -282,7 +296,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the block should find the start of the block, find the end and parse out the middle. The end most of the time will not be
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
-            /// <returns>the postiion parsed to</returns>
+            /// <returns>the position parsed to</returns>
             internal int Parse(string markdown, int startingPos, int maxEndingPos, int quoteDepth)
             {
                 Cells = new List<TableCell>();

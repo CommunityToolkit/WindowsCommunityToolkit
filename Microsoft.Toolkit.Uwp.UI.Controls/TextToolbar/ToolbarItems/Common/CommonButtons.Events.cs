@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -53,13 +54,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             var labelBox = new RichEditBox
             {
-                PlaceholderText = Model.Labels.LabelLabel,
+                PlaceholderText = "WCT_TextToolbar_LabelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Margin = new Thickness(0, 0, 0, 5),
                 AcceptsReturn = false
             };
             var linkBox = new TextBox
             {
-                PlaceholderText = Model.Labels.UrlLabel
+                PlaceholderText = "WCT_TextToolbar_UrlLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
 
             CheckBox relativeBox = null;
@@ -77,33 +78,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             {
                 relativeBox = new CheckBox
                 {
-                    Content = Model.Labels.RelativeLabel
+                    Content = "WCT_TextToolbar_RelativeLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
                 };
                 contentPanel.Children.Add(relativeBox);
             }
 
             labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
-            selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string Labeltext);
-            labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, Labeltext);
+            selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string labeltext);
+            labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, labeltext);
 
-            var result = await new ContentDialog
+            var contentDialog = new ContentDialog
             {
-                Title = Model.Labels.CreateLinkLabel,
+                Title = "WCT_TextToolbar_CreateLinkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Content = contentPanel,
-                PrimaryButtonText = Model.Labels.OkLabel,
-                SecondaryButtonText = Model.Labels.CancelLabel
-            }.ShowAsync();
+                PrimaryButtonText = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                SecondaryButtonText = "WCT_TextToolbar_CancelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+            };
+
+            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            {
+                contentDialog.XamlRoot = button.XamlRoot;
+            }
+
+            var result = await contentDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
+                string linkInvalidLabel = "WCT_TextToolbar_LinkInvalidLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string okLabel = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string warningLabel = "WCT_TextToolbar_WarningLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
                 string linkText = linkBox.Text.Trim();
 
                 if (string.IsNullOrWhiteSpace(linkText))
                 {
-                    ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
+                    ShowContentDialog(warningLabel, linkInvalidLabel, okLabel, button);
                     return;
                 }
 
@@ -112,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                     var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
                     if (!wellFormed)
                     {
-                        ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
+                        ShowContentDialog(warningLabel, linkInvalidLabel, okLabel, button);
                         return;
                     }
                 }
@@ -121,20 +132,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-        /// <summary>
-        /// Opens a <see cref="ContentDialog"/> to notify the user about empty and whitespace inputs.
-        /// </summary>
-        /// <param name="title">The <see cref="string"/> </param>
-        /// <param name="content">The <see cref="string"/> of the ContentDialog</param>
-        /// <param name="primaryButtonText">The <see cref="string"/> content of the primary button</param>
-        private async void ShowContentDialog(string title, string content, string primaryButtonText)
+        private async void ShowContentDialog(string title, string content, string primaryButtonText, ToolbarButton button)
         {
-            await new ContentDialog
+            var contentDialog = new ContentDialog
             {
                 Title = title,
                 Content = content,
                 PrimaryButtonText = primaryButtonText
-            }.ShowAsync();
+            };
+
+            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            {
+                contentDialog.XamlRoot = button.XamlRoot;
+            }
+
+            await contentDialog.ShowAsync();
         }
     }
 }

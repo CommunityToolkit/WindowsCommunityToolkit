@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
             public static ArgumentOutOfRangeException ValueMustBeBetween(string paramName, string valueName, object lowValue, bool lowInclusive, object highValue, bool highInclusive)
             {
-                string message = null;
+                string message;
 
                 if (lowInclusive && highInclusive)
                 {
@@ -205,6 +205,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             public static ArgumentException UnknownItemsSourcePath(Binding binding)
             {
                 return new ArgumentException(Format("The ItemsSource elements do not contain a property {0}. Ensure that the binding path has been set correctly.", binding.Path.Path));
+            }
+
+            public static ArgumentException BindingTypeMismatch(Type bindingType, Type itemSourceType)
+            {
+                return new ArgumentException(Format("The DataGridComboBoxColumn ItemSource elements of type \'{0}\' do not match the Binding type \'{1}\'. Ensure that the paths have been set correctly and specify a DisplayMemberPath for non built-in types.", itemSourceType.FullName, bindingType.FullName));
             }
         }
 

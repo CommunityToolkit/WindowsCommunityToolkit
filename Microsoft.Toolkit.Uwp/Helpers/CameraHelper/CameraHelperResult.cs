@@ -5,37 +5,37 @@
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Enum indicating result of Camera Helper initialization.
+    /// Enum indicating result of <see cref="CameraHelper"/> initialization.
     /// </summary>
     public enum CameraHelperResult
     {
         /// <summary>
-        /// Initialization is Successful
+        /// Initialization was successful.
         /// </summary>
         Success,
 
         /// <summary>
-        /// Initialization failed, Frame Reader Creation failed
+        /// Initialization failed; Frame Reader Creation failed.
         /// </summary>
         CreateFrameReaderFailed,
 
         /// <summary>
-        /// Initialization failed, Unable to start Frame Reader
+        /// Initialization failed; Unable to start Frame Reader.
         /// </summary>
         StartFrameReaderFailed,
 
         /// <summary>
-        /// Initialization failed, Frame Source Group is null
+        /// Initialization failed; Frame Source Group is null.
         /// </summary>
         NoFrameSourceGroupAvailable,
 
         /// <summary>
-        /// Initialization failed, Frame Source is null
+        /// Initialization failed; Frame Source is null.
         /// </summary>
         NoFrameSourceAvailable,
 
         /// <summary>
-        /// Access to camera is denied.
+        /// Access to the camera is denied.
         /// </summary>
         CameraAccessDenied,
 
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         InitializationFailed_UnknownError,
 
         /// <summary>
-        /// Initialization failed, there is no compatible frame format exposed via the frame source
+        /// Initialization failed; No compatible frame format exposed by the frame source.
         /// </summary>
         NoCompatibleFrameFormatAvailable
     }

@@ -96,6 +96,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Fired when the SelectedIndex changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        /// <remarks>
+        /// Sets up animations for the DetailsPresenter for animating in/out.
+        /// </remarks>
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+
+            var newValue = (int)e.NewValue < 0 ? null : view.Items[(int)e.NewValue];
+            var oldValue = e.OldValue == null ? null : view.Items.ElementAtOrDefault((int)e.OldValue);
+
+            // check if selection actually changed
+            if (view.SelectedItem != newValue)
+            {
+                // sync SelectedItem
+                view.SetValue(SelectedItemProperty, newValue);
+                view.UpdateSelection(oldValue, newValue);
+            }
+        }
+
+        /// <summary>
         /// Fired when the SelectedItem changes.
         /// </summary>
         /// <param name="d">The sender</param>
@@ -106,15 +130,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
+            var index = e.NewValue == null ? -1 : view.Items.IndexOf(e.NewValue);
 
-            view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
-
-            view.UpdateView(true);
-
-            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
-            if (view.SelectedItem != null)
+            // check if selection actually changed
+            if (view.SelectedIndex != index)
             {
-                view.SetDetailsContent();
+                // sync SelectedIndex
+                view.SetValue(SelectedIndexProperty, index);
+                view.UpdateSelection(e.OldValue, e.NewValue);
             }
         }
 
@@ -228,6 +251,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SelectedItem = null;
         }
 
+        /// <summary>
+        /// Raises SelectionChanged event and updates view.
+        /// </summary>
+        /// <param name="oldSelection">Old selection.</param>
+        /// <param name="newSelection">New selection.</param>
+        private void UpdateSelection(object oldSelection, object newSelection)
+        {
+            OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { oldSelection }, new List<object> { newSelection }));
+
+            UpdateView(true);
+
+            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
+            if (SelectedItem != null)
+            {
+                SetDetailsContent();
+            }
+        }
+
         private void HandleStateChanges()
         {
             UpdateView(true);
@@ -310,7 +351,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // Setting this indicates that the system back button is being used
                         _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
                     }
-                    else if ((_navigationView == null) || (_frame == null))
+                    else if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
                     {
                         // We can only use the new NavigationView if we also have a Frame
                         // If there is no frame we have to use the inline button
@@ -339,7 +380,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_previousSystemBackButtonVisibility.HasValue == false)
                     {
-                        if ((_navigationView == null) || (_frame == null))
+                        if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
                         {
                             _inlineBackButton.Visibility = Visibility.Collapsed;
                         }
@@ -397,12 +438,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 hasSelectionState = HasSelectionWideState;
             }
 
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
             VisualStateManager.GoToState(this, state, animate);
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
         }
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)
         {
+            if (_navigationView == null)
+            {
+                return;
+            }
+
             var navType = _navigationView.GetType();
             var visibleProperty = navType.GetProperty("IsBackButtonVisible");
             if (visibleProperty != null)

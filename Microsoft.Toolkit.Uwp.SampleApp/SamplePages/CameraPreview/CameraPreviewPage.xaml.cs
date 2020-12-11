@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            // Using a semaphore lock for synchronocity.
+            // Using a semaphore lock for synchronization.
             // This method gets called multiple times when accessing the page from Latest Pages
             // and creates unused duplicate references to Camera and memory leaks.
             await semaphoreSlim.WaitAsync();
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
-            if (Frame.CurrentSourcePageType == typeof(CameraPreviewPage))
+            if (Frame?.CurrentSourcePageType == typeof(CameraPreviewPage))
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
                 await CleanUpAsync();

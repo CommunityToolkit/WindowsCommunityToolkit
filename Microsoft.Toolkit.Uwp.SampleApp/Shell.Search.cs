@@ -2,8 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,7 +16,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         internal void StartSearch(string startingText = null)
         {
-            if (FocusManager.GetFocusedElement() == SearchBox.FindDescendant<TextBox>())
+            object focusedElement;
+
+            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && XamlRoot != null)
+            {
+                focusedElement = FocusManager.GetFocusedElement(XamlRoot);
+            }
+            else
+            {
+                focusedElement = FocusManager.GetFocusedElement();
+            }
+
+            if (focusedElement == SearchBox.FindDescendant<TextBox>())
             {
                 return;
             }
@@ -36,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async void UpdateSearchSuggestions(bool focus = false)
+        private async void UpdateSearchSuggestions()
         {
             if (string.IsNullOrWhiteSpace(SearchBox.Text))
             {
@@ -44,14 +56,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            var samples = (await Samples.FindSamplesByName(SearchBox.Text)).OrderBy(s => s.Name).ToArray();
+            var samples = (await Samples.FindSample(SearchBox.Text)).OrderBy(s => s.Name).ToArray();
             if (samples.Count() > 0)
             {
                 ShowSamplePicker(samples);
-                if (focus)
-                {
-                    SamplePickerGridView.Focus(FocusState.Keyboard);
-                }
             }
             else
             {
@@ -66,9 +74,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Down)
+            if (e.Key == Windows.System.VirtualKey.Down && SamplePickerGrid.Visibility == Windows.UI.Xaml.Visibility.Visible)
             {
-                UpdateSearchSuggestions(true);
+                // If we try and navigate down out of the textbox (and there's search results), go to the search results.
+                dispatcherQueue.EnqueueAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
             }
         }
 

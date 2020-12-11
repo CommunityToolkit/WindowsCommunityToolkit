@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
-    public static class ListViewExtensions
+    public static partial class ListViewExtensions
     {
         private static Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase>();
 
@@ -118,7 +118,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as Control;
-
             SetItemContainerBackground(sender, itemContainer, args.ItemIndex);
         }
 

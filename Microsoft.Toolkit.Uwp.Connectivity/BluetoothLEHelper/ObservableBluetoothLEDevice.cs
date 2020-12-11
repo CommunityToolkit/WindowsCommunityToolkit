@@ -11,11 +11,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
-using Windows.UI.Core;
+using Windows.System;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         public class RSSIComparer : IComparer
         {
             /// <summary>
-            /// Compares two ObservableBluettothLEDevices and returns a value indicating
+            /// Compares two <see cref="ObservableBluetoothLEDevice"/> and returns a value indicating
             /// whether one is less than, equal to, or greater than the other.
             /// </summary>
             /// <param name="x">First object to compare</param>
@@ -135,15 +135,23 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             new ObservableCollection<ObservableGattDeviceService>();
 
         /// <summary>
+        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
+        /// </summary>
+        public DispatcherQueue DispatcherQueue { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableBluetoothLEDevice"/> class.
         /// </summary>
         /// <param name="deviceInfo">The device information.</param>
-        public ObservableBluetoothLEDevice(DeviceInformation deviceInfo)
+        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates for this BluetoothLE Device, or null if this is being called from the UI thread.</param>
+        public ObservableBluetoothLEDevice(DeviceInformation deviceInfo, DispatcherQueue dispatcherQueue = null)
         {
             DeviceInfo = deviceInfo;
             Name = DeviceInfo.Name;
 
             IsPaired = DeviceInfo.Pairing.IsPaired;
+
+            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             LoadGlyph();
 
@@ -357,7 +365,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Gets the bluetooth address of this device as a string
         /// </summary>
         /// <value>The bluetooth address as string.</value>
-        public string BluetoothAddressAsString => DeviceInfo.Properties["System.Devices.Aep.DeviceAddress"].ToString();
+        public string BluetoothAddressAsString => DeviceInfo.Properties["System.Devices.Aep.DeviceAddress"]?.ToString();
 
         /// <summary>
         /// Gets the bluetooth address of this device
@@ -392,10 +400,11 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// ConnectAsync to this bluetooth device
         /// </summary>
         /// <returns>Connection task</returns>
-        /// <exception cref="Exception">Thorws Exception when no permission to access device</exception>
+        /// <exception cref="Exception">Throws Exception when no permission to access device</exception>
         public async Task ConnectAsync()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherQueue.EnqueueAsync(
+                async () =>
             {
                 if (BluetoothLEDevice == null)
                 {
@@ -428,9 +437,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                     // In case we connected before, clear the service list and recreate it
                     Services.Clear();
 
-                    foreach (var serv in _result.Services)
+                    foreach (var service in _result.Services)
                     {
-                        Services.Add(new ObservableGattDeviceService(serv));
+                        Services.Add(new ObservableGattDeviceService(service));
                     }
 
                     ServiceCount = Services.Count;
@@ -442,7 +451,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                         throw new Exception(_result.ProtocolError.GetErrorString());
                     }
                 }
-            });
+            }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -468,8 +477,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <returns>The task of the update.</returns>
         public async Task UpdateAsync(DeviceInformationUpdate deviceUpdate)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     DeviceInfo.Update(deviceUpdate);
@@ -479,7 +487,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                     LoadGlyph();
                     OnPropertyChanged("DeviceInfo");
-                });
+                }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -512,9 +520,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The arguments.</param>
         private async void BluetoothLEDevice_NameChanged(BluetoothLEDevice sender, object args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
-                () => { Name = BluetoothLEDevice.Name; });
+            await DispatcherQueue.EnqueueAsync(() => { Name = BluetoothLEDevice.Name; }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -524,13 +530,12 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The arguments.</param>
         private async void BluetoothLEDevice_ConnectionStatusChanged(BluetoothLEDevice sender, object args)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     IsPaired = DeviceInfo.Pairing.IsPaired;
                     IsConnected = BluetoothLEDevice.ConnectionStatus == BluetoothConnectionStatus.Connected;
-                });
+                }, DispatcherQueuePriority.Normal);
         }
 
         /// <summary>
@@ -538,15 +543,14 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// </summary>
         private async void LoadGlyph()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
+            await DispatcherQueue.EnqueueAsync(
                 async () =>
                 {
                     var deviceThumbnail = await DeviceInfo.GetGlyphThumbnailAsync();
                     var glyphBitmapImage = new BitmapImage();
                     await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
                     Glyph = glyphBitmapImage;
-                });
+                }, DispatcherQueuePriority.Normal);
         }
     }
 }

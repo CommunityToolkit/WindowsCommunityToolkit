@@ -4,6 +4,7 @@
 
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -40,21 +41,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void DismissTimer_Tick(object sender, object e)
         {
             Dismiss(InAppNotificationDismissKind.Timeout);
-            _dismissTimer.Stop();
         }
 
-        private void OpenAnimationTimer_Tick(object sender, object e)
+        private void OnCurrentStateChanging(object sender, VisualStateChangedEventArgs e)
         {
-            _animationTimer.Stop();
+            if (e.NewState.Name == StateContentVisible)
+            {
+                Visibility = Visibility.Visible;
+            }
+        }
+
+        private void OnCurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            switch (e.NewState.Name)
+            {
+                case StateContentVisible:
+                    OnNotificationVisible();
+                    break;
+                case StateContentCollapsed:
+                    OnNotificationCollapsed();
+                    break;
+            }
+        }
+
+        private void OnNotificationVisible()
+        {
             Opened?.Invoke(this, EventArgs.Empty);
-            _animationTimer.Tick -= OpenAnimationTimer_Tick;
         }
 
-        private void DismissAnimationTimer_Tick(object sender, object e)
+        private void OnNotificationCollapsed()
         {
-            _animationTimer.Stop();
             Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
-            _animationTimer.Tick -= DismissAnimationTimer_Tick;
+            Visibility = Visibility.Collapsed;
+        }
+
+        private void RaiseAutomationNotification()
+        {
+            if (!AutomationPeer.ListenerExists(AutomationEvents.LiveRegionChanged))
+            {
+                return;
+            }
+
+            var peer = FrameworkElementAutomationPeer.CreatePeerForElement(this);
+            peer.RaiseAutomationEvent(AutomationEvents.LiveRegionChanged);
         }
     }
 }

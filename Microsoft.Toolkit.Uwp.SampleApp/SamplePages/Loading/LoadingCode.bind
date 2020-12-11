@@ -3,6 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media"
       mc:Ignorable="d">
 
   <Page.Resources>
@@ -50,20 +51,22 @@
         </RichTextBlock>
 
         <controls:AdaptiveGridView
-        Margin="0,12,0,0"
-        x:Name="AdaptiveGridViewControl"
-        ItemHeight="200"
-        DesiredWidth="300"
-        SelectionMode="None"
-        IsItemClickEnabled="False"
-        ItemTemplate="{StaticResource PhotosTemplate}" />
+          Margin="0,12,0,0"
+          x:Name="AdaptiveGridViewControl"
+          ItemHeight="200"
+          DesiredWidth="300"
+          SelectionMode="None"
+          IsItemClickEnabled="False"
+          ItemTemplate="{StaticResource PhotosTemplate}" />
       </StackPanel>
     </ScrollViewer>
 
-    <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Center:Left.Right.Center.Stretch]"
-                      VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]">
+    <controls:Loading x:Name="LoadingControl">
       <controls:Loading.Background>
-        <SolidColorBrush Color="@[Background:Brush:Black]" Opacity="@[Background Opacity:DoubleSlider:0.7:0-1]" />
+        <brushes:AcrylicBrush BackgroundSource="Backdrop"
+                              TintColor="Black"
+                              TintOpacity="@[Opacity:DoubleSlider:0.4:0.0-1.0]"
+                              BlurAmount="@[BlurAmount:DoubleSlider:8:0.0-24.0]"/>
       </controls:Loading.Background>
       <ContentControl x:Name="LoadingContentControl" />
     </controls:Loading>

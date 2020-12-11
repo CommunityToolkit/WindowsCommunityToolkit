@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
 using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
+using Microsoft.Toolkit.Uwp.Utilities;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -850,7 +851,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (dataGridRow.OwningGrid == this.OwningGrid)
             {
-                Debug.Assert(this.Index >= 0, "Expected positif Index.");
+                Debug.Assert(this.Index >= 0, "Expected positive Index.");
                 Debug.Assert(this.Index < this.OwningGrid.ColumnsItemsInternal.Count, "Expected smaller Index.");
 
                 DataGridCell dataGridCell = dataGridRow.Cells[this.Index];
@@ -880,7 +881,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw DataGridError.DataGrid.NoOwningGrid(this.GetType());
             }
 
-            Debug.Assert(this.Index >= 0, "Expected positif Index.");
+            Debug.Assert(this.Index >= 0, "Expected positive Index.");
             Debug.Assert(this.Index < this.OwningGrid.ColumnsItemsInternal.Count, "Expected smaller Index.");
 
             DataGridRow dataGridRow = this.OwningGrid.GetRowFromItem(dataItem);
@@ -1050,7 +1051,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// If the DataGrid is using using layout rounding, the pixel snapping will force all widths to
+        /// If the DataGrid is using layout rounding, the pixel snapping will force all widths to
         /// whole numbers. Since the column widths aren't visual elements, they don't go through the normal
         /// rounding process, so we need to do it ourselves.  If we don't, then we'll end up with some
         /// pixel gaps and/or overlaps between columns.
@@ -1059,7 +1060,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (this.OwningGrid != null && this.OwningGrid.UseLayoutRounding)
             {
-                double scale = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                double scale;
+                if (TypeHelper.IsXamlRootAvailable && OwningGrid.XamlRoot != null)
+                {
+                    scale = OwningGrid.XamlRoot.RasterizationScale;
+                }
+                else
+                {
+                    scale = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                }
+
                 double roundedLeftEdge = Math.Floor((scale * leftEdge) + 0.5) / scale;
                 double roundedRightEdge = Math.Floor((scale * (leftEdge + this.ActualWidth)) + 0.5) / scale;
                 this.LayoutRoundedWidth = roundedRightEdge - roundedLeftEdge;
@@ -1178,7 +1188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the value of a cell according to the the specified binding.
+        /// Gets the value of a cell according to the specified binding.
         /// </summary>
         /// <param name="item">The item associated with a cell.</param>
         /// <param name="binding">The binding to get the value of.</param>

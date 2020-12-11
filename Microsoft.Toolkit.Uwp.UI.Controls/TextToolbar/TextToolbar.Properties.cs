@@ -4,6 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,16 +23,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Editor), typeof(RichEditBox), typeof(TextToolbar), new PropertyMetadata(null, OnEditorChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Format"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.RichText, OnFormatTypeChanged));
-
-        /// <summary>
         /// Identifies the <see cref="Formatter"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FormatterProperty =
-            DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(null, OnFormatterChanged));
+            DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(new RichTextFormatter(), OnFormatterChanged));
 
         /// <summary>
         /// Identifies the <see cref="DefaultButton"/> dependency property.
@@ -52,12 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnDefaultButtonModificationsChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Labels"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty LabelsProperty =
-            DependencyProperty.Register(nameof(Labels), typeof(TextToolbarStrings), typeof(TextToolbar), new PropertyMetadata(new TextToolbarStrings()));
-
-        /// <summary>
         /// Identifies the <see cref="UseURIChecker"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty UseURICheckerProperty =
@@ -70,15 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (RichEditBox)GetValue(EditorProperty); }
             set { SetValue(EditorProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets which formatter to use, and which buttons to provide.
-        /// </summary>
-        public Format Format
-        {
-            get { return (Format)GetValue(FormatProperty); }
-            set { SetValue(FormatProperty, value); }
         }
 
         /// <summary>
@@ -115,15 +95,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DefaultButtonModificationList)GetValue(DefaultButtonModificationsProperty); }
             set { SetValue(DefaultButtonModificationsProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the default string Labels
-        /// </summary>
-        public TextToolbarStrings Labels
-        {
-            get { return (TextToolbarStrings)GetValue(LabelsProperty); }
-            set { SetValue(LabelsProperty, value); }
         }
 
         /// <summary>

@@ -2,8 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -24,55 +23,47 @@ namespace Microsoft.Toolkit.Services.Twitter
                 return null;
             }
 
-            var obj = (JObject)JsonConvert.DeserializeObject(data);
+            var obj = JsonDocument.Parse(data);
 
-            var friends = obj.SelectToken("friends", false);
-            if (friends != null && friends.HasValues)
+            if (obj.RootElement.TryGetProperty("friends", out var friends) && friends.GetArrayLength() > 0)
             {
                 return null;
             }
 
-            var delete = obj.SelectToken("delete", false);
-            if (delete != null)
+            if (obj.RootElement.TryGetProperty("delete", out var delete))
             {
-                var deletedStatus = delete.SelectToken("status", false);
-                if (deletedStatus != null && deletedStatus.HasValues)
+                if (delete.TryGetProperty("status", out var deletedStatus) && deletedStatus.GetArrayLength() > 0)
                 {
-                    return JsonConvert.DeserializeObject<TwitterStreamDeletedEvent>(deletedStatus.ToString());
+                    return JsonSerializer.Deserialize<TwitterStreamDeletedEvent>(deletedStatus.ToString());
                 }
 
-                var deletedDirectMessage = delete.SelectToken("direct_message", false);
-                if (deletedDirectMessage != null && deletedDirectMessage.HasValues)
+                if (delete.TryGetProperty("direct_message", out var deletedDirectMessage) && deletedDirectMessage.GetArrayLength() > 0)
                 {
-                    return JsonConvert.DeserializeObject<TwitterStreamDeletedEvent>(deletedDirectMessage.ToString());
+                    return JsonSerializer.Deserialize<TwitterStreamDeletedEvent>(deletedDirectMessage.ToString());
                 }
             }
 
-            var events = obj.SelectToken("event", false);
-            if (events != null)
+            if (obj.RootElement.TryGetProperty("event", out var events))
             {
-                var targetobject = obj.SelectToken("target_object", false);
-                Tweet endtargetobject = null;
-                if (targetobject?.SelectToken("user", false) != null)
+                Tweet endTargetObject = null;
+                if (obj.RootElement.TryGetProperty("target_object", out var targetObject) && targetObject.TryGetProperty("user", out _))
                 {
-                    endtargetobject = JsonConvert.DeserializeObject<Tweet>(targetobject.ToString());
+                    endTargetObject = JsonSerializer.Deserialize<Tweet>(targetObject.ToString());
                 }
 
-                var endevent = JsonConvert.DeserializeObject<TwitterStreamEvent>(obj.ToString());
-                endevent.TargetObject = endtargetobject;
-                return endevent;
+                var endEvent = JsonSerializer.Deserialize<TwitterStreamEvent>(obj.ToString());
+                endEvent.TargetObject = endTargetObject;
+                return endEvent;
             }
 
-            var user = obj.SelectToken("user", false);
-            if (user != null && user.HasValues)
+            if (obj.RootElement.TryGetProperty("user", out var user) && user.GetArrayLength() > 0)
             {
-                return JsonConvert.DeserializeObject<Tweet>(obj.ToString());
+                return JsonSerializer.Deserialize<Tweet>(obj.ToString());
             }
 
-            var directMessage = obj.SelectToken("direct_message", false);
-            if (directMessage != null && directMessage.HasValues)
+            if (obj.RootElement.TryGetProperty("direct_message", out var directMessage) && directMessage.GetArrayLength() > 0)
             {
-                return JsonConvert.DeserializeObject<TwitterDirectMessage>(directMessage.ToString());
+                return JsonSerializer.Deserialize<TwitterDirectMessage>(directMessage.ToString());
             }
 
             return null;

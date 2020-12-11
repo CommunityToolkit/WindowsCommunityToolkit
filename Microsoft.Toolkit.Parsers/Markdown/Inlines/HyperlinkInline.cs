@@ -136,6 +136,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // The URL must have at least one character after the http:// and at least one dot.
             int pos = tripPos + 3;
+            if (pos > maxEnd)
+            {
+                return null;
+            }
+
             int dotIndex = markdown.IndexOf('.', pos, maxEnd - pos);
             if (dotIndex == -1 || dotIndex == pos)
             {
@@ -320,7 +325,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             // reddit (for example: '$' and '!').
 
             // Special characters as per https://en.wikipedia.org/wiki/Email_address#Local-part allowed
-            char[] allowedchars = new char[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
+            char[] allowedChars = { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
 
             int start = tripPos;
             while (start > minStart)
@@ -329,7 +334,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 if ((c < 'a' || c > 'z') &&
                     (c < 'A' || c > 'Z') &&
                     (c < '0' || c > '9') &&
-                    !allowedchars.Contains(c))
+                    !allowedChars.Contains(c))
                 {
                     break;
                 }

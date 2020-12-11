@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
@@ -38,7 +37,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location of the first hash character. </param>
         /// <param name="end"> The location of the end of the line. </param>
-        /// <param name="realEndIndex"> The location of the actual end of the aprse. </param>
+        /// <param name="realEndIndex"> The location of the actual end of the parse. </param>
         /// <returns>Parsed <see cref="YamlHeaderBlock"/> class</returns>
         internal static YamlHeaderBlock Parse(string markdown, int start, int end, out int realEndIndex)
         {
@@ -79,7 +78,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 else if (end - pos >= 3 && markdown.Substring(pos, 3) == "---")
                 {
                     lockedFinalUnderline = true;
-                    realEndIndex = pos + 3;
                     break;
                 }
                 else if (startOfNextLine == pos + 1)
@@ -108,8 +106,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             var result = new YamlHeaderBlock();
-            var keys = new List<string>();
-            var values = new List<string>();
             result.Children = new Dictionary<string, string>();
             foreach (var item in elements)
             {
@@ -137,6 +133,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 return null;
             }
 
+            realEndIndex = pos + 3;
             return result;
         }
 

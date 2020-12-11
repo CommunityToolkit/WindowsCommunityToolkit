@@ -3,14 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -43,11 +40,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _previewer = previewer;
                 _previewer.LinkClicked += Previewer_LinkClicked;
             }
-
-            if (ToolbarFormat != null && (Format)ToolbarFormat.Value == Format.Custom)
-            {
-                UseCustomFormatter();
-            }
         }
 
         private void Load()
@@ -64,6 +56,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SampleController.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
             {
                 AddCustomButton();
+            });
+
+            SampleController.Current.RegisterNewCommand("Use RichText Formatter", (sender, args) =>
+            {
+                UseRichTextFormatter();
+            });
+
+            SampleController.Current.RegisterNewCommand("Use MarkDown Formatter", (sender, args) =>
+            {
+                UseMarkDownFormatter();
             });
 
             SampleController.Current.RegisterNewCommand("Use Custom Formatter", (sender, args) =>
@@ -97,16 +99,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void UseCustomFormatter()
+        private void UseRichTextFormatter()
         {
-            if (_toolbar == null || ToolbarFormat == null)
+            if (_toolbar == null)
             {
                 return;
             }
 
-            var formatter = new SampleFormatter(_toolbar);
-            ToolbarFormat.Value = Format.Custom;
-            _toolbar.Formatter = formatter;
+            _toolbar.Formatter = new RichTextFormatter();
+        }
+
+        private void UseMarkDownFormatter()
+        {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
+            _toolbar.Formatter = new MarkDownFormatter();
+        }
+
+        private void UseCustomFormatter()
+        {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
+            _toolbar.Formatter = new SampleFormatter();
         }
 
         private void AddCustomButton()
@@ -157,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 var link = new Uri(e.Link);
-                var linkOpen = Task.Run(() => Launcher.LaunchUriAsync(link));
+                _ = Launcher.LaunchUriAsync(link);
             }
             catch
             {
@@ -179,21 +199,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         private int DemoCounter { get; set; } = 0;
-
-        private ValueHolder ToolbarFormat
-        {
-            get
-            {
-                if (DataContext is Sample sample)
-                {
-                    if (sample.PropertyDescriptor.Expando is IDictionary<string, object> properties && properties.TryGetValue("Format", out var format))
-                    {
-                        return format as ValueHolder;
-                    }
-                }
-
-                return null;
-            }
-        }
     }
 }
