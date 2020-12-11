@@ -77,10 +77,9 @@ namespace Microsoft.Toolkit.Mvvm.Input
         public bool CanExecute(object? parameter)
         {
             if (default(T) is not null &&
-                parameter is null &&
-                this.canExecute is null)
+                parameter is null)
             {
-                return true;
+                return false;
             }
 
             return CanExecute((T?)parameter);
