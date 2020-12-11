@@ -59,18 +59,23 @@ jobs:
     condition: always()
 
   - task: PublishPipelineArtifact@1
-    displayName: Publish UI Test Results
-    inputs:
-      targetPath: .\build\UITestResults.wtl
-      artifactName: WexLogFileOutput
-    condition: always()
-
-  - task: PublishPipelineArtifact@1
     displayName: Publish Test WexLogFileOutput
     inputs:
       targetPath: .\build\WexLogFileOutput
-      artifactName: WexErrorLogFileOutput
+      artifactName: WexUnitTestErrorLogFileOutput
     condition: failed()
+
+  ### UI Integration Tests ###
+
+  - powershell: .\build\build.ps1 -target=UITest
+    displayName: UI Integration Tests
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish UI Test Results
+    inputs:
+      targetPath: .\build\UITestResults.wtl
+      artifactName: WexUITestLogFileOutput
+    condition: always()
 
   ### Package ###
 
@@ -106,9 +111,6 @@ jobs:
     inputs:
       artifact: Packages
       path: .\bin\nupkg
-
-  - powershell: dir .\bin\nupkg
-    displayName: List NuGet Archive
 
   - powershell: .\build\build.ps1 -target=SmokeTest
     displayName: SmokeTest

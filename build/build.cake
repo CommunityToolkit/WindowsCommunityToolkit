@@ -243,7 +243,7 @@ public string getMSTestAdapterPath(){
 }
 
 Task("Test")
-	.Description("Runs all Tests")
+	.Description("Runs all Unit Tests")
     .Does(() =>
 {
     Information("\nRunning Unit Tests");
@@ -272,7 +272,11 @@ Task("Test")
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
     DotNetCoreTest(file.FullPath, testSettings);
-}).DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
+}).DeferOnError();
+
+Task("UITest")
+	.Description("Runs all UI Tests")
+    .DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
 {
     Information("\nRunning TAEF Interaction Tests");
 
@@ -315,6 +319,7 @@ Task("MSTestUITest")
 Task("Default")
     .IsDependentOn("Build")
     .IsDependentOn("Test")
+    .IsDependentOn("UITest")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")
