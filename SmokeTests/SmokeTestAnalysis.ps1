@@ -82,7 +82,8 @@ if (Test-Path $PackagePath)
         $PackageSmokeTestFiles = Get-ChildItem $TempFolder -Recurse -Attributes !Directory -Include "SmokeTest*"
 
         # TODO: Make function or regex better to extra package name more easily based on a template string at the top or something...
-        Write-Host ("{0} Additional Footprint: {1:n0} bytes" -f $Package.Name.substring(10, $Package.Name.Length - 32), (($PackageFiles | Measure-Object -Property Length -sum).Sum + ($PackageSmokeTestFiles | Measure-Object -Property Length -sum).Sum - $BaselineFootprint))
+        $PackageShortName = $Package.Name.substring(10, $Package.Name.Length - 32)
+        Write-Host ("{0} Additional Footprint: {1:n0} bytes" -f $PackageShortName, (($PackageFiles | Measure-Object -Property Length -sum).Sum + ($PackageSmokeTestFiles | Measure-Object -Property Length -sum).Sum - $BaselineFootprint))
 
         # Quick check on the base exe file/symbols differences
         foreach ($file in $SmokeTestFiles)
@@ -118,7 +119,14 @@ if (Test-Path $PackagePath)
         # List remaining (new) files to this package
         foreach ($file in $PackageFiles)
         {
-            Write-Host ("  Additional: {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor Yellow
+            if ($file.Name -match $PackageShortName)
+            {
+                Write-Host ("  Lib (self): {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor White
+            }
+            else 
+            {
+                Write-Host ("  Additional: {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor Yellow
+            }
         }
 
         # TODO: Especially if we add comparison to the main branch, we should format as an actual table and colorize via VT: https://stackoverflow.com/a/49038815/8798708
