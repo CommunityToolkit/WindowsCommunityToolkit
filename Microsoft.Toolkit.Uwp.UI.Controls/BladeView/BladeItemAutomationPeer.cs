@@ -73,6 +73,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 return name;
             }
 
+            name = this.OwnerBladeItem.Header?.ToString();
+            if (!string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+
             TextBlock textBlock = this.OwnerBladeItem.FindDescendant<TextBlock>();
             if (textBlock != null)
             {
