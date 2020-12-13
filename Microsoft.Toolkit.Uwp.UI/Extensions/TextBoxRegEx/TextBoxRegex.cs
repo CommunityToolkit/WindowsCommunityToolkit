@@ -38,10 +38,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void TextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
             var validationMode = (ValidationMode)textBox.GetValue(ValidationModeProperty);
+            var validationType = (ValidationType)textBox.GetValue(ValidationTypeProperty);
             var (valid, successful) = ValidateTextBox(textBox, args.NewText, validationMode != ValidationMode.Normal);
             if (successful &&
                 !valid &&
                 validationMode == ValidationMode.Dynamic &&
+                validationType != ValidationType.Email &&
+                validationType != ValidationType.PhoneNumber &&
                 args.NewText != string.Empty)
             {
                 args.Cancel = true;
@@ -54,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             ValidateTextBox(textBox, textBox.Text);
         }
 
-        private static (bool valid, bool successful) ValidateTextBox(TextBox textBox, string newText = "", bool force = true)
+        private static (bool valid, bool successful) ValidateTextBox(TextBox textBox, string newText, bool force = true)
         {
             var validationType = (ValidationType)textBox.GetValue(ValidationTypeProperty);
             string regex;
