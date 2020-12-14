@@ -669,7 +669,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             anchorVisual.StartAnimation(nameof(anchorVisual.Offset), offsetExpression);
 
             var scaleExpression = _compositor.CreateExpressionAnimation();
-            scaleExpression.Expression = $"Vector3(Pow(Pow({elementX} - {centerX}, 2) + Pow({elementY} - {centerY}, 2), 0.5)/100, 1, 1)";
+            scaleExpression.Expression = $"Vector3(Pow(Pow({elementX} - {centerX}, 2) + Pow({elementY} - {centerY}, 2), 0.5)/80, 1, 1)";
             scaleExpression.SetReferenceParameter("centerVisual", centerVisual);
             scaleExpression.SetReferenceParameter("elementVisual", elementVisual);
             anchorVisual.StartAnimation(nameof(anchorVisual.Scale), scaleExpression);
