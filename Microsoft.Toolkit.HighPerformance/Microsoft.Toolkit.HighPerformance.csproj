@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -75,6 +75,11 @@
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
       </PropertyGroup>
     </When>
+    <When Condition=" '$(TargetFramework)' == 'net5.0' ">
+      <PropertyGroup>
+        <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
+      </PropertyGroup>
+    </When>
     <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
@@ -82,11 +87,12 @@
       <PropertyGroup>
 
         <!-- NETCORE_RUNTIME: to avoid issues with APIs that assume a specific memory layout, we define a
-             .NET Core runtime constant to indicate the either .NET Core 2.1 or .NET Core 3.1. These are
+             .NET Core runtime constant to indicate either .NET Core 2.1 or .NET Core 3.1. These are
              runtimes with the same overall memory layout for objects (in particular: strings, SZ arrays,
-             and 2D arrays). We can use this constant to make sure that APIs that are exclusively available
-             for .NET Standard targets do not make any assumption of any internals of the runtime being
-             actually used by the consumers. -->
+             and ND arrays). We can use this constant to make sure that APIs that are exclusively available
+             for .NET Standard targets do not make any assumtpion of any internals of the runtime being
+             actually used by the consumers. .NET 5.0 would fall into this category as well, but we don't
+             need to include that target as it offers APIs that don't require runtime-based workarounds.-->
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
       </PropertyGroup>
     </When>
