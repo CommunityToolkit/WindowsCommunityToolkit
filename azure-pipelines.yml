@@ -49,7 +49,7 @@ jobs:
   ### Unit Tests ###
   
   - powershell: .\build\build.ps1 -target=Test
-    displayName: Test    
+    displayName: Test
 
   - task: PublishTestResults@2
     inputs:
@@ -97,7 +97,6 @@ jobs:
     inputs:
       targetPath: .\bin\nupkg
       artifactName: Packages
-          
 
 ### Smoke Tests ###
 
