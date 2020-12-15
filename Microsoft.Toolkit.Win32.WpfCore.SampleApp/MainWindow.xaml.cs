@@ -30,6 +30,12 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
         private async void ButtonPopToast_Click(object sender, RoutedEventArgs e)
         {
+            if (ToastNotificationManagerCompat.CreateToastNotifier().Setting != NotificationSetting.Enabled)
+            {
+                MessageBox.Show("Notifications are disabled from the system settings.");
+                return;
+            }
+
             string title = "Andrew sent you a picture";
             string content = "Check this out, The Enchantments!";
             string image = "https://picsum.photos/364/202?image=883";

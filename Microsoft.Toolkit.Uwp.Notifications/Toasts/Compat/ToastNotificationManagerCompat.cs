@@ -506,7 +506,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        internal static void PrepForScheduledToast()
+        internal static void PreRegisterIdentityLessApp()
         {
             // For plain Win32 apps, we first have to have send a toast notification once before using scheduled toasts.
             if (!_hasSentNotification && !DesktopBridgeHelpers.HasIdentity())

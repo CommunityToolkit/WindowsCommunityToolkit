@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public void AddToSchedule(ScheduledToastNotification scheduledToast)
         {
 #if WIN32
-            ToastNotificationManagerCompat.PrepForScheduledToast();
+            ToastNotificationManagerCompat.PreRegisterIdentityLessApp();
 
             PreprocessScheduledToast(scheduledToast);
 #endif
@@ -125,7 +125,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public NotificationSetting Setting
         {
-            get => _notifier.Setting;
+            get
+            {
+#if WIN32
+                // Just like scheduled notifications, apps need to have sent a notification
+                // before checking the setting value works
+                ToastNotificationManagerCompat.PreRegisterIdentityLessApp();
+#endif
+
+                return _notifier.Setting;
+            }
         }
 
 #if WIN32
