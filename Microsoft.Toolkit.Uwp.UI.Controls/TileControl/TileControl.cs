@@ -8,7 +8,6 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Composition;
@@ -439,11 +438,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="scrollOrientation">The ScrollOrientation</param>
         private void CreateModuloExpression(ScrollViewer scrollViewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
         {
-            const string offsetXParam = "offsetX";
-            const string offsetYParam = "offsetY";
-            const string imageWidthParam = "imageWidth";
-            const string imageHeightParam = "imageHeight";
-            const string speedParam = "speed";
+            const string pParam = "p";
+            const string offsetXParam = pParam + ".offsetX";
+            const string offsetYParam = pParam + ".offsetY";
+            const string imageWidthParam = pParam + ".imageWidth";
+            const string imageHeightParam = pParam + ".imageHeight";
+            const string speedParam = pParam + ".speed";
 
             if (_containerVisual == null)
             {
@@ -453,90 +453,89 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var compositor = _containerVisual.Compositor;
 
             // Setup the expression
-            ExpressionNode expressionX = null;
-            ExpressionNode expressionY = null;
-            ExpressionNode expressionXVal;
-            ExpressionNode expressionYVal;
+            var expressionX = compositor.CreateExpressionAnimation();
+            var expressionY = compositor.CreateExpressionAnimation();
 
             var propertySetModulo = compositor.CreatePropertySet();
-            propertySetModulo.InsertScalar(imageWidthParam, (float)imageWidth);
-            propertySetModulo.InsertScalar(offsetXParam, (float)OffsetX);
-            propertySetModulo.InsertScalar(imageHeightParam, (float)imageHeight);
-            propertySetModulo.InsertScalar(offsetYParam, (float)OffsetY);
-            propertySetModulo.InsertScalar(speedParam, (float)ParallaxSpeedRatio);
+            propertySetModulo.InsertScalar("imageHeight", (float)imageWidth);
+            propertySetModulo.InsertScalar("offsetX", (float)OffsetX);
+            propertySetModulo.InsertScalar("imageWidth", (float)imageHeight);
+            propertySetModulo.InsertScalar("offsetY", (float)OffsetY);
+            propertySetModulo.InsertScalar("speed", (float)ParallaxSpeedRatio);
 
-            var propertySetNodeModulo = propertySetModulo.GetReference();
+            expressionX.SetReferenceParameter(pParam, propertySetModulo);
+            expressionY.SetReferenceParameter(pParam, propertySetModulo);
 
-            var imageHeightNode = propertySetNodeModulo.GetScalarProperty(imageHeightParam);
-            var imageWidthNode = propertySetNodeModulo.GetScalarProperty(imageWidthParam);
+            var imageHeightNode = imageHeightParam;
+            var imageWidthNode = imageWidthParam;
+
+            string expressionXVal;
+            string expressionYVal;
             if (scrollViewer == null)
             {
-                var offsetXNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetXParam));
-                var offsetYNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetYParam));
+                var offsetXNode = "Ceil(" + offsetXParam + ")";
+                var offsetYNode = "Ceil(" + offsetYParam + ")";
 
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
-                expressionXVal = ExpressionFunctions.Conditional(
-                    offsetXNode == 0,
-                    0,
-                    ExpressionFunctions.Conditional(
-                        offsetXNode < 0,
-                        -(ExpressionFunctions.Abs(offsetXNode - (ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode),
-                        -(imageWidthNode - (offsetXNode % imageWidthNode))));
+                expressionXVal =
+                    $"{offsetXNode} == 0 " +
+                    $"? 0 " +
+                    $": {offsetXNode} < 0 " +
+                        $"? -(Abs({offsetXNode} - (Ceil({offsetXNode} / {imageWidthNode}) * {imageWidthNode})) % {imageWidthNode}) " +
+                        $": -({imageWidthNode} - ({offsetXNode} % {imageWidthNode}))";
 
-                expressionYVal = ExpressionFunctions.Conditional(
-                    offsetYNode == 0,
-                    0,
-                    ExpressionFunctions.Conditional(
-                        offsetYNode < 0,
-                        -(ExpressionFunctions.Abs(offsetYNode - (ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode),
-                        -(imageHeightNode - (offsetYNode % imageHeightNode))));
+                expressionYVal =
+                    $"{offsetYNode} == 0 " +
+                    $"? 0 " +
+                    $": {offsetYNode} < 0 " +
+                        $"? -(Abs({offsetYNode} - (Ceil({offsetYNode} / {imageHeightNode}) * {imageHeightNode})) % {imageHeightNode}) " +
+                        $": -({imageHeightNode} - ({offsetYNode} % {imageHeightNode}))";
             }
             else
             {
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset and the ScrollViewer offset (Translation)
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
-                var scrollPropSet = scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+                expressionX.SetReferenceParameter("s", scrollProperties);
+                expressionY.SetReferenceParameter("s", scrollProperties);
 
-                var speed = propertySetNodeModulo.GetScalarProperty(speedParam);
-                var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * speed) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
-                expressionXVal = ExpressionFunctions.Conditional(
-                    xCommon == 0,
-                    0,
-                    ExpressionFunctions.Conditional(
-                        xCommon < 0,
-                        -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode),
-                        -(imageWidthNode - (xCommon % imageWidthNode))));
+                var speed = speedParam;
+                var xCommon = $"Ceil((s.Translation.X * {speed}) + {offsetXParam})";
+                expressionXVal =
+                    $"{xCommon} == 0 " +
+                    "? 0 " +
+                    $": {xCommon} < 0 " +
+                        $"? -(Abs({xCommon} - (Ceil({xCommon} / {imageWidthNode}) * {imageWidthNode})) % {imageWidthNode}) " +
+                        $": -({imageWidthNode} - ({xCommon} % {imageWidthNode}))";
 
-                var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * speed) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
-                expressionYVal = ExpressionFunctions.Conditional(
-                    yCommon == 0,
-                    0,
-                    ExpressionFunctions.Conditional(
-                        yCommon < 0,
-                        -(ExpressionFunctions.Abs(yCommon - (ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode),
-                        -(imageHeightNode - (yCommon % imageHeightNode))));
+                var yCommon = $"Ceil((s.Translation.Y * {speed}) + {offsetYParam})";
+                expressionYVal =
+                    $"{yCommon} == 0 " +
+                    "? 0 " +
+                    $": {yCommon} < 0 " +
+                        $"? -(Abs({yCommon} - (Ceil({yCommon} / {imageHeightNode}) * {imageHeightNode})) % {imageHeightNode}) " +
+                        $": -({imageHeightNode} - ({yCommon} % {imageHeightNode}))";
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
             {
-                expressionX = expressionXVal;
+                expressionX.Expression = expressionXVal;
 
                 if (scrollOrientation == ScrollOrientation.Horizontal)
                 {
                     // In horizontal mode we never move the offset y
-                    expressionY = (ScalarNode)0.0f;
+                    expressionY.Expression = "0";
                     _containerVisual.Offset = new Vector3((float)OffsetY, 0, 0);
                 }
             }
 
             if (scrollOrientation == ScrollOrientation.Vertical || scrollOrientation == ScrollOrientation.Both)
             {
-                expressionY = expressionYVal;
+                expressionY.Expression = expressionYVal;
 
                 if (scrollOrientation == ScrollOrientation.Vertical)
                 {
                     // In vertical mode we never move the offset x
-                    expressionX = (ScalarNode)0.0f;
+                    expressionX.Expression = "0";
                     _containerVisual.Offset = new Vector3(0, (float)OffsetX, 0);
                 }
             }
