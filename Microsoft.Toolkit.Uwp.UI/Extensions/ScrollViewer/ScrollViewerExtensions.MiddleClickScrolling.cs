@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.System;
@@ -162,10 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 offsetX = offsetX > _maxSpeed ? _maxSpeed : offsetX;
                 offsetY = offsetY > _maxSpeed ? _maxSpeed : offsetY;
 
-                RunInUIThread(dispatcherQueue, () =>
-                {
-                    _scrollViewer?.ChangeView(_scrollViewer.HorizontalOffset + offsetX, _scrollViewer.VerticalOffset + offsetY, null, true);
-                });
+                dispatcherQueue.EnqueueAsync(() => _scrollViewer?.ChangeView(_scrollViewer.HorizontalOffset + offsetX, _scrollViewer.VerticalOffset + offsetY, null, true));
             }
         }
 
@@ -326,10 +323,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (_oldCursorID != cursorID)
             {
-                RunInUIThread(dispatcherQueue, () =>
-                {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID);
-                });
+                dispatcherQueue.EnqueueAsync(() => Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID));
 
                 _oldCursorID = cursorID;
             }
@@ -365,11 +359,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return isCursorAvailable;
-        }
-
-        private static async void RunInUIThread(DispatcherQueue dispatcherQueue, Action action)
-        {
-            await dispatcherQueue.ExecuteOnUIThreadAsync(action, DispatcherQueuePriority.Normal);
         }
     }
 }

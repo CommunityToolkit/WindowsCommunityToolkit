@@ -13,11 +13,31 @@ namespace UnitTests.UI.Controls
     [TestClass]
     public class Test_UniformGrid_FreeSpots
     {
+        /// <summary>
+        /// Creates a <see cref="TakenSpotsReferenceHolder"/> instance with the specified values.
+        /// </summary>
+        /// <param name="array">The source array to populate the instance to return.</param>
+        /// <returns>A <see cref="TakenSpotsReferenceHolder"/> with the given values.</returns>
+        private static TakenSpotsReferenceHolder CreateTakenSpotsReferenceHolder(bool[,] array)
+        {
+            var refHolder = new TakenSpotsReferenceHolder(array.GetLength(0), array.GetLength(1));
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    refHolder[i, j] = array[i, j];
+                }
+            }
+
+            return refHolder;
+        }
+
         [TestCategory("UniformGrid")]
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_Basic()
         {
-            var testRef = new TakenSpotsReferenceHolder(new bool[4, 5]
+            var testRef = CreateTakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { false,  true, false,  true, false },
                     { false,  true,  true,  true, false },
@@ -47,7 +67,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumn()
         {
-            var testRef = new TakenSpotsReferenceHolder(new bool[4, 5]
+            var testRef = CreateTakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { true,  false, false,  true, false },
                     { false,  true,  true,  true, false },
@@ -77,7 +97,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBoundMinusOne()
         {
-            var testRef = new TakenSpotsReferenceHolder(new bool[3, 3]
+            var testRef = CreateTakenSpotsReferenceHolder(new bool[3, 3]
                 {
                     { false, false, false },
                     { false, false, false },
@@ -105,7 +125,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBound()
         {
-            var testRef = new TakenSpotsReferenceHolder(new bool[3, 3]
+            var testRef = CreateTakenSpotsReferenceHolder(new bool[3, 3]
                 {
                     { false, false, false },
                     { false, false, false },
@@ -133,7 +153,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBound_TopDown()
         {
-            var testRef = new TakenSpotsReferenceHolder(new bool[3, 3]
+            var testRef = CreateTakenSpotsReferenceHolder(new bool[3, 3]
                 {
                     { false, false, false },
                     { false, false, false },
@@ -161,7 +181,7 @@ namespace UnitTests.UI.Controls
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_VerticalOrientation()
         {
-            var testRef = new TakenSpotsReferenceHolder(new bool[4, 5]
+            var testRef = CreateTakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { false, false, false,  true, false },
                     { false,  true,  true, false, false },

@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+<!-- 🚨 Please provide detailed information and Do Not skip any instructions as they are all required and essential to help us understand the feature 🚨 -->
+
 ## Describe the problem this feature would solve
 <!-- Please describe or link to any existing issues or discussions.
 A clear and concise description of what the problem is and include the user story. Provide examples of the restrictions in the current environment that hinders the work you want to perform. What are the ways this new feature will help transform and deliver the results?

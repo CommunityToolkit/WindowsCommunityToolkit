@@ -13,24 +13,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
     public class NetworkHelper
     {
         /// <summary>
-        /// Private singleton field.
-        /// </summary>
-        private static NetworkHelper _instance;
-
-        /// <summary>
         /// Event raised when the network changes.
         /// </summary>
         public event EventHandler NetworkChanged;
-
-        /// <summary>
-        /// Gets public singleton property.
-        /// </summary>
-        public static NetworkHelper Instance => _instance ?? (_instance = new NetworkHelper());
-
-        /// <summary>
-        /// Gets instance of <see cref="ConnectionInformation"/>.
-        /// </summary>
-        public ConnectionInformation ConnectionInformation { get; } = new ConnectionInformation();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkHelper"/> class.
@@ -52,6 +37,19 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             NetworkInformation.NetworkStatusChanged -= OnNetworkStatusChanged;
         }
 
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        public static NetworkHelper Instance { get; } = new NetworkHelper();
+
+        /// <summary>
+        /// Gets instance of <see cref="ConnectionInformation"/>.
+        /// </summary>
+        public ConnectionInformation ConnectionInformation { get; }
+
+        /// <summary>
+        /// Checks the current connection information and raises <see cref="NetworkChanged"/> if needed.
+        /// </summary>
         private void UpdateConnectionInformation()
         {
             lock (ConnectionInformation)
@@ -69,6 +67,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             }
         }
 
+        /// <summary>
+        /// Invokes <see cref="UpdateConnectionInformation"/> when the current network status changes.
+        /// </summary>
         private void OnNetworkStatusChanged(object sender)
         {
             UpdateConnectionInformation();

@@ -5,12 +5,13 @@
     <Title>Windows Community Toolkit Controls</Title>
     <Description>
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
-      
+
       Controls:
         - AdaptiveGridView: Presents items in an evenly-spaced set of columns to fill the total available space.
         - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
         - CameraPreview: Easily preview video from camera sources and get realtime frames from the selected source.
         - Carousel: Presents items in a carousel control.
+        - ColorPicker/ColorPickerButton: Improved ColorPicker and DropDownButton version.
         - DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
         - DropShadowPanel: DropShadowPanel control allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
         - Expander: Expander allows user to show/hide content based on a boolean state.
@@ -47,46 +48,20 @@
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
- 
+
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
- 
-  <ItemGroup>
-    <Page Update="ImageCropper\ImageCropper.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="ImageCropper\ImageCropperThumb.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-   
-  <ItemGroup>
-     <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-     <Page Update="TokenizingTextBox\TokenizingTextBox.xaml">
-       <Generator>MSBuild:Compile</Generator>
-     </Page>
-     <Page Update="TokenizingTextBox\TokenizingTextBoxItem.xaml">
-       <Generator>MSBuild:Compile</Generator>
-     </Page>
-  </ItemGroup>
-  
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
-  
-
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
-
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
