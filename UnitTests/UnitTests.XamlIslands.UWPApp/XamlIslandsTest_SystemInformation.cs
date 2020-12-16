@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.ApplicationModel.Activation;
@@ -15,7 +16,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task SystemInformationTrackAppUse()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var e = new FakeArgs
                 {

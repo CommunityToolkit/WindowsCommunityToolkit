@@ -8,8 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Extensions;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>

@@ -6,8 +6,6 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
