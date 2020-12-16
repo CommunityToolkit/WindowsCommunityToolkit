@@ -500,8 +500,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expressionX.SetReferenceParameter(scrollParam, scrollProperties);
                 expressionY.SetReferenceParameter(scrollParam, scrollProperties);
 
-                string LocalThing(string scroll, string speed, string offset, string dimension)
-                    => Thing(string.Format("Ceil(({0} * {1}) + {2})", scroll, speed, offset), dimension);
+                string LocalThing(string scrollTranslation, string speed, string offset, string dimension)
+                    => Thing(string.Format("Ceil(({0} * {1}) + {2})", scrollTranslation, speed, offset), dimension);
 
                 expressionXVal = LocalThing(translationParam + "." + nameof(scrollViewer.Translation.X), qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
 
