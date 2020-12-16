@@ -500,12 +500,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expressionX.SetReferenceParameter(scrollParam, scrollProperties);
                 expressionY.SetReferenceParameter(scrollParam, scrollProperties);
 
-                string GenerateParalaxFormula(string scrollTranslation, string speed, string offset, string dimension)
+                string GenerateParallaxFormula(string scrollTranslation, string speed, string offset, string dimension)
                     => GenerateFormula(string.Format("Ceil(({0} * {1}) + {2})", scrollTranslation, speed, offset), dimension);
 
-                expressionXVal = GenerateParalaxFormula(translationParam + "." + nameof(scrollViewer.Translation.X), qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
+                expressionXVal = GenerateParallaxFormula(translationParam + "." + nameof(scrollViewer.Translation.X), qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
 
-                expressionYVal = GenerateParalaxFormula(translationParam + "." + nameof(scrollViewer.Translation.Y), qualifiedSpeedParam, qualifiedOffsetYParam, qualifiedImageHeightParam);
+                expressionYVal = GenerateParallaxFormula(translationParam + "." + nameof(scrollViewer.Translation.Y), qualifiedSpeedParam, qualifiedOffsetYParam, qualifiedImageHeightParam);
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
