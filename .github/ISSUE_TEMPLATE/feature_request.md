@@ -11,7 +11,8 @@ assignees: ''
 
 ## Describe the problem this feature would solve
 <!-- Please describe or link to any existing issues or discussions.
-A clear and concise description of what the problem is and include the user story. Provide examples of the restrictions in the current environment that hinders the work you want to perform. What are the ways this new feature will help transform and deliver the results?
+A clear and concise description of what the problem is, starting with the user story. 
+Provide examples of the restrictions in the current environment that hinders the work your users or you want to perform. What are the ways this new feature will help transform and deliver those results?
 For example, I am currently using the InfiniteCanvas control which lacks the ribbon control feature. I am looking to improve user experience therefore i would like to use that in my project to provide ease of accessibility and a user-friendly interface. This new feature will provide quick access to the toolbar, enhance space utilization, etc [...] -->
 
 
