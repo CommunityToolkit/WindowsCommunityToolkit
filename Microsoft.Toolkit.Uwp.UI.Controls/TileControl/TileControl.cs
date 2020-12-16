@@ -470,7 +470,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             expressionX.SetReferenceParameter(propSetParam, propertySetModulo);
             expressionY.SetReferenceParameter(propSetParam, propertySetModulo);
 
-            string Thing(string common, string diemtion)
+            string Thing(string common, string dimension)
                 => string.Format(
                     "{0} == 0 " +
                     "? 0 " +
@@ -478,7 +478,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         "? -(Abs({0} - (Ceil({0} / {1}) * {1})) % {1}) " +
                         ": -({1} - ({0} % {1}))",
                     common,
-                    diemtion);
+                    dimension);
 
             string expressionXVal;
             string expressionYVal;
@@ -499,8 +499,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expressionX.SetReferenceParameter(scrollParam, scrollProperties);
                 expressionY.SetReferenceParameter(scrollParam, scrollProperties);
 
-                string LocalThing(string scroll, string speed, string offset, string dimention)
-                    => Thing(string.Format("Ceil(({0} * {1}) + {2})", scroll, speed, offset), dimention);
+                string LocalThing(string scroll, string speed, string offset, string dimension)
+                    => Thing(string.Format("Ceil(({0} * {1}) + {2})", scroll, speed, offset), dimension);
 
                 expressionXVal = LocalThing(scrollParam + ".Translation.X", qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
 
