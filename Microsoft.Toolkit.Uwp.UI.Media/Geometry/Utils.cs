@@ -21,10 +21,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         // Constant values
 
         // Smallest double value such that 1.0 + DoubleEpsilon != 1.0
-        internal const double DoubleEpsilon = 2.2204460492503131e-016;
+        internal const double DoubleEpsilon = 2.2250738585072014E-308;
 
-        // Number close to zero, where float.MinValue is -float.MaxValue
-        internal const float FloatMin = 1.175494351e-38F;
+        // Smallest float value such that 1.0f + FloatMin != 1.0f
+        internal const float FloatMin = 1.175494351E-38F;
 
         /// <summary>
         /// Returns whether or not two doubles are "close".
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <returns>
         /// bool - the result of the LessThan comparision.
         /// </returns>
-        public static bool IsLessThan(double value1, double value2)
+        public static bool IsLessThan(this double value1, double value2)
         {
             return (value1 < value2) && !value1.IsCloseTo(value2);
         }
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </returns>
         public static bool IsOne(this double value)
         {
-            return Math.Abs(value - 1.0) < 10.0 * DoubleEpsilon;
+            return Math.Abs(value - 1.0d) < 10.0d * DoubleEpsilon;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </returns>
         public static bool IsZero(this double value)
         {
-            return Math.Abs(value) < 10.0 * DoubleEpsilon;
+            return Math.Abs(value) < 10.0d * DoubleEpsilon;
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
 
             // This computes (|value1-value2| / (|value1| + |value2| + 10.0)) < FloatMin
-            var eps = (Math.Abs(value1) + Math.Abs(value2) + 10.0) * FloatMin;
+            var eps = (Math.Abs(value1) + Math.Abs(value2) + 10.0f) * FloatMin;
             var delta = value1 - value2;
             return (-eps < delta) && (eps > delta);
         }
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <returns>
         /// bool - the result of the LessThan comparision.
         /// </returns>
-        public static bool IsLessThan(float value1, float value2)
+        public static bool IsLessThan(this float value1, float value2)
         {
             return (value1 < value2) && !value1.IsCloseTo(value2);
         }
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </returns>
         public static bool IsOne(this float value)
         {
-            return Math.Abs(value - 1.0) < 10.0 * FloatMin;
+            return Math.Abs(value - 1.0f) < 10.0f * FloatMin;
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </returns>
         public static bool IsZero(this float value)
         {
-            return Math.Abs(value) < 10.0 * FloatMin;
+            return Math.Abs(value) < 10.0f * FloatMin;
         }
 
         /// <summary>
@@ -270,9 +270,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         private struct NanUnion
         {
             [FieldOffset(0)]
-            internal double DoubleValue;
+            public double DoubleValue;
             [FieldOffset(0)]
-            internal ulong UintValue;
+            public ulong UintValue;
         }
 
         /// <summary>
@@ -480,56 +480,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if this CornerRadius contains only valid values
-        /// The set of validity checks is passed as parameters.
-        /// </summary>
-        /// <param name='corner'>CornerRadius value</param>
-        /// <param name='allowNegative'>allows negative values</param>
-        /// <param name='allowNaN'>allows double.NaN</param>
-        /// <param name='allowPositiveInfinity'>allows double.PositiveInfinity</param>
-        /// <param name='allowNegativeInfinity'>allows double.NegativeInfinity</param>
-        /// <returns>Whether or not the CornerRadius complies to the range specified</returns>
-        public static bool IsValid(this CornerRadius corner, bool allowNegative, bool allowNaN, bool allowPositiveInfinity, bool allowNegativeInfinity)
-        {
-            if (!allowNegative)
-            {
-                if (corner.TopLeft < 0d || corner.TopRight < 0d || corner.BottomLeft < 0d || corner.BottomRight < 0d)
-                {
-                    return false;
-                }
-            }
-
-            if (!allowNaN)
-            {
-                if (IsNaN(corner.TopLeft) || IsNaN(corner.TopRight) ||
-                    IsNaN(corner.BottomLeft) || IsNaN(corner.BottomRight))
-                {
-                    return false;
-                }
-            }
-
-            if (!allowPositiveInfinity)
-            {
-                if (double.IsPositiveInfinity(corner.TopLeft) || double.IsPositiveInfinity(corner.TopRight) ||
-                    double.IsPositiveInfinity(corner.BottomLeft) || double.IsPositiveInfinity(corner.BottomRight))
-                {
-                    return false;
-                }
-            }
-
-            if (!allowNegativeInfinity)
-            {
-                if (double.IsNegativeInfinity(corner.TopLeft) || double.IsNegativeInfinity(corner.TopRight) ||
-                    double.IsNegativeInfinity(corner.BottomLeft) || double.IsNegativeInfinity(corner.BottomRight))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Verifies if the CornerRadius contains only zero values
         /// </summary>
         /// <param name="corner">CornerRadius</param>
@@ -582,40 +532,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <returns>Vector4</returns>
         public static Vector4 ToVector4(this CornerRadius corner)
         {
-            if (corner.IsValid(true, false, false, false))
-            {
-                return new Vector4(
+            return new Vector4(
                     (float)corner.TopLeft,
                     (float)corner.TopRight,
                     (float)corner.BottomRight,
                     (float)corner.BottomLeft);
-            }
-
-            return Vector4.Zero;
-        }
-
-        /// <summary>
-        /// Converts the CornerRadius object to Vector4. If the CornerRadius
-        /// object contains negative components they will be converted
-        /// to positive values. If the Thickness object's component
-        /// have values NaN, PositiveInfinity or NegativeInfinity,
-        /// then Vector4.Zero will be returned.
-        /// </summary>
-        /// <param name="corner">CornerRadius object</param>
-        /// <returns>Vector4</returns>
-        public static Vector4 ToAbsVector4(this CornerRadius corner)
-        {
-            if (corner.IsValid(true, false, false, false))
-            {
-                // Sanitize the component by taking only
-                return new Vector4(
-                    (float)Math.Abs(corner.TopLeft),
-                    (float)Math.Abs(corner.TopRight),
-                    (float)Math.Abs(corner.BottomRight),
-                    (float)Math.Abs(corner.BottomLeft));
-            }
-
-            return Vector4.Zero;
         }
 
         /// <summary>
