@@ -102,7 +102,7 @@ jobs:
 
 - job: SmokeTests
   dependsOn: BuildBits
-  timeoutInMinutes: 40
+  timeoutInMinutes: 60
   
   steps:
   - task: DownloadPipelineArtifact@2
