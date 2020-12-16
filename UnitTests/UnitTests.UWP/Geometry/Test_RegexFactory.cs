@@ -2,11 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,7 +22,7 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.ColorRegex.IsMatch("0.9333333 0.3176471 0.1411765 1"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_SolidBrush()
         {
@@ -37,7 +32,7 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.CanvasBrushRegex.IsMatch("SC 0.1 0.3 0.4 0.5 O 0.9"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_LinearGradientBrush()
         {
@@ -45,14 +40,14 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.CanvasBrushRegex.IsMatch("LG M 0 80 Z0 0 O 0.75 A 1 E 2 S 0.00 #ffee5124, 0.3 #fff05627, 0.75 #fff58535, 1.00 #fff9af41"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_LinearGradientBrushHdr()
         {
             Assert.AreEqual(true, RegexFactory.CanvasBrushRegex.IsMatch("LH M 0 80 Z0 0 P1 R1 S 0.00 0.9333333, 0.3176471, 0.1411765, 1, 0.18 0.9411765, 0.3372549, 0.1529412, 1, 0.26 0.945098, 0.3568628, 0.1607843, 1, 0.72 0.9607843, 0.5215687, 0.2078431, 1, 1.00 0.9764706, 0.6862745, 0.254902, 1"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_RadialGradientBrush()
         {
@@ -60,14 +55,14 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.CanvasBrushRegex.IsMatch("RG 40 60 320 400 A 1 B2 E 2 S 0.00 #ffee5124, 0.3 #fff05627, 0.75 #fff58535, 1.00 #fff9af41"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_RadialGradientBrushHdr()
         {
             Assert.AreEqual(true, RegexFactory.CanvasBrushRegex.IsMatch("RH 400 400 320 320 O 0.94 A 1 E2 S 0.00 0.9333333, 0.3176471, 0.1411765, 1, 0.18 0.9411765, 0.3372549, 0.1529412, 1, 0.26 0.945098, 0.3568628, 0.1607843, 1, 0.72 0.9607843, 0.5215687, 0.2078431, 1, 1.00 0.9764706, 0.6862745, 0.254902, 1"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_GradientStop()
         {
@@ -75,7 +70,7 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.GradientStopRegex.IsMatch("S 0.00 #ffee5124 0.18 #fff05627 0.26 #fff15b29    0.72 #fff58535 1.00 #fff9af41"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_GradientStopHdr()
         {
@@ -83,7 +78,7 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.GradientStopHdrRegex.IsMatch("S 0.00 0.9333333 0.3176471 0.1411765 1 0.18 0.9411765 0.3372549 0.1529412 1 0.26 0.945098 0.3568628 0.1607843 1 0.72  0.9607843   0.5215687 0.2078431 1 1.00 0.9764706 0.6862745 0.254902 1"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_CanvasStrokeStyle()
         {
@@ -93,7 +88,7 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.CanvasStrokeStyleRegex.IsMatch("CSS DS 1 LJ1 ML 0.5 DO4 SC 0 EC1 DC3 TB1CDS 2 2 0 2 1 3"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_CanvasStroke()
         {
@@ -101,14 +96,14 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(true, RegexFactory.CanvasStrokeRegex.IsMatch("ST 2 SC #ff0000"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_CustomDashAttribute()
         {
             Assert.AreEqual(true, RegexFactory.CustomDashAttributeRegex.IsMatch("CDS 2 2 0 2 1 3"));
         }
 
-        [TestCategory(("Geometry - RegexFactory"))]
+        [TestCategory("Geometry - RegexFactory")]
         [TestMethod]
         public void Test_Regex_CanvasGeometry()
         {
