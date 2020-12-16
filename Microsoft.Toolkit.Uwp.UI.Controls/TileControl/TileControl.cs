@@ -470,7 +470,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             expressionX.SetReferenceParameter(propSetParam, propertySetModulo);
             expressionY.SetReferenceParameter(propSetParam, propertySetModulo);
 
-            string Thing(string common, string dimension)
+            string GenerateFormula(string common, string dimension)
                 => string.Format(
                     "{0} == 0 " +
                     "? 0 " +
@@ -485,9 +485,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (scrollViewer == null)
             {
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
-                expressionXVal = Thing("Ceil(" + qualifiedOffsetXParam + ")", qualifiedImageHeightParam);
+                expressionXVal = GenerateFormula("Ceil(" + qualifiedOffsetXParam + ")", qualifiedImageHeightParam);
 
-                expressionYVal = Thing("Ceil(" + qualifiedOffsetYParam + ")", qualifiedImageWidthParam);
+                expressionYVal = GenerateFormula("Ceil(" + qualifiedOffsetYParam + ")", qualifiedImageWidthParam);
             }
             else
             {
@@ -500,12 +500,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expressionX.SetReferenceParameter(scrollParam, scrollProperties);
                 expressionY.SetReferenceParameter(scrollParam, scrollProperties);
 
-                string LocalThing(string scrollTranslation, string speed, string offset, string dimension)
-                    => Thing(string.Format("Ceil(({0} * {1}) + {2})", scrollTranslation, speed, offset), dimension);
+                string GenerateParalaxFormula(string scrollTranslation, string speed, string offset, string dimension)
+                    => GenerateFormula(string.Format("Ceil(({0} * {1}) + {2})", scrollTranslation, speed, offset), dimension);
 
-                expressionXVal = LocalThing(translationParam + "." + nameof(scrollViewer.Translation.X), qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
+                expressionXVal = GenerateParalaxFormula(translationParam + "." + nameof(scrollViewer.Translation.X), qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
 
-                expressionYVal = LocalThing(translationParam + "." + nameof(scrollViewer.Translation.Y), qualifiedSpeedParam, qualifiedOffsetYParam, qualifiedImageHeightParam);
+                expressionYVal = GenerateParalaxFormula(translationParam + "." + nameof(scrollViewer.Translation.Y), qualifiedSpeedParam, qualifiedOffsetYParam, qualifiedImageHeightParam);
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
