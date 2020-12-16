@@ -461,9 +461,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var expressionY = compositor.CreateExpressionAnimation();
 
             var propertySetModulo = compositor.CreatePropertySet();
-            propertySetModulo.InsertScalar(imageHeightParam, (float)imageWidth);
+            propertySetModulo.InsertScalar(imageWidthParam, (float)imageWidth);
             propertySetModulo.InsertScalar(offsetXParam, (float)OffsetX);
-            propertySetModulo.InsertScalar(imageWidthParam, (float)imageHeight);
+            propertySetModulo.InsertScalar(imageHeightParam, (float)imageHeight);
             propertySetModulo.InsertScalar(offsetYParam, (float)OffsetY);
             propertySetModulo.InsertScalar(speedParam, (float)ParallaxSpeedRatio);
 
