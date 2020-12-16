@@ -65,19 +65,19 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Internals
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
-            unchecked
-            {
-                // To combine the two hashes, we can simply use the fast djb2 hash algorithm.
-                // This is not a problem in this case since we already know that the base
-                // RuntimeHelpers.GetHashCode method is providing hashes with a good enough distribution.
-                int hash = RuntimeHelpers.GetHashCode(TMessage);
+            // To combine the two hashes, we can simply use the fast djb2 hash algorithm. Unfortunately we
+            // can't really skip the callvirt here (eg. by using RuntimeHelpers.GetHashCode like in other
+            // cases), as there are some niche cases mentioned above that might break when doing so.
+            // However since this method is not generally used in a hot path (eg. the message broadcasting
+            // only invokes this a handful of times when initially retrieving the target mapping), this
+            // doesn't actually make a noticeable difference despite the minor overhead of the virtual call.
+            int hash = TMessage.GetHashCode();
 
-                hash = (hash << 5) + hash;
+            hash = (hash << 5) + hash;
 
-                hash += RuntimeHelpers.GetHashCode(TToken);
+            hash += TToken.GetHashCode();
 
-                return hash;
-            }
+            return hash;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace UnitTests.HighPerformance.Helpers
             TestForType<char>();
         }
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
         [TestCategory("HashCodeOfT")]
         [TestMethod]
         public void Test_HashCodeOfT_ManagedType_TestRepeat()

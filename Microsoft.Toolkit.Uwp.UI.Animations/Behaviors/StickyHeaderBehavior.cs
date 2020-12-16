@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -238,7 +239,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 focusedElement = FocusManager.GetFocusedElement();
             }
 
-            if (focusedElement is UIElement element)
+            // To prevent Popups (Flyouts...) from triggering the autoscroll, we check if the focused element has a valid parent.
+            // Popups have no parents, whereas a normal Item would have the ListView as a parent.
+            if (focusedElement is UIElement element && VisualTreeHelper.GetParent(element) != null)
             {
                 FrameworkElement header = (FrameworkElement)HeaderElement;
 

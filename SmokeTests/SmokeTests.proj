@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current" DefaultTargets="Build">
+
+  <PropertyGroup>
+    <BuildPlatforms>x86</BuildPlatforms>
+    <BuildConfigurations>Release</BuildConfigurations>
+    <ToolkitPackages>UWPBaseline;Microsoft.Toolkit;Microsoft.Toolkit.HighPerformance;Microsoft.Toolkit.Parsers;Microsoft.Toolkit.Mvvm;Microsoft.Toolkit.Services;Microsoft.Toolkit.Uwp;Microsoft.Toolkit.Uwp.Connectivity;Microsoft.Toolkit.Uwp.DeveloperTools;Microsoft.Toolkit.Uwp.Input.GazeInteraction;Microsoft.Toolkit.Uwp.Notifications;Microsoft.Toolkit.Uwp.UI;Microsoft.Toolkit.Uwp.UI.Animations;Microsoft.Toolkit.Uwp.UI.Controls;Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;Microsoft.Toolkit.Uwp.UI.Controls.Layout;Microsoft.Toolkit.Uwp.UI.Media;Microsoft.Toolkit.Uwp.UI.Controls.Markdown</ToolkitPackages>
+  </PropertyGroup>
+
+  <Target Name="Build" 
+          DependsOnTargets="ChooseProjectsToBuild"
+          Inputs="@(ProjectsToBuild)"
+          Outputs="%(Filename)">
+
+    <Message Importance="High" Text="Building project %(ProjectsToBuild.Identity): (%(ProjectsToBuild.Configuration)|%(ProjectsToBuild.Platform))" />
+
+    <MSBuild Projects="SmokeTest.csproj"
+              Targets="restore;build"
+              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform)"/>
+  </Target>
+
+  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNugets">
+    <ItemGroup>
+      <BuildPlatform Include="$(BuildPlatforms)" />
+      <BuildConfiguration Include="$(BuildConfigurations)" />
+      <ToolkitPackage Include="$(ToolkitPackages)" />
+
+      <ToolkitProject Include="@(ToolkitPackage)">
+        <Platforms>x86;x64;ARM;ARM64</Platforms>
+        <BinDir>bin</BinDir>
+        <AssemblyName>%(ToolkitPackage.Identity)</AssemblyName>
+      </ToolkitProject>
+
+      <CandidateProjects Include="@(ToolkitProject);@(AnyCPUProject)">
+        <Platform>%(BuildPlatform.Identity)</Platform>
+      </CandidateProjects>
+
+      <FilteredProjects Include="@(CandidateProjects)" Condition="$([System.String]::new('%(CandidateProjects.Platforms)').Contains('%(CandidateProjects.Platform)'))" />
+
+      <ProjectsPerConfig Include="@(FilteredProjects)">
+        <Configuration>%(BuildConfiguration.Identity)</Configuration>
+      </ProjectsPerConfig>
+
+      <ProjectsToBuild Include="@(ProjectsPerConfig)">
+        <AdditionalProperties>Platform=%(ProjectsPerConfig.Platform);Configuration=%(ProjectsPerConfig.Configuration)</AdditionalProperties>
+      </ProjectsToBuild>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CheckNugets">
+    <PropertyGroup>
+      <ToolkitNugets>../bin/nupkg/*.nupkg</ToolkitNugets>
+    </PropertyGroup>
+    <ItemGroup>
+      <ToolkitNugets Include="$(ToolkitNugets)" />
+    </ItemGroup>
+    <Error Condition="'@(ToolkitNugets)' == ''" Text="Directory '$(ToolkitNugets)' is empty"/>
+  </Target>
+
+</Project>

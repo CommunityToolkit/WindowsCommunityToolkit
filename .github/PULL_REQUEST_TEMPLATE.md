@@ -1,5 +1,8 @@
 <!-- 🚨 Please Do Not skip any instructions and information mentioned below as they are all required and essential to evaluate and test the PR. By fulfilling all the required information you will be able to reduce the volume of questions and most likely help merge the PR faster 🚨 -->
 
+<!-- 📝 It is preferred if you keep the "☑️ Allow edits by maintainers" checked in the Pull Request Template as it increases collaboration with the Toolkit maintainers by permitting commits to your PR branch (only) created from your fork.  This can let us quickly make fixes for minor typos or forgotten StyleCop issues during review without needing to wait on you doing extra work. Let us help you help us! 🎉 -->
+
+
 ## Fixes #
 <!-- Add the relevant issue number after the "#" mentioned above (for ex: Fixes #1234) which will automatically close the issue once the PR is merged. -->
 

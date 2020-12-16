@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -13,6 +14,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class BoolExtensions
     {
         /// <summary>
+        /// Converts the given <see cref="bool"/> value into a <see cref="byte"/>.
+        /// </summary>
+        /// <param name="flag">The input value to convert.</param>
+        /// <returns>1 if <paramref name="flag"/> is <see langword="true"/>, 0 otherwise.</returns>
+        /// <remarks>This method does not contain branching instructions.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe byte ToByte(this bool flag)
+        {
+            return *(byte*)&flag;
+        }
+
+        /// <summary>
         /// Converts the given <see cref="bool"/> value into an <see cref="int"/>.
         /// </summary>
         /// <param name="flag">The input value to convert.</param>
@@ -20,9 +34,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method does not contain branching instructions.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ToInt(this bool flag)
+        [Obsolete("Use ToByte instead.")]
+        public static unsafe int ToInt(this bool flag)
         {
-            return Unsafe.As<bool, byte>(ref flag);
+            return *(byte*)&flag;
         }
 
         /// <summary>
@@ -41,9 +56,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ToBitwiseMask32(this bool flag)
+        public static unsafe int ToBitwiseMask32(this bool flag)
         {
-            byte rangeFlag = Unsafe.As<bool, byte>(ref flag);
+            byte rangeFlag = *(byte*)&flag;
             int
                 negativeFlag = rangeFlag - 1,
                 mask = ~negativeFlag;
@@ -60,9 +75,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method does not contain branching instructions. See additional note in <see cref="ToBitwiseMask32"/>.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToBitwiseMask64(this bool flag)
+        public static unsafe long ToBitwiseMask64(this bool flag)
         {
-            byte rangeFlag = Unsafe.As<bool, byte>(ref flag);
+            byte rangeFlag = *(byte*)&flag;
             long
                 negativeFlag = (long)rangeFlag - 1,
                 mask = ~negativeFlag;
