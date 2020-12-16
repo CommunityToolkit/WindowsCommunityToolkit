@@ -466,30 +466,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             expressionX.SetReferenceParameter(pParam, propertySetModulo);
             expressionY.SetReferenceParameter(pParam, propertySetModulo);
 
-            var imageHeightNode = imageHeightParam;
-            var imageWidthNode = imageWidthParam;
-
             string expressionXVal;
             string expressionYVal;
             if (scrollViewer == null)
             {
-                var offsetXNode = "Ceil(" + offsetXParam + ")";
-                var offsetYNode = "Ceil(" + offsetYParam + ")";
+                var xCommon = "Ceil(" + offsetXParam + ")";
+                var yCommon = "Ceil(" + offsetYParam + ")";
 
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
                 expressionXVal =
-                    $"{offsetXNode} == 0 " +
+                    $"{xCommon} == 0 " +
                     $"? 0 " +
-                    $": {offsetXNode} < 0 " +
-                        $"? -(Abs({offsetXNode} - (Ceil({offsetXNode} / {imageWidthNode}) * {imageWidthNode})) % {imageWidthNode}) " +
-                        $": -({imageWidthNode} - ({offsetXNode} % {imageWidthNode}))";
+                    $": {xCommon} < 0 " +
+                        $"? -(Abs({xCommon} - (Ceil({xCommon} / {imageWidthParam}) * {imageWidthParam})) % {imageWidthParam}) " +
+                        $": -({imageWidthParam} - ({xCommon} % {imageWidthParam}))";
 
                 expressionYVal =
-                    $"{offsetYNode} == 0 " +
+                    $"{yCommon} == 0 " +
                     $"? 0 " +
-                    $": {offsetYNode} < 0 " +
-                        $"? -(Abs({offsetYNode} - (Ceil({offsetYNode} / {imageHeightNode}) * {imageHeightNode})) % {imageHeightNode}) " +
-                        $": -({imageHeightNode} - ({offsetYNode} % {imageHeightNode}))";
+                    $": {yCommon} < 0 " +
+                        $"? -(Abs({yCommon} - (Ceil({yCommon} / {imageHeightParam}) * {imageHeightParam})) % {imageHeightParam}) " +
+                        $": -({imageHeightParam} - ({yCommon} % {imageHeightParam}))";
             }
             else
             {
@@ -498,22 +495,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expressionX.SetReferenceParameter("s", scrollProperties);
                 expressionY.SetReferenceParameter("s", scrollProperties);
 
-                var speed = speedParam;
-                var xCommon = $"Ceil((s.Translation.X * {speed}) + {offsetXParam})";
+                var xCommon = $"Ceil((s.Translation.X * {speedParam}) + {offsetXParam})";
                 expressionXVal =
                     $"{xCommon} == 0 " +
                     "? 0 " +
                     $": {xCommon} < 0 " +
-                        $"? -(Abs({xCommon} - (Ceil({xCommon} / {imageWidthNode}) * {imageWidthNode})) % {imageWidthNode}) " +
-                        $": -({imageWidthNode} - ({xCommon} % {imageWidthNode}))";
+                        $"? -(Abs({xCommon} - (Ceil({xCommon} / {imageWidthParam}) * {imageWidthParam})) % {imageWidthParam}) " +
+                        $": -({imageWidthParam} - ({xCommon} % {imageWidthParam}))";
 
-                var yCommon = $"Ceil((s.Translation.Y * {speed}) + {offsetYParam})";
+                var yCommon = $"Ceil((s.Translation.Y * {speedParam}) + {offsetYParam})";
                 expressionYVal =
                     $"{yCommon} == 0 " +
                     "? 0 " +
                     $": {yCommon} < 0 " +
-                        $"? -(Abs({yCommon} - (Ceil({yCommon} / {imageHeightNode}) * {imageHeightNode})) % {imageHeightNode}) " +
-                        $": -({imageHeightNode} - ({yCommon} % {imageHeightNode}))";
+                        $"? -(Abs({yCommon} - (Ceil({yCommon} / {imageHeightParam}) * {imageHeightParam})) % {imageHeightParam}) " +
+                        $": -({imageHeightParam} - ({yCommon} % {imageHeightParam}))";
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
