@@ -439,15 +439,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void CreateModuloExpression(ScrollViewer scrollViewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
         {
             const string propSetParam = "p";
-            const string offsetXParam = "offsetX";
+            const string offsetXParam = nameof(OffsetX);
             const string qualifiedOffsetXParam = propSetParam + "." + offsetXParam;
-            const string offsetYParam = "offsetY";
+            const string offsetYParam = nameof(OffsetY);
             const string qualifiedOffsetYParam = propSetParam + "." + offsetYParam;
-            const string imageWidthParam = "imageWidth";
+            const string imageWidthParam = nameof(imageWidth);
             const string qualifiedImageWidthParam = propSetParam + "." + imageWidthParam;
-            const string imageHeightParam = "imageHeight";
+            const string imageHeightParam = nameof(imageHeight);
             const string qualifiedImageHeightParam = propSetParam + "." + imageHeightParam;
-            const string speedParam = "speed";
+            const string speedParam = nameof(ParallaxSpeedRatio);
 
             if (_containerVisual == null)
             {
@@ -494,6 +494,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset and the ScrollViewer offset (Translation)
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
                 const string scrollParam = "s";
+                const string translationParam = scrollParam + "." + nameof(scrollViewer.Translation);
                 const string qualifiedSpeedParam = propSetParam + "." + speedParam;
 
                 expressionX.SetReferenceParameter(scrollParam, scrollProperties);
@@ -502,9 +503,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 string LocalThing(string scroll, string speed, string offset, string dimension)
                     => Thing(string.Format("Ceil(({0} * {1}) + {2})", scroll, speed, offset), dimension);
 
-                expressionXVal = LocalThing(scrollParam + ".Translation.X", qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
+                expressionXVal = LocalThing(translationParam + "." + nameof(scrollViewer.Translation.X), qualifiedSpeedParam, qualifiedOffsetXParam, qualifiedImageWidthParam);
 
-                expressionYVal = LocalThing(scrollParam + ".Translation.Y", qualifiedSpeedParam, qualifiedOffsetYParam, qualifiedImageHeightParam);
+                expressionYVal = LocalThing(translationParam + "." + nameof(scrollViewer.Translation.Y), qualifiedSpeedParam, qualifiedOffsetYParam, qualifiedImageHeightParam);
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
