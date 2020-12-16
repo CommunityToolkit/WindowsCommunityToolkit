@@ -466,27 +466,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             expressionX.SetReferenceParameter(pParam, propertySetModulo);
             expressionY.SetReferenceParameter(pParam, propertySetModulo);
 
+            string Thing(string common, string diemtion)
+                => string.Format(
+                    "{0} == 0 " +
+                    "? 0 " +
+                    ": {0} < 0 " +
+                        "? -(Abs({0} - (Ceil({0} / {1}) * {1})) % {1}) " +
+                        ": -({1} - ({0} % {1}))",
+                    common,
+                    diemtion);
+
             string expressionXVal;
             string expressionYVal;
             if (scrollViewer == null)
             {
-                var xCommon = "Ceil(" + offsetXParam + ")";
-                var yCommon = "Ceil(" + offsetYParam + ")";
-
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
-                expressionXVal =
-                    $"{xCommon} == 0 " +
-                    $"? 0 " +
-                    $": {xCommon} < 0 " +
-                        $"? -(Abs({xCommon} - (Ceil({xCommon} / {imageWidthParam}) * {imageWidthParam})) % {imageWidthParam}) " +
-                        $": -({imageWidthParam} - ({xCommon} % {imageWidthParam}))";
+                expressionXVal = Thing("Ceil(" + offsetXParam + ")", imageHeightParam);
 
-                expressionYVal =
-                    $"{yCommon} == 0 " +
-                    $"? 0 " +
-                    $": {yCommon} < 0 " +
-                        $"? -(Abs({yCommon} - (Ceil({yCommon} / {imageHeightParam}) * {imageHeightParam})) % {imageHeightParam}) " +
-                        $": -({imageHeightParam} - ({yCommon} % {imageHeightParam}))";
+                expressionYVal = Thing("Ceil(" + offsetYParam + ")", imageWidthParam);
             }
             else
             {
@@ -495,21 +492,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expressionX.SetReferenceParameter("s", scrollProperties);
                 expressionY.SetReferenceParameter("s", scrollProperties);
 
-                var xCommon = $"Ceil((s.Translation.X * {speedParam}) + {offsetXParam})";
-                expressionXVal =
-                    $"{xCommon} == 0 " +
-                    "? 0 " +
-                    $": {xCommon} < 0 " +
-                        $"? -(Abs({xCommon} - (Ceil({xCommon} / {imageWidthParam}) * {imageWidthParam})) % {imageWidthParam}) " +
-                        $": -({imageWidthParam} - ({xCommon} % {imageWidthParam}))";
+                string LocalThing(string scroll, string speed, string offset, string dimention)
+                    => Thing(string.Format("Ceil(({0} * {1}) + {2})", scroll, speed, offset), dimention);
 
-                var yCommon = $"Ceil((s.Translation.Y * {speedParam}) + {offsetYParam})";
-                expressionYVal =
-                    $"{yCommon} == 0 " +
-                    "? 0 " +
-                    $": {yCommon} < 0 " +
-                        $"? -(Abs({yCommon} - (Ceil({yCommon} / {imageHeightParam}) * {imageHeightParam})) % {imageHeightParam}) " +
-                        $": -({imageHeightParam} - ({yCommon} % {imageHeightParam}))";
+                expressionXVal = LocalThing("s.Translation.X", speedParam, offsetXParam, imageWidthParam);
+
+                expressionYVal = LocalThing("s.Translation.Y", speedParam, offsetYParam, imageHeightParam);
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
