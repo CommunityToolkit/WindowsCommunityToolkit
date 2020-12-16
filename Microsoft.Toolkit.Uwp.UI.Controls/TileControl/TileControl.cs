@@ -438,12 +438,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="scrollOrientation">The ScrollOrientation</param>
         private void CreateModuloExpression(ScrollViewer scrollViewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
         {
-            const string pParam = "p";
-            const string offsetXParam = pParam + ".offsetX";
-            const string offsetYParam = pParam + ".offsetY";
-            const string imageWidthParam = pParam + ".imageWidth";
-            const string imageHeightParam = pParam + ".imageHeight";
-            const string speedParam = pParam + ".speed";
+            const string propSetParam = "p";
+            const string offsetXParam = "offsetX";
+            const string offsetYParam = "offsetY";
+            const string imageWidthParam = "imageWidth";
+            const string imageHeightParam = "imageHeight";
+            const string speedParam = "speed";
 
             if (_containerVisual == null)
             {
@@ -457,14 +457,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var expressionY = compositor.CreateExpressionAnimation();
 
             var propertySetModulo = compositor.CreatePropertySet();
-            propertySetModulo.InsertScalar("imageHeight", (float)imageWidth);
-            propertySetModulo.InsertScalar("offsetX", (float)OffsetX);
-            propertySetModulo.InsertScalar("imageWidth", (float)imageHeight);
-            propertySetModulo.InsertScalar("offsetY", (float)OffsetY);
-            propertySetModulo.InsertScalar("speed", (float)ParallaxSpeedRatio);
+            propertySetModulo.InsertScalar(imageHeightParam, (float)imageWidth);
+            propertySetModulo.InsertScalar(offsetXParam, (float)OffsetX);
+            propertySetModulo.InsertScalar(imageWidthParam, (float)imageHeight);
+            propertySetModulo.InsertScalar(offsetYParam, (float)OffsetY);
+            propertySetModulo.InsertScalar(speedParam, (float)ParallaxSpeedRatio);
 
-            expressionX.SetReferenceParameter(pParam, propertySetModulo);
-            expressionY.SetReferenceParameter(pParam, propertySetModulo);
+            expressionX.SetReferenceParameter(propSetParam, propertySetModulo);
+            expressionY.SetReferenceParameter(propSetParam, propertySetModulo);
 
             string Thing(string common, string diemtion)
                 => string.Format(
@@ -481,23 +481,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (scrollViewer == null)
             {
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
-                expressionXVal = Thing("Ceil(" + offsetXParam + ")", imageHeightParam);
+                expressionXVal = Thing("Ceil(" + propSetParam + "." + offsetXParam + ")", propSetParam + "." + imageHeightParam);
 
-                expressionYVal = Thing("Ceil(" + offsetYParam + ")", imageWidthParam);
+                expressionYVal = Thing("Ceil(" + propSetParam + "." + offsetYParam + ")", propSetParam + "." + imageWidthParam);
             }
             else
             {
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset and the ScrollViewer offset (Translation)
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
-                expressionX.SetReferenceParameter("s", scrollProperties);
-                expressionY.SetReferenceParameter("s", scrollProperties);
+                const string scrollParam = "s";
+                expressionX.SetReferenceParameter(scrollParam, scrollProperties);
+                expressionY.SetReferenceParameter(scrollParam, scrollProperties);
 
                 string LocalThing(string scroll, string speed, string offset, string dimention)
                     => Thing(string.Format("Ceil(({0} * {1}) + {2})", scroll, speed, offset), dimention);
 
-                expressionXVal = LocalThing("s.Translation.X", speedParam, offsetXParam, imageWidthParam);
+                expressionXVal = LocalThing(scrollParam + ".Translation.X", propSetParam + "." + speedParam, propSetParam + "." + offsetXParam, propSetParam + "." + imageWidthParam);
 
-                expressionYVal = LocalThing("s.Translation.Y", speedParam, offsetYParam, imageHeightParam);
+                expressionYVal = LocalThing(scrollParam + ".Translation.Y", propSetParam + "." + speedParam, propSetParam + "." + offsetYParam, propSetParam + "." + imageHeightParam);
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
