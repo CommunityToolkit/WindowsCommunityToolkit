@@ -9,10 +9,20 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 {
     /// <summary>
-    /// These extension methods perform animation on UIElements
+    /// Common properties related to extensions.
     /// </summary>
     public static partial class AnimationExtensions
     {
+        /// <summary>
+        /// The default <see cref="EasingType"/> value used for animations.
+        /// </summary>
+        public const EasingType DefaultEasingType = EasingType.Cubic;
+
+        /// <summary>
+        /// The default <see cref="EasingMode"/> value used for animations.
+        /// </summary>
+        public const EasingMode DefaultEasingMode = EasingMode.EaseOut;
+
         /// <summary>
         /// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.
         /// </summary>
@@ -54,10 +64,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             [(EasingType.Sine, EasingMode.EaseIn)] = (new(0.47f, 0.0f), new(0.745f, 0.715f)),
             [(EasingType.Sine, EasingMode.EaseInOut)] = (new(0.445f, 0.05f), new(0.55f, 0.95f))
         };
-
-        /// <summary>
-        /// Gets the default <see cref="EasingType"/> value used for storyboard animations.
-        /// </summary>
-        public static EasingType DefaultEasingType => EasingType.Cubic;
     }
 }
