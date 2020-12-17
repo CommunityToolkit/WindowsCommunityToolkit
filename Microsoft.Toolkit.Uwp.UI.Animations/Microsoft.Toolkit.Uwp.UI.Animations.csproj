@@ -21,16 +21,12 @@
   <ItemGroup>
     <Compile Remove="Behaviors\**" />
     <Compile Remove="Effects\**" />
-    <Compile Remove="Extensions\**" />
     <EmbeddedResource Remove="Behaviors\**" />
     <EmbeddedResource Remove="Effects\**" />
-    <EmbeddedResource Remove="Extensions\**" />
     <None Remove="Behaviors\**" />
     <None Remove="Effects\**" />
-    <None Remove="Extensions\**" />
     <Page Remove="Behaviors\**" />
     <Page Remove="Effects\**" />
-    <Page Remove="Extensions\**" />
   </ItemGroup>
 
   <ItemGroup>
