@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public enum EasingType
     {
         /// <summary>
-        /// The default easing type, which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic.
+        /// The default easing type, which is specified in <see cref="Extensions.AnimationExtensions.DefaultEasingType"/> which is by default <see cref="Cubic"/>.
         /// </summary>
         Default,
 

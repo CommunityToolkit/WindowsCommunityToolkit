@@ -15,18 +15,23 @@
       - AnimationExtensions: Blur, Fade, Light, Offset, Rotate, Saturation, Scale
     </Description>
     <PackageTags>UWP Toolkit Windows Animations Composition Connected Implicit XAML</PackageTags>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <!-- TODO: Figure out where these go... -->
   <ItemGroup>
     <Compile Remove="Behaviors\**" />
     <Compile Remove="Effects\**" />
+    <Compile Remove="fg\**" />
     <EmbeddedResource Remove="Behaviors\**" />
     <EmbeddedResource Remove="Effects\**" />
+    <EmbeddedResource Remove="fg\**" />
     <None Remove="Behaviors\**" />
     <None Remove="Effects\**" />
+    <None Remove="fg\**" />
     <Page Remove="Behaviors\**" />
     <Page Remove="Effects\**" />
+    <Page Remove="fg\**" />
   </ItemGroup>
 
   <ItemGroup>
