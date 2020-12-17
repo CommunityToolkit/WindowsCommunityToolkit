@@ -3,10 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -76,6 +78,203 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             else
             {
                 return OnXamlDoubleAnimation($"Translate{axis}", from, to, delay, duration, easingType, easingMode, false);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new translation animation for the X and Y axes to the current schedule.
+        /// </summary>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder Translation(
+            Vector2? from,
+            Vector2 to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                return OnCompositionVector2Animation("Translation", from, to, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                OnXamlTransformDoubleAnimation(nameof(CompositeTransform.TranslateX), from?.X, to.X, delay, duration, easingType, easingMode);
+                OnXamlTransformDoubleAnimation(nameof(CompositeTransform.TranslateY), from?.Y, to.Y, delay, duration, easingType, easingMode);
+
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Adds a new composition translation animation for all axes to the current schedule.
+        /// </summary>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Translation(
+            Vector3? from,
+            Vector3 to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return OnCompositionVector3Animation("Translation", from, to, delay, duration, easingType, easingMode);
+        }
+
+        /// <summary>
+        /// Adds a new composition offset animation for a single axis to the current schedule.
+        /// </summary>
+        /// <param name="axis">The target translation axis to animate.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Offset(
+            Axis axis,
+            double? from,
+            double to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return OnCompositionScalarAnimation($"{nameof(Visual.Offset)}.{axis}", (float?)from, (float)to, delay, duration, easingType, easingMode);
+        }
+
+        /// <summary>
+        /// Adds a new composition offset animation for the X and Y axes to the current schedule.
+        /// </summary>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Offset(
+            Vector2? from,
+            Vector2 to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return OnCompositionVector2Animation(nameof(Visual.Offset), from, to, delay, duration, easingType, easingMode);
+        }
+
+        /// <summary>
+        /// Adds a new composition offset translation animation for all axes to the current schedule.
+        /// </summary>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Offset(
+            Vector3? from,
+            Vector3 to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return OnCompositionVector3Animation(nameof(Visual.Offset), from, to, delay, duration, easingType, easingMode);
+        }
+
+        /// <summary>
+        /// Adds a new uniform scale animation on the X and Y axes to the current schedule.
+        /// </summary>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder Scale(
+            double? from,
+            double to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                Vector2? from2 = from is null ? null : new((float)(double)from);
+                Vector2 to2 = new((float)to);
+
+                return OnCompositionVector2Animation(nameof(Visual.Scale), from2, to2, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                OnXamlTransformDoubleAnimation(nameof(CompositeTransform.ScaleX), from, to, delay, duration, easingType, easingMode);
+                OnXamlTransformDoubleAnimation(nameof(CompositeTransform.ScaleY), from, to, delay, duration, easingType, easingMode);
+
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Adds a new scale animation on a specified axis to the current schedule.
+        /// </summary>
+        /// <param name="axis">The target scale axis to animate.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder Scale(
+            Axis axis,
+            double? from,
+            double to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                Vector2? from2 = from is null ? null : new((float)(double)from);
+                Vector2 to2 = new((float)to);
+
+                return OnCompositionVector2Animation(nameof(Visual.Scale), from2, to2, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                OnXamlTransformDoubleAnimation(nameof(CompositeTransform.ScaleX), from, to, delay, duration, easingType, easingMode);
+                OnXamlTransformDoubleAnimation(nameof(CompositeTransform.ScaleY), from, to, delay, duration, easingType, easingMode);
+
+                return this;
             }
         }
 

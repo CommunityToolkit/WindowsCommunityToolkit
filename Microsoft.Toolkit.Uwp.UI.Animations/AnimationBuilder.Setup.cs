@@ -52,6 +52,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Adds a new composition <see cref="Vector2"/> animation to the current schedule.
+        /// </summary>
+        /// <param name="property">The target property to animate.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The easing function for the animation.</param>
+        /// <param name="easingMode">The easing mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This will use a <see cref="Vector3"/> animation with a zero Z axis.</remarks>
+        private AnimationBuilder OnCompositionVector2Animation(
+            string property,
+            Vector2? from,
+            Vector2 to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
+        {
+            Vector3? from3 = from is null ? null : new(from.Value, 0);
+            Vector3 to3 = new(to, 0);
+            CompositionVector3Animation animation = new(property, from3, to3, delay, duration, easingType, easingMode);
+
+            this.compositionAnimations.Add(animation);
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds a new composition <see cref="Vector3"/> animation to the current schedule.
         /// </summary>
         /// <param name="property">The target property to animate.</param>
