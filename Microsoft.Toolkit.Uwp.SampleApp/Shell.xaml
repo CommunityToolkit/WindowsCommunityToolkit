@@ -1,15 +1,15 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.Shell"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
@@ -30,58 +30,62 @@
     </Page.Resources>
     <Grid>
         <winui:NavigationView x:Name="NavView"
-                              Style="{StaticResource ToolkitNavViewStyle}"
-                              PaneDisplayMode="Top"
-                              MenuItemTemplate="{StaticResource CategoryTemplate}"
+                              IsSettingsVisible="True"
                               ItemInvoked="NavView_ItemInvoked"
+                              MenuItemTemplate="{StaticResource CategoryTemplate}"
+                              PaneDisplayMode="Top"
                               SelectionFollowsFocus="Disabled"
-                              IsSettingsVisible="True">
+                              Style="{StaticResource ToolkitNavViewStyle}">
             <winui:NavigationView.PaneFooter>
                 <AutoSuggestBox x:Name="SearchBox"
-                                VerticalAlignment="Center"
                                 MinWidth="150"
-                                QueryIcon="Find"
-                                TextChanged="SearchBox_TextChanged"
+                                VerticalAlignment="Center"
                                 KeyDown="SearchBox_KeyDown"
-                                QuerySubmitted="SearchBox_QuerySubmitted" />
+                                QueryIcon="Find"
+                                QuerySubmitted="SearchBox_QuerySubmitted"
+                                TextChanged="SearchBox_TextChanged" />
             </winui:NavigationView.PaneFooter>
             <Grid>
                 <winui:ParallaxView x:Name="Parallax"
                                     VerticalShift="50">
-                    <Image Stretch="UniformToFill"
-                           Source="Assets/Photos/Backgrounds/hero.jpg"/>
+                    <Image Source="Assets/Photos/Backgrounds/hero.jpg"
+                           Stretch="UniformToFill" />
                 </winui:ParallaxView>
                 <Frame x:Name="NavigationFrame" />
                 <Grid>
                     <Border x:Name="ContentShadow"
-                            Tapped="ContentShadow_Tapped"
                             Background="{ThemeResource BackingTint}"
+                            Tapped="ContentShadow_Tapped"
                             Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
                         <interactivity:Interaction.Behaviors>
-                            <behaviors:Blur AutomaticallyStart="True"
+                            <!--TODO: BackdropBlurBrush? <behaviors:Blur AutomaticallyStart="True"
                                             Delay="0"
                                             Value="2"
-                                            Duration="0" />
+                                            Duration="0" />-->
                         </interactivity:Interaction.Behaviors>
                         <animations:Implicit.ShowAnimations>
-                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                            <animations:OpacityAnimation From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.3" />
                         </animations:Implicit.ShowAnimations>
                         <animations:Implicit.HideAnimations>
-                            <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                            <animations:OpacityAnimation From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.2" />
                         </animations:Implicit.HideAnimations>
                     </Border>
 
                     <Grid x:Name="SamplePickerGrid"
+                          VerticalAlignment="Top"
                           x:DeferLoadStrategy="Lazy"
-                          Visibility="Collapsed"
-                          VerticalAlignment="Top">
-                        <controls:DropShadowPanel VerticalContentAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  ShadowOpacity="0.7"
-                                                  Color="Black"
-                                                  BlurRadius="10"
+                          Visibility="Collapsed">
+                        <controls:DropShadowPanel Margin="0,0,0,-3"
                                                   VerticalAlignment="Bottom"
-                                                  Margin="0,0,0,-3">
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  BlurRadius="10"
+                                                  ShadowOpacity="0.7"
+                                                  Color="Black">
                             <Border Height="1" />
                         </controls:DropShadowPanel>
 
@@ -89,35 +93,47 @@
 
                         <GridView x:Name="SamplePickerGridView"
                                   animations:ReorderGridAnimation.Duration="200"
+                                  ChoosingItemContainer="SamplePickerGridView_ChoosingItemContainer"
                                   IsItemClickEnabled="True"
+                                  ItemClick="SamplePickerGridView_ItemClick"
                                   ItemContainerStyle="{StaticResource SamplePickerItemStyle}"
                                   ItemContainerTransitions="{x:Null}"
                                   ItemTemplate="{StaticResource SampleTemplate}"
                                   SelectionMode="Single"
-                                  ItemClick="SamplePickerGridView_ItemClick"
-                                  ChoosingItemContainer="SamplePickerGridView_ChoosingItemContainer"
                                   Transitions="{x:Null}">
                             <GridView.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Key}"/>
+                                            <TextBlock Text="{Binding Key}" />
                                         </DataTemplate>
                                     </GroupStyle.HeaderTemplate>
                                 </GroupStyle>
                             </GridView.GroupStyle>
                             <animations:Implicit.ShowAnimations>
-                                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                <animations:OpacityAnimation Delay="0:0:0.2"
+                                                             SetInitialValueBeforeDelay="True"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.3" />
                             </animations:Implicit.ShowAnimations>
                         </GridView>
 
                         <animations:Implicit.ShowAnimations>
-                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                            <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                            <animations:OpacityAnimation From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.3" />
+                            <animations:TranslationAnimation From="0, -1000, 0"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
                         </animations:Implicit.ShowAnimations>
                         <animations:Implicit.HideAnimations>
-                            <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5"></animations:OpacityAnimation>
-                            <animations:TranslationAnimation To="0, -1000, 0" From="0" Duration="0:0:0.5"></animations:TranslationAnimation>
+                            <animations:OpacityAnimation From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.5" />
+                            <animations:TranslationAnimation From="0"
+                                                             To="0, -1000, 0"
+                                                             Duration="0:0:0.5" />
                         </animations:Implicit.HideAnimations>
                     </Grid>
 
@@ -125,30 +141,30 @@
             </Grid>
         </winui:NavigationView>
         <Canvas x:Name="MoreInfoCanvas"
+                Grid.RowSpan="2"
                 Background="Transparent"
                 Tapped="MoreInfoCanvas_Tapped"
-                Visibility="Collapsed"
-                Grid.RowSpan="2">
+                Visibility="Collapsed">
 
             <Grid x:Name="MoreInfoContent"
                   Width="260"
                   Height="320"
                   extensions:VisualExtensions.NormalizedCenterPoint="0.5">
                 <Grid VerticalAlignment="Top">
-                    <controls:DropShadowPanel VerticalContentAlignment="Stretch"
-                                              HorizontalContentAlignment="Stretch"
-                                              ShadowOpacity="0.6"
-                                              Color="Black"
+                    <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              BlurRadius="60"
                                               OffsetY="6"
-                                              BlurRadius="60">
+                                              ShadowOpacity="0.6"
+                                              Color="Black">
                         <Border Background="{ThemeResource Menu-DropDown-Background}"
                                 Opacity="0.96">
-                            <interactivity:Interaction.Behaviors>
+                            <!-- TODO: BackdropBlurBrush? <interactivity:Interaction.Behaviors>
                                 <behaviors:Blur AutomaticallyStart="True"
                                                 Delay="0"
                                                 Value="3"
                                                 Duration="0" />
-                            </interactivity:Interaction.Behaviors>
+                            </interactivity:Interaction.Behaviors>-->
                         </Border>
                     </controls:DropShadowPanel>
 
@@ -160,58 +176,81 @@
 
                         <Grid Grid.Row="0"
                               Background="{ThemeResource SampleIconBacking}">
-                            <Image Width="240"
-                                   x:Name="MoreInfoImage"
+                            <Image x:Name="MoreInfoImage"
+                                   Width="240"
                                    Height="160"
                                    Source="{Binding Icon}" />
                         </Grid>
 
                         <StackPanel Grid.Row="1">
-                            <TextBlock Margin="0, 10"
+                            <TextBlock Margin="0,10"
                                        FontSize="14"
                                        FontWeight="SemiBold"
                                        Text="{Binding Name}"
                                        TextTrimming="CharacterEllipsis" />
 
                             <TextBlock FontSize="12"
-                                        Text="{Binding About}"
-                                        TextWrapping="Wrap" />
+                                       Text="{Binding About}"
+                                       TextWrapping="Wrap" />
 
                             <Border Margin="0,10,0,0"
-                                    Opacity="1"
                                     HorizontalAlignment="Left"
                                     Background="{StaticResource Brush-Blue-01}"
+                                    Opacity="1"
                                     Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
                                 <TextBlock Margin="2"
-                                           FontSize="10"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Bottom"
+                                           FontSize="10"
                                            Foreground="{ThemeResource Brush-Main}"
                                            Text="{Binding BadgeUpdateVersionRequired}" />
                                 <animations:Implicit.HideAnimations>
-                                    <animations:OpacityAnimation To="0"  Duration="0:0:0.01"></animations:OpacityAnimation>
+                                    <animations:OpacityAnimation To="0"
+                                                                 Duration="0:0:0.01" />
                                 </animations:Implicit.HideAnimations>
                                 <animations:Implicit.ShowAnimations>
-                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                                    <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
+                                    <animations:OpacityAnimation Delay="0:0:0.2"
+                                                                 SetInitialValueBeforeDelay="True"
+                                                                 From="0"
+                                                                 To="1"
+                                                                 Duration="0:0:0.4" />
+                                    <animations:TranslationAnimation Delay="0:0:0.2"
+                                                                     From="0, 20, 0"
+                                                                     To="0"
+                                                                     Duration="0:0:0.3" />
                                 </animations:Implicit.ShowAnimations>
                             </Border>
 
                             <animations:Implicit.ShowAnimations>
-                                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                                <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
+                                <animations:OpacityAnimation Delay="0:0:0.2"
+                                                             SetInitialValueBeforeDelay="True"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.4" />
+                                <animations:TranslationAnimation Delay="0:0:0.2"
+                                                                 From="0, 20, 0"
+                                                                 To="0"
+                                                                 Duration="0:0:0.3" />
                             </animations:Implicit.ShowAnimations>
                         </StackPanel>
                     </Grid>
                 </Grid>
 
                 <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                    <animations:ScaleAnimation From="0.5" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
+                    <animations:OpacityAnimation From="0"
+                                                 To="1"
+                                                 Duration="0:0:0.3" />
+                    <animations:ScaleAnimation From="0.5"
+                                               To="1"
+                                               Duration="0:0:0.3" />
                 </animations:Implicit.ShowAnimations>
                 <animations:Implicit.HideAnimations>
-                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
-                    <animations:ScaleAnimation To="0.5" From="1" Duration="0:0:0.2"></animations:ScaleAnimation>
+                    <animations:OpacityAnimation From="1"
+                                                 To="0"
+                                                 Duration="0:0:0.2" />
+                    <animations:ScaleAnimation From="1"
+                                               To="0.5"
+                                               Duration="0:0:0.2" />
                 </animations:Implicit.HideAnimations>
             </Grid>
         </Canvas>

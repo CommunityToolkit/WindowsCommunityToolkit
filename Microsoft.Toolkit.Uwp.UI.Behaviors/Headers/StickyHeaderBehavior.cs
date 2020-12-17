@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Composition;
@@ -13,7 +12,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
+namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     /// <summary>
     /// Performs an animation on a ListView or GridView Header to make it sticky using composition.
