@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="property">The property to animate inside the target <see cref="DependencyObject"/>.</param>
         /// <param name="from">The optional initial property value.</param>
         /// <param name="to">The final property value.</param>
+        /// <param name="delay">The optional delay for the animation.</param>
         /// <param name="duration">The duration of the <see cref="DoubleAnimation"/>.</param>
         /// <param name="easing">The easing function to use inside the <see cref="DoubleAnimation"/>.</param>
         /// <param name="enableDependecyAnimations">Indicates whether or not to apply this animation to elements that need the visual tree to be rearranged.</param>
@@ -31,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             string property,
             double? from,
             double to,
+            TimeSpan? delay,
             TimeSpan duration,
             EasingFunctionBase? easing = null,
             bool enableDependecyAnimations = false)
@@ -39,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             {
                 From = from,
                 To = to,
+                BeginTime = delay,
                 Duration = duration,
                 EasingFunction = easing,
                 EnableDependentAnimation = enableDependecyAnimations,
