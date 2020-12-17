@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <summary>
         /// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.
         /// </summary>
-        private static readonly Dictionary<(EasingType Type, EasingMode Mode), (Vector2 A, Vector2 B)> EasingMaps = new()
+        internal static readonly Dictionary<(EasingType Type, EasingMode Mode), (Vector2 A, Vector2 B)> EasingMaps = new()
         {
             [(EasingType.Cubic, EasingMode.EaseOut)] = (new(0.215f, 0.61f), new(0.355f, 1f)),
             [(EasingType.Cubic, EasingMode.EaseIn)] = (new(0.55f, 0.055f), new(0.675f, 0.19f)),
