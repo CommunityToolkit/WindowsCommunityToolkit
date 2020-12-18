@@ -32,17 +32,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             EffectBorderMode mode = EffectBorderMode.Hard,
             EffectOptimization optimization = EffectOptimization.Balanced)
         {
-            id = Guid.NewGuid().ToUppercaseAsciiLetters();
+            string name = id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async ValueTask<IGraphicsEffectSource> Factory() => new GaussianBlurEffect
             {
                 BlurAmount = blur,
                 BorderMode = mode,
                 Optimization = optimization,
-                Source = await this.sourceProducer()
+                Source = await this.sourceProducer(),
+                Name = name
             };
 
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(GaussianBlurEffect.BlurAmount)}" });
+            return new PipelineBuilder(this, Factory, new[] { $"{name}.{nameof(GaussianBlurEffect.BlurAmount)}" });
         }
     }
 }

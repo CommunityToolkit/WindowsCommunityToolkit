@@ -16,6 +16,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
+        /// A model representing a specified composition double animation.
+        /// </summary>
+        private sealed record CompositionDoubleAnimation(
+            CompositionObject Target,
+            string Property,
+            float? From,
+            float To,
+            TimeSpan? Delay,
+            TimeSpan Duration,
+            EasingType EasingType,
+            EasingMode EasingMode)
+            : ICompositionAnimation
+        {
+            /// <inheritdoc/>
+            public void StartAnimation()
+            {
+                CompositionEasingFunction easingFunction = Target.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+                ScalarKeyFrameAnimation animation = Target.Compositor.CreateScalarKeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
+
+                Target.StartAnimation(Property, animation);
+            }
+        }
+
+        /// <summary>
         /// A model representing a specified composition scalar animation.
         /// </summary>
         private sealed record CompositionScalarAnimation(
@@ -128,6 +152,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <param name="visual">The target <see cref="Visual"/> instance to animate.</param>
             /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
             CompositionAnimation GetAnimation(Visual visual);
+        }
+
+        /// <summary>
+        /// An interface for custom external composition animations.
+        /// </summary>
+        private interface ICompositionAnimation
+        {
+            /// <summary>
+            /// Starts a <see cref="CompositionAnimation"/> with some embedded parameters.
+            /// </summary>
+            void StartAnimation();
         }
     }
 }

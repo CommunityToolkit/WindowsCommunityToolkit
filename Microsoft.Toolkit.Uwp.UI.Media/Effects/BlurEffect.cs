@@ -17,12 +17,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <summary>
         /// The unique id for the effect, if <see cref="IsAnimatable"/> is set.
         /// </summary>
-        private string id;
+        internal string id;
 
         /// <summary>
         /// The <see cref="CompositionBrush"/> in use, if any.
         /// </summary>
-        private CompositionBrush brush;
+        internal CompositionBrush brush;
 
         /// <summary>
         /// Gets or sets a value indicating whether the effect can be animated.
