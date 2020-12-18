@@ -158,13 +158,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public Task StartAsync()
         {
+            return StartAsync(Parent!);
+        }
+
+        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        public void Start(UIElement element)
+        {
+            _ = StartAsync(element);
+        }
+
+        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        public async Task StartAsync(UIElement element)
+        {
             Started?.Invoke(this, EventArgs.Empty);
 
-            return
-                ((ITimeline)this)
-                .AppendToBuilder(new AnimationBuilder())
-                .StartAsync(Parent!)
-                .ContinueWith(_ => Ended?.Invoke(this, EventArgs.Empty));
+            await ((ITimeline)this).AppendToBuilder(new AnimationBuilder()).StartAsync(element);
+
+            Ended?.Invoke(this, EventArgs.Empty);
         }
 
         /// <inheritdoc/>

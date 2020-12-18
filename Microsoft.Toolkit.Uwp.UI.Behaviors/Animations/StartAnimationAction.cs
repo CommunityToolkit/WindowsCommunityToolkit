@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
@@ -7,16 +6,16 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
 {
     /// <summary>
-    /// An <see cref="IAction"/> implementation that can trigger a target <see cref="ITimeline"/> animation.
+    /// An <see cref="IAction"/> implementation that can trigger a target <see cref="AnimationCollection2"/> instance.
     /// </summary>
     public sealed class StartAnimationAction : DependencyObject, IAction
     {
         /// <summary>
-        /// Gets or sets the linked <see cref="ITimeline"/> animation to invoke.
+        /// Gets or sets the linked <see cref="AnimationCollection2"/> instance to invoke.
         /// </summary>
-        public ITimeline Animation
+        public AnimationCollection2 Animation
         {
-            get => (ITimeline)GetValue(AnimationProperty);
+            get => (AnimationCollection2)GetValue(AnimationProperty);
             set => SetValue(AnimationProperty, value);
         }
 
@@ -25,20 +24,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         /// </summary>
         public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
             "Animation",
-            typeof(ITimeline),
+            typeof(AnimationCollection2),
             typeof(StartAnimationAction),
             new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public object Execute(object sender, object parameter)
         {
-            Guard.IsNotNull(sender, nameof(sender));
-            Guard.IsAssignableToType<UIElement>(sender, nameof(sender));
             Guard.IsNotNull(Animation, nameof(Animation));
 
-            Animation.AppendToBuilder(new AnimationBuilder()).Start((UIElement)sender);
+            Animation.Start();
 
-            return null;
+            return null!;
         }
     }
 }
