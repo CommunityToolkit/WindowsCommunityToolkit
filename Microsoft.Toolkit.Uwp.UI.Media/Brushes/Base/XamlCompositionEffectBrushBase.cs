@@ -59,6 +59,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     {
                         CompositionBrush = await PipelineBuilder.FromColor(FallbackColor).BuildAsync();
                     }
+
+                    OnCompositionBrushUpdated();
                 }
             }
 
@@ -74,6 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     CompositionBrush.Dispose();
                     CompositionBrush = null;
+
+                    OnCompositionBrushUpdated();
                 }
             }
 
@@ -111,8 +115,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     {
                         CompositionBrush = await PipelineBuilder.FromColor(FallbackColor).BuildAsync();
                     }
+
+                    OnCompositionBrushUpdated();
                 }
             }
+        }
+
+        /// <summary>
+        /// Invoked whenever the <see cref="XamlCompositionBrushBase.CompositionBrush"/> property is updated.
+        /// </summary>
+        protected virtual void OnCompositionBrushUpdated()
+        {
         }
     }
 }

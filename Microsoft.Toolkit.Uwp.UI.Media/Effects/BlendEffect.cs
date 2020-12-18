@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
@@ -41,12 +42,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         {
             PipelineBuilder inputBuilder = Source ?? PipelineBuilder.FromBackdrop();
 
-            foreach (IPipelineEffect effect in this.Effects)
+            foreach (IPipelineEffect effect in Effects)
             {
                 inputBuilder = effect.AppendToPipeline(inputBuilder);
             }
 
             return builder.Blend(inputBuilder, (BlendEffectMode)Mode, Placement);
+        }
+
+        /// <inheritdoc/>
+        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
+        {
+            foreach (IPipelineEffect effect in Effects)
+            {
+                effect.NotifyCompositionBrushInUse(brush);
+            }
         }
     }
 }

@@ -38,5 +38,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
             return builder;
         }
+
+        /// <inheritdoc/>
+        protected override void OnCompositionBrushUpdated()
+        {
+            foreach (IPipelineEffect effect in Effects)
+            {
+                effect.NotifyCompositionBrushInUse(CompositionBrush);
+            }
+        }
     }
 }

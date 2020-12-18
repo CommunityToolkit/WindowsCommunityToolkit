@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -13,6 +14,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GaussianBlurEffect"/> effect</remarks>
     public sealed class BlurEffect : IPipelineEffect
     {
+        /// <summary>
+        /// The unique id for the effect, if <see cref="IsAnimatable"/> is set.
+        /// </summary>
+        private string id;
+
+        /// <summary>
+        /// The <see cref="CompositionBrush"/> in use, if any.
+        /// </summary>
+        private CompositionBrush brush;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the effect can be animated.
+        /// </summary>
+        public bool IsAnimatable { get; set; }
+
         private double amount;
 
         /// <summary>
@@ -27,7 +43,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            return builder.Blur((float)Amount);
+            return IsAnimatable switch
+            {
+                true => builder.Blur((float)Amount, out this.id),
+                false => builder.Blur((float)Amount)
+            };
+        }
+
+        /// <inheritdoc/>
+        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
+        {
+            this.brush = brush;
         }
     }
 }

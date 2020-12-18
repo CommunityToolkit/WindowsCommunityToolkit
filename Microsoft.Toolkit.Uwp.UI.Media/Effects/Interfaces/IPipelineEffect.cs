@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -17,5 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <param name="builder">The source <see cref="PipelineBuilder"/> instance to add the effect to.</param>
         /// <returns>A new <see cref="PipelineBuilder"/> with the new effects added to it.</returns>
         PipelineBuilder AppendToPipeline(PipelineBuilder builder);
+
+        /// <summary>
+        /// Notifies that a given <see cref="CompositionBrush"/> is now in use.
+        /// </summary>
+        /// <param name="brush">The <see cref="CompositionBrush"/> in use.</param>
+        internal void NotifyCompositionBrushInUse(CompositionBrush brush);
     }
 }

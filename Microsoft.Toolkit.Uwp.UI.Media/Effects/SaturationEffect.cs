@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -28,6 +29,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Saturation((float)Value);
+        }
+
+        /// <inheritdoc/>
+        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
+        {
         }
     }
 }
