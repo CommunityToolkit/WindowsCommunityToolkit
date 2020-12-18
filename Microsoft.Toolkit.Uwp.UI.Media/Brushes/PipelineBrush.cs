@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
 
         /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
+        protected override PipelineBuilder OnPipelineRequested()
         {
             PipelineBuilder builder = Source ?? PipelineBuilder.FromBackdrop();
 
