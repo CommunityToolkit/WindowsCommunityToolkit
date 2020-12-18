@@ -4,9 +4,9 @@ using Microsoft.Xaml.Interactivity;
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
 {
     /// <summary>
-    /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationCollection2"/> ends.
+    /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationCollection2"/> starts.
     /// </summary>
-    public sealed class AnimationEndBehavior : Trigger<AnimationCollection2>
+    public sealed class AnimationStartBehavior : Trigger<AnimationCollection2>
     {
         /// <summary>
         /// The current <see cref="AnimationCollection2"/> instance in use.
@@ -42,23 +42,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
 
             if (this.animationCollection is not null)
             {
-                this.animationCollection.Ended -= AnimationCollection_Ended;
+                this.animationCollection.Started -= AnimationCollection_Started;
             }
 
             this.animationCollection = animationCollection;
 
             if (animationCollection is not null)
             {
-                animationCollection.Ended += AnimationCollection_Ended;
+                animationCollection.Started += AnimationCollection_Started;
             }
         }
 
         /// <summary>
-        /// Invokes the current actions when the linked animations completes.
+        /// Invokes the current actions when the linked animations starts.
         /// </summary>
         /// <param name="sender">The source <see cref="AnimationCollection2"/> instance.</param>
         /// <param name="e">The arguments for the event (unused).</param>
-        private void AnimationCollection_Ended(object sender, System.EventArgs e)
+        private void AnimationCollection_Started(object sender, System.EventArgs e)
         {
             Interaction.ExecuteActions(sender, Actions, e);
         }
