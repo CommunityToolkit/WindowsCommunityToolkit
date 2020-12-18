@@ -3,7 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.ObjectModel;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
@@ -12,8 +13,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A collection of animations that can be grouped together.
     /// </summary>
-    public sealed class AnimationCollection2 : ObservableCollection<Animation>, ITimeline
+    public sealed class AnimationCollection2 : DependencyObject, IList<Animation>, ITimeline
     {
+        /// <summary>
+        /// Raised whenever the current animation is started.
+        /// </summary>
+        public event EventHandler? Started;
+
+        /// <summary>
+        /// Raised whenever the current animation ends.
+        /// </summary>
+        public event EventHandler? Ended;
+
+        /// <summary>
+        /// Raised whenever the current collection changes.
+        /// </summary>
+        public event EventHandler? CollectionChanged;
+
+        /// <summary>
+        /// The underlying list of animations.
+        /// </summary>
+        private readonly List<Animation> list = new();
+
         /// <summary>
         /// The reference to the parent that owns the current animation collection.
         /// </summary>
@@ -35,16 +56,115 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
             set => parent = new(value!);
         }
 
+        /// <inheritdoc/>
+        public Animation this[int index]
+        {
+            get => this.list[index];
+            set
+            {
+                this.list[index] = value;
+
+                CollectionChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        /// <inheritdoc/>
+        public int Count => this.list.Count;
+
+        /// <inheritdoc/>
+        public bool IsReadOnly => false;
+
+        /// <inheritdoc/>
+        public void Add(Animation item)
+        {
+            this.list.Add(item);
+
+            CollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public void Clear()
+        {
+            this.list.Clear();
+
+            CollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public bool Contains(Animation item)
+        {
+            return this.list.Contains(item);
+        }
+
+        /// <inheritdoc/>
+        public void CopyTo(Animation[] array, int arrayIndex)
+        {
+            this.list.CopyTo(array, arrayIndex);
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator<Animation> GetEnumerator()
+        {
+            return this.list.GetEnumerator();
+        }
+
+        /// <inheritdoc/>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.list.GetEnumerator();
+        }
+
+        /// <inheritdoc/>
+        public int IndexOf(Animation item)
+        {
+            return this.list.IndexOf(item);
+        }
+
+        /// <inheritdoc/>
+        public void Insert(int index, Animation item)
+        {
+            this.list.Insert(index, item);
+
+            CollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public bool Remove(Animation item)
+        {
+            bool removed = this.list.Remove(item);
+
+            if (removed)
+            {
+                CollectionChanged?.Invoke(this, EventArgs.Empty);
+            }
+
+            return removed;
+        }
+
+        /// <inheritdoc/>
+        public void RemoveAt(int index)
+        {
+            this.list.RemoveAt(index);
+
+            CollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public void Start()
         {
-            ((ITimeline)this).AppendToBuilder(new AnimationBuilder()).Start(Parent!);
+            _ = StartAsync();
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public Task StartAsync()
         {
-            return ((ITimeline)this).AppendToBuilder(new AnimationBuilder()).StartAsync(Parent!);
+            Started?.Invoke(this, EventArgs.Empty);
+
+            return
+                ((ITimeline)this)
+                .AppendToBuilder(new AnimationBuilder())
+                .StartAsync(Parent!)
+                .ContinueWith(_ => Ended?.Invoke(this, EventArgs.Empty));
         }
 
         /// <inheritdoc/>
