@@ -11,10 +11,10 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// A <see cref="Brush"/> that renders a customizable Composition/Win2D effects pipeline
+    /// A builder type for <see cref="Windows.UI.Composition.SpriteVisual"/> instance to apply to UI elements.
     /// </summary>
     [ContentProperty(Name = nameof(Effects))]
-    public sealed class PipelineBrush : XamlCompositionEffectBrushBase
+    public sealed class PipelineVisual
     {
         /// <summary>
         /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="AcrylicBackgroundSource.Backdrop"/> source).
@@ -26,8 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
 
-        /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
+        /// <summary>
+        /// Gets the <see cref="PipelineBuilder"/> instance for the current effects tree.
+        /// </summary>
+        /// <returns>The <see cref="PipelineBuilder"/> instance for the current effects tree.</returns>
+        internal PipelineBuilder GetPipeline()
         {
             PipelineBuilder builder = Source ?? PipelineBuilder.FromBackdrop();
 
