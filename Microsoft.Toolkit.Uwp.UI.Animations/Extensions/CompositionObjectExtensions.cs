@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? delay,
             CompositionEasingFunction? ease = null)
         {
-            target.StartAnimation(propertyPath, target.Compositor.CreateScalarKeyFrameAnimation(from, to, duration, delay, ease));
+            target.StartAnimation(propertyPath, target.Compositor.CreateScalarKeyFrameAnimation(null, from, to, duration, delay, ease));
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? delay,
             CompositionEasingFunction? ease = null)
         {
-            target.StartAnimation(propertyPath, target.Compositor.CreateVector2KeyFrameAnimation(from, to, duration, delay, ease));
+            target.StartAnimation(propertyPath, target.Compositor.CreateVector2KeyFrameAnimation(null, from, to, duration, delay, ease));
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? delay,
             CompositionEasingFunction? ease = null)
         {
-            target.StartAnimation(propertyPath, target.Compositor.CreateVector3KeyFrameAnimation(from, to, duration, delay, ease));
+            target.StartAnimation(propertyPath, target.Compositor.CreateVector3KeyFrameAnimation(null, from, to, duration, delay, ease));
         }
     }
 }

@@ -3,19 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
-    /// A set of animations that can be grouped together.
+    /// A translation animation working on the composition or XAML layer.
     /// </summary>
-    public class TranslationAnimation : TypedAnimation<double>, ITimeline
+    public class TranslationAnimation : TypedAnimation<string>, ITimeline
     {
-        /// <summary>
-        /// Gets or sets the target translation axis to animate.
-        /// </summary>
-        public Axis Axis { get; set; }
-
         /// <summary>
         /// Gets or sets the target framework layer to animate.
         /// </summary>
@@ -24,7 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc/>
         AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint)
         {
-            return builder.Translation(Axis, From, To, Delay ?? delayHint, Duration ?? durationHint.GetValueOrDefault(), EasingType, EasingMode, Layer);
+            if (Layer == FrameworkLayer.Composition)
+            {
+                return builder.Translation(From?.ToVector3(), To!.ToVector3(), Delay ?? delayHint, Duration ?? durationHint.GetValueOrDefault(), EasingType, EasingMode);
+            }
+            else
+            {
+                return builder.Translation(From?.ToVector2(), To!.ToVector2(), Delay ?? delayHint, Duration ?? durationHint.GetValueOrDefault(), EasingType, EasingMode, FrameworkLayer.Xaml);
+            }
         }
     }
 }

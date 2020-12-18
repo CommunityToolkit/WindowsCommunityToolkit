@@ -286,6 +286,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (this.compositionAnimationFactories.Count > 0)
             {
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
                 Visual visual = ElementCompositionPreview.GetElementVisual(element);
                 CompositionAnimationGroup group = visual.Compositor.CreateAnimationGroup();
 
@@ -323,6 +325,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (this.compositionAnimationFactories.Count > 0)
             {
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
                 Visual visual = ElementCompositionPreview.GetElementVisual(element);
                 CompositionAnimationGroup group = visual.Compositor.CreateAnimationGroup();
                 CompositionScopedBatch batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
