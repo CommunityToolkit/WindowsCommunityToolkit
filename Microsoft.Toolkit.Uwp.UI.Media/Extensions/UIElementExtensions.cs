@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -8,44 +10,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public static class UIElementExtensions
     {
         /// <summary>
-        /// Identifies the Visual XAML attached property.
+        /// Identifies the VisualFactory XAML attached property.
         /// </summary>
-        public static readonly DependencyProperty VisualProperty = DependencyProperty.RegisterAttached(
-            "Visual",
-            typeof(PipelineVisual),
+        public static readonly DependencyProperty VisualFactoryProperty = DependencyProperty.RegisterAttached(
+            "VisualFactory",
+            typeof(AttachedVisualFactoryBase),
             typeof(UIElementExtensions),
-            new PropertyMetadata(null, OnVisualPropertyChanged));
+            new PropertyMetadata(null, OnVisualFactoryPropertyChanged));
 
         /// <summary>
-        /// Gets the value of <see cref="VisualProperty"/>.
+        /// Gets the value of <see cref="VisualFactoryProperty"/>.
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/> to get the value for.</param>
-        /// <returns>The retrieved <see cref="PipelineVisual"/> item.</returns>
-        public static PipelineVisual GetVisual(UIElement element)
+        /// <returns>The retrieved <see cref="AttachedVisualFactoryBase"/> item.</returns>
+        public static AttachedVisualFactoryBase GetVisualFactory(UIElement element)
         {
-            return (PipelineVisual)element.GetValue(VisualProperty);
+            return (AttachedVisualFactoryBase)element.GetValue(VisualFactoryProperty);
         }
 
         /// <summary>
-        /// Sets the value of <see cref="VisualProperty"/>.
+        /// Sets the value of <see cref="VisualFactoryProperty"/>.
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/> to set the value for.</param>
-        /// <param name="value">The <see cref="PipelineVisual"/> value to set.</param>
-        public static void SetVisual(UIElement element, PipelineVisual value)
+        /// <param name="value">The <see cref="AttachedVisualFactoryBase"/> value to set.</param>
+        public static void SetVisualFactory(UIElement element, AttachedVisualFactoryBase value)
         {
-            element.SetValue(VisualProperty, value);
+            element.SetValue(VisualFactoryProperty, value);
         }
 
         /// <summary>
-        /// Callback to apply the visual for <see cref="VisualProperty"/>.
+        /// Callback to apply the visual for <see cref="VisualFactoryProperty"/>.
         /// </summary>
         /// <param name="d">The target object the property was changed for.</param>
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
-        private static async void OnVisualPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void OnVisualFactoryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var element = (UIElement)d;
+            var attachedVisual = await ((AttachedVisualFactoryBase)e.NewValue).GetAttachedVisualAsync(element);
 
-            await ((PipelineVisual)e.NewValue).GetPipeline().AttachAsync(element, element);
+            attachedVisual.BindSize(element);
+
+            ElementCompositionPreview.SetElementChildVisual(element, attachedVisual);
         }
     }
 }

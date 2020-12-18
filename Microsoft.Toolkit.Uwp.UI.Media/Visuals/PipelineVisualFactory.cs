@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// A builder type for <see cref="Windows.UI.Composition.SpriteVisual"/> instance to apply to UI elements.
     /// </summary>
     [ContentProperty(Name = nameof(Effects))]
-    public sealed class PipelineVisual
+    public sealed class PipelineVisualFactory : PipelineVisualFactoryBase
     {
         /// <summary>
         /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="AcrylicBackgroundSource.Backdrop"/> source).
@@ -26,11 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
 
-        /// <summary>
-        /// Gets the <see cref="PipelineBuilder"/> instance for the current effects tree.
-        /// </summary>
-        /// <returns>The <see cref="PipelineBuilder"/> instance for the current effects tree.</returns>
-        internal PipelineBuilder GetPipeline()
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnPipelineRequested()
         {
             PipelineBuilder builder = Source ?? PipelineBuilder.FromBackdrop();
 
