@@ -15,9 +15,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
-        /// The list of <see cref="ICompositionAnimation"/> instances representing composition animations to run.
+        /// The list of <see cref="ICompositionAnimationFactory"/> instances representing factories for composition animations to run.
         /// </summary>
-        private readonly List<ICompositionAnimation> compositionAnimations = new();
+        private readonly List<ICompositionAnimationFactory> compositionAnimationFactories = new();
 
         /// <summary>
         /// The list of <see cref="IXamlAnimationFactory"/> instances representing factories for XAML animations to run.
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             CompositionScalarAnimation animation = new(property, from, to, delay, duration, easingType, easingMode);
 
-            this.compositionAnimations.Add(animation);
+            this.compositionAnimationFactories.Add(animation);
 
             return this;
         }
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Vector3 to3 = new(to, 0);
             CompositionVector3Animation animation = new(property, from3, to3, delay, duration, easingType, easingMode);
 
-            this.compositionAnimations.Add(animation);
+            this.compositionAnimationFactories.Add(animation);
 
             return this;
         }
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             CompositionVector3Animation animation = new(property, from, to, delay, duration, easingType, easingMode);
 
-            this.compositionAnimations.Add(animation);
+            this.compositionAnimationFactories.Add(animation);
 
             return this;
         }

@@ -26,17 +26,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
-            : ICompositionAnimation
+            : ICompositionAnimationFactory
         {
             /// <inheritdoc/>
-            public void StartAnimation(Visual visual)
+            public CompositionAnimation GetAnimation(Visual visual)
             {
-                visual.StopAnimation(Property);
-
                 CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(From, To, Duration, Delay, easingFunction);
+                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
 
-                visual.StartAnimation(Property, animation);
+                return animation;
             }
         }
 
@@ -51,17 +49,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
-            : ICompositionAnimation
+            : ICompositionAnimationFactory
         {
             /// <inheritdoc/>
-            public void StartAnimation(Visual visual)
+            public CompositionAnimation GetAnimation(Visual visual)
             {
-                visual.StopAnimation(Property);
-
                 CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation(From, To, Duration, Delay, easingFunction);
+                Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
 
-                visual.StartAnimation(Property, animation);
+                return animation;
             }
         }
 
@@ -122,15 +118,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// An interface for animations targeting the composition layer.
+        /// An interface for factories of composition animations.
         /// </summary>
-        private interface ICompositionAnimation
+        private interface ICompositionAnimationFactory
         {
             /// <summary>
-            /// Starts the current animation.
+            /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
             /// </summary>
             /// <param name="visual">The target <see cref="Visual"/> instance to animate.</param>
-            void StartAnimation(Visual visual);
+            /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
+            CompositionAnimation GetAnimation(Visual visual);
         }
     }
 }

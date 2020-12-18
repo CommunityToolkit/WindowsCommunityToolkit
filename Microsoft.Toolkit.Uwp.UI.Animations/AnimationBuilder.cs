@@ -284,14 +284,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
         public void Start(UIElement element)
         {
-            if (this.compositionAnimations.Count > 0)
+            if (this.compositionAnimationFactories.Count > 0)
             {
                 Visual visual = ElementCompositionPreview.GetElementVisual(element);
+                CompositionAnimationGroup group = visual.Compositor.CreateAnimationGroup();
 
-                foreach (var animation in this.compositionAnimations)
+                foreach (var factory in this.compositionAnimationFactories)
                 {
-                    animation.StartAnimation(visual);
+                    group.Add(factory.GetAnimation(visual));
                 }
+
+                visual.StartAnimationGroup(group);
             }
 
             if (this.xamlAnimationFactories.Count > 0)
@@ -318,18 +321,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 compositionTask = Task.CompletedTask,
                 xamlTask = Task.CompletedTask;
 
-            if (this.compositionAnimations.Count > 0)
+            if (this.compositionAnimationFactories.Count > 0)
             {
                 Visual visual = ElementCompositionPreview.GetElementVisual(element);
+                CompositionAnimationGroup group = visual.Compositor.CreateAnimationGroup();
                 CompositionScopedBatch batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
                 TaskCompletionSource<object?> taskCompletionSource = new();
 
                 batch.Completed += (_, _) => taskCompletionSource.SetResult(null);
 
-                foreach (var animation in this.compositionAnimations)
+                foreach (var factory in this.compositionAnimationFactories)
                 {
-                    animation.StartAnimation(visual);
+                    group.Add(factory.GetAnimation(visual));
                 }
+
+                visual.StartAnimationGroup(group);
 
                 batch.End();
 

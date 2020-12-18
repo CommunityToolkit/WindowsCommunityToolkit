@@ -49,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// Creates a <see cref="ScalarKeyFrameAnimation"/> instance with the given parameters to on a target element.
         /// </summary>
         /// <param name="compositor">The current <see cref="Compositor"/> instance used to create the animation.</param>
+        /// <param name="target">The target property to animate.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="duration">The animation duration.</param>
@@ -58,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         [Pure]
         public static ScalarKeyFrameAnimation CreateScalarKeyFrameAnimation(
             this Compositor compositor,
+            string target,
             float? from,
             float to,
             TimeSpan duration,
@@ -80,6 +82,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 animation.InsertKeyFrame(0, from.Value);
             }
 
+            animation.Target = target;
+
             return animation;
         }
 
@@ -87,6 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// Creates a <see cref="ScalarKeyFrameAnimation"/> instance with the given parameters to on a target element.
         /// </summary>
         /// <param name="compositor">The current <see cref="Compositor"/> instance used to create the animation.</param>
+        /// <param name="target">The target property to animate.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="duration">The animation duration.</param>
@@ -96,6 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         [Pure]
         public static Vector2KeyFrameAnimation CreateVector2KeyFrameAnimation(
             this Compositor compositor,
+            string target,
             Vector2? from,
             Vector2 to,
             TimeSpan duration,
@@ -118,6 +124,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 animation.InsertKeyFrame(0, from.Value);
             }
 
+            animation.Target = target;
+
             return animation;
         }
 
@@ -125,6 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// Creates a <see cref="ScalarKeyFrameAnimation"/> instance with the given parameters to on a target element.
         /// </summary>
         /// <param name="compositor">The current <see cref="Compositor"/> instance used to create the animation.</param>
+        /// <param name="target">The target property to animate.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="duration">The animation duration.</param>
@@ -134,6 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         [Pure]
         public static Vector3KeyFrameAnimation CreateVector3KeyFrameAnimation(
             this Compositor compositor,
+            string target,
             Vector3? from,
             Vector3 to,
             TimeSpan duration,
@@ -155,6 +165,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             {
                 animation.InsertKeyFrame(0, from.Value);
             }
+
+            animation.Target = target;
 
             return animation;
         }
