@@ -41,9 +41,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         internal WeakReference<UIElement>? ParentReference { get; set; }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
-        public void Start()
+        public async void Start()
         {
-            _ = StartAsync();
+            // Here we're using an async void method on purpose, in order to be able to await
+            // the completion of the animation and rethrow exceptions. We can't just use the
+            // synchronous AnimationBuilder.Start method here, as we also need to await for the
+            // animation to complete in either case in order to raise the Ended event when that
+            // happens. So we add an async state machine here to work around this.
+            await StartAsync();
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
@@ -60,9 +65,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
-        public void Start(UIElement element)
+        public async void Start(UIElement element)
         {
-            _ = StartAsync(element);
+            await StartAsync(element);
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
