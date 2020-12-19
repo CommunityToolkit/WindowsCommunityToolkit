@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// An interface for factories of XAML animations.
         /// </summary>
-        private interface IXamlAnimationFactory
+        internal interface IXamlAnimationFactory
         {
             /// <summary>
             /// Gets a <see cref="Timeline"/> instance representing the animation to start.
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// An interface for factories of composition animations.
         /// </summary>
-        private interface ICompositionAnimationFactory
+        internal interface ICompositionAnimationFactory
         {
             /// <summary>
             /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// An interface for custom external composition animations.
         /// </summary>
-        private interface ICompositionAnimation
+        internal interface ICompositionAnimation
         {
             /// <summary>
             /// Starts a <see cref="CompositionAnimation"/> with some embedded parameters.
