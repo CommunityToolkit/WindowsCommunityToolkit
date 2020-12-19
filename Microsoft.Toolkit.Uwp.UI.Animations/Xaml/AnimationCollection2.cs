@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +17,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// </summary>
     public sealed class AnimationCollection2 : DependencyObject, IList<Animation>, ITimeline
     {
+        /// <summary>
+        /// The underlying list of animations.
+        /// </summary>
+        private readonly List<Animation> list = new();
+
+        /// <summary>
+        /// The reference to the parent that owns the current animation collection.
+        /// </summary>
+        private WeakReference<UIElement>? parent;
+
         /// <summary>
         /// Raised whenever the current animation is started.
         /// </summary>
@@ -31,16 +43,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         public event EventHandler? CollectionChanged;
 
         /// <summary>
-        /// The underlying list of animations.
-        /// </summary>
-        private readonly List<Animation> list = new();
-
-        /// <summary>
-        /// The reference to the parent that owns the current animation collection.
-        /// </summary>
-        private WeakReference<UIElement>? parent;
-
-        /// <summary>
         /// Gets or sets the parent <see cref="UIElement"/> for the current animation collection.
         /// </summary>
         internal UIElement? Parent
@@ -53,8 +55,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 
                 return element;
             }
-            set => parent = new(value!);
+            set => this.parent = new(value!);
         }
+
+        /// <inheritdoc/>
+        public int Count => this.list.Count;
+
+        /// <inheritdoc/>
+        public bool IsReadOnly => false;
 
         /// <inheritdoc/>
         public Animation this[int index]
@@ -67,12 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 CollectionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        /// <inheritdoc/>
-        public int Count => this.list.Count;
-
-        /// <inheritdoc/>
-        public bool IsReadOnly => false;
 
         /// <inheritdoc/>
         public void Add(Animation item)

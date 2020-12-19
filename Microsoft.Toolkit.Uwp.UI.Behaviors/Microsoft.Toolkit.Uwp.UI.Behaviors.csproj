@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>uap10.0.17763</TargetFramework>
     <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
     <Title>Windows Community Toolkit UI Behaviors</Title>
     <Description>
       This library provides UI behaviors built on the XAML behaviors SDK. It is part of the Windows Community Toolkit.

@@ -16,7 +16,6 @@
     </Description>
     <PackageTags>UWP Toolkit Windows Animations Composition Connected Implicit XAML</PackageTags>
     <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <!-- TODO: Figure out where these go... -->
