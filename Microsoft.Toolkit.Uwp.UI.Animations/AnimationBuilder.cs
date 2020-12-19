@@ -381,6 +381,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
+                return AddCompositionScalarAnimationFactory(nameof(Visual.RotationAngle), (float?)from, (float)to, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                double? fromDegrees = from * Math.PI / 180;
+                double toDegrees = to * Math.PI / 180;
+
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), fromDegrees, toDegrees, delay, duration, easingType, easingMode);
+
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Adds a new rotation animation in degrees to the current schedule.
+        /// </summary>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder RotateInDegrees(
+            double? from,
+            double to,
+            TimeSpan? delay,
+            TimeSpan duration,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
                 return AddCompositionScalarAnimationFactory(nameof(Visual.RotationAngleInDegrees), (float?)from, (float)to, delay, duration, easingType, easingMode);
             }
             else
