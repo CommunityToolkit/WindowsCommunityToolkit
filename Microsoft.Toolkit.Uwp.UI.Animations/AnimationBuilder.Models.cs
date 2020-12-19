@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
-        /// A model representing a specified composition double animation.
+        /// A model representing a specified composition double animation for a target <see cref="CompositionObject"/>.
         /// </summary>
         private sealed record CompositionDoubleAnimation(
             CompositionObject Target,
@@ -40,9 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified composition scalar animation.
+        /// A model representing a specified composition scalar animation factory.
         /// </summary>
-        private sealed record CompositionScalarAnimation(
+        private sealed record CompositionScalarAnimationFactory(
             string Property,
             float? From,
             float To,
@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified composition <see cref="Vector3"/> animation.
+        /// A model representing a specified composition <see cref="Vector3"/> animation factory.
         /// </summary>
-        private sealed record CompositionVector3Animation(
+        private sealed record CompositionVector3AnimationFactory(
             string Property,
             Vector3? From,
             Vector3 To,
@@ -86,9 +86,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified XAML <see cref="double"/> animation.
+        /// A model representing a specified XAML <see cref="double"/> animation factory.
         /// </summary>
-        private sealed record XamlDoubleAnimation(
+        private sealed record XamlDoubleAnimationFactory(
             string Property,
             double? From,
             double To,
@@ -107,9 +107,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified XAML <see cref="double"/> animation targeting a transform.
+        /// A model representing a specified XAML <see cref="double"/> animation factory targeting a transform.
         /// </summary>
-        private sealed record XamlTransformDoubleAnimation(
+        private sealed record XamlTransformDoubleAnimationFactory(
             string Property,
             double? From,
             double To,

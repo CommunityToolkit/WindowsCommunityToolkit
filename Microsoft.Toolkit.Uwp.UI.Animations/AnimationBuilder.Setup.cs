@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingType">The easing function for the animation.</param>
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        private AnimationBuilder OnCompositionScalarAnimation(
+        private AnimationBuilder AddCompositionScalarAnimationFactory(
             string property,
             float? from,
             float to,
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType,
             EasingMode easingMode)
         {
-            CompositionScalarAnimation animation = new(property, from, to, delay, duration, easingType, easingMode);
+            CompositionScalarAnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode);
 
             this.compositionAnimationFactories.Add(animation);
 
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         /// <remarks>This will use a <see cref="Vector3"/> animation with a zero Z axis.</remarks>
-        private AnimationBuilder OnCompositionVector2Animation(
+        private AnimationBuilder AddCompositionVector2AnimationFactory(
             string property,
             Vector2? from,
             Vector2 to,
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             Vector3? from3 = from is null ? null : new(from.Value, 0);
             Vector3 to3 = new(to, 0);
-            CompositionVector3Animation animation = new(property, from3, to3, delay, duration, easingType, easingMode);
+            CompositionVector3AnimationFactory animation = new(property, from3, to3, delay, duration, easingType, easingMode);
 
             this.compositionAnimationFactories.Add(animation);
 
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingType">The easing function for the animation.</param>
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        private AnimationBuilder OnCompositionVector3Animation(
+        private AnimationBuilder AddCompositionVector3AnimationFactory(
             string property,
             Vector3? from,
             Vector3 to,
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType,
             EasingMode easingMode)
         {
-            CompositionVector3Animation animation = new(property, from, to, delay, duration, easingType, easingMode);
+            CompositionVector3AnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode);
 
             this.compositionAnimationFactories.Add(animation);
 
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <param name="enableDependentAnimation">Whether to set <see cref="DoubleAnimation.EnableDependentAnimation"/>.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        private AnimationBuilder OnXamlDoubleAnimation(
+        private AnimationBuilder AddXamlDoubleAnimationFactory(
             string property,
             double? from,
             double to,
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode easingMode,
             bool enableDependentAnimation)
         {
-            XamlDoubleAnimation animation = new(property, from, to, delay, duration, easingType, easingMode, enableDependentAnimation);
+            XamlDoubleAnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode, enableDependentAnimation);
 
             this.xamlAnimationFactories.Add(animation);
 
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingType">The easing function for the animation.</param>
         /// <param name="easingMode">The easing mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        private AnimationBuilder OnXamlTransformDoubleAnimation(
+        private AnimationBuilder AddXamlTransformDoubleAnimationFactory(
             string property,
             double? from,
             double to,
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType,
             EasingMode easingMode)
         {
-            XamlTransformDoubleAnimation animation = new(property, from, to, delay, duration, easingType, easingMode);
+            XamlTransformDoubleAnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode);
 
             this.xamlAnimationFactories.Add(animation);
 
