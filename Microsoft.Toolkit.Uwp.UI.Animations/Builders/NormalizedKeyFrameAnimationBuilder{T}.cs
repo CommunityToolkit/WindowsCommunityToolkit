@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// The target duration for the animation.
         /// </summary>
-        private readonly TimeSpan? duration;
+        private readonly TimeSpan duration;
 
         /// <summary>
         /// The list of keyframes to use.
@@ -40,9 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}"/> class.
         /// </summary>
         /// <param name="property">The target property to animate.</param>
-        /// <param name="delay">The target delay for the animation, if any.</param>
+        /// <param name="delay">The target delay for the animation.</param>
         /// <param name="duration">The target duration for the animation.</param>
-        protected NormalizedKeyFrameAnimationBuilder(string property, TimeSpan? delay, TimeSpan? duration)
+        protected NormalizedKeyFrameAnimationBuilder(string property, TimeSpan? delay, TimeSpan duration)
         {
             this.property = property;
             this.delay = delay;

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Xaml.Media.Animation;
@@ -13,6 +14,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
     /// </summary>
     public static partial class AnimationExtensions
     {
+        /// <summary>
+        /// Gets the default duration of animations.
+        /// </summary>
+        public static TimeSpan DefaultDuration => TimeSpan.FromMilliseconds(400);
+
         /// <summary>
         /// The default <see cref="EasingType"/> value used for animations.
         /// </summary>

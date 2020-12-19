@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// Initializes a new instance of the <see cref="Xaml"/> class.
             /// </summary>
             /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
-            public Xaml(string property, TimeSpan? delay, TimeSpan? duration)
+            public Xaml(string property, TimeSpan? delay, TimeSpan duration)
                 : base(property, delay, duration)
             {
             }
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     {
                         doubleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
                         {
-                            KeyTime = keyFrame.GetKeyTime(this.duration.GetValueOrDefault()),
+                            KeyTime = keyFrame.GetKeyTime(this.duration),
                             Value = *(double*)&keyFrame.Value,
                             EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
                         });
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     {
                         pointAnimation.KeyFrames.Add(new EasingPointKeyFrame()
                         {
-                            KeyTime = keyFrame.GetKeyTime(this.duration.GetValueOrDefault()),
+                            KeyTime = keyFrame.GetKeyTime(this.duration),
                             Value = *(Point*)&keyFrame.Value,
                             EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
                         });
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     {
                         colorAnimation.KeyFrames.Add(new EasingColorKeyFrame()
                         {
-                            KeyTime = keyFrame.GetKeyTime(this.duration.GetValueOrDefault()),
+                            KeyTime = keyFrame.GetKeyTime(this.duration),
                             Value = *(Color*)&keyFrame.Value,
                             EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
                         });
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 animation.BeginTime = this.delay;
-                animation.Duration = this.duration.GetValueOrDefault();
+                animation.Duration = this.duration;
 
                 Storyboard.SetTarget(animation, element);
                 Storyboard.SetTargetProperty(animation, this.property);

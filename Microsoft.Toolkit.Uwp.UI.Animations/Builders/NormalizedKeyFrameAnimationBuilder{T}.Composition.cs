@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// Initializes a new instance of the <see cref="Composition"/> class.
             /// </summary>
             /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
-            public Composition(string property, TimeSpan? delay, TimeSpan? duration)
+            public Composition(string property, TimeSpan? delay, TimeSpan duration)
                 : base(property, delay, duration)
             {
             }
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
                 }
 
-                animation.Duration = this.duration.GetValueOrDefault();
+                animation.Duration = this.duration;
 
                 if (this.delay.HasValue)
                 {
