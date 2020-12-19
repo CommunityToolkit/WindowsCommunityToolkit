@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("EffectElement") is Image effectElement)
             {
                 _effectElement = effectElement;
-                _effectElement.Blur(value: 10, duration: 0).Start();
+                ////TODO: _effectElement.Blur(value: 10, duration: 0).Start();
             }
 
             if (control.FindChildByName("EffectElementHost") is FrameworkElement effectElementHost)
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             AddLog("Entered viewport");
 
-            await _effectElement.Blur(value: 0, duration: 1500).StartAsync();
+            ////TODO: await _effectElement.Blur(value: 0, duration: 1500).StartAsync();
         }
 
         private void EffectElementHost_EnteringViewport(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             AddLog("Exited viewport");
 
             _effectElement.Source = null;
-            await _effectElement.Blur(value: 8, duration: 0).StartAsync();
+            ////TODO: await _effectElement.Blur(value: 8, duration: 0).StartAsync();
         }
 
         private void EffectElementHost_ExitingViewport(object sender, EventArgs e)

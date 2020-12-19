@@ -9,10 +9,6 @@
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
       
-      Behaviors:
-      - BehaviorBase: Helper for building Behaviors
-      - ViewportBehavior: Listening for element to enter or exit the ScrollViewer viewport
-
       CacheBase: Provides methods and tools to cache files in a folder.
       
       Converters: Commonly used converters that allow the data to be modified as it passes through the binding engine.
@@ -47,11 +43,7 @@
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>  
