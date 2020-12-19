@@ -27,25 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         private WeakReference<UIElement>? parent;
 
         /// <summary>
-        /// Gets or sets the parent <see cref="UIElement"/> for the current animation dictionary.
+        /// Sets the parent <see cref="UIElement"/> for the current animation dictionary.
         /// </summary>
         internal UIElement? Parent
         {
-            get
-            {
-                UIElement? element = null;
-
-                _ = this.parent?.TryGetTarget(out element);
-
-                return element;
-            }
             set
             {
-                this.parent = new(value!);
+                WeakReference<UIElement> parent = this.parent = new(value!);
 
                 foreach (var item in this.list)
                 {
-                    item.Parent = value;
+                    item.ParentReference = parent;
                 }
             }
         }
@@ -62,10 +54,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
             get => this.list[index];
             set
             {
-                this.list[index].Parent = null;
+                this.list[index].ParentReference = null;
                 this.list[index] = value;
 
-                value.Parent = Parent;
+                value.ParentReference = this.parent;
             }
         }
 
@@ -74,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         {
             this.list.Add(item);
 
-            item.Parent = Parent;
+            item.ParentReference = this.parent;
         }
 
         /// <inheritdoc/>
@@ -82,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         {
             foreach (var item in this.list)
             {
-                item.Parent = null;
+                item.ParentReference = this.parent;
             }
 
             this.list.Clear();
@@ -123,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         {
             this.list.Insert(index, item);
 
-            item.Parent = Parent;
+            item.ParentReference = this.parent;
         }
 
         /// <inheritdoc/>
@@ -133,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 
             if (removed)
             {
-                item.Parent = null;
+                item.ParentReference = null;
             }
 
             return removed;
@@ -142,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc/>
         public void RemoveAt(int index)
         {
-            this.list[index].Parent = null;
+            this.list[index].ParentReference = null;
             this.list.RemoveAt(index);
         }
     }

@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
@@ -20,11 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     public sealed class AnimationCollection2 : DependencyObject, ITimeline
     {
         /// <summary>
-        /// The reference to the parent that owns the current animation collection.
-        /// </summary>
-        private WeakReference<UIElement>? parent;
-
-        /// <summary>
         /// Raised whenever the current animation is started.
         /// </summary>
         public event EventHandler? Started;
@@ -35,30 +31,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         public event EventHandler? Ended;
 
         /// <summary>
-        /// Raised whenever the current collection changes.
-        /// </summary>
-        public event EventHandler? CollectionChanged;
-
-        /// <summary>
         /// Gets or sets the list of animations in the current collection.
         /// </summary>
         public IList<Animation> Animations { get; set; } = new List<Animation>();
 
         /// <summary>
-        /// Gets or sets the parent <see cref="UIElement"/> for the current animation collection.
+        /// Gets or sets the weak reference to the parent that owns the current animation collection.
         /// </summary>
-        internal UIElement? Parent
-        {
-            get
-            {
-                UIElement? element = null;
-
-                _ = this.parent?.TryGetTarget(out element);
-
-                return element;
-            }
-            set => this.parent = new(value!);
-        }
+        internal WeakReference<UIElement>? ParentReference { get; set; }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public void Start()
@@ -69,7 +49,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public Task StartAsync()
         {
-            return StartAsync(Parent!);
+            if (!ParentReference.TryGetTarget(out UIElement? parent))
+            {
+                ThrowHelper.ThrowInvalidOperationException("The current animation collection isn't bound to a parent UIElement instance.");
+            }
+
+            return StartAsync(parent);
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
