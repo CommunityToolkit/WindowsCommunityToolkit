@@ -13,41 +13,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static class Explicit
     {
         /// <summary>
-        /// Identifies the Implicit.ShowAnimations XAML attached property.
+        /// Identifies the property for the attached <see cref="AnimationDictionary"/> instance.
         /// </summary>
-        public static readonly DependencyProperty Animations = DependencyProperty.RegisterAttached(
-            "ShowAnimations",
-            typeof(AnimationCollection),
-            typeof(Implicit),
-            new PropertyMetadata(null, OnAnimationsChanged));
+        public static readonly DependencyProperty AnimationsProperty = DependencyProperty.RegisterAttached(
+            "Animations",
+            typeof(AnimationDictionary),
+            typeof(Explicit),
+            new PropertyMetadata(null, OnAnimationsPropertyChanged));
 
         /// <summary>
-        /// Gets the value of the <see cref="Animations"/> property.
+        /// Gets the value of the <see cref="AnimationsProperty"/> property.
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/> to get the value for.</param>
-        /// <returns>The retrieved <see cref="AnimationCollection2"/> item.</returns>
-        public static AnimationCollection2 GetAnimations(UIElement element)
+        /// <returns>The retrieved <see cref="AnimationDictionary"/> item.</returns>
+        public static AnimationDictionary GetAnimations(UIElement element)
         {
-            if (element.GetValue(Animations) is AnimationCollection2 collection)
+            if (element.GetValue(AnimationsProperty) is AnimationDictionary collection)
             {
                 return collection;
             }
 
-            collection = new AnimationCollection2();
+            collection = new AnimationDictionary();
 
-            element.SetValue(Animations, collection);
+            element.SetValue(AnimationsProperty, collection);
 
             return collection;
         }
 
         /// <summary>
-        /// Sets the value of the <see cref="Animations"/> property.
+        /// Sets the value of the <see cref="AnimationsProperty"/> property.
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/> to set the value for.</param>
-        /// <param name="value">The <see cref="AnimationCollection2"/> value to set.</param>
-        public static void SetAnimations(UIElement element, AnimationCollection2 value)
+        /// <param name="value">The <see cref="AnimationDictionary"/> value to set.</param>
+        public static void SetAnimations(UIElement element, AnimationDictionary value)
         {
-            element.SetValue(Animations, value);
+            element.SetValue(AnimationsProperty, value);
         }
 
         /// <summary>
@@ -55,11 +55,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="d">The target object the property was changed for.</param>
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
-        private static void OnAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is AnimationCollection2 animationCollection && d is UIElement element)
+            if (d is not UIElement element)
             {
-                animationCollection.Parent = element;
+                return;
+            }
+
+            if (e.OldValue is AnimationDictionary oldDictionary)
+            {
+                oldDictionary.Parent = null;
+            }
+
+            if (e.NewValue is AnimationDictionary newDictionary)
+            {
+                newDictionary.Parent = element;
             }
         }
     }
