@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
@@ -17,7 +18,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <param name="builder">The target <see cref="AnimationBuilder"/> instance to schedule the animation on.</param>
         /// <param name="delayHint">A hint for the animation delay, if present.</param>
         /// <param name="durationHint">A hint for the animation duration, if present.</param>
+        /// <param name="easingTypeHint">A hint for the easing type, if present.</param>
+        /// <param name="easingModeHint">A hint for the easing mode, if present.</param>
         /// <returns>The same <see cref="AnimationBuilder"/> instance as <paramref name="builder"/>.</returns>
-        AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint = null, TimeSpan? durationHint = null);
+        AnimationBuilder AppendToBuilder(
+            AnimationBuilder builder,
+            TimeSpan? delayHint = null,
+            TimeSpan? durationHint = null,
+            EasingType? easingTypeHint = null,
+            EasingMode? easingModeHint = null);
     }
 }

@@ -3,36 +3,33 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
-using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
     /// A set of animations that can be grouped together.
+    /// This animation maps to <see cref="AnimationBuilder.Opacity(double?, double, TimeSpan?, TimeSpan, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
-    public class EffectDoubleAnimation : TypedAnimation<double>, ITimeline
+    public class OpacityAnimation : TypedAnimation<double>, ITimeline
     {
-        public IPipelineEffect Target { get; set; }
+        /// <summary>
+        /// Gets or sets the target framework layer to animate.
+        /// </summary>
+        public FrameworkLayer Layer { get; set; }
 
         /// <inheritdoc/>
         AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            BlurEffect effect = (BlurEffect)Target;
-
-            return builder.DoubleAnimation(
-                effect.brush,
-                $"{effect.id}.{nameof(GaussianBlurEffect.BlurAmount)}",
+            return builder.Opacity(
                 From,
                 To,
                 Delay ?? delayHint,
                 Duration ?? durationHint.GetValueOrDefault(),
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
-                EasingMode ?? easingModeHint ?? DefaultEasingMode);
+                EasingMode ?? easingModeHint ?? DefaultEasingMode,
+                Layer);
         }
     }
 }

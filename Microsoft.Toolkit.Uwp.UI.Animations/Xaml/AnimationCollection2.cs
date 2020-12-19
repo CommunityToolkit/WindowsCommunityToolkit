@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// (such as <see cref="Windows.UI.Xaml.Media.Animation.Storyboard"/>) that can be executed on a given element.
     /// </summary>
     [ContentProperty(Name = nameof(Animations))]
-    public sealed class AnimationCollection2 : DependencyObject, ITimeline
+    public sealed class AnimationCollection2 : DependencyObject
     {
         /// <summary>
         /// Raised whenever the current animation is started.
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <summary>
         /// Gets or sets the list of animations in the current collection.
         /// </summary>
-        public IList<Animation> Animations { get; set; } = new List<Animation>();
+        public IList<ITimeline> Animations { get; set; } = new List<ITimeline>();
 
         /// <summary>
         /// Gets or sets the weak reference to the parent that owns the current animation collection.
@@ -70,20 +70,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         {
             Started?.Invoke(this, EventArgs.Empty);
 
-            await ((ITimeline)this).AppendToBuilder(new AnimationBuilder()).StartAsync(element);
+            var builder = AnimationBuilder.New();
 
-            Ended?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint)
-        {
-            foreach (ITimeline element in Animations)
+            foreach (ITimeline animation in Animations)
             {
-                builder = element.AppendToBuilder(builder, delayHint, durationHint);
+                builder = animation.AppendToBuilder(builder);
             }
 
-            return builder;
+            await builder.StartAsync(element);
+
+            Ended?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -4,7 +4,6 @@
 
 using System;
 using Windows.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
@@ -26,11 +25,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <summary>
         /// Gets or sets the optional easing function type for the animation.
         /// </summary>
-        public EasingType EasingType { get; set; } = DefaultEasingType;
+        public EasingType? EasingType { get; set; }
 
         /// <summary>
         /// Gets or sets the optional easing function mode for the animation.
         /// </summary>
-        public EasingMode EasingMode { get; set; } = DefaultEasingMode;
+        public EasingMode? EasingMode { get; set; }
     }
 }
