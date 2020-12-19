@@ -49,12 +49,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public Task StartAsync()
         {
-            if (!ParentReference.TryGetTarget(out UIElement? parent))
+            UIElement? parent = null;
+
+            if (ParentReference?.TryGetTarget(out parent) != true)
             {
                 ThrowHelper.ThrowInvalidOperationException("The current animation collection isn't bound to a parent UIElement instance.");
             }
 
-            return StartAsync(parent);
+            return StartAsync(parent!);
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
