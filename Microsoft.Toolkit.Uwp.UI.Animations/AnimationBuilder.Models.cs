@@ -86,6 +86,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// A model representing a specified composition scalar animation factory targeting a clip.
+        /// </summary>
+        private sealed record CompositionClipScalarAnimation(
+            string Property,
+            float? From,
+            float To,
+            TimeSpan? Delay,
+            TimeSpan Duration,
+            EasingType EasingType,
+            EasingMode EasingMode)
+            : ICompositionAnimationFactory
+        {
+            /// <inheritdoc/>
+            public CompositionAnimation GetAnimation(Visual visual)
+            {
+                InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
+                CompositionEasingFunction easingFunction = clip.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
+
+                return animation;
+            }
+        }
+
+        /// <summary>
         /// A model representing a specified XAML <see cref="double"/> animation factory.
         /// </summary>
         private sealed record XamlDoubleAnimationFactory(
