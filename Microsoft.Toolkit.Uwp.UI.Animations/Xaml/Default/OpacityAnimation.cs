@@ -9,7 +9,7 @@ using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
-    /// A set of animations that can be grouped together.
+    /// An opacity animation working on the composition or XAML layer.
     /// This animation maps to <see cref="AnimationBuilder.Opacity(double?, double, TimeSpan?, TimeSpan, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
     public class OpacityAnimation : TypedAnimation<double>, ITimeline
