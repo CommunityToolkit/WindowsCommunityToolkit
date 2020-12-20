@@ -17,6 +17,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
     /// </summary>
     public class EffectDoubleAnimation : TypedAnimation<double>, ITimeline
     {
+        /// <summary>
+        /// Gets or sets the linked <see cref="IPipelineEffect"/> instance to animate.
+        /// </summary>
         public IPipelineEffect Target { get; set; }
 
         /// <inheritdoc/>
@@ -25,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
             BlurEffect effect = (BlurEffect)Target;
 
             return builder.DoubleAnimation(
-                effect.brush,
-                $"{effect.id}.{nameof(GaussianBlurEffect.BlurAmount)}",
+                effect.Brush,
+                $"{effect.Id}.{nameof(GaussianBlurEffect.BlurAmount)}",
                 From,
                 To,
                 Delay ?? delayHint,

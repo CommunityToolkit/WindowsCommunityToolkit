@@ -15,16 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class BlurEffect : IPipelineEffect
     {
         /// <summary>
-        /// The unique id for the effect, if <see cref="IsAnimatable"/> is set.
-        /// </summary>
-        internal string id;
-
-        /// <summary>
-        /// The <see cref="CompositionBrush"/> in use, if any.
-        /// </summary>
-        internal CompositionBrush brush;
-
-        /// <summary>
         /// Gets or sets a value indicating whether the effect can be animated.
         /// </summary>
         public bool IsAnimatable { get; set; }
@@ -40,20 +30,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
             set => this.amount = Math.Max(value, 0);
         }
 
+        /// <summary>
+        /// Gets the unique id for the effect, if <see cref="IsAnimatable"/> is set.
+        /// </summary>
+        internal string Id { get; private set; }
+
+        /// <summary>
+        /// Gets <see cref="CompositionBrush"/> in use, if any.
+        /// </summary>
+        internal CompositionBrush Brush { get; private set; }
+
         /// <inheritdoc/>
         public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            return IsAnimatable switch
+            if (IsAnimatable)
             {
-                true => builder.Blur((float)Amount, out this.id),
-                false => builder.Blur((float)Amount)
-            };
+                builder = builder.Blur((float)Amount, out string id);
+
+                Id = id;
+
+                return builder;
+            }
+
+            return builder.Blur((float)Amount);
         }
 
         /// <inheritdoc/>
         void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
         {
-            this.brush = brush;
+            Brush = brush;
         }
     }
 }
