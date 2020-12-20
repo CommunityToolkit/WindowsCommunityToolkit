@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
     /// An opacity animation working on the composition or XAML layer.
-    /// This animation maps to <see cref="AnimationBuilder.Opacity(double?, double, TimeSpan?, TimeSpan, EasingType, EasingMode, FrameworkLayer)"/>.
+    /// This animation maps to <see cref="AnimationBuilder.Opacity(double?, double, TimeSpan?, TimeSpan?, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
     public class OpacityAnimation : TypedAnimation<double>, ITimeline
     {
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 From,
                 To,
                 Delay ?? delayHint,
-                Duration ?? durationHint.GetValueOrDefault(),
+                Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
                 EasingMode ?? easingModeHint ?? DefaultEasingMode,
                 Layer);

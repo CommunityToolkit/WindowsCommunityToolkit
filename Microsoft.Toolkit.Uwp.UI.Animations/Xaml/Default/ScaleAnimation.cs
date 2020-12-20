@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
     /// A scale animation working on the composition or XAML layer.
-    /// This animation maps to <see cref="AnimationBuilder.Scale(System.Numerics.Vector2?, System.Numerics.Vector2, TimeSpan?, TimeSpan, EasingType, EasingMode, FrameworkLayer)"/>.
+    /// This animation maps to <see cref="AnimationBuilder.Scale(System.Numerics.Vector2?, System.Numerics.Vector2, TimeSpan?, TimeSpan?, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
     public class ScaleAnimation : TypedAnimation<string>, ITimeline
     {
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             TimeSpan? delay = Delay ?? delayHint;
-            TimeSpan duration = Duration ?? durationHint.GetValueOrDefault();
+            TimeSpan? duration = Duration ?? durationHint;
             EasingType easingType = EasingType ?? easingTypeHint ?? DefaultEasingType;
             EasingMode easingMode = EasingMode ?? easingModeHint ?? DefaultEasingMode;
 
