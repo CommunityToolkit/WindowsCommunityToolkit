@@ -102,15 +102,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionVector2AnimationFactory("Translation", from, to, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory("Translation.X", from?.X, to.X, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory("Translation.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
             }
             else
             {
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.TranslateX), from?.X, to.X, delay, duration, easingType, easingMode);
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.TranslateY), from?.Y, to.Y, delay, duration, easingType, easingMode);
-
-                return this;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -178,7 +179,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionVector2AnimationFactory(nameof(Visual.Offset), from, to, delay, duration, easingType, easingMode);
+            AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.X", from?.X, to.X, delay, duration, easingType, easingMode);
+            AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
+
+            return this;
         }
 
         /// <summary>
@@ -204,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds a new uniform scale animation on the X and Y axes to the current schedule.
+        /// Adds a new uniform scale animation for all axes to the current schedule.
         /// </summary>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
@@ -225,10 +229,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                Vector2? from2 = from is null ? null : new((float)(double)from);
-                Vector2 to2 = new((float)to);
+                Vector3? from3 = from is null ? null : new((float)(double)from);
+                Vector3 to3 = new((float)to);
 
-                return AddCompositionVector2AnimationFactory(nameof(Visual.Scale), from2, to2, delay, duration, easingType, easingMode);
+                return AddCompositionVector3AnimationFactory(nameof(Visual.Scale), from3, to3, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -249,8 +253,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        /// <remarks>This animation is only available on the XAML layer.</remarks>
         public AnimationBuilder Scale(
             Axis axis,
             double? from,
@@ -258,9 +262,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay,
             TimeSpan duration,
             EasingType easingType = DefaultEasingType,
-            EasingMode easingMode = DefaultEasingMode)
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
         {
-            return AddXamlTransformDoubleAnimationFactory($"Scale{axis}", from, to, delay, duration, easingType, easingMode);
+            if (layer == FrameworkLayer.Composition)
+            {
+                return AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.{axis}", (float?)from, (float)to, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                return AddXamlTransformDoubleAnimationFactory($"Scale{axis}", from, to, delay, duration, easingType, easingMode);
+            }
         }
 
         /// <summary>
@@ -285,15 +297,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionVector2AnimationFactory(nameof(Visual.Scale), from, to, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.X", from?.X, to.X, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
             }
             else
             {
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleX), from?.X, to.X, delay, duration, easingType, easingMode);
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleY), from?.Y, to.Y, delay, duration, easingType, easingMode);
-
-                return this;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -490,15 +503,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionVector2AnimationFactory(nameof(Visual.Size), from, to, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.X", from?.X, to.X, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
             }
             else
             {
                 AddXamlDoubleAnimationFactory(nameof(FrameworkElement.Width), from?.X, to.X, delay, duration, easingType, easingMode, true);
                 AddXamlDoubleAnimationFactory(nameof(FrameworkElement.Height), from?.Y, to.Y, delay, duration, easingType, easingMode, true);
-
-                return this;
             }
+
+            return this;
         }
 
         /// <summary>
