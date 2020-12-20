@@ -3,10 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
-using Windows.Foundation;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -31,70 +27,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
-            public unsafe Timeline GetAnimation(UIElement element)
+            public Timeline GetAnimation(UIElement element)
             {
-                Timeline animation;
-
-                if (typeof(T) == typeof(double))
-                {
-                    DoubleAnimationUsingKeyFrames doubleAnimation = new() { EnableDependentAnimation = true };
-
-                    foreach (var keyFrame in this.keyFrames)
-                    {
-                        doubleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
-                        {
-                            KeyTime = keyFrame.GetKeyTime(this.duration),
-                            Value = *(double*)&keyFrame.Value,
-                            EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                        });
-                    }
-
-                    animation = doubleAnimation;
-                }
-                else if (typeof(T) == typeof(Point))
-                {
-                    PointAnimationUsingKeyFrames pointAnimation = new() { EnableDependentAnimation = true };
-
-                    foreach (var keyFrame in this.keyFrames)
-                    {
-                        pointAnimation.KeyFrames.Add(new EasingPointKeyFrame()
-                        {
-                            KeyTime = keyFrame.GetKeyTime(this.duration),
-                            Value = *(Point*)&keyFrame.Value,
-                            EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                        });
-                    }
-
-                    animation = pointAnimation;
-                }
-                else if (typeof(T) == typeof(Color))
-                {
-                    ColorAnimationUsingKeyFrames colorAnimation = new() { EnableDependentAnimation = true };
-
-                    foreach (var keyFrame in this.keyFrames)
-                    {
-                        colorAnimation.KeyFrames.Add(new EasingColorKeyFrame()
-                        {
-                            KeyTime = keyFrame.GetKeyTime(this.duration),
-                            Value = *(Color*)&keyFrame.Value,
-                            EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                        });
-                    }
-
-                    animation = colorAnimation;
-                }
-                else
-                {
-                    return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
-                }
-
-                animation.BeginTime = this.delay;
-                animation.Duration = this.duration;
-
-                Storyboard.SetTarget(animation, element);
-                Storyboard.SetTargetProperty(animation, this.property);
-
-                return animation;
+                return TimedKeyFrameAnimationBuilder<T>.GetAnimation(
+                    element,
+                    this.property,
+                    this.delay,
+                    this.duration,
+                    this.keyFrames);
             }
         }
     }

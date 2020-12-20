@@ -4,10 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
-
-#pragma warning disable CS0419
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -66,8 +65,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// The abstracted info for a normalized animation keyframe.
         /// </summary>
-        protected readonly struct KeyFrameInfo
+        protected readonly struct KeyFrameInfo : IKeyFrameInfo
         {
+            /// <summary>
+            /// The normalized progress for the keyframe.
+            /// </summary>
+            private readonly double progress;
+
+            /// <summary>
+            /// The value for the current keyframe.
+            /// </summary>
+            private readonly T value;
+
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyFrameInfo"/> struct.
             /// </summary>
@@ -81,43 +90,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 EasingType easingType,
                 EasingMode easingMode)
             {
-                Progress = progress;
-                Value = value;
+                this.progress = progress;
+                this.value = value;
+
                 EasingType = easingType;
                 EasingMode = easingMode;
             }
 
-            /// <summary>
-            /// The normalized progress for the keyframe.
-            /// </summary>
-            public readonly double Progress;
+            /// <inheritdoc/>
+            public EasingType EasingType { get; }
 
-            /// <summary>
-            /// The value for the new keyframe to add.
-            /// </summary>
-            public readonly T Value;
+            /// <inheritdoc/>
+            public EasingMode EasingMode { get; }
 
-            /// <summary>
-            /// The easing type to use to reach the new keyframe.
-            /// </summary>
-            public readonly EasingType EasingType;
-
-            /// <summary>
-            /// The easing mode to use to reach the new keyframe.
-            /// </summary>
-            public readonly EasingMode EasingMode;
-
-            /// <summary>
-            /// Gets a <see cref="KeyTime"/> for the current instance, relative to a <see cref="TimeSpan"/> value.
-            /// </summary>
-            /// <param name="duration">The target <see cref="TimeSpan"/> value to use.</param>
-            /// <returns>A normalized <see cref="KeyTime"/> value relative to <paramref name="duration"/>.</returns>
-            public KeyTime GetKeyTime(TimeSpan duration)
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public TValue GetValueAs<TValue>()
+                where TValue : unmanaged
             {
-                long ticks = duration.Ticks;
-                TimeSpan step = TimeSpan.FromTicks((long)(ticks * Progress));
+                return Unsafe.As<T, TValue>(ref Unsafe.AsRef(in this.value));
+            }
 
-                return KeyTime.FromTimeSpan(step);
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public double GetNormalizedProgress(TimeSpan duration)
+            {
+                return this.progress;
+            }
+
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public TimeSpan GetTimedProgress(TimeSpan duration)
+            {
+                return TimeSpan.FromMilliseconds(duration.TotalMilliseconds * this.progress);
             }
         }
     }

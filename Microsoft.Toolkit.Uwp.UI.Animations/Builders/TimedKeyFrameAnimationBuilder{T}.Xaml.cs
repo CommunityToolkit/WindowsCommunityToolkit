@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.Foundation;
@@ -17,9 +18,90 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         where T : unmanaged
     {
         /// <summary>
+        /// Gets a <see cref="Timeline"/> instance representing the animation to start.
+        /// </summary>
+        /// <typeparam name="TKeyFrame">The type of keyframes being used to define the animation.</typeparam>
+        /// <param name="element">The target <see cref="UIElement"/> instance to animate.</param>
+        /// <param name="property">The target property to animate.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
+        /// <returns>A <see cref="Timeline"/> instance with the specified animation.</returns>
+        public static Timeline GetAnimation<TKeyFrame>(
+            UIElement element,
+            string property,
+            TimeSpan? delay,
+            TimeSpan duration,
+            List<TKeyFrame> keyFrames)
+            where TKeyFrame : struct, IKeyFrameInfo
+        {
+            Timeline animation;
+
+            if (typeof(T) == typeof(double))
+            {
+                DoubleAnimationUsingKeyFrames doubleAnimation = new() { EnableDependentAnimation = true };
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    doubleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
+                    {
+                        KeyTime = keyFrame.GetTimedProgress(duration),
+                        Value = keyFrame.GetValueAs<double>(),
+                        EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
+                    });
+                }
+
+                animation = doubleAnimation;
+            }
+            else if (typeof(T) == typeof(Point))
+            {
+                PointAnimationUsingKeyFrames pointAnimation = new() { EnableDependentAnimation = true };
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    pointAnimation.KeyFrames.Add(new EasingPointKeyFrame()
+                    {
+                        KeyTime = keyFrame.GetTimedProgress(duration),
+                        Value = keyFrame.GetValueAs<Point>(),
+                        EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
+                    });
+                }
+
+                animation = pointAnimation;
+            }
+            else if (typeof(T) == typeof(Color))
+            {
+                ColorAnimationUsingKeyFrames colorAnimation = new() { EnableDependentAnimation = true };
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    colorAnimation.KeyFrames.Add(new EasingColorKeyFrame()
+                    {
+                        KeyTime = keyFrame.GetTimedProgress(duration),
+                        Value = keyFrame.GetValueAs<Color>(),
+                        EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
+                    });
+                }
+
+                animation = colorAnimation;
+            }
+            else
+            {
+                return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
+            }
+
+            animation.BeginTime = delay;
+
+            Storyboard.SetTarget(animation, element);
+            Storyboard.SetTargetProperty(animation, property);
+
+            return animation;
+        }
+
+        /// <summary>
         /// A custom <see cref="TimedKeyFrameAnimationBuilder{T}"/> class targeting the XAML layer.
         /// </summary>
-        public class Xaml : TimedKeyFrameAnimationBuilder<T>, AnimationBuilder.IXamlAnimationFactory
+        public sealed class Xaml : TimedKeyFrameAnimationBuilder<T>, AnimationBuilder.IXamlAnimationFactory
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="Xaml"/> class.
@@ -31,69 +113,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
-            public virtual unsafe Timeline GetAnimation(UIElement element)
+            public Timeline GetAnimation(UIElement element)
             {
-                Timeline animation;
-
-                if (typeof(T) == typeof(double))
-                {
-                    DoubleAnimationUsingKeyFrames doubleAnimation = new() { EnableDependentAnimation = true };
-
-                    foreach (var keyFrame in this.keyFrames)
-                    {
-                        doubleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
-                        {
-                            KeyTime = keyFrame.Progress,
-                            Value = *(double*)&keyFrame.Value,
-                            EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                        });
-                    }
-
-                    animation = doubleAnimation;
-                }
-                else if (typeof(T) == typeof(Point))
-                {
-                    PointAnimationUsingKeyFrames pointAnimation = new() { EnableDependentAnimation = true };
-
-                    foreach (var keyFrame in this.keyFrames)
-                    {
-                        pointAnimation.KeyFrames.Add(new EasingPointKeyFrame()
-                        {
-                            KeyTime = keyFrame.Progress,
-                            Value = *(Point*)&keyFrame.Value,
-                            EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                        });
-                    }
-
-                    animation = pointAnimation;
-                }
-                else if (typeof(T) == typeof(Color))
-                {
-                    ColorAnimationUsingKeyFrames colorAnimation = new() { EnableDependentAnimation = true };
-
-                    foreach (var keyFrame in this.keyFrames)
-                    {
-                        colorAnimation.KeyFrames.Add(new EasingColorKeyFrame()
-                        {
-                            KeyTime = keyFrame.Progress,
-                            Value = *(Color*)&keyFrame.Value,
-                            EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                        });
-                    }
-
-                    animation = colorAnimation;
-                }
-                else
-                {
-                    return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
-                }
-
-                animation.BeginTime = this.delay;
-
-                Storyboard.SetTarget(animation, element);
-                Storyboard.SetTargetProperty(animation, this.property);
-
-                return animation;
+                return GetAnimation(
+                    element,
+                    this.property,
+                    this.delay,
+                    default,
+                    this.keyFrames);
             }
         }
     }
