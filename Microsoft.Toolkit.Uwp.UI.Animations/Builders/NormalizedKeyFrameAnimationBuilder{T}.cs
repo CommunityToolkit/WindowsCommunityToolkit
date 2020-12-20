@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
+#pragma warning disable CS0419
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
