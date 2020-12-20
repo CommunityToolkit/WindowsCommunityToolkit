@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Translation(
             Vector2 to,
-            Vector2? from,
+            Vector2? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Translation(
             Vector3 to,
-            Vector3? from,
+            Vector3? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Offset(
             Axis axis,
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Offset(
             Vector2 to,
-            Vector2? from,
+            Vector2? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Offset(
             Vector3 to,
-            Vector3? from,
+            Vector3? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Scale(
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -258,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Scale(
             Axis axis,
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Scale(
             Vector2 to,
-            Vector2? from,
+            Vector2? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -322,7 +322,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Scale(
             Vector3 to,
-            Vector3? from,
+            Vector3? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -344,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Rotate(
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -379,7 +379,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder RotateInDegrees(
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -413,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Clip(
             Side side,
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -457,7 +457,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Size(
             Axis axis,
             double to,
-            double? from,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -494,7 +494,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Size(
             Vector2 to,
-            Vector2? from,
+            Vector2? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -528,7 +528,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Size(
             Vector3 to,
-            Vector3? from,
+            Vector3? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
