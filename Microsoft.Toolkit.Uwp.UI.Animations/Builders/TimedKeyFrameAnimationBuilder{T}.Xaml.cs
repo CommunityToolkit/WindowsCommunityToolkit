@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.Foundation;
@@ -37,7 +38,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             Timeline animation;
 
-            if (typeof(T) == typeof(double))
+            if (typeof(T) == typeof(float))
+            {
+                DoubleAnimationUsingKeyFrames doubleAnimation = new() { EnableDependentAnimation = true };
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    doubleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
+                    {
+                        KeyTime = keyFrame.GetTimedProgress(duration),
+                        Value = keyFrame.GetValueAs<float>(),
+                        EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
+                    });
+                }
+
+                animation = doubleAnimation;
+            }
+            else if (typeof(T) == typeof(double))
             {
                 DoubleAnimationUsingKeyFrames doubleAnimation = new() { EnableDependentAnimation = true };
 
@@ -52,6 +69,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 animation = doubleAnimation;
+            }
+            else if (typeof(T) == typeof(Vector2))
+            {
+                PointAnimationUsingKeyFrames pointAnimation = new() { EnableDependentAnimation = true };
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    Vector2 vector = keyFrame.GetValueAs<Vector2>();
+
+                    pointAnimation.KeyFrames.Add(new EasingPointKeyFrame()
+                    {
+                        KeyTime = keyFrame.GetTimedProgress(duration),
+                        Value = new Point(vector.X, vector.Y),
+                        EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
+                    });
+                }
+
+                animation = pointAnimation;
             }
             else if (typeof(T) == typeof(Point))
             {

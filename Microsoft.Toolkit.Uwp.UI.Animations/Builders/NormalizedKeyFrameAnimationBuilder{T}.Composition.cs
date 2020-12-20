@@ -62,6 +62,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animation = scalarAnimation;
             }
+            else if (typeof(T) == typeof(double))
+            {
+                ScalarKeyFrameAnimation scalarAnimation = visual.Compositor.CreateScalarKeyFrameAnimation();
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    scalarAnimation.InsertKeyFrame(
+                        (float)keyFrame.GetNormalizedProgress(duration),
+                        (float)keyFrame.GetValueAs<double>(),
+                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                }
+
+                animation = scalarAnimation;
+            }
             else if (typeof(T) == typeof(Vector2))
             {
                 Vector2KeyFrameAnimation vector2Animation = visual.Compositor.CreateVector2KeyFrameAnimation();
