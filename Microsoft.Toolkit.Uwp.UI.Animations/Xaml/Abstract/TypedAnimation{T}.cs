@@ -13,13 +13,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     public abstract class TypedAnimation<T> : Animation
     {
         /// <summary>
-        /// Gets or sets the optional starting value for the animation.
-        /// </summary>
-        public T? From { get; set; }
-
-        /// <summary>
         /// Gets or sets the final value for the animation.
         /// </summary>
         public T? To { get; set; }
+
+        /// <summary>
+        /// Gets or sets the optional starting value for the animation.
+        /// </summary>
+        public T? From { get; set; }
     }
 }

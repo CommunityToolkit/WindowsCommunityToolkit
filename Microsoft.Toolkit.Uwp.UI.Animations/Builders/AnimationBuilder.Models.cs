@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private sealed record CompositionDoubleAnimation(
             CompositionObject Target,
             string Property,
-            float? From,
             float To,
+            float? From,
             TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
@@ -44,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         private sealed record CompositionScalarAnimationFactory(
             string Property,
-            float? From,
             float To,
+            float? From,
             TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
@@ -67,8 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         private sealed record CompositionVector3AnimationFactory(
             string Property,
-            Vector3? From,
             Vector3 To,
+            Vector3? From,
             TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
@@ -90,8 +90,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         private sealed record CompositionClipScalarAnimation(
             string Property,
-            float? From,
             float To,
+            float? From,
             TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
@@ -114,8 +114,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         private sealed record XamlDoubleAnimationFactory(
             string Property,
-            double? From,
             double To,
+            double? From,
             TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
@@ -135,8 +135,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         private sealed record XamlTransformDoubleAnimationFactory(
             string Property,
-            double? From,
             double To,
+            double? From,
             TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,

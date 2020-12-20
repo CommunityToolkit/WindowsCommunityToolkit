@@ -55,28 +55,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="target">The target <see cref="CompositionObject"/> to animate.</param>
         /// <param name="property">The target property to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder DoubleAnimation(
             CompositionObject target,
             string property,
-            double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan? duration,
+            double? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
             CompositionDoubleAnimation animation = new(
                 target,
                 property,
-                (float?)from,
                 (float)to,
+                (float?)from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
                 easingType,

@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
     /// A translation animation working on the composition or XAML layer.
-    /// This animation maps to <see cref="AnimationBuilder.Translation(System.Numerics.Vector3?, System.Numerics.Vector3, TimeSpan?, TimeSpan?, EasingType, EasingMode)"/>.
+    /// This animation maps to <see cref="AnimationBuilder.Translation(System.Numerics.Vector3, System.Numerics.Vector3?, TimeSpan?, TimeSpan?, EasingType, EasingMode)"/>.
     /// </summary>
     public class TranslationAnimation : TypedAnimation<string>, ITimeline
     {
@@ -30,11 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 
             if (Layer == FrameworkLayer.Composition)
             {
-                return builder.Translation(From?.ToVector3(), To!.ToVector3(), delay, duration, easingType, easingMode);
+                return builder.Translation(To!.ToVector3(), From?.ToVector3(), delay, duration, easingType, easingMode);
             }
             else
             {
-                return builder.Translation(From?.ToVector2(), To!.ToVector2(), delay, duration, easingType, easingMode, FrameworkLayer.Xaml);
+                return builder.Translation(To!.ToVector2(), From?.ToVector2(), delay, duration, easingType, easingMode, FrameworkLayer.Xaml);
             }
         }
     }

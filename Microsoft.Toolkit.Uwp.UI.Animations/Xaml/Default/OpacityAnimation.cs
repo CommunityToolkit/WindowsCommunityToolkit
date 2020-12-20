@@ -10,9 +10,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
     /// An opacity animation working on the composition or XAML layer.
-    /// This animation maps to <see cref="AnimationBuilder.Opacity(double?, double, TimeSpan?, TimeSpan?, EasingType, EasingMode, FrameworkLayer)"/>.
+    /// This animation maps to <see cref="AnimationBuilder.Opacity(double, double?, TimeSpan?, TimeSpan?, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
-    public class OpacityAnimation : TypedAnimation<double>, ITimeline
+    public class OpacityAnimation : TypedAnimation<double?>, ITimeline
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -23,8 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             return builder.Opacity(
+                To!.Value,
                 From,
-                To,
                 Delay ?? delayHint,
                 Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,

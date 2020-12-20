@@ -34,8 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new composition scalar animation to the current schedule.
         /// </summary>
         /// <param name="property">The target property to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="easingType">The easing function for the animation.</param>
@@ -43,8 +43,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         private AnimationBuilder AddCompositionScalarAnimationFactory(
             string property,
-            float? from,
             float to,
+            float? from,
             TimeSpan? delay,
             TimeSpan? duration,
             EasingType easingType,
@@ -52,8 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             CompositionScalarAnimationFactory animation = new(
                 property,
-                from,
                 to,
+                from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
                 easingType,
@@ -68,8 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new composition <see cref="Vector3"/> animation to the current schedule.
         /// </summary>
         /// <param name="property">The target property to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="easingType">The easing function for the animation.</param>
@@ -77,8 +77,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         private AnimationBuilder AddCompositionVector3AnimationFactory(
             string property,
-            Vector3? from,
             Vector3 to,
+            Vector3? from,
             TimeSpan? delay,
             TimeSpan? duration,
             EasingType easingType,
@@ -86,8 +86,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             CompositionVector3AnimationFactory animation = new(
                 property,
-                from,
                 to,
+                from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
                 easingType,
@@ -102,8 +102,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new XAML <see cref="double"/> animation to the current schedule.
         /// </summary>
         /// <param name="property">The target property to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="easingType">The easing function for the animation.</param>
@@ -112,8 +112,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         private AnimationBuilder AddXamlDoubleAnimationFactory(
             string property,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay,
             TimeSpan? duration,
             EasingType easingType,
@@ -122,8 +122,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             XamlDoubleAnimationFactory animation = new(
                 property,
-                from,
                 to,
+                from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
                 easingType,
@@ -139,8 +139,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new XAML transform <see cref="double"/> animation to the current schedule.
         /// </summary>
         /// <param name="property">The target property to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="easingType">The easing function for the animation.</param>
@@ -148,8 +148,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         private AnimationBuilder AddXamlTransformDoubleAnimationFactory(
             string property,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay,
             TimeSpan? duration,
             EasingType easingType,
@@ -157,8 +157,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             XamlTransformDoubleAnimationFactory animation = new(
                 property,
-                from,
                 to,
+                from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
                 easingType,

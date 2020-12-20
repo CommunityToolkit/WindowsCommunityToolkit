@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds a new opacity animation to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -30,8 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Opacity(
-            double? from,
             double to,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -40,11 +40,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionScalarAnimationFactory(nameof(Visual.Opacity), (float?)from, (float)to, delay, duration, easingType, easingMode);
+                return AddCompositionScalarAnimationFactory(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                return AddXamlDoubleAnimationFactory(nameof(UIElement.Opacity), from, to, delay, duration, easingType, easingMode, false);
+                return AddXamlDoubleAnimationFactory(nameof(UIElement.Opacity), to, from, delay, duration, easingType, easingMode, false);
             }
         }
 
@@ -52,8 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new translation animation for a single axis to the current schedule.
         /// </summary>
         /// <param name="axis">The target translation axis to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -62,8 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Translation(
             Axis axis,
-            double? from,
             double to,
+            double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -72,19 +72,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionScalarAnimationFactory($"Translation.{axis}", (float?)from, (float)to, delay, duration, easingType, easingMode);
+                return AddCompositionScalarAnimationFactory($"Translation.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                return AddXamlDoubleAnimationFactory($"Translate{axis}", from, to, delay, duration, easingType, easingMode, false);
+                return AddXamlDoubleAnimationFactory($"Translate{axis}", to, from, delay, duration, easingType, easingMode, false);
             }
         }
 
         /// <summary>
         /// Adds a new translation animation for the X and Y axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -92,8 +92,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Translation(
-            Vector2? from,
             Vector2 to,
+            Vector2? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -102,13 +102,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionScalarAnimationFactory("Translation.X", from?.X, to.X, delay, duration, easingType, easingMode);
-                AddCompositionScalarAnimationFactory("Translation.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory("Translation.X", to.X, from?.X, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory("Translation.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.TranslateX), from?.X, to.X, delay, duration, easingType, easingMode);
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.TranslateY), from?.Y, to.Y, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.TranslateX), to.X, from?.X, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.TranslateY), to.Y, from?.Y, delay, duration, easingType, easingMode);
             }
 
             return this;
@@ -117,8 +117,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds a new composition translation animation for all axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -126,22 +126,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Translation(
-            Vector3? from,
             Vector3 to,
+            Vector3? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionVector3AnimationFactory("Translation", from, to, delay, duration, easingType, easingMode);
+            return AddCompositionVector3AnimationFactory("Translation", to, from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
         /// Adds a new composition offset animation for a single axis to the current schedule.
         /// </summary>
         /// <param name="axis">The target translation axis to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -150,21 +150,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Offset(
             Axis axis,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.{axis}", (float?)from, (float)to, delay, duration, easingType, easingMode);
+            return AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
         /// Adds a new composition offset animation for the X and Y axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -172,15 +172,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Offset(
-            Vector2? from,
             Vector2 to,
+            Vector2? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.X", from?.X, to.X, delay, duration, easingType, easingMode);
-            AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
+            AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
+            AddCompositionScalarAnimationFactory($"{nameof(Visual.Offset)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
 
             return this;
         }
@@ -188,8 +188,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds a new composition offset translation animation for all axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -197,21 +197,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Offset(
-            Vector3? from,
             Vector3 to,
+            Vector3? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionVector3AnimationFactory(nameof(Visual.Offset), from, to, delay, duration, easingType, easingMode);
+            return AddCompositionVector3AnimationFactory(nameof(Visual.Offset), to, from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
         /// Adds a new uniform scale animation for all axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -219,8 +219,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Scale(
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -232,12 +232,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Vector3? from3 = from is null ? null : new((float)(double)from);
                 Vector3 to3 = new((float)to);
 
-                return AddCompositionVector3AnimationFactory(nameof(Visual.Scale), from3, to3, delay, duration, easingType, easingMode);
+                return AddCompositionVector3AnimationFactory(nameof(Visual.Scale), to3, from3, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleX), from, to, delay, duration, easingType, easingMode);
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleY), from, to, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleX), to, from, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleY), to, from, delay, duration, easingType, easingMode);
 
                 return this;
             }
@@ -247,8 +247,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new scale animation on a specified axis to the current schedule.
         /// </summary>
         /// <param name="axis">The target scale axis to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -257,8 +257,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Scale(
             Axis axis,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -267,19 +267,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.{axis}", (float?)from, (float)to, delay, duration, easingType, easingMode);
+                return AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                return AddXamlTransformDoubleAnimationFactory($"Scale{axis}", from, to, delay, duration, easingType, easingMode);
+                return AddXamlTransformDoubleAnimationFactory($"Scale{axis}", to, from, delay, duration, easingType, easingMode);
             }
         }
 
         /// <summary>
         /// Adds a new scale animation for the X and Y axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -287,8 +287,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Scale(
-            Vector2? from,
             Vector2 to,
+            Vector2? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -297,13 +297,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.X", from?.X, to.X, delay, duration, easingType, easingMode);
-                AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Scale)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleX), from?.X, to.X, delay, duration, easingType, easingMode);
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleY), from?.Y, to.Y, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleX), to.X, from?.X, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleY), to.Y, from?.Y, delay, duration, easingType, easingMode);
             }
 
             return this;
@@ -312,8 +312,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds a new scale animation for all axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -321,21 +321,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Scale(
-            Vector3? from,
             Vector3 to,
+            Vector3? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionVector3AnimationFactory(nameof(Visual.Scale), from, to, delay, duration, easingType, easingMode);
+            return AddCompositionVector3AnimationFactory(nameof(Visual.Scale), to, from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
         /// Adds a new rotation animation to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -343,8 +343,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Rotate(
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -353,14 +353,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionScalarAnimationFactory(nameof(Visual.RotationAngle), (float?)from, (float)to, delay, duration, easingType, easingMode);
+                return AddCompositionScalarAnimationFactory(nameof(Visual.RotationAngle), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
                 double? fromDegrees = from * Math.PI / 180;
                 double toDegrees = to * Math.PI / 180;
 
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), fromDegrees, toDegrees, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), toDegrees, fromDegrees, delay, duration, easingType, easingMode);
 
                 return this;
             }
@@ -369,8 +369,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds a new rotation animation in degrees to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -378,8 +378,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder RotateInDegrees(
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -388,11 +388,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionScalarAnimationFactory(nameof(Visual.RotationAngleInDegrees), (float?)from, (float)to, delay, duration, easingType, easingMode);
+                return AddCompositionScalarAnimationFactory(nameof(Visual.RotationAngleInDegrees), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), from, to, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), to, from, delay, duration, easingType, easingMode);
 
                 return this;
             }
@@ -402,8 +402,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new clip animation to the current schedule.
         /// </summary>
         /// <param name="side">The clip size to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -412,8 +412,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Clip(
             Side side,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -430,8 +430,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             CompositionClipScalarAnimation animation = new(
                 property,
-                (float?)from,
                 (float)to,
+                (float?)from,
                 delay ?? DefaultDelay,
                 duration ?? DefaultDuration,
                 easingType,
@@ -446,8 +446,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Adds a new size animation for a single axis to the current schedule.
         /// </summary>
         /// <param name="axis">The target size axis to animate.</param>
-        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -456,8 +456,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Size(
             Axis axis,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -466,7 +466,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.{axis}", (float?)from, (float)to, delay, duration, easingType, easingMode);
+                return AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -477,15 +477,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     _ => ThrowHelper.ThrowArgumentException<string>("Invalid size axis")
                 };
 
-                return AddXamlDoubleAnimationFactory(property, from, to, delay, duration, easingType, easingMode, true);
+                return AddXamlDoubleAnimationFactory(property, to, from, delay, duration, easingType, easingMode, true);
             }
         }
 
         /// <summary>
         /// Adds a new size animation for the X and Y axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -493,8 +493,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder Size(
-            Vector2? from,
             Vector2 to,
+            Vector2? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
@@ -503,13 +503,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.X", from?.X, to.X, delay, duration, easingType, easingMode);
-                AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.Y", from?.Y, to.Y, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
+                AddCompositionScalarAnimationFactory($"{nameof(Visual.Size)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlDoubleAnimationFactory(nameof(FrameworkElement.Width), from?.X, to.X, delay, duration, easingType, easingMode, true);
-                AddXamlDoubleAnimationFactory(nameof(FrameworkElement.Height), from?.Y, to.Y, delay, duration, easingType, easingMode, true);
+                AddXamlDoubleAnimationFactory(nameof(FrameworkElement.Width), to.X, from?.X, delay, duration, easingType, easingMode, true);
+                AddXamlDoubleAnimationFactory(nameof(FrameworkElement.Height), to.Y, from?.Y, delay, duration, easingType, easingMode, true);
             }
 
             return this;
@@ -518,8 +518,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Adds a new composition size translation animation for all axes to the current schedule.
         /// </summary>
-        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
@@ -527,14 +527,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public AnimationBuilder Size(
-            Vector3? from,
             Vector3 to,
+            Vector3? from,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionVector3AnimationFactory(nameof(Visual.Size), from, to, delay, duration, easingType, easingMode);
+            return AddCompositionVector3AnimationFactory(nameof(Visual.Size), to, from, delay, duration, easingType, easingMode);
         }
     }
 }
