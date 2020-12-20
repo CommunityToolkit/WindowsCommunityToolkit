@@ -49,5 +49,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             return this;
         }
+
+        /// <summary>
+        /// Adds a custom animation based on timed keyframes ot the current schedule.
+        /// </summary>
+        /// <typeparam name="T">The type of values to animate.</typeparam>
+        /// <param name="property">The target property to animate.</param>
+        /// <param name="build">The callback to use to construct the custom animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder TimedKeyFrames<T>(
+            string property,
+            Action<ITimedKeyFrameAnimationBuilder<T>> build,
+            TimeSpan? delay = null,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+            where T : unmanaged
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                TimedKeyFrameAnimationBuilder<T>.Composition builder = new(property, delay);
+
+                build(builder);
+
+                this.compositionAnimationFactories.Add(builder);
+            }
+            else
+            {
+                TimedKeyFrameAnimationBuilder<T>.Xaml builder = new(property, delay);
+
+                build(builder);
+
+                this.xamlAnimationFactories.Add(builder);
+            }
+
+            return this;
+        }
     }
 }
