@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -32,8 +32,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Opacity(
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -64,8 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Axis axis,
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -94,8 +94,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Translation(
             Vector2? from,
             Vector2 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -128,8 +128,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Translation(
             Vector3? from,
             Vector3 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -152,8 +152,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Axis axis,
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -174,8 +174,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Offset(
             Vector2? from,
             Vector2 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -199,8 +199,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Offset(
             Vector3? from,
             Vector3 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -221,8 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Scale(
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -250,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -259,8 +259,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Axis axis,
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -289,8 +289,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Scale(
             Vector2? from,
             Vector2 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -323,8 +323,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Scale(
             Vector3? from,
             Vector3 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -337,7 +337,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -345,8 +345,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Rotate(
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -372,7 +372,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -380,8 +380,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder RotateInDegrees(
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -405,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -414,8 +414,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Side side,
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -432,8 +432,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 property,
                 (float?)from,
                 (float)to,
-                delay,
-                duration,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
                 easingType,
                 easingMode);
 
@@ -449,7 +449,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="to">The final value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -458,8 +458,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Axis axis,
             double? from,
             double to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -487,7 +487,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
@@ -495,8 +495,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Size(
             Vector2? from,
             Vector2 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode,
             FrameworkLayer layer = FrameworkLayer.Composition)
@@ -521,7 +521,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="from">The optional starting point for the animation.</param>
         /// <param name="to">The final point for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
         /// <param name="easingType">The optional easing function type for the animation.</param>
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
@@ -529,8 +529,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public AnimationBuilder Size(
             Vector3? from,
             Vector3 to,
-            TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {

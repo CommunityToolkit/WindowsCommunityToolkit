@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double? from,
             double to,
             TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? duration,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
@@ -77,8 +77,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 property,
                 (float?)from,
                 (float)to,
-                delay,
-                duration,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
                 easingType,
                 easingMode);
 

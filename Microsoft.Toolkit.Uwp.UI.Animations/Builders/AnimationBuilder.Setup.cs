@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Xaml.Media.Animation;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -45,11 +46,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float? from,
             float to,
             TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            CompositionScalarAnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode);
+            CompositionScalarAnimationFactory animation = new(
+                property,
+                from,
+                to,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode);
 
             this.compositionAnimationFactories.Add(animation);
 
@@ -72,11 +80,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Vector3? from,
             Vector3 to,
             TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            CompositionVector3AnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode);
+            CompositionVector3AnimationFactory animation = new(
+                property,
+                from,
+                to,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode);
 
             this.compositionAnimationFactories.Add(animation);
 
@@ -100,12 +115,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double? from,
             double to,
             TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? duration,
             EasingType easingType,
             EasingMode easingMode,
             bool enableDependentAnimation)
         {
-            XamlDoubleAnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode, enableDependentAnimation);
+            XamlDoubleAnimationFactory animation = new(
+                property,
+                from,
+                to,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode,
+                enableDependentAnimation);
 
             this.xamlAnimationFactories.Add(animation);
 
@@ -128,11 +151,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double? from,
             double to,
             TimeSpan? delay,
-            TimeSpan duration,
+            TimeSpan? duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            XamlTransformDoubleAnimationFactory animation = new(property, from, to, delay, duration, easingType, easingMode);
+            XamlTransformDoubleAnimationFactory animation = new(
+                property,
+                from,
+                to,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode);
 
             this.xamlAnimationFactories.Add(animation);
 

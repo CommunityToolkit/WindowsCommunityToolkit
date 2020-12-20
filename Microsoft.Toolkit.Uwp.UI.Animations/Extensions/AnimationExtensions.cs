@@ -15,6 +15,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
     public static partial class AnimationExtensions
     {
         /// <summary>
+        /// Gets the default delay of animations.
+        /// </summary>
+        public static TimeSpan DefaultDelay => default;
+
+        /// <summary>
         /// Gets the default duration of animations.
         /// </summary>
         public static TimeSpan DefaultDuration => TimeSpan.FromMilliseconds(400);

@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string Property,
             float? From,
             float To,
-            TimeSpan? Delay,
+            TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string Property,
             float? From,
             float To,
-            TimeSpan? Delay,
+            TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string Property,
             Vector3? From,
             Vector3 To,
-            TimeSpan? Delay,
+            TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string Property,
             float? From,
             float To,
-            TimeSpan? Delay,
+            TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string Property,
             double? From,
             double To,
-            TimeSpan? Delay,
+            TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode,
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string Property,
             double? From,
             double To,
-            TimeSpan? Delay,
+            TimeSpan Delay,
             TimeSpan Duration,
             EasingType EasingType,
             EasingMode EasingMode)
