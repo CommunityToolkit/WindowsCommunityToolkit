@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
-    internal abstract partial class NormalizedKeyFrameAnimationBuilder<T> : INormalizedKeyFrameAnimationBuilder<T>
+    internal abstract partial class NormalizedKeyFrameAnimationBuilder<T>
         where T : unmanaged
     {
         /// <summary>
@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Xaml : NormalizedKeyFrameAnimationBuilder<T>, AnimationBuilder.IXamlAnimationFactory
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="Xaml"/> class.
+            /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Xaml"/> class.
             /// </summary>
             /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
             public Xaml(string property, TimeSpan? delay, TimeSpan duration)

@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Composition : NormalizedKeyFrameAnimationBuilder<T>, AnimationBuilder.ICompositionAnimationFactory
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="Composition"/> class.
+            /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
             /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
             public Composition(string property, TimeSpan? delay, TimeSpan duration)

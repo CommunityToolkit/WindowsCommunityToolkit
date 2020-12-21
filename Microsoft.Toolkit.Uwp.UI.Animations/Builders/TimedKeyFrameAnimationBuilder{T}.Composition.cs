@@ -10,7 +10,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
-    internal abstract partial class TimedKeyFrameAnimationBuilder<T> : ITimedKeyFrameAnimationBuilder<T>
+    internal abstract partial class TimedKeyFrameAnimationBuilder<T>
         where T : unmanaged
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Composition : TimedKeyFrameAnimationBuilder<T>, AnimationBuilder.ICompositionAnimationFactory
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="Composition"/> class.
+            /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
             /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
             public Composition(string property, TimeSpan? delay)

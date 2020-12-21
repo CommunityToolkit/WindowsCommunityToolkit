@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
-    internal abstract partial class TimedKeyFrameAnimationBuilder<T> : ITimedKeyFrameAnimationBuilder<T>
+    internal abstract partial class TimedKeyFrameAnimationBuilder<T>
         where T : unmanaged
     {
         /// <summary>
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Xaml : TimedKeyFrameAnimationBuilder<T>, AnimationBuilder.IXamlAnimationFactory
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="Xaml"/> class.
+            /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}.Xaml"/> class.
             /// </summary>
             /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
             public Xaml(string property, TimeSpan? delay)
