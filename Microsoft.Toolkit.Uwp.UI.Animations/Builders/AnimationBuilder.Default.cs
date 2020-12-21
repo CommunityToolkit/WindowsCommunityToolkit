@@ -443,6 +443,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Adds a new clip animation to the current schedule.
+        /// </summary>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Clip(
+            Thickness to,
+            Thickness? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            this.compositionAnimationFactories.Add(new CompositionClipScalarAnimation(
+                nameof(InsetClip.LeftInset),
+                (float)to.Left,
+                (float?)from?.Left,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode));
+
+            this.compositionAnimationFactories.Add(new CompositionClipScalarAnimation(
+                nameof(InsetClip.TopInset),
+                (float)to.Top,
+                (float?)from?.Top,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode));
+
+            this.compositionAnimationFactories.Add(new CompositionClipScalarAnimation(
+                nameof(InsetClip.RightInset),
+                (float)to.Right,
+                (float?)from?.Right,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode));
+
+            this.compositionAnimationFactories.Add(new CompositionClipScalarAnimation(
+                nameof(InsetClip.BottomInset),
+                (float)to.Bottom,
+                (float?)from?.Bottom,
+                delay ?? DefaultDelay,
+                duration ?? DefaultDuration,
+                easingType,
+                easingMode));
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds a new size animation for a single axis to the current schedule.
         /// </summary>
         /// <param name="axis">The target size axis to animate.</param>
