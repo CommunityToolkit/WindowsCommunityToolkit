@@ -70,24 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animation = doubleAnimation;
             }
-            else if (typeof(T) == typeof(Vector2))
-            {
-                PointAnimationUsingKeyFrames pointAnimation = new() { EnableDependentAnimation = true };
-
-                foreach (var keyFrame in keyFrames)
-                {
-                    Vector2 vector = keyFrame.GetValueAs<Vector2>();
-
-                    pointAnimation.KeyFrames.Add(new EasingPointKeyFrame()
-                    {
-                        KeyTime = keyFrame.GetTimedProgress(duration),
-                        Value = new Point(vector.X, vector.Y),
-                        EasingFunction = keyFrame.EasingType.ToEasingFunction(keyFrame.EasingMode)
-                    });
-                }
-
-                animation = pointAnimation;
-            }
             else if (typeof(T) == typeof(Point))
             {
                 PointAnimationUsingKeyFrames pointAnimation = new() { EnableDependentAnimation = true };

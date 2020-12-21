@@ -3,8 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
+using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -15,6 +20,200 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <inheritdoc cref="AnimationBuilder"/>
     public sealed partial class AnimationBuilder
     {
+        /// <summary>
+        /// A model representing a generic animation for a target object.
+        /// </summary>
+        private sealed record AnimationFactory<T>(
+            string Property,
+            T To,
+            T? From,
+            TimeSpan Delay,
+            TimeSpan Duration,
+            EasingType EasingType,
+            EasingMode EasingMode)
+            : ICompositionAnimationFactory, IXamlAnimationFactory
+            where T : unmanaged
+        {
+            /// <inheritdoc/>
+            public CompositionAnimation GetAnimation(Visual visual)
+            {
+                CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+
+                if (typeof(T) == typeof(bool))
+                {
+                    return visual.Compositor.CreateBooleanKeyFrameAnimation(
+                        Property,
+                        GetToAs<bool>(),
+                        GetFromAs<bool>(),
+                        Delay,
+                        Duration);
+                }
+                else if (typeof(T) == typeof(float))
+                {
+                    return visual.Compositor.CreateScalarKeyFrameAnimation(
+                        Property,
+                        GetToAs<float>(),
+                        GetFromAs<float>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else if (typeof(T) == typeof(double))
+                {
+                    return visual.Compositor.CreateScalarKeyFrameAnimation(
+                        Property,
+                        (float)GetToAs<double>(),
+                        (float)GetFromAs<double>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else if (typeof(T) == typeof(Vector2))
+                {
+                    return visual.Compositor.CreateVector2KeyFrameAnimation(
+                        Property,
+                        GetToAs<Vector2>(),
+                        GetFromAs<Vector2>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else if (typeof(T) == typeof(Vector3))
+                {
+                    return visual.Compositor.CreateVector3KeyFrameAnimation(
+                        Property,
+                        GetToAs<Vector3>(),
+                        GetFromAs<Vector3>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else if (typeof(T) == typeof(Vector4))
+                {
+                    return visual.Compositor.CreateVector4KeyFrameAnimation(
+                        Property,
+                        GetToAs<Vector4>(),
+                        GetFromAs<Vector4>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else if (typeof(T) == typeof(Color))
+                {
+                    return visual.Compositor.CreateColorKeyFrameAnimation(
+                        Property,
+                        GetToAs<Color>(),
+                        GetFromAs<Color>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else if (typeof(T) == typeof(Quaternion))
+                {
+                    return visual.Compositor.CreateQuaternionKeyFrameAnimation(
+                        Property,
+                        GetToAs<Quaternion>(),
+                        GetFromAs<Quaternion>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else
+                {
+                    return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
+                }
+            }
+
+            /// <inheritdoc/>
+            public Timeline GetAnimation(UIElement element)
+            {
+                EasingFunctionBase easingFunction = EasingType.ToEasingFunction(EasingMode);
+
+                if (typeof(T) == typeof(float))
+                {
+                    return element.CreateDoubleAnimation(
+                        Property,
+                        GetToAs<float>(),
+                        GetFromAs<float>(),
+                        Delay,
+                        Duration,
+                        easingFunction,
+                        true);
+                }
+                else if (typeof(T) == typeof(double))
+                {
+                    return element.CreateDoubleAnimation(
+                        Property,
+                        GetToAs<double>(),
+                        GetFromAs<double>(),
+                        Delay,
+                        Duration,
+                        easingFunction,
+                        true);
+                }
+                else if (typeof(T) == typeof(Point))
+                {
+                    return element.CreatePointAnimation(
+                        Property,
+                        GetToAs<Point>(),
+                        GetFromAs<Point>(),
+                        Delay,
+                        Duration,
+                        easingFunction,
+                        true);
+                }
+                else if (typeof(T) == typeof(Color))
+                {
+                    return element.CreateColorAnimation(
+                        Property,
+                        GetToAs<Color>(),
+                        GetFromAs<Color>(),
+                        Delay,
+                        Duration,
+                        easingFunction);
+                }
+                else
+                {
+                    return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
+                }
+            }
+
+            /// <summary>
+            /// Gets the current target value as <typeparamref name="TValue"/>.
+            /// </summary>
+            /// <typeparam name="TValue">The target value type to use.</typeparam>
+            /// <returns>The target type cast to <typeparamref name="TValue"/>.</returns>
+            [Pure]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private TValue GetToAs<TValue>()
+                where TValue : unmanaged
+            {
+                T to = To;
+
+                return Unsafe.As<T, TValue>(ref to);
+            }
+
+            /// <summary>
+            /// Gets the current starting value as <typeparamref name="TValue"/>.
+            /// </summary>
+            /// <typeparam name="TValue">The starting value type to use.</typeparam>
+            /// <returns>The starting type cast to nullable <typeparamref name="TValue"/>.</returns>
+            [Pure]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private TValue? GetFromAs<TValue>()
+                where TValue : unmanaged
+            {
+                if (From is null)
+                {
+                    return null;
+                }
+
+                T from = From.GetValueOrDefault();
+
+                return Unsafe.As<T, TValue>(ref from);
+            }
+        }
+
         /// <summary>
         /// A model representing a specified composition double animation for a target <see cref="CompositionObject"/>.
         /// </summary>
@@ -40,52 +239,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified composition scalar animation factory.
-        /// </summary>
-        private sealed record CompositionScalarAnimationFactory(
-            string Property,
-            float To,
-            float? From,
-            TimeSpan Delay,
-            TimeSpan Duration,
-            EasingType EasingType,
-            EasingMode EasingMode)
-            : ICompositionAnimationFactory
-        {
-            /// <inheritdoc/>
-            public CompositionAnimation GetAnimation(Visual visual)
-            {
-                CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
-
-                return animation;
-            }
-        }
-
-        /// <summary>
-        /// A model representing a specified composition <see cref="Vector3"/> animation factory.
-        /// </summary>
-        private sealed record CompositionVector3AnimationFactory(
-            string Property,
-            Vector3 To,
-            Vector3? From,
-            TimeSpan Delay,
-            TimeSpan Duration,
-            EasingType EasingType,
-            EasingMode EasingMode)
-            : ICompositionAnimationFactory
-        {
-            /// <inheritdoc/>
-            public CompositionAnimation GetAnimation(Visual visual)
-            {
-                CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
-
-                return animation;
-            }
-        }
-
-        /// <summary>
         /// A model representing a specified composition scalar animation factory targeting a clip.
         /// </summary>
         private sealed record CompositionClipScalarAnimation(
@@ -106,27 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
 
                 return animation;
-            }
-        }
-
-        /// <summary>
-        /// A model representing a specified XAML <see cref="double"/> animation factory.
-        /// </summary>
-        private sealed record XamlDoubleAnimationFactory(
-            string Property,
-            double To,
-            double? From,
-            TimeSpan Delay,
-            TimeSpan Duration,
-            EasingType EasingType,
-            EasingMode EasingMode,
-            bool EnableDependentAnimation)
-            : IXamlAnimationFactory
-        {
-            /// <inheritdoc/>
-            public Timeline GetAnimation(UIElement element)
-            {
-                return element.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode), EnableDependentAnimation);
             }
         }
 
