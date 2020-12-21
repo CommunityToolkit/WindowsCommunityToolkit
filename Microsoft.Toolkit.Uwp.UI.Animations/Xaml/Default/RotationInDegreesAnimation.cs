@@ -9,9 +9,9 @@ using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
-    /// An opacity animation working on the composition or XAML layer.
+    /// A rotation in degrees animation working on the composition or XAML layer.
     /// </summary>
-    public class OpacityAnimation : Animation<double?>, ITimeline
+    public class RotationInDegreesAnimation : Animation<double?>, ITimeline
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc/>
         AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            return builder.Opacity(
+            return builder.RotateInDegrees(
                 To!.Value,
                 From,
                 Delay ?? delayHint,

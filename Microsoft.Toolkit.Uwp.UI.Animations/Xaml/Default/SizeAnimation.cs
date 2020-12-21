@@ -10,9 +10,9 @@ using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
-    /// A translation animation working on the composition or XAML layer.
+    /// A size animation working on the composition or XAML layer.
     /// </summary>
-    public class TranslationAnimation : Animation<string>, ITimeline
+    public class SizeAnimation : Animation<string>, ITimeline
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -29,11 +29,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 
             if (Layer == FrameworkLayer.Composition)
             {
-                return builder.Translation(To!.ToVector3(), From?.ToVector3(), delay, duration, easingType, easingMode);
+                return builder.Size(To!.ToVector3(), From?.ToVector3(), delay, duration, easingType, easingMode);
             }
             else
             {
-                return builder.Translation(To!.ToVector2(), From?.ToVector2(), delay, duration, easingType, easingMode, FrameworkLayer.Xaml);
+                return builder.Size(To!.ToVector2(), From?.ToVector2(), delay, duration, easingType, easingMode, FrameworkLayer.Xaml);
             }
         }
     }
