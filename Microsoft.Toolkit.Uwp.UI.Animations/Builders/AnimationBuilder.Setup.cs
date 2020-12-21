@@ -15,11 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
-        /// The list of <see cref="ICompositionAnimation"/> instances representing animations to run.
-        /// </summary>
-        private readonly List<ICompositionAnimation> compositionAnimations = new();
-
-        /// <summary>
         /// The list of <see cref="ICompositionAnimationFactory"/> instances representing factories for composition animations to run.
         /// </summary>
         private readonly List<ICompositionAnimationFactory> compositionAnimationFactories = new();

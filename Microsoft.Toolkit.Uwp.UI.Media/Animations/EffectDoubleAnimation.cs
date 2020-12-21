@@ -30,8 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
             return builder.DoubleAnimation(
                 effect.Brush,
                 $"{effect.Id}.{nameof(GaussianBlurEffect.BlurAmount)}",
-                From,
                 To,
+                From,
                 Delay ?? delayHint,
                 Duration ?? durationHint.GetValueOrDefault(),
                 EasingType ?? easingTypeHint ?? DefaultEasingType,

@@ -10,6 +10,8 @@ using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI;
 using Windows.UI.Composition;
 
+#nullable enable
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
@@ -19,14 +21,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
         /// </summary>
         /// <typeparam name="TKeyFrame">The type of keyframes being used to define the animation.</typeparam>
-        /// <param name="visual">The target <see cref="Visual"/> instance to animate.</param>
+        /// <param name="target">The target <see cref="CompositionObject"/> instance to animate.</param>
         /// <param name="property">The target property to animate.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
         /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
         public static CompositionAnimation GetAnimation<TKeyFrame>(
-            Visual visual,
+            CompositionObject target,
             string property,
             TimeSpan? delay,
             TimeSpan duration,
@@ -37,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (typeof(T) == typeof(bool))
             {
-                BooleanKeyFrameAnimation boolAnimation = visual.Compositor.CreateBooleanKeyFrameAnimation();
+                BooleanKeyFrameAnimation boolAnimation = target.Compositor.CreateBooleanKeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
@@ -50,98 +52,98 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
             else if (typeof(T) == typeof(float))
             {
-                ScalarKeyFrameAnimation scalarAnimation = visual.Compositor.CreateScalarKeyFrameAnimation();
+                ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<float>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = scalarAnimation;
             }
             else if (typeof(T) == typeof(double))
             {
-                ScalarKeyFrameAnimation scalarAnimation = visual.Compositor.CreateScalarKeyFrameAnimation();
+                ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         (float)keyFrame.GetValueAs<double>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = scalarAnimation;
             }
             else if (typeof(T) == typeof(Vector2))
             {
-                Vector2KeyFrameAnimation vector2Animation = visual.Compositor.CreateVector2KeyFrameAnimation();
+                Vector2KeyFrameAnimation vector2Animation = target.Compositor.CreateVector2KeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     vector2Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector2>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = vector2Animation;
             }
             else if (typeof(T) == typeof(Vector3))
             {
-                Vector3KeyFrameAnimation vector3Animation = visual.Compositor.CreateVector3KeyFrameAnimation();
+                Vector3KeyFrameAnimation vector3Animation = target.Compositor.CreateVector3KeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     vector3Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector3>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = vector3Animation;
             }
             else if (typeof(T) == typeof(Vector4))
             {
-                Vector4KeyFrameAnimation vector4Animation = visual.Compositor.CreateVector4KeyFrameAnimation();
+                Vector4KeyFrameAnimation vector4Animation = target.Compositor.CreateVector4KeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     vector4Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector4>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = vector4Animation;
             }
             else if (typeof(T) == typeof(Color))
             {
-                ColorKeyFrameAnimation colorAnimation = visual.Compositor.CreateColorKeyFrameAnimation();
+                ColorKeyFrameAnimation colorAnimation = target.Compositor.CreateColorKeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     colorAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Color>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = colorAnimation;
             }
             else if (typeof(T) == typeof(Quaternion))
             {
-                QuaternionKeyFrameAnimation quaternionAnimation = visual.Compositor.CreateQuaternionKeyFrameAnimation();
+                QuaternionKeyFrameAnimation quaternionAnimation = target.Compositor.CreateQuaternionKeyFrameAnimation();
 
                 foreach (var keyFrame in keyFrames)
                 {
                     quaternionAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Quaternion>(),
-                        visual.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = quaternionAnimation;
@@ -178,10 +180,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
-            public CompositionAnimation GetAnimation(Visual visual)
+            public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
             {
+                target = null;
+
                 return GetAnimation(
-                    visual,
+                    targetHint,
                     this.property,
                     this.delay,
                     this.duration,

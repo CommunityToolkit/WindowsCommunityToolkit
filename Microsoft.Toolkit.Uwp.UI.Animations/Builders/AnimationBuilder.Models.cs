@@ -15,6 +15,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
+#nullable enable
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <inheritdoc cref="AnimationBuilder"/>
@@ -35,13 +37,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             where T : unmanaged
         {
             /// <inheritdoc/>
-            public CompositionAnimation GetAnimation(Visual visual)
+            public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
             {
-                CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+                CompositionEasingFunction easingFunction = targetHint.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+
+                target = null;
 
                 if (typeof(T) == typeof(bool))
                 {
-                    return visual.Compositor.CreateBooleanKeyFrameAnimation(
+                    return targetHint.Compositor.CreateBooleanKeyFrameAnimation(
                         Property,
                         GetToAs<bool>(),
                         GetFromAs<bool>(),
@@ -50,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(float))
                 {
-                    return visual.Compositor.CreateScalarKeyFrameAnimation(
+                    return targetHint.Compositor.CreateScalarKeyFrameAnimation(
                         Property,
                         GetToAs<float>(),
                         GetFromAs<float>(),
@@ -60,17 +64,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(double))
                 {
-                    return visual.Compositor.CreateScalarKeyFrameAnimation(
+                    return targetHint.Compositor.CreateScalarKeyFrameAnimation(
                         Property,
                         (float)GetToAs<double>(),
-                        (float)GetFromAs<double>(),
+                        (float?)GetFromAs<double>(),
                         Delay,
                         Duration,
                         easingFunction);
                 }
                 else if (typeof(T) == typeof(Vector2))
                 {
-                    return visual.Compositor.CreateVector2KeyFrameAnimation(
+                    return targetHint.Compositor.CreateVector2KeyFrameAnimation(
                         Property,
                         GetToAs<Vector2>(),
                         GetFromAs<Vector2>(),
@@ -80,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(Vector3))
                 {
-                    return visual.Compositor.CreateVector3KeyFrameAnimation(
+                    return targetHint.Compositor.CreateVector3KeyFrameAnimation(
                         Property,
                         GetToAs<Vector3>(),
                         GetFromAs<Vector3>(),
@@ -90,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(Vector4))
                 {
-                    return visual.Compositor.CreateVector4KeyFrameAnimation(
+                    return targetHint.Compositor.CreateVector4KeyFrameAnimation(
                         Property,
                         GetToAs<Vector4>(),
                         GetFromAs<Vector4>(),
@@ -100,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(Color))
                 {
-                    return visual.Compositor.CreateColorKeyFrameAnimation(
+                    return targetHint.Compositor.CreateColorKeyFrameAnimation(
                         Property,
                         GetToAs<Color>(),
                         GetFromAs<Color>(),
@@ -110,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(Quaternion))
                 {
-                    return visual.Compositor.CreateQuaternionKeyFrameAnimation(
+                    return targetHint.Compositor.CreateQuaternionKeyFrameAnimation(
                         Property,
                         GetToAs<Quaternion>(),
                         GetFromAs<Quaternion>(),
@@ -125,13 +129,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
-            public Timeline GetAnimation(UIElement element)
+            public Timeline GetAnimation(DependencyObject targetHint)
             {
-                EasingFunctionBase easingFunction = EasingType.ToEasingFunction(EasingMode);
+                EasingFunctionBase? easingFunction = EasingType.ToEasingFunction(EasingMode);
 
                 if (typeof(T) == typeof(float))
                 {
-                    return element.CreateDoubleAnimation(
+                    return targetHint.CreateDoubleAnimation(
                         Property,
                         GetToAs<float>(),
                         GetFromAs<float>(),
@@ -142,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(double))
                 {
-                    return element.CreateDoubleAnimation(
+                    return targetHint.CreateDoubleAnimation(
                         Property,
                         GetToAs<double>(),
                         GetFromAs<double>(),
@@ -153,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(Point))
                 {
-                    return element.CreatePointAnimation(
+                    return targetHint.CreatePointAnimation(
                         Property,
                         GetToAs<Point>(),
                         GetFromAs<Point>(),
@@ -164,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (typeof(T) == typeof(Color))
                 {
-                    return element.CreateColorAnimation(
+                    return targetHint.CreateColorAnimation(
                         Property,
                         GetToAs<Color>(),
                         GetFromAs<Color>(),
@@ -215,30 +219,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified composition double animation for a target <see cref="CompositionObject"/>.
-        /// </summary>
-        private sealed record CompositionDoubleAnimation(
-            CompositionObject Target,
-            string Property,
-            float To,
-            float? From,
-            TimeSpan Delay,
-            TimeSpan Duration,
-            EasingType EasingType,
-            EasingMode EasingMode)
-            : ICompositionAnimation
-        {
-            /// <inheritdoc/>
-            public void StartAnimation()
-            {
-                CompositionEasingFunction easingFunction = Target.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = Target.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
-
-                Target.StartAnimation(Property, animation);
-            }
-        }
-
-        /// <summary>
         /// A model representing a specified composition scalar animation factory targeting a clip.
         /// </summary>
         private sealed record CompositionClipScalarAnimation(
@@ -252,11 +232,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             : ICompositionAnimationFactory
         {
             /// <inheritdoc/>
-            public CompositionAnimation GetAnimation(Visual visual)
+            public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
             {
+                Visual visual = (Visual)targetHint;
                 InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
                 CompositionEasingFunction easingFunction = clip.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
+                ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
+
+                target = clip;
+
+                return animation;
+            }
+        }
+
+        /// <summary>
+        /// A model representing a specified composition double animation for a target <see cref="CompositionObject"/>.
+        /// </summary>
+        private sealed record CompositionDoubleAnimation(
+            CompositionObject Target,
+            string Property,
+            float To,
+            float? From,
+            TimeSpan Delay,
+            TimeSpan Duration,
+            EasingType EasingType,
+            EasingMode EasingMode)
+            : ICompositionAnimationFactory
+        {
+            /// <inheritdoc/>
+            public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
+            {
+                CompositionEasingFunction easingFunction = Target.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+                ScalarKeyFrameAnimation animation = Target.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
+
+                target = Target;
 
                 return animation;
             }
@@ -276,9 +285,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             : IXamlAnimationFactory
         {
             /// <inheritdoc/>
-            public Timeline GetAnimation(UIElement element)
+            public Timeline GetAnimation(DependencyObject targetHint)
             {
-                CompositeTransform transform = element.GetTransform<CompositeTransform>();
+                CompositeTransform transform = ((UIElement)targetHint).GetTransform<CompositeTransform>();
 
                 return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
             }
@@ -292,9 +301,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <summary>
             /// Gets a <see cref="Timeline"/> instance representing the animation to start.
             /// </summary>
-            /// <param name="element">The target <see cref="UIElement"/> instance to animate.</param>
+            /// <param name="targetHint">The suggested target <see cref="DependencyObject"/> instance to animate.</param>
             /// <returns>A <see cref="Timeline"/> instance with the specified animation.</returns>
-            Timeline GetAnimation(UIElement element);
+            Timeline GetAnimation(DependencyObject targetHint);
         }
 
         /// <summary>
@@ -305,20 +314,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <summary>
             /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
             /// </summary>
-            /// <param name="visual">The target <see cref="Visual"/> instance to animate.</param>
+            /// <param name="targetHint">The suggested target <see cref="CompositionObject"/> instance to animate.</param>
+            /// <param name="target">An optional <see cref="CompositionObject"/> instance to animate instead of the suggested one.</param>
             /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
-            CompositionAnimation GetAnimation(Visual visual);
-        }
-
-        /// <summary>
-        /// An interface for custom external composition animations.
-        /// </summary>
-        internal interface ICompositionAnimation
-        {
-            /// <summary>
-            /// Starts a <see cref="CompositionAnimation"/> with some embedded parameters.
-            /// </summary>
-            void StartAnimation();
+            /// <remarks>
+            /// The separate <paramref name="target"/> parameter is needed because unlike with XAML animations, composition animations
+            /// can't store the target instance internally, and need to be started on the target object directly. This means that custom
+            /// animation factories that want to target an external object need to return that object separately to inform the callers.
+            /// </remarks>
+            CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target);
         }
     }
 }

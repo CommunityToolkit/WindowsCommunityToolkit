@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.Foundation;
@@ -22,14 +21,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets a <see cref="Timeline"/> instance representing the animation to start.
         /// </summary>
         /// <typeparam name="TKeyFrame">The type of keyframes being used to define the animation.</typeparam>
-        /// <param name="element">The target <see cref="UIElement"/> instance to animate.</param>
+        /// <param name="target">The target <see cref="DependencyObject"/> instance to animate.</param>
         /// <param name="property">The target property to animate.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
         /// <returns>A <see cref="Timeline"/> instance with the specified animation.</returns>
         public static Timeline GetAnimation<TKeyFrame>(
-            UIElement element,
+            DependencyObject target,
             string property,
             TimeSpan? delay,
             TimeSpan duration,
@@ -109,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             animation.BeginTime = delay;
 
-            Storyboard.SetTarget(animation, element);
+            Storyboard.SetTarget(animation, target);
             Storyboard.SetTargetProperty(animation, property);
 
             return animation;
@@ -130,10 +129,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
-            public Timeline GetAnimation(UIElement element)
+            public Timeline GetAnimation(DependencyObject targetHint)
             {
                 return GetAnimation(
-                    element,
+                    targetHint,
                     this.property,
                     this.delay,
                     default,

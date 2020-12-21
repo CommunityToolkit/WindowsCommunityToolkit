@@ -27,10 +27,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
-            public Timeline GetAnimation(UIElement element)
+            public Timeline GetAnimation(DependencyObject targetHint)
             {
                 return TimedKeyFrameAnimationBuilder<T>.GetAnimation(
-                    element,
+                    targetHint,
                     this.property,
                     this.delay,
                     this.duration,
