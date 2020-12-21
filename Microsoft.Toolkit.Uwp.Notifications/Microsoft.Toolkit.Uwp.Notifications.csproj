@@ -56,6 +56,10 @@
   <ItemGroup Condition=" '$(TargetFramework)' != 'native' ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+  </PropertyGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>

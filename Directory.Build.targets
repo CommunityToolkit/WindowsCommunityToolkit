@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <UseUWP Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17763' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">true</UseUWP>
+    <UseUWP Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17763' or '$(TargetFramework)' == 'uap10.0.19041' or '$(TargetFramework)' == 'net461'">true</UseUWP>
   </PropertyGroup>
 
   <Choose>
