@@ -52,7 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration);
                 }
-                else if (typeof(T) == typeof(float))
+
+                if (typeof(T) == typeof(float))
                 {
                     return targetHint.Compositor.CreateScalarKeyFrameAnimation(
                         Property,
@@ -62,7 +63,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else if (typeof(T) == typeof(double))
+
+                if (typeof(T) == typeof(double))
                 {
                     return targetHint.Compositor.CreateScalarKeyFrameAnimation(
                         Property,
@@ -72,7 +74,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else if (typeof(T) == typeof(Vector2))
+
+                if (typeof(T) == typeof(Vector2))
                 {
                     return targetHint.Compositor.CreateVector2KeyFrameAnimation(
                         Property,
@@ -82,7 +85,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else if (typeof(T) == typeof(Vector3))
+
+                if (typeof(T) == typeof(Vector3))
                 {
                     return targetHint.Compositor.CreateVector3KeyFrameAnimation(
                         Property,
@@ -92,7 +96,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else if (typeof(T) == typeof(Vector4))
+
+                if (typeof(T) == typeof(Vector4))
                 {
                     return targetHint.Compositor.CreateVector4KeyFrameAnimation(
                         Property,
@@ -102,7 +107,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else if (typeof(T) == typeof(Color))
+
+                if (typeof(T) == typeof(Color))
                 {
                     return targetHint.Compositor.CreateColorKeyFrameAnimation(
                         Property,
@@ -112,7 +118,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else if (typeof(T) == typeof(Quaternion))
+
+                if (typeof(T) == typeof(Quaternion))
                 {
                     return targetHint.Compositor.CreateQuaternionKeyFrameAnimation(
                         Property,
@@ -122,10 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else
-                {
-                    return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
-                }
+
+                return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
             }
 
             /// <inheritdoc/>
@@ -144,7 +149,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         easingFunction,
                         true);
                 }
-                else if (typeof(T) == typeof(double))
+
+                if (typeof(T) == typeof(double))
                 {
                     return targetHint.CreateDoubleAnimation(
                         Property,
@@ -155,7 +161,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         easingFunction,
                         true);
                 }
-                else if (typeof(T) == typeof(Point))
+
+                if (typeof(T) == typeof(Point))
                 {
                     return targetHint.CreatePointAnimation(
                         Property,
@@ -166,7 +173,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         easingFunction,
                         true);
                 }
-                else if (typeof(T) == typeof(Color))
+
+                if (typeof(T) == typeof(Color))
                 {
                     return targetHint.CreateColorAnimation(
                         Property,
@@ -176,10 +184,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Duration,
                         easingFunction);
                 }
-                else
-                {
-                    return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
-                }
+
+                return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
             }
 
             /// <summary>
