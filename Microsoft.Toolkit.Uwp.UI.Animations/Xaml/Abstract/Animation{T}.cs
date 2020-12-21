@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// A base model representing a typed animation that can be used in XAML.
     /// </summary>
     /// <typeparam name="T">The type of values for the animation.</typeparam>
-    public abstract class TypedAnimation<T> : Animation
+    public abstract class Animation<T> : Animation
     {
         /// <summary>
         /// Gets or sets the final value for the animation.

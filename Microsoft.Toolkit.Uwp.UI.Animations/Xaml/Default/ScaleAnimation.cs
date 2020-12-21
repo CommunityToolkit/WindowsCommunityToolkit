@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// A scale animation working on the composition or XAML layer.
     /// This animation maps to <see cref="AnimationBuilder.Scale(System.Numerics.Vector2, System.Numerics.Vector2?, TimeSpan?, TimeSpan?, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
-    public class ScaleAnimation : TypedAnimation<string>, ITimeline
+    public class ScaleAnimation : Animation<string>, ITimeline
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.

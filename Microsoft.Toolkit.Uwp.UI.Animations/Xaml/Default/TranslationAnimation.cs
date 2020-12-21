@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// A translation animation working on the composition or XAML layer.
     /// This animation maps to <see cref="AnimationBuilder.Translation(System.Numerics.Vector3, System.Numerics.Vector3?, TimeSpan?, TimeSpan?, EasingType, EasingMode)"/>.
     /// </summary>
-    public class TranslationAnimation : TypedAnimation<string>, ITimeline
+    public class TranslationAnimation : Animation<string>, ITimeline
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.

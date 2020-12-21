@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
     /// <summary>
     /// A set of animations that can be grouped together.
     /// </summary>
-    public class EffectDoubleAnimation : TypedAnimation<double>, ITimeline
+    public class EffectDoubleAnimation : Animation<double>, ITimeline
     {
         /// <summary>
         /// Gets or sets the linked <see cref="IPipelineEffect"/> instance to animate.

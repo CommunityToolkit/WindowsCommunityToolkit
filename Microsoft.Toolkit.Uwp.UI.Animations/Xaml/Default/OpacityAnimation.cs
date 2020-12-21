@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// An opacity animation working on the composition or XAML layer.
     /// This animation maps to <see cref="AnimationBuilder.Opacity(double, double?, TimeSpan?, TimeSpan?, EasingType, EasingMode, FrameworkLayer)"/>.
     /// </summary>
-    public class OpacityAnimation : TypedAnimation<double?>, ITimeline
+    public class OpacityAnimation : Animation<double?>, ITimeline
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
