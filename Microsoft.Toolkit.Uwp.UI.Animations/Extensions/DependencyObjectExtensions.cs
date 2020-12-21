@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         /// <param name="target">The target <see cref="DependencyObject"/> to animate.</param>
         /// <param name="property">The property to animate inside the target <see cref="DependencyObject"/>.</param>
-        /// <param name="from">The optional initial property value.</param>
         /// <param name="to">The final property value.</param>
+        /// <param name="from">The optional initial property value.</param>
         /// <param name="delay">The optional delay for the animation.</param>
         /// <param name="duration">The duration of the <see cref="DoubleAnimation"/>.</param>
         /// <param name="easing">The easing function to use inside the <see cref="DoubleAnimation"/>.</param>
@@ -32,8 +32,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         public static DoubleAnimation CreateDoubleAnimation(
             this DependencyObject target,
             string property,
-            double? from,
             double to,
+            double? from,
             TimeSpan? delay,
             TimeSpan duration,
             EasingFunctionBase? easing = null,

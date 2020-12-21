@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public void StartAnimation()
             {
                 CompositionEasingFunction easingFunction = Target.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = Target.Compositor.CreateScalarKeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
+                ScalarKeyFrameAnimation animation = Target.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
 
                 Target.StartAnimation(Property, animation);
             }
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public CompositionAnimation GetAnimation(Visual visual)
             {
                 CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
+                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
 
                 return animation;
             }
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public CompositionAnimation GetAnimation(Visual visual)
             {
                 CompositionEasingFunction easingFunction = visual.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
+                Vector3KeyFrameAnimation animation = visual.Compositor.CreateVector3KeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
 
                 return animation;
             }
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
                 CompositionEasingFunction easingFunction = clip.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, From, To, Duration, Delay, easingFunction);
+                ScalarKeyFrameAnimation animation = visual.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
 
                 return animation;
             }
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             public Timeline GetAnimation(UIElement element)
             {
-                return element.CreateDoubleAnimation(Property, From, To, Delay, Duration, EasingType.ToEasingFunction(EasingMode), EnableDependentAnimation);
+                return element.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode), EnableDependentAnimation);
             }
         }
 
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 CompositeTransform transform = element.GetTransform<CompositeTransform>();
 
-                return transform.CreateDoubleAnimation(Property, From, To, Delay, Duration, EasingType.ToEasingFunction(EasingMode));
+                return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
             }
         }
 
