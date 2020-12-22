@@ -478,7 +478,7 @@ namespace Microsoft.Toolkit.HighPerformance
 
             OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-            return new ReadOnlySpan2D<T>(value, height, width, pitch);
+            return new ReadOnlySpan2D<T>(in value, height, width, pitch);
         }
 #endif
 
@@ -837,7 +837,7 @@ namespace Microsoft.Toolkit.HighPerformance
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
 
-            return new ReadOnlySpan2D<T>(r0, height, width, pitch);
+            return new ReadOnlySpan2D<T>(in r0, height, width, pitch);
 #else
             IntPtr offset = this.offset + (shift * (nint)(uint)Unsafe.SizeOf<T>());
 
@@ -1021,7 +1021,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static implicit operator ReadOnlySpan2D<T>(Span2D<T> span)
         {
 #if SPAN_RUNTIME_SUPPORT
-            return new ReadOnlySpan2D<T>(span.DangerousGetReference(), span.Height, span.Width, span.Stride - span.Width);
+            return new ReadOnlySpan2D<T>(in span.DangerousGetReference(), span.Height, span.Width, span.Stride - span.Width);
 #else
             return new ReadOnlySpan2D<T>(span.Instance!, span.Offset, span.Height, span.Width, span.Stride - span.Width);
 #endif
