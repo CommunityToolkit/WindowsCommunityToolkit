@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// An interface for an animation builder using timed keyframes.
     /// </summary>
     /// <typeparam name="T">The type of values being set by the animation being constructed.</typeparam>
-    public interface ITimedKeyFrameAnimationBuilder<T>
+    public interface ITimedKeyFrameAnimationBuilder<in T>
         where T : unmanaged
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingType">The easing type to use to reach the new keyframe.</param>
         /// <param name="easingMode">The easing mode to use to reach the new keyframe.</param>
         /// <returns>The same <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance that the method was invoked upon.</returns>
-        public ITimedKeyFrameAnimationBuilder<T> KeyFrame(
+        ITimedKeyFrameAnimationBuilder<T> KeyFrame(
             TimeSpan progress,
             T value,
             EasingType easingType = DefaultEasingType,
