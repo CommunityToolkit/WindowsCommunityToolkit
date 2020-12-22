@@ -5,8 +5,10 @@
 using System;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -27,15 +29,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
         {
             BlurEffect effect = (BlurEffect)Target;
 
-            return builder.DoubleAnimation(
-                effect.Brush,
+            CompositionAnimation animation = effect.Brush.Compositor.CreateScalarKeyFrameAnimation(
                 $"{effect.Id}.{nameof(GaussianBlurEffect.BlurAmount)}",
-                To,
-                From,
-                Delay ?? delayHint,
-                Duration ?? durationHint.GetValueOrDefault(),
-                EasingType ?? easingTypeHint ?? DefaultEasingType,
-                EasingMode ?? easingModeHint ?? DefaultEasingMode);
+                (float)To,
+                (float?)From,
+                Delay ?? delayHint ?? DefaultDelay,
+                Duration ?? durationHint ?? DefaultDuration,
+                effect.Brush.Compositor.CreateCubicBezierEasingFunction(
+                    EasingMode ?? easingModeHint ?? DefaultEasingMode));
+
+            return builder.ExternalAnimation(effect.Brush, animation);
         }
     }
 }

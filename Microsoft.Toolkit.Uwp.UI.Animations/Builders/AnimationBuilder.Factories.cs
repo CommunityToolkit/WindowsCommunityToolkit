@@ -284,32 +284,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// A model representing a specified composition double animation for a target <see cref="CompositionObject"/>.
-        /// </summary>
-        private sealed record CompositionDoubleAnimationFactory(
-            CompositionObject Target,
-            string Property,
-            float To,
-            float? From,
-            TimeSpan Delay,
-            TimeSpan Duration,
-            EasingType EasingType,
-            EasingMode EasingMode)
-            : ICompositionAnimationFactory
-        {
-            /// <inheritdoc/>
-            public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
-            {
-                CompositionEasingFunction easingFunction = Target.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = Target.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
-
-                target = Target;
-
-                return animation;
-            }
-        }
-
-        /// <summary>
         /// A model representing a specified XAML <see cref="double"/> animation factory targeting a transform.
         /// </summary>
         private sealed record XamlTransformDoubleAnimationFactory(
@@ -333,6 +307,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
+            }
+        }
+
+        /// <summary>
+        /// A model representing an external composition animation with an optional target <see cref="CompositionObject"/>.
+        /// </summary>
+        private sealed record ExternalCompositionAnimation(CompositionObject? Target, CompositionAnimation Animation) : ICompositionAnimationFactory
+        {
+            /// <inheritdoc/>
+            public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
+            {
+                target = Target;
+
+                return Animation;
+            }
+        }
+
+        /// <summary>
+        /// A model representing an external composition animation with an optional target <see cref="CompositionObject"/>.
+        /// </summary>
+        private sealed record ExternalXamlAnimation(Timeline Animation) : IXamlAnimationFactory
+        {
+            /// <inheritdoc/>
+            public Timeline GetAnimation(DependencyObject targetHint)
+            {
+                return Animation;
             }
         }
     }
