@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <param name="delay">The optional initial delay for the animation.</param>
             /// <param name="duration">The animation duration.</param>
             /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-            public AnimationBuilder NormalizedKeyFrames(
+            AnimationBuilder NormalizedKeyFrames(
                 Action<INormalizedKeyFrameAnimationBuilder<T>> build,
                 TimeSpan? delay = null,
                 TimeSpan? duration = null);
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <param name="build">The callback to use to construct the custom animation.</param>
             /// <param name="delay">The optional initial delay for the animation.</param>
             /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-            public AnimationBuilder TimedKeyFrames(
+            AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<T>> build,
                 TimeSpan? delay = null);
         }
