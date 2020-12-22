@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
     /// <summary>
     /// Common properties related to extensions.
     /// </summary>
-    public static partial class AnimationExtensions
+    public static class AnimationExtensions
     {
         /// <summary>
         /// Gets the default delay of animations.

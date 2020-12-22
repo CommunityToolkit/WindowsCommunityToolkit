@@ -293,7 +293,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             public Timeline GetAnimation(DependencyObject targetHint)
             {
-                CompositeTransform transform = ((UIElement)targetHint).GetTransform<CompositeTransform>();
+                UIElement element = (UIElement)targetHint;
+
+                if (element.RenderTransform is not CompositeTransform transform)
+                {
+                    element.RenderTransform = transform = new CompositeTransform();
+                }
 
                 return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
             }
