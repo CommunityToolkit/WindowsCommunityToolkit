@@ -21,6 +21,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AnimationBuilder"/> class.
+        /// </summary>
+        /// <remarks>This is private as the public entry point is the <see cref="Create"/> method.</remarks>
+        private AnimationBuilder()
+        {
+        }
+
+        /// <summary>
         /// <para>
         /// Creates a new <see cref="AnimationBuilder"/> instance to setup an animation schedule.
         /// This can be used as the entry point to construct a custom animation sequence.
