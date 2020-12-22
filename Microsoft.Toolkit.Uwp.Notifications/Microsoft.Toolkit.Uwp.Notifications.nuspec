@@ -24,7 +24,7 @@
         <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
         <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
       </group>
-      <group targetFramework="UAP10.0.10240">
+      <group targetFramework="UAP10.0.16299">
         <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETCoreApp3.1">
@@ -49,6 +49,7 @@
         <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="native0.0" />
+      <group targetFramework="UAP10.0.10240" />
     </dependencies>
   </metadata>
   <files>
@@ -76,5 +77,9 @@
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.pri" />
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.winmd" />
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.xml" />
+    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" />
+    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" />
+    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.winmd" />
+    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" />
   </files>
 </package>

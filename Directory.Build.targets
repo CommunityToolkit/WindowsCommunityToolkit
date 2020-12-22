@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <UseUWP Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.17763' or '$(TargetFramework)' == 'uap10.0.19041' or '$(TargetFramework)' == 'net461'">true</UseUWP>
+    <UseUWP Condition="$(TargetFramework.Contains(`uap10.0`)) or '$(TargetFramework)' == 'net461'">true</UseUWP>
   </PropertyGroup>
 
   <Choose>
@@ -12,8 +12,9 @@
       </PropertyGroup>
     </When>
   </Choose>
-
-  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.Uwp.Build.targets" Condition="'$(UseUWP)' == 'true'"/>
+   
+  <!--Exclude Notifications project from this since it sets different min versions than what we want for notifications-->
+  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.Uwp.Build.targets" Condition="'$(UseUWP)' == 'true' and $(MSBuildProjectName) != 'Microsoft.Toolkit.Uwp.Notifications'"/>
 
   <Target Name="AddCommitHashToAssemblyAttributes" BeforeTargets="GetAssemblyAttributes">
     <ItemGroup>
