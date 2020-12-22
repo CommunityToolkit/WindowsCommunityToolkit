@@ -913,7 +913,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="ReadOnlyMemory2D{T}"/>
         /// </summary>
-        public static implicit operator ReadOnlyMemory2D<T>(T[,]? array) => new ReadOnlyMemory2D<T>(array);
+        public static implicit operator ReadOnlyMemory2D<T>(T[,]? array) => new(array);
 
         /// <summary>
         /// Defines an implicit conversion of a <see cref="Memory2D{T}"/> to a <see cref="ReadOnlyMemory2D{T}"/>

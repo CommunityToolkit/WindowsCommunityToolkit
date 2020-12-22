@@ -1012,7 +1012,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// Implicily converts a given 2D array into a <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </summary>
         /// <param name="array">The input 2D array to convert.</param>
-        public static implicit operator ReadOnlySpan2D<T>(T[,]? array) => new ReadOnlySpan2D<T>(array);
+        public static implicit operator ReadOnlySpan2D<T>(T[,]? array) => new(array);
 
         /// <summary>
         /// Implicily converts a given <see cref="Span2D{T}"/> into a <see cref="ReadOnlySpan2D{T}"/> instance.
