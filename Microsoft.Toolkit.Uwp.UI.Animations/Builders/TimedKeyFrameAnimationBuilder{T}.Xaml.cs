@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.Foundation;
@@ -32,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string property,
             TimeSpan? delay,
             TimeSpan duration,
-            List<TKeyFrame> keyFrames)
+            ReadOnlySpan<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
             Timeline animation;
@@ -136,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     default,
-                    this.keyFrames);
+                    this.keyFrames.AsSpan());
             }
         }
     }

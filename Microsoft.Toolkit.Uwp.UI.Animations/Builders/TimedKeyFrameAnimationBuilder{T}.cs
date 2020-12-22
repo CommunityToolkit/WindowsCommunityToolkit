@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -28,9 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private readonly TimeSpan? delay;
 
         /// <summary>
-        /// The list of keyframes to use.
+        /// The list builder of keyframes to use.
         /// </summary>
-        private readonly List<KeyFrameInfo> keyFrames = new();
+        private ListBuilder<KeyFrameInfo> keyFrames = ListBuilder<KeyFrameInfo>.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}"/> class.
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            this.keyFrames.Add(new(progress, value, easingType, easingMode));
+            this.keyFrames.Append(new(progress, value, easingType, easingMode));
 
             return this;
         }

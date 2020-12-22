@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
@@ -32,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string property,
             TimeSpan? delay,
             TimeSpan duration,
-            List<TKeyFrame> keyFrames)
+            ReadOnlySpan<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
             KeyFrameAnimation animation;
@@ -41,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 BooleanKeyFrameAnimation boolAnimation = target.Compositor.CreateBooleanKeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     boolAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -54,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -68,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -82,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector2KeyFrameAnimation vector2Animation = target.Compositor.CreateVector2KeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     vector2Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -96,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector3KeyFrameAnimation vector3Animation = target.Compositor.CreateVector3KeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     vector3Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -110,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector4KeyFrameAnimation vector4Animation = target.Compositor.CreateVector4KeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     vector4Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -124,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ColorKeyFrameAnimation colorAnimation = target.Compositor.CreateColorKeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     colorAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -138,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 QuaternionKeyFrameAnimation quaternionAnimation = target.Compositor.CreateQuaternionKeyFrameAnimation();
 
-                foreach (var keyFrame in keyFrames)
+                foreach (ref readonly var keyFrame in keyFrames)
                 {
                     quaternionAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
@@ -189,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     this.duration,
-                    this.keyFrames);
+                    this.keyFrames.AsSpan());
             }
         }
     }

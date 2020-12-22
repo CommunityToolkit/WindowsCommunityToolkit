@@ -34,14 +34,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 // We can retrieve the total duration from the last timed keyframe, and then set
                 // this as the target duration and use it to normalize the keyframe progresses.
-                TimeSpan duration = this.keyFrames[this.keyFrames.Count - 1].GetTimedProgress(default);
+                ReadOnlySpan<KeyFrameInfo> keyFrames = this.keyFrames.AsSpan();
+                TimeSpan duration = keyFrames[keyFrames.Length - 1].GetTimedProgress(default);
 
                 return NormalizedKeyFrameAnimationBuilder<T>.GetAnimation(
                     targetHint,
                     this.property,
                     this.delay,
                     duration,
-                    this.keyFrames);
+                    keyFrames);
             }
         }
     }

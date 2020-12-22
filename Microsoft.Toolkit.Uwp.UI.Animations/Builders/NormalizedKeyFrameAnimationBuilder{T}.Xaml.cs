@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     this.duration,
-                    this.keyFrames);
+                    this.keyFrames.AsSpan());
             }
         }
     }
