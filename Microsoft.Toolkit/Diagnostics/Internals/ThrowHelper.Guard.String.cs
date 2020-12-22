@@ -6,8 +6,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
@@ -40,7 +38,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        internal static void ThrowArgumentExceptionForIsNullOrWhitespace(string? text, string name)
+        internal static void ThrowArgumentExceptionForIsNullOrWhiteSpace(string? text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be null or whitespace, was {text.ToAssertString()}");
         }
@@ -50,7 +48,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        internal static void ThrowArgumentExceptionForIsNotNullOrWhitespace(string? text, string name)
+        internal static void ThrowArgumentExceptionForIsNotNullOrWhiteSpace(string? text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not be null or whitespace, was {(text is null ? "null" : "whitespace")}");
         }
@@ -80,7 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        internal static void ThrowArgumentExceptionForIsWhitespace(string text, string name)
+        internal static void ThrowArgumentExceptionForIsWhiteSpace(string text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be whitespace, was {text.ToAssertString()}");
         }
@@ -90,7 +88,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [DoesNotReturn]
-        internal static void ThrowArgumentExceptionForIsNotWhitespace(string text, string name)
+        internal static void ThrowArgumentExceptionForIsNotWhiteSpace(string text, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not be whitespace, was {text.ToAssertString()}");
         }

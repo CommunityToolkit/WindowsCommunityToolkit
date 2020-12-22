@@ -12,61 +12,120 @@ pool:
 variables: 
   BuildConfiguration: Release
 
-steps:
-- task: BatchScript@1
-  inputs:
-    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
-    arguments: -no_logo
-    modifyEnvironment: true
-  displayName: Setup Environment Variables
+jobs:
+### BUILD ###
+- job: BuildBits
+  timeoutInMinutes: 60
   
-- task: NuGetToolInstaller@0
-  displayName: Use NuGet 5.6.0
-  inputs:
-    versionSpec: 5.6.0
+  steps:
+  - task: BatchScript@1
+    inputs:
+      filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+      arguments: -no_logo
+      modifyEnvironment: true
+    displayName: Setup Environment Variables
 
-- task: DotNetCoreCLI@2  
-  inputs:
-    command: custom
-    custom: tool
-    arguments: install --tool-path . nbgv
-  displayName: Install NBGV tool
+  - task: NuGetToolInstaller@0
+    displayName: Use NuGet 5.6.0
+    inputs:
+      versionSpec: 5.6.0
 
-- script: nbgv cloud
-  displayName: Set Version
+  - task: DotNetCoreCLI@2  
+    inputs:
+      command: custom
+      custom: tool
+      arguments: install --tool-path . nbgv
+    displayName: Install NBGV tool
 
-#- powershell: .\build\Install-WindowsSdkISO.ps1 19041
-#  displayName: Insider SDK
+  - script: nbgv cloud
+    displayName: Set Version
 
-- powershell: .\build\build.ps1 -target=Build
-  displayName: Build
+  #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
+  #  displayName: Insider SDK
 
-- powershell: .\build\build.ps1 -target=Test
-  displayName: Test
+  - powershell: .\build\build.ps1 -target=Build
+    displayName: Build
 
-- powershell: .\build\build.ps1 -target=Package
-  displayName: Package
+  ### Unit Tests ###
+  
+  - powershell: .\build\build.ps1 -target=Test
+    displayName: Test
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/VsTestResults*.trx'
-  displayName: Publish Test Results
-  condition: succeededOrFailed()
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '**/VsTestResults*.trx'
+    displayName: Publish Test Results
+    condition: always()
 
-- task: PowerShell@2
-  displayName: Authenticode Sign Packages
-  inputs:
-    filePath: build/Sign-Package.ps1
-  env:
-    SignClientUser: $(SignClientUser)
-    SignClientSecret: $(SignClientSecret)
-    ArtifactDirectory: bin\nupkg
-  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Test WexLogFileOutput
+    inputs:
+      targetPath: .\build\WexLogFileOutput
+      artifactName: WexUnitTestErrorLogFileOutput
+    condition: failed()
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish Package Artifacts
-  inputs:
-    pathToPublish: .\bin\nupkg
-    artifactType: container
-    artifactName: Packages
+  ### UI Integration Tests ###
+
+  - powershell: .\build\build.ps1 -target=UITest
+    displayName: UI Integration Tests
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish UI Test Results
+    inputs:
+      targetPath: .\build\UITestResults.wtl
+      artifactName: WexUITestLogFileOutput
+    condition: always()
+
+  ### Package ###
+
+  - powershell: .\build\build.ps1 -target=Package
+    displayName: Package
+
+  - task: PowerShell@2
+    displayName: Authenticode Sign Packages
+    inputs:
+      filePath: build/Sign-Package.ps1
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      ArtifactDirectory: bin\nupkg
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Package Artifacts
+    inputs:
+      targetPath: .\bin\nupkg
+      artifactName: Packages
+
+### Smoke Tests ###
+
+- job: SmokeTests
+  dependsOn: BuildBits
+  timeoutInMinutes: 60
+  
+  steps:
+  - task: DownloadPipelineArtifact@2
+    displayName: Download NuGet Packages Artifact
+    inputs:
+      artifact: Packages
+      path: .\bin\nupkg
+
+  - powershell: .\build\build.ps1 -target=SmokeTest
+    displayName: SmokeTest
+
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: .\SmokeTests\AppPackages
+      contents: '**\*.msixbundle'
+      targetFolder: $(build.artifactstagingdirectory)\SmokeTestBundles
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Smoke Test Artifacts
+    inputs:
+      pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
+      artifactType: container
+      artifactName: SmokeTestBundles
+
+  - powershell: .\SmokeTests\SmokeTestAnalysis.ps1
+    displayName: Analyze Package Sizes

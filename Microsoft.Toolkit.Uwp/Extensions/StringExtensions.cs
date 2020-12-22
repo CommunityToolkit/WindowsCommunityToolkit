@@ -4,7 +4,6 @@
 
 using Windows.ApplicationModel.Resources;
 using Windows.UI;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.Extensions

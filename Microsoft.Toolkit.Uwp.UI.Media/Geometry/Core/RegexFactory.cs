@@ -3,7 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+
+[assembly: InternalsVisibleTo("UnitTests.UWP")]
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
 {
@@ -341,9 +344,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         private static readonly string OriginOffsetAttr = $"(?<OriginOffset>[Ff]{Spacer}(?<OffsetX>{Float}){Sep}(?<OffsetY>{Float}){Spacer})";
 
         // GradientStop Attributes
-        public static readonly string GradientStopAttributes = $"(?<Position>{Float01}){ColorSep}{RgbColorAttributes}";
-        public static readonly string GradientStopMainAttributes = $"(?<Main>[Ss]{Spacer}{GradientStopAttributes})";
-        public static readonly string GradientStopRegexString = $"(?<GradientStops>{GradientStopMainAttributes}" +
+        private static readonly string GradientStopAttributes = $"(?<Position>{Float01}){ColorSep}{RgbColorAttributes}";
+        private static readonly string GradientStopMainAttributes = $"(?<Main>[Ss]{Spacer}{GradientStopAttributes})";
+        private static readonly string GradientStopRegexString = $"(?<GradientStops>{GradientStopMainAttributes}" +
                                                                 $"(?<Additional>{Sep}{Float01}{ColorSep}{HexColor})*{Spacer})";
 
         // GradientStopHdr Attributes

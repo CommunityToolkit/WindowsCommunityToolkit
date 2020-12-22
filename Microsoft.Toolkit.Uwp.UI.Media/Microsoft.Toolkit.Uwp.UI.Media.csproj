@@ -43,4 +43,8 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
+  </ItemGroup>
 </Project>
