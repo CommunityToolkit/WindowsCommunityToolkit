@@ -590,6 +590,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Adds a new transform animation to the current schedule.
+        /// </summary>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Transform(
+            Matrix4x4 to,
+            Matrix4x4? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            if (!Matrix4x4.Decompose(to, out Vector3 toScale, out Quaternion toRotation, out Vector3 toTranslation))
+            {
+                ThrowHelper.ThrowArgumentException("The destination matrix could not be decomposed");
+            }
+
+            Vector3? fromScale = null;
+            Quaternion? fromRotation = null;
+            Vector3? fromTranslation = null;
+
+            if (from.HasValue)
+            {
+                if (!Matrix4x4.Decompose(from.GetValueOrDefault(), out Vector3 scale3, out Quaternion rotation4, out Vector3 translation3))
+                {
+                    ThrowHelper.ThrowArgumentException("The initial matrix could not be decomposed");
+                }
+
+                fromScale = scale3;
+                fromRotation = rotation4;
+                fromTranslation = translation3;
+            }
+
+            Scale(toScale, fromScale, delay, duration, easingType, easingMode);
+            Orientation(toRotation, fromRotation, delay, duration, easingType, easingMode);
+            Translation(toTranslation, fromTranslation, delay, duration, easingType, easingMode);
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds a new clip animation to the current schedule.
         /// </summary>
         /// <param name="side">The clip size to animate.</param>
