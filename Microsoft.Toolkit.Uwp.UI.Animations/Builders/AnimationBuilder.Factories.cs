@@ -23,6 +23,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
+        /// An interface for factories of XAML animations.
+        /// </summary>
+        internal interface IXamlAnimationFactory
+        {
+            /// <summary>
+            /// Gets a <see cref="Timeline"/> instance representing the animation to start.
+            /// </summary>
+            /// <param name="targetHint">The suggested target <see cref="DependencyObject"/> instance to animate.</param>
+            /// <returns>A <see cref="Timeline"/> instance with the specified animation.</returns>
+            Timeline GetAnimation(DependencyObject targetHint);
+        }
+
+        /// <summary>
+        /// An interface for factories of composition animations.
+        /// </summary>
+        internal interface ICompositionAnimationFactory
+        {
+            /// <summary>
+            /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
+            /// </summary>
+            /// <param name="targetHint">The suggested target <see cref="CompositionObject"/> instance to animate.</param>
+            /// <param name="target">An optional <see cref="CompositionObject"/> instance to animate instead of the suggested one.</param>
+            /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
+            /// <remarks>
+            /// The separate <paramref name="target"/> parameter is needed because unlike with XAML animations, composition animations
+            /// can't store the target instance internally, and need to be started on the target object directly. This means that custom
+            /// animation factories that want to target an external object need to return that object separately to inform the callers.
+            /// </remarks>
+            CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target);
+        }
+
+        /// <summary>
         /// A model representing a generic animation for a target object.
         /// </summary>
         private sealed record AnimationFactory<T>(
@@ -254,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// A model representing a specified composition double animation for a target <see cref="CompositionObject"/>.
         /// </summary>
-        private sealed record CompositionDoubleAnimation(
+        private sealed record CompositionDoubleAnimationFactory(
             CompositionObject Target,
             string Property,
             float To,
@@ -302,38 +334,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
             }
-        }
-
-        /// <summary>
-        /// An interface for factories of XAML animations.
-        /// </summary>
-        internal interface IXamlAnimationFactory
-        {
-            /// <summary>
-            /// Gets a <see cref="Timeline"/> instance representing the animation to start.
-            /// </summary>
-            /// <param name="targetHint">The suggested target <see cref="DependencyObject"/> instance to animate.</param>
-            /// <returns>A <see cref="Timeline"/> instance with the specified animation.</returns>
-            Timeline GetAnimation(DependencyObject targetHint);
-        }
-
-        /// <summary>
-        /// An interface for factories of composition animations.
-        /// </summary>
-        internal interface ICompositionAnimationFactory
-        {
-            /// <summary>
-            /// Gets a <see cref="CompositionAnimation"/> instance representing the animation to start.
-            /// </summary>
-            /// <param name="targetHint">The suggested target <see cref="CompositionObject"/> instance to animate.</param>
-            /// <param name="target">An optional <see cref="CompositionObject"/> instance to animate instead of the suggested one.</param>
-            /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
-            /// <remarks>
-            /// The separate <paramref name="target"/> parameter is needed because unlike with XAML animations, composition animations
-            /// can't store the target instance internally, and need to be started on the target object directly. This means that custom
-            /// animation factories that want to target an external object need to return that object separately to inform the callers.
-            /// </remarks>
-            CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target);
         }
     }
 }

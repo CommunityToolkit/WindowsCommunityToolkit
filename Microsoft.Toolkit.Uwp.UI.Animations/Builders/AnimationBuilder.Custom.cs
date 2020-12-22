@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
-        /// Adds a custom animation based on normalized keyframes ot the current schedule.
+        /// Adds a custom animation based on normalized keyframes to the current schedule.
         /// </summary>
         /// <typeparam name="T">The type of values to animate.</typeparam>
         /// <param name="property">The target property to animate.</param>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds a custom animation based on timed keyframes ot the current schedule.
+        /// Adds a custom animation based on timed keyframes to the current schedule.
         /// </summary>
         /// <typeparam name="T">The type of values to animate.</typeparam>
         /// <param name="property">The target property to animate.</param>

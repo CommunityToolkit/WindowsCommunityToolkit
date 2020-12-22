@@ -40,7 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode easingMode = DefaultEasingMode)
         {
             AddCompositionAnimationFactory($"{nameof(Visual.AnchorPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
-            AddCompositionAnimationFactory($"{nameof(Visual.AnchorPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
 
             return this;
         }

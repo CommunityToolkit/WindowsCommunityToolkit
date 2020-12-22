@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            CompositionDoubleAnimation animation = new(
+            CompositionDoubleAnimationFactory animation = new(
                 target,
                 property,
                 (float)to,
