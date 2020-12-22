@@ -40,12 +40,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionAnimationFactory(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                return AddXamlAnimationFactory(nameof(UIElement.Opacity), to, from, delay, duration, easingType, easingMode);
+                AddXamlAnimationFactory(nameof(UIElement.Opacity), to, from, delay, duration, easingType, easingMode);
             }
+
+            return this;
         }
 
         /// <summary>
@@ -72,12 +74,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionAnimationFactory($"Translation.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"Translation.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                return AddXamlAnimationFactory($"Translate{axis}", to, from, delay, duration, easingType, easingMode);
+                AddXamlAnimationFactory($"Translate{axis}", to, from, delay, duration, easingType, easingMode);
             }
+
+            return this;
         }
 
         /// <summary>
@@ -232,15 +236,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Vector3? from3 = from is null ? null : new((float)(double)from);
                 Vector3 to3 = new((float)to);
 
-                return AddCompositionAnimationFactory(nameof(Visual.Scale), to3, from3, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(nameof(Visual.Scale), to3, from3, delay, duration, easingType, easingMode);
             }
             else
             {
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleX), to, from, delay, duration, easingType, easingMode);
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.ScaleY), to, from, delay, duration, easingType, easingMode);
-
-                return this;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -267,12 +271,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                return AddXamlTransformDoubleAnimationFactory($"Scale{axis}", to, from, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory($"Scale{axis}", to, from, delay, duration, easingType, easingMode);
             }
+
+            return this;
         }
 
         /// <summary>
@@ -353,7 +359,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionAnimationFactory(nameof(Visual.RotationAngle), (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(nameof(Visual.RotationAngle), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -361,9 +367,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 double toDegrees = to * Math.PI / 180;
 
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), toDegrees, fromDegrees, delay, duration, easingType, easingMode);
-
-                return this;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -388,14 +394,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionAnimationFactory(nameof(Visual.RotationAngleInDegrees), (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(nameof(Visual.RotationAngleInDegrees), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
                 AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.Rotation), to, from, delay, duration, easingType, easingMode);
-
-                return this;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -524,7 +530,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return AddCompositionAnimationFactory($"{nameof(Visual.Size)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"{nameof(Visual.Size)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -535,8 +541,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     _ => ThrowHelper.ThrowArgumentException<string>("Invalid size axis")
                 };
 
-                return AddXamlAnimationFactory(property, to, from, delay, duration, easingType, easingMode);
+                AddXamlAnimationFactory(property, to, from, delay, duration, easingType, easingMode);
             }
+
+            return this;
         }
 
         /// <summary>
