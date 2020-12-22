@@ -22,12 +22,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         /// <summary>
         /// <para>
-        /// A static constructor for the <see cref="AnimationBuilder"/> type.
+        /// Creates a new <see cref="AnimationBuilder"/> instance to setup an animation schedule.
         /// This can be used as the entry point to construct a custom animation sequence.
         /// </para>
         /// For instance:
         /// <code>
-        /// AnimationBuilder.New()<br/>
+        /// AnimationBuilder.Create()<br/>
         ///     .Opacity(from: 0, to: 1, duration: 400)<br/>
         ///     .Translation(Axis.X, from: -40, to: 0, duration: 400)<br/>
         ///     .Start(MyButton);
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </para>
         /// For instance:
         /// <code>
-        /// var animation = AnimationBuilder.New().Opacity(0, 1, duration: 400).Size(1.2, 1, duration: 400);<br/>
+        /// var animation = AnimationBuilder.Create().Opacity(0, 1, duration: 400).Size(1.2, 1, duration: 400);<br/>
         /// <br/>
         /// animation.Start(MyButton);<br/>
         /// animation.Start(MyGrid);
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <returns>An empty <see cref="AnimationBuilder"/> instance to use to construct an animation sequence.</returns>
         [Pure]
-        public static AnimationBuilder New() => new();
+        public static AnimationBuilder Create() => new();
 
         /// <summary>
         /// Adds a new custom double animation targeting an arbitrary composition object.

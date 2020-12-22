@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         {
             Started?.Invoke(this, EventArgs.Empty);
 
-            var builder = AnimationBuilder.New();
+            var builder = AnimationBuilder.Create();
 
             foreach (ITimeline animation in Animations)
             {
