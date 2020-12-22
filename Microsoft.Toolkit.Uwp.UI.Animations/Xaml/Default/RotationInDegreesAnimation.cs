@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc/>
         AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            return builder.RotateInDegrees(
+            return builder.RotationInDegrees(
                 To!.Value,
                 From,
                 Delay ?? delayHint,

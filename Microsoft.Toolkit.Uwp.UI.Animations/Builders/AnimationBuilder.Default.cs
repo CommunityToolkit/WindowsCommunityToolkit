@@ -19,6 +19,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class AnimationBuilder
     {
         /// <summary>
+        /// Adds a new anchor point animation for a single axis to the current schedule.
+        /// </summary>
+        /// <param name="axis">The target anchor point axis to animate.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder AnchorPoint(
+            Axis axis,
+            double to,
+            double? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            AddCompositionAnimationFactory($"{nameof(Visual.AnchorPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+            AddCompositionAnimationFactory($"{nameof(Visual.AnchorPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a new anchor point animation for the X and Y axes to the current schedule.
+        /// </summary>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder AnchorPoint(
+            Vector2 to,
+            Vector2? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            AddCompositionAnimationFactory(nameof(Visual.AnchorPoint), to, from, delay, duration, easingType, easingMode);
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds a new opacity animation to the current schedule.
         /// </summary>
         /// <param name="to">The final value for the animation.</param>
@@ -338,6 +389,96 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Adds a new center point animation on a specified axis to the current schedule.
+        /// </summary>
+        /// <param name="axis">The target scale axis to animate.</param>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder CenterPoint(
+            Axis axis,
+            double to,
+            double? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                AddXamlTransformDoubleAnimationFactory($"Center{axis}", to, from, delay, duration, easingType, easingMode);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a new center point animation for the X and Y axes to the current schedule.
+        /// </summary>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder CenterPoint(
+            Vector2 to,
+            Vector2? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
+            }
+            else
+            {
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.CenterX), to.X, from?.X, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(nameof(CompositeTransform.CenterY), to.Y, from?.Y, delay, duration, easingType, easingMode);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a new center point animation for all axes to the current schedule.
+        /// </summary>
+        /// <param name="to">The final point for the animation.</param>
+        /// <param name="from">The optional starting point for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder CenterPoint(
+            Vector3 to,
+            Vector3? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return AddCompositionAnimationFactory(nameof(Visual.CenterPoint), to, from, delay, duration, easingType, easingMode);
+        }
+
+        /// <summary>
         /// Adds a new rotation animation to the current schedule.
         /// </summary>
         /// <param name="to">The final value for the animation.</param>
@@ -348,7 +489,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        public AnimationBuilder Rotate(
+        public AnimationBuilder Rotation(
             double to,
             double? from = null,
             TimeSpan? delay = null,
@@ -383,7 +524,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingMode">The optional easing function mode for the animation.</param>
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        public AnimationBuilder RotateInDegrees(
+        public AnimationBuilder RotationInDegrees(
             double to,
             double? from = null,
             TimeSpan? delay = null,
@@ -402,6 +543,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Adds a new rotation axis animation to the current schedule.
+        /// </summary>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder RotationAxis(
+            Vector3 to,
+            Vector3? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return AddCompositionAnimationFactory(nameof(Visual.RotationAxis), to, from, delay, duration, easingType, easingMode);
+        }
+
+        /// <summary>
+        /// Adds a new orientation animation to the current schedule.
+        /// </summary>
+        /// <param name="to">The final value for the animation.</param>
+        /// <param name="from">The optional starting value for the animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easingType">The optional easing function type for the animation.</param>
+        /// <param name="easingMode">The optional easing function mode for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        /// <remarks>This animation is only available on the composition layer.</remarks>
+        public AnimationBuilder Orientation(
+            Quaternion to,
+            Quaternion? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode)
+        {
+            return AddCompositionAnimationFactory(nameof(Visual.Orientation), to, from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
