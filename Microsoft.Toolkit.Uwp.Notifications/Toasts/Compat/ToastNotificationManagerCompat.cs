@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         }
                         catch (Exception ex)
                         {
-                            _initializeEx = ex;
+                            _initializeEx = new InvalidOperationException("Failed to register notification activator", ex);
                         }
                     }
 
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static string _win32Aumid;
         private static string _clsid;
-        private static Exception _initializeEx;
+        private static InvalidOperationException _initializeEx;
 
         static ToastNotificationManagerCompat()
         {
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             catch (Exception ex)
             {
                 // We catch the exception so that things like subscribing to the event handler doesn't crash app
-                _initializeEx = ex;
+                _initializeEx = new InvalidOperationException("Failed initializing notifications", ex);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
             var uuid = activatorType.GUID;
-            CoRegisterClassObject(
+            NativeMethods.CoRegisterClassObject(
                 uuid,
                 new NotificationActivatorClassFactory(activatorType),
                 CLSCTX_LOCAL_SERVER,
@@ -319,14 +319,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 return S_OK;
             }
         }
-
-        [DllImport("ole32.dll")]
-        private static extern int CoRegisterClassObject(
-            [MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
-            [MarshalAs(UnmanagedType.IUnknown)] object pUnk,
-            uint dwClsContext,
-            uint flags,
-            out uint lpdwRegister);
 #endif
 
         /// <summary>

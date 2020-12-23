@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         {
                         }
 
-                        DeleteObject(nativeHBitmap);
+                        NativeMethods.DeleteObject(nativeHBitmap);
                     }
                 }
                 catch
@@ -211,10 +211,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             return false;
         }
-
-        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool DeleteObject([In] IntPtr hObject);
 
         /// <summary>
         /// From https://stackoverflow.com/a/41622689/1454643
