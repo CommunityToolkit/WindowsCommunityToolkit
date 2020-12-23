@@ -34,6 +34,7 @@ namespace UnitTests.Helpers
             Assert.AreEqual(input, output);
         }
 
+        [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_StorageHelper_LegacyDateTest()
