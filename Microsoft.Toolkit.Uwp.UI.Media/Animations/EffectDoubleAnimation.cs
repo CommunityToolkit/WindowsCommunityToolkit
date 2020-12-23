@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
     /// <summary>
     /// A set of animations that can be grouped together.
     /// </summary>
-    public class EffectDoubleAnimation : Animation<double>, ITimeline
+    public class EffectDoubleAnimation : Animation<double>
     {
         /// <summary>
         /// Gets or sets the linked <see cref="IPipelineEffect"/> instance to animate.
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
         public IPipelineEffect Target { get; set; }
 
         /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             BlurEffect effect = (BlurEffect)Target;
 

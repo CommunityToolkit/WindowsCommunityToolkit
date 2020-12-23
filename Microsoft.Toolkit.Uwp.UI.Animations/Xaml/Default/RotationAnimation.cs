@@ -11,24 +11,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A rotation animation working on the composition or XAML layer.
     /// </summary>
-    public class RotationAnimation : Animation<double?>
+    public class RotationAnimation : Animation<double>
     {
-        /// <summary>
-        /// Gets or sets the target framework layer to animate.
-        /// </summary>
-        public FrameworkLayer Layer { get; set; }
-
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
+            if (KeyFrames.Count > 0)
+            {
+                return builder.Rotation().NormalizedKeyFrames(
+                    delay: Delay ?? delayHint,
+                    duration: Duration ?? durationHint,
+                    build: b => KeyFrame<double>.AppendToBuilder(b, KeyFrames));
+            }
+
             return builder.Rotation(
-                To!.Value,
+                To,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
-                EasingMode ?? easingModeHint ?? DefaultEasingMode,
-                Layer);
+                EasingMode ?? easingModeHint ?? DefaultEasingMode);
         }
     }
 }

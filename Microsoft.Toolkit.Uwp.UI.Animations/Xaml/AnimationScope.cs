@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// together and to assign shared properties to be applied to all the contained items automatically.
     /// </summary>
     [ContentProperty(Name = nameof(Animations))]
-    public sealed class AnimationScope : Animation, ITimeline
+    public sealed class AnimationScope : Animation
     {
         /// <summary>
         /// Gets or sets the list of animations in the current scope.
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         public IList<ITimeline> Animations { get; set; } = new List<ITimeline>();
 
         /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             foreach (ITimeline element in Animations)
             {

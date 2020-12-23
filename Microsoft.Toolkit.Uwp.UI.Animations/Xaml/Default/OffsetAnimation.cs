@@ -12,13 +12,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An offset animation working on the composition layer.
     /// </summary>
-    public class OffsetAnimation : Animation<Vector3?>
+    public class OffsetAnimation : Animation<Vector3>
     {
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            return builder.Translation(
-                To.Value,
+            if (KeyFrames.Count > 0)
+            {
+                return builder.Offset().NormalizedKeyFrames(
+                    delay: Delay ?? delayHint,
+                    duration: Duration ?? durationHint,
+                    build: b => KeyFrame<Vector3>.AppendToBuilder(b, KeyFrames));
+            }
+
+            return builder.Offset(
+                To,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,

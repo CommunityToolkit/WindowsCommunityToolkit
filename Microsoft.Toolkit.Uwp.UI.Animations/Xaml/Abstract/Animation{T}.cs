@@ -15,11 +15,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <typeparam name="T">The type of values for the animation.</typeparam>
     [ContentProperty(Name = nameof(KeyFrames))]
     public abstract class Animation<T> : Animation
+        where T : unmanaged
     {
         /// <summary>
         /// Gets or sets the final value for the animation.
         /// </summary>
-        public T? To { get; set; }
+        public T To { get; set; }
 
         /// <summary>
         /// Gets or sets the optional starting value for the animation.

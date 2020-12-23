@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A size animation working on the composition or XAML layer.
     /// </summary>
-    public class SizeAnimation : Animation<Vector3?>
+    public class SizeAnimation : Animation<Vector3>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -22,20 +22,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            Vector3 to = To.Value;
-            Vector3? from = From;
             TimeSpan? delay = Delay ?? delayHint;
             TimeSpan? duration = Duration ?? durationHint;
+
+            if (KeyFrames.Count > 0)
+            {
+                return builder.Size().NormalizedKeyFrames(
+                    delay: Delay ?? delayHint,
+                    duration: Duration ?? durationHint,
+                    build: b => KeyFrame<Vector3>.AppendToBuilder(b, KeyFrames));
+            }
+
+            Vector3? from = From;
             EasingType easingType = EasingType ?? easingTypeHint ?? DefaultEasingType;
             EasingMode easingMode = EasingMode ?? easingModeHint ?? DefaultEasingMode;
 
             if (Layer == FrameworkLayer.Composition)
             {
-                return builder.Size(to, from, delay, duration, easingType, easingMode);
+                return builder.Size(To, from, delay, duration, easingType, easingMode);
             }
             else
             {
-                Vector2 to2 = new(to.X, to.Y);
+                Vector2 to2 = new(To.X, To.Y);
                 Vector2? from2 = from is null ? null : new(from.Value.X, from.Value.Y);
 
                 return builder.Size(to2, from2, delay, duration, easingType, easingMode, FrameworkLayer.Xaml);

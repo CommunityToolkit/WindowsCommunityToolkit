@@ -12,13 +12,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An orientation animation working on the composition layer.
     /// </summary>
-    public class OrientationAnimation : Animation<Quaternion?>
+    public class OrientationAnimation : Animation<Quaternion>
     {
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
+            if (KeyFrames.Count > 0)
+            {
+                return builder.Orientation().NormalizedKeyFrames(
+                    delay: Delay ?? delayHint,
+                    duration: Duration ?? durationHint,
+                    build: b => KeyFrame<Quaternion>.AppendToBuilder(b, KeyFrames));
+            }
+
             return builder.Orientation(
-                To!.Value,
+                To,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,

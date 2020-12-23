@@ -11,10 +11,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     public interface IKeyFrame<T>
     {
         /// <summary>
-        /// Appens the current keyframe to a target <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance.
+        /// Appends the current keyframe to a target <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance.
         /// </summary>
         /// <param name="builder">The target <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance to add the keyframe to.</param>
         /// <returns>The same <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance as <paramref name="builder"/>.</returns>
-        INormalizedKeyFrameAnimationBuilder<T> AppentToBuilder(INormalizedKeyFrameAnimationBuilder<T> builder);
+        INormalizedKeyFrameAnimationBuilder<T> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<T> builder);
     }
 }

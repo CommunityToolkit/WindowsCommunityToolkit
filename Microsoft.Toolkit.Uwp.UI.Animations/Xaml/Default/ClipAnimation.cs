@@ -12,13 +12,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A clip animation working on the composition layer.
     /// </summary>
-    public class ClipAnimation : Animation<Thickness?>
+    public class ClipAnimation : Animation<Thickness>
     {
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             return builder.Clip(
-                To!.Value,
+                To,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,
