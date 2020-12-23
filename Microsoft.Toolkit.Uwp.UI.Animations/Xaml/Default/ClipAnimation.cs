@@ -12,10 +12,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A clip animation working on the composition layer.
     /// </summary>
-    public class ClipAnimation : Animation<Thickness?>, ITimeline
+    public class ClipAnimation : Animation<Thickness?>
     {
         /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             return builder.Clip(
                 To!.Value,

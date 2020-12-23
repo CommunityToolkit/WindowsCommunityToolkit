@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A translation animation working on the composition or XAML layer.
     /// </summary>
-    public class TranslationAnimation : Animation<Vector3?>, ITimeline
+    public class TranslationAnimation : Animation<Vector3?>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         public FrameworkLayer Layer { get; set; }
 
         /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             Vector3 to = To.Value;
             Vector3? from = From;

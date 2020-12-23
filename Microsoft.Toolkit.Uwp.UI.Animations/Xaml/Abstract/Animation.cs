@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A base model representing an animation that can be used in XAML.
     /// </summary>
-    public abstract class Animation
+    public abstract class Animation : ITimeline
     {
         /// <summary>
         /// Gets or sets the optional initial delay for the animation.
@@ -31,5 +31,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// Gets or sets the optional easing function mode for the animation.
         /// </summary>
         public EasingMode? EasingMode { get; set; }
+
+        /// <inheritdoc/>
+        public abstract AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint);
     }
 }

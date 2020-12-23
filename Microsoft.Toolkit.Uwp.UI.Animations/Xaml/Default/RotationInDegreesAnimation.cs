@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A rotation in degrees animation working on the composition or XAML layer.
     /// </summary>
-    public class RotationInDegreesAnimation : Animation<double?>, ITimeline
+    public class RotationInDegreesAnimation : Animation<double?>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         public FrameworkLayer Layer { get; set; }
 
         /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             return builder.RotationInDegrees(
                 To!.Value,

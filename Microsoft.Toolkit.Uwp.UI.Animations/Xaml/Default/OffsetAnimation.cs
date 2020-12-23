@@ -12,10 +12,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An offset animation working on the composition layer.
     /// </summary>
-    public class OffsetAnimation : Animation<Vector3?>, ITimeline
+    public class OffsetAnimation : Animation<Vector3?>
     {
         /// <inheritdoc/>
-        AnimationBuilder ITimeline.AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             return builder.Translation(
                 To.Value,
