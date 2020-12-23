@@ -5,6 +5,7 @@
 #nullable enable
 
 using System.Collections.Generic;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
@@ -12,6 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// A base model representing a typed animation that can be used in XAML.
     /// </summary>
     /// <typeparam name="T">The type of values for the animation.</typeparam>
+    [ContentProperty(Name = nameof(KeyFrames))]
     public abstract class Animation<T> : Animation
     {
         /// <summary>
@@ -28,6 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// Gets or sets the optional keyframe collection for the current animation.
         /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
         /// </summary>
-        public IList<KeyFrame<T>> KeyFrames { get; set; } = new List<KeyFrame<T>>();
+        public IList<IKeyFrame<T>> KeyFrames { get; set; } = new List<IKeyFrame<T>>();
     }
 }
