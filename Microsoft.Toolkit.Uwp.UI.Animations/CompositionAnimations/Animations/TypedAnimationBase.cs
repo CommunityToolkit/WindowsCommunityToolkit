@@ -83,9 +83,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     InsertKeyFrameToTypedAnimation(animation, typedKeyFrame);
                 }
-                else if (keyFrame is ExpressionKeyFrame expressionKeyFrame)
+                //else if (keyFrame is ExpressionKeyFrame expressionKeyFrame)
                 {
-                    animation.InsertExpressionKeyFrame((float)keyFrame.Key, expressionKeyFrame.Value);
+                    //animation.InsertExpressionKeyFrame((float)keyFrame.Key, expressionKeyFrame.Value);
                 }
             }
 
