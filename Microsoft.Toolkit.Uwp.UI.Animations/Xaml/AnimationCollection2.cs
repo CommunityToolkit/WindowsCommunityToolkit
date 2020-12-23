@@ -36,6 +36,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         public IList<ITimeline> Animations { get; set; } = new List<ITimeline>();
 
         /// <summary>
+        /// Gets or sets a value indicating whether top level animation nodes in this collection are invoked
+        /// sequentially. This applies to both <see cref="AnimationScope"/> nodes (which will still trigger
+        /// contained animations at the same time), and other top level animation nodes. The default value
+        /// is <see langword="false"/>, which means that all contained animations will start at the same time.
+        /// <para>
+        /// Note that this property will also cause a change in behavior for the animation. With the default
+        /// configuration, with all animations starting at the same time, it's not possible to use multiple
+        /// animations targeting the same property (as they'll cause a conflict and be ignored when on the
+        /// composition layer, or cause a crash when on the XAML layer). When animations are started sequentially
+        /// instead, each sequential block will be able to share target properties with animations from other
+        /// sequential blocks, without issues. Note that especially for simple scenarios (eg. an opacity animation
+        /// that just transitions to a state and then back, or between two states), it is recommended to use a single
+        /// keyframe animation instead, which will result in less overhead when creating and starting the animation.
+        /// </para>
+        /// </summary>
+        public bool IsSequential { get; set; }
+
+        /// <summary>
         /// Gets or sets the weak reference to the parent that owns the current animation collection.
         /// </summary>
         internal WeakReference<UIElement>? ParentReference { get; set; }
@@ -75,14 +93,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         {
             Started?.Invoke(this, EventArgs.Empty);
 
-            var builder = AnimationBuilder.Create();
-
-            foreach (ITimeline animation in Animations)
+            if (IsSequential)
             {
-                builder = animation.AppendToBuilder(builder);
-            }
+                foreach (ITimeline animation in Animations)
+                {
+                    var builder = AnimationBuilder.Create();
 
-            await builder.StartAsync(element);
+                    animation.AppendToBuilder(builder);
+
+                    await builder.StartAsync(element);
+                }
+            }
+            else
+            {
+                var builder = AnimationBuilder.Create();
+
+                foreach (ITimeline animation in Animations)
+                {
+                    builder = animation.AppendToBuilder(builder);
+                }
+
+                await builder.StartAsync(element);
+            }
 
             Ended?.Invoke(this, EventArgs.Empty);
         }
