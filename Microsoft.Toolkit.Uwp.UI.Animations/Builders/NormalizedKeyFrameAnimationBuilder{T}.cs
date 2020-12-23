@@ -106,7 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TValue GetValueAs<TValue>()
-                where TValue : unmanaged
             {
                 return Unsafe.As<T, TValue>(ref Unsafe.AsRef(in this.value));
             }

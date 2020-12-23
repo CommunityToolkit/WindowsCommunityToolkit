@@ -13,7 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     /// <typeparam name="T">The type of values being set by the animation being constructed.</typeparam>
     public interface ITimedKeyFrameAnimationBuilder<in T>
-        where T : unmanaged
     {
         /// <summary>
         /// Adds a new timed keyframe to the builder in use.

@@ -29,8 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <typeparam name="T">The type of values being set by the animation being constructed.</typeparam>
         /// <returns>The value for the current keyframe.</returns>
         [Pure]
-        T GetValueAs<T>()
-            where T : unmanaged;
+        T GetValueAs<T>();
 
         /// <summary>
         /// Gets the normalized progress for the current keyframe.

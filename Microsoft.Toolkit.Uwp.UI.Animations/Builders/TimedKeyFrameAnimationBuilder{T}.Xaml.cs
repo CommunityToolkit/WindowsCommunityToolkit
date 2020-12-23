@@ -100,6 +100,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animation = colorAnimation;
             }
+            else if (typeof(T) == typeof(object))
+            {
+                ObjectAnimationUsingKeyFrames objectAnimation = new() { EnableDependentAnimation = true };
+
+                foreach (var keyFrame in keyFrames)
+                {
+                    objectAnimation.KeyFrames.Add(new DiscreteObjectKeyFrame()
+                    {
+                        KeyTime = keyFrame.GetTimedProgress(duration),
+                        Value = keyFrame.GetValueAs<object>()
+                    });
+                }
+
+                animation = objectAnimation;
+            }
             else
             {
                 return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");

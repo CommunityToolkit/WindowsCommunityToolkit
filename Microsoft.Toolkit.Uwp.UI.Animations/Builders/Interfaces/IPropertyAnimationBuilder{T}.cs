@@ -11,7 +11,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     /// <typeparam name="T">The type of values being set by the animation being constructed.</typeparam>
     public interface IPropertyAnimationBuilder<in T>
-        where T : unmanaged
     {
         /// <summary>
         /// Adds a custom animation based on normalized keyframes ot the current schedule.
