@@ -8,9 +8,9 @@ using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// A <see cref="KeyFrame{T}"/> type for <see cref="Vector2"/> animations.
+    /// A <see cref="KeyFrame{T}"/> type for <see cref="Vector3"/> animations.
     /// </summary>
-    public class Vector3KeyFrame : KeyFrame<string>
+    public class Vector3KeyFrame : KeyFrame<Vector3>
     {
     }
 }

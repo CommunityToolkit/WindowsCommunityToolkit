@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A <see cref="KeyFrame{T}"/> type for <see cref="Vector4"/> animations.
     /// </summary>
-    public class Vector4KeyFrame : KeyFrame<string>
+    public class Vector4KeyFrame : KeyFrame<Vector4>
     {
     }
 }
