@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<float>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = scalarAnimation;
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         (float)keyFrame.GetValueAs<double>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = scalarAnimation;
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     vector2Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector2>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = vector2Animation;
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     vector3Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector3>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = vector3Animation;
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     vector4Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector4>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = vector4Animation;
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     colorAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Color>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = colorAnimation;
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     quaternionAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Quaternion>(),
-                        target.Compositor.CreateCubicBezierEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
                 }
 
                 animation = quaternionAnimation;

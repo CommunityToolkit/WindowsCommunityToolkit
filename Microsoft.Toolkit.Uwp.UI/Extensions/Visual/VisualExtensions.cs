@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/></param>
         /// <returns>The <see cref="Visual"/> backing the <see cref="UIElement"/></returns>
-        public static Visual GetVisual(UIElement element)
+        public static Visual GetVisual(this UIElement element)
         {
             return ElementCompositionPreview.GetElementVisual(element);
         }

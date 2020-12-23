@@ -10,6 +10,7 @@ using System.Numerics;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 {
@@ -18,6 +19,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
     /// </summary>
     public static class CompositorExtensions
     {
+        /// <summary>
+        /// Creates the appropriate <see cref="CompositionEasingFunction"/> from the given easing type and mode.
+        /// </summary>
+        /// <param name="compositor">The source <see cref="Compositor"/> used to create the easing function.</param>
+        /// <param name="easingType">The target easing function to use.</param>
+        /// <param name="easingMode">The target easing mode to use.</param>
+        /// <returns>A <see cref="CompositionEasingFunction"/> instance with the specified easing.</returns>
+        [Pure]
+        public static CompositionEasingFunction CreateEasingFunction(this Compositor compositor, EasingType easingType = DefaultEasingType, EasingMode easingMode = DefaultEasingMode)
+        {
+            if (easingType == EasingType.Linear)
+            {
+                return compositor.CreateLinearEasingFunction();
+            }
+
+            var (a, b) = EasingMaps[(easingType, easingMode)];
+
+            return compositor.CreateCubicBezierEasingFunction(a, b);
+        }
+
         /// <summary>
         /// Creates a <see cref="CubicBezierEasingFunction"/> from the input control points.
         /// </summary>
@@ -34,21 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         }
 
         /// <summary>
-        /// Creates the appropriate <see cref="CubicBezierEasingFunction"/> from the given easing type and mode.
-        /// </summary>
-        /// <param name="compositor">The source <see cref="Compositor"/> used to create the easing function.</param>
-        /// <param name="easingType">The target easing function to use.</param>
-        /// <param name="easingMode">The target easing mode to use.</param>
-        /// <returns>A <see cref="CubicBezierEasingFunction"/> instance with the specified easing.</returns>
-        [Pure]
-        public static CubicBezierEasingFunction CreateCubicBezierEasingFunction(this Compositor compositor, EasingType easingType, EasingMode easingMode)
-        {
-            var (a, b) = AnimationExtensions.EasingMaps[(easingType, easingMode)];
-
-            return compositor.CreateCubicBezierEasingFunction(a, b);
-        }
-
-        /// <summary>
         /// Creates a <see cref="BooleanKeyFrameAnimation"/> instance with the given parameters to on a target element.
         /// </summary>
         /// <param name="compositor">The current <see cref="Compositor"/> instance used to create the animation.</param>
@@ -56,24 +62,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="BooleanKeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static BooleanKeyFrameAnimation CreateBooleanKeyFrameAnimation(
             this Compositor compositor,
             string? target,
             bool to,
-            bool? from,
-            TimeSpan? delay,
-            TimeSpan duration)
+            bool? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             BooleanKeyFrameAnimation animation = compositor.CreateBooleanKeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
             animation.InsertKeyFrame(1, to);
@@ -84,6 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }
@@ -96,35 +111,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
-        /// <param name="ease">The optional easing function for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easing">The optional easing function for the animation.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="ScalarKeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static ScalarKeyFrameAnimation CreateScalarKeyFrameAnimation(
             this Compositor compositor,
             string? target,
             float to,
-            float? from,
-            TimeSpan? delay,
-            TimeSpan duration,
-            CompositionEasingFunction? ease = null)
+            float? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            CompositionEasingFunction? easing = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             ScalarKeyFrameAnimation animation = compositor.CreateScalarKeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
-            if (ease is null)
+            if (easing is null)
             {
                 animation.InsertKeyFrame(1, to);
             }
             else
             {
-                animation.InsertKeyFrame(1, to, ease);
+                animation.InsertKeyFrame(1, to, easing);
             }
 
             if (from.HasValue)
@@ -133,6 +155,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }
@@ -145,35 +169,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
-        /// <param name="ease">The optional easing function for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easing">The optional easing function for the animation.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="Vector2KeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static Vector2KeyFrameAnimation CreateVector2KeyFrameAnimation(
             this Compositor compositor,
             string? target,
             Vector2 to,
-            Vector2? from,
-            TimeSpan? delay,
-            TimeSpan duration,
-            CompositionEasingFunction? ease = null)
+            Vector2? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            CompositionEasingFunction? easing = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             Vector2KeyFrameAnimation animation = compositor.CreateVector2KeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
-            if (ease is null)
+            if (easing is null)
             {
                 animation.InsertKeyFrame(1, to);
             }
             else
             {
-                animation.InsertKeyFrame(1, to, ease);
+                animation.InsertKeyFrame(1, to, easing);
             }
 
             if (from.HasValue)
@@ -182,6 +213,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }
@@ -194,35 +227,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
-        /// <param name="ease">The optional easing function for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easing">The optional easing function for the animation.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="Vector3KeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static Vector3KeyFrameAnimation CreateVector3KeyFrameAnimation(
             this Compositor compositor,
             string? target,
             Vector3 to,
-            Vector3? from,
-            TimeSpan? delay,
-            TimeSpan duration,
-            CompositionEasingFunction? ease = null)
+            Vector3? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            CompositionEasingFunction? easing = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             Vector3KeyFrameAnimation animation = compositor.CreateVector3KeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
-            if (ease is null)
+            if (easing is null)
             {
                 animation.InsertKeyFrame(1, to);
             }
             else
             {
-                animation.InsertKeyFrame(1, to, ease);
+                animation.InsertKeyFrame(1, to, easing);
             }
 
             if (from.HasValue)
@@ -231,6 +271,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }
@@ -243,35 +285,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
-        /// <param name="ease">The optional easing function for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easing">The optional easing function for the animation.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="Vector4KeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static Vector4KeyFrameAnimation CreateVector4KeyFrameAnimation(
             this Compositor compositor,
             string? target,
             Vector4 to,
-            Vector4? from,
-            TimeSpan? delay,
-            TimeSpan duration,
-            CompositionEasingFunction? ease = null)
+            Vector4? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            CompositionEasingFunction? easing = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             Vector4KeyFrameAnimation animation = compositor.CreateVector4KeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
-            if (ease is null)
+            if (easing is null)
             {
                 animation.InsertKeyFrame(1, to);
             }
             else
             {
-                animation.InsertKeyFrame(1, to, ease);
+                animation.InsertKeyFrame(1, to, easing);
             }
 
             if (from.HasValue)
@@ -280,6 +329,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }
@@ -292,35 +343,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
-        /// <param name="ease">The optional easing function for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easing">The optional easing function for the animation.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="ColorKeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static ColorKeyFrameAnimation CreateColorKeyFrameAnimation(
             this Compositor compositor,
             string? target,
             Color to,
-            Color? from,
-            TimeSpan? delay,
-            TimeSpan duration,
-            CompositionEasingFunction? ease = null)
+            Color? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            CompositionEasingFunction? easing = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             ColorKeyFrameAnimation animation = compositor.CreateColorKeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
-            if (ease is null)
+            if (easing is null)
             {
                 animation.InsertKeyFrame(1, to);
             }
             else
             {
-                animation.InsertKeyFrame(1, to, ease);
+                animation.InsertKeyFrame(1, to, easing);
             }
 
             if (from.HasValue)
@@ -329,6 +387,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }
@@ -341,35 +401,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="to">The final value for the animation.</param>
         /// <param name="from">The optional starting value for the animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The animation duration.</param>
-        /// <param name="ease">The optional easing function for the animation.</param>
+        /// <param name="duration">The optional animation duration.</param>
+        /// <param name="easing">The optional easing function for the animation.</param>
+        /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
+        /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="QuaternionKeyFrameAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static QuaternionKeyFrameAnimation CreateQuaternionKeyFrameAnimation(
             this Compositor compositor,
             string? target,
             Quaternion to,
-            Quaternion? from,
-            TimeSpan? delay,
-            TimeSpan duration,
-            CompositionEasingFunction? ease = null)
+            Quaternion? from = null,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            CompositionEasingFunction? easing = null,
+            AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
+            int iterationCount = 1)
         {
             QuaternionKeyFrameAnimation animation = compositor.CreateQuaternionKeyFrameAnimation();
 
-            animation.Duration = duration;
+            animation.Duration = duration ?? DefaultDuration;
 
             if (delay.HasValue)
             {
                 animation.DelayTime = delay.Value;
+                animation.DelayBehavior = delayBehavior;
             }
 
-            if (ease is null)
+            if (easing is null)
             {
                 animation.InsertKeyFrame(1, to);
             }
             else
             {
-                animation.InsertKeyFrame(1, to, ease);
+                animation.InsertKeyFrame(1, to, easing);
             }
 
             if (from.HasValue)
@@ -378,6 +445,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.IterationBehavior = iterationBehavior;
+            animation.IterationCount = iterationCount;
 
             return animation;
         }

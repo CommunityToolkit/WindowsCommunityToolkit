@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
             {
-                CompositionEasingFunction easingFunction = targetHint.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+                CompositionEasingFunction easingFunction = targetHint.Compositor.CreateEasingFunction(EasingType, EasingMode);
 
                 target = null;
 
@@ -274,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Visual visual = (Visual)targetHint;
                 InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
-                CompositionEasingFunction easingFunction = clip.Compositor.CreateCubicBezierEasingFunction(EasingType, EasingMode);
+                CompositionEasingFunction easingFunction = clip.Compositor.CreateEasingFunction(EasingType, EasingMode);
                 ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
 
                 target = clip;

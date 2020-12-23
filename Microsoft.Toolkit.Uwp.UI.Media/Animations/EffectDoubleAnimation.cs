@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
                 (float?)From,
                 Delay ?? delayHint ?? DefaultDelay,
                 Duration ?? durationHint ?? DefaultDuration,
-                effect.Brush.Compositor.CreateCubicBezierEasingFunction(
+                effect.Brush.Compositor.CreateEasingFunction(
                     EasingType ?? easingTypeHint ?? DefaultEasingType,
                     EasingMode ?? easingModeHint ?? DefaultEasingMode));
 
