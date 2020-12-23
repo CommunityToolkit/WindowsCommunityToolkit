@@ -2,14 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// <see cref="KeyFrame"/> of type <see cref="Vector3"/>
+    /// A <see cref="KeyFrame{T}"/> type for scalar animations.
     /// </summary>
-    public class Vector3KeyFrame : TypedKeyFrame<string>
+    public class ScalarKeyFrame : KeyFrame<double>
     {
     }
 }

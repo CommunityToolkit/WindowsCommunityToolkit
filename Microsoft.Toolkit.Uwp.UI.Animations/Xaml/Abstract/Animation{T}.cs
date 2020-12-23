@@ -4,6 +4,8 @@
 
 #nullable enable
 
+using System.Collections.Generic;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 {
     /// <summary>
@@ -21,5 +23,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
         /// Gets or sets the optional starting value for the animation.
         /// </summary>
         public T? From { get; set; }
+
+        /// <summary>
+        /// Gets or sets the optional keyframe collection for the current animation.
+        /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
+        /// </summary>
+        public IList<KeyFrame<T>> KeyFrames { get; set; } = new List<KeyFrame<T>>();
     }
 }

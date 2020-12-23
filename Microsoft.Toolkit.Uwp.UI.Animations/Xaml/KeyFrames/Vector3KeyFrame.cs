@@ -3,13 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// <see cref="KeyFrame"/> of type <see cref="Vector4"/>
+    /// A <see cref="KeyFrame{T}"/> type for <see cref="Vector2"/> animations.
     /// </summary>
-    public class Vector4KeyFrame : TypedKeyFrame<string>
+    public class Vector3KeyFrame : KeyFrame<string>
     {
     }
 }
