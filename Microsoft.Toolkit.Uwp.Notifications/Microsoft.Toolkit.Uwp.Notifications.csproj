@@ -5,8 +5,6 @@
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
-    <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
   </PropertyGroup>
 
@@ -49,6 +47,8 @@
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
@@ -60,6 +60,8 @@
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>

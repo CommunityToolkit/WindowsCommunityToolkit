@@ -69,17 +69,17 @@
     <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll" />
     <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.pdb" />
     <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" />
+    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.dll" />
+    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.pdb" />
+    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.pri" />
+    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.xml" />
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.pdb" />
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.pri" />
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.winmd" />
     <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" />
-    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.winmd" />
-    <file src="$buildOutput$\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" />
+    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" />
+    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" />
+    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.winmd" />
+    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" />
   </files>
 </package>
