@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An opacity animation working on the composition or XAML layer.
     /// </summary>
-    public class OpacityAnimation : Animation<double>
+    public class OpacityAnimation : Animation<double?, double>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -26,11 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 return builder.Opacity(Layer).NormalizedKeyFrames(
                     delay: Delay ?? delayHint,
                     duration: Duration ?? durationHint,
-                    build: b => KeyFrame<double>.AppendToBuilder(b, KeyFrames));
+                    build: b => KeyFrame<double?, double>.AppendToBuilder(b, KeyFrames));
             }
 
             return builder.Opacity(
-                To,
+                To!.Value,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,

@@ -3,13 +3,19 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// A <see cref="KeyFrame{T}"/> type for scalar animations.
+    /// A <see cref="KeyFrame{TValue,TKeyFrame}"/> type for scalar animations.
     /// </summary>
-    public class ScalarKeyFrame : KeyFrame<double>
+    public class ScalarKeyFrame : KeyFrame<double, double>
     {
+        /// <inheritdoc/>
+        public override INormalizedKeyFrameAnimationBuilder<double> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<double> builder)
+        {
+            return builder.KeyFrame(Key, Value!, EasingType ?? DefaultEasingType, EasingMode ?? DefaultEasingMode);
+        }
     }
 }

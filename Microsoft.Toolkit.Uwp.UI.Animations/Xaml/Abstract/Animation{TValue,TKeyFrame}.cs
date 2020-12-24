@@ -12,25 +12,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A base model representing a typed animation that can be used in XAML.
     /// </summary>
-    /// <typeparam name="T">The type of values for the animation.</typeparam>
+    /// <typeparam name="TValue">
+    /// The type to use for the public <see cref="To"/> and <see cref="From"/> properties.
+    /// This can differ from <typeparamref name="TKeyFrame"/> to facilitate XAML parsing.
+    /// </typeparam>
+    /// <typeparam name="TKeyFrame">The actual type of keyframe values in use.</typeparam>
     [ContentProperty(Name = nameof(KeyFrames))]
-    public abstract class Animation<T> : Animation
-        where T : unmanaged
+    public abstract class Animation<TValue, TKeyFrame> : Animation
     {
         /// <summary>
         /// Gets or sets the final value for the animation.
         /// </summary>
-        public T To { get; set; }
+        public TValue? To { get; set; }
 
         /// <summary>
         /// Gets or sets the optional starting value for the animation.
         /// </summary>
-        public T? From { get; set; }
+        public TValue? From { get; set; }
 
         /// <summary>
         /// Gets or sets the optional keyframe collection for the current animation.
         /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
         /// </summary>
-        public IList<IKeyFrame<T>> KeyFrames { get; set; } = new List<IKeyFrame<T>>();
+        public IList<IKeyFrame<TKeyFrame>> KeyFrames { get; set; } = new List<IKeyFrame<TKeyFrame>>();
     }
 }

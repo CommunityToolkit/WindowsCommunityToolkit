@@ -4,6 +4,7 @@
 
 using System;
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -12,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An orientation animation working on the composition layer.
     /// </summary>
-    public class OrientationAnimation : Animation<Quaternion>
+    public class OrientationAnimation : Animation<string, Quaternion>
     {
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
@@ -22,12 +23,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 return builder.Orientation().NormalizedKeyFrames(
                     delay: Delay ?? delayHint,
                     duration: Duration ?? durationHint,
-                    build: b => KeyFrame<Quaternion>.AppendToBuilder(b, KeyFrames));
+                    build: b => KeyFrame<string, Quaternion>.AppendToBuilder(b, KeyFrames));
             }
 
             return builder.Orientation(
-                To,
-                From,
+                To!.ToQuaternion(),
+                From?.ToQuaternion(),
                 Delay ?? delayHint,
                 Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,

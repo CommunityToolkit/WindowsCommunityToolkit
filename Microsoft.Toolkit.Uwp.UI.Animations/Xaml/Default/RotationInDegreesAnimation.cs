@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A rotation in degrees animation working on the composition or XAML layer.
     /// </summary>
-    public class RotationInDegreesAnimation : Animation<double>
+    public class RotationInDegreesAnimation : Animation<double?, double>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -26,11 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 return builder.RotationInDegrees(Layer).NormalizedKeyFrames(
                     delay: Delay ?? delayHint,
                     duration: Duration ?? durationHint,
-                    build: b => KeyFrame<double>.AppendToBuilder(b, KeyFrames));
+                    build: b => KeyFrame<double?, double>.AppendToBuilder(b, KeyFrames));
             }
 
             return builder.RotationInDegrees(
-                To,
+                To!.Value,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,

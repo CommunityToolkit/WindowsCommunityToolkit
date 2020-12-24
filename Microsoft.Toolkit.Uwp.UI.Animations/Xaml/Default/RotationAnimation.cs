@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A rotation animation working on the composition or XAML layer.
     /// </summary>
-    public class RotationAnimation : Animation<double>
+    public class RotationAnimation : Animation<double?, double>
     {
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
@@ -21,11 +21,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 return builder.Rotation().NormalizedKeyFrames(
                     delay: Delay ?? delayHint,
                     duration: Duration ?? durationHint,
-                    build: b => KeyFrame<double>.AppendToBuilder(b, KeyFrames));
+                    build: b => KeyFrame<double?, double>.AppendToBuilder(b, KeyFrames));
             }
 
             return builder.Rotation(
-                To,
+                To!.Value,
                 From,
                 Delay ?? delayHint,
                 Duration ?? durationHint,
