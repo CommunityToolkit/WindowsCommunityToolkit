@@ -6,9 +6,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Diagnostics;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
@@ -117,6 +120,85 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
             }
 
             Ended?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="CompositionAnimationGroup"/> for the current collection.
+        /// This can be used to be assigned to show/hide implicit composition animations.
+        /// </summary>
+        /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
+        /// <returns>The <see cref="CompositionAnimationGroup"/> instance to use.</returns>
+        [Pure]
+        internal CompositionAnimationGroup GetCompositionAnimationGroup(UIElement element)
+        {
+            Compositor compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;
+            CompositionAnimationGroup animations = compositor.CreateAnimationGroup();
+
+            static void GatherAnimations(UIElement element, CompositionAnimationGroup animations, ITimeline timeline)
+            {
+                if (timeline is AnimationScope scope)
+                {
+                    foreach (ITimeline child in scope.Animations)
+                    {
+                        GatherAnimations(element, animations, child);
+                    }
+                }
+                else if (timeline is IImplicitTimeline animation)
+                {
+                    animations.Add(animation.GetAnimation(element, out _));
+                }
+            }
+
+            foreach (ITimeline timeline in Animations)
+            {
+                GatherAnimations(element, animations, timeline);
+            }
+
+            return animations;
+        }
+
+        /// <summary>
+        /// Creates an <see cref="ImplicitAnimationCollection"/> for the current collection.
+        /// This can be used to be assigned to implicit composition animations.
+        /// </summary>
+        /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
+        /// <returns>The <see cref="ImplicitAnimationCollection"/> instance to use.</returns>
+        [Pure]
+        internal ImplicitAnimationCollection GetImplicitAnimationCollection(UIElement element)
+        {
+            Compositor compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;
+            ImplicitAnimationCollection animations = compositor.CreateImplicitAnimationCollection();
+
+            static void GatherAnimations(UIElement element, ImplicitAnimationCollection animations, ITimeline timeline)
+            {
+                if (timeline is AnimationScope scope)
+                {
+                    foreach (ITimeline child in scope.Animations)
+                    {
+                        GatherAnimations(element, animations, child);
+                    }
+                }
+                else if (timeline is IImplicitTimeline implicitTimeline)
+                {
+                    CompositionAnimation animation = implicitTimeline.GetAnimation(element, out string? target);
+
+                    target ??= animation.Target;
+
+                    if (!animations.ContainsKey(target))
+                    {
+                        animations[target] = animations.Compositor.CreateAnimationGroup();
+                    }
+
+                    ((CompositionAnimationGroup)animations[target]).Add(animation);
+                }
+            }
+
+            foreach (ITimeline timeline in Animations)
+            {
+                GatherAnimations(element, animations, timeline);
+            }
+
+            return animations;
         }
     }
 }

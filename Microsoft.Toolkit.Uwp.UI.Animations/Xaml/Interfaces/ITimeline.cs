@@ -14,6 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     {
         /// <summary>
         /// Appens the current animation to a target <see cref="AnimationBuilder"/> instance.
+        /// This method is used when the current <see cref="ITimeline"/> instance is explicitly triggered.
         /// </summary>
         /// <param name="builder">The target <see cref="AnimationBuilder"/> instance to schedule the animation on.</param>
         /// <param name="delayHint">A hint for the animation delay, if present.</param>

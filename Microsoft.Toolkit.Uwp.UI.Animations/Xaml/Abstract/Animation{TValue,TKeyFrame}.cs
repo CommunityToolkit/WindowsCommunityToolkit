@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <typeparam name="TKeyFrame">The actual type of keyframe values in use.</typeparam>
     [ContentProperty(Name = nameof(KeyFrames))]
     public abstract class Animation<TValue, TKeyFrame> : Animation
+        where TKeyFrame : unmanaged
     {
         /// <summary>
         /// Gets or sets the final value for the animation.
