@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -30,6 +31,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The value for the current keyframe.</returns>
         [Pure]
         T GetValueAs<T>();
+
+        /// <summary>
+        /// Tries to insert an expression keyframe into the target animation, if possible.
+        /// </summary>
+        /// <param name="animation">The target <see cref="KeyFrameAnimation"/> instance.</param>
+        /// <param name="duration">The total duration for the full animation.</param>
+        /// <returns>Whether or not the curreent <see cref="IKeyFrameInfo"/> instance contained an expression.</returns>
+        bool TryInsertExpressionKeyFrame(KeyFrameAnimation animation, TimeSpan duration);
 
         /// <summary>
         /// Gets the normalized progress for the current keyframe.

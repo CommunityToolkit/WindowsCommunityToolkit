@@ -26,5 +26,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             T value,
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode);
+
+        /// <summary>
+        /// Adds a new normalized expression keyframe to the builder in use.
+        /// This method can only be used when the animation being built targets the composition layer.
+        /// </summary>
+        /// <param name="progress">The normalized progress for the keyframe (must be in the [0, 1] range).</param>
+        /// <param name="expression">The expression for the new keyframe to add.</param>
+        /// <param name="easingType">The easing type to use to reach the new keyframe.</param>
+        /// <param name="easingMode">The easing mode to use to reach the new keyframe.</param>
+        /// <returns>The same <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance that the method was invoked upon.</returns>
+        /// <exception cref="System.InvalidOperationException">Thrown when the animation being built targets the XAML layer.</exception>
+        INormalizedKeyFrameAnimationBuilder<T> ExpressionKeyFrame(
+            double progress,
+            string expression,
+            EasingType easingType = DefaultEasingType,
+            EasingMode easingMode = DefaultEasingMode);
     }
 }

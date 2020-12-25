@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI;
 using Windows.UI.Composition;
+using Windows.UI.Xaml.Media.Animation;
 
 #nullable enable
 
@@ -42,6 +43,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(boolAnimation, duration))
+                    {
+                        continue;
+                    }
+
                     boolAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<bool>());
@@ -55,6 +61,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(scalarAnimation, duration))
+                    {
+                        continue;
+                    }
+
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<float>(),
@@ -69,6 +80,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(scalarAnimation, duration))
+                    {
+                        continue;
+                    }
+
                     scalarAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         (float)keyFrame.GetValueAs<double>(),
@@ -83,6 +99,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(vector2Animation, duration))
+                    {
+                        continue;
+                    }
+
                     vector2Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector2>(),
@@ -97,6 +118,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(vector3Animation, duration))
+                    {
+                        continue;
+                    }
+
                     vector3Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector3>(),
@@ -111,6 +137,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(vector4Animation, duration))
+                    {
+                        continue;
+                    }
+
                     vector4Animation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Vector4>(),
@@ -125,6 +156,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(colorAnimation, duration))
+                    {
+                        continue;
+                    }
+
                     colorAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Color>(),
@@ -139,6 +175,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 foreach (ref readonly var keyFrame in keyFrames)
                 {
+                    if (keyFrame.TryInsertExpressionKeyFrame(quaternionAnimation, duration))
+                    {
+                        continue;
+                    }
+
                     quaternionAnimation.InsertKeyFrame(
                         (float)keyFrame.GetNormalizedProgress(duration),
                         keyFrame.GetValueAs<Quaternion>(),
@@ -176,6 +217,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public Composition(string property, TimeSpan? delay, TimeSpan duration)
                 : base(property, delay, duration)
             {
+            }
+
+            /// <inheritdoc/>
+            public override INormalizedKeyFrameAnimationBuilder<T> ExpressionKeyFrame(
+                double progress,
+                string expression,
+                EasingType easingType,
+                EasingMode easingMode)
+            {
+                this.keyFrames.Append(new(progress, expression, easingType, easingMode));
+
+                return this;
             }
 
             /// <inheritdoc/>

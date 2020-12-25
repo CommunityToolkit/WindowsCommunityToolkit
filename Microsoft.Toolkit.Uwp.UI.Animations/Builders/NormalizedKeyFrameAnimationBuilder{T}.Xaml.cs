@@ -27,6 +27,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
+            public override INormalizedKeyFrameAnimationBuilder<T> ExpressionKeyFrame(
+                double progress,
+                string expression,
+                EasingType easingType,
+                EasingMode easingMode)
+            {
+                throw new InvalidOperationException("Expression keyframes can only be used on the composition layer");
+            }
+
+            /// <inheritdoc/>
             public Timeline GetAnimation(DependencyObject targetHint)
             {
                 return TimedKeyFrameAnimationBuilder<T>.GetAnimation(

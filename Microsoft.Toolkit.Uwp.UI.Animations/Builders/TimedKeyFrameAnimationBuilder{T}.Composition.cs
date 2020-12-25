@@ -4,6 +4,7 @@
 
 using System;
 using Windows.UI.Composition;
+using Windows.UI.Xaml.Media.Animation;
 
 #nullable enable
 
@@ -25,6 +26,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public Composition(string property, TimeSpan? delay)
                 : base(property, delay)
             {
+            }
+
+            /// <inheritdoc/>
+            public override ITimedKeyFrameAnimationBuilder<T> ExpressionKeyFrame(
+                TimeSpan progress,
+                string expression,
+                EasingType easingType,
+                EasingMode easingMode)
+            {
+                this.keyFrames.Append(new(progress, expression, easingType, easingMode));
+
+                return this;
             }
 
             /// <inheritdoc/>

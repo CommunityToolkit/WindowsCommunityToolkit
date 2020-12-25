@@ -5,8 +5,12 @@
 using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -62,6 +66,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return this;
         }
 
+        /// <inheritdoc/>
+        public abstract INormalizedKeyFrameAnimationBuilder<T> ExpressionKeyFrame(
+            double progress,
+            string expression,
+            EasingType easingType,
+            EasingMode easingMode);
+
         /// <summary>
         /// The abstracted info for a normalized animation keyframe.
         /// </summary>
@@ -78,6 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             private readonly T value;
 
             /// <summary>
+            /// The expression for the current keyframe, if present.
+            /// </summary>
+            private readonly string? expression;
+
+            /// <summary>
             /// Initializes a new instance of the <see cref="KeyFrameInfo"/> struct.
             /// </summary>
             /// <param name="progress">The normalized progress for the keyframe.</param>
@@ -92,6 +108,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 this.progress = progress;
                 this.value = value;
+                this.expression = null;
+
+                EasingType = easingType;
+                EasingMode = easingMode;
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="KeyFrameInfo"/> struct.
+            /// </summary>
+            /// <param name="progress">The normalized progress for the keyframe.</param>
+            /// <param name="expression">The expression for the new keyframe to add.</param>
+            /// <param name="easingType">The easing type to use to reach the new keyframe.</param>
+            /// <param name="easingMode">The easing mode to use to reach the new keyframe.</param>
+            public KeyFrameInfo(
+                double progress,
+                string expression,
+                EasingType easingType,
+                EasingMode easingMode)
+            {
+                this.progress = progress;
+                this.value = default;
+                this.expression = expression;
 
                 EasingType = easingType;
                 EasingMode = easingMode;
@@ -108,6 +146,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public TValue GetValueAs<TValue>()
             {
                 return Unsafe.As<T, TValue>(ref Unsafe.AsRef(in this.value));
+            }
+
+            /// <inheritdoc/>
+            public bool TryInsertExpressionKeyFrame(KeyFrameAnimation animation, TimeSpan duration)
+            {
+                if (this.expression is null)
+                {
+                    return false;
+                }
+
+                animation.InsertExpressionKeyFrame(
+                    (float)this.progress,
+                    this.expression,
+                    animation.Compositor.CreateEasingFunction(EasingType, EasingMode));
+
+                return true;
             }
 
             /// <inheritdoc/>
