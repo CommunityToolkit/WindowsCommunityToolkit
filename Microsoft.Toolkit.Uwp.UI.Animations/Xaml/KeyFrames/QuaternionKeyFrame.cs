@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 #nullable enable
 
@@ -14,18 +12,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A <see cref="KeyFrame{TValue,TKeyFrame}"/> type for <see cref="Quaternion"/> animations.
     /// </summary>
-    public class QuaternionKeyFrame : KeyFrame<string, Quaternion>
+    public sealed class QuaternionKeyFrame : KeyFrame<string, Quaternion>
     {
         /// <inheritdoc/>
-        public override INormalizedKeyFrameAnimationBuilder<Quaternion> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<Quaternion> builder)
+        protected override Quaternion GetParsedValue()
         {
-            Vector4 vector = Value!.ToVector4();
-
-            return builder.KeyFrame(
-                Key,
-                Unsafe.As<Vector4, Quaternion>(ref vector),
-                EasingType ?? DefaultEasingType,
-                EasingMode ?? DefaultEasingMode);
+            return Value!.ToQuaternion();
         }
     }
 }

@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using Windows.UI.Xaml.Media.Animation;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -57,6 +58,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc/>
-        public abstract INormalizedKeyFrameAnimationBuilder<TKeyFrame> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<TKeyFrame> builder);
+        public INormalizedKeyFrameAnimationBuilder<TKeyFrame> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<TKeyFrame> builder)
+        {
+            return builder.KeyFrame(Key, GetParsedValue()!, EasingType ?? DefaultEasingType, EasingMode ?? DefaultEasingMode);
+        }
+
+        /// <summary>
+        /// Gets the parsed <typeparamref name="TKeyFrame"/> values for <see cref="Value"/>.
+        /// </summary>
+        /// <returns>The parsed keyframe values a <typeparamref name="TKeyFrame"/>.</returns>
+        protected abstract TKeyFrame? GetParsedValue();
     }
 }

@@ -4,7 +4,6 @@
 
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 #nullable enable
 
@@ -13,12 +12,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A <see cref="KeyFrame{TValue,TKeyFrame}"/> type for <see cref="Vector3"/> animations.
     /// </summary>
-    public class Vector3KeyFrame : KeyFrame<string, Vector3>
+    public sealed class Vector3KeyFrame : KeyFrame<string, Vector3>
     {
         /// <inheritdoc/>
-        public override INormalizedKeyFrameAnimationBuilder<Vector3> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<Vector3> builder)
+        protected override Vector3 GetParsedValue()
         {
-            return builder.KeyFrame(Key, Value!.ToVector3(), EasingType ?? DefaultEasingType, EasingMode ?? DefaultEasingMode);
+            return Value!.ToVector3();
         }
     }
 }
