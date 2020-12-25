@@ -6,7 +6,6 @@ using System;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;

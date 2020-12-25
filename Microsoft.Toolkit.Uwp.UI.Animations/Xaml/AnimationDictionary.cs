@@ -14,12 +14,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A collection of animations that can be defined from XAML.
     /// </summary>
-    public sealed class AnimationDictionary : DependencyObject, IList<AnimationCollection2>
+    public sealed class AnimationDictionary : DependencyObject, IList<AnimationSet>
     {
         /// <summary>
         /// The underlying list of animations.
         /// </summary>
-        private readonly List<AnimationCollection2> list = new();
+        private readonly List<AnimationSet> list = new();
 
         /// <summary>
         /// The reference to the parent that owns the current animation dictionary.
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public bool IsReadOnly => false;
 
         /// <inheritdoc/>
-        public AnimationCollection2 this[int index]
+        public AnimationSet this[int index]
         {
             get => this.list[index];
             set
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc/>
-        public void Add(AnimationCollection2 item)
+        public void Add(AnimationSet item)
         {
             this.list.Add(item);
 
@@ -81,19 +81,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc/>
-        public bool Contains(AnimationCollection2 item)
+        public bool Contains(AnimationSet item)
         {
             return this.list.Contains(item);
         }
 
         /// <inheritdoc/>
-        public void CopyTo(AnimationCollection2[] array, int arrayIndex)
+        public void CopyTo(AnimationSet[] array, int arrayIndex)
         {
             this.list.CopyTo(array, arrayIndex);
         }
 
         /// <inheritdoc/>
-        public IEnumerator<AnimationCollection2> GetEnumerator()
+        public IEnumerator<AnimationSet> GetEnumerator()
         {
             return this.list.GetEnumerator();
         }
@@ -105,13 +105,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc/>
-        public int IndexOf(AnimationCollection2 item)
+        public int IndexOf(AnimationSet item)
         {
             return this.list.IndexOf(item);
         }
 
         /// <inheritdoc/>
-        public void Insert(int index, AnimationCollection2 item)
+        public void Insert(int index, AnimationSet item)
         {
             this.list.Insert(index, item);
 
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc/>
-        public bool Remove(AnimationCollection2 item)
+        public bool Remove(AnimationSet item)
         {
             bool removed = this.list.Remove(item);
 

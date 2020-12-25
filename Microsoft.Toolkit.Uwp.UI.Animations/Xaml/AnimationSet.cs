@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// (such as <see cref="Windows.UI.Xaml.Media.Animation.Storyboard"/>) that can be executed on a given element.
     /// </summary>
     [ContentProperty(Name = nameof(Animations))]
-    public sealed class AnimationCollection2 : DependencyObject
+    public sealed class AnimationSet : DependencyObject
     {
         /// <summary>
         /// Raised whenever the current animation is started.

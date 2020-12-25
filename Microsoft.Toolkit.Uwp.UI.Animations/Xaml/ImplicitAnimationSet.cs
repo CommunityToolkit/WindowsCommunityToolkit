@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// A collection of implicit animations that can be grouped together. This type represents a composite animation
     /// (such as <see cref="Windows.UI.Xaml.Media.Animation.Storyboard"/>) that is executed on a given element.
     /// </summary>
-    public sealed class ImplicitCompositionAnimationCollection : Collection<IImplicitTimeline>
+    public sealed class ImplicitAnimationSet : Collection<IImplicitTimeline>
     {
         /// <summary>
         /// Raised whenever the contained animations are changed.

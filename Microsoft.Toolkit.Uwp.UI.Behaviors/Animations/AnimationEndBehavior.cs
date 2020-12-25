@@ -4,20 +4,20 @@
 
 #nullable enable
 
-using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
 
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
 {
     /// <summary>
-    /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationCollection2"/> ends.
+    /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationSet"/> ends.
     /// </summary>
-    public sealed class AnimationEndBehavior : Trigger<AnimationCollection2>
+    public sealed class AnimationEndBehavior : Trigger<AnimationSet>
     {
         /// <summary>
-        /// The current <see cref="AnimationCollection2"/> instance in use.
+        /// The current <see cref="AnimationSet"/> instance in use.
         /// </summary>
-        private AnimationCollection2? animationCollection;
+        private AnimationSet? animationCollection;
 
         /// <inheritdoc/>
         protected override void OnAttached()
@@ -36,10 +36,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         }
 
         /// <summary>
-        /// Sets the current <see cref="AnimationCollection2"/> instance in use.
+        /// Sets the current <see cref="AnimationSet"/> instance in use.
         /// </summary>
-        /// <param name="animationCollection">The <see cref="AnimationCollection2"/> instance in use.</param>
-        private void SetResolvedCollection(AnimationCollection2? animationCollection)
+        /// <param name="animationCollection">The <see cref="AnimationSet"/> instance in use.</param>
+        private void SetResolvedCollection(AnimationSet? animationCollection)
         {
             if (this.animationCollection == animationCollection)
             {
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         /// <summary>
         /// Invokes the current actions when the linked animations completes.
         /// </summary>
-        /// <param name="sender">The source <see cref="AnimationCollection2"/> instance.</param>
+        /// <param name="sender">The source <see cref="AnimationSet"/> instance.</param>
         /// <param name="e">The arguments for the event (unused).</param>
         private void AnimationCollection_Ended(object sender, System.EventArgs e)
         {
