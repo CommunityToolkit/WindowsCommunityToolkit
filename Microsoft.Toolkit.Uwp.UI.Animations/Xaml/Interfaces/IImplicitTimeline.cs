@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An interface representing a XAML model for a custom implicit composition animation.
     /// </summary>
-    internal interface IImplicitTimeline
+    public interface IImplicitTimeline
     {
         /// <summary>
         /// Gets a <see cref="CompositionAnimation"/> from the currnet node. This animation might

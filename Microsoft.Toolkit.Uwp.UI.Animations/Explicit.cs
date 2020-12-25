@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static class Explicit
     {
         /// <summary>
-        /// Identifies the property for the attached <see cref="AnimationDictionary"/> instance.
+        /// The attached "Animations" property.
         /// </summary>
         public static readonly DependencyProperty AnimationsProperty = DependencyProperty.RegisterAttached(
             "Animations",

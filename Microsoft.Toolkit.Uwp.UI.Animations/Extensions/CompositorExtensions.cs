@@ -34,6 +34,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 return compositor.CreateLinearEasingFunction();
             }
 
+            if (easingType == EasingType.Default)
+            {
+                easingType = DefaultEasingType;
+            }
+
             var (a, b) = EasingMaps[(easingType, easingMode)];
 
             return compositor.CreateCubicBezierEasingFunction(a, b);

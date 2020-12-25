@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 #nullable enable
 
@@ -58,8 +57,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public INormalizedKeyFrameAnimationBuilder<T> KeyFrame(
             double progress,
             T value,
-            EasingType easingType = DefaultEasingType,
-            EasingMode easingMode = DefaultEasingMode)
+            EasingType easingType,
+            EasingMode easingMode)
         {
             this.keyFrames.Append(new(progress, value, easingType, easingMode));
 
