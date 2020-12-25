@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -13,12 +14,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A size animation working on the composition or XAML layer.
     /// </summary>
-    public class SizeAnimation : Animation<string, Vector3>
+    public class SizeAnimation : ImplicitAnimation<string, Vector3>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
         /// </summary>
         public FrameworkLayer Layer { get; set; }
+
+        /// <inheritdoc/>
+        protected override string Target => nameof(Visual.Size);
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
@@ -50,6 +54,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
 
                 return builder.Size(to2, from2, delay, duration, easingType, easingMode, FrameworkLayer.Xaml);
             }
+        }
+
+        /// <inheritdoc/>
+        protected override (Vector3? To, Vector3? From) GetParsedValues()
+        {
+            return (To?.ToVector3(), From?.ToVector3());
         }
     }
 }

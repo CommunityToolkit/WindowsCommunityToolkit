@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -13,8 +14,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An offset animation working on the composition layer.
     /// </summary>
-    public class OffsetAnimation : Animation<string, Vector3>
+    public class OffsetAnimation : ImplicitAnimation<string, Vector3>
     {
+        /// <inheritdoc/>
+        protected override string Target => nameof(Visual.Offset);
+
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
@@ -33,6 +37,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
                 EasingMode ?? easingModeHint ?? DefaultEasingMode);
+        }
+
+        /// <inheritdoc/>
+        protected override (Vector3? To, Vector3? From) GetParsedValues()
+        {
+            return (To?.ToVector3(), From?.ToVector3());
         }
     }
 }

@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -13,8 +14,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// An orientation animation working on the composition layer.
     /// </summary>
-    public class OrientationAnimation : Animation<string, Quaternion>
+    public class OrientationAnimation : ImplicitAnimation<string, Quaternion>
     {
+        /// <inheritdoc/>
+        protected override string Target => nameof(Visual.Orientation);
+
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
@@ -33,6 +37,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
                 EasingMode ?? easingModeHint ?? DefaultEasingMode);
+        }
+
+        /// <inheritdoc/>
+        protected override (Quaternion? To, Quaternion? From) GetParsedValues()
+        {
+            return (To?.ToQuaternion(), From?.ToQuaternion());
         }
     }
 }

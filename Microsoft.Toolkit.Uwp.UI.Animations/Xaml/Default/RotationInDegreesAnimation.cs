@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -11,12 +12,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
     /// <summary>
     /// A rotation in degrees animation working on the composition or XAML layer.
     /// </summary>
-    public class RotationInDegreesAnimation : Animation<double?, double>
+    public class RotationInDegreesAnimation : ImplicitAnimation<double?, double>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
         /// </summary>
         public FrameworkLayer Layer { get; set; }
+
+        /// <inheritdoc/>
+        protected override string Target => nameof(Visual.RotationAngleInDegrees);
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
@@ -37,6 +41,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
                 EasingMode ?? easingModeHint ?? DefaultEasingMode,
                 Layer);
+        }
+
+        /// <inheritdoc/>
+        protected override (double? To, double? From) GetParsedValues()
+        {
+            return (To, From);
         }
     }
 }
