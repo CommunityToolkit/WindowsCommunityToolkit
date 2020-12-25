@@ -32,6 +32,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TValue? Value { get; set; }
 
         /// <summary>
+        /// Gets or sets the optional expression for the current keyframe.
+        /// If this is set, <see cref="Value"/> will be ignored.
+        /// </summary>
+        public string? Expression { get; set; }
+
+        /// <summary>
         /// Gets or sets the optional easing function type for the keyframe.
         /// </summary>
         public EasingType? EasingType { get; set; }
@@ -60,6 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public INormalizedKeyFrameAnimationBuilder<TKeyFrame> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<TKeyFrame> builder)
         {
+            if (Expression is not null)
+            {
+                return builder.ExpressionKeyFrame(Key, Expression, EasingType ?? DefaultEasingType, EasingMode ?? DefaultEasingMode);
+            }
+
             return builder.KeyFrame(Key, GetParsedValue()!, EasingType ?? DefaultEasingType, EasingMode ?? DefaultEasingMode);
         }
 
