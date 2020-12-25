@@ -5,7 +5,7 @@
 using System;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An interface representing a XAML model for a custom animation.

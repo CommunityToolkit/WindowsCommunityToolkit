@@ -4,7 +4,6 @@
 
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Uwp.UI.Animations.Xaml;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 

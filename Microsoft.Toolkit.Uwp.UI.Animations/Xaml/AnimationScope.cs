@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// A container of <see cref="ITimeline"/> elements that can be used to conceptually group animations

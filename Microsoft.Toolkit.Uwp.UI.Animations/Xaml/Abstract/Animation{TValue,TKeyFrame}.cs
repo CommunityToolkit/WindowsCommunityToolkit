@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// A base model representing a typed animation that can be used in XAML.

@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// A collection of animations that can be defined from XAML.

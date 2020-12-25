@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An interface representing a XAML model for a custom implicit composition animation.

@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Xaml
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// A base model representing a typed keyframe that can be used in XAML.
