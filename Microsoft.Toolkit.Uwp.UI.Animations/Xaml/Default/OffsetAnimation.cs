@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         protected override string ExplicitTarget => nameof(Visual.Offset);
 
         /// <inheritdoc/>
-        protected override (Vector3? To, Vector3? From) GetParsedValues()
+        protected override (Vector3?, Vector3?) GetParsedValues()
         {
             return (To?.ToVector3(), From?.ToVector3());
         }

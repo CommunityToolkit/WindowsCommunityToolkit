@@ -9,7 +9,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// A scale animation working on the composition or XAML layer.
+    /// A scale animation working on the composition or layer.
     /// </summary>
     public sealed class ScaleAnimation : ImplicitAnimation<string, Vector3>
     {
@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         protected override string ExplicitTarget => nameof(Visual.Scale);
 
         /// <inheritdoc/>
-        protected override (Vector3? To, Vector3? From) GetParsedValues()
+        protected override (Vector3?, Vector3?) GetParsedValues()
         {
             return (To?.ToVector3(), From?.ToVector3());
         }

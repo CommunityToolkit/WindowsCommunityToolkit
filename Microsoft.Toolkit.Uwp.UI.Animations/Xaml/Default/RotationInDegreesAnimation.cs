@@ -7,7 +7,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// A rotation in degrees animation working on the composition or XAML layer.
+    /// A rotation in degrees animation working on the composition or layer.
     /// </summary>
     public sealed class RotationInDegreesAnimation : ImplicitAnimation<double?, double>
     {
@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         protected override string ExplicitTarget => nameof(Visual.RotationAngleInDegrees);
 
         /// <inheritdoc/>
-        protected override (double? To, double? From) GetParsedValues()
+        protected override (double?, double?) GetParsedValues()
         {
             return (To, From);
         }

@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc/>
-        protected override (Thickness? To, Thickness? From) GetParsedValues()
+        protected override (Thickness?, Thickness?) GetParsedValues()
         {
             throw new NotImplementedException();
         }

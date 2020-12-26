@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         protected override string ExplicitTarget => nameof(Visual.Orientation);
 
         /// <inheritdoc/>
-        protected override (Quaternion? To, Quaternion? From) GetParsedValues()
+        protected override (Quaternion?, Quaternion?) GetParsedValues()
         {
             return (To?.ToQuaternion(), From?.ToQuaternion());
         }

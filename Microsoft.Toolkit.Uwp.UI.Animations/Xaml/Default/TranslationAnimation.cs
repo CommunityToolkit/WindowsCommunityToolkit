@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// A translation animation working on the composition or XAML layer.
+    /// A translation animation working on the composition or layer.
     /// </summary>
     public sealed class TranslationAnimation : ImplicitAnimation<string, Vector3>
     {
@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         protected override string ExplicitTarget => "Translation";
 
         /// <inheritdoc/>
-        protected override (Vector3? To, Vector3? From) GetParsedValues()
+        protected override (Vector3?, Vector3?) GetParsedValues()
         {
             return (To?.ToVector3(), From?.ToVector3());
         }
