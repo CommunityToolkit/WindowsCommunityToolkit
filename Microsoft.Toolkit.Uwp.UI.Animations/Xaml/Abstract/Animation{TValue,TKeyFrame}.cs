@@ -4,8 +4,11 @@
 
 #nullable enable
 
+using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Markup;
+using Windows.UI.Xaml.Media.Animation;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -36,5 +39,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
         /// </summary>
         public IList<IKeyFrame<TKeyFrame>> KeyFrames { get; set; } = new List<IKeyFrame<TKeyFrame>>();
+
+        /// <summary>
+        /// Gets the explicit target for the animation. This is the primary target property that is animated.
+        /// </summary>
+        protected abstract string ExplicitTarget { get; }
+
+        /// <inheritdoc/>
+        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        {
+            return builder.NormalizedKeyFrames<TKeyFrame>(
+                property: ExplicitTarget,
+                delay: Delay ?? delayHint,
+                duration: Duration ?? durationHint,
+                build: b => AppendToBuilder(b, easingTypeHint, easingModeHint));
+        }
+
+        /// <summary>
+        /// Gets the parsed <typeparamref name="TKeyFrame"/> values from <see cref="Animation{TValue,TKeyFrame}"/>.
+        /// </summary>
+        /// <returns>The parsed animation values as <typeparamref name="TKeyFrame"/>.</returns>
+        protected abstract (TKeyFrame? To, TKeyFrame? From) GetParsedValues();
+
+        /// <summary>
+        /// Appends the current keyframe values to a target <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance.
+        /// This method will also automatically generate keyframes for <see cref="To"/> and <see cref="From"/>.
+        /// </summary>
+        /// <param name="builder">The target <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance to add the keyframe to.</param>
+        /// <param name="easingTypeHint">A hint for the easing type, if present.</param>
+        /// <param name="easingModeHint">A hint for the easing mode, if present.</param>
+        /// <returns>The same <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance as <paramref name="builder"/>.</returns>
+        protected INormalizedKeyFrameAnimationBuilder<TKeyFrame> AppendToBuilder(INormalizedKeyFrameAnimationBuilder<TKeyFrame> builder, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        {
+            foreach (var keyFrame in KeyFrames)
+            {
+                builder = keyFrame.AppendToBuilder(builder);
+            }
+
+            var (to, from) = GetParsedValues();
+
+            if (to is not null)
+            {
+                builder.KeyFrame(
+                    1.0,
+                    to.Value,
+                    EasingType ?? easingTypeHint ?? DefaultEasingType,
+                    EasingMode ?? easingModeHint ?? DefaultEasingMode);
+            }
+
+            if (from is not null)
+            {
+                builder.KeyFrame(0.0, from.Value, default, default);
+            }
+
+            return builder;
+        }
     }
 }

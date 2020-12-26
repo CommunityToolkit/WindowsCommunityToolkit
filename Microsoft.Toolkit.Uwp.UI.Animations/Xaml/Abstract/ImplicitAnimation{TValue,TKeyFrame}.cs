@@ -19,11 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         where TKeyFrame : unmanaged
     {
         /// <summary>
-        /// Gets the explicit target for the animation. This is the primary target property that is animated.
-        /// </summary>
-        protected abstract string ExplicitTarget { get; }
-
-        /// <summary>
         /// Gets or sets the optional implicit target for the animation. This can act as a trigger property for the animation.
         /// </summary>
         public string? ImplicitTarget { get; set; }
@@ -71,11 +66,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             return builder.GetAnimation(element.GetVisual(), out _);
         }
-
-        /// <summary>
-        /// Gets the parsed <typeparamref name="TKeyFrame"/> values from <see cref="Animation{TValue,TKeyFrame}"/>.
-        /// </summary>
-        /// <returns>The parsed animation values as <typeparamref name="TKeyFrame"/>.</returns>
-        protected abstract (TKeyFrame? To, TKeyFrame? From) GetParsedValues();
     }
 }

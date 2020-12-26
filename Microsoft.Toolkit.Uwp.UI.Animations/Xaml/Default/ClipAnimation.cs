@@ -15,6 +15,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed class ClipAnimation : Animation<Thickness?, Thickness>
     {
         /// <inheritdoc/>
+        protected override string ExplicitTarget => throw new NotImplementedException();
+
+        /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
             return builder.Clip(
@@ -24,6 +27,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Duration ?? durationHint,
                 EasingType ?? easingTypeHint ?? DefaultEasingType,
                 EasingMode ?? easingModeHint ?? DefaultEasingMode);
+        }
+
+        /// <inheritdoc/>
+        protected override (Thickness? To, Thickness? From) GetParsedValues()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,12 +16,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
     /// <summary>
     /// A set of animations that can be grouped together.
     /// </summary>
-    public class EffectDoubleAnimation : Animation<double?, double>
+    public sealed class EffectDoubleAnimation : Animation<double?, double>
     {
         /// <summary>
         /// Gets or sets the linked <see cref="IPipelineEffect"/> instance to animate.
         /// </summary>
         public IPipelineEffect Target { get; set; }
+
+        /// <inheritdoc/>
+        protected override string ExplicitTarget => throw new NotImplementedException();
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
@@ -39,6 +42,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
                     EasingMode ?? easingModeHint ?? DefaultEasingMode));
 
             return builder.ExternalAnimation(effect.Brush, animation);
+        }
+
+        /// <inheritdoc/>
+        protected override (double? To, double? From) GetParsedValues()
+        {
+            throw new NotImplementedException();
         }
     }
 }
