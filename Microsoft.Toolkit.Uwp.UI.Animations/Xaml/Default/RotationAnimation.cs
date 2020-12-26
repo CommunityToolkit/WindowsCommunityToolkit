@@ -12,10 +12,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A rotation animation working on the composition or XAML layer.
     /// </summary>
-    public class RotationAnimation : ImplicitAnimation<double?, double>
+    public sealed class RotationAnimation : ImplicitAnimation<double?, double>
     {
         /// <inheritdoc/>
-        protected override string Target => nameof(Visual.RotationAngle);
+        protected override string ExplicitTarget => nameof(Visual.RotationAngle);
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)

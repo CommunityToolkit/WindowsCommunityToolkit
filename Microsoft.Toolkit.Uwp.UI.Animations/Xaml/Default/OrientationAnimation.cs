@@ -14,10 +14,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// An orientation animation working on the composition layer.
     /// </summary>
-    public class OrientationAnimation : ImplicitAnimation<string, Quaternion>
+    public sealed class OrientationAnimation : ImplicitAnimation<string, Quaternion>
     {
         /// <inheritdoc/>
-        protected override string Target => nameof(Visual.Orientation);
+        protected override string ExplicitTarget => nameof(Visual.Orientation);
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)

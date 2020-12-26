@@ -14,10 +14,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// An offset animation working on the composition layer.
     /// </summary>
-    public class OffsetAnimation : ImplicitAnimation<string, Vector3>
+    public sealed class OffsetAnimation : ImplicitAnimation<string, Vector3>
     {
         /// <inheritdoc/>
-        protected override string Target => nameof(Visual.Offset);
+        protected override string ExplicitTarget => nameof(Visual.Offset);
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)

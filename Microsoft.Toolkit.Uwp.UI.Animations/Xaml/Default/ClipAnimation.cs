@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A clip animation working on the composition layer.
     /// </summary>
-    public class ClipAnimation : Animation<Thickness?, Thickness>
+    public sealed class ClipAnimation : Animation<Thickness?, Thickness>
     {
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)

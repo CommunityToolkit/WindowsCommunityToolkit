@@ -19,20 +19,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         where TKeyFrame : unmanaged
     {
         /// <summary>
-        /// Gets or sets the optional implicit target for the animation.
+        /// Gets the explicit target for the animation. This is the primary target property that is animated.
         /// </summary>
-        public string? ImplicitTarget { get; set; }
+        protected abstract string ExplicitTarget { get; }
 
         /// <summary>
-        /// Gets the target for the animation.
+        /// Gets or sets the optional implicit target for the animation. This can act as a trigger property for the animation.
         /// </summary>
-        protected abstract string Target { get; }
+        public string? ImplicitTarget { get; set; }
 
         /// <inheritdoc/>
         public CompositionAnimation GetAnimation(UIElement element, out string? target)
         {
             NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition builder = new(
-                Target,
+                ExplicitTarget,
                 Delay ?? DefaultDuration,
                 Duration ?? DefaultDuration);
 

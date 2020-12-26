@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A size animation working on the composition or XAML layer.
     /// </summary>
-    public class SizeAnimation : ImplicitAnimation<string, Vector3>
+    public sealed class SizeAnimation : ImplicitAnimation<string, Vector3>
     {
         /// <summary>
         /// Gets or sets the target framework layer to animate.
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public FrameworkLayer Layer { get; set; }
 
         /// <inheritdoc/>
-        protected override string Target => nameof(Visual.Size);
+        protected override string ExplicitTarget => nameof(Visual.Size);
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
