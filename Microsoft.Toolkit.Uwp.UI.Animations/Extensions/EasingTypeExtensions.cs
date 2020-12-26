@@ -24,14 +24,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         [Pure]
         public static EasingFunctionBase? ToEasingFunction(this EasingType easingType, EasingMode easingMode)
         {
-            if (easingType == EasingType.Default)
-            {
-                easingType = AnimationExtensions.DefaultEasingType;
-            }
-
             return easingType switch
             {
                 EasingType.Linear => null,
+
+                EasingType.Default when easingMode == EasingMode.EaseIn
+                    => new ExponentialEase { Exponent = 4.5, EasingMode = EasingMode.EaseIn },
+                EasingType.Default when easingMode == EasingMode.EaseOut
+                    => new ExponentialEase { Exponent = 7, EasingMode = EasingMode.EaseOut },
+                EasingType.Default when easingMode == EasingMode.EaseInOut
+                    => new CircleEase { EasingMode = EasingMode.EaseInOut },
+
                 EasingType.Cubic => new CubicEase { EasingMode = easingMode },
                 EasingType.Back => new BackEase { EasingMode = easingMode },
                 EasingType.Bounce => new BounceEase { EasingMode = easingMode },
@@ -41,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 EasingType.Quartic => new QuarticEase { EasingMode = easingMode },
                 EasingType.Quintic => new QuinticEase { EasingMode = easingMode },
                 EasingType.Sine => new SineEase { EasingMode = easingMode },
+
                 _ => ThrowHelper.ThrowArgumentException<EasingFunctionBase?>("Invalid easing type")
             };
         }

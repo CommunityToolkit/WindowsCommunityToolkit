@@ -27,18 +27,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <summary>
         /// The default <see cref="EasingType"/> value used for animations.
         /// </summary>
-        public const EasingType DefaultEasingType = EasingType.Cubic;
+        public const EasingType DefaultEasingType = EasingType.Default;
 
         /// <summary>
         /// The default <see cref="EasingMode"/> value used for animations.
         /// </summary>
-        public const EasingMode DefaultEasingMode = EasingMode.EaseOut;
+        public const EasingMode DefaultEasingMode = EasingMode.EaseInOut;
 
         /// <summary>
         /// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.
         /// </summary>
         internal static readonly Dictionary<(EasingType Type, EasingMode Mode), (Vector2 A, Vector2 B)> EasingMaps = new()
         {
+            [(EasingType.Default, EasingMode.EaseOut)] = (new(0.1f, 0.9f), new(0.2f, 1.0f)),
+            [(EasingType.Default, EasingMode.EaseIn)] = (new(0.7f, 0.0f), new(1.0f, 0.5f)),
+            [(EasingType.Default, EasingMode.EaseInOut)] = (new(0.8f, 0.0f), new(0.2f, 1.0f)),
+
             [(EasingType.Cubic, EasingMode.EaseOut)] = (new(0.215f, 0.61f), new(0.355f, 1f)),
             [(EasingType.Cubic, EasingMode.EaseIn)] = (new(0.55f, 0.055f), new(0.675f, 0.19f)),
             [(EasingType.Cubic, EasingMode.EaseInOut)] = (new(0.645f, 0.045f), new(0.355f, 1f)),
