@@ -1,0 +1,22 @@
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI;
+
+namespace Microsoft.Toolkit.Uwp.UI.Animations
+{
+    /// <summary>
+    /// A custom <see cref="Color"/> animation.
+    /// </summary>
+    public sealed class ColorAnimation : CustomAnimation<Color?, Color>
+    {
+        /// <inheritdoc/>
+        protected override (Color?, Color?) GetParsedValues()
+        {
+            return (To, From);
+        }
+    }
+}
