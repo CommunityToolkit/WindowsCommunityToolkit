@@ -10,6 +10,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
+using XamlColorAnimation = Windows.UI.Xaml.Media.Animation.ColorAnimation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 {
@@ -97,18 +98,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         }
 
         /// <summary>
-        /// Prepares a <see cref="ColorAnimation"/> with the given info.
+        /// Prepares a <see cref="XamlColorAnimation"/> with the given info.
         /// </summary>
         /// <param name="target">The target <see cref="DependencyObject"/> to animate.</param>
         /// <param name="property">The property to animate inside the target <see cref="DependencyObject"/>.</param>
         /// <param name="to">The final property value.</param>
         /// <param name="from">The optional initial property value.</param>
         /// <param name="delay">The optional delay for the animation.</param>
-        /// <param name="duration">The duration of the <see cref="ColorAnimation"/>.</param>
-        /// <param name="easing">The easing function to use inside the <see cref="ColorAnimation"/>.</param>
-        /// <returns>A <see cref="ColorAnimation"/> instance with the specified parameters.</returns>
+        /// <param name="duration">The duration of the <see cref="XamlColorAnimation"/>.</param>
+        /// <param name="easing">The easing function to use inside the <see cref="XamlColorAnimation"/>.</param>
+        /// <returns>A <see cref="XamlColorAnimation"/> instance with the specified parameters.</returns>
         [Pure]
-        public static ColorAnimation CreateColorAnimation(
+        public static XamlColorAnimation CreateColorAnimation(
             this DependencyObject target,
             string property,
             Color to,
@@ -117,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan duration,
             EasingFunctionBase? easing = null)
         {
-            ColorAnimation animation = new()
+            XamlColorAnimation animation = new()
             {
                 To = to,
                 From = from,
