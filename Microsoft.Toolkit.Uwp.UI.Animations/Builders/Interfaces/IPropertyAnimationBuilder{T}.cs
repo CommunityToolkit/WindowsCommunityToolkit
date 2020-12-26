@@ -25,6 +25,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? duration = null);
 
         /// <summary>
+        /// Adds a custom animation based on normalized keyframes ot the current schedule.
+        /// </summary>
+        /// <typeparam name="TState">The type of state to pass to the builder.</typeparam>
+        /// <param name="state">The state to pass to the builder.</param>
+        /// <param name="build">The callback to use to construct the custom animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        AnimationBuilder NormalizedKeyFrames<TState>(
+            TState state,
+            Action<INormalizedKeyFrameAnimationBuilder<T>, TState> build,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null);
+
+        /// <summary>
         /// Adds a custom animation based on timed keyframes to the current schedule.
         /// </summary>
         /// <param name="build">The callback to use to construct the custom animation.</param>
@@ -32,6 +47,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         AnimationBuilder TimedKeyFrames(
             Action<ITimedKeyFrameAnimationBuilder<T>> build,
+            TimeSpan? delay = null);
+
+        /// <summary>
+        /// Adds a custom animation based on timed keyframes to the current schedule.
+        /// </summary>
+        /// <typeparam name="TState">The type of state to pass to the builder.</typeparam>
+        /// <param name="state">The state to pass to the builder.</param>
+        /// <param name="build">The callback to use to construct the custom animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        AnimationBuilder TimedKeyFrames<TState>(
+            TState state,
+            Action<ITimedKeyFrameAnimationBuilder<T>, TState> build,
             TimeSpan? delay = null);
     }
 }

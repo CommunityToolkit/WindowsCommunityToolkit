@@ -30,18 +30,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             public AnimationBuilder NormalizedKeyFrames(
                 Action<INormalizedKeyFrameAnimationBuilder<T>> build,
-                TimeSpan? delay = null,
-                TimeSpan? duration = null)
+                TimeSpan? delay,
+                TimeSpan? duration)
             {
                 return Builder.NormalizedKeyFrames(Property, build, delay, duration, Layer);
             }
 
             /// <inheritdoc/>
+            public AnimationBuilder NormalizedKeyFrames<TState>(
+                TState state,
+                Action<INormalizedKeyFrameAnimationBuilder<T>, TState> build,
+                TimeSpan? delay,
+                TimeSpan? duration)
+            {
+                return Builder.NormalizedKeyFrames(Property, state, build, delay, duration, Layer);
+            }
+
+            /// <inheritdoc/>
             public AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<T>> build,
-                TimeSpan? delay = null)
+                TimeSpan? delay)
             {
                 return Builder.TimedKeyFrames(Property, build, delay, Layer);
+            }
+
+            /// <inheritdoc/>
+            public AnimationBuilder TimedKeyFrames<TState>(
+                TState state,
+                Action<ITimedKeyFrameAnimationBuilder<T>, TState> build,
+                TimeSpan? delay)
+            {
+                return Builder.TimedKeyFrames(Property, state, build, delay, Layer);
             }
         }
 
@@ -56,8 +75,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             public AnimationBuilder NormalizedKeyFrames(
                 Action<INormalizedKeyFrameAnimationBuilder<double>> build,
-                TimeSpan? delay = null,
-                TimeSpan? duration = null)
+                TimeSpan? delay,
+                TimeSpan? duration)
             {
                 NormalizedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, duration ?? DefaultDuration);
 
@@ -69,13 +88,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
+            public AnimationBuilder NormalizedKeyFrames<TState>(
+                TState state,
+                Action<INormalizedKeyFrameAnimationBuilder<double>, TState> build,
+                TimeSpan? delay,
+                TimeSpan? duration)
+            {
+                NormalizedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, duration ?? DefaultDuration);
+
+                build(builder, state);
+
+                Builder.compositionAnimationFactories.Add(new Factory(builder));
+
+                return Builder;
+            }
+
+            /// <inheritdoc/>
             public AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<double>> build,
-                TimeSpan? delay = null)
+                TimeSpan? delay)
             {
                 TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay);
 
                 build(builder);
+
+                Builder.compositionAnimationFactories.Add(new Factory(builder));
+
+                return Builder;
+            }
+
+            /// <inheritdoc/>
+            public AnimationBuilder TimedKeyFrames<TState>(
+                TState state,
+                Action<ITimedKeyFrameAnimationBuilder<double>, TState> build,
+                TimeSpan? delay)
+            {
+                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay);
+
+                build(builder, state);
 
                 Builder.compositionAnimationFactories.Add(new Factory(builder));
 
@@ -112,8 +162,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <inheritdoc/>
             public AnimationBuilder NormalizedKeyFrames(
                 Action<INormalizedKeyFrameAnimationBuilder<double>> build,
-                TimeSpan? delay = null,
-                TimeSpan? duration = null)
+                TimeSpan? delay,
+                TimeSpan? duration)
             {
                 NormalizedKeyFrameAnimationBuilder<double>.Xaml builder = new(Property, delay, duration ?? DefaultDuration);
 
@@ -125,13 +175,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             /// <inheritdoc/>
+            public AnimationBuilder NormalizedKeyFrames<TState>(
+                TState state,
+                Action<INormalizedKeyFrameAnimationBuilder<double>, TState> build,
+                TimeSpan? delay,
+                TimeSpan? duration)
+            {
+                NormalizedKeyFrameAnimationBuilder<double>.Xaml builder = new(Property, delay, duration ?? DefaultDuration);
+
+                build(builder, state);
+
+                Builder.xamlAnimationFactories.Add(new Factory(builder));
+
+                return Builder;
+            }
+
+            /// <inheritdoc/>
             public AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<double>> build,
-                TimeSpan? delay = null)
+                TimeSpan? delay)
             {
                 TimedKeyFrameAnimationBuilder<double>.Xaml builder = new(Property, delay);
 
                 build(builder);
+
+                Builder.xamlAnimationFactories.Add(new Factory(builder));
+
+                return Builder;
+            }
+
+            /// <inheritdoc/>
+            public AnimationBuilder TimedKeyFrames<TState>(
+                TState state,
+                Action<ITimedKeyFrameAnimationBuilder<double>, TState> build,
+                TimeSpan? delay)
+            {
+                TimedKeyFrameAnimationBuilder<double>.Xaml builder = new(Property, delay);
+
+                build(builder, state);
 
                 Builder.xamlAnimationFactories.Add(new Factory(builder));
 

@@ -284,6 +284,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Adds a custom animation based on normalized keyframes to the current schedule.
+        /// </summary>
+        /// <typeparam name="T">The type of values to animate.</typeparam>
+        /// <typeparam name="TState">The type of state to pass to the builder.</typeparam>
+        /// <param name="property">The target property to animate.</param>
+        /// <param name="state">The state to pass to the builder.</param>
+        /// <param name="build">The callback to use to construct the custom animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="duration">The animation duration.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder NormalizedKeyFrames<T, TState>(
+            string property,
+            TState state,
+            Action<INormalizedKeyFrameAnimationBuilder<T>, TState> build,
+            TimeSpan? delay = null,
+            TimeSpan? duration = null,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+            where T : unmanaged
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                NormalizedKeyFrameAnimationBuilder<T>.Composition builder = new(property, delay, duration ?? DefaultDuration);
+
+                build(builder, state);
+
+                this.compositionAnimationFactories.Add(builder);
+            }
+            else
+            {
+                NormalizedKeyFrameAnimationBuilder<T>.Xaml builder = new(property, delay, duration ?? DefaultDuration);
+
+                build(builder, state);
+
+                this.xamlAnimationFactories.Add(builder);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds a custom animation based on timed keyframes to the current schedule.
         /// </summary>
         /// <typeparam name="T">The type of values to animate.</typeparam>
@@ -312,6 +353,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 TimedKeyFrameAnimationBuilder<T>.Xaml builder = new(property, delay);
 
                 build(builder);
+
+                this.xamlAnimationFactories.Add(builder);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a custom animation based on timed keyframes to the current schedule.
+        /// </summary>
+        /// <typeparam name="T">The type of values to animate.</typeparam>
+        /// <typeparam name="TState">The type of state to pass to the builder.</typeparam>
+        /// <param name="property">The target property to animate.</param>
+        /// <param name="state">The state to pass to the builder.</param>
+        /// <param name="build">The callback to use to construct the custom animation.</param>
+        /// <param name="delay">The optional initial delay for the animation.</param>
+        /// <param name="layer">The target framework layer to animate.</param>
+        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
+        public AnimationBuilder TimedKeyFrames<T, TState>(
+            string property,
+            TState state,
+            Action<ITimedKeyFrameAnimationBuilder<T>, TState> build,
+            TimeSpan? delay = null,
+            FrameworkLayer layer = FrameworkLayer.Composition)
+            where T : unmanaged
+        {
+            if (layer == FrameworkLayer.Composition)
+            {
+                TimedKeyFrameAnimationBuilder<T>.Composition builder = new(property, delay);
+
+                build(builder, state);
+
+                this.compositionAnimationFactories.Add(builder);
+            }
+            else
+            {
+                TimedKeyFrameAnimationBuilder<T>.Xaml builder = new(property, delay);
+
+                build(builder, state);
 
                 this.xamlAnimationFactories.Add(builder);
             }
