@@ -48,11 +48,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            return builder.NormalizedKeyFrames<TKeyFrame>(
+            return builder.NormalizedKeyFrames<TKeyFrame, (Animation<TValue, TKeyFrame> This, EasingType? EasingTypeHint, EasingMode? EasingModeHint)>(
                 property: ExplicitTarget,
+                state: (this, easingTypeHint, easingModeHint),
                 delay: Delay ?? delayHint,
                 duration: Duration ?? durationHint,
-                build: b => AppendToBuilder(b, easingTypeHint, easingModeHint));
+                build: static (b, s) => s.This.AppendToBuilder(b, s.EasingTypeHint, s.EasingModeHint));
         }
 
         /// <summary>
