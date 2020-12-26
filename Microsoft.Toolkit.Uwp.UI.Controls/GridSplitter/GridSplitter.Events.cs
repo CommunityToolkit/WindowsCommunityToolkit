@@ -148,6 +148,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var horizontalChange = e.Delta.Translation.X;
             var verticalChange = e.Delta.Translation.Y;
 
+            if (this.FlowDirection == FlowDirection.RightToLeft)
+            {
+                horizontalChange *= -1;
+            }
+
             if (_resizeDirection == GridResizeDirection.Columns)
             {
                 if (HorizontalMove(horizontalChange))
