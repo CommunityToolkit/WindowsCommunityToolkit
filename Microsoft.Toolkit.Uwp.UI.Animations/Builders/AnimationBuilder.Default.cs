@@ -156,8 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory("Translation.X", to.X, from?.X, delay, duration, easingType, easingMode);
-                AddCompositionAnimationFactory("Translation.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory("Translation.XY", to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -233,8 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            AddCompositionAnimationFactory($"{nameof(Visual.Offset)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
-            AddCompositionAnimationFactory($"{nameof(Visual.Offset)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
+            AddCompositionAnimationFactory($"{nameof(Visual.Offset)}.XY", to, from, delay, duration, easingType, easingMode);
 
             return this;
         }
@@ -353,8 +351,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
-                AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.XY", to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -443,8 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
-                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.XY", to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -800,8 +796,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.Size)}.X", to.X, from?.X, delay, duration, easingType, easingMode);
-                AddCompositionAnimationFactory($"{nameof(Visual.Size)}.Y", to.Y, from?.Y, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory($"{nameof(Visual.Size)}.XY", to, from, delay, duration, easingType, easingMode);
             }
             else
             {
