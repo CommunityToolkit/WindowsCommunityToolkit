@@ -8,7 +8,7 @@
 
     <!-- Shallow Copy -->
     <Grid>
-        <GridView animations:ReorderGridAnimation.Duration="{Binding Duration.Value}">
+        <GridView animations:ItemsReorderAnimation.Duration="{Binding Duration.Value}">
         </GridView>
     </Grid>
 </Page>

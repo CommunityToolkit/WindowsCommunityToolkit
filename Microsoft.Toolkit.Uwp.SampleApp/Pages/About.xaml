@@ -13,9 +13,9 @@
 
     <Page.Resources>
 
-        <animations:AnimationCollection x:Key="ImplicitOffset">
-            <animations:OffsetAnimation Duration="0:0:0.3"></animations:OffsetAnimation>
-        </animations:AnimationCollection>
+        <animations:ImplicitAnimationSet x:Key="ImplicitOffset">
+            <animations:OffsetAnimation Duration="0:0:0.3"/>
+        </animations:ImplicitAnimationSet>
 
         <Style TargetType="ContentPresenter" x:Key="ItemsContainerStyle">
             <Setter Property="animations:Implicit.Animations" Value="{StaticResource ImplicitOffset}"></Setter>
@@ -85,10 +85,10 @@
                         Background="{ThemeResource Background-AboutPage-SidePane}"
                         extensions:VisualExtensions.NormalizedCenterPoint="0, 0.5, 0">
                     <animations:Implicit.ShowAnimations>
-                        <animations:ScaleAnimation From="0, 1, 0" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
+                        <animations:ScaleAnimation From="0, 1, 0" To="1" Duration="0:0:0.3"/>
                     </animations:Implicit.ShowAnimations>
                     <animations:Implicit.HideAnimations>
-                        <animations:ScaleAnimation From="1" To="0, 1, 0" Duration="0:0:0.3"></animations:ScaleAnimation>
+                        <animations:ScaleAnimation From="1" To="0, 1, 0" Duration="0:0:0.3"/>
                     </animations:Implicit.HideAnimations>
                 </Border>
 
@@ -224,12 +224,12 @@
         </controls:DropShadowPanel>
 
         <animations:Implicit.ShowAnimations>
-            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.5"></animations:OpacityAnimation>
-            <animations:ScaleAnimation From="0.9" To="1" Duration="0:0:0.5"></animations:ScaleAnimation>
+            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.5"/>
+            <animations:ScaleAnimation From="0.9" To="1" Duration="0:0:0.5"/>
         </animations:Implicit.ShowAnimations>
         <animations:Implicit.HideAnimations>
-            <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
-            <animations:ScaleAnimation To="0.9" From="1" Duration="0:0:0.2"></animations:ScaleAnimation>
+            <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"/>
+            <animations:ScaleAnimation To="0.9" From="1" Duration="0:0:0.2"/>
         </animations:Implicit.HideAnimations>
 
         <VisualStateManager.VisualStateGroups>
