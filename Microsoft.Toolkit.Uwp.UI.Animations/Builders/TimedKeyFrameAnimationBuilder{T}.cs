@@ -148,19 +148,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return false;
                 }
 
-                animation.InsertExpressionKeyFrame(
-                    (float)GetNormalizedProgress(duration),
-                    this.expression,
-                    animation.Compositor.CreateEasingFunction(EasingType, EasingMode));
+                CompositionEasingFunction? easingFunction = animation.Compositor.TryCreateEasingFunction(EasingType, EasingMode);
+
+                if (easingFunction is null)
+                {
+                    animation.InsertExpressionKeyFrame(GetNormalizedProgress(duration), this.expression);
+                }
+                else
+                {
+                    animation.InsertExpressionKeyFrame(GetNormalizedProgress(duration), this.expression, easingFunction);
+                }
 
                 return true;
             }
 
             /// <inheritdoc/>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public double GetNormalizedProgress(TimeSpan duration)
+            public float GetNormalizedProgress(TimeSpan duration)
             {
-                return Math.Clamp(this.progress.TotalMilliseconds * 100 / duration.TotalMilliseconds, 0, 1);
+                return (float)Math.Clamp(this.progress.TotalMilliseconds * 100 / duration.TotalMilliseconds, 0, 1);
             }
 
             /// <inheritdoc/>

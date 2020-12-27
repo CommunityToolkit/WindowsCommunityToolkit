@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The total duration for the full animation.</param>
         /// <returns>The normalized progress for the current keyframe.</returns>
         [Pure]
-        double GetNormalizedProgress(TimeSpan duration);
+        float GetNormalizedProgress(TimeSpan duration);
 
         /// <summary>
         /// Gets the timed progress for the current keyframe.

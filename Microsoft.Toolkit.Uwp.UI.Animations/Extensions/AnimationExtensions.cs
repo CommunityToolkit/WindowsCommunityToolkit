@@ -44,9 +44,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// </summary>
         internal static readonly Dictionary<(EasingType Type, EasingMode Mode), (Vector2 A, Vector2 B)> EasingMaps = new()
         {
+            // The default/inout combination is missing, as in this case we just skip creating
+            // an easing function entirely, and rely on the composition APIs using the implicit
+            // easing automatically. This is a bit more efficient, and results in the same
+            // visual behavior anyway, as that's the standard combination for animations.
             [(EasingType.Default, EasingMode.EaseOut)] = (new(0.1f, 0.9f), new(0.2f, 1.0f)),
             [(EasingType.Default, EasingMode.EaseIn)] = (new(0.7f, 0.0f), new(1.0f, 0.5f)),
-            [(EasingType.Default, EasingMode.EaseInOut)] = (new(0.8f, 0.0f), new(0.2f, 1.0f)),
 
             [(EasingType.Cubic, EasingMode.EaseOut)] = (new(0.215f, 0.61f), new(0.355f, 1f)),
             [(EasingType.Cubic, EasingMode.EaseIn)] = (new(0.55f, 0.055f), new(0.675f, 0.19f)),

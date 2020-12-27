@@ -25,10 +25,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="compositor">The source <see cref="Compositor"/> used to create the easing function.</param>
         /// <param name="easingType">The target easing function to use.</param>
         /// <param name="easingMode">The target easing mode to use.</param>
-        /// <returns>A <see cref="CompositionEasingFunction"/> instance with the specified easing.</returns>
+        /// <returns>
+        /// A <see cref="CompositionEasingFunction"/> instance with the specified easing, or <see langword="null"/>
+        /// when the input parameters refer to the built-in easing, which means no instance is needed.
+        /// </returns>
         [Pure]
-        public static CompositionEasingFunction CreateEasingFunction(this Compositor compositor, EasingType easingType = DefaultEasingType, EasingMode easingMode = DefaultEasingMode)
+        public static CompositionEasingFunction? TryCreateEasingFunction(this Compositor compositor, EasingType easingType = DefaultEasingType, EasingMode easingMode = DefaultEasingMode)
         {
+            if (easingType == DefaultEasingType && easingMode == DefaultEasingMode)
+            {
+                return null;
+            }
+
             if (easingType == EasingType.Linear)
             {
                 return compositor.CreateLinearEasingFunction();

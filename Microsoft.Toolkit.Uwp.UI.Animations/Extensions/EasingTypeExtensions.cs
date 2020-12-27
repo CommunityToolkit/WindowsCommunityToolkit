@@ -7,6 +7,7 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml.Media.Animation;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 {
@@ -22,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="easingMode">The desired easing mode.</param>
         /// <returns>An <see cref="EasingFunctionBase"/> instance corresponding to the input parameters.</returns>
         [Pure]
-        public static EasingFunctionBase? ToEasingFunction(this EasingType easingType, EasingMode easingMode)
+        public static EasingFunctionBase? ToEasingFunction(this EasingType easingType, EasingMode easingMode = DefaultEasingMode)
         {
             return easingType switch
             {

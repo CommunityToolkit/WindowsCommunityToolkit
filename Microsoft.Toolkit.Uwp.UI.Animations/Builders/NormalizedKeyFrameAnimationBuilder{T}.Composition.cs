@@ -48,9 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    boolAnimation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<bool>());
+                    boolAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<bool>());
                 }
 
                 animation = boolAnimation;
@@ -66,10 +64,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    scalarAnimation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<float>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        scalarAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<float>());
+                    }
+                    else
+                    {
+                        scalarAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<float>(), easingFunction);
+                    }
                 }
 
                 animation = scalarAnimation;
@@ -85,10 +89,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    scalarAnimation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        (float)keyFrame.GetValueAs<double>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        scalarAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), (float)keyFrame.GetValueAs<double>());
+                    }
+                    else
+                    {
+                        scalarAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), (float)keyFrame.GetValueAs<double>(), easingFunction);
+                    }
                 }
 
                 animation = scalarAnimation;
@@ -104,10 +114,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    vector2Animation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<Vector2>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        vector2Animation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Vector2>());
+                    }
+                    else
+                    {
+                        vector2Animation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Vector2>(), easingFunction);
+                    }
                 }
 
                 animation = vector2Animation;
@@ -123,10 +139,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    vector3Animation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<Vector3>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        vector3Animation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Vector3>());
+                    }
+                    else
+                    {
+                        vector3Animation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Vector3>(), easingFunction);
+                    }
                 }
 
                 animation = vector3Animation;
@@ -142,10 +164,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    vector4Animation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<Vector4>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        vector4Animation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Vector4>());
+                    }
+                    else
+                    {
+                        vector4Animation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Vector4>(), easingFunction);
+                    }
                 }
 
                 animation = vector4Animation;
@@ -161,10 +189,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    colorAnimation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<Color>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        colorAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Color>());
+                    }
+                    else
+                    {
+                        colorAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Color>(), easingFunction);
+                    }
                 }
 
                 animation = colorAnimation;
@@ -180,10 +214,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         continue;
                     }
 
-                    quaternionAnimation.InsertKeyFrame(
-                        (float)keyFrame.GetNormalizedProgress(duration),
-                        keyFrame.GetValueAs<Quaternion>(),
-                        target.Compositor.CreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode));
+                    CompositionEasingFunction? easingFunction = target.Compositor.TryCreateEasingFunction(keyFrame.EasingType, keyFrame.EasingMode);
+
+                    if (easingFunction is null)
+                    {
+                        quaternionAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Quaternion>());
+                    }
+                    else
+                    {
+                        quaternionAnimation.InsertKeyFrame(keyFrame.GetNormalizedProgress(duration), keyFrame.GetValueAs<Quaternion>(), easingFunction);
+                    }
                 }
 
                 animation = quaternionAnimation;
