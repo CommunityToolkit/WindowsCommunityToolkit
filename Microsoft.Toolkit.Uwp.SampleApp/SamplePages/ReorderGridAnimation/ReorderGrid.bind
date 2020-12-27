@@ -9,7 +9,7 @@
 
     <Grid>
         <GridView x:Name="ImageView"
-                  animations:ReorderGridAnimation.Duration="@[Duration:Slider:300:100-1000]">
+                  animations:ItemsReorderAnimation.Duration="@[Duration:TimeSpan:400:0-800]">
             <GridView.ItemTemplate>
                 <DataTemplate>
                   <Image Width="200"
