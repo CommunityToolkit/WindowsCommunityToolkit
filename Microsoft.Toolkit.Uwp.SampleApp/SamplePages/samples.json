@@ -561,13 +561,13 @@
         "CodeUrl": "https://github.com/windows-toolkit/Lottie-Windows"
       },
       {
-        "Name": "ReorderGridAnimation",
-        "Type": "ReorderGridPage",
+        "Name": "ItemsReorderAnimation",
+        "Type": "ItemsReorderAnimationPage",
         "Subcategory": "Effect",
-        "About": "Animates items of a grid when the size changes",
+        "About": "Animates items of a grid or list control when the size changes",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "XamlCodeFile": "ReorderGrid.bind",
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "XamlCodeFile": "ItemsReorderAnimation.bind",
+        "Icon": "/SamplePages/ItemsReorderAnimation/ItemsReorderAnimation.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ReorderGrid.md"
       },

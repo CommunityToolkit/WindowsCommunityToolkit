@@ -8,11 +8,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ReorderGridPage : Page, IXamlRenderListener
+    public sealed partial class ItemsReorderAnimationPage : Page, IXamlRenderListener
     {
         private GridView imageView;
 
-        public ReorderGridPage()
+        public ItemsReorderAnimationPage()
         {
             InitializeComponent();
         }
