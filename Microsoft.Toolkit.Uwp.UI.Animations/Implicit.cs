@@ -152,6 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 collection.AnimationsChanged -= OnAnimationsChanged;
                 collection.AnimationsChanged += OnAnimationsChanged;
 
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
             }
         }
@@ -185,6 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 collection.AnimationsChanged -= OnAnimationsChanged;
                 collection.AnimationsChanged += OnAnimationsChanged;
 
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
             }
         }
@@ -218,6 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 collection.AnimationsChanged -= OnAnimationsChanged;
                 collection.AnimationsChanged += OnAnimationsChanged;
 
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
             }
         }
