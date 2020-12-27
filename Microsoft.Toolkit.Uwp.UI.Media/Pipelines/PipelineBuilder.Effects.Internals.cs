@@ -21,18 +21,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Adds a new <see cref="GaussianBlurEffect"/> to the current pipeline
         /// </summary>
         /// <param name="blur">The blur amount to apply</param>
-        /// <param name="id">The assigned id for the created effect, to support animations.</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
         /// <param name="mode">The <see cref="EffectBorderMode"/> parameter for the effect, defaults to <see cref="EffectBorderMode.Hard"/></param>
         /// <param name="optimization">The <see cref="EffectOptimization"/> parameter to use, defaults to <see cref="EffectOptimization.Balanced"/></param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         internal PipelineBuilder Blur(
             float blur,
-            out string id,
+            out string target,
             EffectBorderMode mode = EffectBorderMode.Hard,
             EffectOptimization optimization = EffectOptimization.Balanced)
         {
-            string name = id = Guid.NewGuid().ToUppercaseAsciiLetters();
+            string name = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{name}.{nameof(GaussianBlurEffect.BlurAmount)}";
 
             async ValueTask<IGraphicsEffectSource> Factory() => new GaussianBlurEffect
             {
@@ -43,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = name
             };
 
-            return new PipelineBuilder(this, Factory, new[] { $"{name}.{nameof(GaussianBlurEffect.BlurAmount)}" });
+            return new PipelineBuilder(this, Factory, new[] { target });
         }
     }
 }

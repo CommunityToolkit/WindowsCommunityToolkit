@@ -16,6 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// <inheritdoc/>
         public CompositionBrush? Brush { get; private set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the effect can be animated.
+        /// </summary>
+        public bool IsAnimatable { get; set; }
+
         /// <inheritdoc/>
         public abstract PipelineBuilder AppendToPipeline(PipelineBuilder builder);
 

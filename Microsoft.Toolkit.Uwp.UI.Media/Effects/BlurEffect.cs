@@ -15,11 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GaussianBlurEffect"/> effect</remarks>
     public sealed class BlurEffect : PipelineEffect
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether the effect can be animated.
-        /// </summary>
-        public bool IsAnimatable { get; set; }
-
         private double amount;
 
         /// <summary>
@@ -32,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         }
 
         /// <summary>
-        /// Gets the unique id for the effect, if <see cref="IsAnimatable"/> is set.
+        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
         /// </summary>
         internal string? Id { get; private set; }
 
