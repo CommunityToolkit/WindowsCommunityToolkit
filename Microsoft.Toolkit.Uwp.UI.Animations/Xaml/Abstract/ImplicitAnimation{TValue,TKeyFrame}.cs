@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition builder = new(
                 ExplicitTarget,
-                Delay ?? DefaultDuration,
+                Delay ?? DefaultDelay,
                 Duration ?? DefaultDuration);
 
             var (to, from) = GetParsedValues();

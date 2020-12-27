@@ -6,6 +6,7 @@
 
 using System;
 using Windows.UI.Xaml.Media.Animation;
+using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -39,8 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return builder.NormalizedKeyFrames<TKeyFrame, (CustomAnimation<TValue, TKeyFrame> This, EasingType? EasingTypeHint, EasingMode? EasingModeHint)>(
                 property: ExplicitTarget,
                 state: (this, easingTypeHint, easingModeHint),
-                delay: Delay ?? delayHint,
-                duration: Duration ?? durationHint,
+                delay: Delay ?? delayHint ?? DefaultDelay,
+                duration: Duration ?? durationHint ?? DefaultDuration,
                 layer: Layer,
                 build: static (b, s) => s.This.AppendToBuilder(b, s.EasingTypeHint, s.EasingModeHint));
         }
