@@ -46,13 +46,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         internal string? Id { get; private set; }
 
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             PipelineBuilder inputBuilder = Source ?? PipelineBuilder.FromBackdrop();
 
             foreach (IPipelineEffect effect in Effects)
             {
-                inputBuilder = effect.AppendToPipeline(inputBuilder);
+                inputBuilder = effect.AppendToBuilder(inputBuilder);
             }
 
             if (IsAnimatable)

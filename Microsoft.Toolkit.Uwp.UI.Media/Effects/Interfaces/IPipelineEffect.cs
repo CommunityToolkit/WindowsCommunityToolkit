@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// </summary>
         /// <param name="builder">The source <see cref="PipelineBuilder"/> instance to add the effect to.</param>
         /// <returns>A new <see cref="PipelineBuilder"/> with the new effects added to it.</returns>
-        PipelineBuilder AppendToPipeline(PipelineBuilder builder);
+        PipelineBuilder AppendToBuilder(PipelineBuilder builder);
 
         /// <summary>
         /// Notifies that a given <see cref="CompositionBrush"/> is now in use.

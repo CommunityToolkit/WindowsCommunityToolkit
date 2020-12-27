@@ -40,13 +40,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public Placement Placement { get; set; } = Placement.Foreground;
 
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             PipelineBuilder inputBuilder = Source ?? PipelineBuilder.FromBackdrop();
 
             foreach (IPipelineEffect effect in Effects)
             {
-                inputBuilder = effect.AppendToPipeline(inputBuilder);
+                inputBuilder = effect.AppendToBuilder(inputBuilder);
             }
 
             return builder.Blend(inputBuilder, (BlendEffectMode)Mode, Placement);

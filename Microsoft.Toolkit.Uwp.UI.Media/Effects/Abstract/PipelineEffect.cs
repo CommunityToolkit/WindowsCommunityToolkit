@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public bool IsAnimatable { get; set; }
 
         /// <inheritdoc/>
-        public abstract PipelineBuilder AppendToPipeline(PipelineBuilder builder);
+        public abstract PipelineBuilder AppendToBuilder(PipelineBuilder builder);
 
         /// <inheritdoc/>
         public virtual void NotifyCompositionBrushInUse(CompositionBrush brush)

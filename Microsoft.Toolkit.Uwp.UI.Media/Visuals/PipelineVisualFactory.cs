@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
             foreach (IPipelineEffect effect in Effects)
             {
-                builder = effect.AppendToPipeline(builder);
+                builder = effect.AppendToBuilder(builder);
             }
 
             return builder;

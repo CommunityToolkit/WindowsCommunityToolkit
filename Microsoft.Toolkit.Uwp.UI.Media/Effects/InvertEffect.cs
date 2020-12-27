@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     public sealed class InvertEffect : PipelineEffect
     {
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             return builder.Invert();
         }

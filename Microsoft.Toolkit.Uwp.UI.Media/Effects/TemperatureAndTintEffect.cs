@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         }
 
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             return builder.TemperatureAndTint((float)Temperature, (float)Tint);
         }

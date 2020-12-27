@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         internal string? Id { get; private set; }
 
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             if (IsAnimatable)
             {
