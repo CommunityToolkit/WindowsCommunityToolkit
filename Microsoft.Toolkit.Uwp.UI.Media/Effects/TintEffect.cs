@@ -5,6 +5,8 @@
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 
+#nullable enable
+
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
@@ -18,9 +20,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// </summary>
         public Color Color { get; set; }
 
+        /// <summary>
+        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
+        /// </summary>
+        internal string? Id { get; private set; }
+
         /// <inheritdoc/>
         public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
+            if (IsAnimatable)
+            {
+                builder = builder.Tint(Color, out string id);
+
+                Id = id;
+
+                return builder;
+            }
+
             return builder.Tint(Color);
         }
     }

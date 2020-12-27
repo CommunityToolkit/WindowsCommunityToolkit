@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Windows.Graphics.Effects;
+using Windows.UI;
 using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
@@ -43,6 +44,169 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Optimization = optimization,
                 Source = await this.sourceProducer(),
                 Name = name
+            };
+
+            return new PipelineBuilder(this, Factory, new[] { target });
+        }
+
+        /// <summary>
+        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// </summary>
+        /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
+        /// <param name="factor">The cross fade factor to blend the input effects (should be in the [0, 1] range)</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(CrossFadeEffect.CrossFade)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
+            {
+                CrossFade = factor,
+                Source1 = await this.sourceProducer(),
+                Source2 = await pipeline.sourceProducer(),
+                Name = id
+            };
+
+            return new PipelineBuilder(Factory, this, pipeline, new[] { target });
+        }
+
+        /// <summary>
+        /// Applies an exposure effect on the current pipeline
+        /// </summary>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect (should be in the [-2, 2] range)</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Exposure(float amount, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(ExposureEffect.Exposure)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new ExposureEffect
+            {
+                Exposure = amount,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            return new PipelineBuilder(this, Factory, new[] { target });
+        }
+
+        /// <summary>
+        /// Applies a hue rotation effect on the current pipeline
+        /// </summary>
+        /// <param name="angle">The angle to rotate the hue, in radians</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder HueRotation(float angle, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(HueRotationEffect.Angle)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new HueRotationEffect
+            {
+                Angle = angle,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            return new PipelineBuilder(this, Factory, new[] { target });
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="OpacityEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="opacity">The opacity value to apply to the pipeline</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Opacity(float opacity, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(OpacityEffect.Opacity)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new OpacityEffect
+            {
+                Opacity = opacity,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            return new PipelineBuilder(this, Factory, new[] { target });
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="saturation">The initial saturation amount for the new effect (should be in the [0, 1] range)</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Saturation(float saturation, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(SaturationEffect.Saturation)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new SaturationEffect
+            {
+                Saturation = saturation,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            return new PipelineBuilder(this, Factory, new[] { target });
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="SepiaEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="intensity">The sepia effect intensity for the new effect</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Sepia(float intensity, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(SepiaEffect.Intensity)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new SepiaEffect
+            {
+                Intensity = intensity,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            return new PipelineBuilder(this, Factory, new[] { target });
+        }
+
+        /// <summary>
+        /// Applies a tint effect on the current pipeline
+        /// </summary>
+        /// <param name="color">The color to use</param>
+        /// <param name="target">The target property to animate the resulting effect.</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Tint(Color color, out string target)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            target = $"{id}.{nameof(TintEffect.Color)}";
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new TintEffect
+            {
+                Color = color,
+                Source = await this.sourceProducer(),
+                Name = id
             };
 
             return new PipelineBuilder(this, Factory, new[] { target });
