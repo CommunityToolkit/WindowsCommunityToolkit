@@ -6,9 +6,7 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Composition;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
