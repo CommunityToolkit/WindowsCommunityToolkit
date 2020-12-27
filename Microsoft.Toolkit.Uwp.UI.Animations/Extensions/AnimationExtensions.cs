@@ -4,7 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Numerics;
+using Microsoft.Toolkit.Diagnostics;
+using Windows.UI.Composition;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
@@ -79,5 +84,218 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             [(EasingType.Sine, EasingMode.EaseIn)] = (new(0.47f, 0.0f), new(0.745f, 0.715f)),
             [(EasingType.Sine, EasingMode.EaseInOut)] = (new(0.445f, 0.05f), new(0.55f, 0.95f))
         };
+
+        /// <summary>
+        /// A static container for animatable properties. Composite properties in
+        /// the nested classes are manually stored as constants to avoid having
+        /// to perform string interpolation at runtime and allocating memory.
+        /// </summary>
+        internal static class Properties
+        {
+            /// <summary>
+            /// Animatable properties for the composition layer.
+            /// </summary>
+            public static class Composition
+            {
+                /// <summary>
+                /// Gets the path for a <see cref="Visual.AnchorPoint"/> axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string AnchorPoint(Axis axis) => axis switch
+                {
+                    Axis.X => "AnchorPoint.X",
+                    Axis.Y => "AnchorPoint.Y",
+                    Axis.Z => "AnchorPoint.Z",
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the path for the <see cref="Visual"/> translation property.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Translation() => "Translation";
+
+                /// <summary>
+                /// Gets the path for a <see cref="Visual"/> translation axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Translation(Axis axis) => axis switch
+                {
+                    Axis.X => "Translation.X",
+                    Axis.Y => "Translation.Y",
+                    Axis.Z => "Translation.Z",
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the "Translation.XY" constant.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string TranslationXY() => "Translation.XY";
+
+                /// <summary>
+                /// Gets the path for a <see cref="Visual.Offset"/> axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Offset(Axis axis) => axis switch
+                {
+                    Axis.X => "Offset.X",
+                    Axis.Y => "Offset.Y",
+                    Axis.Z => "Offset.Z",
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the "Offset.XY" constant.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string OffsetXY() => "Offset.XY";
+
+                /// <summary>
+                /// Gets the path for a <see cref="Visual.Scale"/> axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Scale(Axis axis) => axis switch
+                {
+                    Axis.X => "Scale.X",
+                    Axis.Y => "Scale.Y",
+                    Axis.Z => "Scale.Z",
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the "Scale.XY" constant.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string ScaleXY() => "Scale.XY";
+
+                /// <summary>
+                /// Gets the path for a <see cref="Visual.CenterPoint"/> axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string CenterPoint(Axis axis) => axis switch
+                {
+                    Axis.X => "CenterPoint.X",
+                    Axis.Y => "CenterPoint.Y",
+                    Axis.Z => "CenterPoint.Z",
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the "CenterPoint.XY" constant.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string CenterPointXY() => "CenterPoint.XY";
+
+                /// <summary>
+                /// Gets the path for an <see cref="InsetClip"/> side.
+                /// </summary>
+                /// <param name="side">The target side.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Clip(Side side) => side switch
+                {
+                    Side.Top => nameof(InsetClip.TopInset),
+                    Side.Bottom => nameof(InsetClip.BottomInset),
+                    Side.Right => nameof(InsetClip.RightInset),
+                    Side.Left => nameof(InsetClip.LeftInset),
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid clip side")
+                };
+
+                /// <summary>
+                /// Gets the path for a <see cref="Visual.Size"/> axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Size(Axis axis) => axis switch
+                {
+                    Axis.X => "Size.X",
+                    Axis.Y => "Size.Y",
+                    Axis.Z => "Size.Z",
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the "Size.XY" constant.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string SizeXY() => "Size.XY";
+            }
+
+            /// <summary>
+            /// Animatable properties for the XAML layer.
+            /// </summary>
+            public static class Xaml
+            {
+                /// <summary>
+                /// Gets the path for a <see cref="CompositeTransform"/> translation axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Translation(Axis axis) => axis switch
+                {
+                    Axis.X => nameof(CompositeTransform.TranslateX),
+                    Axis.Y => nameof(CompositeTransform.TranslateY),
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the path for a <see cref="CompositeTransform"/> scale axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Scale(Axis axis) => axis switch
+                {
+                    Axis.X => nameof(CompositeTransform.ScaleX),
+                    Axis.Y => nameof(CompositeTransform.ScaleY),
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the path for a <see cref="CompositeTransform"/> center point axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string CenterPoint(Axis axis) => axis switch
+                {
+                    Axis.X => nameof(CompositeTransform.CenterX),
+                    Axis.Y => nameof(CompositeTransform.CenterY),
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+
+                /// <summary>
+                /// Gets the path for a <see cref="FrameworkElement"/> size axis.
+                /// </summary>
+                /// <param name="axis">The target axis.</param>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Size(Axis axis) => axis switch
+                {
+                    Axis.X => nameof(FrameworkElement.Width),
+                    Axis.Y => nameof(FrameworkElement.Height),
+                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                };
+            }
+        }
     }
 }

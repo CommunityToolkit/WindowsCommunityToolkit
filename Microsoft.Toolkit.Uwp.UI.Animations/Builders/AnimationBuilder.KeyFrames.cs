@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public IPropertyAnimationBuilder<double> AnchorPoint(Axis axis)
         {
-            return new PropertyAnimationBuilder<double>(this, $"{nameof(Visual.AnchorPoint)}.{axis}", FrameworkLayer.Composition);
+            return new PropertyAnimationBuilder<double>(this, Properties.Composition.AnchorPoint(axis), FrameworkLayer.Composition);
         }
 
         /// <summary>
@@ -58,10 +58,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return new PropertyAnimationBuilder<double>(this, $"Translation.{axis}", layer);
+                return new PropertyAnimationBuilder<double>(this, Properties.Composition.Translation(axis), layer);
             }
 
-            return new XamlTransformPropertyAnimationBuilder(this, $"Translate{axis}");
+            return new XamlTransformPropertyAnimationBuilder(this, Properties.Xaml.Translation(axis));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public IPropertyAnimationBuilder<Vector3> Translation()
         {
-            return new PropertyAnimationBuilder<Vector3>(this, "Translation", FrameworkLayer.Composition);
+            return new PropertyAnimationBuilder<Vector3>(this, Properties.Composition.Translation(), FrameworkLayer.Composition);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public IPropertyAnimationBuilder<double> Offset(Axis axis)
         {
-            return new PropertyAnimationBuilder<double>(this, $"{nameof(Visual.Offset)}.{axis}", FrameworkLayer.Composition);
+            return new PropertyAnimationBuilder<double>(this, Properties.Composition.Offset(axis), FrameworkLayer.Composition);
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return new PropertyAnimationBuilder<double>(this, $"{nameof(Visual.Scale)}.{axis}", layer);
+                return new PropertyAnimationBuilder<double>(this, Properties.Composition.Scale(axis), layer);
             }
 
-            return new XamlTransformPropertyAnimationBuilder(this, $"Scale{axis}");
+            return new XamlTransformPropertyAnimationBuilder(this, Properties.Xaml.Scale(axis));
         }
 
         /// <summary>
@@ -131,10 +131,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return new PropertyAnimationBuilder<double>(this, $"{nameof(Visual.CenterPoint)}.{axis}", layer);
+                return new PropertyAnimationBuilder<double>(this, Properties.Composition.CenterPoint(axis), layer);
             }
 
-            return new XamlTransformPropertyAnimationBuilder(this, $"Center{axis}");
+            return new XamlTransformPropertyAnimationBuilder(this, Properties.Xaml.CenterPoint(axis));
         }
 
         /// <summary>
@@ -200,16 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <remarks>This animation is only available on the composition layer.</remarks>
         public IPropertyAnimationBuilder<double> Clip(Side side)
         {
-            string property = side switch
-            {
-                Side.Top => nameof(InsetClip.TopInset),
-                Side.Bottom => nameof(InsetClip.BottomInset),
-                Side.Right => nameof(InsetClip.RightInset),
-                Side.Left => nameof(InsetClip.LeftInset),
-                _ => ThrowHelper.ThrowArgumentException<string>("Invalid clip size")
-            };
-
-            return new CompositionClipAnimationBuilder(this, property);
+            return new CompositionClipAnimationBuilder(this, Properties.Composition.Clip(side));
         }
 
         /// <summary>
@@ -222,17 +213,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                return new PropertyAnimationBuilder<double>(this, $"{nameof(Visual.Size)}.{axis}", layer);
+                return new PropertyAnimationBuilder<double>(this, Properties.Composition.Size(axis), layer);
             }
 
-            string property = axis switch
-            {
-                Axis.X => nameof(FrameworkElement.Width),
-                Axis.Y => nameof(FrameworkElement.Height),
-                _ => ThrowHelper.ThrowArgumentException<string>("Invalid size axis")
-            };
-
-            return new PropertyAnimationBuilder<double>(this, property, layer);
+            return new PropertyAnimationBuilder<double>(this, Properties.Xaml.Size(axis), layer);
         }
 
         /// <summary>

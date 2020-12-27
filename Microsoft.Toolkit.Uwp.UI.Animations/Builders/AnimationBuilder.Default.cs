@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            AddCompositionAnimationFactory($"{nameof(Visual.AnchorPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+            AddCompositionAnimationFactory(Properties.Composition.AnchorPoint(axis), (float)to, (float?)from, delay, duration, easingType, easingMode);
 
             return this;
         }
@@ -124,11 +124,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"Translation.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.Translation(axis), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlAnimationFactory($"Translate{axis}", to, from, delay, duration, easingType, easingMode);
+                AddXamlAnimationFactory(Properties.Xaml.Translation(axis), to, from, delay, duration, easingType, easingMode);
             }
 
             return this;
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory("Translation.XY", to, from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.TranslationXY(), to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionAnimationFactory("Translation", to, from, delay, duration, easingType, easingMode);
+            return AddCompositionAnimationFactory(Properties.Composition.Translation(), to, from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            return AddCompositionAnimationFactory($"{nameof(Visual.Offset)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+            return AddCompositionAnimationFactory(Properties.Composition.Offset(axis), (float)to, (float?)from, delay, duration, easingType, easingMode);
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            AddCompositionAnimationFactory($"{nameof(Visual.Offset)}.XY", to, from, delay, duration, easingType, easingMode);
+            AddCompositionAnimationFactory(Properties.Composition.OffsetXY(), to, from, delay, duration, easingType, easingMode);
 
             return this;
         }
@@ -319,11 +319,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.Scale(axis), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlTransformDoubleAnimationFactory($"Scale{axis}", to, from, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(Properties.Xaml.Scale(axis), to, from, delay, duration, easingType, easingMode);
             }
 
             return this;
@@ -351,7 +351,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.Scale)}.XY", to, from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.ScaleXY(), to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -408,11 +408,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.CenterPoint(axis), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                AddXamlTransformDoubleAnimationFactory($"Center{axis}", to, from, delay, duration, easingType, easingMode);
+                AddXamlTransformDoubleAnimationFactory(Properties.Xaml.CenterPoint(axis), to, from, delay, duration, easingType, easingMode);
             }
 
             return this;
@@ -440,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.CenterPoint)}.XY", to, from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.CenterPointXY(), to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -652,17 +652,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType = DefaultEasingType,
             EasingMode easingMode = DefaultEasingMode)
         {
-            string property = side switch
-            {
-                Side.Top => nameof(InsetClip.TopInset),
-                Side.Bottom => nameof(InsetClip.BottomInset),
-                Side.Right => nameof(InsetClip.RightInset),
-                Side.Left => nameof(InsetClip.LeftInset),
-                _ => ThrowHelper.ThrowArgumentException<string>("Invalid clip size")
-            };
-
             CompositionClipScalarAnimation animation = new(
-                property,
+                Properties.Composition.Clip(side),
                 (float)to,
                 (float?)from,
                 delay ?? DefaultDelay,
@@ -757,18 +748,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.Size)}.{axis}", (float)to, (float?)from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.Size(axis), (float)to, (float?)from, delay, duration, easingType, easingMode);
             }
             else
             {
-                string property = axis switch
-                {
-                    Axis.X => nameof(FrameworkElement.Width),
-                    Axis.Y => nameof(FrameworkElement.Height),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid size axis")
-                };
-
-                AddXamlAnimationFactory(property, to, from, delay, duration, easingType, easingMode);
+                AddXamlAnimationFactory(Properties.Xaml.Size(axis), to, from, delay, duration, easingType, easingMode);
             }
 
             return this;
@@ -796,7 +780,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory($"{nameof(Visual.Size)}.XY", to, from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.SizeXY(), to, from, delay, duration, easingType, easingMode);
             }
             else
             {
