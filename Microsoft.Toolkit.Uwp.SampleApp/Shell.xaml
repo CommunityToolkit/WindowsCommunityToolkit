@@ -5,10 +5,11 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+      xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+      xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
       extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
@@ -56,12 +57,11 @@
                             Background="{ThemeResource BackingTint}"
                             Tapped="ContentShadow_Tapped"
                             Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
-                        <interactivity:Interaction.Behaviors>
-                            <!--TODO: BackdropBlurBrush? <behaviors:Blur AutomaticallyStart="True"
-                                            Delay="0"
-                                            Value="2"
-                                            Duration="0" />-->
-                        </interactivity:Interaction.Behaviors>
+                        <media:UIElementExtensions.VisualFactory>
+                            <media:PipelineVisualFactory Source="{effects:BackdropSource}">
+                                <effects:BlurEffect Amount="8"/>
+                            </media:PipelineVisualFactory>
+                        </media:UIElementExtensions.VisualFactory>
                         <animations:Implicit.ShowAnimations>
                             <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
                         </animations:Implicit.ShowAnimations>
@@ -141,12 +141,11 @@
                                               Color="Black">
                         <Border Background="{ThemeResource Menu-DropDown-Background}"
                                 Opacity="0.96">
-                            <!-- TODO: BackdropBlurBrush? <interactivity:Interaction.Behaviors>
-                                <behaviors:Blur AutomaticallyStart="True"
-                                                Delay="0"
-                                                Value="3"
-                                                Duration="0" />
-                            </interactivity:Interaction.Behaviors>-->
+                            <media:UIElementExtensions.VisualFactory>
+                                <media:PipelineVisualFactory Source="{effects:BackdropSource}">
+                                    <effects:BlurEffect Amount="8"/>
+                                </media:PipelineVisualFactory>
+                            </media:UIElementExtensions.VisualFactory>
                         </Border>
                     </controls:DropShadowPanel>
 
