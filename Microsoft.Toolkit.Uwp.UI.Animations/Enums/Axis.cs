@@ -22,7 +22,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// The Z axis (depth).
         /// </summary>
-        /// <remarks>This axis might only be available in certain scenarios, such as when working with composition APIs.</remarks>
+        /// <remarks>
+        /// This axis might only be available in certain scenarios, such as when working with composition APIs.
+        /// </remarks>
         Z
     }
 }

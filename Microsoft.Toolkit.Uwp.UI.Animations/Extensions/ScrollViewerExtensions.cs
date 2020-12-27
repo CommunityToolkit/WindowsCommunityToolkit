@@ -2,14 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
+using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
 {
     /// <summary>
     /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
@@ -50,7 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             VisualProperty property = VisualProperty.Translation)
         {
             CompositionPropertySet scrollSet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
-
             ExpressionAnimation animation = scrollSet.Compositor.CreateExpressionAnimation($"{nameof(scroller)}.{nameof(UIElement.Translation)}.{sourceAxis}");
 
             animation.SetReferenceParameter(nameof(scroller), scrollSet);
@@ -66,7 +65,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 case VisualProperty.Offset:
                     visual.StartAnimation($"{nameof(Visual.Offset)}.{targetAxis}", animation);
                     break;
-                default: throw new ArgumentException($"Invalid target property: {property}", nameof(property));
+                default:
+                    ThrowHelper.ThrowArgumentException("Invalid target property");
+                    break;
             }
 
             return animation;
