@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -12,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// An opacity effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
-    public sealed class OpacityEffect : IPipelineEffect
+    public sealed class OpacityEffect : PipelineEffect
     {
         private double value = 1;
 
@@ -26,14 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         }
 
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Opacity((float)Value);
-        }
-
-        /// <inheritdoc/>
-        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
-        {
         }
     }
 }

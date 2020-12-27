@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -11,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A hue rotation effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.HueRotationEffect"/> effect</remarks>
-    public sealed class HueRotationEffect : IPipelineEffect
+    public sealed class HueRotationEffect : PipelineEffect
     {
         /// <summary>
         /// Gets or sets the angle to rotate the hue, in radians
@@ -19,14 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public double Angle { get; set; }
 
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.HueRotation((float)Angle);
-        }
-
-        /// <inheritdoc/>
-        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
-        {
         }
     }
 }

@@ -5,13 +5,20 @@
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Composition;
 
+#nullable enable
+
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// The base <see langword="interface"/> for all the builder effects to be used in a <see cref="PipelineBrush"/>
+    /// The base <see langword="interface"/> for all the builder effects to be used in a <see cref="CompositionBrush"/>.
     /// </summary>
     public interface IPipelineEffect
     {
+        /// <summary>
+        /// Gets the current <see cref="CompositionBrush"/> instance, if one is in use.
+        /// </summary>
+        CompositionBrush? Brush { get; }
+
         /// <summary>
         /// Appends the current effect to the input <see cref="PipelineBuilder"/> instance.
         /// </summary>
@@ -23,6 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         /// Notifies that a given <see cref="CompositionBrush"/> is now in use.
         /// </summary>
         /// <param name="brush">The <see cref="CompositionBrush"/> in use.</param>
-        internal void NotifyCompositionBrushInUse(CompositionBrush brush);
+        void NotifyCompositionBrushInUse(CompositionBrush brush);
     }
 }

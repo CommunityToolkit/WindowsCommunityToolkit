@@ -4,7 +4,8 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
-using Windows.UI.Composition;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -12,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// An exposure effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.ExposureEffect"/> effect</remarks>
-    public sealed class ExposureEffect : IPipelineEffect
+    public sealed class ExposureEffect : PipelineEffect
     {
         private double amount;
 
@@ -26,14 +27,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         }
 
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Exposure((float)Amount);
-        }
-
-        /// <inheritdoc/>
-        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
-        {
         }
     }
 }

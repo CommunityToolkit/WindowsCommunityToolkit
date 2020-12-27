@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -12,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A sepia effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SepiaEffect"/> effect</remarks>
-    public sealed class SepiaEffect : IPipelineEffect
+    public sealed class SepiaEffect : PipelineEffect
     {
         private double intensity = 0.5;
 
@@ -26,14 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         }
 
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Sepia((float)Intensity);
-        }
-
-        /// <inheritdoc/>
-        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
-        {
         }
     }
 }

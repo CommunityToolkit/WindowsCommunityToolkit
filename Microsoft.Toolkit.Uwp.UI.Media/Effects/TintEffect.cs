@@ -4,7 +4,6 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
@@ -12,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// A tint effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
-    public sealed class TintEffect : IPipelineEffect
+    public sealed class TintEffect : PipelineEffect
     {
         /// <summary>
         /// Gets or sets the int color to use
@@ -20,14 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         public Color Color { get; set; }
 
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Tint(Color);
-        }
-
-        /// <inheritdoc/>
-        void IPipelineEffect.NotifyCompositionBrushInUse(CompositionBrush brush)
-        {
         }
     }
 }
