@@ -18,9 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// A collection of animations that can be grouped together. This type represents a composite animation
     /// (such as <see cref="Windows.UI.Xaml.Media.Animation.Storyboard"/>) that can be executed on a given element.
     /// </summary>
-    [ContentProperty(Name = nameof(Animations))]
+    [ContentProperty(Name = nameof(Nodes))]
     public sealed class AnimationSet : DependencyObject
     {
+        /// <summary>
+        /// An interface representing a node in an <see cref="AnimationSet"/> instance.
+        /// </summary>
+        public interface INode
+        {
+        }
+
         /// <summary>
         /// Raised whenever the current animation is started.
         /// </summary>
@@ -32,9 +39,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public event EventHandler? Ended;
 
         /// <summary>
-        /// Gets or sets the list of animations in the current collection.
+        /// Gets or sets the list of nodes in the current collection.
         /// </summary>
-        public IList<ITimeline> Animations { get; set; } = new List<ITimeline>();
+        public IList<INode> Nodes { get; set; } = new List<INode>();
 
         /// <summary>
         /// Gets or sets a value indicating whether top level animation nodes in this collection are invoked
@@ -89,22 +96,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (IsSequential)
             {
-                foreach (ITimeline animation in Animations)
+                foreach (INode node in Nodes)
                 {
-                    var builder = AnimationBuilder.Create();
+                    if (node is ITimeline timeline)
+                    {
+                        var builder = AnimationBuilder.Create();
 
-                    animation.AppendToBuilder(builder);
+                        timeline.AppendToBuilder(builder);
 
-                    await builder.StartAsync(element);
+                        await builder.StartAsync(element);
+                    }
+                    else if (node is ITrigger trigger)
+                    {
+                        await trigger.InvokeAsync();
+                    }
                 }
             }
             else
             {
                 var builder = AnimationBuilder.Create();
 
-                foreach (ITimeline animation in Animations)
+                foreach (INode node in Nodes)
                 {
-                    builder = animation.AppendToBuilder(builder);
+                    switch (node)
+                    {
+                        case ITimeline timeline:
+                            builder = timeline.AppendToBuilder(builder);
+                            break;
+                        case ITrigger trigger:
+                            _ = trigger.InvokeAsync();
+                            break;
+                    }
                 }
 
                 await builder.StartAsync(element);

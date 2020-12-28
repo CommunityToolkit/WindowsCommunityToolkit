@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// An interface representing a XAML model for a custom animation.
     /// </summary>
-    public interface ITimeline
+    public interface ITimeline : AnimationSet.INode
     {
         /// <summary>
         /// Appens the current animation to a target <see cref="AnimationBuilder"/> instance.
