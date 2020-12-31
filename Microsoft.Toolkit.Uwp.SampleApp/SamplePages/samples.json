@@ -462,13 +462,12 @@
     "Samples": [
       {
         "Name": "Fade",
-        "Type": "FadeBehaviorPage",
-        "Subcategory": "Behavior",
-        "About": "Opacity of XAML elements using composition",
+        "Subcategory": "Effect",
+        "About": "Opacity of XAML elements using composition animations",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "FadeBehaviorCode.bind",
-        "XamlCodeFile": "FadeBehaviorXaml.bind",
-        "Icon": "/SamplePages/Fade/FadeBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Effects/FadeBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Effects/FadeBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Effects/FadeBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
