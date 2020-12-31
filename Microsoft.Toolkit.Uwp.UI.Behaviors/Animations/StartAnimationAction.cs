@@ -37,7 +37,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         {
             Guard.IsNotNull(Animation, nameof(Animation));
 
-            Animation.Start();
+            if (sender is UIElement element)
+            {
+                Animation.Start(element);
+            }
+            else
+            {
+                Animation.Start();
+            }
 
             return null!;
         }
