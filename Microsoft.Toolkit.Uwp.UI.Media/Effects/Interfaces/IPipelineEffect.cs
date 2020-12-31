@@ -7,7 +7,7 @@ using Windows.UI.Composition;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// The base <see langword="interface"/> for all the builder effects to be used in a <see cref="CompositionBrush"/>.

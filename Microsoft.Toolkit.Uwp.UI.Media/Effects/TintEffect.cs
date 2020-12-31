@@ -7,7 +7,7 @@ using Windows.UI;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A tint effect

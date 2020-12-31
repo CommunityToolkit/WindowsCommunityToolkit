@@ -10,6 +10,13 @@ using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Windows.Graphics.Effects;
 using Windows.UI;
 using Windows.UI.Composition;
+using CanvasCrossFadeEffect = Microsoft.Graphics.Canvas.Effects.CrossFadeEffect;
+using CanvasExposureEffect = Microsoft.Graphics.Canvas.Effects.ExposureEffect;
+using CanvasHueRotationEffect = Microsoft.Graphics.Canvas.Effects.HueRotationEffect;
+using CanvasOpacityEffect = Microsoft.Graphics.Canvas.Effects.OpacityEffect;
+using CanvasSaturationEffect = Microsoft.Graphics.Canvas.Effects.SaturationEffect;
+using CanvasSepiaEffect = Microsoft.Graphics.Canvas.Effects.SepiaEffect;
+using CanvasTintEffect = Microsoft.Graphics.Canvas.Effects.TintEffect;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
@@ -50,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// Cross fades two pipelines using an <see cref="CanvasCrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
         /// <param name="factor">The cross fade factor to blend the input effects (should be in the [0, 1] range)</param>
@@ -61,9 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(CrossFadeEffect.CrossFade)}";
+            target = $"{id}.{nameof(CanvasCrossFadeEffect.CrossFade)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasCrossFadeEffect
             {
                 CrossFade = factor,
                 Source1 = await this.sourceProducer(),
@@ -85,9 +92,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(ExposureEffect.Exposure)}";
+            target = $"{id}.{nameof(CanvasExposureEffect.Exposure)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new ExposureEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasExposureEffect
             {
                 Exposure = amount,
                 Source = await this.sourceProducer(),
@@ -108,9 +115,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(HueRotationEffect.Angle)}";
+            target = $"{id}.{nameof(CanvasHueRotationEffect.Angle)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new HueRotationEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasHueRotationEffect
             {
                 Angle = angle,
                 Source = await this.sourceProducer(),
@@ -121,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Adds a new <see cref="OpacityEffect"/> to the current pipeline
+        /// Adds a new <see cref="CanvasOpacityEffect"/> to the current pipeline
         /// </summary>
         /// <param name="opacity">The opacity value to apply to the pipeline</param>
         /// <param name="target">The target property to animate the resulting effect.</param>
@@ -131,9 +138,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(OpacityEffect.Opacity)}";
+            target = $"{id}.{nameof(CanvasOpacityEffect.Opacity)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new OpacityEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasOpacityEffect
             {
                 Opacity = opacity,
                 Source = await this.sourceProducer(),
@@ -144,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Adds a new <see cref="SaturationEffect"/> to the current pipeline
+        /// Adds a new <see cref="CanvasSaturationEffect"/> to the current pipeline
         /// </summary>
         /// <param name="saturation">The initial saturation amount for the new effect (should be in the [0, 1] range)</param>
         /// <param name="target">The target property to animate the resulting effect.</param>
@@ -154,9 +161,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(SaturationEffect.Saturation)}";
+            target = $"{id}.{nameof(CanvasSaturationEffect.Saturation)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new SaturationEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasSaturationEffect
             {
                 Saturation = saturation,
                 Source = await this.sourceProducer(),
@@ -167,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Adds a new <see cref="SepiaEffect"/> to the current pipeline
+        /// Adds a new <see cref="CanvasSepiaEffect"/> to the current pipeline
         /// </summary>
         /// <param name="intensity">The sepia effect intensity for the new effect</param>
         /// <param name="target">The target property to animate the resulting effect.</param>
@@ -177,9 +184,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(SepiaEffect.Intensity)}";
+            target = $"{id}.{nameof(CanvasSepiaEffect.Intensity)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new SepiaEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasSepiaEffect
             {
                 Intensity = intensity,
                 Source = await this.sourceProducer(),
@@ -200,9 +207,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            target = $"{id}.{nameof(TintEffect.Color)}";
+            target = $"{id}.{nameof(CanvasTintEffect.Color)}";
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new TintEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasTintEffect
             {
                 Color = color,
                 Source = await this.sourceProducer(),

@@ -6,7 +6,7 @@ using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An effect that overlays a color layer over the current builder, with a specified intensity
