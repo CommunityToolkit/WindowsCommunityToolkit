@@ -5,7 +5,7 @@
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An effect animation that targets <see cref="TintEffect.Color"/>.

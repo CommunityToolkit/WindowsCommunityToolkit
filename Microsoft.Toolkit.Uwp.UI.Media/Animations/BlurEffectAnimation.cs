@@ -4,7 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An effect animation that targets <see cref="BlurEffect.Amount"/>.
