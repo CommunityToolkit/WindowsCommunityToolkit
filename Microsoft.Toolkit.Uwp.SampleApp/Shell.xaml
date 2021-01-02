@@ -7,9 +7,8 @@
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:winui="using:Microsoft.UI.Xaml.Controls"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
-      xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
+      xmlns:winui="using:Microsoft.UI.Xaml.Controls"
       extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
@@ -58,15 +57,19 @@
                             Tapped="ContentShadow_Tapped"
                             Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
                         <media:UIElementExtensions.VisualFactory>
-                            <media:PipelineVisualFactory Source="{effects:BackdropSource}">
-                                <effects:BlurEffect Amount="8"/>
+                            <media:PipelineVisualFactory Source="{media:BackdropSource}">
+                                <media:BlurEffect Amount="8" />
                             </media:PipelineVisualFactory>
                         </media:UIElementExtensions.VisualFactory>
                         <animations:Implicit.ShowAnimations>
-                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
+                            <animations:OpacityAnimation From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.3" />
                         </animations:Implicit.ShowAnimations>
                         <animations:Implicit.HideAnimations>
-                            <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2" />
+                            <animations:OpacityAnimation From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.2" />
                         </animations:Implicit.HideAnimations>
                     </Border>
 
@@ -106,16 +109,27 @@
                                 </GroupStyle>
                             </GridView.GroupStyle>
                             <animations:Implicit.ShowAnimations>
-                                <animations:OpacityAnimation From="0" To="1" Delay="0:0:0.2" Duration="0:0:0.3" />
+                                <animations:OpacityAnimation Delay="0:0:0.2"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.3" />
                             </animations:Implicit.ShowAnimations>
                         </GridView>
                         <animations:Implicit.ShowAnimations>
-                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
-                            <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3" />
+                            <animations:OpacityAnimation From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.3" />
+                            <animations:TranslationAnimation From="0, -1000, 0"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
                         </animations:Implicit.ShowAnimations>
                         <animations:Implicit.HideAnimations>
-                            <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5" />
-                            <animations:TranslationAnimation From="0" To="0, -1000, 0" Duration="0:0:0.5" />
+                            <animations:OpacityAnimation From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.5" />
+                            <animations:TranslationAnimation From="0"
+                                                             To="0, -1000, 0"
+                                                             Duration="0:0:0.5" />
                         </animations:Implicit.HideAnimations>
                     </Grid>
 
@@ -142,8 +156,8 @@
                         <Border Background="{ThemeResource Menu-DropDown-Background}"
                                 Opacity="0.96">
                             <media:UIElementExtensions.VisualFactory>
-                                <media:PipelineVisualFactory Source="{effects:BackdropSource}">
-                                    <effects:BlurEffect Amount="8"/>
+                                <media:PipelineVisualFactory Source="{media:BackdropSource}">
+                                    <media:BlurEffect Amount="8" />
                                 </media:PipelineVisualFactory>
                             </media:UIElementExtensions.VisualFactory>
                         </Border>
@@ -186,29 +200,50 @@
                                            Foreground="{ThemeResource Brush-Main}"
                                            Text="{Binding BadgeUpdateVersionRequired}" />
                                 <animations:Implicit.HideAnimations>
-                                    <animations:OpacityAnimation To="0" Duration="0:0:0.01" />
+                                    <animations:OpacityAnimation To="0"
+                                                                 Duration="0:0:0.01" />
                                 </animations:Implicit.HideAnimations>
                                 <animations:Implicit.ShowAnimations>
-                                    <animations:OpacityAnimation Delay="0:0:0.2" From="0" To="1" Duration="0:0:0.4" />
-                                    <animations:TranslationAnimation Delay="0:0:0.2" From="0, 20, 0" To="0" Duration="0:0:0.3" />
+                                    <animations:OpacityAnimation Delay="0:0:0.2"
+                                                                 From="0"
+                                                                 To="1"
+                                                                 Duration="0:0:0.4" />
+                                    <animations:TranslationAnimation Delay="0:0:0.2"
+                                                                     From="0, 20, 0"
+                                                                     To="0"
+                                                                     Duration="0:0:0.3" />
                                 </animations:Implicit.ShowAnimations>
                             </Border>
 
                             <animations:Implicit.ShowAnimations>
-                                <animations:OpacityAnimation Delay="0:0:0.2" From="0" To="1" Duration="0:0:0.4" />
-                                <animations:TranslationAnimation Delay="0:0:0.2" From="0, 20, 0" To="0" Duration="0:0:0.3" />
+                                <animations:OpacityAnimation Delay="0:0:0.2"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.4" />
+                                <animations:TranslationAnimation Delay="0:0:0.2"
+                                                                 From="0, 20, 0"
+                                                                 To="0"
+                                                                 Duration="0:0:0.3" />
                             </animations:Implicit.ShowAnimations>
                         </StackPanel>
                     </Grid>
                 </Grid>
 
                 <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
-                    <animations:ScaleAnimation From="0.5" To="1" Duration="0:0:0.3" />
+                    <animations:OpacityAnimation From="0"
+                                                 To="1"
+                                                 Duration="0:0:0.3" />
+                    <animations:ScaleAnimation From="0.5"
+                                               To="1"
+                                               Duration="0:0:0.3" />
                 </animations:Implicit.ShowAnimations>
                 <animations:Implicit.HideAnimations>
-                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2" />
-                    <animations:ScaleAnimation From="1" To="0.5" Duration="0:0:0.2" />
+                    <animations:OpacityAnimation From="1"
+                                                 To="0"
+                                                 Duration="0:0:0.2" />
+                    <animations:ScaleAnimation From="1"
+                                               To="0.5"
+                                               Duration="0:0:0.2" />
                 </animations:Implicit.HideAnimations>
             </Grid>
         </Canvas>

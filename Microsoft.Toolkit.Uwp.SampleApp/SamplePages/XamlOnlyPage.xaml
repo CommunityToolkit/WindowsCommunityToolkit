@@ -4,8 +4,6 @@
       xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:anibehaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors.Animations"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
-      xmlns:mani="using:Microsoft.Toolkit.Uwp.UI.Media.Animations"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
       xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
@@ -30,12 +28,12 @@
         <ani:Explicit.Animations>
             <ani:AnimationSet x:Name="AnimationSet">
                 <ani:OpacityAnimation />
-                <mani:BlurEffectAnimation />
+                <ani:BlurEffectAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>
             <media:PipelineVisualFactory>
-                <effects:OpacityEffect />
+                <media:OpacityEffect />
             </media:PipelineVisualFactory>
         </media:UIElementExtensions.VisualFactory>
     </Grid>
