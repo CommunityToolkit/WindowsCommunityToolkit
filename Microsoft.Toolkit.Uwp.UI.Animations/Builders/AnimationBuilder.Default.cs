@@ -780,7 +780,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (layer == FrameworkLayer.Composition)
             {
-                AddCompositionAnimationFactory(Properties.Composition.SizeXY(), to, from, delay, duration, easingType, easingMode);
+                AddCompositionAnimationFactory(Properties.Composition.Size(), to, from, delay, duration, easingType, easingMode);
             }
             else
             {
@@ -789,28 +789,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return this;
-        }
-
-        /// <summary>
-        /// Adds a new composition size translation animation for all axes to the current schedule.
-        /// </summary>
-        /// <param name="to">The final point for the animation.</param>
-        /// <param name="from">The optional starting point for the animation.</param>
-        /// <param name="delay">The optional initial delay for the animation.</param>
-        /// <param name="duration">The optional animation duration.</param>
-        /// <param name="easingType">The optional easing function type for the animation.</param>
-        /// <param name="easingMode">The optional easing function mode for the animation.</param>
-        /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
-        /// <remarks>This animation is only available on the composition layer.</remarks>
-        public AnimationBuilder Size(
-            Vector3 to,
-            Vector3? from = null,
-            TimeSpan? delay = null,
-            TimeSpan? duration = null,
-            EasingType easingType = DefaultEasingType,
-            EasingMode easingMode = DefaultEasingMode)
-        {
-            return AddCompositionAnimationFactory(nameof(Visual.Size), to, from, delay, duration, easingType, easingMode);
         }
     }
 }

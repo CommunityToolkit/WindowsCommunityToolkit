@@ -221,6 +221,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 };
 
                 /// <summary>
+                /// Gets the "Size" constant.
+                /// </summary>
+                /// <returns>The animation property.</returns>
+                [Pure]
+                public static string Size() => "Size";
+
+                /// <summary>
                 /// Gets the path for a <see cref="Visual.Size"/> axis.
                 /// </summary>
                 /// <param name="axis">The target axis.</param>
@@ -233,13 +240,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                     Axis.Z => "Size.Z",
                     _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
                 };
-
-                /// <summary>
-                /// Gets the "Size.XY" constant.
-                /// </summary>
-                /// <returns>The animation property.</returns>
-                [Pure]
-                public static string SizeXY() => "Size.XY";
             }
 
             /// <summary>

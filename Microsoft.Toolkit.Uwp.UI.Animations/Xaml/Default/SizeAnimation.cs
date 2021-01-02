@@ -11,15 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A size animation working on the composition or layer.
     /// </summary>
-    public sealed class SizeAnimation : ImplicitAnimation<string, Vector3>
+    public sealed class SizeAnimation : ImplicitAnimation<string, Vector2>
     {
         /// <inheritdoc/>
         protected override string ExplicitTarget => nameof(Visual.Size);
 
         /// <inheritdoc/>
-        protected override (Vector3?, Vector3?) GetParsedValues()
+        protected override (Vector2?, Vector2?) GetParsedValues()
         {
-            return (To?.ToVector3(), From?.ToVector3());
+            return (To?.ToVector2(), From?.ToVector2());
         }
     }
 }

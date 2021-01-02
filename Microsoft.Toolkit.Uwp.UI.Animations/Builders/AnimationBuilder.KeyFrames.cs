@@ -222,9 +222,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <returns>An <see cref="IPropertyAnimationBuilder{T}"/> instance to configure the animation.</returns>
         /// <remarks>This animation is only available on the composition layer.</remarks>
-        public IPropertyAnimationBuilder<Vector3> Size()
+        public IPropertyAnimationBuilder<Vector2> Size()
         {
-            return new PropertyAnimationBuilder<Vector3>(this, nameof(Visual.Size), FrameworkLayer.Composition);
+            return new PropertyAnimationBuilder<Vector2>(this, nameof(Visual.Size), FrameworkLayer.Composition);
         }
 
         /// <summary>
