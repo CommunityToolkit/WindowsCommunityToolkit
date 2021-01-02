@@ -27,8 +27,9 @@
     <Grid>
         <ani:Explicit.Animations>
             <ani:AnimationSet x:Name="AnimationSet">
-                <ani:OpacityAnimation />
                 <ani:BlurEffectAnimation />
+                <ani:OpacityAnimation />
+                <ani:StartAnimationActivity />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>

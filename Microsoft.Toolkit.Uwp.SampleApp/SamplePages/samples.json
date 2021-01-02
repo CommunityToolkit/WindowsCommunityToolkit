@@ -461,6 +461,14 @@
     "Icon": "Icons/Animations.png",
     "Samples": [
       {
+        "Name": "StartAnimationActivity",
+        "Subcategory": "Activities",
+        "About": "Activity for Animations to Start another Animation",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Xaml/Activities",
+        "XamlCodeFile": "/SamplePages/Animations/Activities/StartAnimationActivity.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
+      },
+      {
         "Name": "Fade",
         "Subcategory": "Effect",
         "About": "Opacity of XAML elements using composition animations",

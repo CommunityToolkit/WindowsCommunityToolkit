@@ -1,18 +1,17 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using Microsoft.Toolkit.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Xaml.Interactivity;
+﻿using Microsoft.Toolkit.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// An <see cref="IAction"/> implementation that can trigger a target <see cref="AnimationSet"/> instance.
+    /// <see cref="IActivity"/> which Starts the provided <see cref="Animation"/> when invoked.
     /// </summary>
-    public sealed class StartAnimationAction : DependencyObject, IAction
+    public class StartAnimationActivity : Activity
     {
         /// <summary>
         /// Gets or sets the linked <see cref="AnimationSet"/> instance to invoke.
@@ -29,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
             "Animation",
             typeof(AnimationSet),
-            typeof(StartAnimationAction),
+            typeof(StartAnimationActivity),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -48,20 +47,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
             DependencyProperty.Register(nameof(TargetObject), typeof(UIElement), typeof(StartAnimationActivity), new PropertyMetadata(null));
 
         /// <inheritdoc/>
-        public object Execute(object sender, object parameter)
+        public override async Task InvokeAsync(UIElement element)
         {
             Guard.IsNotNull(Animation, nameof(Animation));
 
+            await base.InvokeAsync(element);
+
+            // If we've specified an explicit target for the Animation, use that
             if (TargetObject is not null)
             {
-                Animation.Start(TargetObject);
+                await Animation.StartAsync(TargetObject);
             }
+            //// Otherwise see if the Animation has any context, and if not, we'll run it in our own context
+            else if (Animation.ParentReference is null)
+            {
+                await Animation.StartAsync(element);
+            }
+            //// Otherwise use the Animation's context (usually parent)
             else
             {
-                Animation.Start();
+                await Animation.StartAsync();
             }
-
-            return null!;
         }
     }
 }

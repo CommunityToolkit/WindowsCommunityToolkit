@@ -590,6 +590,7 @@
     <Content Include="SamplePages\ColorPicker\ColorPickerButtonXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\FadeBehaviorCode.bind" />
     <Content Include="SamplePages\Animations\Effects\FadeBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Activities\StartAnimationActivity.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

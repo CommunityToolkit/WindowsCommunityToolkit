@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public interface IImplicitTimeline
     {
         /// <summary>
-        /// Gets a <see cref="CompositionAnimation"/> from the currnet node. This animation might
+        /// Gets a <see cref="CompositionAnimation"/> from the current node. This animation might
         /// be used either as an implicit show/hide animation, or as a direct implicit animation.
         /// </summary>
         /// <param name="element">The target <see cref="UIElement"/> the animation will be applied to.</param>
