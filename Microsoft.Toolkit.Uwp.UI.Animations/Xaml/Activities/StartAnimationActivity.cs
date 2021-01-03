@@ -1,9 +1,9 @@
-﻿using Microsoft.Toolkit.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <seealso cref="Animation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
-            "Animation",
+            nameof(Animation),
             typeof(AnimationSet),
             typeof(StartAnimationActivity),
             new PropertyMetadata(null));
@@ -43,8 +43,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Identifies the <seealso cref="TargetObject"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TargetObjectProperty =
-            DependencyProperty.Register(nameof(TargetObject), typeof(UIElement), typeof(StartAnimationActivity), new PropertyMetadata(null));
+        public static readonly DependencyProperty TargetObjectProperty = DependencyProperty.Register(
+            nameof(TargetObject),
+            typeof(UIElement),
+            typeof(StartAnimationActivity),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public override async Task InvokeAsync(UIElement element)
@@ -53,17 +56,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             await base.InvokeAsync(element);
 
-            // If we've specified an explicit target for the Animation, use that
+            // If we've specified an explicit target for the animation, we can use that. Otherwise, we can
+            // check whether the target animation has an implicit parent. If that's the case, we will use
+            // that to invoke the animation, or just use the input (usually the parent) as fallback.
             if (TargetObject is not null)
             {
                 await Animation.StartAsync(TargetObject);
             }
-            //// Otherwise see if the Animation has any context, and if not, we'll run it in our own context
             else if (Animation.ParentReference is null)
             {
                 await Animation.StartAsync(element);
             }
-            //// Otherwise use the Animation's context (usually parent)
             else
             {
                 await Animation.StartAsync();

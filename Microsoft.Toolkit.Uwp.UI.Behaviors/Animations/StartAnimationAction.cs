@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         /// Identifies the <seealso cref="Animation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
-            "Animation",
+            nameof(Animation),
             typeof(AnimationSet),
             typeof(StartAnimationAction),
             new PropertyMetadata(null));
@@ -37,15 +37,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
         /// </summary>
         public UIElement TargetObject
         {
-            get { return (UIElement)GetValue(TargetObjectProperty); }
-            set { SetValue(TargetObjectProperty, value); }
+            get => (UIElement)GetValue(TargetObjectProperty);
+            set => SetValue(TargetObjectProperty, value);
         }
 
         /// <summary>
         /// Identifies the <seealso cref="TargetObject"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TargetObjectProperty =
-            DependencyProperty.Register(nameof(TargetObject), typeof(UIElement), typeof(StartAnimationActivity), new PropertyMetadata(null));
+        public static readonly DependencyProperty TargetObjectProperty = DependencyProperty.Register(
+            nameof(TargetObject),
+            typeof(UIElement),
+            typeof(StartAnimationActivity),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public object Execute(object sender, object parameter)

@@ -106,9 +106,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                         await builder.StartAsync(element);
                     }
-                    else if (node is IActivity trigger)
+                    else if (node is IActivity activity)
                     {
-                        await trigger.InvokeAsync(element);
+                        await activity.InvokeAsync(element);
                     }
                 }
             }
@@ -123,8 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         case ITimeline timeline:
                             builder = timeline.AppendToBuilder(builder);
                             break;
-                        case IActivity trigger:
-                            _ = trigger.InvokeAsync(element);
+                        case IActivity activity:
+                            _ = activity.InvokeAsync(element);
                             break;
                     }
                 }
