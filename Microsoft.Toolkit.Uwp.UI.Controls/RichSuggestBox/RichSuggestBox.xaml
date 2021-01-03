@@ -1,0 +1,110 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
+    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
+    xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush x:Key="DefaultSuggestionForeground" Color="DodgerBlue" />
+            <SolidColorBrush x:Key="DefaultSuggestionBackground" Color="#FF21303A" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="DefaultSuggestionForeground" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="DefaultSuggestionBackground" Color="{ThemeResource SystemColorButtonFaceColor}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="DefaultSuggestionForeground" Color="DarkSlateBlue" />
+            <SolidColorBrush x:Key="DefaultSuggestionBackground" Color="#e8f5fb" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <controls:PlainTextCommandBarFlyout x:Key="SuppressedTextCommandBarFlyout" />
+
+    <Style x:Key="DefaultRichEditBoxStyle" TargetType="RichEditBox" />
+
+    <Style TargetType="controls:RichSuggestBox">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
+        <Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+        <Setter Property="SuggestionForeground" Value="{ThemeResource DefaultSuggestionForeground}" />
+        <Setter Property="SuggestionBackground" Value="{ThemeResource DefaultSuggestionBackground}" />
+        <Setter Property="RichEditBoxStyle" Value="{StaticResource DefaultRichEditBoxStyle}" />
+        <contract6Present:Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+        <contract7Present:Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+        <contract7Present:Setter Property="ContextFlyout" Value="{StaticResource SuppressedTextCommandBarFlyout}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:RichSuggestBox">
+                    <Grid x:Name="LayoutRoot">
+                        <RichEditBox x:Name="RichEditBox"
+                                     Style="{TemplateBinding RichEditBoxStyle}"
+                                     PlaceholderText="{TemplateBinding PlaceholderText}"
+                                     Header="{TemplateBinding Header}"
+                                     Width="{TemplateBinding Width}"
+                                     contract7Present:Description="{TemplateBinding Description}"
+                                     Foreground="{TemplateBinding Foreground}"
+                                     Background="{TemplateBinding Background}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     FontSize="{TemplateBinding FontSize}"
+                                     FontFamily="{TemplateBinding FontFamily}"
+                                     FontWeight="{TemplateBinding FontWeight}"
+                                     FontStretch="{TemplateBinding FontStretch}"
+                                     TextWrapping="{TemplateBinding TextWrapping}"
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     ScrollViewer.BringIntoViewOnFocusChange="False"
+                                     Canvas.ZIndex="0"
+                                     Margin="0"
+                                     DesiredCandidateWindowAlignment="BottomEdge"
+                                     DisabledFormattingAccelerators="All"
+                                     ClipboardCopyFormat="{TemplateBinding ClipboardCopyFormat}"
+                                     ContextFlyout="{TemplateBinding ContextFlyout}"
+                                     contract7Present:SelectionFlyout="{x:Null}"
+                                     UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}"
+                                     contract7Present:CornerRadius="{TemplateBinding CornerRadius}"/>
+
+                        <Popup x:Name="SuggestionsPopup"
+                               contract8Present:ShouldConstrainToRootBounds="False">
+                            <Border x:Name="SuggestionsContainer"
+                                    Padding="{ThemeResource AutoSuggestListMargin}"
+                                    BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+                                    BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
+                                    Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
+                                    CornerRadius="{ThemeResource OverlayCornerRadius}">
+                                <Border.RenderTransform>
+                                    <contract7NotPresent:TranslateTransform x:Name="UpwardTransform" />
+                                </Border.RenderTransform>
+                                <ListView
+                                    x:Name="SuggestionsList"
+                                    DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                    IsItemClickEnabled="True"
+                                    ItemsSource="{TemplateBinding ItemsSource}"
+                                    ItemTemplate="{TemplateBinding ItemTemplate}"
+                                    ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                    MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                    Margin="{ThemeResource AutoSuggestListPadding}">
+                                    <ListView.ItemContainerTransitions>
+                                        <contract7NotPresent:TransitionCollection />
+                                    </ListView.ItemContainerTransitions>
+                                </ListView>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
