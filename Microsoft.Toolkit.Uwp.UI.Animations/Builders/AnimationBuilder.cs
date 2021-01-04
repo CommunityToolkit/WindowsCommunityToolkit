@@ -4,7 +4,9 @@
 
 #nullable enable
 
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -97,6 +99,73 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Starts the animations present in the current <see cref="AnimationBuilder"/> instance, and
+        /// registers a given cancellation token to stop running animations before they complete.
+        /// </summary>
+        /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
+        /// <param name="token">The cancellation token to stop animations while they're running.</param>
+        public void Start(UIElement element, CancellationToken token)
+        {
+            List<(CompositionObject Target, string Path)>? compositionAnimations = null;
+
+            if (this.compositionAnimationFactories.Count > 0)
+            {
+                compositionAnimations = new List<(CompositionObject Target, string Path)>(this.compositionAnimationFactories.Count);
+
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+                Visual visual = ElementCompositionPreview.GetElementVisual(element);
+
+                foreach (var factory in this.compositionAnimationFactories)
+                {
+                    var animation = factory.GetAnimation(visual, out var target);
+
+                    if (target is null)
+                    {
+                        visual.StartAnimation(animation.Target, animation);
+                    }
+                    else
+                    {
+                        target.StartAnimation(animation.Target, animation);
+                    }
+
+                    compositionAnimations.Add((target ?? visual, animation.Target));
+                }
+            }
+
+            Storyboard? storyboard = null;
+
+            if (this.xamlAnimationFactories.Count > 0)
+            {
+                storyboard = new Storyboard();
+
+                foreach (var factory in this.xamlAnimationFactories)
+                {
+                    storyboard.Children.Add(factory.GetAnimation(element));
+                }
+
+                storyboard.Begin();
+            }
+
+            static void Stop(object state)
+            {
+                (List<(CompositionObject Target, string Path)>? animations, Storyboard? storyboard) = ((List<(CompositionObject, string)>?, Storyboard?))state;
+
+                if (animations is not null)
+                {
+                    foreach (var (target, path) in animations)
+                    {
+                        target.StopAnimation(path);
+                    }
+                }
+
+                storyboard?.Stop();
+            }
+
+            token.Register(static obj => Stop(obj), (compositionAnimations, storyboard));
+        }
+
+        /// <summary>
         /// Starts the animations present in the current <see cref="AnimationBuilder"/> instance.
         /// </summary>
         /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
@@ -151,6 +220,92 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 xamlTask = taskCompletionSource.Task;
             }
+
+            return Task.WhenAll(compositionTask, xamlTask);
+        }
+
+        /// <summary>
+        /// Starts the animations present in the current <see cref="AnimationBuilder"/> instance, and
+        /// registers a given cancellation token to stop running animations before they complete.
+        /// </summary>
+        /// <param name="element">The target <see cref="UIElement"/> to animate.</param>
+        /// <param name="token">The cancellation token to stop animations while they're running.</param>
+        /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+        public Task StartAsync(UIElement element, CancellationToken token)
+        {
+            Task
+                compositionTask = Task.CompletedTask,
+                xamlTask = Task.CompletedTask;
+            List<(CompositionObject Target, string Path)>? compositionAnimations = null;
+
+            if (this.compositionAnimationFactories.Count > 0)
+            {
+                compositionAnimations = new List<(CompositionObject Target, string Path)>(this.compositionAnimationFactories.Count);
+
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+                Visual visual = ElementCompositionPreview.GetElementVisual(element);
+                CompositionScopedBatch batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+                TaskCompletionSource<object?> taskCompletionSource = new();
+
+                batch.Completed += (_, _) => taskCompletionSource.SetResult(null);
+
+                foreach (var factory in this.compositionAnimationFactories)
+                {
+                    var animation = factory.GetAnimation(visual, out var target);
+
+                    if (target is null)
+                    {
+                        visual.StartAnimation(animation.Target, animation);
+                    }
+                    else
+                    {
+                        target.StartAnimation(animation.Target, animation);
+                    }
+
+                    compositionAnimations.Add((target ?? visual, animation.Target));
+                }
+
+                batch.End();
+
+                compositionTask = taskCompletionSource.Task;
+            }
+
+            Storyboard? storyboard = null;
+
+            if (this.xamlAnimationFactories.Count > 0)
+            {
+                storyboard = new Storyboard();
+
+                TaskCompletionSource<object?> taskCompletionSource = new();
+
+                foreach (var factory in this.xamlAnimationFactories)
+                {
+                    storyboard.Children.Add(factory.GetAnimation(element));
+                }
+
+                storyboard.Completed += (_, _) => taskCompletionSource.SetResult(null);
+                storyboard.Begin();
+
+                xamlTask = taskCompletionSource.Task;
+            }
+
+            static void Stop(object state)
+            {
+                (List<(CompositionObject Target, string Path)>? animations, Storyboard? storyboard) = ((List<(CompositionObject, string)>?, Storyboard?))state;
+
+                if (animations is not null)
+                {
+                    foreach (var (target, path) in animations)
+                    {
+                        target.StopAnimation(path);
+                    }
+                }
+
+                storyboard?.Stop();
+            }
+
+            token.Register(static obj => Stop(obj), (compositionAnimations, storyboard));
 
             return Task.WhenAll(compositionTask, xamlTask);
         }
