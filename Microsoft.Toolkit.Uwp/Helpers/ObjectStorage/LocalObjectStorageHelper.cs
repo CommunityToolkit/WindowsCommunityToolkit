@@ -14,7 +14,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalObjectStorageHelper"/> class,
         /// which can read and write data using the provided <see cref="IObjectSerializer"/>;
-        /// if none is provided, a default Json serializer will be used.
+        /// if none is provided, a default Json serializer will be used (based on <see cref="DataContractSerializer"/>).
+        /// In 6.1 and older the defualt Serizlizer was based on Newtownsoft Json and the new default Serizlizer may behave diffrenly.
+        /// To implement a <see cref="IObjectSerializer"/> based on Newtonsoft Json or System.Text.Json see https://aka.ms/wct/storagehelper-migration
         /// </summary>
         /// <param name="objectSerializer">The serializer to use.</param>
         public LocalObjectStorageHelper(IObjectSerializer objectSerializer = null)
