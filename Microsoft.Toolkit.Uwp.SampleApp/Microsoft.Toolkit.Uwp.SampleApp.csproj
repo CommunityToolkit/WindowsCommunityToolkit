@@ -124,9 +124,6 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="System.Text.Json">
-      <Version>4.7.2</Version>
-    </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
     </PackageReference>
