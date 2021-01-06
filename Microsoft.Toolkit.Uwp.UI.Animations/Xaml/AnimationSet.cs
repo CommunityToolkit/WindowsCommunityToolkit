@@ -143,7 +143,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     }
                     else if (node is IActivity activity)
                     {
-                        await activity.InvokeAsync(element, token);
+                        try
+                        {
+                            // Unlike with animations, activities can potentially throw if they execute
+                            // an await operation on a task that was linked to a cancellation token. For
+                            // instance, this is the case for the await operation for the initial delay,
+                            // and the same can apply to 3rd party activities that would just integrate
+                            // the input token into their logic. We can just catch these exceptions and
+                            // stop the sequential execution immediately from the handler.
+                            await activity.InvokeAsync(element, token);
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            break;
+                        }
                     }
                 }
             }
