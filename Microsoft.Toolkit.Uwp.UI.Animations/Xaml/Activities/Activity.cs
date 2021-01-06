@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
@@ -19,11 +20,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan? Delay { get; set; }
 
         /// <inheritdoc/>
-        public virtual Task InvokeAsync(UIElement element)
+        public virtual Task InvokeAsync(UIElement element, CancellationToken token)
         {
             if (Delay is not null)
             {
-                return Task.Delay(Delay.Value);
+                return Task.Delay(Delay.Value, token);
             }
 
             return Task.CompletedTask;

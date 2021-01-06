@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
@@ -36,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public UIElement TargetObject
         {
-            get { return (UIElement)GetValue(TargetObjectProperty); }
-            set { SetValue(TargetObjectProperty, value); }
+            get => (UIElement)GetValue(TargetObjectProperty);
+            set => SetValue(TargetObjectProperty, value);
         }
 
         /// <summary>
@@ -50,26 +51,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             new PropertyMetadata(null));
 
         /// <inheritdoc/>
-        public override async Task InvokeAsync(UIElement element)
+        public override async Task InvokeAsync(UIElement element, CancellationToken token)
         {
             Guard.IsNotNull(Animation, nameof(Animation));
 
-            await base.InvokeAsync(element);
+            await base.InvokeAsync(element, token);
 
             // If we've specified an explicit target for the animation, we can use that. Otherwise, we can
             // check whether the target animation has an implicit parent. If that's the case, we will use
             // that to invoke the animation, or just use the input (usually the parent) as fallback.
             if (TargetObject is not null)
             {
-                await Animation.StartAsync(TargetObject);
+                await Animation.StartAsync(TargetObject, token);
             }
             else if (Animation.ParentReference is null)
             {
-                await Animation.StartAsync(element);
+                await Animation.StartAsync(element, token);
             }
             else
             {
-                await Animation.StartAsync();
+                await Animation.StartAsync(token);
             }
         }
     }

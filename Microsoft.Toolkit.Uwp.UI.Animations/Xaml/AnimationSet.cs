@@ -7,6 +7,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
@@ -22,11 +24,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed class AnimationSet : DependencyObject
     {
         /// <summary>
-        /// An interface representing a node in an <see cref="AnimationSet"/> instance.
+        /// A conditional weak table storing <see cref="CancellationTokenSource"/> instances associated with animations
+        /// that have been started from the current set. This can be used to defer stopping running animations for any
+        /// target <see cref="UIElement"/> instance that originated from the current <see cref="AnimationSet"/>.
         /// </summary>
-        public interface INode
-        {
-        }
+        private readonly ConditionalWeakTable<UIElement, CancellationTokenSource> cancellationTokenMap = new();
 
         /// <summary>
         /// Raised whenever the current animation is started.
@@ -37,6 +39,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Raised whenever the current animation ends.
         /// </summary>
         public event EventHandler? Ended;
+
+        /// <summary>
+        /// An interface representing a node in an <see cref="AnimationSet"/> instance.
+        /// </summary>
+        public interface INode
+        {
+        }
 
         /// <summary>
         /// Gets or sets the list of nodes in the current collection.
@@ -67,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         internal WeakReference<UIElement>? ParentReference { get; set; }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        /// <exception cref="InvalidOperationException">Thrown when there is no attached <see cref="UIElement"/> instance.</exception>
         public async void Start()
         {
             // Here we're using an async void method on purpose, in order to be able to await
@@ -78,19 +88,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
-        public Task StartAsync()
-        {
-            return StartAsync(GetParent());
-        }
-
-        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public async void Start(UIElement element)
         {
             await StartAsync(element);
         }
 
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
-        public async Task StartAsync(UIElement element)
+        /// <exception cref="InvalidOperationException">Thrown when there is no attached <see cref="UIElement"/> instance.</exception>
+        public async void Start(CancellationToken token)
+        {
+            await StartAsync(token);
+        }
+
+        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        /// <exception cref="InvalidOperationException">Thrown when there is no attached <see cref="UIElement"/> instance.</exception>
+        public Task StartAsync()
+        {
+            return StartAsync(GetParent());
+        }
+
+        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        public Task StartAsync(UIElement element)
+        {
+            CancellationTokenSource cancellationTokenSource = new();
+
+            this.cancellationTokenMap.AddOrUpdate(element, cancellationTokenSource);
+
+            return StartAsync(element, cancellationTokenSource.Token);
+        }
+
+        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        /// <exception cref="InvalidOperationException">Thrown when there is no attached <see cref="UIElement"/> instance.</exception>
+        public Task StartAsync(CancellationToken token)
+        {
+            return StartAsync(GetParent(), token);
+        }
+
+        /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
+        public async Task StartAsync(UIElement element, CancellationToken token)
         {
             Started?.Invoke(this, EventArgs.Empty);
 
@@ -104,11 +139,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                         timeline.AppendToBuilder(builder);
 
-                        await builder.StartAsync(element);
+                        await builder.StartAsync(element, token);
                     }
                     else if (node is IActivity activity)
                     {
-                        await activity.InvokeAsync(element);
+                        await activity.InvokeAsync(element, token);
                     }
                 }
             }
@@ -124,15 +159,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             builder = timeline.AppendToBuilder(builder);
                             break;
                         case IActivity activity:
-                            _ = activity.InvokeAsync(element);
+                            _ = activity.InvokeAsync(element, token);
                             break;
                     }
                 }
 
-                await builder.StartAsync(element);
+                await builder.StartAsync(element, token);
             }
 
             Ended?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Cancels the current animation on the attached <see cref="UIElement"/> instance.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when there is no attached <see cref="UIElement"/> instance.</exception>
+        public void Stop()
+        {
+            Stop(GetParent());
+        }
+
+        /// <summary>
+        ///  Cancels the current animation for a target <see cref="UIElement"/> instance.
+        /// </summary>
+        /// <param name="element">The target <see cref="UIElement"/> instance to stop the animation for.</param>
+        public void Stop(UIElement element)
+        {
+            if (this.cancellationTokenMap.TryGetValue(element, out CancellationTokenSource value))
+            {
+                value.Cancel();
+            }
         }
 
         /// <summary>
