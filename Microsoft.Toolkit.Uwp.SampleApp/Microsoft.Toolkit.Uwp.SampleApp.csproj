@@ -359,6 +359,7 @@
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
+    <Content Include="SamplePages\VoiceCommands\VoiceCommands.png" />
     <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
@@ -547,6 +548,11 @@
     <Compile Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml.cs">
       <DependentUpon>IsNullOrEmptyStateTriggerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\VoiceCommands\ClickAction.cs" />
+    <Compile Include="SamplePages\VoiceCommands\VoiceCommandsPage.xaml.cs">
+      <DependentUpon>VoiceCommandsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\VoiceCommands\SelectListBoxItemAction.cs" />
     <Compile Include="SamplePages\WrapLayout\WrapLayoutPage.xaml.cs">
       <DependentUpon>WrapLayoutPage.xaml</DependentUpon>
     </Compile>
@@ -587,6 +593,8 @@
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerButtonXaml.bind" />
+    <Content Include="SamplePages\VoiceCommands\VoiceCommandsPageXaml.bind" />
+    <Content Include="SamplePages\VoiceCommands\VoiceCommandsPageCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1329,6 +1337,10 @@
     <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\VoiceCommands\VoiceCommandsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
       <SubType>Designer</SubType>

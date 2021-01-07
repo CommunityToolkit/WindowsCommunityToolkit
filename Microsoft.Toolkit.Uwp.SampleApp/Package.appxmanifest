@@ -48,5 +48,6 @@
     <DeviceCapability Name="bluetooth" />
     <DeviceCapability Name="webcam" />
     <DeviceCapability Name="gazeInput" />
+    <DeviceCapability Name="microphone"/>
   </Capabilities>
 </Package>
