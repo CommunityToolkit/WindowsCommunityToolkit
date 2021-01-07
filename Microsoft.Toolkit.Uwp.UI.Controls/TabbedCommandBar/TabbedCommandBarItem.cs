@@ -53,15 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(new Border()));
 
         /// <summary>
-        /// Identifies the <see cref="IsContextual"/> property.
-        /// </summary>
-        public static readonly DependencyProperty IsContextualProperty = DependencyProperty.Register(
-            nameof(IsContextual),
-            typeof(bool),
-            typeof(TabbedCommandBarItem),
-            new PropertyMetadata(false));
-
-        /// <summary>
         /// Gets or sets the <see cref="UIElement"/> to be displayed in the footer of the tab.
         /// </summary>
         public UIElement Footer
@@ -69,6 +60,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get => (UIElement)GetValue(FooterProperty);
             set => SetValue(FooterProperty, value);
         }
+
+        /// <summary>
+        /// Identifies the <see cref="IsContextual"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IsContextualProperty = DependencyProperty.Register(
+            nameof(IsContextual),
+            typeof(bool),
+            typeof(TabbedCommandBarItem),
+            new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets a value indicating whether this tab is contextual.
@@ -79,6 +79,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set => SetValue(IsContextualProperty, value);
         }
 
+        /// <summary>
+        /// Identifies the <see cref="OverflowButtonAlignment"/> property.
+        /// </summary>
+        public static readonly DependencyProperty OverflowButtonAlignmentProperty = DependencyProperty.Register(
+            nameof(OverflowButtonAlignment),
+            typeof(HorizontalAlignment),
+            typeof(TabbedCommandBarItem),
+            new PropertyMetadata(HorizontalAlignment.Left));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this tab is contextual.
+        /// </summary>
+        public HorizontalAlignment OverflowButtonAlignment
+        {
+            get => (HorizontalAlignment)GetValue(OverflowButtonAlignmentProperty);
+            set => SetValue(OverflowButtonAlignmentProperty, value);
+        }
+
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
@@ -87,13 +105,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _primaryItemsControl = GetTemplateChild("PrimaryItemsControl") as ItemsControl;
             if (_primaryItemsControl != null)
             {
-                _primaryItemsControl.HorizontalAlignment = HorizontalAlignment.Left;
+                _primaryItemsControl.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
 
             _moreButton = GetTemplateChild("MoreButton") as Button;
             if (_moreButton != null)
             {
-                _moreButton.HorizontalAlignment = HorizontalAlignment.Right;
+                _moreButton.HorizontalAlignment = OverflowButtonAlignment;
             }
         }
     }

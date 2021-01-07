@@ -15,6 +15,7 @@
             Hardcoding the height of the CommandBar works, but it's a bit of a hack.
         -->
         <Setter Property="Height" Value="40" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
 
     <Style x:Key="AcrylicTabbedCommandBarItemStyle" BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem">

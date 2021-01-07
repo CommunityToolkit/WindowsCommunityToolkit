@@ -32,6 +32,7 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
         <Setter Property="Background" Value="{ThemeResource SystemChromeMediumLowColor}" />
+        <!-- TODO: Despite being used in both the Border and RibbonContent, this background is nowhere to be seen. -->
         <Setter Property="ContentBackground" Value="{ThemeResource SystemChromeLowColor}" />
         <Setter Property="Template">
             <Setter.Value>
