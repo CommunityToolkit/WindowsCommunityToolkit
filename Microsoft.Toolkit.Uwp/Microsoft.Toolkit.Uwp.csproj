@@ -9,8 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
     
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
