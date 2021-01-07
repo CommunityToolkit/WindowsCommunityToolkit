@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The panel used in the <see cref="Carousel"/> control
     /// </summary>
-    public class CarouselPanel : Panel
+    public partial class CarouselPanel : Panel
     {
         // Storyboard on gesture
         private Storyboard storyboard = new Storyboard();
