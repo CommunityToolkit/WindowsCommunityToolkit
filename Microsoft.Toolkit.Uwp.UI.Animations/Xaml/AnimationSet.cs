@@ -158,6 +158,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             break;
                         }
                     }
+
+                    // This should in theory only be necessary in the timeline branch, but doing this check
+                    // after running activities too help guard against 3rd party activities that might not
+                    // properly monitor the token being in use, and still run fine after a cancellation.
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
                 }
             }
             else
