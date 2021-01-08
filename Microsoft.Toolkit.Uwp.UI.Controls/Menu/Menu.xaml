@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <ResourceDictionary.ThemeDictionaries>
@@ -86,7 +86,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <controls:WrapPanel />
+                    <local:WrapPanel />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>

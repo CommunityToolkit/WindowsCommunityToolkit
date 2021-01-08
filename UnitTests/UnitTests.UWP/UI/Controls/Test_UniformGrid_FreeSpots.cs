@@ -4,7 +4,7 @@
 
 using System.Linq;
 using Microsoft.Toolkit.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 

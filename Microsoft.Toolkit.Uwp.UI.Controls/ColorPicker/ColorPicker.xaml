@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:primitiveControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
                     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
@@ -92,11 +91,11 @@
                     <FontIcon Glyph="&#xE9E9;" />
                 </ListBoxItem>
             </ListBox>
-            <primitiveControls:SwitchPresenter x:Name="ContentContainer"
+            <controls:SwitchPresenter x:Name="ContentContainer"
                                       Grid.Row="1"
                                       Margin="12"
                                       Value="{Binding ElementName=ColorPanelSelector, Path=SelectedItem.Name}">
-                <primitiveControls:Case Value="SpectrumListBoxItem">
+                <controls:Case Value="SpectrumListBoxItem">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"
@@ -150,8 +149,8 @@
                                                       DefaultForeground="{ThemeResource TextControlForeground}"
                                                       Orientation="Vertical" />
                     </Grid>
-                </primitiveControls:Case>
-                <primitiveControls:Case Value="PaletteListBoxItem">
+                </controls:Case>
+                <controls:Case Value="PaletteListBoxItem">
                     <GridView Margin="0"
                               Padding="0"
                               ItemContainerStyle="{StaticResource PaletteGridViewItemStyle}"
@@ -161,7 +160,7 @@
                               Tag="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Mode=OneWay}">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <primitiveControls:UniformGrid ex:FrameworkElementExtensions.AncestorType="controls:ColorPicker"
+                                <controls:UniformGrid ex:FrameworkElementExtensions.AncestorType="controls:ColorPicker"
                                                       Columns="{Binding (ex:FrameworkElementExtensions.Ancestor).CustomPaletteColumnCount, RelativeSource={RelativeSource Self}}" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
@@ -178,8 +177,8 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </primitiveControls:Case>
-                <primitiveControls:Case Value="ChannelsListBoxItem">
+                </controls:Case>
+                <controls:Case Value="ChannelsListBoxItem">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30" />
@@ -376,8 +375,8 @@
                                                       AutomationProperties.Name="Alpha Channel"
                                                       DefaultForeground="{ThemeResource TextControlForeground}" />
                     </Grid>
-                </primitiveControls:Case>
-            </primitiveControls:SwitchPresenter>
+                </controls:Case>
+            </controls:SwitchPresenter>
 
             <!--  TODO: Expose resources for the height of this part and the margin  -->
             <Grid x:Name="ColorPreviewGrid"

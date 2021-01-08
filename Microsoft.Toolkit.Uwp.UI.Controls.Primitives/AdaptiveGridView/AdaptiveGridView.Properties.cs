@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the
