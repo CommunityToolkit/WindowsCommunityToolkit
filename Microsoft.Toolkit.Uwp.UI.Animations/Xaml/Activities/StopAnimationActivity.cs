@@ -10,12 +10,12 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// An <see cref="IActivity"/> which starts the provided <see cref="AnimationSet"/> when invoked.
+    /// An <see cref="IActivity"/> which stops the provided <see cref="AnimationSet"/> when invoked.
     /// </summary>
-    public class StartAnimationActivity : Activity
+    public class StopAnimationActivity : Activity
     {
         /// <summary>
-        /// Gets or sets the linked <see cref="AnimationSet"/> instance to start.
+        /// Gets or sets the linked <see cref="AnimationSet"/> instance to stop.
         /// </summary>
         public AnimationSet Animation
         {
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the object to start the specified animation on. If not specified, will use the current object the parent animation is running on.
+        /// Gets or sets the object to stop the specified animation for. If not specified, will use the current object the parent animation is running on.
         /// </summary>
         public UIElement TargetObject
         {
@@ -57,20 +57,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             await base.InvokeAsync(element, token);
 
-            // If we've specified an explicit target for the animation, we can use that. Otherwise, we can
-            // check whether the target animation has an implicit parent. If that's the case, we will use
-            // that to start the animation, or just use the input (usually the parent) as fallback.
             if (TargetObject is not null)
             {
-                await Animation.StartAsync(TargetObject, token);
+                Animation.Stop(TargetObject);
             }
             else if (Animation.ParentReference is null)
             {
-                await Animation.StartAsync(element, token);
+                Animation.Stop(element);
             }
             else
             {
-                await Animation.StartAsync(token);
+                Animation.Stop();
             }
         }
     }
