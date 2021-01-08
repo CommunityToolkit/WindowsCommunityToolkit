@@ -72,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="BooleanKeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -84,6 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -105,6 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
@@ -122,6 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easing">The optional easing function for the animation.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="ScalarKeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -135,6 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? duration = null,
             CompositionEasingFunction? easing = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -163,6 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
@@ -180,6 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easing">The optional easing function for the animation.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="Vector2KeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -193,6 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? duration = null,
             CompositionEasingFunction? easing = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -221,6 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
@@ -238,6 +247,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easing">The optional easing function for the animation.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="Vector3KeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -251,6 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? duration = null,
             CompositionEasingFunction? easing = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -279,6 +290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
@@ -296,6 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easing">The optional easing function for the animation.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="Vector4KeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -309,6 +322,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? duration = null,
             CompositionEasingFunction? easing = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -337,6 +351,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
@@ -354,6 +369,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easing">The optional easing function for the animation.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="ColorKeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -367,6 +383,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? duration = null,
             CompositionEasingFunction? easing = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -395,6 +412,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
@@ -412,6 +430,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="duration">The optional animation duration.</param>
         /// <param name="easing">The optional easing function for the animation.</param>
         /// <param name="delayBehavior">The delay behavior to use for the animation.</param>
+        /// <param name="direction">The direction to use when playing the animation.</param>
         /// <param name="iterationBehavior">The iteration behavior to use for the animation.</param>
         /// <param name="iterationCount">The iteration count to use for the animation.</param>
         /// <returns>A <see cref="QuaternionKeyFrameAnimation"/> instance with the specified parameters.</returns>
@@ -425,6 +444,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? duration = null,
             CompositionEasingFunction? easing = null,
             AnimationDelayBehavior delayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay,
+            AnimationDirection direction = AnimationDirection.Normal,
             AnimationIterationBehavior iterationBehavior = AnimationIterationBehavior.Count,
             int iterationCount = 1)
         {
@@ -453,6 +473,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             }
 
             animation.Target = target;
+            animation.Direction = direction;
             animation.IterationBehavior = iterationBehavior;
             animation.IterationCount = iterationCount;
 
