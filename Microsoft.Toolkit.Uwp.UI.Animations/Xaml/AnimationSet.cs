@@ -102,6 +102,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc cref="AnimationBuilder.Start(UIElement)"/>
         public Task StartAsync(UIElement element)
         {
+            Stop(element);
+
             CancellationTokenSource cancellationTokenSource = new();
 
             this.cancellationTokenMap.AddOrUpdate(element, cancellationTokenSource);
