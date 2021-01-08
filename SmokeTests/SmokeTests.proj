@@ -27,8 +27,18 @@
     </ToolkitPackages>
   </PropertyGroup>
 
+  <Target Name="GetNuGetVersion">
+    <Exec Command="powershell -Command &quot;&amp; { .\&quot;$(ProjectDir)..\build\tools\Nerdbank.GitVersioning\tools\Get-Version.ps1\&quot; | Select -ExpandProperty NuGetPackageVersion }&quot;"
+          ConsoleToMSBuild="true"
+          EchoOff="true"
+          Condition="'$(NuGetPackageVersion)' == ''">
+      <Output TaskParameter="ConsoleOutput" PropertyName="NuGetPackageVersion" />
+    </Exec>
+    <Message Text="Got GitBank Version... $(NuGetPackageVersion)" Importance="High" />
+  </Target>
+
   <Target Name="Build" 
-          DependsOnTargets="ChooseProjectsToBuild"
+          DependsOnTargets="ChooseProjectsToBuild;GetNuGetVersion"
           Inputs="@(ProjectsToBuild)"
           Outputs="%(Filename)">
 
@@ -36,7 +46,7 @@
 
     <MSBuild Projects="SmokeTest.csproj"
               Targets="restore;build"
-              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform)"/>
+              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)"/>
   </Target>
 
   <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNugets">

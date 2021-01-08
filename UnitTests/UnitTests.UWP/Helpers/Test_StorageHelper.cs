@@ -34,6 +34,7 @@ namespace UnitTests.Helpers
             Assert.AreEqual(input, output);
         }
 
+        [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_StorageHelper_LegacyDateTest()
@@ -53,18 +54,40 @@ namespace UnitTests.Helpers
             Assert.AreEqual(input, output);
         }
 
+        [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]
-        public void Test_StorageHelper_LegacyPersonTest()
+        public void Test_StorageHelper_LegacyInternalClassTest()
         {
             string key = "Contact";
 
-            Person input = new Person() { Name = "Joe Bloggs", Age = 42 };
+            UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
             string jsonInput = JsonSerializer.Serialize(input);
 
             storageHelper.Save<string>(key, jsonInput);
+
+            // now read it as int to valid that the change works
+            UI.Person output = storageHelper.Read<UI.Person>(key, null);
+
+            Assert.IsNotNull(output);
+            Assert.AreEqual(input.Name, output.Name);
+            Assert.AreEqual(input.Age, output.Age);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageHelper_LegacyPublicClassTest()
+        {
+            string key = "Contact";
+
+            UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
+
+            // simulate previous version by generating json and manually inserting it as string
+            string jsonInput = JsonSerializer.Serialize(input);
+
+            storageHelper.Save(key, jsonInput);
 
             // now read it as int to valid that the change works
             Person output = storageHelper.Read<Person>(key, null);
@@ -122,6 +145,13 @@ namespace UnitTests.Helpers
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
             Assert.AreEqual(input.Age, output.Age);
+        }
+
+        public class Person
+        {
+            public string Name { get; set; }
+
+            public int Age { get; set; }
         }
     }
 }
