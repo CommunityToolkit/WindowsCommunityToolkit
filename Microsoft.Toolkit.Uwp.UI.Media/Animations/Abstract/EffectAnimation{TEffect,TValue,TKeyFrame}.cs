@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
 
@@ -28,7 +29,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the linked <typeparamref name="TEffect"/> instance to animate.
         /// </summary>
-        public TEffect? Target { get; set; }
+        public TEffect? Target
+        {
+            get => (TEffect?)GetValue(TargetProperty);
+            set => SetValue(TargetProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Target"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(
+            nameof(Target),
+            typeof(TEffect),
+            typeof(EffectAnimation<TEffect, TValue, TKeyFrame>),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)

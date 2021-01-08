@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnShowAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(object sender, EventArgs e)
+            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
@@ -142,15 +142,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                oldCollection.AnimationsChanged -= OnAnimationsChanged;
+                oldCollection.VectorChanged -= OnAnimationsChanged;
             }
 
             if (d is UIElement element &&
                 e.NewValue is ImplicitAnimationSet collection)
             {
                 collection.ParentReference = new(element);
-                collection.AnimationsChanged -= OnAnimationsChanged;
-                collection.AnimationsChanged += OnAnimationsChanged;
+                collection.VectorChanged -= OnAnimationsChanged;
+                collection.VectorChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnHideAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(object sender, EventArgs e)
+            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
@@ -176,15 +176,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                oldCollection.AnimationsChanged -= OnAnimationsChanged;
+                oldCollection.VectorChanged -= OnAnimationsChanged;
             }
 
             if (d is UIElement element &&
                 e.NewValue is ImplicitAnimationSet collection)
             {
                 collection.ParentReference = new(element);
-                collection.AnimationsChanged -= OnAnimationsChanged;
-                collection.AnimationsChanged += OnAnimationsChanged;
+                collection.VectorChanged -= OnAnimationsChanged;
+                collection.VectorChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(object sender, EventArgs e)
+            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
@@ -210,15 +210,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                oldCollection.AnimationsChanged -= OnAnimationsChanged;
+                oldCollection.VectorChanged -= OnAnimationsChanged;
             }
 
             if (d is UIElement element &&
                 e.NewValue is ImplicitAnimationSet collection)
             {
                 collection.ParentReference = new(element);
-                collection.AnimationsChanged -= OnAnimationsChanged;
-                collection.AnimationsChanged += OnAnimationsChanged;
+                collection.VectorChanged -= OnAnimationsChanged;
+                collection.VectorChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();

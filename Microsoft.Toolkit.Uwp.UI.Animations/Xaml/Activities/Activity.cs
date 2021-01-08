@@ -17,7 +17,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the <see cref="TimeSpan"/> to wait before running the activity.
         /// </summary>
-        public TimeSpan? Delay { get; set; }
+        public TimeSpan? Delay
+        {
+            get => (TimeSpan?)GetValue(DelayProperty);
+            set => SetValue(DelayProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Delay"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register(
+            nameof(Delay),
+            typeof(TimeSpan?),
+            typeof(Activity),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public virtual Task InvokeAsync(UIElement element, CancellationToken token)

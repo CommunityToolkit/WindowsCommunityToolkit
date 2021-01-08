@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -21,7 +22,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the list of animations in the current scope.
         /// </summary>
-        public IList<ITimeline> Animations { get; set; } = new List<ITimeline>();
+        public IList<Animation> Animations
+        {
+            get
+            {
+                if (GetValue(AnimationsProperty) is not IList<Animation> animations)
+                {
+                    animations = new List<Animation>();
+
+                    SetValue(AnimationsProperty, animations);
+                }
+
+                return animations;
+            }
+            set => SetValue(AnimationsProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Animations"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty AnimationsProperty = DependencyProperty.Register(
+            nameof(Animations),
+            typeof(IList<Animation>),
+            typeof(AnimationScope),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)

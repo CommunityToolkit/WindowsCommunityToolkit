@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
@@ -27,18 +28,67 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the final value for the animation.
         /// </summary>
-        public TValue? To { get; set; }
+        public TValue? To
+        {
+            get => (TValue?)GetValue(ToProperty);
+            set => SetValue(ToProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="To"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ToProperty = DependencyProperty.Register(
+            nameof(To),
+            typeof(TValue?),
+            typeof(Animation<TValue, TKeyFrame>),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the optional starting value for the animation.
         /// </summary>
-        public TValue? From { get; set; }
+        public TValue? From
+        {
+            get => (TValue?)GetValue(FromProperty);
+            set => SetValue(FromProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="From"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty FromProperty = DependencyProperty.Register(
+            nameof(From),
+            typeof(TValue?),
+            typeof(Animation<TValue, TKeyFrame>),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the optional keyframe collection for the current animation.
         /// Setting this will overwrite the <see cref="To"/> and <see cref="From"/> values.
         /// </summary>
-        public IList<IKeyFrame<TKeyFrame>> KeyFrames { get; set; } = new List<IKeyFrame<TKeyFrame>>();
+        public IList<IKeyFrame<TKeyFrame>> KeyFrames
+        {
+            get
+            {
+                if (GetValue(KeyFramesProperty) is not IList<IKeyFrame<TKeyFrame>> keyFrames)
+                {
+                    keyFrames = new List<IKeyFrame<TKeyFrame>>();
+
+                    SetValue(KeyFramesProperty, keyFrames);
+                }
+
+                return keyFrames;
+            }
+            set => SetValue(KeyFramesProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="KeyFrames"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty KeyFramesProperty = DependencyProperty.Register(
+            nameof(KeyFrames),
+            typeof(IList<IKeyFrame<TKeyFrame>>),
+            typeof(Animation<TValue, TKeyFrame>),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the explicit target for the animation. This is the primary target property that is animated.

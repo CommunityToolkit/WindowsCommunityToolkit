@@ -5,14 +5,12 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -20,8 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// A collection of animations that can be grouped together. This type represents a composite animation
     /// (such as <see cref="Windows.UI.Xaml.Media.Animation.Storyboard"/>) that can be executed on a given element.
     /// </summary>
-    [ContentProperty(Name = nameof(Nodes))]
-    public sealed class AnimationSet : DependencyObject
+    public sealed class AnimationSet : DependencyObjectCollection
     {
         /// <summary>
         /// A conditional weak table storing <see cref="CancellationTokenSource"/> instances associated with animations
@@ -46,11 +43,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public interface INode
         {
         }
-
-        /// <summary>
-        /// Gets or sets the list of nodes in the current collection.
-        /// </summary>
-        public IList<INode> Nodes { get; set; } = new List<INode>();
 
         /// <summary>
         /// Gets or sets a value indicating whether top level animation nodes in this collection are invoked
@@ -131,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (IsSequential)
             {
-                foreach (INode node in Nodes)
+                foreach (INode node in this)
                 {
                     if (node is ITimeline timeline)
                     {
@@ -172,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 var builder = AnimationBuilder.Create();
 
-                foreach (INode node in Nodes)
+                foreach (INode node in this)
                 {
                     switch (node)
                     {

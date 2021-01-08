@@ -5,7 +5,6 @@
 #nullable enable
 
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Composition;
@@ -18,13 +17,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// A collection of implicit animations that can be grouped together. This type represents a composite animation
     /// (such as <see cref="Windows.UI.Xaml.Media.Animation.Storyboard"/>) that is executed on a given element.
     /// </summary>
-    public sealed class ImplicitAnimationSet : Collection<IImplicitTimeline>
+    public sealed class ImplicitAnimationSet : DependencyObjectCollection
     {
-        /// <summary>
-        /// Raised whenever the contained animations are changed.
-        /// </summary>
-        internal event EventHandler? AnimationsChanged;
-
         /// <summary>
         /// Gets or sets the weak reference to the parent that owns the current implicit animation collection.
         /// </summary>
@@ -77,38 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return animations;
-        }
-
-        /// <inheritdoc/>
-        protected override void ClearItems()
-        {
-            base.ClearItems();
-
-            AnimationsChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <inheritdoc/>
-        protected override void InsertItem(int index, IImplicitTimeline item)
-        {
-            base.InsertItem(index, item);
-
-            AnimationsChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <inheritdoc/>
-        protected override void RemoveItem(int index)
-        {
-            base.RemoveItem(index);
-
-            AnimationsChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <inheritdoc/>
-        protected override void SetItem(int index, IImplicitTimeline item)
-        {
-            base.SetItem(index, item);
-
-            AnimationsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
