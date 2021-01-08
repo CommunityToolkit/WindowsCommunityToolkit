@@ -106,15 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Layout.
-        /// </summary>
-        internal static string CategoryLayout {
-            get {
-                return ResourceManager.GetString("CategoryLayout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Markdown Style - Code.
         /// </summary>
         internal static string CategoryMarkdownCodeStyle {
