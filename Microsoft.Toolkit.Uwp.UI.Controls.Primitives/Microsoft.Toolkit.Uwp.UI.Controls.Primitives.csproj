@@ -14,7 +14,7 @@
 			- UniformGrid: Presents items in an evenly-spaced set of rows or columns to fill the total available display space.
 			- WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
 		</Description>
-		<PackageTags>UWP Toolkit Windows Controls XAML WrapPanel Adaptive DockPanel StaggeredPanel Staggered UniformGrid Uniform Grid</PackageTags>
+		<PackageTags>UWP Toolkit Windows Controls XAML WrapPanel Adaptive DockPanel StaggeredPanel Staggered SwitchPresenter UniformGrid Uniform Grid</PackageTags>
 		<!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
 		<EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
 		<LangVersion>8.0</LangVersion>
