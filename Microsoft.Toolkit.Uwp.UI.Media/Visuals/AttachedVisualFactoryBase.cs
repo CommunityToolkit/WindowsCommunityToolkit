@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// <summary>
     /// A type responsible for creating <see cref="Visual"/> instances to attach to target elements.
     /// </summary>
-    public abstract class AttachedVisualFactoryBase
+    public abstract class AttachedVisualFactoryBase : DependencyObject
     {
         /// <summary>
         /// Creates a <see cref="Visual"/> to attach to the target element.

@@ -26,7 +26,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the collection of effects to use in the current pipeline.
         /// </summary>
-        public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
+        public IList<PipelineEffect> Effects
+        {
+            get
+            {
+                if (GetValue(EffectsProperty) is not IList<PipelineEffect> effects)
+                {
+                    effects = new List<PipelineEffect>();
+
+                    SetValue(EffectsProperty, effects);
+                }
+
+                return effects;
+            }
+            set => SetValue(EffectsProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Effects"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EffectsProperty = DependencyProperty.Register(
+            nameof(Effects),
+            typeof(IList<PipelineEffect>),
+            typeof(PipelineVisualFactory),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         public override async ValueTask<Visual> GetAttachedVisualAsync(UIElement element)

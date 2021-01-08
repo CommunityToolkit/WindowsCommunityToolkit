@@ -7,6 +7,7 @@
 // See the LICENSE file in the project root for more information.
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 
 #nullable enable
 
@@ -15,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// <summary>
     /// A base pipeline effect.
     /// </summary>
-    public abstract class PipelineEffect : IPipelineEffect
+    public abstract class PipelineEffect : DependencyObject, IPipelineEffect
     {
         /// <inheritdoc/>
         public CompositionBrush? Brush { get; private set; }
