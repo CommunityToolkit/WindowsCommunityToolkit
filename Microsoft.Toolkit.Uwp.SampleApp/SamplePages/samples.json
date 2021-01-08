@@ -469,6 +469,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
+        "Name": "InvokeActionsActivity",
+        "Subcategory": "Activities",
+        "About": "Activity chaining Actions from the Behaviors package into an Animation schedule.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations",
+        "XamlCodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivity.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
+      },
+      {
         "Name": "Fade",
         "Subcategory": "Effect",
         "About": "Opacity of XAML elements using composition animations",

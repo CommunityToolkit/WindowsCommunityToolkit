@@ -4,8 +4,11 @@
       xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:anibehaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors.Animations"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+      xmlns:mediaactions="using:Microsoft.Xaml.Interactions.Media"
       xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
@@ -30,6 +33,7 @@
                 <ani:BlurEffectAnimation />
                 <ani:OpacityAnimation />
                 <ani:StartAnimationActivity />
+                <ani:InvokeActionsActivity />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>
@@ -37,5 +41,13 @@
                 <media:OpacityEffect />
             </media:PipelineVisualFactory>
         </media:UIElementExtensions.VisualFactory>
+
+        <!--  External  -->
+        <interactivity:Interaction.Behaviors>
+            <interactions:EventTriggerBehavior EventName="Loaded">
+                <interactions:ChangePropertyAction />
+                <mediaactions:PlaySoundAction />
+            </interactions:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
     </Grid>
 </Page>

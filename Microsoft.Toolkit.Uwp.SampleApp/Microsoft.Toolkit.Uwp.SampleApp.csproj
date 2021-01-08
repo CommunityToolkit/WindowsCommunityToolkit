@@ -132,6 +132,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="Assets\BrushAssets\TileTexture.png" />
     <Content Include="Assets\BrushAssets\NoiseTexture.png" />
+    <Content Include="Assets\Llama.mp3" />
     <Content Include="Assets\mslogo.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
@@ -588,6 +589,7 @@
     <Content Include="SamplePages\Animations\Effects\FadeBehaviorCode.bind" />
     <Content Include="SamplePages\Animations\Effects\FadeBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Activities\StartAnimationActivity.bind" />
+    <Content Include="SamplePages\Animations\Activities\InvokeActionsActivity.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
