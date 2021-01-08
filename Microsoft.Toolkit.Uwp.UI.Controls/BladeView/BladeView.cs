@@ -6,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -65,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (blade != null)
             {
                 blade.VisibilityChanged += BladeOnVisibilityChanged;
+                blade.ParentBladeView = this;
             }
 
             base.PrepareContainerForItemOverride(element, item);
@@ -81,6 +84,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.ClearContainerForItemOverride(element, item);
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="BladeView"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new BladeViewAutomationPeer(this);
         }
 
         private void CycleBlades()

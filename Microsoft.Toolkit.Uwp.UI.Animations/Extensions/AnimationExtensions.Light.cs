@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Effects;
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var task = new AnimationTask();
             task.AnimationSet = animationSet;
 
-            task.Task = DispatcherHelper.ExecuteOnUIThreadAsync(
+            task.Task = visual.DispatcherQueue.EnqueueAsync(
                 () =>
             {
                 const string sceneName = "PointLightScene";
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 pointLights[visual] = pointLight;
-            }, Windows.UI.Core.CoreDispatcherPriority.Normal);
+            });
 
             animationSet.AddAnimationThroughTask(task);
             return animationSet;

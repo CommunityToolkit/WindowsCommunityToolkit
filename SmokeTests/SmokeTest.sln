@@ -5,6 +5,13 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeTest", "SmokeTest.csproj", "{A6E4CB52-1025-4BBA-9C65-BB871D1FB53F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{86F3F991-6DDA-442D-A610-9309D6559522}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+		SmokeTestAnalysis.ps1 = SmokeTestAnalysis.ps1
+		SmokeTests.proj = SmokeTests.proj
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM

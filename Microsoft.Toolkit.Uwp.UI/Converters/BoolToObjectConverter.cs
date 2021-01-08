@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// This class converts a boolean value into an other object.
     /// Can be used to convert true/false to visibility, a couple of colors, couple of images, etc.
     /// </summary>
-    public class BoolToObjectConverter : DependencyObject, IValueConverter
+    public partial class BoolToObjectConverter : DependencyObject, IValueConverter
     {
         /// <summary>
         /// Identifies the <see cref="TrueValue"/> property.
