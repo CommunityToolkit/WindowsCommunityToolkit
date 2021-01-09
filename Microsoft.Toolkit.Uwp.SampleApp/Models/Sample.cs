@@ -158,6 +158,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string ApiCheck { get; set; }
 
+        public bool HasType => !string.IsNullOrWhiteSpace(Type);
+
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
 
         public bool HasCSharpCode => !string.IsNullOrEmpty(CodeFile);

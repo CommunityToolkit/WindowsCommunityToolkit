@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// This class returns an object or another, depending on whether the type of the provided value matches another provided Type.
     /// </summary>
-    public class TypeToObjectConverter : DependencyObject, IValueConverter
+    public partial class TypeToObjectConverter : DependencyObject, IValueConverter
     {
         /// <summary>
         /// Identifies the <see cref="TrueValue"/> property.

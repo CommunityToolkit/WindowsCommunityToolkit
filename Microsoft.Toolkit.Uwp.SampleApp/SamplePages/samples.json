@@ -928,7 +928,6 @@
       },
       {
         "Name": "CompareStateTrigger",
-        "Type": "CompareStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -938,7 +937,6 @@
       },
       {
         "Name": "IsEqualStateTrigger",
-        "Type": "IsEqualStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -968,7 +966,6 @@
       },
       {
         "Name": "NetworkConnectionStateTrigger",
-        "Type": "NetworkConnectionStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the network availability changes",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -978,7 +975,6 @@
       },
       {
         "Name": "IsNotEqualStateTrigger",
-        "Type": "IsNotEqualStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is not equal to another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -988,7 +984,6 @@
       },
       {
         "Name": "RegexStateTrigger",
-        "Type": "RegexStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the regex expression is true for a given string value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -998,7 +993,6 @@
       },
       {
         "Name": "UserHandPreferenceStateTrigger",
-        "Type": "UserHandPreferenceStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching UI based on whether the user favours their left or right hand.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -1008,7 +1002,6 @@
       },
       {
         "Name": "UserInteractionModeStateTrigger",
-        "Type": "UserInteractionModeStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the User interaction mode changes (tablet mode)",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",

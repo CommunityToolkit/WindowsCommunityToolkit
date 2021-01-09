@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
     /// </summary>
     [TemplateVisualState(GroupName = Common, Name = Normal)]
     [TemplateVisualState(GroupName = Common, Name = Disabled)]
-    public abstract class Symbol : Control
+    public abstract partial class Symbol : Control
     {
         internal const string Common = "CommonStates";
         internal const string Normal = "Normal";

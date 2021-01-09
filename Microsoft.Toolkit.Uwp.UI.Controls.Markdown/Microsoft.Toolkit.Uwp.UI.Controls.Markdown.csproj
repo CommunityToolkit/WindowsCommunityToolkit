@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
     <Title>Windows Community Toolkit Controls Markdown</Title>
     <Description>
       This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is part of the Windows Community Toolkit.

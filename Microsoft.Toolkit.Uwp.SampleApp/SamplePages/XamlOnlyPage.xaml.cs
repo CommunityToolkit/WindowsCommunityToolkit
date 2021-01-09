@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -11,14 +9,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class IsNotEqualStateTriggerPage : Page
+    public sealed partial class XamlOnlyPage : Page
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IsNotEqualStateTriggerPage"/> class.
-        /// </summary>
-        public IsNotEqualStateTriggerPage()
+        public XamlOnlyPage()
         {
-            InitializeComponent();
+            // DO NOT add any code here, this page is never loaded...
+            this.InitializeComponent();
         }
     }
 }

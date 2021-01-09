@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// <summary>
     /// An Interactive button in the TextToolbar, to perform a formatting task.
     /// </summary>
-    public class ToolbarButton : AppBarButton, IToolbarItem, INotifyPropertyChanged
+    public partial class ToolbarButton : AppBarButton, IToolbarItem, INotifyPropertyChanged
     {
         /// <summary>
         /// Identifies the <see cref="ToolTip"/> dependency property.
@@ -164,6 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             set
             {
                 _position = value;
+
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
             }
         }

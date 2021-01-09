@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "StatusType", Type = typeof(ComboBox))]
     [TemplatePart(Name = "AuthorizationType", Type = typeof(ComboBox))]
     [TemplatePart(Name = "AdvancedFiltersGrid", Type = typeof(Grid))]
-    public sealed class RemoteDevicePicker : ContentDialog
+    public sealed partial class RemoteDevicePicker : ContentDialog
     {
         private ListView _listDevices;
         private ComboBox _listDeviceTypes;

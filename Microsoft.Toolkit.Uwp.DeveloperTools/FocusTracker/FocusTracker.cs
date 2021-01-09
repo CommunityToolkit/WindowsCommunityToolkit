@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
     [TemplatePart(Name = "ControlType", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ControlAutomationName", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ControlFirstParentWithName", Type = typeof(TextBlock))]
-    public class FocusTracker : Control
+    public partial class FocusTracker : Control
     {
         /// <summary>
         /// Defines the <see cref="IsActive"/> dependency property.

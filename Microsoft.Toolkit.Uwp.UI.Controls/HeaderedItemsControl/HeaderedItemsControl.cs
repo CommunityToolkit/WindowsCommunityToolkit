@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Represents a control that contains multiple items and has a header.
     /// </summary>
-    public class HeaderedItemsControl : ItemsControl
+    public partial class HeaderedItemsControl : ItemsControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderedItemsControl"/> class.

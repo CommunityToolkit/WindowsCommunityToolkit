@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// <summary>
     /// Specifies a DefaultButton, modifies a Button Instance
     /// </summary>
-    public class DefaultButton : DependencyObject
+    public partial class DefaultButton : DependencyObject
     {
         /// <summary>
         /// Identifies the <see cref="IsVisible"/> dependency property.

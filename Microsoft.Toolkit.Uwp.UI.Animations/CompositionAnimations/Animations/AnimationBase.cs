@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// Abstract class providing common dependency properties for composition animations
     /// </summary>
     [ContentProperty(Name = nameof(KeyFrames))]
-    public abstract class AnimationBase : DependencyObject
+    public abstract partial class AnimationBase : DependencyObject
     {
         /// <summary>
         /// Identifies the <see cref="Target"/> property

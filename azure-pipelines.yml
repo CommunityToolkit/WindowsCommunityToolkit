@@ -1,9 +1,11 @@
 trigger:
 - master
+- dev/*
 - rel/*
 
 pr:
 - master
+- dev/*
 - rel/*
 
 pool:
@@ -13,8 +15,9 @@ variables:
   BuildConfiguration: Release
 
 jobs:
-- job: ToolkitBuild
-  timeoutInMinutes: 120
+### BUILD ###
+- job: BuildBits
+  timeoutInMinutes: 60
   
   steps:
   - task: BatchScript@1
@@ -74,15 +77,10 @@ jobs:
   - powershell: .\build\build.ps1 -target=Build
     displayName: Build
 
+  ### Unit Tests ###
+  
 #  - powershell: .\build\build.ps1 -target=Test
 #    displayName: Test
-#    timeoutInMinutes: 15
-
-  - powershell: .\build\build.ps1 -target=Package
-    displayName: Package
-
-#  - powershell: .\build\build.ps1 -target=SmokeTest
-#    displayName: SmokeTest
 
   - task: PublishTestResults@2
     inputs:
@@ -92,18 +90,28 @@ jobs:
     condition: always()
 
 #  - task: PublishPipelineArtifact@1
-#    displayName: Publish UI Test Results
-#    inputs:
-#      targetPath: .\build\UITestResults.wtl
-#      artifactName: WexLogFileOutput
-#    condition: always()
-
-#  - task: PublishPipelineArtifact@1
 #    displayName: Publish Test WexLogFileOutput
 #    inputs:
 #      targetPath: .\build\WexLogFileOutput
-#      artifactName: WexErrorLogFileOutput
+#      artifactName: WexUnitTestErrorLogFileOutput
 #    condition: failed()
+
+  ### UI Integration Tests ###
+
+#  - powershell: .\build\build.ps1 -target=UITest
+#    displayName: UI Integration Tests
+
+#  - task: PublishPipelineArtifact@1
+#    displayName: Publish UI Test Results
+#    inputs:
+#      targetPath: .\build\UITestResults.wtl
+#      artifactName: WexUITestLogFileOutput
+#    condition: always()
+
+  ### Package ###
+
+  - powershell: .\build\build.ps1 -target=Package
+    displayName: Package
 
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
@@ -115,13 +123,28 @@ jobs:
       ArtifactDirectory: bin\nupkg
     condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: Publish Package Artifacts
     inputs:
-      pathToPublish: .\bin\nupkg
-      artifactType: container
+      targetPath: .\bin\nupkg
       artifactName: Packages
 
+### Smoke Tests ###
+
+#- job: SmokeTests
+#  dependsOn: BuildBits
+#  timeoutInMinutes: 60
+#  
+#  steps:
+#  - task: DownloadPipelineArtifact@2
+#    displayName: Download NuGet Packages Artifact
+#    inputs:
+#      artifact: Packages
+#      path: .\bin\nupkg
+#
+#  - powershell: .\build\build.ps1 -target=SmokeTest
+#    displayName: SmokeTest
+#
 #  - task: CopyFiles@2
 #    inputs:
 #      sourceFolder: .\SmokeTests\AppPackages
@@ -134,3 +157,6 @@ jobs:
 #      pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
 #      artifactType: container
 #      artifactName: SmokeTestBundles
+#
+#  - powershell: .\SmokeTests\SmokeTestAnalysis.ps1
+#    displayName: Analyze Package Sizes

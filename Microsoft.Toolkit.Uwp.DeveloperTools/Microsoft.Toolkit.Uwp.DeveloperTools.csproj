@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
     <Title>Windows Community Toolkit Developer Tools</Title>
     <Description>This library provides XAML user controls and services to help developers build their app. It is part of the Windows Community Toolkit.
       
