@@ -94,7 +94,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.xml">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.xml">
       <Link>Microsoft.Toolkit.Uwp.UI.Controls.Primitives.xml</Link>
       <Visible>False</Visible>
     </EmbeddedResource>
