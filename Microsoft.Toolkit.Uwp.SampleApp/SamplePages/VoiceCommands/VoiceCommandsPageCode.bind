@@ -1,5 +1,3 @@
-// C#
-
 public sealed partial class VoiceCommandsPage : Page
 {
     public VoiceCommandsPage()
@@ -56,5 +54,14 @@ public sealed partial class VoiceCommandsPage : Page
     public void WhatCanISay()
     {
         _ = new MessageDialog("TODO: What can I Say").ShowAsync();
+    }
+
+    private void ToggleListning_Toggled(object sender, RoutedEventArgs e)
+    {
+        if (triggerListning is object)
+        {
+            triggerListning.Text = toggleListning.IsOn ? "Voice Off" : "Voice On";
+            actionListning.Value = !toggleListning.IsOn;
+        }
     }
 }

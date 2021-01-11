@@ -1,4 +1,4 @@
-<Page
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.VoiceCommandsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:Behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
@@ -9,12 +9,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:Name="pageRoot"
       mc:Ignorable="d">
+
   <Grid Padding="12"
         ColumnSpacing="12"
         RowSpacing="12">
 
     <Interactivity:Interaction.Behaviors>
-      <Behaviors:VoiceCommandTrigger Text="What can I say">
+      <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                     Text="What can I say">
         <core:CallMethodAction MethodName="WhatCanISay"
                                TargetObject="{x:Bind pageRoot}" />
       </Behaviors:VoiceCommandTrigger>
@@ -40,16 +42,20 @@
              Grid.RowSpan="3"
              SelectedIndex="0">
       <Interactivity:Interaction.Behaviors>
-        <Behaviors:VoiceCommandTrigger Text="Move available up">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move available up">
           <local:SelectListBoxItemAction MoveDirection="Up" />
         </Behaviors:VoiceCommandTrigger>
-        <Behaviors:VoiceCommandTrigger Text="Move available down">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move available down">
           <local:SelectListBoxItemAction MoveDirection="Down" />
         </Behaviors:VoiceCommandTrigger>
-        <Behaviors:VoiceCommandTrigger Text="Move available to First|Move available too First">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move available to First|Move available too First">
           <local:SelectListBoxItemAction MoveDirection="First" />
         </Behaviors:VoiceCommandTrigger>
-        <Behaviors:VoiceCommandTrigger Text="Move available to Last|Move available too Last">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move available to Last|Move available too Last">
           <local:SelectListBoxItemAction MoveDirection="Last" />
         </Behaviors:VoiceCommandTrigger>
       </Interactivity:Interaction.Behaviors>
@@ -72,7 +78,8 @@
             Content="&gt; Add &gt;">
       <Interactivity:Interaction.Behaviors>
         <Behaviors:VoiceCommandTrigger x:Uid="CommandAdd"
-                                               Text="Add|at">
+                                       IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Add|at">
           <local:ClickAction />
         </Behaviors:VoiceCommandTrigger>
       </Interactivity:Interaction.Behaviors>
@@ -86,16 +93,20 @@
              Grid.RowSpan="2"
              Grid.Column="2">
       <Interactivity:Interaction.Behaviors>
-        <Behaviors:VoiceCommandTrigger Text="Move selected up">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move selected up">
           <local:SelectListBoxItemAction MoveDirection="Up" />
         </Behaviors:VoiceCommandTrigger>
-        <Behaviors:VoiceCommandTrigger Text="Move selected down">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move selected down">
           <local:SelectListBoxItemAction MoveDirection="Down" />
         </Behaviors:VoiceCommandTrigger>
-        <Behaviors:VoiceCommandTrigger Text="Move selected to First|Move selected too First">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move selected to First|Move selected too First">
           <local:SelectListBoxItemAction MoveDirection="First" />
         </Behaviors:VoiceCommandTrigger>
-        <Behaviors:VoiceCommandTrigger Text="Move selected to Last|Move selected too Last">
+        <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Move selected to Last|Move selected too Last">
           <local:SelectListBoxItemAction MoveDirection="Last" />
         </Behaviors:VoiceCommandTrigger>
       </Interactivity:Interaction.Behaviors>
@@ -110,7 +121,8 @@
             Content="&lt; Delete &lt;">
       <Interactivity:Interaction.Behaviors>
         <Behaviors:VoiceCommandTrigger x:Uid="CommandDelete"
-                                               Text="Delete">
+                                       IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                       Text="Delete">
           <local:ClickAction />
         </Behaviors:VoiceCommandTrigger>
       </Interactivity:Interaction.Behaviors>
@@ -138,5 +150,23 @@
         </Interactivity:Interaction.Behaviors>
       </Button>
     </Grid>
+
+    <ToggleSwitch x:Name="toggleListning"
+                  Grid.Row="3"
+                  Grid.Column="1"
+                  VerticalAlignment="Bottom"
+                  Header="Voice"
+                  IsOn="True"
+                  Toggled="ToggleListning_Toggled">
+      <Interactivity:Interaction.Behaviors>
+        <Behaviors:VoiceCommandTrigger x:Name="triggerListning"
+                                       Text="Voice Off">
+          <core:ChangePropertyAction x:Name="actionListning"
+                                     PropertyName="IsOn"
+                                     TargetObject="{x:Bind toggleListning}"
+                                     Value="false" />
+        </Behaviors:VoiceCommandTrigger>
+      </Interactivity:Interaction.Behaviors>
+    </ToggleSwitch>
   </Grid>
 </Page>

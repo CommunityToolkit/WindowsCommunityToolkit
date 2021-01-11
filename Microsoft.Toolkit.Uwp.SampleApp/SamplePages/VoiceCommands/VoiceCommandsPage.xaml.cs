@@ -68,5 +68,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _ = new MessageDialog("TODO: What can I Say").ShowAsync();
         }
+
+        private void ToggleListning_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (triggerListning is object)
+            {
+                triggerListning.Text = toggleListning.IsOn ? "Voice Off" : "Voice On";
+                actionListning.Value = !toggleListning.IsOn;
+            }
+        }
     }
 }

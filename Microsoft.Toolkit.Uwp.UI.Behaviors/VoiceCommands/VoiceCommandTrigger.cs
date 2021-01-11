@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Microsoft.Xaml.Interactivity;
+using Windows.Gaming.Input.ForceFeedback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -41,7 +43,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                 {
                     _ = trigger.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        Interaction.ExecuteActions(trigger.AssociatedObject, trigger.Actions, e);
+                        if (trigger.IsEnabled)
+                        {
+                            Interaction.ExecuteActions(trigger.AssociatedObject, trigger.Actions, e);
+                        }
                     });
                 }
             }
@@ -54,6 +59,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(VoiceCommandTrigger), new PropertyMetadata(default(string), OnTextPropertyChanged));
+
+        public bool IsEnabled
+        {
+            get => (bool)GetValue(IsEnabledProperty);
+            set => SetValue(IsEnabledProperty, value);
+        }
+
+        public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register(nameof(IsEnabled), typeof(bool), typeof(VoiceCommandTrigger), new PropertyMetadata(true));
 
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
