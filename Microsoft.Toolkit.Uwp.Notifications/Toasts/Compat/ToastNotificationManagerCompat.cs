@@ -476,7 +476,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     {
                         Registry.CurrentUser.DeleteSubKeyTree(string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}", _clsid));
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     if (IsElevated)
                     {
@@ -484,13 +486,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         {
                             Registry.LocalMachine.DeleteSubKeyTree(string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}", _clsid));
                         }
-                        catch { }
+                        catch
+                        {
+                        }
 
                         try
                         {
                             Registry.LocalMachine.DeleteSubKeyTree(string.Format("SOFTWARE\\Classes\\AppID\\{{{0}}}", _clsid));
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
                 }
             }
