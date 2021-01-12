@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
-                        true);
+                        enableDependecyAnimations: true);
                 }
 
                 if (typeof(T) == typeof(double))
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
-                        true);
+                        enableDependecyAnimations: true);
                 }
 
                 if (typeof(T) == typeof(Point))
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
-                        true);
+                        enableDependecyAnimations: true);
                 }
 
                 if (typeof(T) == typeof(Color))

@@ -29,6 +29,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The optional delay for the animation.</param>
         /// <param name="duration">The duration of the <see cref="DoubleAnimation"/>.</param>
         /// <param name="easing">The easing function to use inside the <see cref="DoubleAnimation"/>.</param>
+        /// <param name="repeatBehavior">The repeat behavior for the animation (defaults to one iteration).</param>
+        /// <param name="fillBehavior">The behavior to use when the animation reaches the end of its schedule.</param>
+        /// <param name="autoReverse">Indicates whether the animation plays in reverse after each forward iteration.</param>
         /// <param name="enableDependecyAnimations">Indicates whether or not to apply this animation to elements that need the visual tree to be rearranged.</param>
         /// <returns>A <see cref="DoubleAnimation"/> instance with the specified parameters.</returns>
         [Pure]
@@ -40,6 +43,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? delay,
             TimeSpan duration,
             EasingFunctionBase? easing = null,
+            RepeatBehavior? repeatBehavior = null,
+            FillBehavior fillBehavior = FillBehavior.HoldEnd,
+            bool autoReverse = false,
             bool enableDependecyAnimations = false)
         {
             DoubleAnimation animation = new()
@@ -49,6 +55,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 BeginTime = delay,
                 Duration = duration,
                 EasingFunction = easing,
+                RepeatBehavior = repeatBehavior ?? new RepeatBehavior(1),
+                FillBehavior = fillBehavior,
+                AutoReverse = autoReverse,
                 EnableDependentAnimation = enableDependecyAnimations
             };
 
@@ -68,6 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The optional delay for the animation.</param>
         /// <param name="duration">The duration of the <see cref="PointAnimation"/>.</param>
         /// <param name="easing">The easing function to use inside the <see cref="PointAnimation"/>.</param>
+        /// <param name="repeatBehavior">The repeat behavior for the animation (defaults to one iteration).</param>
+        /// <param name="fillBehavior">The behavior to use when the animation reaches the end of its schedule.</param>
+        /// <param name="autoReverse">Indicates whether the animation plays in reverse after each forward iteration.</param>
         /// <param name="enableDependecyAnimations">Indicates whether or not to apply this animation to elements that need the visual tree to be rearranged.</param>
         /// <returns>A <see cref="PointAnimation"/> instance with the specified parameters.</returns>
         [Pure]
@@ -79,6 +91,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             TimeSpan? delay,
             TimeSpan duration,
             EasingFunctionBase? easing = null,
+            RepeatBehavior? repeatBehavior = null,
+            FillBehavior fillBehavior = FillBehavior.HoldEnd,
+            bool autoReverse = false,
             bool enableDependecyAnimations = false)
         {
             PointAnimation animation = new()
@@ -88,6 +103,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 BeginTime = delay,
                 Duration = duration,
                 EasingFunction = easing,
+                RepeatBehavior = repeatBehavior ?? new RepeatBehavior(1),
+                FillBehavior = fillBehavior,
+                AutoReverse = autoReverse,
                 EnableDependentAnimation = enableDependecyAnimations
             };
 
@@ -107,6 +125,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
         /// <param name="delay">The optional delay for the animation.</param>
         /// <param name="duration">The duration of the <see cref="XamlColorAnimation"/>.</param>
         /// <param name="easing">The easing function to use inside the <see cref="XamlColorAnimation"/>.</param>
+        /// <param name="repeatBehavior">The repeat behavior for the animation (defaults to one iteration).</param>
+        /// <param name="fillBehavior">The behavior to use when the animation reaches the end of its schedule.</param>
+        /// <param name="autoReverse">Indicates whether the animation plays in reverse after each forward iteration.</param>
         /// <returns>A <see cref="XamlColorAnimation"/> instance with the specified parameters.</returns>
         [Pure]
         public static XamlColorAnimation CreateColorAnimation(
@@ -116,7 +137,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
             Color? from,
             TimeSpan? delay,
             TimeSpan duration,
-            EasingFunctionBase? easing = null)
+            EasingFunctionBase? easing = null,
+            RepeatBehavior? repeatBehavior = null,
+            FillBehavior fillBehavior = FillBehavior.HoldEnd,
+            bool autoReverse = false)
         {
             XamlColorAnimation animation = new()
             {
@@ -124,7 +148,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
                 From = from,
                 BeginTime = delay,
                 Duration = duration,
-                EasingFunction = easing
+                EasingFunction = easing,
+                RepeatBehavior = repeatBehavior ?? new RepeatBehavior(1),
+                FillBehavior = fillBehavior,
+                AutoReverse = autoReverse
             };
 
             Storyboard.SetTarget(animation, target);
