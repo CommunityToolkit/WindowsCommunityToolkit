@@ -4,6 +4,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.AdaptiveGridView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DockPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SwitchPresenter" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.UniformGrid" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel" />
     </ToolboxItems>
