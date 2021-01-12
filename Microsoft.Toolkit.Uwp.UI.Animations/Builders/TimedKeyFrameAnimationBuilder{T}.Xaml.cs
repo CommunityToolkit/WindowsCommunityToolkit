@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="property">The target property to animate.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
+        /// <param name="repeatOption">The <see cref="RepeatOption"/> value for the animation</param>
         /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
         /// <returns>A <see cref="Timeline"/> instance with the specified animation.</returns>
         public static Timeline GetAnimation<TKeyFrame>(
@@ -31,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string property,
             TimeSpan? delay,
             TimeSpan duration,
+            RepeatOption repeatOption,
             ReadOnlySpan<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
@@ -121,6 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             animation.BeginTime = delay;
+            animation.RepeatBehavior = repeatOption.ToRepeatBehavior();
 
             Storyboard.SetTarget(animation, target);
             Storyboard.SetTargetProperty(animation, property);
@@ -137,8 +140,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}.Xaml"/> class.
             /// </summary>
             /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
-            public Xaml(string property, TimeSpan? delay)
-                : base(property, delay)
+            public Xaml(string property, TimeSpan? delay, RepeatOption repeatOption)
+                : base(property, delay, repeatOption)
             {
             }
 
@@ -160,6 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     default,
+                    this.repeatOption,
                     this.keyFrames.AsSpan());
             }
         }

@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Xaml"/> class.
             /// </summary>
             /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
-            public Xaml(string property, TimeSpan? delay, TimeSpan duration)
-                : base(property, delay, duration)
+            public Xaml(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeatOption)
+                : base(property, delay, duration, repeatOption)
             {
             }
 
@@ -44,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     this.duration,
+                    this.repeatOption,
                     this.keyFrames.AsSpan());
             }
         }

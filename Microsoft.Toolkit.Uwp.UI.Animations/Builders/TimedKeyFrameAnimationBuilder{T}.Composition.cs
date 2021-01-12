@@ -23,8 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
             /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
-            public Composition(string property, TimeSpan? delay)
-                : base(property, delay)
+            public Composition(string property, TimeSpan? delay, RepeatOption repeatOption)
+                : base(property, delay, repeatOption)
             {
             }
 
@@ -55,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     duration,
+                    this.repeatOption,
                     keyFrames);
             }
         }

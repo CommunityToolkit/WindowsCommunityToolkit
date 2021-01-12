@@ -36,6 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private readonly TimeSpan duration;
 
         /// <summary>
+        /// The repeat options for the animation.
+        /// </summary>
+        private readonly RepeatOption repeatOption;
+
+        /// <summary>
         /// The list builder of keyframes to use.
         /// </summary>
         private ListBuilder<KeyFrameInfo> keyFrames = ListBuilder<KeyFrameInfo>.Empty;
@@ -46,11 +51,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="property">The target property to animate.</param>
         /// <param name="delay">The target delay for the animation.</param>
         /// <param name="duration">The target duration for the animation.</param>
-        protected NormalizedKeyFrameAnimationBuilder(string property, TimeSpan? delay, TimeSpan duration)
+        /// <param name="repeatOption">The repeat options for the animation.</param>
+        protected NormalizedKeyFrameAnimationBuilder(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeatOption)
         {
             this.property = property;
             this.delay = delay;
             this.duration = duration;
+            this.repeatOption = repeatOption;
         }
 
         /// <inheritdoc/>
