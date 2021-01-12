@@ -39,17 +39,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             }
 
             var d = new WindowsMediaSpeechRecognizer(sr);
-
-            Debug.WriteLine($"SpeechRecognizer Language: { sr.CurrentLanguage.DisplayName}");
+            Debug.WriteLine($"SpeechRecognizer Language: {sr.CurrentLanguage.DisplayName}");
 
             sr.ContinuousRecognitionSession.AutoStopSilenceTimeout = TimeSpan.MaxValue;
             await sr.CompileConstraintsAsync();
             sr.ContinuousRecognitionSession.ResultGenerated += d.ContinuousRecognitionSession_ResultGenerated;
-            await sr.ContinuousRecognitionSession.StartAsync();
-
-            window.Activated += d.Window_Activated;
-
-            return d;
+            try
+            {
+                await sr.ContinuousRecognitionSession.StartAsync();
+                window.Activated += d.Window_Activated;
+                return d;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private void Window_Activated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
