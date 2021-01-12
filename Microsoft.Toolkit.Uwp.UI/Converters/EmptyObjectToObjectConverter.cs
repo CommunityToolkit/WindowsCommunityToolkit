@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// This class converts an object value into a an object (if the value is null returns the false value).
     /// Can be used to bind a visibility, a color or an image to the value of an object.
     /// </summary>
-    public class EmptyObjectToObjectConverter : DependencyObject, IValueConverter
+    public partial class EmptyObjectToObjectConverter : DependencyObject, IValueConverter
     {
         /// <summary>
         /// Identifies the <see cref="NotEmptyValue"/> property.

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.17763</TargetFramework>
+    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
@@ -46,6 +46,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
 
