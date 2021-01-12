@@ -103,6 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 state: (this, easingTypeHint, easingModeHint),
                 delay: Delay ?? delayHint ?? DefaultDelay,
                 duration: Duration ?? durationHint ?? DefaultDuration,
+                repeatOption: Repeat,
                 build: static (b, s) => s.This.AppendToBuilder(b, s.EasingTypeHint, s.EasingModeHint));
         }
 

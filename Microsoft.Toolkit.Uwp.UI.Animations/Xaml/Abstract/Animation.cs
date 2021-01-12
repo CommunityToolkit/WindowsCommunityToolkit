@@ -85,6 +85,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             typeof(Animation),
             new PropertyMetadata(null));
 
+        /// <summary>
+        /// Gets or sets the repeat option for the animation.
+        /// </summary>
+        public RepeatOption Repeat
+        {
+            get => (RepeatOption)GetValue(RepeatOptionProperty);
+            set => SetValue(RepeatOptionProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Repeat"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty RepeatOptionProperty = DependencyProperty.Register(
+            nameof(Repeat),
+            typeof(RepeatOption),
+            typeof(Animation),
+            new PropertyMetadata(RepeatOption.One));
+
         /// <inheritdoc/>
         public abstract AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint);
     }

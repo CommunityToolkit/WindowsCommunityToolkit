@@ -50,7 +50,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
                 ExplicitTarget,
                 Delay ?? delayHint ?? DefaultDelay,
-                Duration ?? durationHint ?? DefaultDuration);
+                Duration ?? durationHint ?? DefaultDuration,
+                Repeat);
 
             AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
 
