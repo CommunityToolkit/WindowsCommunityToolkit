@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Windows Community Toolkit Controls Primitives (Design)")]
-[assembly: AssemblyDescription("Design time support for Windows Community Toolkit Primitives Controls")]
+[assembly: AssemblyTitle("Windows Community Toolkit Primitive Controls (Design)")]
+[assembly: AssemblyDescription("Design time support for Windows Community Toolkit Primitive Controls")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("Windows Community Toolkit")]

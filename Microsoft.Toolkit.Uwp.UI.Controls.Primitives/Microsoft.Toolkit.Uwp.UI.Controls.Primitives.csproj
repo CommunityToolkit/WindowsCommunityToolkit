@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>uap10.0.17763</TargetFrameworks>
-		<Title>Windows Community Toolkit Controls</Title>
+		<Title>Windows Community Toolkit Primitive Controls</Title>
 		<Description>
 			This library provides controls for use in XAML which don't provide their own style. It is part of the Windows Community Toolkit.
 
