@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
@@ -72,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return Count(count);
             }
 
-            if (text.AsSpan().Trim().SequenceEqual("Forever".AsSpan()))
+            if (text.Trim().Equals("Forever", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Forever;
             }
