@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets a <see cref="RepeatOption"/> value representing a single iteration.
         /// </summary>
-        public static RepeatOption One => new(1);
+        public static RepeatOption Once => new(1);
 
         /// <summary>
         /// Gets a <see cref="RepeatOption"/> value indicating an animation that repeats forever.

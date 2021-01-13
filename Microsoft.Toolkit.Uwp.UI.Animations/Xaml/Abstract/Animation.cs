@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             nameof(Repeat),
             typeof(RepeatOption),
             typeof(Animation),
-            new PropertyMetadata(RepeatOption.One));
+            new PropertyMetadata(RepeatOption.Once));
 
         /// <inheritdoc/>
         public abstract AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint);
