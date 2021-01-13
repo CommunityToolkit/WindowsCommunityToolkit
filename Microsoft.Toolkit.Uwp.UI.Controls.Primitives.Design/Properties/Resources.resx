@@ -117,40 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CategoryAppearance" xml:space="preserve">
-    <value>Appearance</value>
-  </data>
-  <data name="CategoryBrush" xml:space="preserve">
-    <value>Brush</value>
-  </data>
   <data name="CategoryCommon" xml:space="preserve">
     <value>Common</value>
   </data>
-  <data name="CategoryDropShadow" xml:space="preserve">
-    <value>Drop Shadow</value>
-  </data>
-  <data name="CategoryInteractions" xml:space="preserve">
-    <value>Interactions</value>
-  </data>
-  <data name="CategoryMarkdownCodeStyle" xml:space="preserve">
-    <value>Markdown Style - Code</value>
-  </data>
-  <data name="CategoryMarkdownHeaderStyle" xml:space="preserve">
-    <value>Markdown Style - Header {0}</value>
-  </data>
-  <data name="CategoryMarkdownListStyle" xml:space="preserve">
-    <value>Markdown Style - List</value>
-  </data>
-  <data name="CategoryMarkdownQuoteStyle" xml:space="preserve">
-    <value>Markdown Style - Quote</value>
-  </data>
-  <data name="CategoryMarkdownStyle" xml:space="preserve">
-    <value>Markdown Style</value>
-  </data>
-  <data name="CategoryMarkdownTableStyle" xml:space="preserve">
-    <value>Markdown Style - Table</value>
-  </data>
-  <data name="CategoryText" xml:space="preserve">
-    <value>Text</value>
+  <data name="CategoryLayout" xml:space="preserve">
+    <value>Layout</value>
   </data>
 </root>
