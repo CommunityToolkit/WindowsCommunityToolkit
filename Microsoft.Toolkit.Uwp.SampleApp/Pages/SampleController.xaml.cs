@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (CurrentSample != null)
             {
-                if (!string.IsNullOrWhiteSpace(CurrentSample.Type))
+                if (CurrentSample.HasType)
                 {
                     try
                     {
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         SamplePage.Loaded += SamplePage_Loaded;
                     }
                 }
-                else
+                else if (!CurrentSample.HasXAMLCode)
                 {
                     _onlyDocumentation = true;
                 }
@@ -327,7 +327,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             base.OnNavigatedFrom(e);
 
-            if (SamplePage != null)
+            if (SamplePage != null && CurrentSample.HasType)
             {
                 MethodInfo method = CurrentSample.PageType.GetMethod(
                     "OnNavigatedFrom",
@@ -510,13 +510,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (element != null)
             {
-                // Add element to main panel
-                if (SamplePage == null)
-                {
-                    return;
-                }
+                // Add element to main panel or sub-panel
+                FrameworkElement root = null;
 
-                var root = SamplePage.FindDescendantByName("XamlRoot");
+                if (CurrentSample.HasType)
+                {
+                    root = SamplePage?.FindDescendantByName("XamlRoot");
+                }
 
                 if (root is Panel)
                 {
@@ -527,7 +527,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 else
                 {
                     // Otherwise, just replace the entire page's content
-                    SamplePage.Content = element;
+                    SampleContent.Content = element;
                 }
 
                 // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
