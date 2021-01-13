@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="property">The target property to animate.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
-        /// <param name="repeatOption">The <see cref="RepeatOption"/> value for the animation</param>
+        /// <param name="repeat">The <see cref="RepeatOption"/> value for the animation</param>
         /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
         /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
         public static CompositionAnimation GetAnimation<TKeyFrame>(
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             string property,
             TimeSpan? delay,
             TimeSpan duration,
-            RepeatOption repeatOption,
+            RepeatOption repeat,
             ReadOnlySpan<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
@@ -243,7 +243,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             animation.Target = property;
-            (animation.IterationBehavior, animation.IterationCount) = repeatOption.ToBehaviorAndCount();
+            (animation.IterationBehavior, animation.IterationCount) = repeat.ToBehaviorAndCount();
 
             return animation;
         }
@@ -257,8 +257,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
             /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
-            public Composition(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeatOption)
-                : base(property, delay, duration, repeatOption)
+            public Composition(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeat)
+                : base(property, delay, duration, repeat)
             {
             }
 
@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.property,
                     this.delay,
                     this.duration,
-                    this.repeatOption,
+                    this.repeat,
                     this.keyFrames.AsSpan());
             }
         }
