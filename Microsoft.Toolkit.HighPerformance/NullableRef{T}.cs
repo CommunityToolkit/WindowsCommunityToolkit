@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Gets a value indicating whether or not the current <see cref="NullableRef{T}"/> instance wraps a valid reference that can be accessed.
         /// </summary>
-        public bool HasValue
+        public unsafe bool HasValue
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 // This results in a single movzx instruction on x86-64.
                 byte length = unchecked((byte)Span.Length);
 
-                return Unsafe.As<byte, bool>(ref length);
+                return *(bool*)&length;
             }
         }
 

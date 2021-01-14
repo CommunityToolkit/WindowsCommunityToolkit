@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        public static unsafe ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
             // Check whether the input is in range by first casting both
             // operands to uint and then comparing them, as this allows
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // bounds unless the input span was just empty, which for a
             // lookup table can just be assumed to always be false.
             bool isInRange = (uint)i < (uint)span.Length;
-            byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
+            byte rangeFlag = *(byte*)&isInRange;
             uint
                 negativeFlag = unchecked(rangeFlag - 1u),
                 mask = ~negativeFlag,

@@ -17,6 +17,8 @@ using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
+#pragma warning disable CA2231
+
 namespace Microsoft.Toolkit.HighPerformance.Memory
 {
     /// <summary>
@@ -615,7 +617,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (!(this.instance is null))
+                if (this.instance is not null)
                 {
 #if SPAN_RUNTIME_SUPPORT
                     if (this.instance is MemoryManager<T> memoryManager)
@@ -753,7 +755,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A <see cref="MemoryHandle"/> instance wrapping the pinned handle.</returns>
         public unsafe MemoryHandle Pin()
         {
-            if (!(this.instance is null))
+            if (this.instance is not null)
             {
                 if (this.instance is MemoryManager<T> memoryManager)
                 {
@@ -876,7 +878,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode()
         {
-            if (!(this.instance is null))
+            if (this.instance is not null)
             {
 #if !NETSTANDARD1_4
                 return HashCode.Combine(
