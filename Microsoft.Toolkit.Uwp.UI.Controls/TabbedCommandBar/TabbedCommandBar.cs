@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ContentBackground"/> property.
         /// </summary>
         public static readonly DependencyProperty ContentBackgroundProperty =
-            DependencyProperty.Register("ContentBackground", typeof(Brush), typeof(TabbedCommandBar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ContentBackground), typeof(Brush), typeof(TabbedCommandBar), new PropertyMetadata(null));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabbedCommandBar"/> class.
