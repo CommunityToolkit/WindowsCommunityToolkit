@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -207,6 +208,60 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(model.Name, "This is fine");
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidateProperty()
+        {
+            var model = new ComparableModel();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            // Set a correct value for both properties, first A then B
+            model.A = 42;
+            model.B = 30;
+
+            Assert.AreEqual(events.Count, 0);
+            Assert.IsFalse(model.HasErrors);
+
+            // Make B greater than A, hence invalidating A
+            model.B = 50;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.IsTrue(model.HasErrors);
+
+            events.Clear();
+
+            // Make A greater than B, hence making it valid again
+            model.A = 51;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.AreEqual(model.GetErrors(nameof(ComparableModel.A)).Count(), 0);
+            Assert.IsFalse(model.HasErrors);
+
+            events.Clear();
+
+            // Make A smaller than B, hence invalidating it
+            model.A = 49;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.AreEqual(model.GetErrors(nameof(ComparableModel.A)).Count(), 1);
+            Assert.IsTrue(model.HasErrors);
+
+            events.Clear();
+
+            // Lower B, hence making A valid again
+            model.B = 20;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.AreEqual(model.GetErrors(nameof(ComparableModel.A)).Count(), 0);
+            Assert.IsFalse(model.HasErrors);
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -232,6 +287,60 @@ namespace UnitTests.Mvvm
             {
                 get => this.age;
                 set => SetProperty(ref this.age, value, true);
+            }
+        }
+
+        /// <summary>
+        /// Test model for linked properties, to test <see cref="ObservableValidator.ValidateProperty(object?, string?)"/> instance.
+        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3665 for the original request for this feature.
+        /// </summary>
+        public class ComparableModel : ObservableValidator
+        {
+            private int a;
+
+            [Range(10, 100)]
+            [GreaterThan(nameof(B))]
+            public int A
+            {
+                get => this.a;
+                set => SetProperty(ref this.a, value, true);
+            }
+
+            private int b;
+
+            [Range(20, 80)]
+            public int B
+            {
+                get => this.b;
+                set
+                {
+                    SetProperty(ref this.b, value, true);
+                    ValidateProperty(A, nameof(A));
+                }
+            }
+        }
+
+        public sealed class GreaterThanAttribute : ValidationAttribute
+        {
+            public GreaterThanAttribute(string propertyName)
+            {
+                PropertyName = propertyName;
+            }
+
+            public string PropertyName { get; }
+
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                object
+                    instance = validationContext.ObjectInstance,
+                    otherValue = instance.GetType().GetProperty(PropertyName).GetValue(instance);
+
+                if (((IComparable)value).CompareTo(otherValue) > 0)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("The current value is smaller than the other one");
             }
         }
     }
