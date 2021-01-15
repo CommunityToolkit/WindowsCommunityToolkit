@@ -4,7 +4,7 @@
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Media Controls</Title>
     <Description>
-      This library provides XAML templated controls. It is part of the Windows Community Toolkit.
+      This library provides controls backed by win2d for use in XAML. It is part of the Windows Community Toolkit.
 
       Controls:
         - Eyedropper: Eyedropper allows user to pick up a color from anywhere in there application.
