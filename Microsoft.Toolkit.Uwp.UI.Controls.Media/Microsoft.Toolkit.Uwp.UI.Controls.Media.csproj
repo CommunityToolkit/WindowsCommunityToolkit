@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <Title>Windows Community Toolkit Controls</Title>
+    <Title>Windows Community Toolkit Media Controls</Title>
     <Description>
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
 
