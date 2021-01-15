@@ -204,11 +204,12 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include=".editorconfig" />
+    <Content Include="Assets\Samples\InfiniteCanvasExportPreMedia.json" />
+    <Content Include="Assets\Samples\InfiniteCanvasExport.json" />
     <PRIResource Include="Strings\fr\Resources.resw" />
     <PRIResource Include="Strings\en-us\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <Content Include="Assets\Samples\InfiniteCanvasExport.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />
