@@ -7,10 +7,11 @@
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
 
       Controls:
+        - Eyedropper: Eyedropper allows user to pick up a color from anywhere in there application.
         - ImageCropper: ImageCropper control allows user to crop image freely.
         - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML InfiniteCanvas</PackageTags>
+    <PackageTags>UWP Toolkit Windows Controls XAML InfiniteCanvas Eyedropper</PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
