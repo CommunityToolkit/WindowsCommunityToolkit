@@ -135,7 +135,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
                 PathFigureType.EllipseFigure => new CanvasEllipseFigure(),
                 PathFigureType.PolygonFigure => new CanvasPolygonFigure(),
                 PathFigureType.RectangleFigure => new CanvasRectangleFigure(),
-                PathFigureType.RoundedRectangleFigure => new CanvasRoundRectangleFigure()
+                PathFigureType.RoundedRectangleFigure => new CanvasRoundRectangleFigure(),
+                _ => throw new ArgumentOutOfRangeException(nameof(figureType), figureType, "Invalid PathFigureType!")
             };
         }
 
@@ -157,7 +158,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
                 PathElementType.CubicBezier => new CubicBezierElement(),
                 PathElementType.SmoothCubicBezier => new SmoothCubicBezierElement(),
                 PathElementType.Arc => new ArcElement(),
-                PathElementType.ClosePath => new ClosePathElement()
+                PathElementType.ClosePath => new ClosePathElement(),
+                _ => throw new ArgumentOutOfRangeException(nameof(elementType), elementType, "Invalid PathElementType!")
             };
         }
     }
