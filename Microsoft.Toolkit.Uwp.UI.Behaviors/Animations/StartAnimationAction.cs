@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     /// <summary>
     /// An <see cref="IAction"/> implementation that can trigger a target <see cref="AnimationSet"/> instance.

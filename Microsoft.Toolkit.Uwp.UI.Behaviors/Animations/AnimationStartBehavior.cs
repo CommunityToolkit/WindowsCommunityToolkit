@@ -7,7 +7,7 @@
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     /// <summary>
     /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationSet"/> starts.

@@ -5,7 +5,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;

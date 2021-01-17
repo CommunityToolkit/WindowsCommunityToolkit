@@ -7,7 +7,7 @@
     xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mediaactions="using:Microsoft.Xaml.Interactions.Media"
     xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
   
