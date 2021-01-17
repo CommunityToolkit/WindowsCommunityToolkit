@@ -8,7 +8,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Extension methods for compositor to support Win2d Path Mini Language
+    /// Extension methods for compositor to support Win2d Path Mini Language.
     /// </summary>
     public static class CompositorGeometryExtensions
     {
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Creates a <see cref="CompositionGeometricClip"/> from the specified <see cref="CanvasGeometry"/>
+        /// Creates a <see cref="CompositionGeometricClip"/> from the specified <see cref="CanvasGeometry"/>.
         /// </summary>
         /// <param name="compositor"><see cref="Compositor"/></param>
         /// <param name="geometry"><see cref="CanvasGeometry"/></param>
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Parses the specified path data and converts it to <see cref="CompositionGeometricClip"/>
+        /// Parses the specified path data and converts it to <see cref="CompositionGeometricClip"/>.
         /// </summary>
         /// <param name="compositor"><see cref="Compositor"/></param>
         /// <param name="pathData">Path data (Win2d Path Mini Language) in string format.</param>

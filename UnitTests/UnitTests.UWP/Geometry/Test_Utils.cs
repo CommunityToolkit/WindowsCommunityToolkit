@@ -198,17 +198,6 @@ namespace UnitTests.UWP.Geometry
 
         [TestCategory("Geometry - Double")]
         [TestMethod]
-        public void Test_Utils_Double_IsNan()
-        {
-            Assert.AreEqual(true, Utils.IsNaN(double.NaN));
-
-            Assert.AreEqual(true, Utils.IsNaN(0 / 0.0));
-
-            Assert.AreEqual(false, Utils.IsNaN(5d / 20d));
-        }
-
-        [TestCategory("Geometry - Double")]
-        [TestMethod]
         public void Test_Utils_Double_RoundLayoutValue()
         {
             Assert.AreEqual(6d, Utils.RoundLayoutValue(5.5d, 1.000000000000000000001d));

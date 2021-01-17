@@ -8,10 +8,8 @@ using System.Numerics;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
 {
     /// <summary>
-    /// Structure which encapsulates the details of each of the core points
-    /// of the path of the rounded rectangle which is calculated based on
-    /// either the given (Size, CornerRadius, BorderThickness and Padding)
-    /// or (Size, RadiusX and RadiusY).
+    /// Structure which encapsulates the details of each of the core points  of the path of the rounded rectangle which is calculated based on
+    /// either the given (Size, CornerRadius, BorderThickness and Padding) or (Size, RadiusX and RadiusY).
     /// </summary>
     internal struct CanvasRoundRect
     {
@@ -39,23 +37,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         // BottomLeft                          BottomRight
         //   |                                         |
         //   |--LeftBottom----------------RightBottom--|
-        internal Vector2 LeftTop { get; private set; }
+        internal float LeftTopX { get; private set; }
 
-        internal Vector2 TopLeft { get; private set; }
+        internal float LeftTopY { get; private set; }
 
-        internal Vector2 TopRight { get; private set; }
+        internal float TopLeftX { get; private set; }
 
-        internal Vector2 RightTop { get; private set; }
+        internal float TopLeftY { get; private set; }
 
-        internal Vector2 RightBottom { get; private set; }
+        internal float TopRightX { get; private set; }
 
-        internal Vector2 BottomRight { get; private set; }
+        internal float TopRightY { get; private set; }
 
-        internal Vector2 BottomLeft { get; private set; }
+        internal float RightTopX { get; private set; }
 
-        internal Vector2 LeftBottom { get; private set; }
+        internal float RightTopY { get; private set; }
 
-        internal Vector2 Size { get; }
+        internal float RightBottomX { get; private set; }
+
+        internal float RightBottomY { get; private set; }
+
+        internal float BottomRightX { get; private set; }
+
+        internal float BottomRightY { get; private set; }
+
+        internal float BottomLeftX { get; private set; }
+
+        internal float BottomLeftY { get; private set; }
+
+        internal float LeftBottomX { get; private set; }
+
+        internal float LeftBottomY { get; private set; }
+
+        internal float Width { get; }
+
+        internal float Height { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CanvasRoundRect"/> struct.
@@ -70,7 +86,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         internal CanvasRoundRect(Vector2 origin, Vector2 size, Vector4 cornerRadius, Vector4 borderThickness, Vector4 padding, bool isOuterBorder)
             : this()
         {
-            Size = size;
+            Width = Math.Max(0f, size.X);
+            Height = Math.Max(0f, size.Y);
+
             var left = Factor * (borderThickness.X + padding.X);
             var top = Factor * (borderThickness.Y + padding.Y);
             var right = Factor * (borderThickness.Z + padding.Z);
@@ -135,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
             }
 
             // Calculate the anchor points
-            ComputeCoordinates(origin);
+            ComputeCoordinates(origin.X, origin.Y);
         }
 
         /// <summary>
@@ -162,7 +180,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         internal CanvasRoundRect(float x, float y, float width, float height, float radiusX, float radiusY)
             : this()
         {
-            Size = new Vector2(width, height);
+            Width = Math.Max(0f, width);
+            Height = Math.Max(0f, height);
 
             // Sanitize the radii by taking the absolute value
             radiusX = Math.Min(Math.Abs(radiusX), width / 2f);
@@ -177,64 +196,85 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
             _bottomRightHeight = radiusY;
             _bottomLeftHeight = radiusY;
 
-            ComputeCoordinates(new Vector2(x, y));
+            ComputeCoordinates(x, y);
         }
 
-        private void ComputeCoordinates(Vector2 origin)
+        /// <summary>
+        /// Computes the coordinates of the crucial points on the CanvasRoundRect
+        /// </summary>
+        /// <param name="originX">X coordinate of the origin.</param>
+        /// <param name="originY">Y coordinate of the origin.</param>
+        private void ComputeCoordinates(float originX, float originY)
         {
             // compute the coordinates of the key points
-            var leftTop = new Vector2(_leftTopWidth, 0);
-            var rightTop = new Vector2(Size.X - _rightTopWidth, 0);
-            var topRight = new Vector2(Size.X, _topRightHeight);
-            var bottomRight = new Vector2(Size.X, Size.Y - _bottomRightHeight);
-            var rightBottom = new Vector2(Size.X - _rightBottomWidth, Size.Y);
-            var leftBottom = new Vector2(_leftBottomWidth, Size.Y);
-            var bottomLeft = new Vector2(0, Size.Y - _bottomLeftHeight);
-            var topLeft = new Vector2(0, _topLeftHeight);
+            var leftTopX = _leftTopWidth;
+            var leftTopY = 0f;
+            var rightTopX = Width - _rightTopWidth;
+            var rightTopY = 0f;
+            var topRightX = Width;
+            var topRightY = _topRightHeight;
+            var bottomRightX = Width;
+            var bottomRightY = Height - _bottomRightHeight;
+            var rightBottomX = Width - _rightBottomWidth;
+            var rightBottomY = Height;
+            var leftBottomX = _leftBottomWidth;
+            var leftBottomY = Height;
+            var bottomLeftX = 0f;
+            var bottomLeftY = Height - _bottomLeftHeight;
+            var topLeftX = 0f;
+            var topLeftY = _topLeftHeight;
 
             // check anchors for overlap and resolve by partitioning corners according to
             // the percentage of each one.
             // top edge
-            if (leftTop.X > rightTop.X)
+            if (leftTopX > rightTopX)
             {
-                var v = _leftTopWidth / (_leftTopWidth + _rightTopWidth) * Size.X;
-                leftTop.X = v;
-                rightTop.X = v;
+                var v = _leftTopWidth / (_leftTopWidth + _rightTopWidth) * Width;
+                leftTopX = v;
+                rightTopX = v;
             }
 
             // right edge
-            if (topRight.Y > bottomRight.Y)
+            if (topRightY > bottomRightY)
             {
-                var v = _topRightHeight / (_topRightHeight + _bottomRightHeight) * Size.Y;
-                topRight.Y = v;
-                bottomRight.Y = v;
+                var v = _topRightHeight / (_topRightHeight + _bottomRightHeight) * Height;
+                topRightY = v;
+                bottomRightY = v;
             }
 
             // bottom edge
-            if (leftBottom.X > rightBottom.X)
+            if (leftBottomX > rightBottomX)
             {
-                var v = _leftBottomWidth / (_leftBottomWidth + _rightBottomWidth) * Size.X;
-                rightBottom.X = v;
-                leftBottom.X = v;
+                var v = _leftBottomWidth / (_leftBottomWidth + _rightBottomWidth) * Width;
+                rightBottomX = v;
+                leftBottomX = v;
             }
 
             // left edge
-            if (topLeft.Y > bottomLeft.Y)
+            if (topLeftY > bottomLeftY)
             {
-                var v = _topLeftHeight / (_topLeftHeight + _bottomLeftHeight) * Size.Y;
-                bottomLeft.Y = v;
-                topLeft.Y = v;
+                var v = _topLeftHeight / (_topLeftHeight + _bottomLeftHeight) * Height;
+                bottomLeftY = v;
+                topLeftY = v;
             }
 
             // Apply origin translation
-            LeftTop = leftTop + origin;
-            RightTop = rightTop + origin;
-            TopRight = topRight + origin;
-            BottomRight = bottomRight + origin;
-            RightBottom = rightBottom + origin;
-            LeftBottom = leftBottom + origin;
-            BottomLeft = bottomLeft + origin;
-            TopLeft = topLeft + origin;
+            LeftTopX = leftTopX + originX;
+            LeftTopY = leftTopY + originY;
+            RightTopX = rightTopX + originX;
+            RightTopY = rightTopY + originY;
+            TopRightX = topRightX + originX;
+            TopRightY = topRightY + originY;
+            BottomRightX = bottomRightX + originX;
+            BottomRightY = bottomRightY + originY;
+            RightBottomX = rightBottomX + originX;
+            RightBottomY = rightBottomY + originY;
+            LeftBottomX = leftBottomX + originX;
+            LeftBottomY = leftBottomY + originY;
+            BottomLeftX = bottomLeftX + originX;
+            BottomLeftY = bottomLeftY + originY;
+            TopLeftX = topLeftX + originX;
+            TopLeftY = topLeftY + originY;
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
 {
     /// <summary>
-    /// Represents a CanvasStrokeStyle Element
+    /// Represents a CanvasStrokeStyle Element.
     /// </summary>
     internal sealed class CanvasStrokeStyleElement : ICanvasStrokeStyleElement
     {
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         }
 
         /// <summary>
-        /// Initializes the Stroke Element with the given Capture
+        /// Initializes the Stroke Element with the given Capture.
         /// </summary>
         /// <param name="match">Match object</param>
         public void Initialize(Match match)

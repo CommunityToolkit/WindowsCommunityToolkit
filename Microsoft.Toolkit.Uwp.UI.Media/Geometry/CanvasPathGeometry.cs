@@ -7,14 +7,13 @@ using System.Text;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Common;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Helper Class for creating Win2d objects
+    /// Helper Class for creating Win2d objects.
     /// </summary>
     public static class CanvasPathGeometry
     {
@@ -78,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Parses the given Brush data string and converts it to ICanvasBrush
+        /// Parses the given Brush data string and converts it to ICanvasBrush.
         /// </summary>
         /// <param name="resourceCreator">ICanvasResourceCreator</param>
         /// <param name="brushData">Brush data in string format</param>
@@ -92,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Parses the given Stroke data string and converts it to ICanvasStroke
+        /// Parses the given Stroke data string and converts it to ICanvasStroke.
         /// </summary>
         /// <param name="resourceCreator">ICanvasResourceCreator</param>
         /// <param name="strokeData">Stroke data in string format</param>
@@ -106,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Parses the give CanvasStrokeStyle data string and converts it to CanvasStrokeStyle
+        /// Parses the give CanvasStrokeStyle data string and converts it to CanvasStrokeStyle.
         /// </summary>
         /// <param name="styleData">CanvasStrokeStyle data in string format</param>
         /// <returns><see cref="CanvasStrokeStyle"/> object</returns>
@@ -119,8 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the color string in Hexadecimal or HDR color format to the
-        /// corresponding Color object.
+        /// Converts the color string in Hexadecimal or HDR color format to the corresponding Color object.
         /// The hexadecimal color string should be in #RRGGBB or #AARRGGBB format.
         /// The '#' character is optional.
         /// The HDR color string should be in R G B A format.
@@ -133,25 +131,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             using (new CultureShield("en-US"))
             {
                 return ColorParser.Parse(colorString);
-            }
-        }
-
-        /// <summary>
-        /// Attempts to convert color string in Hexadecimal or HDR color format to the
-        /// corresponding Color object.
-        /// The hexadecimal color string should be in #RRGGBB or #AARRGGBB format.
-        /// The '#' character is optional.
-        /// The HDR color string should be in R G B A format.
-        /// (R, G, B &amp; A should have value in the range between 0 and 1, inclusive)
-        /// </summary>
-        /// <param name="colorString">Color string in Hexadecimal or HDR format</param>
-        /// <param name="color">Output Color object</param>
-        /// <returns>True if successful, otherwise False</returns>
-        public static bool TryCreateColor(string colorString, out Color color)
-        {
-            using (new CultureShield("en-US"))
-            {
-                return ColorParser.TryParse(colorString, out color);
             }
         }
 

@@ -12,13 +12,12 @@ using Windows.UI;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Extension methods for CanvasDrawingSession
+    /// Extension methods for CanvasDrawingSession.
     /// </summary>
     public static class CanvasDrawingSessionExtensions
     {
         /// <summary>
-        /// Draws a circle of at the given center, having the specified radius, using a
-        /// CanvasStroke to define the stroke width, the stroke color and stroke style.
+        /// Draws a circle of at the given center, having the specified radius, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="centerPoint">Center of the Circle</param>
@@ -31,8 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a circle of at the given center, having the specified radius, using a
-        /// CanvasStroke to define the stroke width, the stroke color and stroke style.
+        /// Draws a circle of at the given center, having the specified radius, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the Center in x axis</param>
@@ -46,8 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws an Ellipse of at the given center, having the specified radius, using a
-        /// CanvasStroke to define the stroke width, the stroke color and stroke style.
+        /// Draws an Ellipse of at the given center, having the specified radius, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="centerPoint">Center of the Circle</param>
@@ -61,8 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws an Ellipse of at the given center, having the specified radius, using a
-        /// CanvasStroke to define the stroke width, the stroke color and stroke style.
+        /// Draws an Ellipse of at the given center, having the specified radius, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the Center on the x axis</param>
@@ -77,8 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a geometry relative to the origin, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a geometry relative to the origin, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="geometry">CanvasGeometry to render</param>
@@ -90,8 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a geometry relative to the specified position, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a geometry relative to the specified position, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="geometry">CanvasGeometry to render</param>
@@ -104,8 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a geometry relative to the specified position, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a geometry relative to the specified position, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="geometry">CanvasGeometry to render</param>
@@ -119,8 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a line between the specified positions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a line between the specified positions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="point0">Starting position of the line</param>
@@ -133,8 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        ///  Draws a line between the specified positions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a line between the specified positions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x0">Offset of Starting position of the line on x-axis</param>
@@ -149,8 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a Rectangle of the specified dimensions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a Rectangle of the specified dimensions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="rect">Rectangle dimensions</param>
@@ -162,8 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a Rectangle of the specified dimensions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a Rectangle of the specified dimensions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the Rectangle on the x-axis</param>
@@ -178,8 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a Rounded Rectangle of the specified dimensions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a Rounded Rectangle of the specified dimensions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="rect">Rectangle dimensions</param>
@@ -193,8 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a Rounded Rectangle of the specified dimensions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a Rounded Rectangle of the specified dimensions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Rounded Rectangle on the x-axis</param>
@@ -211,8 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a Squircle of the specified dimensions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a Squircle of the specified dimensions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Squircle on the x-axis</param>
@@ -230,8 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Draws a Squircle of the specified dimensions, using a CanvasStroke to define the stroke
-        /// width, the stroke color and stroke style.
+        /// Draws a Squircle of the specified dimensions, using a CanvasStroke to define the stroke width, the stroke color and stroke style.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Squircle on the x-axis</param>
@@ -250,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Fills a Squircle of the specified dimensions, using the given color
+        /// Fills a Squircle of the specified dimensions, using the given color.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Squircle on the x-axis</param>
@@ -267,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Fills a Squircle of the specified dimensions, using the given brush
+        /// Fills a Squircle of the specified dimensions, using the given brush.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Squircle on the x-axis</param>
@@ -284,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Fills a Squircle of the specified dimensions, using the given color at specified offset
+        /// Fills a Squircle of the specified dimensions, using the given color at specified offset.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Squircle on the x-axis</param>
@@ -302,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Fills a Squircle of the specified dimensions, using the given brush at specified offset
+        /// Fills a Squircle of the specified dimensions, using the given brush at specified offset.
         /// </summary>
         /// <param name="session">CanvasDrawingSession</param>
         /// <param name="x">Offset of the top left corner of the  Squircle on the x-axis</param>

@@ -5,7 +5,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
 {
     /// <summary>
-    /// Enum for the various PathFigures
+    /// Enum for the various PathFigures.
     /// </summary>
     internal enum PathFigureType
     {
@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
     }
 
     /// <summary>
-    /// Enum for the various PathElements
+    /// Enum for the various PathElements.
     /// </summary>
     internal enum PathElementType
     {
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
     }
 
     /// <summary>
-    /// Enum for the various types of Brushes
+    /// Enum for the various types of Brushes.
     /// </summary>
     internal enum BrushType
     {
@@ -47,8 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
     }
 
     /// <summary>
-    /// Enum for the various types of
-    /// GradientStop attributes
+    /// Enum for the various types of GradientStop attributes.
     /// </summary>
     internal enum GradientStopAttributeType
     {

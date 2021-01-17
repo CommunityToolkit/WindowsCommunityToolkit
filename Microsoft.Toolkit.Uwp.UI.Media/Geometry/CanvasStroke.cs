@@ -11,8 +11,7 @@ using Windows.UI;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Class to represent the Stroke which
-    /// can be used to render an outline on a <see cref="CanvasGeometry"/>
+    /// Class to represent the Stroke which can be used to render an outline on a <see cref="CanvasGeometry"/>
     /// </summary>
     public sealed class CanvasStroke : ICanvasStroke
     {
@@ -36,15 +35,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         public Matrix3x2 Transform
         {
-            get
-            {
-                return GetTransform();
-            }
+            get => GetTransform();
 
-            set
-            {
-                SetTransform(value);
-            }
+            set => SetTransform(value);
         }
 
         /// <summary>

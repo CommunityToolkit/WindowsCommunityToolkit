@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Defines extension method for CanvasPathBuilder
+    /// Defines extension methods for CanvasPathBuilder.
     /// </summary>
     public static class CanvasPathBuilderExtensions
     {
@@ -20,8 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         private const float ControlPointFactor = 46f / 64f;
 
         /// <summary>
-        /// Adds a line in the form of a cubic bezier. The control point of the quadratic bezier
-        /// will be the endpoint of the line itself.
+        /// Adds a line in the form of a cubic bezier. The control point of the quadratic bezier will be the endpoint of the line itself.
         /// </summary>
         /// <param name="pathBuilder"><see cref="CanvasPathBuilder"/></param>
         /// <param name="end">Ending location of the line segment.</param>
@@ -31,8 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Adds a line in the form of a cubic bezier. The two control points of the cubic bezier
-        /// will be the endpoints of the line itself.
+        /// Adds a line in the form of a cubic bezier. The two control points of the cubic bezier will be the endpoints of the line itself.
         /// </summary>
         /// <param name="pathBuilder"><see cref="CanvasPathBuilder"/></param>
         /// <param name="start">Starting location of the line segment.</param>
@@ -101,9 +100,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             {
                 // An ArgumentException will be raised if another figure was already begun( and not ended)
                 // before calling AddEllipseFigure() method.
-                throw new InvalidOperationException("A call to CanvasPathBuilder.AddEllipseFigure occurred, " +
-                                                    "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                    "before calling CanvasPathBuilder.AddEllipseFigure, to end the previous figure.");
+                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddEllipseFigure occurred, " +
+                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                           "before calling CanvasPathBuilder.AddEllipseFigure, to end the previous figure.");
             }
 
             // First Semi-Ellipse
@@ -143,10 +142,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             // Sanitize the radius by taking the absolute value
             radius = Math.Abs(radius);
 
-            if (numSides < 3)
-            {
-                throw new ArgumentException("A polygon should have at least 3 sides", nameof(numSides));
-            }
+            // A polygon should have at least 3 sides
+            Guard.IsGreaterThan(numSides, 2, nameof(numSides));
 
             // Calculate the first vertex location based on the number of sides
             var angle = Scalar.TwoPi / numSides;
@@ -163,9 +160,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             {
                 // An ArgumentException will be raised if another figure was already begun( and not ended)
                 // before calling AddPolygonFigure() method.
-                throw new InvalidOperationException("A call to CanvasPathBuilder.AddPolygonFigure occurred, " +
-                                                    "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                    "before calling CanvasPathBuilder.AddPolygonFigure, to end the previous figure.");
+                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddPolygonFigure occurred, " +
+                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                           "before calling CanvasPathBuilder.AddPolygonFigure, to end the previous figure.");
             }
 
             // Add lines to the remaining vertices
@@ -207,9 +204,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             {
                 // An ArgumentException will be raised if another figure was already begun( and not ended)
                 // before calling AddPolygonFigure() method.
-                throw new InvalidOperationException("A call to CanvasPathBuilder.AddRectangleFigure occurred, " +
-                                                    "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                    "before calling CanvasPathBuilder.AddRectangleFigure, to end the previous figure.");
+                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddRectangleFigure occurred, " +
+                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                           "before calling CanvasPathBuilder.AddRectangleFigure, to end the previous figure.");
             }
 
             // Top Side
@@ -247,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             height = Math.Abs(height);
 
             var rect = new CanvasRoundRect(x, y, width, height, radiusX, radiusY);
-            pathBuilder.AddRoundedRectangleFigure(rect, true);
+            pathBuilder.AddRoundedRectangleFigure(ref rect, true);
         }
 
         /// <summary>
@@ -256,12 +253,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="pathBuilder"><see cref="CanvasPathBuilder"/></param>
         /// <param name="rect">CanvasRoundRect</param>
         /// <param name="raiseException">Flag to indicate whether exception should be raised</param>
-        internal static void AddRoundedRectangleFigure(this CanvasPathBuilder pathBuilder, CanvasRoundRect rect, bool raiseException = false)
+        internal static void AddRoundedRectangleFigure(this CanvasPathBuilder pathBuilder, ref CanvasRoundRect rect, bool raiseException = false)
         {
             try
             {
                 // Begin path
-                pathBuilder.BeginFigure(rect.LeftTop);
+                pathBuilder.BeginFigure(new Vector2(rect.LeftTopX, rect.LeftTopY));
             }
             catch (ArgumentException)
             {
@@ -272,45 +269,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 
                 // An ArgumentException will be raised if another figure was already begun( and not ended)
                 // before calling AddPolygonFigure() method.
-                throw new InvalidOperationException("A call to CanvasPathBuilder.AddRoundedRectangleFigure occurred, " +
-                                                    "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                    "before calling CanvasPathBuilder.AddRoundedRectangleFigure, to end the previous figure.");
+                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddRoundedRectangleFigure occurred, " +
+                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                           "before calling CanvasPathBuilder.AddRoundedRectangleFigure, to end the previous figure.");
             }
 
             // Top line
-            pathBuilder.AddLine(rect.RightTop);
+            pathBuilder.AddLine(new Vector2(rect.RightTopX, rect.RightTopY));
 
             // Upper-right corner
-            var radiusX = rect.TopRight.X - rect.RightTop.X;
-            var radiusY = rect.TopRight.Y - rect.RightTop.Y;
-            var center = new Vector2(rect.RightTop.X, rect.TopRight.Y);
+            var radiusX = rect.TopRightX - rect.RightTopX;
+            var radiusY = rect.TopRightY - rect.RightTopY;
+            var center = new Vector2(rect.RightTopX, rect.TopRightY);
             pathBuilder.AddArc(center, radiusX, radiusY, 3f * Scalar.PiByTwo, Scalar.PiByTwo);
 
             // Right line
-            pathBuilder.AddLine(rect.BottomRight);
+            pathBuilder.AddLine(new Vector2(rect.BottomRightX, rect.BottomRightY));
 
             // Lower-right corner
-            radiusX = rect.BottomRight.X - rect.RightBottom.X;
-            radiusY = rect.RightBottom.Y - rect.BottomRight.Y;
-            center = new Vector2(rect.RightBottom.X, rect.BottomRight.Y);
+            radiusX = rect.BottomRightX - rect.RightBottomX;
+            radiusY = rect.RightBottomY - rect.BottomRightY;
+            center = new Vector2(rect.RightBottomX, rect.BottomRightY);
             pathBuilder.AddArc(center, radiusX, radiusY, 0f, Scalar.PiByTwo);
 
             // Bottom line
-            pathBuilder.AddLine(rect.LeftBottom);
+            pathBuilder.AddLine(new Vector2(rect.LeftBottomX, rect.LeftBottomY));
 
             // Lower-left corner
-            radiusX = rect.LeftBottom.X - rect.BottomLeft.X;
-            radiusY = rect.LeftBottom.Y - rect.BottomLeft.Y;
-            center = new Vector2(rect.LeftBottom.X, rect.BottomLeft.Y);
+            radiusX = rect.LeftBottomX - rect.BottomLeftX;
+            radiusY = rect.LeftBottomY - rect.BottomLeftY;
+            center = new Vector2(rect.LeftBottomX, rect.BottomLeftY);
             pathBuilder.AddArc(center, radiusX, radiusY, Scalar.PiByTwo, Scalar.PiByTwo);
 
             // Left line
-            pathBuilder.AddLine(rect.TopLeft);
+            pathBuilder.AddLine(new Vector2(rect.TopLeftX, rect.TopLeftY));
 
             // Upper-left corner
-            radiusX = rect.LeftTop.X - rect.TopLeft.X;
-            radiusY = rect.TopLeft.Y - rect.LeftTop.Y;
-            center = new Vector2(rect.LeftTop.X, rect.TopLeft.Y);
+            radiusX = rect.LeftTopX - rect.TopLeftX;
+            radiusY = rect.TopLeftY - rect.LeftTopY;
+            center = new Vector2(rect.LeftTopX, rect.TopLeftY);
             pathBuilder.AddArc(center, radiusX, radiusY, 2f * Scalar.PiByTwo, Scalar.PiByTwo);
 
             // End path
@@ -336,7 +333,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             height = Math.Abs(height);
 
             var rect = new CanvasRoundRect(x, y, width, height, radiusX * SquircleFactor, radiusY * SquircleFactor);
-            pathBuilder.AddSquircleFigure(rect, true);
+            pathBuilder.AddSquircleFigure(ref rect, true);
         }
 
         /// <summary>
@@ -345,12 +342,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="pathBuilder"><see cref="CanvasPathBuilder"/></param>
         /// <param name="rect">CanvasRoundRect</param>
         /// <param name="raiseException">Flag to indicate whether exception should be raised</param>
-        internal static void AddSquircleFigure(this CanvasPathBuilder pathBuilder, CanvasRoundRect rect, bool raiseException = false)
+        internal static void AddSquircleFigure(this CanvasPathBuilder pathBuilder, ref CanvasRoundRect rect, bool raiseException = false)
         {
             try
             {
                 // Begin path
-                pathBuilder.BeginFigure(rect.LeftTop);
+                pathBuilder.BeginFigure(new Vector2(rect.LeftTopX, rect.LeftTopY));
             }
             catch (ArgumentException)
             {
@@ -361,50 +358,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 
                 // An ArgumentException will be raised if another figure was already begun( and not ended)
                 // before calling AddPolygonFigure() method.
-                throw new InvalidOperationException("A call to CanvasPathBuilder.AddSquircleFigure occurred, " +
-                                                    "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                    "before calling CanvasPathBuilder.AddSquircleFigure, to end the previous figure.");
+                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddSquircleFigure occurred, " +
+                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                           "before calling CanvasPathBuilder.AddSquircleFigure, to end the previous figure.");
             }
 
             // Top line
-            pathBuilder.AddLine(rect.RightTop);
+            pathBuilder.AddLine(new Vector2(rect.RightTopX, rect.RightTopY));
 
             // Upper-right corner
-            var rightTopControlPoint = new Vector2(rect.RightTop.X + ((rect.TopRight.X - rect.RightTop.X) * ControlPointFactor), rect.RightTop.Y);
-            var topRightControlPoint = new Vector2(rect.TopRight.X, rect.TopRight.Y - ((rect.TopRight.Y - rect.RightTop.Y) * ControlPointFactor));
+            var rightTopControlPoint = new Vector2(rect.RightTopX + ((rect.TopRightX - rect.RightTopX) * ControlPointFactor), rect.RightTopY);
+            var topRightControlPoint = new Vector2(rect.TopRightX, rect.TopRightY - ((rect.TopRightY - rect.RightTopY) * ControlPointFactor));
 
             // Top Right Curve
-            pathBuilder.AddCubicBezier(rightTopControlPoint, topRightControlPoint, rect.TopRight);
+            pathBuilder.AddCubicBezier(rightTopControlPoint, topRightControlPoint, new Vector2(rect.TopRightX, rect.TopRightY));
 
             // Right line
-            pathBuilder.AddLine(rect.BottomRight);
+            pathBuilder.AddLine(new Vector2(rect.BottomRightX, rect.BottomRightY));
 
             // Lower-right corner
-            var bottomRightControlPoint = new Vector2(rect.BottomRight.X, rect.BottomRight.Y + ((rect.RightBottom.Y - rect.BottomRight.Y) * ControlPointFactor));
-            var rightBottomControlPoint = new Vector2(rect.RightBottom.X + ((rect.BottomRight.X - rect.RightBottom.X) * ControlPointFactor), rect.RightBottom.Y);
+            var bottomRightControlPoint = new Vector2(rect.BottomRightX, rect.BottomRightY + ((rect.RightBottomY - rect.BottomRightY) * ControlPointFactor));
+            var rightBottomControlPoint = new Vector2(rect.RightBottomX + ((rect.BottomRightX - rect.RightBottomX) * ControlPointFactor), rect.RightBottomY);
 
             // Bottom Right Curve
-            pathBuilder.AddCubicBezier(bottomRightControlPoint, rightBottomControlPoint, rect.RightBottom);
+            pathBuilder.AddCubicBezier(bottomRightControlPoint, rightBottomControlPoint, new Vector2(rect.RightBottomX, rect.RightBottomY));
 
             // Bottom line
-            pathBuilder.AddLine(rect.LeftBottom);
+            pathBuilder.AddLine(new Vector2(rect.LeftBottomX, rect.LeftBottomY));
 
             // Lower-left corner
-            var leftBottomControlPoint = new Vector2(rect.LeftBottom.X - ((rect.LeftBottom.X - rect.BottomLeft.X) * ControlPointFactor), rect.LeftBottom.Y);
-            var bottomLeftControlPoint = new Vector2(rect.BottomLeft.X, rect.BottomLeft.Y + ((rect.LeftBottom.Y - rect.BottomLeft.Y) * ControlPointFactor));
+            var leftBottomControlPoint = new Vector2(rect.LeftBottomX - ((rect.LeftBottomX - rect.BottomLeftX) * ControlPointFactor), rect.LeftBottomY);
+            var bottomLeftControlPoint = new Vector2(rect.BottomLeftX, rect.BottomLeftY + ((rect.LeftBottomY - rect.BottomLeftY) * ControlPointFactor));
 
             // Bottom Left Curve
-            pathBuilder.AddCubicBezier(leftBottomControlPoint, bottomLeftControlPoint, rect.BottomLeft);
+            pathBuilder.AddCubicBezier(leftBottomControlPoint, bottomLeftControlPoint, new Vector2(rect.BottomLeftX, rect.BottomLeftY));
 
             // Left line
-            pathBuilder.AddLine(rect.TopLeft);
+            pathBuilder.AddLine(new Vector2(rect.TopLeftX, rect.TopLeftY));
 
             // Upper-left corner
-            var topLeftControlPoint = new Vector2(rect.TopLeft.X, rect.TopLeft.Y - ((rect.TopLeft.Y - rect.LeftTop.Y) * ControlPointFactor));
-            var leftTopControlPoint = new Vector2(rect.LeftTop.X - ((rect.LeftTop.X - rect.TopLeft.X) * ControlPointFactor), rect.LeftTop.Y);
+            var topLeftControlPoint = new Vector2(rect.TopLeftX, rect.TopLeftY - ((rect.TopLeftY - rect.LeftTopY) * ControlPointFactor));
+            var leftTopControlPoint = new Vector2(rect.LeftTopX - ((rect.LeftTopX - rect.TopLeftX) * ControlPointFactor), rect.LeftTopY);
 
             // Top Left Curve
-            pathBuilder.AddCubicBezier(topLeftControlPoint, leftTopControlPoint, rect.LeftTop);
+            pathBuilder.AddCubicBezier(topLeftControlPoint, leftTopControlPoint, new Vector2(rect.LeftTopX, rect.LeftTopY));
 
             // End path
             pathBuilder.EndFigure(CanvasFigureLoop.Closed);

@@ -11,8 +11,7 @@ using System.Text.RegularExpressions;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
 {
     /// <summary>
-    /// Contains all the Regular Expressions which are
-    /// used for parsing the CanvasGeometry Mini-Language
+    /// Contains all the Regular Expressions which are used for parsing the Win2d Path Mini Language.
     /// </summary>
     internal static class RegexFactory
     {
@@ -20,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         private const string Spacer = @"\s*";
 
         // Whitespace or comma
-        private const string SoC = @"(?:\s+|\s*,\s*)";
+        private const string SpaceOrComma = @"(?:\s+|\s*,\s*)";
 
         // Whitespace or comma or a minus/plus sign (look ahead)
         private const string Sep = @"(?:\s+|\s*,\s*|(?=[-+.]))";
@@ -79,8 +78,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         private static readonly string SmoothCubicBezier = $"(?<SmoothCubicBezier>[Ss]{Spacer}{Pos}{Sep}{Pos}(?:{Sep}{Pos}{Sep}{Pos})*{Spacer})";
 
         // Arc
-        private static readonly string Arc = $"(?<Arc>[Aa]{Spacer}{Float}{Sep}{Float}{Sep}{Float}{SoC}[01]{SoC}[01]{Sep}{Pos}" +
-                                            $"(?:{Sep}{Float}{Sep}{Float}{Sep}{Float}{SoC}[01]{SoC}[01]{Sep}{Pos})*{Spacer})";
+        private static readonly string Arc = $"(?<Arc>[Aa]{Spacer}{Float}{Sep}{Float}{Sep}{Float}{SpaceOrComma}[01]{SpaceOrComma}[01]{Sep}{Pos}" +
+                                            $"(?:{Sep}{Float}{Sep}{Float}{Sep}{Float}{SpaceOrComma}[01]{SpaceOrComma}[01]{Sep}{Pos})*{Spacer})";
 
         // Close Path
         private static readonly string ClosePath = $"(?<ClosePath>[Zz]{Spacer})";
@@ -98,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
             $"{SmoothCubicBezier}+|" + // S x2,y2 x,y
             $"{Arc}+|" + // A radX, radY, angle, isLargeArc, sweepDirection, x, y
              ")+" +
-            $"{ClosePath}?";                // Close Path (Optional)
+            $"{ClosePath}?"; // Close Path (Optional)
 
         // Fill Rule
         private static readonly string FillRule = $"{Spacer}(?<FillRule>[Ff]{Spacer}[01])";
@@ -176,11 +175,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
                                                                      $"(?<Additional>{Sep}{Pos}{Sep}{Pos})*";
 
         // Arc
-        private static readonly string ArcAttributes = $"(?<RadiusX>{Float}){Sep}(?<RadiusY>{Float}){Sep}(?<Angle>{Float}){SoC}" +
-                                                      $"(?<IsLargeArc>[01]){SoC}(?<SweepDirection>[01]){Sep}(?<X>{Float}){Sep}(?<Y>{Float})";
+        private static readonly string ArcAttributes = $"(?<RadiusX>{Float}){Sep}(?<RadiusY>{Float}){Sep}(?<Angle>{Float}){SpaceOrComma}" +
+                                                      $"(?<IsLargeArc>[01]){SpaceOrComma}(?<SweepDirection>[01]){Sep}(?<X>{Float}){Sep}(?<Y>{Float})";
 
         private static readonly string ArcRegexString = $"{Spacer}(?<Main>(?<Command>[Aa]){Spacer}{ArcAttributes})" +
-                                                       $"(?<Additional>{Sep}{Float}{Sep}{Float}{Sep}{Float}{SoC}[01]{SoC}[01]{Sep}{Pos})*";
+                                                       $"(?<Additional>{Sep}{Float}{Sep}{Float}{Sep}{Float}{SpaceOrComma}[01]{SpaceOrComma}[01]{Sep}{Pos})*";
 
         // Close Path
         private static readonly string ClosePathRegexString = $"{Spacer}(?<Main>(?<Command>[Zz])){Spacer}";
@@ -313,8 +312,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
                                                         $"{GradientStopHdrs}+{Spacer})";
 
         // Regex for the CanvasBrush
-        private static readonly string CanvasBrushRegexString =
-            $"(?<CanvasBrush>{SolidColorBrush}|{LinearGradient}|{RadialGradient}|{LinearGradientHdr}|{RadialGradientHdr})";
+        private static readonly string CanvasBrushRegexString = $"(?<CanvasBrush>{SolidColorBrush}|{LinearGradient}|{RadialGradient}|{LinearGradientHdr}|{RadialGradientHdr})";
 
         // Start Point
         private static readonly string StartPointAttr = $"(?:[Mm]{Spacer}(?<StartX>{Float}){Sep}(?<StartY>{Float}){Spacer})";
@@ -346,14 +344,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         // GradientStop Attributes
         private static readonly string GradientStopAttributes = $"(?<Position>{Float01}){ColorSep}{RgbColorAttributes}";
         private static readonly string GradientStopMainAttributes = $"(?<Main>[Ss]{Spacer}{GradientStopAttributes})";
-        private static readonly string GradientStopRegexString = $"(?<GradientStops>{GradientStopMainAttributes}" +
-                                                                $"(?<Additional>{Sep}{Float01}{ColorSep}{HexColor})*{Spacer})";
+        private static readonly string GradientStopRegexString = $"(?<GradientStops>{GradientStopMainAttributes}" + $"(?<Additional>{Sep}{Float01}{ColorSep}{HexColor})*{Spacer})";
 
         // GradientStopHdr Attributes
         private static readonly string GradientStopHdrAttributes = $"(?<Position>{Float01}){Sep}{HdrColorAttributes}";
         private static readonly string GradientStopHdrMainAttributes = $"(?<Main>(?<Command>[Ss]){Spacer}{GradientStopHdrAttributes})";
-        private static readonly string GradientStopHdrRegexString = $"(?<GradientStops>{GradientStopHdrMainAttributes}" +
-                                                                    $"(?<Additional>{Sep}{Float01}{Sep}{HdrColor})*{Spacer})";
+        private static readonly string GradientStopHdrRegexString = $"(?<GradientStops>{GradientStopHdrMainAttributes}" + $"(?<Additional>{Sep}{Float01}{Sep}{HdrColor})*{Spacer})";
 
         // Regex for SolidColorBrush Attributes
         private static readonly string SolidColorBrushRegexString = $"(?:[Ss][Cc]{Spacer}(?:{RgbColorAttributes}|{HdrColorAttributes}){Spacer}{OpacityAttr}?)";
@@ -392,8 +388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         private static readonly string DashCap = $"(?:[Dd][Cc]{Spacer}(?<DashCap>[0123]){Spacer})";
         private static readonly string TransformBehavior = $"(?:[Tt][Bb]{Spacer}(?<TransformBehavior>[012]){Spacer})";
         private static readonly string CustomDashAttribute = $"(?<DashSize>{Float}){Sep}(?<SpaceSize>{Float})";
-        private static readonly string CustomDashStyle = $"(?<CustomDashStyle>[Cc][Dd][Ss]{Spacer}(?<Main>{CustomDashAttribute})" +
-                                                         $"(?<Additional>{Sep}{Float}{Sep}{Float})*{Spacer})";
+        private static readonly string CustomDashStyle = $"(?<CustomDashStyle>[Cc][Dd][Ss]{Spacer}(?<Main>{CustomDashAttribute})" + $"(?<Additional>{Sep}{Float}{Sep}{Float})*{Spacer})";
 
         // CanvasStrokeStyle Regex
         private static readonly string CanvasStrokeStyleRegexString = $"(?<CanvasStrokeStyle>[Cc][Ss][Ss]{Spacer}{DashStyle}?{LineJoin}?{MiterLimit}?{DashOffset}?" +
@@ -413,47 +408,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         private static readonly Dictionary<GradientStopAttributeType, Regex> GradientStopAttributeRegexes;
 
         /// <summary>
-        /// Gets the Regex to perform validation of Path data
+        /// Gets the Regex to perform validation of Path data.
         /// </summary>
         public static Regex ValidationRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the CanvasGeometry string
+        /// Gets the Regex for parsing the CanvasGeometry string.
         /// </summary>
         public static Regex CanvasGeometryRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing Hexadecimal Color string
+        /// Gets the Regex for parsing Hexadecimal Color string.
         /// </summary>
         public static Regex ColorRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the ICanvasBrush string
+        /// Gets the Regex for parsing the ICanvasBrush string.
         /// </summary>
         public static Regex CanvasBrushRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the GradientStop string
+        /// Gets the Regex for parsing the GradientStop string.
         /// </summary>
         public static Regex GradientStopRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the GradientStopHdr string
+        /// Gets the Regex for parsing the GradientStopHdr string.
         /// </summary>
         public static Regex GradientStopHdrRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the CanvasStrokeStyle string
+        /// Gets the Regex for parsing the CanvasStrokeStyle string.
         /// </summary>
         public static Regex CanvasStrokeStyleRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the CanvasStroke string
+        /// Gets the Regex for parsing the CanvasStroke string.
         /// </summary>
         public static Regex CanvasStrokeRegex { get; }
 
         /// <summary>
-        /// Gets the Regex for parsing the CustomDashStyle attributes
+        /// Gets the Regex for parsing the CustomDashStyle attributes.
         /// </summary>
         public static Regex CustomDashAttributeRegex { get; }
 

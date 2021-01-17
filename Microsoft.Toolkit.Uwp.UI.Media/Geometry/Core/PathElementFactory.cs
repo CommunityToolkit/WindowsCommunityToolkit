@@ -4,6 +4,7 @@
 
 using System;
 using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
@@ -14,49 +15,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
     internal static class PathElementFactory
     {
         /// <summary>
-        /// Creates a default Path Element for the given PathFigureType
+        /// Creates a default Path Element for the given PathFigureType.
         /// </summary>
         /// <param name="figureType">PathFigureType</param>
         /// <returns>ICanvasPathElement</returns>
         internal static ICanvasPathElement CreateDefaultPathElement(PathFigureType figureType)
         {
-            ICanvasPathElement result;
+            ICanvasPathElement result = null;
 
-            switch (figureType)
+            if (figureType == PathFigureType.FillRule)
             {
-                case PathFigureType.FillRule:
-                    result = new FillRuleElement();
-                    break;
-                default:
-                    throw new ArgumentException("Creation of Only Default FillRuleElement is supported.", nameof(figureType));
+                result = new FillRuleElement();
+            }
+            else
+            {
+                ThrowHelper.ThrowArgumentException("Creation of Only Default FillRuleElement is supported.", nameof(figureType));
             }
 
             return result;
         }
 
         /// <summary>
-        /// Creates a default Path Element for the given PathElementType
+        /// Creates a default Path Element for the given PathElementType.
         /// </summary>
         /// <param name="elementType">PathElementType</param>
         /// <returns>ICanvasPathElement</returns>
         internal static ICanvasPathElement CreateDefaultPathElement(PathElementType elementType)
         {
-            ICanvasPathElement result;
+            ICanvasPathElement result = null;
 
-            switch (elementType)
+            if (elementType == PathElementType.ClosePath)
             {
-                case PathElementType.ClosePath:
-                    result = new ClosePathElement();
-                    break;
-                default:
-                    throw new ArgumentException("Creation of Only Default ClosePathElement is supported.", nameof(elementType));
+                result = new ClosePathElement();
+            }
+            else
+            {
+                ThrowHelper.ThrowArgumentException("Creation of Only Default ClosePathElement is supported.", nameof(elementType));
             }
 
             return result;
         }
 
         /// <summary>
-        /// Instantiates a PathElement based on the PathFigureType
+        /// Instantiates a PathElement based on the PathFigureType.
         /// </summary>
         /// <param name="figureType">PathFigureType</param>
         /// <param name="match">Match object</param>
@@ -70,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         }
 
         /// <summary>
-        /// Instantiates a PathElement based on the PathFigureType
+        /// Instantiates a PathElement based on the PathFigureType.
         /// </summary>
         /// <param name="figureType">PathFigureType</param>
         /// <param name="capture">Capture object</param>
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         }
 
         /// <summary>
-        /// Instantiates a PathElement based on the PathElementType
+        /// Instantiates a PathElement based on the PathElementType.
         /// </summary>
         /// <param name="elementType">PathElementType</param>
         /// <param name="match">Match object</param>
@@ -99,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         }
 
         /// <summary>
-        /// Instantiates a PathElement based on the PathElementType
+        /// Instantiates a PathElement based on the PathElementType.
         /// </summary>
         /// <param name="elementType">PathElementType</param>
         /// <param name="capture">Capture object</param>
@@ -121,83 +122,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         }
 
         /// <summary>
-        /// Instantiates a PathElement based on the PathFigureType
+        /// Instantiates a PathElement based on the PathFigureType.
         /// </summary>
         /// <param name="figureType">PathFigureType</param>
         /// <returns>ICanvasPathElement</returns>
         private static ICanvasPathElement CreatePathElement(PathFigureType figureType)
         {
-            ICanvasPathElement result = null;
-
-            switch (figureType)
+            return figureType switch
             {
-                case PathFigureType.FillRule:
-                    result = new FillRuleElement();
-                    break;
-                case PathFigureType.PathFigure:
-                    result = new CanvasPathFigure();
-                    break;
-                case PathFigureType.EllipseFigure:
-                    result = new CanvasEllipseFigure();
-                    break;
-                case PathFigureType.PolygonFigure:
-                    result = new CanvasPolygonFigure();
-                    break;
-                case PathFigureType.RectangleFigure:
-                    result = new CanvasRectangleFigure();
-                    break;
-                case PathFigureType.RoundedRectangleFigure:
-                    result = new CanvasRoundRectangleFigure();
-                    break;
-            }
-
-            return result;
+                PathFigureType.FillRule => new FillRuleElement(),
+                PathFigureType.PathFigure => new CanvasPathFigure(),
+                PathFigureType.EllipseFigure => new CanvasEllipseFigure(),
+                PathFigureType.PolygonFigure => new CanvasPolygonFigure(),
+                PathFigureType.RectangleFigure => new CanvasRectangleFigure(),
+                PathFigureType.RoundedRectangleFigure => new CanvasRoundRectangleFigure()
+            };
         }
 
         /// <summary>
-        /// Instantiates a PathElement based on the PathElementType
+        /// Instantiates a PathElement based on the PathElementType.
         /// </summary>
         /// <param name="elementType">PathElementType</param>
         /// <returns>ICanvasPathElement</returns>
         private static ICanvasPathElement CreatePathElement(PathElementType elementType)
         {
-            ICanvasPathElement result = null;
-
-            switch (elementType)
+            return elementType switch
             {
-                case PathElementType.MoveTo:
-                    result = new MoveToElement();
-                    break;
-                case PathElementType.Line:
-                    result = new LineElement();
-                    break;
-                case PathElementType.HorizontalLine:
-                    result = new HorizontalLineElement();
-                    break;
-                case PathElementType.VerticalLine:
-                    result = new VerticalLineElement();
-                    break;
-                case PathElementType.QuadraticBezier:
-                    result = new QuadraticBezierElement();
-                    break;
-                case PathElementType.SmoothQuadraticBezier:
-                    result = new SmoothQuadraticBezierElement();
-                    break;
-                case PathElementType.CubicBezier:
-                    result = new CubicBezierElement();
-                    break;
-                case PathElementType.SmoothCubicBezier:
-                    result = new SmoothCubicBezierElement();
-                    break;
-                case PathElementType.Arc:
-                    result = new ArcElement();
-                    break;
-                case PathElementType.ClosePath:
-                    result = new ClosePathElement();
-                    break;
-            }
-
-            return result;
+                PathElementType.MoveTo => new MoveToElement(),
+                PathElementType.Line => new LineElement(),
+                PathElementType.HorizontalLine => new HorizontalLineElement(),
+                PathElementType.VerticalLine => new VerticalLineElement(),
+                PathElementType.QuadraticBezier => new QuadraticBezierElement(),
+                PathElementType.SmoothQuadraticBezier => new SmoothQuadraticBezierElement(),
+                PathElementType.CubicBezier => new CubicBezierElement(),
+                PathElementType.SmoothCubicBezier => new SmoothCubicBezierElement(),
+                PathElementType.Arc => new ArcElement(),
+                PathElementType.ClosePath => new ClosePathElement()
+            };
         }
     }
 }
