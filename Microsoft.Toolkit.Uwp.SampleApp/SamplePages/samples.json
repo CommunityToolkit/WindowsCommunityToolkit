@@ -587,6 +587,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ReorderGrid.md"
       },
       {
+        "Name": "EffectAnimations",
+        "Subcategory": "Effect",
+        "About": "Effects from the Media package that can be animated from an AnimationSet schedule.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Animations",
+        "XamlCodeFile": "/SamplePages/Animations/Effects/EffectAnimations.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
+      },
+      {
         "Name": "Implicit Animations",
         "Type": "ImplicitAnimationsPage",
         "Subcategory": "Effect",
