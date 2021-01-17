@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
@@ -64,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 DataGridRow row = element as DataGridRow;
                 if (row != null)
                 {
-                    Debug.Assert(row.Index != -1, "Expected Index other than -1."); // A displayed row should always have its index
+                    DiagnosticsDebug.Assert(row.Index != -1, "Expected Index other than -1."); // A displayed row should always have its index
 
                     // Visibility for all filler cells needs to be set in one place.  Setting it individually in
                     // each CellsPresenter causes an NxN layout cycle (see DevDiv Bugs 211557)
@@ -180,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         {
             if (this.OwningGrid != null)
             {
-                Debug.Assert(this.OwningGrid.IsEnabled, "Expected OwningGrid.IsEnabled is true.");
+                DiagnosticsDebug.Assert(this.OwningGrid.IsEnabled, "Expected OwningGrid.IsEnabled is true.");
 
                 _preManipulationHorizontalOffset = this.OwningGrid.HorizontalOffset;
                 _preManipulationVerticalOffset = this.OwningGrid.VerticalOffset;

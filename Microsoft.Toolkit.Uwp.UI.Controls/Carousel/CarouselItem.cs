@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Represents the container for an item in a Carousel control.
     /// </summary>
-    public class CarouselItem : SelectorItem
+    public partial class CarouselItem : SelectorItem
     {
         private const string PointerOverState = "PointerOver";
         private const string PointerOverSelectedState = "PointerOverSelected";

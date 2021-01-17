@@ -6,6 +6,8 @@ using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
 using Windows.UI.Xaml;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class DataGridFillerColumn : DataGridColumn
@@ -66,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
         {
-            Debug.Assert(false, "Unexpected call to DataGridFillerColumn.PrepareCellForEdit.");
+            DiagnosticsDebug.Assert(false, "Unexpected call to DataGridFillerColumn.PrepareCellForEdit.");
 
             return null;
         }

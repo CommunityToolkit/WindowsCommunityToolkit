@@ -124,9 +124,6 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="System.Text.Json">
-      <Version>4.7.2</Version>
-    </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
     </PackageReference>
@@ -565,35 +562,17 @@
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Triggers\CompareStateTriggerPage.xaml.cs">
-      <DependentUpon>CompareStateTriggerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml.cs">
-      <DependentUpon>IsEqualStateTriggerPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
       <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml.cs">
       <DependentUpon>IsNullOrEmptyStateTriggerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml.cs">
-      <DependentUpon>NetworkConnectionStateTriggerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml.cs">
-      <DependentUpon>IsNotEqualStateTriggerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Triggers\RegexStateTriggerPage.xaml.cs">
-      <DependentUpon>RegexStateTriggerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml.cs">
-      <DependentUpon>UserHandPreferenceStateTriggerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml.cs">
-      <DependentUpon>UserInteractionModeStateTriggerPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\WrapLayout\WrapLayoutPage.xaml.cs">
       <DependentUpon>WrapLayoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\XamlOnlyPage.xaml.cs">
+      <DependentUpon>XamlOnlyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
@@ -1109,39 +1088,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
-    <Page Include="SamplePages\Triggers\CompareStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\IsEqualStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Triggers\IsNullOrEmptyStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\NetworkConnectionStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\IsNotEqualStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\RegexStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\UserHandPreferenceStateTriggerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Triggers\UserInteractionModeStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1472,6 +1423,10 @@
     <Page Include="SamplePages\WrapPanel\WrapPanelPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\XamlOnlyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
