@@ -591,6 +591,7 @@
     <Content Include="SamplePages\Animations\Activities\StartAnimationActivity.bind" />
     <Content Include="SamplePages\Animations\Activities\InvokeActionsActivity.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
+    <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
