@@ -646,39 +646,6 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Throws a new <see cref="NullReferenceException"/>.
-        /// </summary>
-        /// <exception cref="NullReferenceException">Thrown with no parameters.</exception>
-        [DoesNotReturn]
-        public static void ThrowNullReferenceException()
-        {
-            throw new NullReferenceException();
-        }
-
-        /// <summary>
-        /// Throws a new <see cref="NullReferenceException"/>.
-        /// </summary>
-        /// <param name="message">The message to include in the exception.</param>
-        /// <exception cref="NullReferenceException">Thrown with the specified parameter.</exception>
-        [DoesNotReturn]
-        public static void ThrowNullReferenceException(string? message)
-        {
-            throw new NullReferenceException(message);
-        }
-
-        /// <summary>
-        /// Throws a new <see cref="NullReferenceException"/>.
-        /// </summary>
-        /// <param name="message">The message to include in the exception.</param>
-        /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
-        /// <exception cref="NullReferenceException">Thrown with the specified parameter.</exception>
-        [DoesNotReturn]
-        public static void ThrowNullReferenceException(string? message, Exception? innerException)
-        {
-            throw new NullReferenceException(message, innerException);
-        }
-
-        /// <summary>
         /// Throws a new <see cref="ObjectDisposedException"/>.
         /// </summary>
         /// <param name="objectName">The name of the disposed object.</param>

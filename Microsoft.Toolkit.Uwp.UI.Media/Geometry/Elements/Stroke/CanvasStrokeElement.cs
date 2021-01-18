@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
             // If the ICanvasBrushElement was not created, then the ICanvasStroke cannot be created
             if (_brush == null)
             {
-                ThrowHelper.ThrowNullReferenceException("Unable to create a valid ICanvasBrush for the " +
+                ThrowHelper.ThrowArgumentNullException("Unable to create a valid ICanvasBrush for the " +
                                                         $"ICanvasStroke with the following Brush data - '{group.Value}'");
             }
 
