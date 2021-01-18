@@ -73,14 +73,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
         /// <param name="match">Match object</param>
         protected override void GetAttributes(Match match)
         {
+            // Sides
             int.TryParse(match.Groups["Sides"].Value, out _numSides);
 
             // Sanitize by taking the absolute value
             _numSides = Math.Abs(_numSides);
+
+            // Radius
             float.TryParse(match.Groups["Radius"].Value, out _radius);
 
             // Sanitize by taking the absolute value
             _radius = Math.Abs(_radius);
+
             float.TryParse(match.Groups["X"].Value, out _x);
             float.TryParse(match.Groups["Y"].Value, out _y);
         }

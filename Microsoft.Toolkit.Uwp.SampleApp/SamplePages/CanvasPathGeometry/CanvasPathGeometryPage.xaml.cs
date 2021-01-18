@@ -136,11 +136,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 "Sample 5",
             };
 
-            SampleList.ItemsSource = sampleList;
             StrokeList.ItemsSource = colorList;
             FillList.ItemsSource = colorList;
 
-            SampleList.SelectedIndex = 0;
             StrokeThickness.Value = 1;
             StrokeList.SelectedIndex = 1;
             FillList.SelectedIndex = 0;
@@ -152,7 +150,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _data = InputData.Text;
             _isParsing = true;
-            SampleList.SelectedIndex = 0;
             RenderCanvas.Invalidate();
             _isParsing = false;
         }
@@ -165,18 +162,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            if (_errorGeometry == null)
-            {
-                _errorGeometry = CanvasPathGeometry.CreateGeometry(sender, ErrorString);
-            }
+            this._errorGeometry ??= CanvasPathGeometry.CreateGeometry(sender, ErrorString);
 
             _logger?.Clear();
             CommandsList.Text = string.Empty;
 
             try
             {
-                _logger.AppendLine("// The following commands represent the CanvasPathBuilder command(s) needed");
-                _logger.AppendLine("// to create the CanvasGeometry from the specified Win2d Path Mini Language.");
+                _logger?.AppendLine("// The following commands represent the CanvasPathBuilder command(s) needed");
+                _logger?.AppendLine("// to create the CanvasGeometry from the specified Win2d Path Mini Language.");
                 var geometry = CanvasPathGeometry.CreateGeometry(sender, _data, _logger);
                 CommandsList.Text = _logger?.ToString() ?? string.Empty;
 
@@ -219,35 +213,51 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             RenderCanvas.Invalidate();
         }
 
-        private void OnSampleChanged(object sender, SelectionChangedEventArgs e)
+        private void ShowSample(int index)
         {
-            if (SampleList.SelectedIndex > 0)
-            {
-                InputData.Text = _samples.ElementAt(SampleList.SelectedIndex);
+            InputData.Text = _samples.ElementAt(index);
 
-                if (!_selectionChanged)
-                {
-                    StrokeThickness.Value = 4;
-                    StrokeList.SelectedIndex = 1;
-                    FillList.SelectedIndex = 5;
-                    _selectionChanged = false;
-                }
-
-                _data = InputData.Text;
-                RenderCanvas.Invalidate();
-            }
-            else if (!this._isParsing)
+            if (!_selectionChanged)
             {
-                InputData.Text = string.Empty;
-                _data = string.Empty;
-                RenderCanvas.Invalidate();
+                StrokeThickness.Value = 4;
+                StrokeList.SelectedIndex = 1;
+                FillList.SelectedIndex = 5;
+                _selectionChanged = false;
             }
+
+            _data = InputData.Text;
+            RenderCanvas.Invalidate();
         }
 
         private void OnClearCanvas(object sender, RoutedEventArgs e)
         {
             InputData.Text = string.Empty;
             OnParseData(this, null);
+        }
+
+        private void OnShowRoundedStarSample(object sender, RoutedEventArgs e)
+        {
+            ShowSample(1);
+        }
+
+        private void OnShowStarSample(object sender, RoutedEventArgs e)
+        {
+            ShowSample(2);
+        }
+
+        private void OnShowSpiralSample(object sender, RoutedEventArgs e)
+        {
+            ShowSample(3);
+        }
+
+        private void OnShowFlowerSample(object sender, RoutedEventArgs e)
+        {
+            ShowSample(4);
+        }
+
+        private void OnShowGearSample(object sender, RoutedEventArgs e)
+        {
+            ShowSample(5);
         }
     }
 }

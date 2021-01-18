@@ -226,55 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Restricts the given single precision number to be within the
-        /// specified min and max values (inclusive).
-        /// </summary>
-        /// <param name="num">Given single precision number</param>
-        /// <param name="min">Minimum value</param>
-        /// <param name="max">Maximum value</param>
-        /// <returns>Clamped value</returns>
-        public static float Clamp(this float num, float min, float max)
-        {
-            if (min > max)
-            {
-                var temp = min;
-                min = max;
-                max = temp;
-            }
-
-            return Math.Max(min, Math.Min(max, num));
-        }
-
-        /// <summary>
-        /// Restricts the given double precision number to be within the
-        /// specified min and max values (inclusive).
-        /// </summary>
-        /// <param name="num">Given double precision number</param>
-        /// <param name="min">Minimum value</param>
-        /// <param name="max">Maximum value</param>
-        /// <returns>Clamped value</returns>
-        public static double Clamp(this double num, double min, double max)
-        {
-            if (min > max)
-            {
-                var temp = min;
-                min = max;
-                max = temp;
-            }
-
-            return Math.Max(min, Math.Min(max, num));
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        private struct NanUnion
-        {
-            [FieldOffset(0)]
-            public double DoubleValue;
-            [FieldOffset(0)]
-            public ulong UintValue;
-        }
-
-        /// <summary>
         /// Rounds the given value based on the DPI scale
         /// </summary>
         /// <param name="value">Value to round</param>
