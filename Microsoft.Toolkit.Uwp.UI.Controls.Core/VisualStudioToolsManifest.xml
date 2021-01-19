@@ -1,5 +1,5 @@
 <FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.dll">
+  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Core.dll">
     <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeView" />

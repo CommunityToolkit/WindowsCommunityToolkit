@@ -3,8 +3,8 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox/TokenizingTextBoxItem.Token.xaml"/>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox/TokenizingTextBoxItem.AutoSuggestBox.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/TokenizingTextBox/TokenizingTextBoxItem.Token.xaml"/>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/TokenizingTextBox/TokenizingTextBoxItem.AutoSuggestBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Resources for TokenizingTextBox  -->

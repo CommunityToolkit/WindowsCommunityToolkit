@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
-                AutomationProperties.SetName(_dismissButton, "WCT_InAppNotification_DismissButton_AutomationName".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
+                AutomationProperties.SetName(_dismissButton, "WCT_InAppNotification_DismissButton_AutomationName".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources"));
             }
 
             if (_visualStateGroup != null)

@@ -3,8 +3,8 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseInAppNotificationsStyle"

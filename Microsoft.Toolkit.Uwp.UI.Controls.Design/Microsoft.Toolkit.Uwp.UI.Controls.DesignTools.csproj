@@ -137,8 +137,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.xml">
-      <Link>Microsoft.Toolkit.Uwp.UI.Controls.xml</Link>
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.Core.xml">
+      <Link>Microsoft.Toolkit.Uwp.UI.Controls.Core.xml</Link>
       <Visible>False</Visible>
     </EmbeddedResource>
   </ItemGroup>
