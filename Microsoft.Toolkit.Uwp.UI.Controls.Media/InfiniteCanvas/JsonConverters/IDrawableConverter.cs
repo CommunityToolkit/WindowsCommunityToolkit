@@ -11,7 +11,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class IDrawableConverter : JsonConverter<IDrawable>
     {
-        private const string OldDiscriminator = "Microsoft.Toolkit.Uwp.UI.Controls.InkDrawable, Microsoft.Toolkit.Uwp.UI.Controls";
+        private const string OldInkDrawableDiscriminator = "Microsoft.Toolkit.Uwp.UI.Controls.InkDrawable, Microsoft.Toolkit.Uwp.UI.Controls";
+        private const string OldTextDrawableDiscriminator = "Microsoft.Toolkit.Uwp.UI.Controls.TextDrawable, Microsoft.Toolkit.Uwp.UI.Controls";
 
         public override bool CanConvert(Type typeToConvert) => typeof(IDrawable).IsAssignableFrom(typeToConvert);
 
@@ -42,11 +43,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var typeDiscriminator = reader.GetString();
             IDrawable drawable;
-            if (typeDiscriminator == GetDiscriminator(typeof(InkDrawable)) || typeDiscriminator == OldDiscriminator)
+            if (typeDiscriminator == GetDiscriminator(typeof(InkDrawable)) || typeDiscriminator == OldInkDrawableDiscriminator)
             {
                 drawable = new InkDrawable();
             }
-            else if (typeDiscriminator == GetDiscriminator(typeof(TextDrawable)))
+            else if (typeDiscriminator == GetDiscriminator(typeof(TextDrawable)) || typeDiscriminator == OldTextDrawableDiscriminator)
             {
                 drawable = new TextDrawable();
             }
