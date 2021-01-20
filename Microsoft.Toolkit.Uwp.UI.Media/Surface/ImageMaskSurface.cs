@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI.Composition;
@@ -91,8 +92,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public ImageMaskSurface(ICompositionGeneratorInternal generator, Uri uri, Size size, Thickness padding, ImageSurfaceOptions options)
         {
-            _generator = generator ??
-                         throw new ArgumentNullException(nameof(generator), "CompositionGenerator cannot be null!");
+            Guard.IsNotNull(generator, nameof(generator));
+
+            _generator = generator;
             _surfaceLock = new object();
 
             // Create the Surface of the IImageMaskSurface
@@ -123,8 +125,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public ImageMaskSurface(ICompositionGeneratorInternal generator, CanvasBitmap surfaceBitmap, Size size, Thickness padding, ImageSurfaceOptions options)
         {
-            _generator = generator ??
-                         throw new ArgumentNullException(nameof(generator), "CompositionGenerator cannot be null!");
+            Guard.IsNotNull(generator, nameof(generator));
+
+            _generator = generator;
             _surfaceLock = new object();
 
             // Create the Surface of the IImageMaskSurface

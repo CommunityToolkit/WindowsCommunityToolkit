@@ -4,8 +4,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Surface

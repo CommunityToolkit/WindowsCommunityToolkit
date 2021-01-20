@@ -9,28 +9,27 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
 {
     /// <summary>
-    /// Represents the core interface for interfaces
-    /// which render onto ICompositionSurface.
+    /// Represents the core interface for interfaces which render onto ICompositionSurface.
     /// </summary>
     public interface IRenderSurface : IDisposable
     {
         /// <summary>
-        /// Gets the Generator
+        /// Gets the CompositionGenerator.
         /// </summary>
         ICompositionGenerator Generator { get; }
 
         /// <summary>
-        /// Gets the Surface
+        /// Gets the Surface.
         /// </summary>
         ICompositionSurface Surface { get; }
 
         /// <summary>
-        /// Gets the Surface Size
+        /// Gets the Surface Size.
         /// </summary>
         Size Size { get; }
 
         /// <summary>
-        /// Redraws the surface
+        /// Redraws the surface.
         /// </summary>
         void Redraw();
 

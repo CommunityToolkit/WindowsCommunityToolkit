@@ -27,8 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
         /// <returns>CompositionEffectBrush</returns>
-        public static CompositionEffectBrush CreateMaskedBackdropBrush(
-            this Compositor compositor, IMaskSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
+        public static CompositionEffectBrush CreateMaskedBackdropBrush(this Compositor compositor, IMaskSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
         {
             return CompositionExtensions.CreateBackdropBrush(compositor, mask, blendColor, blurAmount, backdropBrush);
         }
@@ -42,8 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="blurRadius">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
         /// <returns>CompositionEffectBrush</returns>
-        public static CompositionEffectBrush CreateGaussianMaskedBackdropBrush(
-            this Compositor compositor, IGaussianMaskSurface mask, Color blendColor, float blurRadius, CompositionBackdropBrush backdropBrush = null)
+        public static CompositionEffectBrush CreateGaussianMaskedBackdropBrush(this Compositor compositor, IGaussianMaskSurface mask, Color blendColor, float blurRadius, CompositionBackdropBrush backdropBrush = null)
         {
             return CompositionExtensions.CreateBackdropBrush(compositor, mask, blendColor, blurRadius, backdropBrush);
         }
@@ -57,8 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
         /// <returns>CompositionEffectBrush</returns>
-        internal static CompositionEffectBrush CreateBackdropBrush(
-            Compositor compositor, IRenderSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
+        internal static CompositionEffectBrush CreateBackdropBrush(Compositor compositor, IRenderSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
         {
             // Blur Effect
             var blurEffect = new GaussianBlurEffect()

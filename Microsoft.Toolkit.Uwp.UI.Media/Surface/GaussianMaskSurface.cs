@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Composition;
 
@@ -64,7 +65,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the GaussianMaskSurface</param>
         public GaussianMaskSurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
-            _generator = generator ?? throw new ArgumentNullException(nameof(generator), "CompositionGenerator cannot be null!");
+            Guard.IsNotNull(generator, nameof(generator));
+
+            _generator = generator;
             _surfaceLock = new object();
             Geometry = geometry;
             Offset = offset;

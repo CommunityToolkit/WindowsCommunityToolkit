@@ -11,6 +11,7 @@ using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
@@ -56,7 +57,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         public CompositionGenerator(Compositor compositor, bool useSharedCanvasDevice = true, bool forceSoftwareRenderer = false)
         {
             // Compositor
-            Compositor = compositor ?? throw new ArgumentNullException(nameof(compositor), "Compositor cannot be null!");
+            Guard.IsNotNull(compositor, nameof(compositor));
+            Compositor = compositor;
 
             // Disposing Lock
             _disposingLock = new object();

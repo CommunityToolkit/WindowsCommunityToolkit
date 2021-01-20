@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI;
@@ -73,7 +73,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// not covered by the geometry</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
-            _generator = generator ?? throw new ArgumentNullException(nameof(generator), "CompositionGenerator cannot be null!");
+            Guard.IsNotNull(generator, nameof(generator));
+
+            _generator = generator;
             _surfaceLock = new object();
             _geometry = geometry;
             _stroke = stroke;
@@ -103,7 +105,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// not covered by the geometry</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fill, ICanvasBrush backgroundBrush)
         {
-            _generator = generator ?? throw new ArgumentNullException(nameof(generator), "CompositionGenerator cannot be null!");
+            Guard.IsNotNull(generator, nameof(generator));
+
+            _generator = generator;
             _surfaceLock = new object();
             _geometry = geometry;
             _stroke = stroke;

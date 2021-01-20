@@ -10,13 +10,12 @@ using Windows.Foundation;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
 {
     /// <summary>
-    /// Enumeration to describe the status of the loading of an image
-    /// on the IImageSurface
+    /// Enumeration to describe the status of the loading of an image on the IImageSurface.
     /// </summary>
     public enum ImageSurfaceLoadStatus
     {
         /// <summary>
-        /// Indicates that no image has been loaded on the IImageSurface
+        /// Indicates that no image has been loaded on the IImageSurface.
         /// </summary>
         None,
 
@@ -37,18 +36,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
     public interface IImageSurface : IRenderSurface
     {
         /// <summary>
-        /// Event that is raised when the image has been downloaded, decoded and loaded
-        /// to the underlying IImageSurface. This event fires regardless of success or failure.
+        /// Event that is raised when the image has been downloaded, decoded and loaded to the underlying IImageSurface. This event fires regardless of success or failure.
         /// </summary>
         event TypedEventHandler<IImageSurface, ImageSurfaceLoadStatus> LoadCompleted;
 
         /// <summary>
-        /// Gets the Uri of the image to be loaded onto the IImageSurface
+        /// Gets the Uri of the image to be loaded onto the IImageSurface.
         /// </summary>
         Uri Uri { get; }
 
         /// <summary>
-        /// Gets the CanvasBitmap representing the loaded image
+        /// Gets the CanvasBitmap representing the loaded image.
         /// </summary>
         CanvasBitmap SurfaceBitmap { get; }
 
@@ -79,23 +77,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         void Redraw(ImageSurfaceOptions options);
 
         /// <summary>
-        /// Redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface
-        /// (using the alpha values of image in the given imageSurface).
+        /// Redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface (using the alpha values of image in the given imageSurface).
         /// </summary>
         /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
         void Redraw(IImageSurface imageSurface);
 
         /// <summary>
-        /// Redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface
-        /// (using the given CanvasBitmap's alpha values) using the given options.
+        /// Redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface (using the given CanvasBitmap's alpha values) using the given options.
         /// </summary>
         /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
         /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
         void Redraw(IImageSurface imageSurface, ImageSurfaceOptions options);
 
         /// <summary>
-        /// Resizes and redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface
-        /// (using the given CanvasBitmap's alpha values) using the given options.
+        /// Resizes and redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface (using the given CanvasBitmap's alpha values) using the given options.
         /// </summary>
         /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
         /// <param name="size">New size of the IImageMaskSurface.</param>
@@ -103,23 +98,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         void Redraw(IImageSurface imageSurface, Size size, ImageSurfaceOptions options);
 
         /// <summary>
-        /// Redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface
-        /// (using the given CanvasBitmap's alpha values).
+        /// Redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface (using the given CanvasBitmap's alpha values).
         /// </summary>
         /// <param name="surfaceBitmap">Image to be loaded on the surface.</param>
         void Redraw(CanvasBitmap surfaceBitmap);
 
         /// <summary>
-        /// Redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface
-        /// (using the given CanvasBitmap's alpha values) using the given options.
+        /// Redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface (using the given CanvasBitmap's alpha values) using the given options.
         /// </summary>
         /// <param name="surfaceBitmap">Image to be loaded on the surface.</param>
         /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
         void Redraw(CanvasBitmap surfaceBitmap, ImageSurfaceOptions options);
 
         /// <summary>
-        /// Resizes and redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface
-        /// (using the given CanvasBitmap's alpha values) using the given options.
+        /// Resizes and redraws the IImageSurface (using the given CanvasBitmap) or the IImageMaskSurface (using the given CanvasBitmap's alpha values) using the given options.
         /// </summary>
         /// <param name="surfaceBitmap">Image to be loaded on the surface..</param>
         /// <param name="size">New size of the IImageMaskSurface.</param>
@@ -135,8 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         Task RedrawAsync(Uri uri, ImageSurfaceOptions options);
 
         /// <summary>
-        /// Resizes the IImageSurface or IImageMaskSurface with the given size and redraws it by loading
-        /// image from the new Uri.
+        /// Resizes the IImageSurface or IImageMaskSurface with the given size and redraws it by loading image from the new Uri.
         /// </summary>
         /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
         /// <param name="size">New size of the IImageSurface</param>
