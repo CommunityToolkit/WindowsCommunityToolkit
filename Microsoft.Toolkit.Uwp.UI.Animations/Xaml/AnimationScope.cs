@@ -5,9 +5,7 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -16,41 +14,84 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// A container of <see cref="ITimeline"/> elements that can be used to conceptually group animations
     /// together and to assign shared properties to be applied to all the contained items automatically.
     /// </summary>
-    [ContentProperty(Name = nameof(Animations))]
-    public sealed class AnimationScope : Animation
+    public sealed class AnimationScope : DependencyObjectCollection, ITimeline
     {
         /// <summary>
-        /// Gets or sets the list of animations in the current scope.
+        /// Gets or sets the optional initial delay for the animation.
         /// </summary>
-        public IList<Animation> Animations
+        public TimeSpan? Delay
         {
-            get
-            {
-                if (GetValue(AnimationsProperty) is not IList<Animation> animations)
-                {
-                    animations = new List<Animation>();
-
-                    SetValue(AnimationsProperty, animations);
-                }
-
-                return animations;
-            }
-            set => SetValue(AnimationsProperty, value);
+            get => (TimeSpan?)GetValue(DelayProperty);
+            set => SetValue(DelayProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <seealso cref="Animations"/> dependency property.
+        /// Identifies the <seealso cref="Delay"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty AnimationsProperty = DependencyProperty.Register(
-            nameof(Animations),
-            typeof(IList<Animation>),
-            typeof(AnimationScope),
+        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register(
+            nameof(Delay),
+            typeof(TimeSpan?),
+            typeof(Animation),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the animation duration.
+        /// </summary>
+        public TimeSpan? Duration
+        {
+            get => (TimeSpan?)GetValue(DurationProperty);
+            set => SetValue(DurationProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Duration"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(
+            nameof(Duration),
+            typeof(TimeSpan?),
+            typeof(Animation),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the optional easing function type for the animation.
+        /// </summary>
+        public EasingType? EasingType
+        {
+            get => (EasingType?)GetValue(EasingTypeProperty);
+            set => SetValue(EasingTypeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="EasingType"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EasingTypeProperty = DependencyProperty.Register(
+            nameof(EasingType),
+            typeof(EasingType?),
+            typeof(Animation),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the optional easing function mode for the animation.
+        /// </summary>
+        public EasingMode? EasingMode
+        {
+            get => (EasingMode?)GetValue(EasingModeProperty);
+            set => SetValue(EasingModeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="EasingMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EasingModeProperty = DependencyProperty.Register(
+            nameof(EasingMode),
+            typeof(EasingMode?),
+            typeof(Animation),
             new PropertyMetadata(null));
 
         /// <inheritdoc/>
-        public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
+        public AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            foreach (ITimeline element in Animations)
+            foreach (ITimeline element in this)
             {
                 builder = element.AppendToBuilder(builder, Delay ?? delayHint, Duration ?? durationHint, EasingType ?? easingTypeHint, EasingMode ?? easingModeHint);
             }
