@@ -94,6 +94,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         {
             try
             {
+                if (value is string str)
+                {
+                    return Enum.Parse(enumType, str);
+                }
+
                 return Enum.IsDefined(enumType, value) ? Enum.ToObject(enumType, value) : null;
             }
             catch
