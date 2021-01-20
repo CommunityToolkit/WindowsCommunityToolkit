@@ -499,13 +499,12 @@
       },
       {
         "Name": "Offset",
-        "Type": "OffsetBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Offset of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "OffsetBehaviorCode.bind",
-        "XamlCodeFile": "OffsetBehaviorXaml.bind",
-        "Icon": "/SamplePages/Offset/offsetBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/OffsetBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/OffsetBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/OffsetBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Offset.md"
       },
       {

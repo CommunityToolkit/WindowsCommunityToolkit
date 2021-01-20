@@ -593,6 +593,9 @@
     <Content Include="SamplePages\Animations\Behaviors\BlurBehavior.png" />
     <Content Include="SamplePages\Animations\Behaviors\BlurBehaviorCode.bind" />
     <Content Include="SamplePages\Animations\Behaviors\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
   </ItemGroup>
