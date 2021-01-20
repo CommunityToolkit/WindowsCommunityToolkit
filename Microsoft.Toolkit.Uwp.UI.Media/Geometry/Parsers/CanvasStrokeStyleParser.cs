@@ -25,16 +25,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             var matches = RegexFactory.CanvasStrokeStyleRegex.Matches(styleData);
 
             // If no match is found or no captures in the match, then it means that the style data is invalid.
-            Guard.IsFalse(matches.Count == 0, nameof(styleData), $"Invalid CanvasStrokeStyle data!\nCanvasStrokeStyle Data: {styleData}");
+            Guard.IsFalse(matches.Count == 0, "(styleData matches.Count == 0)", $"Invalid CanvasStrokeStyle data! No matching CanvasStrokeStyle found!\nCanvasStrokeStyle Data: {styleData}");
 
             // If the match contains more than one captures, it means that there
             // are multiple CanvasStrokeStyles present in the CanvasStrokeStyle data. There should
             // be only one CanvasStrokeStyle defined in the CanvasStrokeStyle data.
-            Guard.IsFalse(matches.Count > 1, nameof(styleData), "Multiple CanvasStrokeStyles defined in CanvasStrokeStyle Data! " +
-                                                                "There should be only one CanvasStrokeStyle definition within the CanvasStrokeStyle Data. " +
-                                                                "You can either remove CanvasStrokeStyle definitions or split the CanvasStrokeStyle Data " +
-                                                                "into multiple CanvasStrokeStyle Data and call the CanvasPathGeometry.CreateStrokeStyle() method on each of them." +
-                                                                $"\nCanvasStrokeStyle Data: {styleData}");
+            Guard.IsFalse(matches.Count > 1, "(styleData matches.Count > 1)", "Multiple CanvasStrokeStyles defined in CanvasStrokeStyle Data! " +
+                                                                              "There should be only one CanvasStrokeStyle definition within the CanvasStrokeStyle Data. " +
+                                                                              "You can either remove CanvasStrokeStyle definitions or split the CanvasStrokeStyle Data " +
+                                                                              "into multiple CanvasStrokeStyle Data and call the CanvasPathGeometry.CreateStrokeStyle() method on each of them." +
+                                                                              $"\nCanvasStrokeStyle Data: {styleData}");
 
             // There should be only one match
             var match = matches[0];

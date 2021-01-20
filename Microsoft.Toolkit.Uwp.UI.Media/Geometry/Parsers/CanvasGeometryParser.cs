@@ -36,18 +36,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
             var matches = RegexFactory.CanvasGeometryRegex.Matches(pathData);
 
-            // If no match is found or no captures in the match, then it means
-            // that the path data is invalid.
-            Guard.IsFalse(matches.Count == 0, nameof(pathData), $"Invalid Path data!\nPath Data: {pathData}");
+            // If no match is found or no captures in the match, then it means // that the path data is invalid.
+            Guard.IsFalse(matches.Count == 0, "(pathData matches.Count == 0)", $"Invalid Path data! No matching path data found!\nPath Data: {pathData}");
 
-            // If the match contains more than one captures, it means that there
-            // are multiple FillRuleElements present in the path data. There can
-            // be only one FillRuleElement in the path data (at the beginning).
-            Guard.IsFalse(matches.Count > 1, nameof(pathData), "Multiple FillRule elements present in Path Data! " +
-                                                               "There should be only one FillRule within the Path Data. " +
-                                                               "You can either remove additional FillRule elements or split the Path Data " +
-                                                               "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
-                                                               $"\nPath Data: {pathData}");
+            // If the match contains more than one captures, it means that there are multiple FillRuleElements present in the path data. There can be only one FillRuleElement in the path data (at the beginning).
+            Guard.IsFalse(matches.Count > 1, "(pathData matches.Count > 1)", "Multiple FillRule elements present in Path Data! " +
+                                                                              "There should be only one FillRule within the Path Data. " +
+                                                                              "You can either remove additional FillRule elements or split the Path Data " +
+                                                                              "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
+                                                                              $"\nPath Data: {pathData}");
 
             var figures = new List<ICanvasPathElement>();
 

@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         private static readonly string HdrColor = $"(?<HdrColor>{Float01}{Sep}{Float01}{Sep}{Float01}{Sep}{Float01})";
 
         // Hexadecimal Color Attributes
-        private static readonly string RgbColorAttributes = $"(?<RgbColor>#?{Alpha}?{Red}{Green}{Blue})";
+        private static readonly string RgbColorAttributes = $"(?<RgbColor>#{{0,1}}{Alpha}{{0,1}}{Red}{Green}{Blue})";
 
         // HDR Color Attributes (Vector4 in which each component has a value between 0 and 1, inclusive)
         private static readonly string HdrColorAttributes = $"(?<HdrColor>(?<X>{Float01}){Sep}(?<Y>{Float01}){Sep}(?<Z>{Float01}){Sep}(?<W>{Float01}))";

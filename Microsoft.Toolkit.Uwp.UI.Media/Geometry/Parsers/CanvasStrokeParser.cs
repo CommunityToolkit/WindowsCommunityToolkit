@@ -25,16 +25,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
             // If no match is found or no captures in the match, then it means
             // that the stroke data is invalid.
-            Guard.IsFalse(matches.Count == 0, nameof(strokeData), $"Invalid Stroke data!\nStroke Data: {strokeData}");
+            Guard.IsFalse(matches.Count == 0, "(strokeData matches.Count == 0)", $"Invalid Stroke data! No matching CanvasStroke found!\nStroke Data: {strokeData}");
 
             // If the match contains more than one captures, it means that there
             // are multiple CanvasStrokes present in the stroke data. There should
             // be only one CanvasStroke defined in the stroke data.
-            Guard.IsFalse(matches.Count > 1, nameof(strokeData), "Multiple CanvasStrokes defined in Stroke Data! " +
-                                                                 "There should be only one CanvasStroke definition within the Stroke Data. " +
-                                                                 "You can either remove CanvasStroke definitions or split the Stroke Data " +
-                                                                 "into multiple Stroke Data and call the CanvasPathGeometry.CreateStroke() method on each of them." +
-                                                                 $"\nStroke Data: {strokeData}");
+            Guard.IsFalse(matches.Count > 1, "(strokeData matches.Count > 1)", "Multiple CanvasStrokes defined in Stroke Data! " +
+                                                                               "There should be only one CanvasStroke definition within the Stroke Data. " +
+                                                                               "You can either remove CanvasStroke definitions or split the Stroke Data " +
+                                                                               "into multiple Stroke Data and call the CanvasPathGeometry.CreateStroke() method on each of them." +
+                                                                               $"\nStroke Data: {strokeData}");
 
             // There should be only one match
             var match = matches[0];

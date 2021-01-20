@@ -24,18 +24,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
         {
             var matches = RegexFactory.CanvasBrushRegex.Matches(brushData);
 
-            // If no match is found or no captures in the match, then it means
-            // that the brush data is invalid.
-            Guard.IsFalse(matches.Count == 0, nameof(brushData), $"Invalid Brush data!\nBrush Data: {brushData}");
+            // If no match is found or no captures in the match, then it means that the brush data is invalid.
+            Guard.IsFalse(matches.Count == 0, "(brushData matches.Count == 0)", $"Invalid Brush data! No matching brush data found!\nBrush Data: {brushData}");
 
-            // If the match contains more than one captures, it means that there
-            // are multiple brushes present in the brush data. There should
-            // be only one brush defined in the brush data.
-            Guard.IsFalse(matches.Count > 1, nameof(brushData), "Multiple Brushes defined in Brush Data! " +
-                                                                "There should be only one Brush definition within the Brush Data. " +
-                                                                "You can either remove Brush definitions or split the Brush Data " +
-                                                                "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them." +
-                                                                $"\nBrush Data: {brushData}");
+            // If the match contains more than one captures, it means that there are multiple brushes present in the brush data. There should be only one brush defined in the brush data.
+            Guard.IsFalse(matches.Count > 1, "(brushData matches.Count > 1)", "Multiple Brushes defined in Brush Data! " +
+                                                                              "There should be only one Brush definition within the Brush Data. " +
+                                                                              "You can either remove Brush definitions or split the Brush Data " +
+                                                                              "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them." +
+                                                                              $"\nBrush Data: {brushData}");
 
             // There should be only one match
             var match = matches[0];

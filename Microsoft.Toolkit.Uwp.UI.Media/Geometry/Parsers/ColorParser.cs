@@ -28,7 +28,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
         internal static Color Parse(string colorString)
         {
             var match = RegexFactory.ColorRegex.Match(colorString);
-            Guard.IsTrue(match.Success, nameof(colorString), "Invalid Hexadecimal string!");
+            Guard.IsTrue(match.Success, nameof(colorString), "Invalid value provided in colorString! No matching color found in the colorString.");
+
+            // Perform validation to check if there are any invalid characters in the colorString that were not captured
+            var preValidationCount = RegexFactory.ValidationRegex.Replace(colorString, string.Empty).Length;
+            var postValidationCount = RegexFactory.ValidationRegex.Replace(match.Value, string.Empty).Length;
+            Guard.IsTrue(preValidationCount == postValidationCount, nameof(colorString), $"colorString contains invalid characters!\ncolorString: {colorString}");
 
             return Parse(match);
         }
