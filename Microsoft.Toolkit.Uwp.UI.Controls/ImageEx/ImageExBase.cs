@@ -82,8 +82,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ImageExBase()
         {
             LockObj = new object();
-
-            LayoutUpdated += ImageExBase_LayoutUpdated;
         }
 
         /// <summary>

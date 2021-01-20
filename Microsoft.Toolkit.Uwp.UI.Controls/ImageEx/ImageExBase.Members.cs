@@ -158,13 +158,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (d is ImageExBase control)
             {
-                control.InvalidateLazyLoading();
+                var value = (bool)e.NewValue;
+                if (value)
+                {
+                    control.LayoutUpdated += control.ImageExBase_LayoutUpdated;
+
+                    control.InvalidateLazyLoading();
+                }
+                else
+                {
+                    control.LayoutUpdated -= control.ImageExBase_LayoutUpdated;
+                }
             }
         }
 
         private static void LazyLoadingThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ImageExBase control)
+            if (d is ImageExBase control && control.EnableLazyLoading)
             {
                 control.InvalidateLazyLoading();
             }
