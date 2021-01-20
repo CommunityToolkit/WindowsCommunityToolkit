@@ -602,6 +602,9 @@
     <Content Include="SamplePages\Animations\Behaviors\ScaleBehavior.png" />
     <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorCode.bind" />
     <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
   </ItemGroup>

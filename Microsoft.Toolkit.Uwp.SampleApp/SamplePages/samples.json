@@ -508,13 +508,12 @@
       },
       {
         "Name": "Rotate",
-        "Type": "RotateBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Rotation on XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "RotateBehaviorCode.bind",
-        "XamlCodeFile": "RotateBehaviorXaml.bind",
-        "Icon": "/SamplePages/Rotate/rotateBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/RotateBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/RotateBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/RotateBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Rotate.md"
       },
       {
