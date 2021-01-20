@@ -521,13 +521,12 @@
       },
       {
         "Name": "Blur",
-        "Type": "BlurBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Blur XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "BlurBehaviorCode.bind",
-        "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/Blur/blurBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/BlurBehavior.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Blur.md"
       },
