@@ -488,13 +488,12 @@
       },
       {
         "Name": "Scale",
-        "Type": "ScaleBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "ScaleBehaviorCode.bind",
-        "XamlCodeFile": "ScaleBehaviorXaml.bind",
-        "Icon": "/SamplePages/Scale/scaleBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/ScaleBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/ScaleBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/ScaleBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Scale.md"
       },
       {

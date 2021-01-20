@@ -599,6 +599,9 @@
     <Content Include="SamplePages\Animations\Behaviors\SaturationBehavior.png" />
     <Content Include="SamplePages\Animations\Behaviors\SaturationBehaviorCode.bind" />
     <Content Include="SamplePages\Animations\Behaviors\SaturationBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
   </ItemGroup>
