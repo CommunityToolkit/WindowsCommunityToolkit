@@ -31,6 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartSuggestionsPopup = "SuggestionsPopup";
         private const string PartSuggestionsList = "SuggestionsList";
 
+        private readonly Dictionary<string, SuggestionInfo> _tokens;
+        private readonly ObservableCollection<SuggestionInfo> _visibleTokens;
+
         private Popup _suggestionPopup;
         private RichEditBox _richEditBox;
         private ListViewBase _suggestionsList;
@@ -41,8 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _ignoreChange;
         private ITextRange _currentRange;
         private CancellationTokenSource _suggestionRequestedTokenSource;
-        private readonly Dictionary<string, SuggestionInfo> _tokens;
-        private readonly ObservableCollection<SuggestionInfo> _visibleTokens;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RichSuggestBox"/> class.
@@ -416,12 +417,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     range.Link = string.Empty;
                 }
+
                 return false;
             }
 
             if (token.ToString() != range.Text)
             {
-                //range.Link = string.Empty;
+                range.Link = string.Empty;
                 range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
                 token.Active = false;
                 return false;
