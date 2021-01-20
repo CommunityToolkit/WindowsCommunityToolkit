@@ -199,37 +199,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Up when itemsList.Count == 1:
                 case VirtualKey.Down when itemsList.Count == 1:
-                    {
-                        _suggestionsList.SelectedItem = itemsList[0];
-                        break;
-                    }
+                    _suggestionsList.SelectedItem = itemsList[0];
+                    break;
+
                 case VirtualKey.Up:
-                    {
-                        _suggestionChoice = _suggestionChoice <= 0 ? itemsList.Count : _suggestionChoice - 1;
-                        _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
-                        args.Handled = true;
-                        break;
-                    }
+                    _suggestionChoice = _suggestionChoice <= 0 ? itemsList.Count : _suggestionChoice - 1;
+                    _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
+                    args.Handled = true;
+                    break;
+
                 case VirtualKey.Down:
-                    {
-                        _suggestionChoice = _suggestionChoice >= itemsList.Count ? 0 : _suggestionChoice + 1;
-                        _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
-                        args.Handled = true;
-                        break;
-                    }
+                    _suggestionChoice = _suggestionChoice >= itemsList.Count ? 0 : _suggestionChoice + 1;
+                    _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
+                    args.Handled = true;
+                    break;
+
                 case VirtualKey.Enter when _suggestionsList.SelectedItem != null:
-                    {
-                        ShowSuggestionsPopup(false);
-                        _ = OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
-                        args.Handled = true;
-                        break;
-                    }
+                    ShowSuggestionsPopup(false);
+                    _ = OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
+                    args.Handled = true;
+                    break;
+
                 case VirtualKey.Escape:
-                    {
-                        ShowSuggestionsPopup(false);
-                        args.Handled = true;
-                        break;
-                    }
+                    ShowSuggestionsPopup(false);
+                    args.Handled = true;
+                    break;
             }
         }
 
