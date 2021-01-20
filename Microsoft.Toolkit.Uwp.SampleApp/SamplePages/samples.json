@@ -543,19 +543,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Saturation.md"
       },
       {
-        "Name": "Light",
-        "Type": "LightBehaviorPage",
-        "Subcategory": "Behavior",
-        "About": "The Light effect will be removed in a future major release",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The Light effect will be removed in a future major release",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "LightBehaviorCode.bind",
-        "XamlCodeFile": "LightBehaviorXaml.bind",
-        "Icon": "/SamplePages/Light/LightBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Light.md"
-      },
-      {
         "Name": "FadeHeader",
         "Type": "FadeHeaderBehaviorPage",
         "Subcategory": "Effect",
