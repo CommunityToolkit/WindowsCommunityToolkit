@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Windows.UI;
 
@@ -16,8 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
     internal static class ColorParser
     {
         /// <summary>
-        /// Converts the color string in Hexadecimal or HDR color format to the
-        /// corresponding Color object.
+        /// Converts the color string in Hexadecimal or HDR color format to the corresponding Color object.
         /// The hexadecimal color string should be in #RRGGBB or #AARRGGBB format.
         /// The '#' character is optional.
         /// The HDR color string should be in R G B A format.
@@ -28,44 +28,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
         internal static Color Parse(string colorString)
         {
             var match = RegexFactory.ColorRegex.Match(colorString);
-            if (!match.Success)
-            {
-                throw new ArgumentException("Invalid Hexadecimal string!", nameof(colorString));
-            }
+            Guard.IsTrue(match.Success, nameof(colorString), "Invalid value provided in colorString! No matching color found in the colorString.");
+
+            // Perform validation to check if there are any invalid characters in the colorString that were not captured
+            var preValidationCount = RegexFactory.ValidationRegex.Replace(colorString, string.Empty).Length;
+            var postValidationCount = RegexFactory.ValidationRegex.Replace(match.Value, string.Empty).Length;
+            Guard.IsTrue(preValidationCount == postValidationCount, nameof(colorString), $"colorString contains invalid characters!\ncolorString: {colorString}");
 
             return Parse(match);
         }
 
         /// <summary>
-        /// Attempts to convert color string in Hexadecimal or HDR color format to the
-        /// corresponding Color object.
-        /// The hexadecimal color string should be in #RRGGBB or #AARRGGBB format.
-        /// The '#' character is optional.
-        /// The HDR color string should be in R G B A format.
-        /// (R, G, B &amp; A should have value in the range between 0 and 1, inclusive)
-        /// </summary>
-        /// <param name="colorString">Color string in Hexadecimal or HDR format</param>
-        /// <param name="color">Output Color object</param>
-        /// <returns>True if successful, otherwise False</returns>
-        internal static bool TryParse(string colorString, out Color color)
-        {
-            var match = RegexFactory.ColorRegex.Match(colorString);
-            if (!match.Success)
-            {
-                return false;
-            }
-
-            color = Parse(match);
-            return true;
-        }
-
-        /// <summary>
-        /// Converts a Vector4 High Dynamic Range Color
-        /// to Color. Negative components of the Vector4 will be
-        /// sanitized by taking the absolute value of the component.
-        /// The HDR Color components should have value in the range
-        /// between 0 and 1, inclusive. If they are more than 1, they
-        /// will be clamped at 1.
+        /// Converts a Vector4 High Dynamic Range Color to Color. Negative components of the Vector4 will be sanitized by taking the absolute value of the component.
+        /// The HDR Color components should have value in the range between 0 and 1, inclusive. If they are more than 1, they will be clamped at 1.
         /// </summary>
         /// <param name="hdrColor">High Dynamic Range Color</param>
         /// <returns>Color</returns>
@@ -86,17 +61,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
         /// <returns>Instance of Color.</returns>
         internal static Color Parse(float x, float y, float z, float w)
         {
-            var r = (byte)Math.Min(Math.Abs(x) * 255f, 255f);
-            var g = (byte)Math.Min(Math.Abs(y) * 255f, 255f);
-            var b = (byte)Math.Min(Math.Abs(z) * 255f, 255f);
-            var a = (byte)Math.Min(Math.Abs(w) * 255f, 255f);
+            Vector4 v4 = new Vector4(x, y, z, w);
+            v4 = Vector4.Min(Vector4.Abs(v4) * 255f, new Vector4(255f));
+
+            var r = (byte)v4.X;
+            var g = (byte)v4.Y;
+            var b = (byte)v4.Z;
+            var a = (byte)v4.W;
 
             return Color.FromArgb(a, r, g, b);
         }
 
         /// <summary>
-        /// Parses and constructs a Color object from the specified
-        /// Match object.
+        /// Parses and constructs a Color object from the specified Match object.
         /// </summary>
         /// <param name="match">Match object</param>
         /// <returns>Color</returns>

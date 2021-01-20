@@ -10,13 +10,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 {
     /// <summary>
-    /// Parser for CanvasGeometry
+    /// Parser for CanvasGeometry.
     /// </summary>
     internal static class CanvasGeometryParser
     {
@@ -35,24 +36,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
             var matches = RegexFactory.CanvasGeometryRegex.Matches(pathData);
 
-            // If no match is found or no captures in the match, then it means
-            // that the path data is invalid.
-            if ((matches == null) || (matches.Count == 0))
-            {
-                throw new ArgumentException($"Invalid Path data!\nPath Data: {pathData}", nameof(pathData));
-            }
+            // If no match is found or no captures in the match, then it means // that the path data is invalid.
+            Guard.IsFalse(matches.Count == 0, "(pathData matches.Count == 0)", $"Invalid Path data! No matching path data found!\nPath Data: {pathData}");
 
-            // If the match contains more than one captures, it means that there
-            // are multiple FillRuleElements present in the path data. There can
-            // be only one FillRuleElement in the path data (at the beginning).
-            if (matches.Count > 1)
-            {
-                throw new ArgumentException("Multiple FillRule elements present in Path Data! " +
-                                            "There should be only one FillRule within the Path Data. " +
-                                            "You can either remove additional FillRule elements or split the Path Data " +
-                                            "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
-                                            $"\nPath Data: {pathData}");
-            }
+            // If the match contains more than one captures, it means that there are multiple FillRuleElements present in the path data. There can be only one FillRuleElement in the path data (at the beginning).
+            Guard.IsFalse(matches.Count > 1, "(pathData matches.Count > 1)", "Multiple FillRule elements present in Path Data! " +
+                                                                              "There should be only one FillRule within the Path Data. " +
+                                                                              "You can either remove additional FillRule elements or split the Path Data " +
+                                                                              "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
+                                                                              $"\nPath Data: {pathData}");
 
             var figures = new List<ICanvasPathElement>();
 
@@ -95,13 +87,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
             // Perform validation to check if there are any invalid characters in the path data that were not captured
             var preValidationCount = RegexFactory.ValidationRegex.Replace(pathData, string.Empty).Length;
-
             var postValidationCount = pathFigures.Sum(x => x.ValidationCount);
 
-            if (preValidationCount != postValidationCount)
-            {
-                throw new ArgumentException($"Path data contains invalid characters!\nPath Data: {pathData}", nameof(pathData));
-            }
+            Guard.IsTrue(preValidationCount == postValidationCount, nameof(pathData), $"Path data contains invalid characters!\nPath Data: {pathData}");
 
             if (pathFigures.Count == 0)
             {

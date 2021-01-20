@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A <see cref="DropDownButton"/> which displays a color as its <c>Content</c> and it's <c>Flyout</c> is a <see cref="ColorPicker"/>.
     /// </summary>
     [TemplatePart(Name = nameof(CheckeredBackgroundBorder), Type = typeof(Border))]
-    public class ColorPickerButton : DropDownButton
+    public partial class ColorPickerButton : DropDownButton
     {
         /// <summary>
         /// Gets the <see cref="Controls.ColorPicker"/> instances contained by the <see cref="DropDownButton"/>.

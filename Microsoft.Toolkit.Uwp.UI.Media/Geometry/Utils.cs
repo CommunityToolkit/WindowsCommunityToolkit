@@ -13,8 +13,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Class containing collection of useful methods
-    /// for various types
+    /// Class containing collection of useful methods for various types
     /// </summary>
     public static class Utils
     {
@@ -39,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             // In case they are Infinities or NaN (then epsilon check does not work)
             if ((double.IsInfinity(value1) &&
                  double.IsInfinity(value2)) ||
-                (IsNaN(value1) && IsNaN(value2)))
+                (double.IsNaN(value1) && double.IsNaN(value2)))
             {
                 return true;
             }
@@ -227,75 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Restricts the given single precision number to be within the
-        /// specified min and max values (inclusive).
-        /// </summary>
-        /// <param name="num">Given single precision number</param>
-        /// <param name="min">Minimum value</param>
-        /// <param name="max">Maximum value</param>
-        /// <returns>Clamped value</returns>
-        public static float Clamp(this float num, float min, float max)
-        {
-            if (min > max)
-            {
-                var temp = min;
-                min = max;
-                max = temp;
-            }
-
-            return Math.Max(min, Math.Min(max, num));
-        }
-
-        /// <summary>
-        /// Restricts the given double precision number to be within the
-        /// specified min and max values (inclusive).
-        /// </summary>
-        /// <param name="num">Given double precision number</param>
-        /// <param name="min">Minimum value</param>
-        /// <param name="max">Maximum value</param>
-        /// <returns>Clamped value</returns>
-        public static double Clamp(this double num, double min, double max)
-        {
-            if (min > max)
-            {
-                var temp = min;
-                min = max;
-                max = temp;
-            }
-
-            return Math.Max(min, Math.Min(max, num));
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        private struct NanUnion
-        {
-            [FieldOffset(0)]
-            public double DoubleValue;
-            [FieldOffset(0)]
-            public ulong UintValue;
-        }
-
-        /// <summary>
-        /// Faster check for NaN ( faster than double.IsNaN() )
-        /// IEEE 754 : If the argument is any value in the range 0x7ff0000000000001L through 0x7fffffffffffffffL
-        /// or in the range 0xfff0000000000001L through 0xffffffffffffffffL, the result will be NaN.
-        /// </summary>
-        /// <param name="value">Value to check</param>
-        /// <returns>True/False</returns>
-        public static bool IsNaN(double value)
-        {
-            var t = new NanUnion
-            {
-                DoubleValue = value
-            };
-
-            var exp = t.UintValue & 0xfff0000000000000;
-            var man = t.UintValue & 0x000fffffffffffff;
-
-            return (exp == 0x7ff0000000000000 || exp == 0xfff0000000000000) && (man != 0);
-        }
-
-        /// <summary>
         /// Rounds the given value based on the DPI scale
         /// </summary>
         /// <param name="value">Value to round</param>
@@ -311,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
                 newValue = Math.Round(value * dpiScale) / dpiScale;
 
                 // If rounding produces a value unacceptable to layout (NaN, Infinity or MaxValue), use the original value.
-                if (IsNaN(newValue) ||
+                if (double.IsNaN(newValue) ||
                     double.IsInfinity(newValue) ||
                     newValue.IsCloseTo(double.MaxValue))
                 {
@@ -339,8 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if this Thickness contains only valid values
-        /// The set of validity checks is passed as parameters.
+        /// Verifies if this Thickness contains only valid values. The set of validity checks is passed as parameters.
         /// </summary>
         /// <param name='thick'>Thickness value</param>
         /// <param name='allowNegative'>allows negative values</param>
@@ -360,8 +289,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 
             if (!allowNaN)
             {
-                if (IsNaN(thick.Left) || IsNaN(thick.Right)
-                                      || IsNaN(thick.Top) || IsNaN(thick.Bottom))
+                if (double.IsNaN(thick.Left) || double.IsNaN(thick.Right)
+                                      || double.IsNaN(thick.Top) || double.IsNaN(thick.Bottom))
                 {
                     return false;
                 }
@@ -389,7 +318,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Method to add up the left and right size as width, as well as the top and bottom size as height
+        /// Method to add up the left and right size as width, as well as the top and bottom size as height.
         /// </summary>
         /// <param name="thick">Thickness</param>
         /// <returns>Size</returns>
@@ -399,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if the Thickness contains only zero values
+        /// Verifies if the Thickness contains only zero values.
         /// </summary>
         /// <param name="thick">Thickness</param>
         /// <returns>Size</returns>
@@ -412,7 +341,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if all the values in Thickness are same
+        /// Verifies if all the values in Thickness are same.
         /// </summary>
         /// <param name="thick">Thickness</param>
         /// <returns>true if yes, otherwise false</returns>
@@ -424,9 +353,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the Thickness object to Vector4. If the Thickness
-        /// object's component have values NaN, PositiveInfinity or
-        /// NegativeInfinity, then Vector4.Zero will be returned.
+        /// Converts the Thickness object to Vector4. If the Thickness object's component have values NaN, PositiveInfinity or NegativeInfinity, then Vector4.Zero will be returned.
         /// </summary>
         /// <param name="thickness">Thickness object</param>
         /// <returns>Vector4</returns>
@@ -446,11 +373,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the Thickness object to Vector4. If the Thickness
-        /// object contains negative components they will be converted
-        /// to positive values. If the Thickness object's component
-        /// have values NaN, PositiveInfinity or NegativeInfinity,
-        /// then Vector4.Zero will be returned.
+        /// Converts the Thickness object to Vector4. If the Thickness object contains negative components they will be converted to positive values. If the Thickness object's component have values NaN, PositiveInfinity or NegativeInfinity, then Vector4.Zero will be returned.
         /// </summary>
         /// <param name="thickness">Thickness object</param>
         /// <returns>Vector2</returns>
@@ -480,7 +403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if the CornerRadius contains only zero values
+        /// Verifies if the CornerRadius contains only zero values.
         /// </summary>
         /// <param name="corner">CornerRadius</param>
         /// <returns>true if yes, otherwise false</returns>
@@ -493,7 +416,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if the CornerRadius contains same values
+        /// Verifies if the CornerRadius contains same values.
         /// </summary>
         /// <param name="corner">CornerRadius</param>
         /// <returns>true if yes, otherwise false</returns>
@@ -506,14 +429,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the given corner value to a valid positive value.
-        /// Returns zero if the corner value is Infinity or NaN or 0.
+        /// Converts the given corner value to a valid positive value. Returns zero if the corner value is Infinity or NaN or 0.
         /// </summary>
         /// <param name="corner">Corner value</param>
         /// <returns>Valid Corner value</returns>
         public static double ConvertToValidCornerValue(double corner)
         {
-            if (IsNaN(corner) ||
+            if (double.IsNaN(corner) ||
                 double.IsInfinity(corner) ||
                 (corner < 0d))
             {
@@ -524,9 +446,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the CornerRadius object to Vector4. If the CornerRadius
-        /// object's component have values NaN, PositiveInfinity or
-        /// NegativeInfinity, then Vector4.Zero will be returned.
+        /// Converts the CornerRadius object to Vector4. If the CornerRadius object's component have values NaN, PositiveInfinity or NegativeInfinity, then Vector4.Zero will be returned.
         /// </summary>
         /// <param name="corner">CornerRadius object</param>
         /// <returns>Vector4</returns>
@@ -540,7 +460,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Deflates rectangle by given thickness
+        /// Deflates rectangle by given thickness.
         /// </summary>
         /// <param name="rect">Rectangle</param>
         /// <param name="thick">Thickness</param>
@@ -555,7 +475,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Inflates rectangle by given thickness
+        /// Inflates rectangle by given thickness.
         /// </summary>
         /// <param name="rect">Rectangle</param>
         /// <param name="thick">Thickness</param>
@@ -570,8 +490,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if the given brush is a SolidColorBrush and
-        /// its color does not include transparency.
+        /// Verifies if the given brush is a SolidColorBrush and its color does not include transparency.
         /// </summary>
         /// <param name="brush">Brush</param>
         /// <returns>true if yes, otherwise false</returns>
@@ -650,7 +569,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Compares one URI with another URI
+        /// Compares one URI with another URI.
         /// </summary>
         /// <param name="uri">URI to compare with</param>
         /// <param name="otherUri">URI to compare</param>
@@ -662,7 +581,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Reflects point 'a' over point 'b'
+        /// Reflects point 'a' over point 'b'.
         /// </summary>
         /// <param name="a">Point to be reflected</param>
         /// <param name="b">Point of reflection</param>
@@ -680,7 +599,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts a Vector2 structure (x,y) to Vector3 structure (x, y, 0)
+        /// Converts a Vector2 structure (x,y) to Vector3 structure (x, y, 0).
         /// </summary>
         /// <param name="v">Input Vector2</param>
         /// <returns>Vector3</returns>
@@ -690,7 +609,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Verifies if the Vector4 contains only zero values
+        /// Verifies if the Vector4 contains only zero values.
         /// </summary>
         /// <param name="vector">Vector4</param>
         /// <returns>true if yes, otherwise false</returns>
@@ -703,10 +622,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Useful in converting the four components
-        /// of Thickness or Padding to two components
-        /// by taking a sum of alternate components
-        /// (X &amp; Z and Y &amp; W).
+        /// Useful in converting the four components of Thickness or Padding to two components by taking a sum of alternate components (X &amp; Z and Y &amp; W).
         /// </summary>
         /// <param name="vector">Vector4</param>
         /// <returns>Vector3</returns>
@@ -716,10 +632,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Useful in converting the four components
-        /// of Thickness or Padding to two components
-        /// by adding alternate components -
-        /// (X &amp; Z and Y &amp; W).
+        /// Useful in converting the four components of Thickness or Padding to two components by adding alternate components - (X &amp; Z and Y &amp; W).
         /// </summary>
         /// <param name="vector">Vector4</param>
         /// <returns>Size</returns>
@@ -729,7 +642,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the Vector4 to Thickness - Left(X), Top(Y), Right(Z), Bottom(W)
+        /// Converts the Vector4 to Thickness - Left(X), Top(Y), Right(Z), Bottom(W).
         /// </summary>
         /// <param name="vector">Vector4</param>
         /// <returns>Thickness</returns>
@@ -739,7 +652,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Converts the Vector4 to CornerRadius - TopLeft(X), TopRight(Y), BottomRight(Z), BottomLeft(W)
+        /// Converts the Vector4 to CornerRadius - TopLeft(X), TopRight(Y), BottomRight(Z), BottomLeft(W).
         /// </summary>
         /// <param name="vector">Vector4</param>
         /// <returns>CornerRadius</returns>
@@ -813,8 +726,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Calculates the best size that can fit in the destination area based on the given stretch and
-        /// alignment options.
+        /// Calculates the best size that can fit in the destination area based on the given stretch and alignment options.
         /// </summary>
         /// <param name="srcWidth">Width of the source.</param>
         /// <param name="srcHeight">Height of the source.</param>

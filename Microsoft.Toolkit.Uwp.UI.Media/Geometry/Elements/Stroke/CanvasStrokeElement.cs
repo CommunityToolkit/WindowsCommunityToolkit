@@ -5,6 +5,7 @@
 using System;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
@@ -12,7 +13,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
 {
     /// <summary>
-    /// Represents a Stroke Element
+    /// Represents a Stroke Element.
     /// </summary>
     internal sealed class CanvasStrokeElement : AbstractCanvasStrokeElement
     {
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         }
 
         /// <summary>
-        /// Creates the ICanvasStroke from the parsed data
+        /// Creates the ICanvasStroke from the parsed data.
         /// </summary>
         /// <returns>ICanvasStroke</returns>
         public override ICanvasStroke CreateStroke(ICanvasResourceCreator resourceCreator)
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         }
 
         /// <summary>
-        /// Gets the Stroke Element Attributes from the Match
+        /// Gets the Stroke Element Attributes from the Match.
         /// </summary>
         /// <param name="match">Match object</param>
         protected override void GetAttributes(Match match)
@@ -69,8 +70,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
             // If the ICanvasBrushElement was not created, then the ICanvasStroke cannot be created
             if (_brush == null)
             {
-                throw new NullReferenceException($"Unable to create a valid ICanvasBrush for the " +
-                                                 $"ICanvasStroke with the following Brush data - '{group.Value}'");
+                ThrowHelper.ThrowArgumentException("Unable to create a valid ICanvasBrush for the " +
+                                                   $"ICanvasStroke with the following Brush data - '{group.Value}'");
             }
 
             // Stroke Style
@@ -78,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         }
 
         /// <summary>
-        /// Gets the number of non-whitespace characters in the data
+        /// Gets the number of non-whitespace characters in the data.
         /// </summary>
         protected override void Validate()
         {

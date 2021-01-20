@@ -9,7 +9,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
 {
     /// <summary>
-    /// Abstract base class for Stroke Element
+    /// Abstract base class for Stroke Element.
     /// </summary>
     internal abstract class AbstractCanvasStrokeElement : ICanvasStrokeElement
     {
@@ -19,13 +19,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         public string Data { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the number of non-whitespace characters in
-        /// the Stroke Data
+        /// Gets or sets the number of non-whitespace characters in the Stroke Data.
         /// </summary>
         public int ValidationCount { get; protected set; }
 
         /// <summary>
-        /// Initializes the Stroke Element with the given Capture
+        /// Initializes the Stroke Element with the given Capture.
         /// </summary>
         /// <param name="match">Match object</param>
         public virtual void Initialize(Match match)
@@ -44,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         }
 
         /// <summary>
-        /// Gets the number of non-whitespace characters in the data
+        /// Gets the number of non-whitespace characters in the data.
         /// </summary>
         protected virtual void Validate()
         {
@@ -52,13 +51,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         }
 
         /// <summary>
-        /// Creates the ICanvasStroke from the parsed data
+        /// Creates the ICanvasStroke from the parsed data.
         /// </summary>
         /// <returns>ICanvasStroke</returns>
         public abstract ICanvasStroke CreateStroke(ICanvasResourceCreator resourceCreator);
 
         /// <summary>
-        /// Gets the Stroke Element Attributes from the Match
+        /// Gets the Stroke Element Attributes from the Match.
         /// </summary>
         /// <param name="match">Match object</param>
         protected abstract void GetAttributes(Match match);

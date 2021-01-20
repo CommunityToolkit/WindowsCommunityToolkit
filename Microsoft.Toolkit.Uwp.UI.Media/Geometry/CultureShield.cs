@@ -5,11 +5,10 @@
 using System;
 using System.Globalization;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Common
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Class which can be used to encapsulate code statement(s)
-    /// so that they are executed in a specific culture.
+    /// Class which can be used to encapsulate code statement(s) so that they are executed in a specific culture.
     /// <para />
     /// Usage example:
     /// <para />
@@ -23,13 +22,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Common
     /// <para />
     /// }
     /// </summary>
-    public class CultureShield : IDisposable
+    internal readonly ref struct CultureShield
     {
         private readonly CultureInfo _prevCulture;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CultureShield"/> class so that
-        /// the encapsulated code statement(s) can be executed using the specified culture.
+        /// Initializes a new instance of the <see cref="CultureShield"/> struct so that the encapsulated code statement(s) can be executed using the specified culture.
         /// <para />
         /// Usage example:
         /// <para />
@@ -44,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Common
         /// }
         /// </summary>
         /// <param name="culture">The culture in which the encapsulated code statement(s) are to be executed.</param>
-        public CultureShield(string culture)
+        internal CultureShield(string culture)
         {
             _prevCulture = CultureInfo.CurrentCulture;
             CultureInfo.CurrentCulture = new CultureInfo(culture);

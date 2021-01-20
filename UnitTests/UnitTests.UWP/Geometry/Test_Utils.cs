@@ -178,35 +178,6 @@ namespace UnitTests.UWP.Geometry
             Assert.AreEqual(false, r3.IsCloseTo(r4));
         }
 
-        [TestCategory("Geometry - Float")]
-        [TestMethod]
-        public void Test_Utils_Float_Clamp()
-        {
-            Assert.AreEqual(3f, 2f.Clamp(3f, 5f));
-
-            Assert.AreEqual(5f, 6f.Clamp(2f, 5f));
-        }
-
-        [TestCategory("Geometry - Double")]
-        [TestMethod]
-        public void Test_Utils_Double_Clamp()
-        {
-            Assert.AreEqual(3.0d, 2d.Clamp(3d, 5d));
-
-            Assert.AreEqual(5d, 6d.Clamp(2d, 5d));
-        }
-
-        [TestCategory("Geometry - Double")]
-        [TestMethod]
-        public void Test_Utils_Double_IsNan()
-        {
-            Assert.AreEqual(true, Utils.IsNaN(double.NaN));
-
-            Assert.AreEqual(true, Utils.IsNaN(0 / 0.0));
-
-            Assert.AreEqual(false, Utils.IsNaN(5d / 20d));
-        }
-
         [TestCategory("Geometry - Double")]
         [TestMethod]
         public void Test_Utils_Double_RoundLayoutValue()

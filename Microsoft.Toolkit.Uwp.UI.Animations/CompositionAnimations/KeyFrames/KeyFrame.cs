@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Provides common Dependency properties for KeyFrames
     /// </summary>
-    public abstract class KeyFrame : DependencyObject
+    public abstract partial class KeyFrame : DependencyObject
     {
         /// <summary>
         /// Identifies the <see cref="Key"/> dependency property

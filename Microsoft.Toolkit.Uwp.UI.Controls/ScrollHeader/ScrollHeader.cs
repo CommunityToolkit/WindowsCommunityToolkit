@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Scroll header control to be used with ListViews or GridViews
     /// </summary>
-    public class ScrollHeader : ContentControl
+    public partial class ScrollHeader : ContentControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScrollHeader"/> class.

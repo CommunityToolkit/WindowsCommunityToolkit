@@ -9,23 +9,22 @@ using Microsoft.Graphics.Canvas.Geometry;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Interface to represent the Stroke which
-    /// can be used to render an outline on a <see cref="CanvasGeometry"/>
+    /// Interface to represent the Stroke which can be used to render an outline on a <see cref="CanvasGeometry"/>.
     /// </summary>
     public interface ICanvasStroke
     {
         /// <summary>
-        /// Gets or sets the brush with which the <see cref="CanvasStroke"/> will be rendered
+        /// Gets or sets the brush with which the <see cref="CanvasStroke"/> will be rendered.
         /// </summary>
         ICanvasBrush Brush { get; set; }
 
         /// <summary>
-        /// Gets or sets the width of the <see cref="CanvasStroke"/>
+        /// Gets or sets the width of the <see cref="CanvasStroke"/>.
         /// </summary>
         float Width { get; set; }
 
         /// <summary>
-        /// Gets or sets the Style of the <see cref="CanvasStroke"/>
+        /// Gets or sets the Style of the <see cref="CanvasStroke"/>.
         /// </summary>
         CanvasStrokeStyle Style { get; set; }
 
