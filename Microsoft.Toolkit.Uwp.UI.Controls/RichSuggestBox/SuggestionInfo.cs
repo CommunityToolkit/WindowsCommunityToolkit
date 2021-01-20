@@ -8,28 +8,59 @@ using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// SuggestionInfo describes a suggestion token in the document.
+    /// </summary>
     public class SuggestionInfo : INotifyPropertyChanged
     {
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets the <see cref="RichSuggestBox"/> instance that owns this token.
+        /// </summary>
         public RichSuggestBox Owner { get; }
 
+        /// <summary>
+        /// Gets the token ID.
+        /// </summary>
         public Guid Id { get; }
 
+        /// <summary>
+        /// Gets the text displayed in the document.
+        /// </summary>
         public string DisplayText { get; }
 
+        /// <summary>
+        /// Gets or sets the suggested item associated with this token.
+        /// </summary>
         public object Item { get; set; }
 
+        /// <summary>
+        /// Gets the start position of the text range.
+        /// </summary>
         public int RangeStart { get; private set; }
 
+        /// <summary>
+        /// Gets the end position of the text range.
+        /// </summary>
         public int RangeEnd { get; private set; }
 
+        /// <summary>
+        /// Gets the start position of the token in number of characters.
+        /// </summary>
         public int Position => _range?.GetIndex(TextRangeUnit.Character) - 1 ?? 0;
 
         internal bool Active { get; set; }
 
         private ITextRange _range;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SuggestionInfo"/> class.
+        /// </summary>
+        /// <param name="id">Token ID</param>
+        /// <param name="displayText">Text in the document</param>
+        /// <param name="owner"><see cref="RichSuggestBox"/> instance that owns this token</param>
         public SuggestionInfo(Guid id, string displayText, RichSuggestBox owner)
         {
             Id = id;
@@ -55,6 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"HYPERLINK \"{Id}\"{DisplayText}";

@@ -19,6 +19,9 @@ using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The RichSuggestBox control extends <see cref="RichEditBox"/> control that suggests and embeds custom data in a rich document.
+    /// </summary>
     [TemplatePart(Name = PartRichEditBox, Type = typeof(RichEditBox))]
     [TemplatePart(Name = PartSuggestionsPopup, Type = typeof(Popup))]
     [TemplatePart(Name = PartSuggestionsList, Type = typeof(ListViewBase))]
@@ -56,6 +59,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
         }
 
+        /// <summary>
+        /// Clear unused tokens and undo/redo history. <see cref="RichSuggestBox"/> saves all of previously committed tokens
+        /// even when they are removed from the text. They have to be manually removed using this method.
+        /// </summary>
         public void ClearUndoRedoSuggestionHistory()
         {
             TextDocument.ClearUndoRedoHistory();
@@ -71,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
