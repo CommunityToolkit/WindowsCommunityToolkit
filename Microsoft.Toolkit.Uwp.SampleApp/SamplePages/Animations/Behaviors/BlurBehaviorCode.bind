@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 var sprite = await PipelineBuilder
     .FromBackdrop()
     .Blur(0, out EffectAnimation<float> blurAnimation)
-    .AttachAsync(button, button);
+    .AttachAsync(ToolkitLogo, ToolkitLogo);
 
 // Start the animation on the applied brush
 blurAnimation(sprite.Brush, 32, TimeSpan.FromSeconds(3));
