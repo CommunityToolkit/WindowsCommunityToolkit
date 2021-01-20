@@ -34,11 +34,17 @@
                 <ani:OpacityAnimation />
                 <ani:StartAnimationActivity />
                 <ani:InvokeActionsActivity />
+                <ani:ClipAnimation/>
+                <ani:BlurEffectAnimation/>
+                <ani:SaturationEffectAnimation/>
+                <ani:AnimationScope/>
+                <ani:ExposureEffectAnimation/>
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>
             <media:PipelineVisualFactory>
                 <media:OpacityEffect />
+                <media:ExposureEffect/>
             </media:PipelineVisualFactory>
         </media:UIElementExtensions.VisualFactory>
 

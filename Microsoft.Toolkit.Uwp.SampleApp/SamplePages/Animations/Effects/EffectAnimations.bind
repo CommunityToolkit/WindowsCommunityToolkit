@@ -32,6 +32,7 @@
           <media:BlendEffect Mode="Multiply" Source="{media:BackdropSource}"/>
           <media:BlurEffect x:Name="ImageBlurEffect" Amount="32" IsAnimatable="True"/>
           <media:SaturationEffect x:Name="ImageSaturationEffect" Value="0" IsAnimatable="True"/>
+          <media:ExposureEffect x:Name="ImageExposureEffect" Amount="1" IsAnimatable="True"/>
         </media:PipelineVisualFactory>
       </media:UIElementExtensions.VisualFactory>
       <animations:Explicit.Animations>
@@ -41,7 +42,8 @@
             <animations:TranslationAnimation From="32,0,0" To="0"/>
             <animations:ScaleAnimation From="1.1" To="1"/>
             <animations:BlurEffectAnimation From="32" To="0" Target="{Binding ElementName=ImageBlurEffect}"/>
-            <animations:SaturationEffectAnimation From="0" To="1" Target="{Binding ElementName=ImageSaturationEffect}" Duration="0:0:6"/>
+            <animations:SaturationEffectAnimation From="0" To="1.2" Target="{Binding ElementName=ImageSaturationEffect}"/>
+            <animations:ExposureEffectAnimation From="1" To="0" Target="{Binding ElementName=ImageExposureEffect}"/>
           </animations:AnimationScope>
         </animations:AnimationSet>
       </animations:Explicit.Animations>
