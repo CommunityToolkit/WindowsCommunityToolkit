@@ -112,9 +112,11 @@
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1901.28001</Version>
     </PackageReference>
+    <!-- TODO Reintroduce graph controls
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
       <Version>6.1.0-build.6</Version>
     </PackageReference>
+    -->
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.4.2</Version>
     </PackageReference>
@@ -278,8 +280,10 @@
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
+    <!-- TODO Reintroduce graph controls
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
+    -->
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
@@ -298,7 +302,9 @@
     <Content Include="SamplePages\DataGrid\DataGrid.png" />
     <Content Include="SamplePages\DispatcherQueueHelper\DispatchQueueHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
+    <!-- TODO Reintroduce graph controls
     <Content Include="SamplePages\LoginButton\LoginButton.png" />
+    -->
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
@@ -490,9 +496,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\CameraPreview\CameraPreviewXaml.bind" />
+    <!-- TODO Reintroduce graph controls
     <Content Include="SamplePages\LoginButton\LoginButtonXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\PersonView\PersonViewXaml.bind" />
+    -->
     <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -649,12 +657,14 @@
     <Compile Include="Pages\SampleController.xaml.cs">
       <DependentUpon>SampleController.xaml</DependentUpon>
     </Compile>
+    <!-- TODO Reintroduce graph controls
     <Compile Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml.cs">
       <DependentUpon>PeoplePickerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\PersonView\PersonViewPage.xaml.cs">
       <DependentUpon>PersonViewPage.xaml</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
@@ -695,9 +705,11 @@
     <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
+    <!-- TODO Reintroduce graph controls
     <Compile Include="SamplePages\LoginButton\LoginButtonPage.xaml.cs">
       <DependentUpon>LoginButtonPage.xaml</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SamplePages\DataGrid\DataGridPage.xaml.cs">
       <DependentUpon>DataGridPage.xaml</DependentUpon>
     </Compile>
@@ -1048,6 +1060,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <!-- TODO Reintroduce graph controls
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1056,6 +1069,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    -->
     <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1140,10 +1154,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <!-- TODO Reintroduce graph controls
     <Page Include="SamplePages\LoginButton\LoginButtonPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    -->
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
