@@ -16,10 +16,8 @@
         - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
         - HeaderedContentControl: Provides a header to content.
         - HeaderedItemsControl: Provides a header to items.
-        - ImageCropper: ImageCropper control allows user to crop image freely.
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
-        - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
         - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
         - MasterDetailsView: Implements the Master/Details design pattern.
@@ -39,11 +37,6 @@
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />

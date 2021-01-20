@@ -387,6 +387,7 @@
         "Icon": "/SamplePages/Eyedropper/Eyedropper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Eyedropper.md"
       },
+      /* TODO Reintroduce graph controls
       {
         "Name": "LoginButton",
         "Type": "LoginButtonPage",
@@ -423,6 +424,7 @@
         "DeprecatedWarning": "The PeoplePicker control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PeoplePicker.md"
       },
+      */
       {
         "Name": "AlignmentGrid",
         "Type": "AlignmentGridPage",

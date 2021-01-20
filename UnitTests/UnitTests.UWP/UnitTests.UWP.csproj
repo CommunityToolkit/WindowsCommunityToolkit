@@ -204,11 +204,12 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include=".editorconfig" />
+    <Content Include="Assets\Samples\InfiniteCanvasExportPreMedia.json" />
+    <Content Include="Assets\Samples\InfiniteCanvasExport.json" />
     <PRIResource Include="Strings\fr\Resources.resw" />
     <PRIResource Include="Strings\en-us\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <Content Include="Assets\Samples\InfiniteCanvasExport.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />
@@ -237,6 +238,10 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj">
+      <Project>{43bd2a36-9e12-4788-80ae-2377e41e6d05}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Media</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj">
       <Project>{84ab7dc5-95c9-4cf8-a370-d077e9e9ef1a}</Project>

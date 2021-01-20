@@ -14,7 +14,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageEx" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageExBase" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.InfiniteCanvas" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.LayoutTransformControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Loading" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MasterDetailsView" />
