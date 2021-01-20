@@ -4,9 +4,13 @@ using System.Threading.Tasks;
 using Windows.Globalization;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
+    /// <summary>
+    /// This class used the Windows <see cref="SpeechRecognizer"/> to recognize speech for the <see cref="VoiceCommandTrigger"/>
+    /// </summary>
     public class WindowsMediaSpeechRecognizer : ISpeechRecognizer
     {
         private readonly SpeechRecognizer _speechRecognizer;
@@ -16,7 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             _speechRecognizer = speechRecognizer;
         }
 
-        public static async Task<WindowsMediaSpeechRecognizer> CreateAsync(Windows.UI.Xaml.Window window)
+        /// <summary>
+        /// Creates a <see cref="WindowsMediaSpeechRecognizer"/> which can be used for a <see cref="VoiceCommandTrigger"/>
+        /// </summary>
+        /// <param name="window">The <see cref="Window" /> is used for triggering the Activated event. This will restart the speech recongition.</param>
+        /// <returns>The created <see cref="WindowsMediaSpeechRecognizer"/></returns>
+        public static async Task<WindowsMediaSpeechRecognizer> CreateAsync(Window window)
         {
             SpeechRecognizer sr = null;
             foreach (var item in Windows.System.UserProfile.GlobalizationPreferences.Languages)
@@ -69,8 +78,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             OnRecognized(new RecognizedEventArgs(new SpeechRecognitionResult(args.Result.Text, args.Result.RawConfidence)));
         }
 
+        /// <summary>
+        /// Occurs when a speech is recognized
+        /// </summary>
         public event RecognizedEventHandler Recognized;
 
+        /// <summary>
+        /// Called when speech is recognized
+        /// </summary>
+        /// <param name="args"><see cref="RecognizedEventArgs"/> used to report the <see cref="ISpeechRecognitionResult"/></param>
         protected virtual void OnRecognized(RecognizedEventArgs args)
         {
             Recognized?.Invoke(this, args);

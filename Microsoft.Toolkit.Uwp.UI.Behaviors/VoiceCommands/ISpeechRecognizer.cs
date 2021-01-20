@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors
+﻿namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
-    public interface ISpeechRecognizer {
+    /// <summary>
+    /// Service used to recongize speech
+    /// </summary>
+    public interface ISpeechRecognizer
+    {
+        /// <summary>
+        /// Occurs when a speech is recognized
+        /// </summary>
         event RecognizedEventHandler Recognized;
     }
 }
