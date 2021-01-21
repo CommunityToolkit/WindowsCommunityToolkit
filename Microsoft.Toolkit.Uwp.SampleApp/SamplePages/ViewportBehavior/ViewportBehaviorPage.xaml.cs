@@ -6,7 +6,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Xaml.Interactivity;

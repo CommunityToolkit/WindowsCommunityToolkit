@@ -132,6 +132,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="Assets\BrushAssets\TileTexture.png" />
     <Content Include="Assets\BrushAssets\NoiseTexture.png" />
+    <Content Include="Assets\Llama.mp3" />
     <Content Include="Assets\mslogo.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
@@ -266,6 +267,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
@@ -333,7 +335,7 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePicker.png" />
-    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
+    <Content Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimation.png" />
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
@@ -398,7 +400,7 @@
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
-    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
+    <Content Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimation.bind" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
     <Content Include="SamplePages\TileControl\TileControl.bind">
       <SubType>Designer</SubType>
@@ -584,6 +586,27 @@
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerButtonXaml.bind" />
+    <Content Include="SamplePages\Animations\Effects\FadeBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Effects\FadeBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Activities\StartAnimationActivity.bind" />
+    <Content Include="SamplePages\Animations\Activities\InvokeActionsActivity.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\BlurBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\BlurBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\SaturationBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\SaturationBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\SaturationBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
+    <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -831,8 +854,8 @@
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml.cs">
-      <DependentUpon>ReorderGridPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimationPage.xaml.cs">
+      <DependentUpon>ItemsReorderAnimationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -1275,7 +1298,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml">
+    <Page Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
