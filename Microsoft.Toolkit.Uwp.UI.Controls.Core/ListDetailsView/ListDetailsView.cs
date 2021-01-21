@@ -282,7 +282,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
-            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
+            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == ListDetailsViewState.Details))
             {
                 SelectedItem = null;
                 args.Cancel = true;
@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
-            if (ViewState == MasterDetailsViewState.Details)
+            if (ViewState == ListDetailsViewState.Details)
             {
                 // let the OnFrameNavigating method handle it if
                 if (_frame == null || !_frame.CanGoBack)
@@ -327,7 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
-        private void SetBackButtonVisibility(MasterDetailsViewState? previousState = null)
+        private void SetBackButtonVisibility(ListDetailsViewState? previousState = null)
         {
             const int backButtonVisible = 1;
 
@@ -336,7 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (ViewState == MasterDetailsViewState.Details)
+            if (ViewState == ListDetailsViewState.Details)
             {
                 if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
                 {
@@ -370,7 +370,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 }
             }
-            else if (previousState == MasterDetailsViewState.Details)
+            else if (previousState == ListDetailsViewState.Details)
             {
                 if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
                 {
@@ -406,11 +406,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ActualWidth < CompactModeThresholdWidth)
             {
-                ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
+                ViewState = SelectedItem == null ? ListDetailsViewState.Master : ListDetailsViewState.Details;
             }
             else
             {
-                ViewState = MasterDetailsViewState.Both;
+                ViewState = ListDetailsViewState.Both;
             }
 
             if (previousState != ViewState)
@@ -504,9 +504,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Sets whether the selected item should change when focused with the keyboard based on the view state
         /// </summary>
         /// <param name="viewState">the view state</param>
-        private void SetListSelectionWithKeyboardFocusOnVisualStateChanged(MasterDetailsViewState viewState)
+        private void SetListSelectionWithKeyboardFocusOnVisualStateChanged(ListDetailsViewState viewState)
         {
-            if (viewState == MasterDetailsViewState.Both)
+            if (viewState == ListDetailsViewState.Both)
             {
                 SetListSelectionWithKeyboardFocus(true);
             }
@@ -546,9 +546,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Sets focus to the relevant control based on the viewState.
         /// </summary>
         /// <param name="viewState">the view state</param>
-        private void SetFocus(MasterDetailsViewState viewState)
+        private void SetFocus(ListDetailsViewState viewState)
         {
-            if (viewState != MasterDetailsViewState.Details)
+            if (viewState != ListDetailsViewState.Details)
             {
                 FocusItemList();
             }

@@ -16,7 +16,7 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/InAppNotification.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/LayoutTransformControl/LayoutTransformControl.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/Loading/Loading.xaml" />
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/ListDetailsView/MasterDetailsView.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/ListDetailsView/ListDetailsView.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/Menu/Menu.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/OrbitView/OrbitView.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/RadialGauge/RadialGauge.xaml" />

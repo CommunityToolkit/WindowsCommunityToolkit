@@ -131,9 +131,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The identifier for the <see cref="ViewState"/> dependency property.</returns>
         public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register(
             nameof(ViewState),
-            typeof(MasterDetailsViewState),
+            typeof(ListDetailsViewState),
             typeof(MasterDetailsView),
-            new PropertyMetadata(default(MasterDetailsViewState)));
+            new PropertyMetadata(default(ListDetailsViewState)));
 
         /// <summary>
         /// Identifies the <see cref="MasterCommandBar"/> dependency property
@@ -298,9 +298,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the current visual state of the control
         /// </summary>
-        public MasterDetailsViewState ViewState
+        public ListDetailsViewState ViewState
         {
-            get { return (MasterDetailsViewState)GetValue(ViewStateProperty); }
+            get { return (ListDetailsViewState)GetValue(ViewStateProperty); }
             private set { SetValue(ViewStateProperty, value); }
         }
 
