@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -47,17 +48,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
+            if (Target is not TEffect target)
+            {
+                return ThrowHelper.ThrowArgumentNullException<AnimationBuilder>("The target effect is null, make sure to set the Target property");
+            }
+
+            if (ExplicitTarget is not string explicitTarget)
+            {
+                return ThrowHelper.ThrowArgumentNullException<AnimationBuilder>(
+                    "The target effect cannot be animated at this time. If you're targeting one of the " +
+                    "built-in effects, make sure that the PipelineEffect.IsAnimatable property is set to true.");
+            }
+
             NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
-                ExplicitTarget,
+                explicitTarget,
                 Delay ?? delayHint ?? DefaultDelay,
                 Duration ?? durationHint ?? DefaultDuration,
                 Repeat);
 
             AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
 
-            CompositionAnimation animation = keyFrameBuilder.GetAnimation(Target!.Brush!, out _);
+            CompositionAnimation animation = keyFrameBuilder.GetAnimation(target.Brush!, out _);
 
-            return builder.ExternalAnimation(Target.Brush, animation);
+            return builder.ExternalAnimation(target.Brush, animation);
         }
     }
 }
