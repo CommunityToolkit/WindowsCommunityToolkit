@@ -112,9 +112,6 @@
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1901.28001</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
-      <Version>6.1.0-build.6</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.4.2</Version>
     </PackageReference>
@@ -135,6 +132,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="Assets\BrushAssets\TileTexture.png" />
     <Content Include="Assets\BrushAssets\NoiseTexture.png" />
+    <Content Include="Assets\Llama.mp3" />
     <Content Include="Assets\mslogo.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
@@ -269,6 +267,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
@@ -291,7 +290,6 @@
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
-    <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\CameraPreview\CameraPreview.png" />
     <Content Include="SamplePages\CameraHelper\CameraHelper.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
@@ -300,7 +298,6 @@
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\LoginButton\LoginButton.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
-    <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Carousel\Carousel.png" />
@@ -322,7 +319,6 @@
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.png" />
-    <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
     <Content Include="SamplePages\LiveTile\LiveTile.png" />
@@ -333,18 +329,14 @@
     <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
-    <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePicker.png" />
-    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
-    <Content Include="SamplePages\Rotate\RotateBehavior.png" />
-    <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
+    <Content Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimation.png" />
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
-    <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
     <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
@@ -377,11 +369,7 @@
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
-    <Content Include="SamplePages\Offset\OffsetBehaviorCode.bind" />
-    <Content Include="SamplePages\Fade\FadeBehaviorCode.bind" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
-    <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
-    <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
@@ -393,13 +381,7 @@
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
     <Content Include="SamplePages\Toast\ToastCode.bind" />
     <Content Include="SamplePages\RotatorTile\RotatorTileCode.bind" />
-    <Content Include="SamplePages\Saturation\SaturationBehaviorCode.bind" />
-    <Content Include="SamplePages\Saturation\SaturationBehaviorXaml.bind" />
-    <Content Include="SamplePages\Offset\OffsetBehaviorXaml.bind" />
     <Content Include="SamplePages\Expander\ExpanderXaml.bind" />
-    <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
-    <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
-    <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\BladeView\BladeCode.bind" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeaderCode.bind" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
@@ -418,9 +400,7 @@
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
-    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
-    <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
-    <Content Include="SamplePages\Light\LightBehaviorXaml.bind" />
+    <Content Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimation.bind" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
     <Content Include="SamplePages\TileControl\TileControl.bind">
       <SubType>Designer</SubType>
@@ -437,8 +417,6 @@
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBarCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
-    <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
-    <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -608,6 +586,27 @@
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerButtonXaml.bind" />
+    <Content Include="SamplePages\Animations\Effects\FadeBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Effects\FadeBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Activities\StartAnimationActivity.bind" />
+    <Content Include="SamplePages\Animations\Activities\InvokeActionsActivity.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\BlurBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\BlurBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\SaturationBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\SaturationBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\SaturationBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\ScaleBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehavior.png" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorCode.bind" />
+    <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
+    <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
+    <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -811,9 +810,6 @@
     <Compile Include="SamplePages\BladeView\BladePage.xaml.cs">
       <DependentUpon>BladePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
-      <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\AlignmentGrid\AlignmentGridPage.xaml.cs">
       <DependentUpon>AlignmentGridPage.xaml</DependentUpon>
     </Compile>
@@ -822,9 +818,6 @@
     </Compile>
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Saturation\SaturationBehaviorPage.xaml.cs">
-      <DependentUpon>SaturationBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
@@ -846,9 +839,6 @@
     </Compile>
     <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
     <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
-    <Compile Include="SamplePages\Light\LightBehaviorPage.xaml.cs">
-      <DependentUpon>LightBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
       <DependentUpon>LinkedInPage.xaml</DependentUpon>
     </Compile>
@@ -864,8 +854,8 @@
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml.cs">
-      <DependentUpon>ReorderGridPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimationPage.xaml.cs">
+      <DependentUpon>ItemsReorderAnimationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
       <DependentUpon>RotatorTilePage.xaml</DependentUpon>
@@ -894,12 +884,6 @@
     <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
       <DependentUpon>TwitterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Offset\OffsetBehaviorPage.xaml.cs">
-      <DependentUpon>OffsetBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
-      <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
@@ -912,12 +896,6 @@
     </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Rotate\RotateBehaviorPage.xaml.cs">
-      <DependentUpon>RotateBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Scale\ScaleBehaviorPage.xaml.cs">
-      <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
       <DependentUpon>RadialGaugePage.xaml</DependentUpon>
@@ -1256,10 +1234,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\AlignmentGrid\AlignmentGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1275,10 +1249,6 @@
     <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Saturation\SaturationBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TileControl\TileControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1308,10 +1278,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Light\LightBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\LinkedIn Service\LinkedInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1332,7 +1298,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml">
+    <Page Include="SamplePages\ItemsReorderAnimation\ItemsReorderAnimationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1343,14 +1309,6 @@
     <Page Include="SamplePages\LiveTile\LiveTilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Offset\OffsetBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Fade\FadeBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Object Storage\ObjectStoragePage.xaml">
       <SubType>Designer</SubType>
@@ -1403,14 +1361,6 @@
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Rotate\RotateBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Scale\ScaleBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Weibo Service\WeiboPage.xaml">
       <SubType>Designer</SubType>
@@ -1485,6 +1435,10 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Behaviors\Microsoft.Toolkit.Uwp.UI.Behaviors.csproj">
+      <Project>{d4ff799d-0df2-495a-adc9-3bbc4aef8971}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Behaviors</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
