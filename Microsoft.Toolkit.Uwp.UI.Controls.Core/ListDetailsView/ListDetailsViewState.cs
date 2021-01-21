@@ -5,9 +5,9 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The <see cref="MasterDetailsView"/> state.
+    /// The <see cref="ListDetailsView"/> state.
     /// </summary>
-    public enum MasterDetailsViewState
+    public enum ListDetailsViewState
     {
         /// <summary>
         /// Only the Master view is shown

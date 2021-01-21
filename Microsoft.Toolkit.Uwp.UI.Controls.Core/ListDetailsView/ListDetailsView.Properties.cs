@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Panel that allows for a Master/Details pattern.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
-    public partial class MasterDetailsView
+    public partial class ListDetailsView
     {
         /// <summary>
         /// Identifies the SelectedIndex dependency property.
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
                 nameof(SelectedIndex),
                 typeof(int),
-                typeof(MasterDetailsView),
+                typeof(ListDetailsView),
                 new PropertyMetadata(-1, OnSelectedIndexChanged));
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
             nameof(SelectedItem),
             typeof(object),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DetailsTemplateProperty = DependencyProperty.Register(
             nameof(DetailsTemplate),
             typeof(DataTemplate),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty MasterPaneBackgroundProperty = DependencyProperty.Register(
             nameof(MasterPaneBackground),
             typeof(Brush),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty MasterHeaderProperty = DependencyProperty.Register(
             nameof(MasterHeader),
             typeof(object),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null, OnMasterHeaderChanged));
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty MasterHeaderTemplateProperty = DependencyProperty.Register(
             nameof(MasterHeaderTemplate),
             typeof(DataTemplate),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DetailsHeaderProperty = DependencyProperty.Register(
             nameof(DetailsHeader),
             typeof(object),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DetailsHeaderTemplateProperty = DependencyProperty.Register(
             nameof(DetailsHeaderTemplate),
             typeof(DataTemplate),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty MasterPaneWidthProperty = DependencyProperty.Register(
             nameof(MasterPaneWidth),
             typeof(double),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(320d));
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty NoSelectionContentProperty = DependencyProperty.Register(
             nameof(NoSelectionContent),
             typeof(object),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty NoSelectionContentTemplateProperty = DependencyProperty.Register(
             nameof(NoSelectionContentTemplate),
             typeof(DataTemplate),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register(
             nameof(ViewState),
             typeof(ListDetailsViewState),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(default(ListDetailsViewState)));
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty MasterCommandBarProperty = DependencyProperty.Register(
             nameof(MasterCommandBar),
             typeof(CommandBar),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null, OnMasterCommandBarChanged));
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty DetailsCommandBarProperty = DependencyProperty.Register(
             nameof(DetailsCommandBar),
             typeof(CommandBar),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(null, OnDetailsCommandBarChanged));
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
             nameof(CompactModeThresholdWidth),
             typeof(double),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty BackButtonBehaviorProperty = DependencyProperty.Register(
             nameof(BackButtonBehavior),
             typeof(BackButtonBehavior),
-            typeof(MasterDetailsView),
+            typeof(ListDetailsView),
             new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
 
         /// <summary>

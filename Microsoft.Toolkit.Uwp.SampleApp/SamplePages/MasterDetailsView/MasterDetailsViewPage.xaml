@@ -7,5 +7,5 @@
       xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
       mc:Ignorable="d">
 
-    <controls:MasterDetailsView Visibility="Collapsed" />
+    <controls:ListDetailsView Visibility="Collapsed" />
 </Page>

@@ -2,14 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="controls:MasterDetailsView">
+    <Style TargetType="controls:ListDetailsView">
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:MasterDetailsView">
+                <ControlTemplate TargetType="controls:ListDetailsView">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">

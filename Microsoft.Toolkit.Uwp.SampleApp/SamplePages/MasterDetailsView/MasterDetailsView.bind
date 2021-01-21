@@ -8,11 +8,11 @@
     mc:Ignorable="d">
 
     <Grid>
-        <controls:MasterDetailsView BackButtonBehavior="Automatic" 
+        <controls:ListDetailsView BackButtonBehavior="Automatic" 
                                     ItemsSource="{Binding Emails}"
                                     NoSelectionContent="Select an item to view"
                                     CompactModeThresholdWidth="720">
-            <controls:MasterDetailsView.ItemTemplate>
+            <controls:ListDetailsView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8">
                         <TextBlock Text="{Binding From}" 
@@ -27,8 +27,8 @@
                                    MaxLines="1"/>
                     </StackPanel>
                 </DataTemplate>
-            </controls:MasterDetailsView.ItemTemplate>
-            <controls:MasterDetailsView.DetailsTemplate>
+            </controls:ListDetailsView.ItemTemplate>
+            <controls:ListDetailsView.DetailsTemplate>
                 <DataTemplate>
                     <RelativePanel Margin="24">
                         <controls:ImageEx x:Name="FromEllipse"
@@ -53,8 +53,8 @@
                                    Margin="0,12,0,0"/>
                     </RelativePanel>
                 </DataTemplate>
-            </controls:MasterDetailsView.DetailsTemplate>
-            <controls:MasterDetailsView.NoSelectionContentTemplate>
+            </controls:ListDetailsView.DetailsTemplate>
+            <controls:ListDetailsView.NoSelectionContentTemplate>
                 <DataTemplate>
                     <StackPanel HorizontalAlignment="Center" 
                                 VerticalAlignment="Center">
@@ -71,8 +71,8 @@
                                    Margin="0,12"/>
                     </StackPanel>
                 </DataTemplate>
-            </controls:MasterDetailsView.NoSelectionContentTemplate>
-            <controls:MasterDetailsView.MasterCommandBar>
+            </controls:ListDetailsView.NoSelectionContentTemplate>
+            <controls:ListDetailsView.MasterCommandBar>
                 <CommandBar>
                     <AppBarButton Icon="Back" Label="Back"/>
                     <AppBarButton Icon="Forward" Label="Forward"/>
@@ -84,14 +84,14 @@
             </TextBlock>
           </CommandBar.Content>
         </CommandBar>
-      </controls:MasterDetailsView.MasterCommandBar>
-      <controls:MasterDetailsView.DetailsCommandBar>
+      </controls:ListDetailsView.MasterCommandBar>
+      <controls:ListDetailsView.DetailsCommandBar>
         <CommandBar>
           <AppBarButton Icon="MailReply" Label="Reply" />
           <AppBarButton Icon="MailReplyAll" Label="Reply All" />
           <AppBarButton Icon="MailForward" Label="Forward" />
         </CommandBar>
-      </controls:MasterDetailsView.DetailsCommandBar>
-    </controls:MasterDetailsView>
+      </controls:ListDetailsView.DetailsCommandBar>
+    </controls:ListDetailsView>
   </Grid>
 </Page>

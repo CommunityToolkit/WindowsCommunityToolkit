@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Panel that allows for a Master/Details pattern.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
-    public partial class MasterDetailsView
+    public partial class ListDetailsView
     {
         /// <summary>
         /// Occurs when the currently selected item changes.
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Occurs when the view state changes
         /// </summary>
-        public event EventHandler<MasterDetailsViewState> ViewStateChanged;
+        public event EventHandler<ListDetailsViewState> ViewStateChanged;
 
         private void OnSelectionChanged(SelectionChangedEventArgs e)
         {

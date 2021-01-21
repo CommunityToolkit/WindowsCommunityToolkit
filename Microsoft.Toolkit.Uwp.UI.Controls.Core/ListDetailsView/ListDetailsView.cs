@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
     [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
-    public partial class MasterDetailsView : ItemsControl
+    public partial class ListDetailsView : ItemsControl
     {
         private const string PartDetailsPresenter = "DetailsPresenter";
         private const string PartDetailsPanel = "DetailsPanel";
@@ -52,11 +52,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Frame _frame;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
+        /// Initializes a new instance of the <see cref="ListDetailsView"/> class.
         /// </summary>
-        public MasterDetailsView()
+        public ListDetailsView()
         {
-            DefaultStyleKey = typeof(MasterDetailsView);
+            DefaultStyleKey = typeof(ListDetailsView);
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            var view = (ListDetailsView)d;
 
             var newValue = (int)e.NewValue < 0 ? null : view.Items[(int)e.NewValue];
             var oldValue = e.OldValue == null ? null : view.Items.ElementAtOrDefault((int)e.OldValue);
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            var view = (ListDetailsView)d;
             var index = e.NewValue == null ? -1 : view.Items.IndexOf(e.NewValue);
 
             // check if selection actually changed
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event args</param>
         private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            var view = (ListDetailsView)d;
             view.SetMasterHeaderVisibility();
         }
 
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event args</param>
         private static void OnDetailsCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            var view = (ListDetailsView)d;
             view.OnDetailsCommandBarChanged();
         }
 
@@ -170,12 +170,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event args</param>
         private static void OnCompactModeThresholdWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MasterDetailsView)d).HandleStateChanges();
+            ((ListDetailsView)d).HandleStateChanges();
         }
 
         private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            var view = (ListDetailsView)d;
             view.SetBackButtonVisibility();
         }
 
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The event args</param>
         private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            var view = (ListDetailsView)d;
             view.OnMasterCommandBarChanged();
         }
 
