@@ -152,13 +152,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
                 for (int y = lowY; y < stopY; y++)
                 {
-                    ref TItem r0 = ref span.DangerousGetReferenceAt(y, 0);
+                    ref TItem rStart = ref span.DangerousGetReferenceAt(y, 0);
+                    ref TItem rEnd = ref Unsafe.Add(ref rStart, width);
 
-                    for (int x = 0; x < width; x++)
+                    while (Unsafe.IsAddressLessThan(ref rStart, ref rEnd))
                     {
-                        ref TItem ryx = ref Unsafe.Add(ref r0, (nint)(uint)x);
+                        Unsafe.AsRef(this.action).Invoke(ref rStart);
 
-                        Unsafe.AsRef(this.action).Invoke(ref ryx);
+                        rStart = ref Unsafe.Add(ref rStart, 1);
                     }
                 }
             }

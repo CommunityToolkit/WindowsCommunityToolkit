@@ -3,8 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media"
-    xmlns:effects="using:Microsoft.Toolkit.Uwp.UI.Media.Effects"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     mc:Ignorable="d">
 
   <Grid>
@@ -20,15 +19,15 @@
               Grid.Column="2"
               Height="400">
         <Border.Background>
-          <brushes:PipelineBrush Source="{effects:BackdropSource}">
-            <effects:LuminanceToAlphaEffect/>
-            <effects:OpacityEffect Value="0.4"/>
-            <effects:BlendEffect Mode="Multiply" Source="{effects:BackdropSource}"/>
-            <effects:BlurEffect Amount="16"/>
-            <effects:ShadeEffect Color="#FF222222" Intensity="0.2"/>
-            <effects:BlendEffect Mode="Overlay" Source="{effects:TileSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}"/>
-            <effects:BlendEffect Mode="Overlay" Source="{effects:ImageSource Uri=ms-appx:///SamplePages/DropShadowPanel/Unicorn.png}"/>
-          </brushes:PipelineBrush>
+          <media:PipelineBrush Source="{media:BackdropSource}">
+            <media:LuminanceToAlphaEffect/>
+            <media:OpacityEffect Value="0.4"/>
+            <media:BlendEffect Mode="Multiply" Source="{media:BackdropSource}"/>
+            <media:BlurEffect Amount="16"/>
+            <media:ShadeEffect Color="#FF222222" Intensity="0.2"/>
+            <media:BlendEffect Mode="Overlay" Source="{media:TileSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}"/>
+            <media:BlendEffect Mode="Overlay" Source="{media:ImageSource Uri=ms-appx:///SamplePages/DropShadowPanel/Unicorn.png}"/>
+          </media:PipelineBrush>
         </Border.Background>
       </Border>
     </Grid>
