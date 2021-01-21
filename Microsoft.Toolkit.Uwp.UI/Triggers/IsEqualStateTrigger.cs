@@ -61,12 +61,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         internal static bool AreValuesEqual(object value1, object value2, bool convertType)
         {
-            if (value1 == value2)
+            if (object.Equals(value1, value2))
             {
                 return true;
             }
 
-            if (value1 != null && value2 != null && convertType)
+            // If they are the same type but fail with Equals check, don't bother with conversion.
+            if (value1 != null && value2 != null && value1.GetType() != value2.GetType() && convertType)
             {
                 // Try the conversion in both ways:
                 return ConvertTypeEquals(value1, value2) || ConvertTypeEquals(value2, value1);
@@ -92,19 +93,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         private static object ConvertToEnum(Type enumType, object value)
         {
-            try
+            // value cannot be the same type of enum now
+            return value switch
             {
-                if (value is string str)
-                {
-                    return Enum.Parse(enumType, str);
-                }
-
-                return Enum.IsDefined(enumType, value) ? Enum.ToObject(enumType, value) : null;
-            }
-            catch
-            {
-                return null;
-            }
+                string str when Enum.TryParse(enumType, str, out var e) => e, // string is most common for enum comparison
+                _ when Type.GetTypeCode(enumType) == Convert.GetTypeCode(value) // Enum.IsDefeind only allows the same type code
+                    && Enum.IsDefined(enumType, value) => Enum.ToObject(enumType, value),
+                _ => null
+            };
         }
     }
 }
