@@ -97,8 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             return value switch
             {
                 string str when Enum.TryParse(enumType, str, out var e) => e, // string is most common for enum comparison
-                _ when Type.GetTypeCode(enumType) == Convert.GetTypeCode(value) // Enum.IsDefeind only allows the same type code
-                    && Enum.IsDefined(enumType, value) => Enum.ToObject(enumType, value),
+                _ when Type.GetTypeCode(enumType) == Convert.GetTypeCode(value) // previous implementation uses Enum.IsDefeind which only allows the same type code
+                    => Enum.ToObject(enumType, value),
                 _ => null
             };
         }
