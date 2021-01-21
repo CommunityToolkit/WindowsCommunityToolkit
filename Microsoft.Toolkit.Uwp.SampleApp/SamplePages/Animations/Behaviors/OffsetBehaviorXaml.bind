@@ -10,10 +10,11 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
-  <Button Background="Gray" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+  <Button Background="Gray" Width="200" Height="200" VerticalAlignment="Top">
     <ani:Explicit.Animations>
       <ani:AnimationSet x:Name="OffsetAnimation">
-        <ani:OffsetAnimation To="20,30,0"
+        <ani:OffsetAnimation From="0"
+                             To="100,100,0"
                              Duration="0:0:3"
                              EasingType="Linear"
                              EasingMode="EaseOut"/>
