@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
                     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
@@ -46,12 +45,9 @@
         <Setter Property="SuggestionForeground" Value="{ThemeResource DefaultSuggestionForeground}" />
         <Setter Property="SuggestionBackground" Value="{ThemeResource DefaultSuggestionBackground}" />
         <Setter Property="RichEditBoxStyle" Value="{StaticResource DefaultRichEditBoxStyle}" />
-        <contract6Present:Setter Property="UseSystemFocusVisuals"
-                                 Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
-        <contract7Present:Setter Property="CornerRadius"
-                                 Value="{ThemeResource ControlCornerRadius}" />
-        <contract7Present:Setter Property="ContextFlyout"
-                                 Value="{StaticResource SuppressedTextCommandBarFlyout}" />
+        <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+        <Setter Property="ContextFlyout" Value="{StaticResource SuppressedTextCommandBarFlyout}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RichSuggestBox">
