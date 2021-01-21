@@ -72,7 +72,7 @@
                     </StackPanel>
                 </DataTemplate>
             </controls:ListDetailsView.NoSelectionContentTemplate>
-            <controls:ListDetailsView.MasterCommandBar>
+            <controls:ListDetailsView.ListCommandBar>
                 <CommandBar>
                     <AppBarButton Icon="Back" Label="Back"/>
                     <AppBarButton Icon="Forward" Label="Forward"/>
@@ -84,7 +84,7 @@
             </TextBlock>
           </CommandBar.Content>
         </CommandBar>
-      </controls:ListDetailsView.MasterCommandBar>
+      </controls:ListDetailsView.ListCommandBar>
       <controls:ListDetailsView.DetailsCommandBar>
         <CommandBar>
           <AppBarButton Icon="MailReply" Label="Reply" />
