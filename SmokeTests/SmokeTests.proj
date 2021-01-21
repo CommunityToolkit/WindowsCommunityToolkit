@@ -19,7 +19,7 @@
       Microsoft.Toolkit.Uwp.UI;
       Microsoft.Toolkit.Uwp.UI.Animations;
       Microsoft.Toolkit.Uwp.UI.Behaviors;
-      Microsoft.Toolkit.Uwp.UI.Controls;
+      Microsoft.Toolkit.Uwp.UI.Controls.Core;
       Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;
       Microsoft.Toolkit.Uwp.UI.Controls.Layout;
       Microsoft.Toolkit.Uwp.UI.Controls.Markdown;

@@ -4,7 +4,7 @@
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup Condition="'$(CurrentProject)' == ''">
     <!-- When writting the SmokeTests, change this to whichever Toolkit project you want to build a test to, then reload the project -->
-    <CurrentProject>Microsoft.Toolkit.Uwp.UI.Controls</CurrentProject>
+    <CurrentProject>Microsoft.Toolkit.Uwp.UI.Controls.Core</CurrentProject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(NuGetPackageVersion)' == ''">
     <NuGetPackageVersion>To Fill In With Local Version Number</NuGetPackageVersion>
