@@ -16,10 +16,10 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <Grid Height="560" Width="1280">
+    <Grid>
       <Image Source="/Assets/Photos/SpeedTripleAtristsPoint.jpg" Stretch="UniformToFill"/>
       <TextBlock
-          Text="THIS IS A SAMPLE TEXT"
+          Text="THIS IS SAMPLE TEXT"
           FontSize="52"
           FontWeight="Bold"
           TextWrapping="Wrap"
