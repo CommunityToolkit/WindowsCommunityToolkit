@@ -27,7 +27,6 @@
         - RangeSelector: "Double slider" control for range values.
         - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
-        - ScrollHeader: A UI control that works as a ListView or GridView header control with quick return, sticky, and fade behavior.
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
