@@ -1,0 +1,27 @@
+﻿private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
+{
+	if (args.Prefix == "#")
+	{
+		args.Format.Background = Colors.DarkOrange;
+		args.Format.Foreground = Colors.OrangeRed;
+		args.Text = ((SampleDataType)args.SelectedItem).Text;
+	}
+	else
+	{
+		args.Text = ((SampleEmailDataType)args.SelectedItem).DisplayName;
+	}
+}
+
+private void SuggestingBox_OnSuggestionsRequested(RichSuggestBox sender, SuggestionsRequestedEventArgs args)
+{
+	if (args.Prefix == "#")
+	{
+		sender.ItemsSource =
+		this._samples.Where(x => x.Text.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
+	}
+	else
+	{
+		sender.ItemsSource =
+		this._emailSamples.Where(x => x.DisplayName.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
+	}
+}
