@@ -7,10 +7,12 @@
       xmlns:wgt="using:Microsoft.Toolkit.Graph.Controls"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:EmptyObjectToObjectConverter x:Key="NullToVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
+        <converters:EmptyObjectToObjectConverter x:Key="NullToVisibilityConverter"
+                                                 EmptyValue="Collapsed"
+                                                 NotEmptyValue="Visible" />
     </Page.Resources>
-    <!-- Shallow Copy -->
+    <!--  Shallow Copy  -->
     <Grid>
-        <wgt:PeoplePicker/>
+        <!--<wgt:PeoplePicker/>-->
     </Grid>
 </Page>
