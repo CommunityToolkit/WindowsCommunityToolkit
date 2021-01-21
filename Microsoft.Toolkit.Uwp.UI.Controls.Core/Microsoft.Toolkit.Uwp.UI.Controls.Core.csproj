@@ -20,7 +20,7 @@
         - InAppNotification: Show local notifications in your application.
         - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
-        - MasterDetailsView: Implements the Master/Details design pattern.
+        - ListDetailsView: Implements the List/Details design pattern.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
         - RadialGauge: Displays a value within a range, using a needle on a circular face.
         - RadialProgressBar: Displays progress as a circle getting filled.

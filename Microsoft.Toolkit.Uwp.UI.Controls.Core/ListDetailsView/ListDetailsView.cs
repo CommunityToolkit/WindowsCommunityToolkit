@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Panel that allows for a Master/Details pattern.
+    /// Panel that allows for a List/Details pattern.
     /// </summary>
     [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
     [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string PartDetailsPresenter = "DetailsPresenter";
         private const string PartDetailsPanel = "DetailsPanel";
-        private const string PartBackButton = "MasterDetailsBackButton";
+        private const string PartBackButton = "ListDetailsBackButton";
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
         private const string NarrowState = "NarrowState";
         private const string WideState = "WideState";
@@ -85,12 +85,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
             SetDetailsContent();
 
-            SetMasterHeaderVisibility();
+            SetListHeaderVisibility();
             OnDetailsCommandBarChanged();
-            OnMasterCommandBarChanged();
+            OnListCommandBarChanged();
 
-            SizeChanged -= MasterDetailsView_SizeChanged;
-            SizeChanged += MasterDetailsView_SizeChanged;
+            SizeChanged -= ListDetailsView_SizeChanged;
+            SizeChanged += ListDetailsView_SizeChanged;
 
             UpdateView(true);
         }
@@ -142,14 +142,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Fired when the <see cref="MasterHeader"/> is changed.
+        /// Fired when the <see cref="ListHeader"/> is changed.
         /// </summary>
         /// <param name="d">The sender</param>
         /// <param name="e">The event args</param>
-        private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnListHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (ListDetailsView)d;
-            view.SetMasterHeaderVisibility();
+            view.SetListHeaderVisibility();
         }
 
         /// <summary>
@@ -180,14 +180,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Fired when the MasterCommandBar changes.
+        /// Fired when the <see cref="ListCommandBar"/> changes.
         /// </summary>
         /// <param name="d">The sender</param>
         /// <param name="e">The event args</param>
-        private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnListCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (ListDetailsView)d;
-            view.OnMasterCommandBarChanged();
+            view.OnListCommandBarChanged();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void MasterDetailsView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void ListDetailsView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // if size is changing
             if ((e.PreviousSize.Width < CompactModeThresholdWidth && e.NewSize.Width >= CompactModeThresholdWidth) ||
@@ -308,11 +308,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetMasterHeaderVisibility()
+        private void SetListHeaderVisibility()
         {
             if (GetTemplateChild(PartHeaderContentPresenter) is FrameworkElement headerPresenter)
             {
-                headerPresenter.Visibility = MasterHeader != null
+                headerPresenter.Visibility = ListHeader != null
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }
@@ -406,7 +406,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ActualWidth < CompactModeThresholdWidth)
             {
-                ViewState = SelectedItem == null ? ListDetailsViewState.Master : ListDetailsViewState.Details;
+                ViewState = SelectedItem == null ? ListDetailsViewState.List : ListDetailsViewState.Details;
             }
             else
             {
@@ -475,9 +475,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void OnMasterCommandBarChanged()
+        private void OnListCommandBarChanged()
         {
-            OnCommandBarChanged("MasterCommandBarPanel", MasterCommandBar);
+            OnCommandBarChanged("ListCommandBarPanel", ListCommandBar);
         }
 
         private void OnDetailsCommandBarChanged()
@@ -521,9 +521,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
         {
-            if (GetTemplateChild("MasterList") is Windows.UI.Xaml.Controls.ListViewBase masterList)
+            if (GetTemplateChild("List") is Windows.UI.Xaml.Controls.ListViewBase list)
             {
-                masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
+                list.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
             }
         }
 
@@ -575,9 +575,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusItemList()
         {
-            if (GetTemplateChild("MasterList") is Control masterList)
+            if (GetTemplateChild("List") is Control list)
             {
-                masterList.Focus(FocusState.Programmatic);
+                list.Focus(FocusState.Programmatic);
             }
         }
     }

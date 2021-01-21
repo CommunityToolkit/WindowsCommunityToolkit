@@ -10,9 +10,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public enum ListDetailsViewState
     {
         /// <summary>
-        /// Only the Master view is shown
+        /// Only the List view is shown
         /// </summary>
-        Master,
+        List,
 
         /// <summary>
         /// Only the Details view is shown
@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         Details,
 
         /// <summary>
-        /// Both the Master and Details views are shown
+        /// Both the List and Details views are shown
         /// </summary>
         Both
     }

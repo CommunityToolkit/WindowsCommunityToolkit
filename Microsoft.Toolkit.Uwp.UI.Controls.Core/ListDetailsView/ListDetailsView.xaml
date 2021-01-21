@@ -15,14 +15,14 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid x:Name="RootPanel">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="MasterColumn"
+                                <ColumnDefinition x:Name="ListColumn"
                                                   Width="Auto" />
                                 <ColumnDefinition x:Name="DetailsColumn"
                                                   Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid x:Name="MasterPanel"
-                                  Width="{TemplateBinding MasterPaneWidth}"
-                                  Background="{TemplateBinding MasterPaneBackground}"
+                            <Grid x:Name="ListPanel"
+                                  Width="{TemplateBinding ListPaneWidth}"
+                                  Background="{TemplateBinding ListPaneBackground}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="0,0,1,0">
                                 <Grid.RowDefinitions>
@@ -33,10 +33,10 @@
                                 <ContentPresenter x:Name="HeaderContentPresenter"
                                                   Margin="12,0"
                                                   x:DeferLoadStrategy="Lazy"
-                                                  Content="{TemplateBinding MasterHeader}"
-                                                  ContentTemplate="{TemplateBinding MasterHeaderTemplate}"
+                                                  Content="{TemplateBinding ListHeader}"
+                                                  ContentTemplate="{TemplateBinding ListHeaderTemplate}"
                                                   Visibility="Collapsed" />
-                                <ListView x:Name="MasterList"
+                                <ListView x:Name="List"
                                           Grid.Row="1"
                                           IsTabStop="False"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
@@ -45,7 +45,7 @@
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                                <Grid x:Name="MasterCommandBarPanel" Grid.Row="2"></Grid>
+                                <Grid x:Name="ListCommandBarPanel" Grid.Row="2"></Grid>
                             </Grid>
                             <Grid x:Name="DetailsPanel"
                                   Grid.Column="1">
@@ -63,7 +63,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="MasterDetailsBackButton"
+                                        <Button x:Name="ListDetailsBackButton"
                                                 Background="Transparent"
                                                 Height="44" 
                                                 Width="48" 
@@ -149,7 +149,7 @@
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                             <DoubleAnimation BeginTime="0:0:0.0"
-                                                             Storyboard.TargetName="MasterPanel"
+                                                             Storyboard.TargetName="ListPanel"
                                                              Storyboard.TargetProperty="Opacity"
                                                              From="0"
                                                              To="1"
@@ -164,18 +164,18 @@
                                 <VisualState x:Name="NoSelectionWide">
                                     <VisualState.Setters>
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
-                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
+                                        <Setter Target="ListPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="HasSelectionWide">
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
-                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
+                                        <Setter Target="ListPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="HasSelectionNarrow">
                                     <VisualState.Setters>
-                                        <Setter Target="MasterPanel.Visibility" Value="Collapsed" />
+                                        <Setter Target="ListPanel.Visibility" Value="Collapsed" />
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -183,19 +183,19 @@
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
-                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
+                                        <Setter Target="ListPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="WidthStates">
                                 <VisualState x:Name="NarrowState">
                                     <VisualState.Setters>
-                                        <Setter Target="MasterColumn.Width" Value="*" />
+                                        <Setter Target="ListColumn.Width" Value="*" />
                                         <Setter Target="DetailsColumn.Width" Value="0" />
                                         <Setter Target="DetailsPanel.(Grid.Column)" Value="0" />
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
-                                        <Setter Target="MasterPanel.BorderThickness" Value="0" />
-                                        <Setter Target="MasterPanel.Width" Value="NaN" />
+                                        <Setter Target="ListPanel.BorderThickness" Value="0" />
+                                        <Setter Target="ListPanel.Width" Value="NaN" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="WideState">

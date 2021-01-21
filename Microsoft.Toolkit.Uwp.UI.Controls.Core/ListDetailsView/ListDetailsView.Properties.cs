@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Panel that allows for a Master/Details pattern.
+    /// Panel that allows for a List/Details pattern.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
     public partial class ListDetailsView
@@ -46,31 +46,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="MasterPaneBackground"/> dependency property.
+        /// Identifies the <see cref="ListPaneBackground"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterPaneBackground"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterPaneBackgroundProperty = DependencyProperty.Register(
-            nameof(MasterPaneBackground),
+        /// <returns>The identifier for the <see cref="ListPaneBackground"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneBackgroundProperty = DependencyProperty.Register(
+            nameof(ListPaneBackground),
             typeof(Brush),
             typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="MasterHeader"/> dependency property.
+        /// Identifies the <see cref="ListHeader"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterHeaderProperty = DependencyProperty.Register(
-            nameof(MasterHeader),
+        /// <returns>The identifier for the <see cref="ListHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty ListHeaderProperty = DependencyProperty.Register(
+            nameof(ListHeader),
             typeof(object),
             typeof(ListDetailsView),
-            new PropertyMetadata(null, OnMasterHeaderChanged));
+            new PropertyMetadata(null, OnListHeaderChanged));
 
         /// <summary>
-        /// Identifies the <see cref="MasterHeaderTemplate"/> dependency property.
+        /// Identifies the <see cref="ListHeaderTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterHeaderTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterHeaderTemplateProperty = DependencyProperty.Register(
-            nameof(MasterHeaderTemplate),
+        /// <returns>The identifier for the <see cref="ListHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty ListHeaderTemplateProperty = DependencyProperty.Register(
+            nameof(ListHeaderTemplate),
             typeof(DataTemplate),
             typeof(ListDetailsView),
             new PropertyMetadata(null));
@@ -96,11 +96,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="MasterPaneWidth"/> dependency property.
+        /// Identifies the <see cref="ListPaneWidth"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterPaneWidth"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterPaneWidthProperty = DependencyProperty.Register(
-            nameof(MasterPaneWidth),
+        /// <returns>The identifier for the <see cref="ListPaneWidth"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneWidthProperty = DependencyProperty.Register(
+            nameof(ListPaneWidth),
             typeof(double),
             typeof(ListDetailsView),
             new PropertyMetadata(320d));
@@ -136,14 +136,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(default(ListDetailsViewState)));
 
         /// <summary>
-        /// Identifies the <see cref="MasterCommandBar"/> dependency property
+        /// Identifies the <see cref="ListCommandBar"/> dependency property
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterCommandBar"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterCommandBarProperty = DependencyProperty.Register(
-            nameof(MasterCommandBar),
+        /// <returns>The identifier for the <see cref="ListCommandBar"/> dependency property.</returns>
+        public static readonly DependencyProperty ListCommandBarProperty = DependencyProperty.Register(
+            nameof(ListCommandBar),
             typeof(CommandBar),
             typeof(ListDetailsView),
-            new PropertyMetadata(null, OnMasterCommandBarChanged));
+            new PropertyMetadata(null, OnListCommandBarChanged));
 
         /// <summary>
         /// Identifies the <see cref="DetailsCommandBar"/> dependency property
@@ -206,34 +206,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the Brush to apply to the background of the list area of the control.
         /// </summary>
         /// <returns>The Brush to apply to the background of the list area of the control.</returns>
-        public Brush MasterPaneBackground
+        public Brush ListPaneBackground
         {
-            get { return (Brush)GetValue(MasterPaneBackgroundProperty); }
-            set { SetValue(MasterPaneBackgroundProperty, value); }
+            get { return (Brush)GetValue(ListPaneBackgroundProperty); }
+            set { SetValue(ListPaneBackgroundProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the content for the master pane's header
+        /// Gets or sets the content for the list pane's header
         /// </summary>
         /// <returns>
-        /// The content of the master pane's header. The default is null.
+        /// The content of the list pane's header. The default is null.
         /// </returns>
-        public object MasterHeader
+        public object ListHeader
         {
-            get { return GetValue(MasterHeaderProperty); }
-            set { SetValue(MasterHeaderProperty, value); }
+            get { return GetValue(ListHeaderProperty); }
+            set { SetValue(ListHeaderProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the DataTemplate used to display the content of the master pane's header.
+        /// Gets or sets the DataTemplate used to display the content of the list pane's header.
         /// </summary>
         /// <returns>
-        /// The template that specifies the visualization of the master pane header object. The default is null.
+        /// The template that specifies the visualization of the list pane header object. The default is null.
         /// </returns>
-        public DataTemplate MasterHeaderTemplate
+        public DataTemplate ListHeaderTemplate
         {
-            get { return (DataTemplate)GetValue(MasterHeaderTemplateProperty); }
-            set { SetValue(MasterHeaderTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(ListHeaderTemplateProperty); }
+            set { SetValue(ListHeaderTemplateProperty, value); }
         }
 
         /// <summary>
@@ -261,20 +261,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the width of the master pane when the view is expanded.
+        /// Gets or sets the width of the list pane when the view is expanded.
         /// </summary>
         /// <returns>
         /// The width of the SplitView pane when it's fully expanded. The default is 320
         /// device-independent pixel (DIP).
         /// </returns>
-        public double MasterPaneWidth
+        public double ListPaneWidth
         {
-            get { return (double)GetValue(MasterPaneWidthProperty); }
-            set { SetValue(MasterPaneWidthProperty, value); }
+            get { return (double)GetValue(ListPaneWidthProperty); }
+            set { SetValue(ListPaneWidthProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the content to dsiplay when there is no item selected in the master list.
+        /// Gets or sets the content to dsiplay when there is no item selected in the list list.
         /// </summary>
         public object NoSelectionContent
         {
@@ -305,12 +305,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="CommandBar"/> for the master section.
+        /// Gets or sets the <see cref="CommandBar"/> for the list section.
         /// </summary>
-        public CommandBar MasterCommandBar
+        public CommandBar ListCommandBar
         {
-            get { return (CommandBar)GetValue(MasterCommandBarProperty); }
-            set { SetValue(MasterCommandBarProperty, value); }
+            get { return (CommandBar)GetValue(ListCommandBarProperty); }
+            set { SetValue(ListCommandBarProperty, value); }
         }
 
         /// <summary>

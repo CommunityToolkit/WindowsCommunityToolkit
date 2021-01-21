@@ -5,7 +5,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The behavior to use for navigating between the <see cref="ListDetailsView"/> master and details views
+    /// The behavior to use for navigating between the <see cref="ListDetailsView"/> list and details views
     /// </summary>
     public enum BackButtonBehavior
     {

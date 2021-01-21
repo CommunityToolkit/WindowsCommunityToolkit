@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Panel that allows for a Master/Details pattern.
+    /// Panel that allows for a List/Details pattern.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
     public partial class ListDetailsView
