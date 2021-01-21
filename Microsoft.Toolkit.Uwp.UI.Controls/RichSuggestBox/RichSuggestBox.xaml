@@ -25,7 +25,8 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <controls:PlainTextCommandBarFlyout x:Key="SuppressedTextCommandBarFlyout" />
+    <TextCommandBarFlyout x:Key="TextCommandBarContextFlyout" />
+    <TextCommandBarFlyout x:Key="TextCommandBarSelectionFlyout" />
 
     <Style x:Key="DefaultRichEditBoxStyle"
            TargetType="RichEditBox" />
@@ -47,7 +48,9 @@
         <Setter Property="RichEditBoxStyle" Value="{StaticResource DefaultRichEditBoxStyle}" />
         <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-        <Setter Property="ContextFlyout" Value="{StaticResource SuppressedTextCommandBarFlyout}" />
+        <Setter Property="ContextFlyout" Value="{StaticResource TextCommandBarContextFlyout}" />
+        <Setter Property="SelectionFlyout" Value="{StaticResource TextCommandBarSelectionFlyout}" />
+        <Setter Property="Prefixes" Value="@" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RichSuggestBox">
@@ -59,7 +62,7 @@
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                      contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
                                      contract7Present:Description="{TemplateBinding Description}"
-                                     contract7Present:SelectionFlyout="{x:Null}"
+                                     contract7Present:SelectionFlyout="{TemplateBinding SelectionFlyout}"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
@@ -67,7 +70,7 @@
                                      ClipboardCopyFormat="{TemplateBinding ClipboardCopyFormat}"
                                      ContextFlyout="{TemplateBinding ContextFlyout}"
                                      DesiredCandidateWindowAlignment="BottomEdge"
-                                     DisabledFormattingAccelerators="All"
+                                     DisabledFormattingAccelerators="{TemplateBinding DisabledFormattingAccelerators}"
                                      FontFamily="{TemplateBinding FontFamily}"
                                      FontSize="{TemplateBinding FontSize}"
                                      FontStretch="{TemplateBinding FontStretch}"

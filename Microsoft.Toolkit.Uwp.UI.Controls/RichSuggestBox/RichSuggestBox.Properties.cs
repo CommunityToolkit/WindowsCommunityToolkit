@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -73,7 +74,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(ClipboardCopyFormat),
                 typeof(RichEditClipboardFormat),
                 typeof(RichSuggestBox),
-                new PropertyMetadata(RichEditClipboardFormat.PlainText));
+                new PropertyMetadata(RichEditClipboardFormat.AllFormats));
+
+        /// <summary>
+        /// Identifies the <see cref="SelectionFlyout"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectionFlyoutProperty =
+            DependencyProperty.Register(
+                nameof(SelectionFlyout),
+                typeof(FlyoutBase),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="DisabledFormattingAccelerators"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisabledFormattingAcceleratorsProperty =
+            DependencyProperty.Register(
+                nameof(DisabledFormattingAccelerators),
+                typeof(DisabledFormattingAccelerators),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(DisabledFormattingAccelerators.None));
 
         /// <summary>
         /// Identifies the <see cref="SuggestionBackground"/> dependency property.
@@ -103,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Prefixes),
                 typeof(string),
                 typeof(RichSuggestBox),
-                new PropertyMetadata("@", OnPrefixesChanged));
+                new PropertyMetadata(null, OnPrefixesChanged));
 
         /// <summary>
         /// Gets or sets the text that is displayed in the control until the value is changed by a user action or some other operation.
@@ -157,6 +178,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (RichEditClipboardFormat)GetValue(ClipboardCopyFormatProperty);
             set => SetValue(ClipboardCopyFormatProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the flyout that is shown when text is selected using mouse, touch, or pen; or null if no flyout is shown.
+        /// </summary>
+        public FlyoutBase SelectionFlyout
+        {
+            get => (FlyoutBase)GetValue(SelectionFlyoutProperty);
+            set => SetValue(SelectionFlyoutProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates which keyboard shortcuts for formatting are disabled.
+        /// </summary>
+        public DisabledFormattingAccelerators DisabledFormattingAccelerators
+        {
+            get => (DisabledFormattingAccelerators)GetValue(DisabledFormattingAcceleratorsProperty);
+            set => SetValue(DisabledFormattingAcceleratorsProperty, value);
         }
 
         /// <summary>
