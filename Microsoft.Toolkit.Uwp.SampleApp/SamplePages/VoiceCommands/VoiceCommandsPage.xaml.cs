@@ -4,8 +4,6 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
@@ -50,7 +48,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             MoveItem(listBoxSelected, listBoxAvailable);
         }
 
-
         private void ButtonAppend_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(textBoxExtraItem.Text))
@@ -66,7 +63,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void WhatCanISay()
         {
-            _ = new MessageDialog("TODO: What can I Say").ShowAsync();
+            string content = "You can speak the following voice commands: \r\n" +
+                             "- What can I say\r\n" +
+                             "- Help \r\n" +
+                             "- Add\r\n" +
+                             "- Delete\r\n" +
+                             "- Move avaiable up\r\n" +
+                             "- Move avaiable down\r\n" +
+                             "- Move avaiable to First\r\n" +
+                             "- Move avaiable to Last\r\n" +
+                             "- Move selected up\r\n" +
+                             "- Move selected down\r\n" +
+                             "- Move selected to First\r\n" +
+                             "- Move selected to Last";
+            _ = new MessageDialog(content, "What can I Say").ShowAsync();
         }
 
         private void ToggleListning_Toggled(object sender, RoutedEventArgs e)

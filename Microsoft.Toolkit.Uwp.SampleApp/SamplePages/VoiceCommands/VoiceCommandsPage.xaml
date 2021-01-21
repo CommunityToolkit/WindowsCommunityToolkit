@@ -14,14 +14,6 @@
           ColumnSpacing="12"
           RowSpacing="12">
 
-        <Interactivity:Interaction.Behaviors>
-            <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
-                                           Text="What can I say">
-                <core:CallMethodAction MethodName="WhatCanISay"
-                                       TargetObject="{x:Bind pageRoot}" />
-            </Behaviors:VoiceCommandTrigger>
-        </Interactivity:Interaction.Behaviors>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="120" />
@@ -150,6 +142,21 @@
                 </Interactivity:Interaction.Behaviors>
             </Button>
         </Grid>
+
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Click="{x:Bind WhatCanISay}"
+                Content="What can I say?">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger x:Uid="CommandAdd"
+                                               IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="What can I say|Help">
+                    <local:ClickAction />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+        </Button>
 
         <ToggleSwitch x:Name="toggleListning"
                       Grid.Row="3"

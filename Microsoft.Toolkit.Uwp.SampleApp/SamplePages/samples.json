@@ -893,8 +893,6 @@
         "Subcategory": "Behaviors",
         "About": "Behavior to trigger Actions using a voice command",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
-        "CodeFile": "VoiceCommandsPageCode.bind",
-        "XamlCodeFile": "VoiceCommandsPageXaml.bind",
         "Icon": "/SamplePages/VoiceCommands/VoiceCommands.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehavior.md"
       },

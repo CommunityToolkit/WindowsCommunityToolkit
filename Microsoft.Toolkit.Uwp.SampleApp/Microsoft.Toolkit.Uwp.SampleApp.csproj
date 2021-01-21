@@ -590,8 +590,6 @@
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerButtonXaml.bind" />
-    <Content Include="SamplePages\VoiceCommands\VoiceCommandsPageXaml.bind" />
-    <Content Include="SamplePages\VoiceCommands\VoiceCommandsPageCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
