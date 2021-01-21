@@ -6,37 +6,30 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
   <Button Background="Gray" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
-    <media:UIElementExtensions.VisualFactory>
-      <media:PipelineVisualFactory>
-        <media:BlurEffect x:Name="ImageBlurEffect" IsAnimatable="True"/>
-      </media:PipelineVisualFactory>
-    </media:UIElementExtensions.VisualFactory>
-    <ani:Explicit.Animations>
-      <ani:AnimationSet x:Name="BlurAnimation">
-        <ani:BlurEffectAnimation From="0"
-                                 To="32"
-                                 Duration="0:0:3"
-                                 Delay="0"
-                                 EasingType="Linear"
-                                 EasingMode="EaseOut"
-                                 Target="{Binding ElementName=ImageBlurEffect}"/>
-      </ani:AnimationSet>
-    </ani:Explicit.Animations>
-
-    <Image Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100"/>
+    <Image Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100">
+      <ani:Explicit.Animations>
+        <ani:AnimationSet x:Name="FadeAnimation">
+          <ani:OpacityAnimation From="1"
+                                To="0"
+                                Duration="0:0:3"
+                                Delay="0"
+                                EasingType="Linear"
+                                EasingMode="EaseOut"/>
+        </ani:AnimationSet>
+      </ani:Explicit.Animations>
+    </Image>
 
     <interactivity:Interaction.Behaviors>
       <interactions:EventTriggerBehavior EventName="Loaded">
-        <behaviors:StartAnimationAction Animation="{Binding ElementName=BlurAnimation}"/>
+        <behaviors:StartAnimationAction Animation="{Binding ElementName=FadeAnimation}"/>
       </interactions:EventTriggerBehavior>
       <interactions:EventTriggerBehavior EventName="Click">
-        <behaviors:StartAnimationAction Animation="{Binding ElementName=BlurAnimation}"/>
+        <behaviors:StartAnimationAction Animation="{Binding ElementName=FadeAnimation}"/>
       </interactions:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
   </Button>
