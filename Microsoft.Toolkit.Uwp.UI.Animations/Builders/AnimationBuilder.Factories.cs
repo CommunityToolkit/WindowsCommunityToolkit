@@ -7,7 +7,6 @@ using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;

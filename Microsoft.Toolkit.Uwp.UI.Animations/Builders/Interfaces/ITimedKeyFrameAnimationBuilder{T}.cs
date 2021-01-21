@@ -4,7 +4,7 @@
 
 using System;
 using Windows.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
+using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingType">The easing type to use to reach the new keyframe.</param>
         /// <param name="easingMode">The easing mode to use to reach the new keyframe.</param>
         /// <returns>The same <see cref="INormalizedKeyFrameAnimationBuilder{T}"/> instance that the method was invoked upon.</returns>
-        /// <exception cref="System.InvalidOperationException">Thrown when the animation being built targets the XAML layer.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the animation being built targets the XAML layer.</exception>
         ITimedKeyFrameAnimationBuilder<T> ExpressionKeyFrame(
             TimeSpan progress,
             string expression,

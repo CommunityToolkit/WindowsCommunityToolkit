@@ -5,7 +5,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
 

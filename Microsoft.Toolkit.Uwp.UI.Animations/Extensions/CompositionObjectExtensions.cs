@@ -7,7 +7,7 @@
 using System.Diagnostics.Contracts;
 using Windows.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="CompositionObject"/> type.

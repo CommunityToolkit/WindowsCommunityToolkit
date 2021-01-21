@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// Common properties related to extensions.

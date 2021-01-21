@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 using XamlColorAnimation = Windows.UI.Xaml.Media.Animation.ColorAnimation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="DependencyObject"/> type.

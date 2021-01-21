@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
+using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 
 #nullable enable
 

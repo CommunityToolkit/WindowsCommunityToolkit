@@ -11,7 +11,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
+using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {

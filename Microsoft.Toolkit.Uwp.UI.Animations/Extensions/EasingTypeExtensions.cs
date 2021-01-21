@@ -7,9 +7,9 @@
 using System.Diagnostics.Contracts;
 using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
+using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="EasingType"/> type.

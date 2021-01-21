@@ -7,7 +7,7 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Storyboard"/> type.

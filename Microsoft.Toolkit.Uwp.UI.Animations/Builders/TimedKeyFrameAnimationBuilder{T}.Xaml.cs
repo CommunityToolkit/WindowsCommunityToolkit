@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Toolkit.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;

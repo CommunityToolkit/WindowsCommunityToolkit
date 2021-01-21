@@ -7,7 +7,7 @@
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using static Microsoft.Toolkit.Uwp.UI.Animations.Extensions.AnimationExtensions;
+using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {

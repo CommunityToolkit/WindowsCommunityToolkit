@@ -5,7 +5,6 @@
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Animations.Extensions;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
