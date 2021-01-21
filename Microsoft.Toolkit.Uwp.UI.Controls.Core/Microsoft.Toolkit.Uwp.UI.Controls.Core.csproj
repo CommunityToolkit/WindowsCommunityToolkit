@@ -31,7 +31,7 @@
         - TileControl: A ContentControl that show an image repeated many times.
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Range Markdown BladeView Blade CameraPreview Camera Carousel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader Tile Tokenizing TextBox</PackageTags>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range Markdown BladeView Blade CameraPreview Camera Carousel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas List Details ListDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader Tile Tokenizing TextBox</PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
