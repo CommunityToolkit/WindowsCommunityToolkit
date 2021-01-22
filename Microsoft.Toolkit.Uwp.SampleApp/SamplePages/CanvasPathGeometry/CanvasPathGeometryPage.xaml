@@ -75,7 +75,8 @@
                  PlaceholderText="Enter SVG/XAML Path Data and press Parse. (Or click on one of the Samples from above)"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  SelectionHighlightColor="#007aff"
-                 Text="{x:Bind InputText, Mode=TwoWay}"
+                 Text="{Binding InputText, Mode=TwoWay}"
+                 TextChanged="{x:Bind OnInputTextChanged}"
                  TextWrapping="Wrap" />
         <Button Grid.Row="3"
                 Width="120"
