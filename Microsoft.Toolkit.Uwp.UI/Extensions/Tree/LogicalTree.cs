@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="element">Parent element.</param>
         /// <returns>Child Content control or null if not available.</returns>
-        public static UIElement GetContentControl(this FrameworkElement element)
+        public static UIElement? GetContentControl(this FrameworkElement element)
         {
             Type type = element.GetType();
 
@@ -217,38 +217,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
-        /// If the key is not found in the current element's resources, the logical tree is then searched element-by-element to look for the resource in each element's resources.
-        /// If none of the elements contain the resource, the Application's resources are then searched.
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.windows.frameworkelement.tryfindresource"/>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>
-        /// </summary>
-        /// <param name="start"><see cref="FrameworkElement"/> to start searching for Resource.</param>
-        /// <param name="resourceKey">Key to search for.</param>
-        /// <returns>Requested resource or null.</returns>
-        public static object TryFindResource(this FrameworkElement start, object resourceKey)
-        {
-            object value = null;
-            var current = start;
-
-            // Look in our dictionary and then walk-up parents
-            while (current != null)
-            {
-                if (current.Resources?.TryGetValue(resourceKey, out value) == true)
-                {
-                    return value;
-                }
-
-                current = current.Parent as FrameworkElement;
-            }
-
-            // Finally try application resources.
-            Application.Current?.Resources?.TryGetValue(resourceKey, out value);
-
-            return value;
         }
 
         /// <summary>
@@ -442,6 +410,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return FindParent(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
+        /// If the key is not found in the current element's resources, the logical tree is then
+        /// searched element-by-element to look for the resource in each element's resources.
+        /// If none of the elements contain the resource, the Application's resources are then searched.
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/></para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/></para>
+        /// </summary>
+        /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
+        /// <param name="resourceKey">The resource key to search for.</param>
+        /// <returns>The requested resource, or <see langword="null"/>.</returns>
+        public static object? TryFindResource(this FrameworkElement element, object resourceKey)
+        {
+            object? value = null;
+            FrameworkElement? current = element;
+
+            // Look in our dictionary and then walk-up parents. We use a do-while loop here
+            // so that an implicit NRE will be thrown at the first iteration in case the
+            // input element is null. This is consistent with the other extensions.
+            do
+            {
+                if (current.Resources?.TryGetValue(resourceKey, out value) == true)
+                {
+                    return value!;
+                }
+
+                current = current.Parent as FrameworkElement;
+            }
+            while (current is not null);
+
+            // Finally try application resources
+            Application.Current?.Resources?.TryGetValue(resourceKey, out value);
+
+            return value;
         }
     }
 }
