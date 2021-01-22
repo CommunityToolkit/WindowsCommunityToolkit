@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            carouselControl = control.FindDescendantByName("CarouselControl") as Carousel;
+            carouselControl = control.FindDescendant("CarouselControl") as Carousel;
             carouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }

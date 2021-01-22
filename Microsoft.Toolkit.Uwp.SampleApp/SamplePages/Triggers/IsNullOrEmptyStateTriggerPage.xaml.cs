@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _addButton.Click -= this.AddButton_Click;
             }
 
-            if (control.FindDescendantByName("AddButton") is Button btn)
+            if (control.FindDescendant("AddButton") is Button btn)
             {
                 _addButton = btn;
 
@@ -44,14 +44,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _removeButton.Click -= this.RemoveButton_Click;
             }
 
-            if (control.FindDescendantByName("RemoveButton") is Button btn2)
+            if (control.FindDescendant("RemoveButton") is Button btn2)
             {
                 _removeButton = btn2;
 
                 _removeButton.Click += this.RemoveButton_Click;
             }
 
-            _listBox = control.FindDescendantByName("OurList") as ListBox;
+            _listBox = control.FindDescendant("OurList") as ListBox;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

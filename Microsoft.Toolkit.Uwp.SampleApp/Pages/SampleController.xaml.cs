@@ -517,7 +517,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasType)
                 {
-                    root = SamplePage?.FindDescendantByName("XamlRoot");
+                    root = SamplePage?.FindDescendant("XamlRoot");
 
                     if (root is Panel)
                     {

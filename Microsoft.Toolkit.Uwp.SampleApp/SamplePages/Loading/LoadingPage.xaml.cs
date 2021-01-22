@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            loadingControl = control.FindDescendantByName("LoadingControl") as Loading;
+            loadingControl = control.FindDescendant("LoadingControl") as Loading;
             loadingContentControl = control.FindChildByName("LoadingContentControl") as ContentControl;
             resources = control.Resources;
 
