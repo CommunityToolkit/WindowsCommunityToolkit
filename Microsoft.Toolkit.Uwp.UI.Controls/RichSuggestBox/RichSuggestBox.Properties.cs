@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -55,46 +54,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(object),
                 typeof(RichSuggestBox),
                 new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="TextWrapping"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TextWrappingProperty =
-            DependencyProperty.Register(
-                nameof(TextWrapping),
-                typeof(TextWrapping),
-                typeof(RichSuggestBox),
-                new PropertyMetadata(TextWrapping.NoWrap));
-
-        /// <summary>
-        /// Identifies the <see cref="ClipboardCopyFormat"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ClipboardCopyFormatProperty =
-            DependencyProperty.Register(
-                nameof(ClipboardCopyFormat),
-                typeof(RichEditClipboardFormat),
-                typeof(RichSuggestBox),
-                new PropertyMetadata(RichEditClipboardFormat.AllFormats));
-
-        /// <summary>
-        /// Identifies the <see cref="SelectionFlyout"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SelectionFlyoutProperty =
-            DependencyProperty.Register(
-                nameof(SelectionFlyout),
-                typeof(FlyoutBase),
-                typeof(RichSuggestBox),
-                new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="DisabledFormattingAccelerators"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty DisabledFormattingAcceleratorsProperty =
-            DependencyProperty.Register(
-                nameof(DisabledFormattingAccelerators),
-                typeof(DisabledFormattingAccelerators),
-                typeof(RichSuggestBox),
-                new PropertyMetadata(DisabledFormattingAccelerators.None));
 
         /// <summary>
         /// Identifies the <see cref="SuggestionBackground"/> dependency property.
@@ -160,42 +119,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => GetValue(DescriptionProperty);
             set => SetValue(DescriptionProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value that indicates how text wrapping occurs if a line of text extends beyond the available width of the control.
-        /// </summary>
-        public TextWrapping TextWrapping
-        {
-            get => (TextWrapping)GetValue(TextWrappingProperty);
-            set => SetValue(TextWrappingProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value that specifies whether text is copied with all formats, or as plain text only.
-        /// </summary>
-        public RichEditClipboardFormat ClipboardCopyFormat
-        {
-            get => (RichEditClipboardFormat)GetValue(ClipboardCopyFormatProperty);
-            set => SetValue(ClipboardCopyFormatProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets the flyout that is shown when text is selected using mouse, touch, or pen; or null if no flyout is shown.
-        /// </summary>
-        public FlyoutBase SelectionFlyout
-        {
-            get => (FlyoutBase)GetValue(SelectionFlyoutProperty);
-            set => SetValue(SelectionFlyoutProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value that indicates which keyboard shortcuts for formatting are disabled.
-        /// </summary>
-        public DisabledFormattingAccelerators DisabledFormattingAccelerators
-        {
-            get => (DisabledFormattingAccelerators)GetValue(DisabledFormattingAcceleratorsProperty);
-            set => SetValue(DisabledFormattingAcceleratorsProperty, value);
         }
 
         /// <summary>

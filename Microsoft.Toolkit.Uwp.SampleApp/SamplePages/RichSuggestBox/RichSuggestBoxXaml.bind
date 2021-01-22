@@ -46,11 +46,9 @@
         <controls:RichSuggestBox x:Name="SuggestingBox"
                                  MaxHeight="400"
                                  HorizontalAlignment="Stretch"
-                                 ClipboardCopyFormat="AllFormats"
                                  Header="RichSuggestBox:"
                                  ItemTemplateSelector="{StaticResource SuggestionTemplateSelector}"
-                                 Prefixes="@#"
-                                 TextWrapping="Wrap" />
+                                 Prefixes="@#" />
 
         <ListView x:Name="TokenListView" 
                   Grid.Row="1"
