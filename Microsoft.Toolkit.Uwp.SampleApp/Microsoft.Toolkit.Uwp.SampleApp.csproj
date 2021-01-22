@@ -333,7 +333,7 @@
     <Content Include="SamplePages\LiveTile\LiveTile.png" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
-    <Content Include="SamplePages\ListDetailsView\MasterDetailsView.png" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsView.png" />
     <Content Include="SamplePages\ListDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
@@ -403,7 +403,7 @@
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
-    <Content Include="SamplePages\ListDetailsView\MasterDetailsView.bind" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsView.bind" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
@@ -418,7 +418,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
-    <Content Include="SamplePages\ListDetailsView\MasterDetailsViewCode.bind" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
@@ -860,8 +860,8 @@
     <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ListDetailsView\MasterDetailsViewPage.xaml.cs">
-      <DependentUpon>MasterDetailsViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ListDetailsView\ListDetailsViewPage.cs">
+      <DependentUpon>ListDetailsViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
@@ -1305,7 +1305,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ListDetailsView\MasterDetailsViewPage.xaml">
+    <Page Include="SamplePages\ListDetailsView\ListDetailsViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -96,13 +96,13 @@
       },
       {
         "Name": "ListDetailsView",
-        "Type": "MasterDetailsViewPage",
+        "Type": "ListDetailsViewPage",
         "Subcategory": "Layout",
-        "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern.",
+        "About": "The ListDetailsView control allows the user to implement the List/Details design pattern.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ListDetailsView",
-        "XamlCodeFile": "MasterDetailsView.bind",
-        "CodeFile": "MasterDetailsViewCode.bind",
-        "Icon": "/SamplePages/ListDetailsView/MasterDetailsView.png",
+        "XamlCodeFile": "ListDetailsView.bind",
+        "CodeFile": "ListDetailsViewCode.bind",
+        "Icon": "/SamplePages/ListDetailsView/ListDetailsView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MasterDetailsView.md"
       },
       {
