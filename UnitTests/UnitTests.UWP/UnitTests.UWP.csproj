@@ -182,7 +182,7 @@
     <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_General.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_InterspersedCollection.cs" />
-    <Compile Include="UI\Controls\Test_MasterDetailsView.cs" />
+    <Compile Include="UI\Controls\Test_ListDetailsView.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
