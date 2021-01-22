@@ -19,7 +19,7 @@
                     <AppBarButton Icon="Paste" Label="Paste"/>
                     <AppBarSeparator />
                     <AppBarElementContainer>
-                        <ComboBox SelectedIndex="0" Width="175">
+                        <ComboBox SelectedIndex="0" MinWidth="175">
                             <ComboBoxItem Content="Arial" />
                             <ComboBoxItem Content="Calibri" />
                             <ComboBoxItem Content="JetBrains Mono" />
