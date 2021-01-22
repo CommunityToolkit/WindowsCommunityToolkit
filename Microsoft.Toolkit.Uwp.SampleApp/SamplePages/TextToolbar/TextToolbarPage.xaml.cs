@@ -28,14 +28,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
+            _toolbar = control.FindChild("Toolbar") as TextToolbar;
 
-            if (control.FindChildByName("EditZone") is RichEditBox editZone)
+            if (control.FindChild("EditZone") is RichEditBox editZone)
             {
                 editZone.TextChanged += EditZone_TextChanged;
             }
 
-            if (control.FindChildByName("Previewer") is MarkdownTextBlock previewer)
+            if (control.FindChild("Previewer") is MarkdownTextBlock previewer)
             {
                 _previewer = previewer;
                 _previewer.LinkClicked += Previewer_LinkClicked;

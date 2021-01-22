@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttb.TokenItemAdding -= TokenItemCreating;
             }
 
-            if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
+            if (control.FindChild("TokenBox") is TokenizingTextBox ttb)
             {
                 _ttb = ttb;
                 _ttb.TokenItemAdded += TokenItemAdded;
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail.PreviewKeyDown -= EmailPreviewKeyDown;
             }
 
-            if (control.FindChildByName("TokenBoxEmail") is TokenizingTextBox ttbEmail)
+            if (control.FindChild("TokenBoxEmail") is TokenizingTextBox ttbEmail)
             {
                 _ttbEmail = ttbEmail;
 
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmailSuggestions.PreviewKeyDown -= EmailList_PreviewKeyDown;
             }
 
-            if (control.FindChildByName("EmailList") is ListView ttbList)
+            if (control.FindChild("EmailList") is ListView ttbList)
             {
                 _ttbEmailSuggestions = ttbList;
 

@@ -35,14 +35,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             NotificationDuration = 0;
 
-            _exampleInAppNotification = control.FindChildByName("ExampleInAppNotification") as InAppNotification;
+            _exampleInAppNotification = control.FindChild("ExampleInAppNotification") as InAppNotification;
             _defaultInAppNotificationControlTemplate = _exampleInAppNotification?.Template;
-            _exampleCustomInAppNotification = control.FindChildByName("ExampleCustomInAppNotification") as InAppNotification;
+            _exampleCustomInAppNotification = control.FindChild("ExampleCustomInAppNotification") as InAppNotification;
             _customInAppNotificationControlTemplate = _exampleCustomInAppNotification?.Template;
-            _exampleVSCodeInAppNotification = control.FindChildByName("ExampleVSCodeInAppNotification") as InAppNotification;
+            _exampleVSCodeInAppNotification = control.FindChild("ExampleVSCodeInAppNotification") as InAppNotification;
             _resources = control.Resources;
 
-            var notificationDurationTextBox = control.FindChildByName("NotificationDurationTextBox") as TextBox;
+            var notificationDurationTextBox = control.FindChild("NotificationDurationTextBox") as TextBox;
             if (notificationDurationTextBox != null)
             {
                 notificationDurationTextBox.TextChanged += NotificationDurationTextBox_TextChanged;

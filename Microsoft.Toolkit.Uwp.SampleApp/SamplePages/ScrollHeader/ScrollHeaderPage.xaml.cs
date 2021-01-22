@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var listView = control.FindChildByName("listView") as ListView;
+            var listView = control.FindChild("listView") as ListView;
             if (listView != null)
             {
                 listView.ItemsSource = _items;

@@ -25,10 +25,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public async void OnXamlRendered(FrameworkElement control)
         {
             loadingControl = control.FindDescendant("LoadingControl") as Loading;
-            loadingContentControl = control.FindChildByName("LoadingContentControl") as ContentControl;
+            loadingContentControl = control.FindChild("LoadingContentControl") as ContentControl;
             resources = control.Resources;
 
-            if (control.FindChildByName("AdaptiveGridViewControl") is AdaptiveGridView gridView)
+            if (control.FindChild("AdaptiveGridViewControl") is AdaptiveGridView gridView)
             {
                 gridView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
             }

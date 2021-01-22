@@ -28,13 +28,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var people = control.FindChildByName("People") as OrbitView;
+            var people = control.FindChild("People") as OrbitView;
             if (people != null)
             {
                 people.ItemClick += People_ItemClick;
             }
 
-            var devices = control.FindChildByName("Devices") as OrbitView;
+            var devices = control.FindChild("Devices") as OrbitView;
             if (devices != null)
             {
                 devices.ItemsSource = DeviceList;

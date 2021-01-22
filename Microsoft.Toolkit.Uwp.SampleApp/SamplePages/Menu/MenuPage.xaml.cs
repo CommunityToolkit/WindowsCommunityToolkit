@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            fileMenu = control.FindChildByName("FileMenu") as MenuItem;
+            fileMenu = control.FindChild("FileMenu") as MenuItem;
         }
         #pragma warning restore CS0618 // Type or member is obsolete
 

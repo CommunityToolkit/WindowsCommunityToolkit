@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            imageView = control.FindChildByName("ImageView") as GridView;
+            imageView = control.FindChild("ImageView") as GridView;
 
             if (imageView != null)
             {

@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _itemControl = control.FindChildByName("WrapPanelContainer") as ListView;
+            _itemControl = control.FindChild("WrapPanelContainer") as ListView;
 
             if (_itemControl != null)
             {
