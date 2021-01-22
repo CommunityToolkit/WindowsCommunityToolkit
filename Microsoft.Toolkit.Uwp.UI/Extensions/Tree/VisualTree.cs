@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 T? descendant = FindDescendant(child, predicate);
 
-                if (descendant is not null && predicate(descendant))
+                if (descendant is not null)
                 {
                     return descendant;
                 }
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 T? descendant = FindDescendant(child, state, predicate);
 
-                if (descendant is not null && predicate(descendant, state))
+                if (descendant is not null)
                 {
                     return descendant;
                 }
