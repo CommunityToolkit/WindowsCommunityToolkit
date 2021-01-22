@@ -140,6 +140,94 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
+        /// Find the first descendant (or self) of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindDescendantOrSelf(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (element is FrameworkElement result && name.Equals(result.Name, comparisonType))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, name, comparisonType);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element of a given type, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T>(this DependencyObject element)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result)
+            {
+                return result;
+            }
+
+            return FindDescendant<T>(element);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element of a given type, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindDescendantOrSelf(this DependencyObject element, Type type)
+        {
+            if (element.GetType() == type)
+            {
+                return element;
+            }
+
+            return FindDescendant(element, type);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, state, predicate);
+        }
+
+        /// <summary>
         /// Find all descendant controls of the specified type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
@@ -275,6 +363,94 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 element = parent;
             }
+        }
+
+        /// <summary>
+        /// Find the first ascendant (or self) of type <see cref="FrameworkElement"/> with a given name.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindAscendantOrSelf(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (element is FrameworkElement result && name.Equals(result.Name, comparisonType))
+            {
+                return result;
+            }
+
+            return FindAscendant(element, name, comparisonType);
+        }
+
+        /// <summary>
+        /// Find the first ascendant (or self) element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendantOrSelf<T>(this DependencyObject element)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result)
+            {
+                return result;
+            }
+
+            return FindAscendant<T>(element);
+        }
+
+        /// <summary>
+        /// Find the first ascendant (or self) element of a given type.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindAscendantOrSelf(this DependencyObject element, Type type)
+        {
+            if (element.GetType() == type)
+            {
+                return element;
+            }
+
+            return FindAscendant(element, type);
+        }
+
+        /// <summary>
+        /// Find the first ascendant (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindAscendant(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first ascendant (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindAscendant(element, state, predicate);
         }
 
         /// <summary>
