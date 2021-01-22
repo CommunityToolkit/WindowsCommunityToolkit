@@ -6,12 +6,12 @@ using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An effect that overlays a color layer over the current builder, with a specified intensity
     /// </summary>
-    public sealed class ShadeEffect : IPipelineEffect
+    public sealed class ShadeEffect : PipelineEffect
     {
         /// <summary>
         /// Gets or sets the color to use
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
         }
 
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             return builder.Shade(Color, (float)Intensity);
         }

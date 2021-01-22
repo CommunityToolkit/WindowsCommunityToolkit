@@ -49,5 +49,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
   </ItemGroup>
 </Project>

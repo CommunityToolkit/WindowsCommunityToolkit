@@ -6,7 +6,7 @@ using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An image based effect that loads an image at the specified location
