@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -256,37 +255,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Child Content control or null if not available.</returns>
         public static UIElement GetContentControl(this FrameworkElement element)
         {
-            var contentpropname = ContentPropertySearch(element.GetType());
-            if (contentpropname != null)
+            Type type = element.GetType();
+
+            if (type.GetCustomAttribute<ContentPropertyAttribute>(true) is ContentPropertyAttribute attribute &&
+                type.GetProperty(attribute.Name) is PropertyInfo propertyInfo &&
+                propertyInfo.GetValue(element) is UIElement content)
             {
-                return element.GetType()?.GetProperty(contentpropname)?.GetValue(element) as UIElement;
+                return content;
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Retrieves the Content Property's Name for the given type.
-        /// </summary>
-        /// <param name="type">UIElement based type to search for ContentProperty.</param>
-        /// <returns>String name of ContentProperty for control.</returns>
-        private static string ContentPropertySearch(Type type)
-        {
-            if (type == null)
-            {
-                return null;
-            }
-
-            // Using GetCustomAttribute directly isn't working for some reason, so we'll dig in ourselves: https://aka.ms/Rkzseg
-            ////var attr = type.GetTypeInfo().GetCustomAttribute(typeof(ContentPropertyAttribute), true);
-            var attr = type.GetTypeInfo().CustomAttributes.FirstOrDefault((element) => element.AttributeType == typeof(ContentPropertyAttribute));
-            if (attr != null)
-            {
-                ////return attr as ContentPropertyAttribute;
-                return attr.NamedArguments.First().TypedValue.Value as string;
-            }
-
-            return ContentPropertySearch(type.GetTypeInfo().BaseType);
         }
 
         /// <summary>
