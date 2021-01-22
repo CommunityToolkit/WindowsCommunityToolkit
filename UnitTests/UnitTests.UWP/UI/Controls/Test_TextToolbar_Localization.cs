@@ -43,7 +43,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var toolbar = treeRoot.FindChildByName("TextToolbarControl") as TextToolbar;
+            var toolbar = treeRoot.FindChild("TextToolbarControl") as TextToolbar;
 
             Assert.IsNotNull(toolbar, "Could not find TextToolbar in tree.");
 

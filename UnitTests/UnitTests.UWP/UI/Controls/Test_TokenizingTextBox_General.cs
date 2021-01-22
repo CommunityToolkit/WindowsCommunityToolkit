@@ -31,7 +31,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var tokenBox = treeRoot.FindChildByName("tokenboxname") as TokenizingTextBox;
+            var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
 
             Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
 

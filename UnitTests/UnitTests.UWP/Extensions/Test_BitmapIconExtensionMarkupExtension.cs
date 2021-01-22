@@ -33,7 +33,7 @@ namespace UnitTests.Extensions
         </Button>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("RootButton") as Button;
+            var button = treeroot.FindChild("RootButton") as Button;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(Button)} control in tree.");
 
@@ -66,7 +66,7 @@ namespace UnitTests.Extensions
         </Button>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("RootButton") as Button;
+            var button = treeroot.FindChild("RootButton") as Button;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(Button)} control in tree.");
 

@@ -27,7 +27,7 @@ namespace UnitTests.Extensions
         <ListView x:Name=""Check"" ItemsSource=""{ex:EnumValues Type=local:Animal}""/>
 </Page>") as FrameworkElement;
 
-            var list = treeRoot.FindChildByName("Check") as ListView;
+            var list = treeRoot.FindChild("Check") as ListView;
 
             Assert.IsNotNull(list, "Could not find ListView control in tree.");
 
