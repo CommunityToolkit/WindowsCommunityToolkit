@@ -508,6 +508,7 @@
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\CanvasPathGeometry\GeometryStreamReader.cs" />
     <Compile Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml.cs">
       <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
     </Compile>

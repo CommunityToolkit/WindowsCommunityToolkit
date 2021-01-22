@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
@@ -20,62 +21,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Parses the Path data string and converts it to CanvasGeometry.
         /// </summary>
-        /// <param name="resourceCreator">ICanvasResourceCreator</param>
-        /// <param name="pathData">Path data</param>
-        /// <returns><see cref="CanvasGeometry"/></returns>
-        public static CanvasGeometry CreateGeometry(ICanvasResourceCreator resourceCreator, string pathData)
-        {
-            return CreateGeometry(resourceCreator, pathData, null);
-        }
-
-        /// <summary>
-        /// Parses the Path data string and converts it to CanvasGeometry.
-        /// </summary>
         /// <param name="pathData">Path data</param>
         /// <returns><see cref="CanvasGeometry"/></returns>
         public static CanvasGeometry CreateGeometry(string pathData)
         {
-            return CreateGeometry(null, pathData, null);
+            return CreateGeometry(null, pathData);
         }
 
         /// <summary>
         /// Parses the Path data string and converts it to CanvasGeometry.
         /// </summary>
+        /// <param name="resourceCreator"><see cref="ICanvasResourceCreator"/></param>
         /// <param name="pathData">Path data</param>
-        /// <param name="logger">(Optional) For logging purpose. To log the set of
-        /// CanvasPathBuilder commands, used for creating the CanvasGeometry, in
-        /// string format.</param>
         /// <returns><see cref="CanvasGeometry"/></returns>
-        public static CanvasGeometry CreateGeometry(string pathData, StringBuilder logger)
-        {
-            return CreateGeometry(null, pathData, logger);
-        }
-
-        /// <summary>
-        /// Parses the Path data string and converts it to CanvasGeometry.
-        /// </summary>
-        /// <param name="resourceCreator">ICanvasResourceCreator</param>
-        /// <param name="pathData">Path data</param>
-        /// <param name="logger">(Optional) For logging purpose. To log the set of
-        /// CanvasPathBuilder commands, used for creating the CanvasGeometry, in
-        /// string format.</param>
-        /// <returns><see cref="CanvasGeometry"/></returns>
-        public static CanvasGeometry CreateGeometry(ICanvasResourceCreator resourceCreator, string pathData, StringBuilder logger)
+        public static CanvasGeometry CreateGeometry(ICanvasResourceCreator resourceCreator, string pathData)
         {
             using (new CultureShield("en-US"))
             {
-                // Log command
-                var resourceStr = resourceCreator == null ? "null" : "resourceCreator";
-                logger?.AppendLine($"using (var pathBuilder = new CanvasPathBuilder({resourceStr}))");
-                logger?.AppendLine("{");
-
                 // Get the CanvasGeometry from the path data
-                var geometry = CanvasGeometryParser.Parse(resourceCreator, pathData, logger);
-
-                // Log command
-                logger?.AppendLine("}");
-
-                return geometry;
+                return CanvasGeometryParser.Parse(resourceCreator, pathData);
             }
         }
 

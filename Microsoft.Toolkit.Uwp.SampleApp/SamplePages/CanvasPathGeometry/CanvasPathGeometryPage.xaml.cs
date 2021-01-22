@@ -83,12 +83,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private bool _isParsing = false;
 
         private CanvasGeometry _errorGeometry;
+        private GeometryStreamReader _reader;
 
         public string InputText { get; set; }
 
         public CanvasPathGeometryPage()
         {
             this.InitializeComponent();
+            _reader = new GeometryStreamReader();
             _logger = new StringBuilder();
             _colors = new List<Color>()
             {
@@ -171,7 +173,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _logger?.AppendLine("// The following commands represent the CanvasPathBuilder command(s) needed");
                 _logger?.AppendLine("// to create the CanvasGeometry from the specified Win2d Path Mini Language.");
-                var geometry = CanvasPathGeometry.CreateGeometry(sender, _data, _logger);
+                var geometry = CanvasPathGeometry.CreateGeometry(sender, _data);
+                _reader.StartLogging();
+                geometry.SendPathTo(_reader);
+                _logger?.AppendLine(_reader.EndLogging());
                 CommandsList.Text = _logger?.ToString() ?? string.Empty;
 
                 args.DrawingSession.FillGeometry(geometry, _fillColor);

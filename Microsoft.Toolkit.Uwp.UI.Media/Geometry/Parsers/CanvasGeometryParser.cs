@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
@@ -22,15 +21,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
     internal static class CanvasGeometryParser
     {
         /// <summary>
-        /// Parses the Path data in string format and converts it to CanvasGeometry.
+        /// Parses the Path data in string format and converts it to <see cref="CanvasGeometry"/>.
         /// </summary>
         /// <param name="resourceCreator">ICanvasResourceCreator</param>
         /// <param name="pathData">Path data</param>
-        /// <param name="logger">(Optional) For logging purpose. To log the set of
-        /// CanvasPathBuilder commands, used for creating the CanvasGeometry, in
-        /// string format.</param>
-        /// <returns>CanvasGeometry</returns>
-        public static CanvasGeometry Parse(ICanvasResourceCreator resourceCreator, string pathData, StringBuilder logger = null)
+        /// <returns><see cref="CanvasGeometry"/></returns>
+        internal static CanvasGeometry Parse(ICanvasResourceCreator resourceCreator, string pathData)
         {
             var pathFigures = new List<ICanvasPathElement>();
 
@@ -41,10 +37,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
             // If the match contains more than one captures, it means that there are multiple FillRuleElements present in the path data. There can be only one FillRuleElement in the path data (at the beginning).
             Guard.IsFalse(matches.Count > 1, "(pathData matches.Count > 1)", "Multiple FillRule elements present in Path Data! " +
-                                                                              "There should be only one FillRule within the Path Data. " +
-                                                                              "You can either remove additional FillRule elements or split the Path Data " +
-                                                                              "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
-                                                                              $"\nPath Data: {pathData}");
+                                                                             "There should be only one FillRule within the Path Data. " +
+                                                                             "You can either remove additional FillRule elements or split the Path Data " +
+                                                                             "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
+                                                                             $"\nPath Data: {pathData}");
 
             var figures = new List<ICanvasPathElement>();
 
@@ -67,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
                     // Process the 'Additional' Group which contains just the attributes
                     figures.AddRange(from Capture capture in figureMatch.Groups["Additional"].Captures
-                                     select PathElementFactory.CreateAdditionalPathFigure(type, capture, figureRootIndex + capture.Index, figure.IsRelative));
+                        select PathElementFactory.CreateAdditionalPathFigure(type, capture, figureRootIndex + capture.Index, figure.IsRelative));
                 }
             }
 
@@ -102,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             using var pathBuilder = new CanvasPathBuilder(resourceCreator);
             foreach (var pathFigure in pathFigures)
             {
-                currentPoint = pathFigure.CreatePath(pathBuilder, currentPoint, ref lastElement, logger);
+                currentPoint = pathFigure.CreatePath(pathBuilder, currentPoint, ref lastElement);
             }
 
             return CanvasGeometry.CreatePath(pathBuilder);

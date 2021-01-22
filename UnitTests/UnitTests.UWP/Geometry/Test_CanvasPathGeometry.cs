@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using System.Text;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
@@ -331,10 +330,6 @@ namespace UnitTests.UWP.Geometry
             Assert.IsNotNull(geometry, "Unable to create CanvasGeometry!");
 
             geometry = CanvasPathGeometry.CreateGeometry(sample);
-            Assert.IsNotNull(geometry, "Unable to create CanvasGeometry!");
-
-            var logger = new StringBuilder();
-            geometry = CanvasPathGeometry.CreateGeometry(sample, logger);
             Assert.IsNotNull(geometry, "Unable to create CanvasGeometry!");
         }
 
