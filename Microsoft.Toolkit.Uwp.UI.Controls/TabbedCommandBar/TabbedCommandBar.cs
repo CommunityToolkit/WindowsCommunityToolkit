@@ -28,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public Brush ContentBackground
         {
-            get { return (Brush)GetValue(ContentBackgroundProperty); }
-            set { SetValue(ContentBackgroundProperty, value); }
+            get => (Brush)GetValue(ContentBackgroundProperty);
+            set => SetValue(ContentBackgroundProperty, value);
         }
 
         /// <summary>
