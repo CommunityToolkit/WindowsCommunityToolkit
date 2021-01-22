@@ -355,5 +355,93 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 element = parent;
             }
         }
+
+        /// <summary>
+        /// Find the first parent (or self) of type <see cref="FrameworkElement"/> with a given name.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParentOrSelf(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (name.Equals(element.Name, comparisonType))
+            {
+                return element;
+            }
+
+            return FindParent(element, name, comparisonType);
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindParentOrSelf<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result)
+            {
+                return result;
+            }
+
+            return FindParent<T>(element);
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) element of a given type.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParentOrSelf(this FrameworkElement element, Type type)
+        {
+            if (element.GetType() == type)
+            {
+                return element;
+            }
+
+            return FindParent(element, type);
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindParentOrSelf<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindParent(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindParentOrSelf<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindParent(element, state, predicate);
+        }
     }
 }
