@@ -4,13 +4,12 @@
     <id>Microsoft.Toolkit.Uwp.Notifications</id>
     <version>$version$</version>
     <title>Windows Community Toolkit Notifications</title>
-    <authors>Microsoft.Toolkit</authors>
-    <owners></owners>
+    <authors>Microsoft.Toolkit,dotnetfoundation</authors>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</iconUrl>
-    <description>The official way to send toast notifications on Windows 10 via code rather than XML, with the help of IntelliSense. Supported by all C# app types, including WPF, UWP, WinForms, and Console, even without packaging your app as MSIX. Also supported by C++ UWP apps.
+    <description>The official way to send toast notifications on Windows 10 via code rather than XML, with the help of IntelliSense. Supports all C# app types, including WPF, UWP, WinForms, and Console, even without packaging your app as MSIX. Also supports C++ UWP apps.
     
       Additionally, generate notification payloads from your ASP.NET web server to send as push notifications, or generate notification payloads from class libraries.
     
