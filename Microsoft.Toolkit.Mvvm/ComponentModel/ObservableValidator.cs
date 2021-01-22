@@ -21,6 +21,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     public abstract class ObservableValidator : ObservableObject, INotifyDataErrorInfo
     {
         /// <summary>
+        /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track properties to validate for a given viewmodel type.
+        /// </summary>
+        private static readonly ConditionalWeakTable<Type, PropertyInfo[]> ValidatableProperties = new();
+
+        /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="HasErrors"/>.
         /// </summary>
         private static readonly PropertyChangedEventArgs HasErrorsChangedEventArgs = new(nameof(HasErrors));
@@ -395,11 +400,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected void ValidateAllProperties()
         {
-            foreach (PropertyInfo propertyInfo in
-                GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(static p => p.GetIndexParameters().Length == 0 &&
-                                   p.GetCustomAttributes<ValidationAttribute>(true).Any()))
+            // Helper method to discover all the properties to validate in the current viewmodel type
+            static PropertyInfo[] GetValidatableProperties(Type type)
+            {
+                return (
+                    from property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    where property.GetIndexParameters().Length == 0 &&
+                          property.GetCustomAttributes<ValidationAttribute>(true).Any()
+                    select property).ToArray();
+            }
+
+            // Get or compute the cached list of properties to validate. Here we're using a static lambda to ensure the
+            // delegate is cached by the C# compiler, see the related issue at https://github.com/dotnet/roslyn/issues/5835.
+            PropertyInfo[] propertyInfos = ValidatableProperties.GetValue(GetType(), static t => GetValidatableProperties(t));
+
+            foreach (PropertyInfo propertyInfo in propertyInfos)
             {
                 object? propertyValue = propertyInfo.GetValue(this);
 
