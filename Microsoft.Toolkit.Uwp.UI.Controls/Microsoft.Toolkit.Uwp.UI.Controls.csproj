@@ -25,6 +25,7 @@
         - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
         - MasterDetailsView: Implements the Master/Details design pattern.
+        - MetadataControl: Displays a list of values separated by bullets with optional actionable links.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
         - RadialGauge: Displays a value within a range, using a needle on a circular face.
         - RadialProgressBar: Displays progress as a circle getting filled.
@@ -62,16 +63,6 @@
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MetadataControl\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="MetadataControl\MetadataControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
