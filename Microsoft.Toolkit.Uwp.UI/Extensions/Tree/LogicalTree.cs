@@ -717,5 +717,110 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             return (value = TryFindResource(element, resourceKey)) is not null;
         }
+
+        /// <summary>
+        /// Find the first parent of type <see cref="FrameworkElement"/> with a given name.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParent(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            return FindParent<FrameworkElement, (string Name, StringComparison ComparisonType)>(
+                element,
+                (name, comparisonType),
+                static (e, s) => s.Name.Equals(e.Name, s.ComparisonType));
+        }
+
+        /// <summary>
+        /// Find the first parent element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static T? FindParent<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
+        {
+            while (true)
+            {
+                if (element.Parent is not FrameworkElement parent)
+                {
+                    return null;
+                }
+
+                if (parent is T result)
+                {
+                    return result;
+                }
+
+                element = parent;
+            }
+        }
+
+        /// <summary>
+        /// Find the first parent element of a given type.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParent(this FrameworkElement element, Type type)
+        {
+            return FindParent<FrameworkElement, Type>(element, type, static (e, t) => e.GetType() == t);
+        }
+
+        /// <summary>
+        /// Find the first parent element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static T? FindParent<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            while (true)
+            {
+                if (element.Parent is not FrameworkElement parent)
+                {
+                    return null;
+                }
+
+                if (parent is T result && predicate(result))
+                {
+                    return result;
+                }
+
+                element = parent;
+            }
+        }
+
+        /// <summary>
+        /// Find the first parent element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static T? FindParent<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            while (true)
+            {
+                if (element.Parent is not FrameworkElement parent)
+                {
+                    return null;
+                }
+
+                if (parent is T result && predicate(result, state))
+                {
+                    return result;
+                }
+
+                element = parent;
+            }
+        }
     }
 }
