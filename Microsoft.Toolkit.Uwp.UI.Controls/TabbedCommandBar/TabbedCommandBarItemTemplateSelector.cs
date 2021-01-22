@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            return ((TabbedCommandBarItem)item).IsContextual ? Contextual : Normal;
+            return item is TabbedCommandBarItem t && t.IsContextual ? Contextual : Normal;
         }
 
         /// <inheritdoc/>
