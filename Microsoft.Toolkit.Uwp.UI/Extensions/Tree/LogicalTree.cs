@@ -194,6 +194,94 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
+        /// Find the first child (or self) of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindChildOrSelf(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (name.Equals(element.Name, comparisonType))
+            {
+                return element;
+            }
+
+            return FindChild(element, name, comparisonType);
+        }
+
+        /// <summary>
+        /// Find the first child (or self) element of a given type, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindChildOrSelf<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result)
+            {
+                return result;
+            }
+
+            return FindChild<T>(element);
+        }
+
+        /// <summary>
+        /// Find the first child (or self) element of a given type, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindChildOrSelf(this FrameworkElement element, Type type)
+        {
+            if (element.GetType() == type)
+            {
+                return element;
+            }
+
+            return FindChild(element, type);
+        }
+
+        /// <summary>
+        /// Find the first child (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindChildOrSelf<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindChild(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first child (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindChildOrSelf<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindChild(element, state, predicate);
+        }
+
+        /// <summary>
         /// Find all logical child controls of the specified type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
