@@ -137,6 +137,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RadialProgressBar.md"
       },
       {
+        "Name": "MetadataControl",
+        "Type": "MetadataControlPage",
+        "Subcategory": "Status and Info",
+        "About": "The control displays a list of metadata separated by bullets. The entries can either be strings or commands.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MetadataControl",
+        "XamlCodeFile": "MetadataControlCode.bind",
+        "Icon": "/SamplePages/MetadataControl/MetadataControl.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MetadataControl.md"
+      },
+      {
         "Name": "RotatorTile",
         "Type": "RotatorTilePage",
         "Subcategory": "Media",

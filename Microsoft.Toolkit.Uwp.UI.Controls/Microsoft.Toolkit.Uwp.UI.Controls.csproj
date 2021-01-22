@@ -64,6 +64,16 @@
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MetadataControl\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MetadataControl\MetadataControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
