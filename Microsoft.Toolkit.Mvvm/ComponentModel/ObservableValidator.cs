@@ -326,11 +326,31 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                    SetProperty(oldValue, newValue, comparer, model, callback, propertyName);
         }
 
+        /// <summary>
+        /// Clears the validation errors for a specified property or for the entire entity.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to clear validation errors for.
+        /// If a <see langword="null"/> or empty name is used, all entity-level errors will be cleared.
+        /// </param>
+        protected void ClearErrors(string? propertyName = null)
+        {
+            // Clear entity-level errors when the target property is null or empty
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                ClearAllErrors();
+            }
+            else
+            {
+                ClearErrorsForProperty(propertyName!);
+            }
+        }
+
         /// <inheritdoc cref="INotifyDataErrorInfo.GetErrors(string)"/>
         [Pure]
-        public IEnumerable<ValidationResult> GetErrors(string? propertyName)
+        public IEnumerable<ValidationResult> GetErrors(string? propertyName = null)
         {
-            // Entity-level errors when the target property is null or empty
+            // Get entity-level errors when the target property is null or empty
             if (string.IsNullOrEmpty(propertyName))
             {
                 // Local function to gather all the entity-level errors
@@ -493,6 +513,59 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             errors = localErrors;
 
             return isValid;
+        }
+
+        /// <summary>
+        /// Clears all the current errors for the entire entity.
+        /// </summary>
+        private void ClearAllErrors()
+        {
+            if (this.totalErrors == 0)
+            {
+                return;
+            }
+
+            // Clear the errors for all properties with at least one error, and raise the
+            // ErrorsChanged event for those properties. Other properties will be ignored.
+            foreach (var propertyInfo in this.errors)
+            {
+                bool hasErrors = propertyInfo.Value.Count > 0;
+
+                propertyInfo.Value.Clear();
+
+                if (hasErrors)
+                {
+                    ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyInfo.Key));
+                }
+            }
+
+            this.totalErrors = 0;
+
+            OnPropertyChanged(HasErrorsChangedEventArgs);
+        }
+
+        /// <summary>
+        /// Clears all the current errors for a target property.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to clear errors for.</param>
+        private void ClearErrorsForProperty(string propertyName)
+        {
+            if (!this.errors.TryGetValue(propertyName!, out List<ValidationResult>? propertyErrors) ||
+                propertyErrors.Count == 0)
+            {
+                return;
+            }
+
+            propertyErrors.Clear();
+
+            this.totalErrors--;
+
+            if (this.totalErrors == 0)
+            {
+                OnPropertyChanged(HasErrorsChangedEventArgs);
+            }
+
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
 
 #pragma warning disable SA1204
