@@ -228,28 +228,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Find all descendant controls of the specified type.
+        /// Find all descendant elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindDescendant{T}(DependencyObject)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Descendant controls or empty if not found.</returns>
-        public static IEnumerable<T> FindDescendants<T>(this DependencyObject element)
-            where T : DependencyObject
+        /// <param name="element">The root element.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindDescendants(this DependencyObject element)
         {
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
             for (var i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
-                if (type != null)
-                {
-                    yield return type;
-                }
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
 
-                foreach (T childofChild in child.FindDescendants<T>())
+                yield return child;
+
+                foreach (DependencyObject childOfChild in FindDescendants(child))
                 {
-                    yield return childofChild;
+                    yield return childOfChild;
                 }
             }
         }
@@ -454,18 +456,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Find all visual ascendants for the element.
+        /// Find all ascendant elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindAscendant{T}(DependencyObject)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
         /// </summary>
-        /// <param name="element">Child element.</param>
-        /// <returns>A collection of parent elements or null if none found.</returns>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
         public static IEnumerable<DependencyObject> FindAscendants(this DependencyObject element)
         {
-            var parent = VisualTreeHelper.GetParent(element);
-
-            while (parent != null)
+            while (true)
             {
+                DependencyObject? parent = VisualTreeHelper.GetParent(element);
+
+                if (parent is null)
+                {
+                    yield break;
+                }
+
                 yield return parent;
-                parent = VisualTreeHelper.GetParent(parent);
+
+                element = parent;
             }
         }
     }

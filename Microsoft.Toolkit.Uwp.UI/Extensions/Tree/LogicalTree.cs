@@ -135,7 +135,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindChild<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement
         {
-
             if (element is Panel panel)
             {
                 foreach (UIElement child in panel.Children)
@@ -282,71 +281,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Find all logical child controls of the specified type.
+        /// Find all logical child elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindChild{T}(FrameworkElement)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Child controls or empty if not found.</returns>
-        public static IEnumerable<T> FindChildren<T>(this FrameworkElement element)
-            where T : FrameworkElement
+        /// <param name="element">The root element.</param>
+        /// <returns>All the child <see cref="FrameworkElement"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<FrameworkElement> FindChildren(this FrameworkElement element)
         {
-            if (element == null)
+            if (element is Panel panel)
             {
-                yield break;
-            }
-
-            if (element is Panel)
-            {
-                foreach (var child in (element as Panel).Children)
+                foreach (UIElement child in panel.Children)
                 {
-                    if (child is T)
+                    if (child is not FrameworkElement current)
                     {
-                        yield return child as T;
+                        continue;
                     }
 
-                    var childFrameworkElement = child as FrameworkElement;
+                    yield return current;
 
-                    if (childFrameworkElement != null)
-                    {
-                        foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
-                        {
-                            yield return childOfChild;
-                        }
-                    }
-                }
-            }
-            else if (element is ItemsControl)
-            {
-                foreach (var item in (element as ItemsControl).Items)
-                {
-                    var childFrameworkElement = item as FrameworkElement;
-
-                    if (childFrameworkElement != null)
-                    {
-                        foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
-                        {
-                            yield return childOfChild;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                var content = element.TryGetContentControl();
-
-                if (content is T)
-                {
-                    yield return content as T;
-                }
-
-                var childFrameworkElement = content as FrameworkElement;
-
-                if (childFrameworkElement != null)
-                {
-                    foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
+                    foreach (FrameworkElement childOfChild in FindChildren(current))
                     {
                         yield return childOfChild;
                     }
+                }
+            }
+            else if (element is ItemsControl itemsControl)
+            {
+                foreach (object item in itemsControl.Items)
+                {
+                    if (item is not FrameworkElement current)
+                    {
+                        continue;
+                    }
+
+                    yield return current;
+
+                    foreach (FrameworkElement childOfChild in FindChildren(current))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+            else if (element.TryGetContentControl() is FrameworkElement contentControl)
+            {
+                yield return contentControl;
+
+                foreach (FrameworkElement childOfChild in FindChildren(contentControl))
+                {
+                    yield return childOfChild;
                 }
             }
         }
@@ -542,6 +530,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return FindParent(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Find all parent elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindParent{T}(FrameworkElement)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the parent <see cref="FrameworkElement"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<FrameworkElement> FindParents(this FrameworkElement element)
+        {
+            while (true)
+            {
+                if (element.Parent is not FrameworkElement parent)
+                {
+                    yield break;
+                }
+
+                yield return parent;
+
+                element = parent;
+            }
         }
 
         /// <summary>
