@@ -99,8 +99,8 @@
     <Compile Include="Controls\LayoutTransitionControl.Typedata.cs" />
     <Compile Include="Controls\Loading.Metadata.cs" />
     <Compile Include="Controls\Loading.Typedata.cs" />
-    <Compile Include="Controls\MasterDetailsView.Metadata.cs" />
-    <Compile Include="Controls\MasterDetailsView.Typedata.cs" />
+    <Compile Include="Controls\ListDetailsView.Metadata.cs" />
+    <Compile Include="Controls\ListDetailsView.Typedata.cs" />
     <Compile Include="Controls\Menu.Metadata.cs" />
     <Compile Include="Controls\Menu.Typedata.cs" />
     <Compile Include="Controls\MenuItem.Metadata.cs" />
