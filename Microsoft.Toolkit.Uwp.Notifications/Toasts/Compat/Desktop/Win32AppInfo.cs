@@ -5,10 +5,12 @@
 #if WIN32
 
 using System;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -18,6 +20,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal class Win32AppInfo
     {
+        /// <summary>
+        /// If an AUMID is greater than 129 characters, scheduled toast notification APIs will throw an exception.
+        /// </summary>
+        private const int AUMID_MAX_LENGTH = 129;
+
         public string Aumid { get; set; }
 
         public string DisplayName { get; set; }
@@ -31,6 +38,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // First get the app ID
             IApplicationResolver appResolver = (IApplicationResolver)new CAppResolver();
             appResolver.GetAppIDForProcess(Convert.ToUInt32(process.Id), out string appId, out _, out _, out _);
+
+            // Use app ID (or hashed app ID) as AUMID
+            string aumid = appId.Length > AUMID_MAX_LENGTH ? HashAppId(appId) : appId;
 
             // Then try to get the shortcut (for display name and icon)
             IShellItem shortcutItem = null;
@@ -98,10 +108,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             return new Win32AppInfo()
             {
-                Aumid = appId,
+                Aumid = aumid,
                 DisplayName = displayName,
                 IconPath = iconPath
             };
+        }
+
+        private static string HashAppId(string appId)
+        {
+            using (SHA1 sha1 = SHA1.Create())
+            {
+                byte[] hashedBytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(appId));
+                return string.Join(string.Empty, hashedBytes.Select(b => b.ToString("X2")));
+            }
         }
 
         private static string GetDisplayNameFromCurrentProcess(Process process)

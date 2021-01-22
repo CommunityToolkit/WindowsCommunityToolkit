@@ -26,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
 #if WIN32
         private const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
+        private const string REG_HAS_SENT_NOTIFICATION = "HasSentNotification";
+        internal const string DEFAULT_GROUP = "toolkitGroupNull";
 
         private const int CLASS_E_NOAGGREGATION = -2147221232;
         private const int E_NOINTERFACE = -2147467262;
@@ -36,6 +38,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static bool _registeredOnActivated;
         private static List<OnActivated> _onActivated = new List<OnActivated>();
+
+        private static bool _hasSentNotification;
 
         /// <summary>
         /// Event that is triggered when a notification or notification button is clicked. Subscribe to this event in your app's initial startup code.
@@ -145,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             var activatorType = CreateAndRegisterActivator();
 
             // Register via registry
-            using (var rootKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\AppUserModelId\" + _win32Aumid))
+            using (var rootKey = Registry.CurrentUser.CreateSubKey(GetRegistrySubKey()))
             {
                 // If they don't have identity, we need to specify the display assets
                 if (!DesktopBridgeHelpers.HasIdentity())
@@ -168,10 +172,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     // Background color only appears in the settings page, format is
                     // hex without leading #, like "FFDDDDDD"
                     rootKey.SetValue("IconBackgroundColor", "FFDDDDDD");
+
+                    // Additionally, we need to read whether they've sent a notification before
+                    _hasSentNotification = rootKey.GetValue(REG_HAS_SENT_NOTIFICATION) != null;
                 }
 
                 rootKey.SetValue("CustomActivator", string.Format("{{{0}}}", activatorType.GUID));
             }
+        }
+
+        private static string GetRegistrySubKey()
+        {
+            return @"Software\Classes\AppUserModelId\" + _win32Aumid;
         }
 
         private static Type CreateActivatorType()
@@ -356,8 +368,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Creates a toast notifier.
         /// </summary>
-        /// <returns><see cref="ToastNotifier"/></returns>
-        public static ToastNotifier CreateToastNotifier()
+        /// <returns><see cref="ToastNotifierCompat"/>An instance of the toast notifier.</returns>
+        public static ToastNotifierCompat CreateToastNotifier()
         {
 #if WIN32
             if (_initializeEx != null)
@@ -367,14 +379,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             if (DesktopBridgeHelpers.HasIdentity())
             {
-                return ToastNotificationManager.CreateToastNotifier();
+                return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier());
             }
             else
             {
-                return ToastNotificationManager.CreateToastNotifier(_win32Aumid);
+                return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier(_win32Aumid));
             }
 #else
-            return ToastNotificationManager.CreateToastNotifier();
+            return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier());
 #endif
         }
 
@@ -461,7 +473,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // Remove registry key
                 if (_win32Aumid != null)
                 {
-                    Registry.CurrentUser.DeleteSubKey(@"Software\Classes\AppUserModelId\" + _win32Aumid);
+                    Registry.CurrentUser.DeleteSubKey(GetRegistrySubKey());
                 }
             }
             catch
@@ -518,6 +530,51 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 catch
                 {
                 }
+            }
+        }
+#endif
+
+#if WIN32
+        internal static void SetHasSentToastNotification()
+        {
+            // For plain Win32 apps, record that we've sent a notification
+            if (!_hasSentNotification && !DesktopBridgeHelpers.HasIdentity())
+            {
+                _hasSentNotification = true;
+
+                try
+                {
+                    using (var rootKey = Registry.CurrentUser.CreateSubKey(GetRegistrySubKey()))
+                    {
+                        rootKey.SetValue(REG_HAS_SENT_NOTIFICATION, 1);
+                    }
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        internal static void PreRegisterIdentityLessApp()
+        {
+            // For plain Win32 apps, we first have to have send a toast notification once before using scheduled toasts.
+            if (!_hasSentNotification && !DesktopBridgeHelpers.HasIdentity())
+            {
+                const string tag = "toolkit1stNotif";
+
+                // Show the toast
+                new ToastContentBuilder()
+                    .AddText("New notification")
+                    .Show(toast =>
+                    {
+                        // We'll hide the popup and set the toast to expire in case removing doesn't work
+                        toast.SuppressPopup = true;
+                        toast.Tag = tag;
+                        toast.ExpirationTime = DateTime.Now.AddSeconds(15);
+                    });
+
+                // And then remove it
+                ToastNotificationManagerCompat.History.Remove(tag);
             }
         }
 #endif
