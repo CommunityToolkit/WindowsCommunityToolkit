@@ -262,6 +262,42 @@ namespace UnitTests.Mvvm
             Assert.IsFalse(model.HasErrors);
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ClearErrors()
+        {
+            var model = new Person();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.Age = -2;
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(model.GetErrors(nameof(Person.Age)).Any());
+
+            model.ClearErrors(nameof(Person.Age));
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+
+            model.Age = 200;
+            model.Name = "Bo";
+            events.Clear();
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(model.GetErrors(nameof(Person.Age)).Any());
+            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Any());
+
+            model.ClearErrors(null);
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsFalse(model.GetErrors(nameof(Person.Age)).Any());
+            Assert.IsFalse(model.GetErrors(nameof(Person.Name)).Any());
+            Assert.IsTrue(events.Count == 2);
+            Assert.IsTrue(events[0].PropertyName == nameof(Person.Age));
+            Assert.IsTrue(events[1].PropertyName == nameof(Person.Name));
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -287,6 +323,11 @@ namespace UnitTests.Mvvm
             {
                 get => this.age;
                 set => SetProperty(ref this.age, value, true);
+            }
+
+            public new void ClearErrors(string propertyName)
+            {
+                base.ClearErrors(propertyName);
             }
         }
 
