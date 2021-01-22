@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Mvvm.ComponentModel
@@ -381,6 +382,30 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <inheritdoc/>
         [Pure]
         IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => GetErrors(propertyName);
+
+        /// <summary>
+        /// Validates all the properties in the current instance and updates all the tracked errors.
+        /// If any changes are detected, the <see cref="ErrorsChanged"/> event will be raised.
+        /// </summary>
+        /// <remarks>
+        /// Only public instance properties (excluding custom indexers) that have at least one
+        /// <see cref="ValidationAttribute"/> applied to them will be validated. All other
+        /// members in the current instance will be ignored. None of the processed properties
+        /// will be modified - they will only be used to retrieve their values and validate them.
+        /// </remarks>
+        protected void ValidateAllProperties()
+        {
+            foreach (PropertyInfo propertyInfo in
+                GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(static p => p.GetIndexParameters().Length == 0 &&
+                                   p.GetCustomAttributes<ValidationAttribute>(true).Any()))
+            {
+                object? propertyValue = propertyInfo.GetValue(this);
+
+                ValidateProperty(propertyValue, propertyInfo.Name);
+            }
+        }
 
         /// <summary>
         /// Validates a property with a specified name and a given input value.

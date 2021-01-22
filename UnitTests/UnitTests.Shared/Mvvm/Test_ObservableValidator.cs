@@ -298,6 +298,47 @@ namespace UnitTests.Mvvm
             Assert.IsTrue(events[1].PropertyName == nameof(Person.Name));
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidateAllProperties()
+        {
+            var model = new PersonWithDeferredValidation();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.ValidateAllProperties();
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+
+            // Note: we can't use an index here because the order used to return properties
+            // from reflection APIs is an implementation detail and might change at any time.
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Name)));
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+
+            events.Clear();
+
+            model.Name = "James";
+            model.Age = 42;
+
+            model.ValidateAllProperties();
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Name)));
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+
+            events.Clear();
+
+            model.Age = -10;
+
+            model.ValidateAllProperties();
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 1);
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -328,6 +369,25 @@ namespace UnitTests.Mvvm
             public new void ClearErrors(string propertyName)
             {
                 base.ClearErrors(propertyName);
+            }
+        }
+
+        public class PersonWithDeferredValidation : ObservableValidator
+        {
+            [MinLength(4)]
+            [MaxLength(20)]
+            [Required]
+            public string Name { get; set; }
+
+            [Range(18, 100)]
+            public int Age { get; set; }
+
+            // Extra property with no validation
+            public float Foo { get; set; } = float.NaN;
+
+            public new void ValidateAllProperties()
+            {
+                base.ValidateAllProperties();
             }
         }
 
