@@ -33,10 +33,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             var matches = RegexFactory.CanvasGeometryRegex.Matches(pathData);
 
             // If no match is found or no captures in the match, then it means // that the path data is invalid.
-            Guard.IsFalse(matches.Count == 0, "(pathData matches.Count == 0)", $"Invalid Path data! No matching path data found!\nPath Data: {pathData}");
+            Guard.IsFalse(matches.Count == 0, "(pathData matches.Count == 0)", $"PATH_ERR000:Invalid Path data! No matching path data found!\nPath Data: {pathData}");
 
             // If the match contains more than one captures, it means that there are multiple FillRuleElements present in the path data. There can be only one FillRuleElement in the path data (at the beginning).
-            Guard.IsFalse(matches.Count > 1, "(pathData matches.Count > 1)", "Multiple FillRule elements present in Path Data! " +
+            Guard.IsFalse(matches.Count > 1, "(pathData matches.Count > 1)", "PATH_ERR001:Multiple FillRule elements present in Path Data!\n" +
                                                                              "There should be only one FillRule within the Path Data. " +
                                                                              "You can either remove additional FillRule elements or split the Path Data " +
                                                                              "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them." +
@@ -80,16 +80,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
                     pathFigures.Insert(0, PathElementFactory.CreateDefaultPathElement(PathFigureType.FillRule));
                 }
             }
+            else
+            {
+                return null;
+            }
 
             // Perform validation to check if there are any invalid characters in the path data that were not captured
             var preValidationCount = RegexFactory.ValidationRegex.Replace(pathData, string.Empty).Length;
             var postValidationCount = pathFigures.Sum(x => x.ValidationCount);
 
-            Guard.IsTrue(preValidationCount == postValidationCount, nameof(pathData), $"Path data contains invalid characters!\nPath Data: {pathData}");
-
-            if (pathFigures.Count == 0)
+            // If there are invalid characters, extract them and add them to the ArgumentException message
+            if (preValidationCount != postValidationCount)
             {
-                return null;
+                var parseIndex = 0;
+                foreach (var figure in pathFigures)
+                {
+                    parseIndex = pathData.IndexOf(figure.Data, parseIndex, StringComparison.Ordinal) + figure.Data.Length;
+                }
+
+                var errorString = pathData.Substring(parseIndex);
+                if (errorString.Length > 30)
+                {
+                    errorString = $"{errorString.Substring(0, 30)}...";
+                }
+
+                errorString = $"PATH_ERR003:Path data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
+
+                ThrowHelper.ThrowArgumentException(errorString);
             }
 
             ICanvasPathElement lastElement = null;

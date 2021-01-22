@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Toolkit.Diagnostics;
@@ -25,10 +26,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             var matches = RegexFactory.CanvasBrushRegex.Matches(brushData);
 
             // If no match is found or no captures in the match, then it means that the brush data is invalid.
-            Guard.IsFalse(matches.Count == 0, "(brushData matches.Count == 0)", $"Invalid Brush data! No matching brush data found!\nBrush Data: {brushData}");
+            Guard.IsFalse(matches.Count == 0, "(brushData matches.Count == 0)", $"BRUSH_ERR001:Invalid Brush data! No matching brush data found!\nBrush Data: {brushData}");
 
             // If the match contains more than one captures, it means that there are multiple brushes present in the brush data. There should be only one brush defined in the brush data.
-            Guard.IsFalse(matches.Count > 1, "(brushData matches.Count > 1)", "Multiple Brushes defined in Brush Data! " +
+            Guard.IsFalse(matches.Count > 1, "(brushData matches.Count > 1)", "BRUSH_ERR002:Multiple Brushes defined in Brush Data! " +
                                                                               "There should be only one Brush definition within the Brush Data. " +
                                                                               "You can either remove Brush definitions or split the Brush Data " +
                                                                               "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them." +
@@ -66,7 +67,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             // Perform validation to check if there are any invalid characters in the brush data that were not captured
             var preValidationCount = RegexFactory.ValidationRegex.Replace(brushData, string.Empty).Length;
             var postValidationCount = brushElement.ValidationCount;
-            Guard.IsTrue(preValidationCount == postValidationCount, nameof(brushData), $"Brush data contains invalid characters!\nBrush Data: {brushData}");
+
+            // If there are invalid characters, extract them and add them to the ArgumentException message
+            if (preValidationCount != postValidationCount)
+            {
+                var parseIndex = 0;
+                if (!string.IsNullOrWhiteSpace(brushElement.Data))
+                {
+                    parseIndex = brushData.IndexOf(brushElement.Data, parseIndex, StringComparison.Ordinal);
+                }
+
+                var errorString = brushData.Substring(parseIndex);
+                if (errorString.Length > 30)
+                {
+                    errorString = $"{errorString.Substring(0, 30)}...";
+                }
+
+                errorString = $"BRUSH_ERR003:Brush data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
+
+                ThrowHelper.ThrowArgumentException(errorString);
+            }
 
             return brushElement;
         }

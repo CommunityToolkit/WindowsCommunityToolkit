@@ -6,15 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Windows.System;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -77,6 +77,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             "138.080,27.067 C 137.558,27.067 137.123,26.903 136.774,26.573 C 136.426,26.244 136.227,25.780 136.178,25.183 L 135.096,13.655 C 135.046,13.071 135.021,12.685 135.021,12.499 C " +
             "135.021,11.529 135.313,10.749 135.898,10.158 C 136.482,9.567 137.210,9.272 138.080,9.272 C 138.938,9.272 139.662,9.570 140.253,10.167 C 140.844,10.764 141.139,11.516 141.139,12.424 " +
             "C 141.139,12.611 141.108,13.021 141.046,13.655 Z";
+
+        private const string ParseError1 = "Parameter \"(pathData matches.Count == 0)\" must be false, was true: ";
+        private const string ParseError2 = "Parameter \"(pathData matches.Count > 1)\" must be false, was true: ";
+        private const string ParseError3 = "PATH_ERR003";
 
         private DispatcherQueueTimer _typeTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
@@ -158,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _selectionChanged = false;
         }
 
-        private void OnParseData(object sender, RoutedEventArgs e)
+        private void ParseData()
         {
             _data = InputData.Text;
             _isParsing = true;
@@ -170,6 +174,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (string.IsNullOrWhiteSpace(_data))
             {
+                ParseError.Text = string.Empty;
                 CommandsList.Text = string.Empty;
                 return;
             }
@@ -178,6 +183,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             _logger?.Clear();
             CommandsList.Text = string.Empty;
+            ParseError.Text = string.Empty;
 
             try
             {
@@ -192,9 +198,38 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 args.DrawingSession.FillGeometry(geometry, _fillColor);
                 args.DrawingSession.DrawGeometry(geometry, _strokeColor, _strokeThickness);
             }
+            catch (ArgumentException argEx)
+            {
+                var message = argEx.Message;
+                var errorCode = message.Substring(0, 11);
+                if (message.StartsWith(ParseError1))
+                {
+                    ParseError.Text = "Parse Error: No matching data!";
+                }
+                else if (message.StartsWith(ParseError2))
+                {
+                    ParseError.Text = "Parse Error: Multiple FillRule elements present in Path Data!";
+                }
+                else if (message.StartsWith(ParseError3))
+                {
+                    var tokens = message.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    if (tokens.Length == 3)
+                    {
+                        ParseError.Text = $"Parse Error at {tokens[1]}. Cannot parse '{tokens[2]}'.";
+                    }
+                }
+                else
+                {
+                    ParseError.Text = "Parsing error! Invalid input data!";
+                }
+
+                args.DrawingSession.FillGeometry(_errorGeometry, Colors.Black);
+                CommandsList.Text = ParseError.Text;
+            }
             catch (Exception)
             {
                 args.DrawingSession.FillGeometry(_errorGeometry, Colors.Black);
+                ParseError.Text = "Parsing error! Invalid input data!";
                 CommandsList.Text = "Parsing error! Invalid input data!";
             }
         }
@@ -247,7 +282,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void OnClearCanvas(object sender, RoutedEventArgs e)
         {
             InputData.Text = string.Empty;
-            OnParseData(this, null);
+            ParseData();
         }
 
         private void OnShowRoundedStarSample(object sender, RoutedEventArgs e)
@@ -277,12 +312,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnInputTextChanged(object sender, RoutedEventArgs e)
         {
-            _typeTimer.Debounce(
-                () =>
-                {
-                    // Only executes this code after 0.3 seconds have elapsed since last trigger.
-                    this.OnParseData(null, null);
-                }, TimeSpan.FromSeconds(0.3));
+            // Call the ParseData method only after 0.3 seconds have elapsed since last trigger.
+            _typeTimer.Debounce(ParseData, TimeSpan.FromSeconds(0.3));
         }
     }
 }
