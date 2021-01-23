@@ -532,7 +532,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //
             // To combat this issue:
             //   We toggle the visibility of the Placeholder ContentControl in order to force it's layout to update properly
-            var placeholder = ContainerFromItem(_lastTextEdit).FindDescendant("PlaceholderTextContentPresenter");
+            var placeholder = ContainerFromItem(_lastTextEdit)?.FindDescendant("PlaceholderTextContentPresenter");
 
             if (placeholder?.Visibility == Visibility.Visible)
             {
