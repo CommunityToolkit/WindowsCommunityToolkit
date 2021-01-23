@@ -566,13 +566,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The retrieved content control, or <see langword="null"/> if not available.</returns>
         public static UIElement? TryGetContentControl(this FrameworkElement element)
         {
-            Type type = element.GetType();
+            Type? type = element.GetType();
 
-            if (type.GetCustomAttribute<ContentPropertyAttribute>(true) is ContentPropertyAttribute attribute &&
-                type.GetProperty(attribute.Name) is PropertyInfo propertyInfo &&
-                propertyInfo.GetValue(element) is UIElement content)
+            while (type is not null)
             {
-                return content;
+                // We need to manually explore the custom attributes this way as the target one
+                // one is not returned by any of the other available GetCustomAttribute<T> APIs.
+                foreach (CustomAttributeData attribute in type.CustomAttributes)
+                {
+                    if (attribute.AttributeType == typeof(ContentPropertyAttribute))
+                    {
+                        string propertyName = (string)attribute.NamedArguments[0].TypedValue.Value;
+                        PropertyInfo propertyInfo = type.GetProperty(propertyName);
+
+                        return propertyInfo.GetValue(element) as UIElement;
+                    }
+                }
+
+                type = type.BaseType;
             }
 
             return null;
