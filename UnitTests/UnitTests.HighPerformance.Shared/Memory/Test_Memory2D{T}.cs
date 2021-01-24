@@ -536,7 +536,7 @@ namespace UnitTests.HighPerformance
             // Here we just want to verify that the type is nicely printed as expected, along with the size
             string text = memory2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.Memory2D<System.Int32>[2, 3]";
+            const string expected = "Microsoft.Toolkit.HighPerformance.Memory2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

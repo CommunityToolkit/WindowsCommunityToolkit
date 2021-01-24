@@ -484,7 +484,7 @@ namespace UnitTests.HighPerformance
 
             string text = memory2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.ReadOnlyMemory2D<System.Int32>[2, 3]";
+            const string expected = "Microsoft.Toolkit.HighPerformance.ReadOnlyMemory2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

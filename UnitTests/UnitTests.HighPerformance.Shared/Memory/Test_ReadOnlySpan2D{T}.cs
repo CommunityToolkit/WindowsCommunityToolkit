@@ -636,7 +636,7 @@ namespace UnitTests.HighPerformance
 
             string text = span2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.ReadOnlySpan2D<System.Int32>[2, 3]";
+            const string expected = "Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

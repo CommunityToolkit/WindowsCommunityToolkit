@@ -823,7 +823,7 @@ namespace UnitTests.HighPerformance
             // Verify that we get the nicely formatted string
             string text = span2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.Span2D<System.Int32>[2, 3]";
+            const string expected = "Microsoft.Toolkit.HighPerformance.Span2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }
