@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Diagnostics;
@@ -25,12 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             var matches = RegexFactory.CanvasStrokeStyleRegex.Matches(styleData);
 
             // If no match is found or no captures in the match, then it means that the style data is invalid.
-            Guard.IsFalse(matches.Count == 0, "(styleData matches.Count == 0)", $"Invalid CanvasStrokeStyle data! No matching CanvasStrokeStyle found!\nCanvasStrokeStyle Data: {styleData}");
+            Guard.IsFalse(matches.Count == 0, "(styleData matches.Count == 0)", $"STYLE_ERR001:Invalid CanvasStrokeStyle data! No matching CanvasStrokeStyle found!\nCanvasStrokeStyle Data: {styleData}");
 
             // If the match contains more than one captures, it means that there
             // are multiple CanvasStrokeStyles present in the CanvasStrokeStyle data. There should
             // be only one CanvasStrokeStyle defined in the CanvasStrokeStyle data.
-            Guard.IsFalse(matches.Count > 1, "(styleData matches.Count > 1)", "Multiple CanvasStrokeStyles defined in CanvasStrokeStyle Data! " +
+            Guard.IsFalse(matches.Count > 1, "(styleData matches.Count > 1)", "STYLE_ERR002:Multiple CanvasStrokeStyles defined in CanvasStrokeStyle Data! " +
                                                                               "There should be only one CanvasStrokeStyle definition within the CanvasStrokeStyle Data. " +
                                                                               "You can either remove CanvasStrokeStyle definitions or split the CanvasStrokeStyle Data " +
                                                                               "into multiple CanvasStrokeStyle Data and call the CanvasPathGeometry.CreateStrokeStyle() method on each of them." +
@@ -44,7 +45,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             var preValidationCount = RegexFactory.ValidationRegex.Replace(styleData, string.Empty).Length;
             var postValidationCount = styleElement.ValidationCount;
 
-            Guard.IsTrue(preValidationCount == postValidationCount, nameof(styleData), $"CanvasStrokeStyle data contains invalid characters!\nCanvasStrokeStyle Data: {styleData}");
+            // If there are invalid characters, extract them and add them to the ArgumentException message
+            if (preValidationCount != postValidationCount)
+            {
+                var parseIndex = 0;
+                if (!string.IsNullOrWhiteSpace(styleElement.Data))
+                {
+                    parseIndex = styleData.IndexOf(styleElement.Data, parseIndex, StringComparison.Ordinal);
+                }
+
+                var errorString = styleData.Substring(parseIndex);
+                if (errorString.Length > 30)
+                {
+                    errorString = $"{errorString.Substring(0, 30)}...";
+                }
+
+                errorString = $"STYLE_ERR003:Style data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
+
+                ThrowHelper.ThrowArgumentException(errorString);
+            }
 
             return styleElement.Style;
         }

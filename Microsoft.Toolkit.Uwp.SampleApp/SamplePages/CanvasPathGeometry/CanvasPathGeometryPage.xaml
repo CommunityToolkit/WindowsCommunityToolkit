@@ -75,7 +75,8 @@
                  PlaceholderText="Enter SVG/XAML Path Data and press Parse. (Or click on one of the Samples from above)"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  SelectionHighlightColor="#007aff"
-                 Text="{x:Bind InputText, Mode=TwoWay}"
+                 Text="{Binding InputText, Mode=TwoWay}"
+                 TextChanged="{x:Bind OnInputTextChanged}"
                  TextWrapping="Wrap" />
         <Button Grid.Row="3"
                 Width="120"
@@ -84,13 +85,14 @@
                 HorizontalAlignment="Left"
                 Click="{x:Bind OnClearCanvas}"
                 Content="Clear" />
-        <Button Grid.Row="3"
-                Width="120"
-                Height="36"
-                Margin="10,3"
-                HorizontalAlignment="Right"
-                Click="{x:Bind OnParseData}"
-                Content="Parse" />
+        <TextBlock x:Name="ParseError"
+                   Grid.Row="3"
+                   Margin="150,3,10,3"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Foreground="Red"
+                   TextAlignment="Left" />
         <Pivot x:Name="RootPivot"
                Grid.Row="4">
             <PivotItem Foreground="Black"

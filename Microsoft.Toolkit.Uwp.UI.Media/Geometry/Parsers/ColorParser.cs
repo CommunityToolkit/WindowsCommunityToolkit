@@ -28,12 +28,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
         internal static Color Parse(string colorString)
         {
             var match = RegexFactory.ColorRegex.Match(colorString);
-            Guard.IsTrue(match.Success, nameof(colorString), "Invalid value provided in colorString! No matching color found in the colorString.");
+            Guard.IsTrue(match.Success, nameof(colorString), "COLOR_ERR001:Invalid value provided in Color Data! No matching color found in the Color Data.");
 
             // Perform validation to check if there are any invalid characters in the colorString that were not captured
             var preValidationCount = RegexFactory.ValidationRegex.Replace(colorString, string.Empty).Length;
             var postValidationCount = RegexFactory.ValidationRegex.Replace(match.Value, string.Empty).Length;
-            Guard.IsTrue(preValidationCount == postValidationCount, nameof(colorString), $"colorString contains invalid characters!\ncolorString: {colorString}");
+
+            // If there are invalid characters, extract them and add them to the ArgumentException message
+            if (preValidationCount != postValidationCount)
+            {
+                var parseIndex = 0;
+                if (!string.IsNullOrWhiteSpace(match.Value))
+                {
+                    parseIndex = colorString.IndexOf(match.Value, parseIndex, StringComparison.Ordinal);
+                }
+
+                var errorString = colorString.Substring(parseIndex);
+                if (errorString.Length > 30)
+                {
+                    errorString = $"{errorString.Substring(0, 30)}...";
+                }
+
+                errorString = $"COLOR_ERR003:Color data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
+
+                ThrowHelper.ThrowArgumentException(errorString);
+            }
 
             return Parse(match);
         }

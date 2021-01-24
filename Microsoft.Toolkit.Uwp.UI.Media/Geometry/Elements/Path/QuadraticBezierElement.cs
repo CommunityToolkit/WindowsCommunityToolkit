@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
@@ -38,10 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
         /// <param name="currentPoint">The last active location in the Path before adding
         /// the Path Element</param>
         /// <param name="lastElement">The previous PathElement in the Path.</param>
-        /// <param name="logger">For logging purpose. To log the set of CanvasPathBuilder
-        /// commands, used for creating the CanvasGeometry, in string format.</param>
         /// <returns>The latest location in the Path after adding the Path Element</returns>
-        public override Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement, StringBuilder logger)
+        public override Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement)
         {
             // Calculate coordinates
             var controlPoint = new Vector2(_x1, _y1);
@@ -59,10 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
 
             // Execute command
             pathBuilder.AddQuadraticBezier(controlPoint, point);
-
-            // Log command
-            logger?.Append($"{Indent}pathBuilder.AddQuadraticBezier(new Vector2({controlPoint.X}, {controlPoint.Y})");
-            logger?.AppendLine($", new Vector2({point.X}, {point.Y}));");
 
             // Set Last Element
             lastElement = this;

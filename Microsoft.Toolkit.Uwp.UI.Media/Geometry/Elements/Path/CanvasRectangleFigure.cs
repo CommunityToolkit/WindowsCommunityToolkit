@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
@@ -36,10 +35,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
         /// <param name="currentPoint">The last active location in the Path before adding
         /// the PolygonFigure</param>
         /// <param name="lastElement">The previous PathElement in the Path.</param>
-        /// <param name="logger">For logging purpose. To log the set of CanvasPathBuilder
-        /// commands, used for creating the CanvasGeometry, in string format.</param>
         /// <returns>The latest location in the Path after adding the PolygonFigure</returns>
-        public override Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement, StringBuilder logger)
+        public override Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement)
         {
             // Calculate coordinates
             var topLeft = new Vector2(_x, _y);
@@ -50,10 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
 
             // Execute command
             pathBuilder.AddRectangleFigure(topLeft.X, topLeft.Y, _width, _height);
-
-            // Log command
-            logger?.AppendLine();
-            logger?.AppendLine($"{Indent}pathBuilder.AddRectangleFigure({topLeft.X}, {topLeft.Y}, {_width}, {_height});");
 
             // No need to update the lastElement or currentPoint here as we are creating
             // a separate closed figure here.So current point will not change.

@@ -59,9 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
         /// <param name="pathBuilder">CanvasPathBuilder object</param>
         /// <param name="currentPoint">The current point on the path before the path element is added</param>
         /// <param name="lastElement">The previous PathElement in the Path.</param>
-        /// <param name="logger">For logging purpose. To log the set of CanvasPathBuilder
-        /// commands, used for creating the CanvasGeometry, in string format.</param>
         /// <returns>The current point on the path after the path element is added</returns>
-        Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement, StringBuilder logger);
+        Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement);
     }
 }
