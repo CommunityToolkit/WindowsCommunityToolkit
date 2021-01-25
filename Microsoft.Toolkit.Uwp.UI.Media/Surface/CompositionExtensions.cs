@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         internal static CompositionEffectBrush CreateBackdropBrush(Compositor compositor, IRenderSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
         {
             // Blur Effect
-            var blurEffect = new GaussianBlurEffect()
+            var blurEffect = new Microsoft.Graphics.Canvas.Effects.GaussianBlurEffect()
             {
                 Name = "Blur",
                 BlurAmount = blurAmount,
@@ -68,9 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
             };
 
             // Blend Effect
-            var blendEffect = new BlendEffect
+            var blendEffect = new Microsoft.Graphics.Canvas.Effects.BlendEffect
             {
-                Foreground = new ColorSourceEffect
+                Foreground = new Microsoft.Graphics.Canvas.Effects.ColorSourceEffect
                 {
                     Name = "Color",
                     Color = blendColor
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
             };
 
             // Composite Effect
-            var effect = new CompositeEffect
+            var effect = new Microsoft.Graphics.Canvas.Effects.CompositeEffect
             {
                 Mode = CanvasComposite.DestinationIn,
                 Sources =
@@ -131,19 +131,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
             float backdropAmount = 0.5f)
         {
             // Create a frosty glass effect
-            var frostEffect = new GaussianBlurEffect
+            var frostEffect = new Microsoft.Graphics.Canvas.Effects.GaussianBlurEffect
             {
                 Name = "Blur",
                 BlurAmount = blurAmount,
                 BorderMode = EffectBorderMode.Hard,
-                Source = new ArithmeticCompositeEffect
+                Source = new Microsoft.Graphics.Canvas.Effects.ArithmeticCompositeEffect
                 {
                     Name = "Source",
                     MultiplyAmount = multiplyAmount,
                     Source1Amount = backdropAmount,
                     Source2Amount = colorAmount,
                     Source1 = new CompositionEffectSourceParameter("backdrop"),
-                    Source2 = new ColorSourceEffect
+                    Source2 = new Microsoft.Graphics.Canvas.Effects.ColorSourceEffect
                     {
                         Name = "BlendColor",
                         Color = blendColor
@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
             };
 
             // Composite Effect
-            var effect = new CompositeEffect
+            var effect = new Microsoft.Graphics.Canvas.Effects.CompositeEffect
             {
                 Mode = CanvasComposite.DestinationIn,
                 Sources =
