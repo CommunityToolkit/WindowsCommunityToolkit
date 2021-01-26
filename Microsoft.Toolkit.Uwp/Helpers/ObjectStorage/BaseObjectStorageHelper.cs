@@ -21,14 +21,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseObjectStorageHelper"/> class,
         /// which can read and write data using the provided <see cref="IObjectSerializer"/>;
-        /// if none is provided, a default Json serializer will be used (based on <see cref="DataContractSerializer"/>).
-        /// In 6.1 and older the default Serializer was based on Newtonsoft.Json and the new default Serializer may behave differently.
+        /// In 6.1 and older the default Serializer was based on Newtonsoft.Json.
         /// To implement a <see cref="IObjectSerializer"/> based on Newtonsoft.Json or System.Text.Json see https://aka.ms/wct/storagehelper-migration
         /// </summary>
         /// <param name="objectSerializer">The serializer to use.</param>
-        public BaseObjectStorageHelper(IObjectSerializer objectSerializer = null)
+        public BaseObjectStorageHelper(IObjectSerializer objectSerializer)
         {
-            serializer = objectSerializer ?? new JsonObjectSerializer();
+            serializer = objectSerializer ?? throw new ArgumentNullException(nameof(objectSerializer));
         }
 
         /// <summary>
