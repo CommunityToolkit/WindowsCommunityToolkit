@@ -6,7 +6,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Microsoft.UI.Xaml.Markup;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An effect that renders a standard 8bit SDR color on the available surface

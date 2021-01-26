@@ -13,6 +13,8 @@ using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.UI.Composition;
 using Windows.Graphics.Effects;
 
+// using CanvasBlendEffect = Microsoft.Graphics.Canvas.Effects.BlendEffect;
+// using CanvasCrossFadeEffect = Microsoft.Graphics.Canvas.Effects.CrossFadeEffect;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
     /// <summary>
@@ -38,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 _ => throw new ArgumentException($"Invalid placement value: {placement}")
             };
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new BlendEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasBlendEffect
             {
                 Foreground = await foreground.sourceProducer(),
                 Background = await background.sourceProducer(),
@@ -49,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// Cross fades two pipelines using an <see cref="CanvasCrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
         /// <param name="factor">The cross fade factor to blend the input effects (default is 0.5, must be in the [0, 1] range)</param>
@@ -57,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor = 0.5f)
         {
-            async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasCrossFadeEffect
             {
                 CrossFade = factor,
                 Source1 = await this.sourceProducer(),
@@ -68,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// Cross fades two pipelines using an <see cref="CanvasCrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
         /// <param name="factor">The cross fade factor to blend the input effects (should be in the [0, 1] range)</param>
@@ -79,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasCrossFadeEffect
             {
                 CrossFade = factor,
                 Source1 = await this.sourceProducer(),
@@ -87,13 +89,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(CrossFadeEffect.CrossFade)}", value);
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(CanvasCrossFadeEffect.CrossFade)}", value);
 
-            return new PipelineBuilder(Factory, this, pipeline, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
+            return new PipelineBuilder(Factory, this, pipeline, new[] { $"{id}.{nameof(CanvasCrossFadeEffect.CrossFade)}" });
         }
 
         /// <summary>
-        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// Cross fades two pipelines using an <see cref="CanvasCrossFadeEffect"/> instance
         /// </summary>
         /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
         /// <param name="factor">The cross fade factor to blend the input effects (should be in the [0, 1] range)</param>
@@ -104,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new CrossFadeEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasCrossFadeEffect
             {
                 CrossFade = factor,
                 Source1 = await this.sourceProducer(),
@@ -112,9 +114,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(CrossFadeEffect.CrossFade)}", value, duration);
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(CanvasCrossFadeEffect.CrossFade)}", value, duration);
 
-            return new PipelineBuilder(Factory, this, pipeline, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
+            return new PipelineBuilder(Factory, this, pipeline, new[] { $"{id}.{nameof(CanvasCrossFadeEffect.CrossFade)}" });
         }
 
         /// <summary>

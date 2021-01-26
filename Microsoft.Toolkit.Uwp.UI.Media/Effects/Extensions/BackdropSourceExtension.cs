@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A backdrop effect that can sample from a specified source

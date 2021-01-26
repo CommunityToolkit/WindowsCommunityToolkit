@@ -16,8 +16,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Graph.Converters;
-using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -680,16 +678,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft.Toolkit.Graph.Controls
-            var graphControlsProxyType = typeof(UserToPersonConverter);
-            assembly = graphControlsProxyType.GetTypeInfo().Assembly;
+            //var graphControlsProxyType = typeof(UserToPersonConverter);
+            //assembly = graphControlsProxyType.GetTypeInfo().Assembly;
 
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
+            //foreach (var typeInfo in assembly.ExportedTypes)
+            //{
+            //    if (typeInfo.Name == typeName)
+            //    {
+            //        return typeInfo;
+            //    }
+            //}
 
             // Search in Microsoft.Toolkit.Uwp.UI.Animations
             var animationsProxyType = EasingType.Default;

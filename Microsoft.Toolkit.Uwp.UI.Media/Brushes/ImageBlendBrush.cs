@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 
+//using CanvasBlendEffect = Microsoft.Graphics.Canvas.Effects.BlendEffect;
+
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
@@ -146,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
                 // Use a Win2D invert affect applied to a CompositionBackdropBrush.
                 /*
-                var graphicsEffect = new BlendEffect
+                var graphicsEffect = new CanvasBlendEffect
                 {
                     Name = "Invert",
                     Mode = (BlendEffectMode)(int)Mode,

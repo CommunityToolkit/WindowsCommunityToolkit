@@ -83,6 +83,10 @@
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
     </ProjectReference>-->
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Behaviors\Microsoft.Toolkit.Uwp.UI.Behaviors.csproj">
+      <Project>{d4ff799d-0df2-495a-adc9-3bbc4aef8971}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Behaviors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>

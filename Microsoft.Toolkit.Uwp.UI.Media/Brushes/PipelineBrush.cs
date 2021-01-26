@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 
@@ -22,21 +22,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public PipelineBuilder Source { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of effects to use in the current pipeline
+        /// Gets or sets the collection of effects to use in the current pipeline.
         /// </summary>
-        public IList<IPipelineEffect> Effects { get; set; } = new List<IPipelineEffect>();
+        public IList<PipelineEffect> Effects
+        {
+            get
+            {
+                if (GetValue(EffectsProperty) is not IList<PipelineEffect> effects)
+                {
+                    effects = new List<PipelineEffect>();
+
+                    SetValue(EffectsProperty, effects);
+                }
+
+                return effects;
+            }
+            set => SetValue(EffectsProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <seealso cref="Effects"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EffectsProperty = DependencyProperty.Register(
+            nameof(Effects),
+            typeof(IList<PipelineEffect>),
+            typeof(PipelineBrush),
+            new PropertyMetadata(null));
 
         /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
+        protected override PipelineBuilder OnPipelineRequested()
         {
             PipelineBuilder builder = Source ?? PipelineBuilder.FromBackdrop();
 
             foreach (IPipelineEffect effect in Effects)
             {
-                builder = effect.AppendToPipeline(builder);
+                builder = effect.AppendToBuilder(builder);
             }
 
             return builder;
+        }
+
+        /// <inheritdoc/>
+        protected override void OnCompositionBrushUpdated()
+        {
+            foreach (IPipelineEffect effect in Effects)
+            {
+                effect.NotifyCompositionBrushInUse(CompositionBrush);
+            }
         }
     }
 }

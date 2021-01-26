@@ -11,6 +11,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
@@ -143,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             foreach (DataGridColumn dataGridColumn in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
             {
                 DataGridColumnHeader columnHeader = dataGridColumn.HeaderCell;
-                Debug.Assert(columnHeader.OwningColumn == dataGridColumn, "Expected columnHeader owned by dataGridColumn.");
+                DiagnosticsDebug.Assert(columnHeader.OwningColumn == dataGridColumn, "Expected columnHeader owned by dataGridColumn.");
 
                 if (dataGridColumn.IsFrozen)
                 {
@@ -382,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             DataGridFillerColumn fillerColumn = this.OwningGrid.ColumnsInternal.FillerColumn;
             if (!fillerColumn.IsRepresented)
             {
-                Debug.Assert(!this.Children.Contains(fillerColumn.HeaderCell), "Unexpected parent for filler column header cell.");
+                DiagnosticsDebug.Assert(!this.Children.Contains(fillerColumn.HeaderCell), "Unexpected parent for filler column header cell.");
                 fillerColumn.HeaderCell.SeparatorVisibility = Visibility.Collapsed;
                 this.Children.Insert(this.OwningGrid.ColumnsInternal.Count, fillerColumn.HeaderCell);
                 fillerColumn.IsRepresented = true;

@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A custom acrylic effect that can be inserted into a pipeline

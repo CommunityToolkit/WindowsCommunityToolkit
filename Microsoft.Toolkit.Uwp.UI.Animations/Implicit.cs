@@ -6,216 +6,225 @@ using System;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
+using Windows.Foundation.Collections;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Attached Properties to enable Implicit Animations through XAML
+    /// Attached properties to support implicitly triggered animations for <see cref="UIElement"/> instances.
     /// </summary>
-    public class Implicit
+    public static class Implicit
     {
         /// <summary>
-        /// Identifies the Implicit.ShowAnimations XAML attached property
+        /// The attached "ShowAnimations" property.
         /// </summary>
-        public static readonly DependencyProperty ShowAnimationsProperty =
-            DependencyProperty.RegisterAttached("ShowAnimations", typeof(AnimationCollection), typeof(Implicit), new PropertyMetadata(null, ShowAnimationsChanged));
+        public static readonly DependencyProperty ShowAnimationsProperty = DependencyProperty.RegisterAttached(
+            "ShowAnimations",
+            typeof(ImplicitAnimationSet),
+            typeof(Implicit),
+            new PropertyMetadata(null, OnShowAnimationsPropertyChanged));
 
         /// <summary>
-        /// Identifies the Implicit.HideAnimations XAML attached property
+        /// The attached "HideAnimations" property.
         /// </summary>
-        public static readonly DependencyProperty HideAnimationsProperty =
-            DependencyProperty.RegisterAttached("HideAnimations", typeof(AnimationCollection), typeof(Implicit), new PropertyMetadata(null, HideAnimationsChanged));
+        public static readonly DependencyProperty HideAnimationsProperty = DependencyProperty.RegisterAttached(
+            "HideAnimations",
+            typeof(ImplicitAnimationSet),
+            typeof(Implicit),
+            new PropertyMetadata(null, OnHideAnimationsPropertyChanged));
 
         /// <summary>
-        /// Identifies the Implicit.Animations XAML attached property
+        /// The attached "Animations" property.
         /// </summary>
-        public static readonly DependencyProperty AnimationsProperty =
-            DependencyProperty.RegisterAttached("Animations", typeof(AnimationCollection), typeof(Implicit), new PropertyMetadata(null, AnimationsChanged));
+        public static readonly DependencyProperty AnimationsProperty = DependencyProperty.RegisterAttached(
+            "Animations",
+            typeof(ImplicitAnimationSet),
+            typeof(Implicit),
+            new PropertyMetadata(null, OnAnimationsPropertyChanged));
 
         /// <summary>
-        /// Gets the value of the Implicit.ShowAnimations XAML attached property.
+        /// Gets the value of the <see cref="ShowAnimationsProperty"/> property.
         /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to get the value from</param>
-        /// <returns><see cref="AnimationCollection"/></returns>
-        public static AnimationCollection GetShowAnimations(DependencyObject obj)
+        /// <param name="element">The <see cref="UIElement"/> to get the value for.</param>
+        /// <returns>The retrieved <see cref="ImplicitAnimationSet"/> value.</returns>
+        public static ImplicitAnimationSet GetShowAnimations(UIElement element)
         {
-            var collection = (AnimationCollection)obj.GetValue(ShowAnimationsProperty);
+            var collection = (ImplicitAnimationSet)element.GetValue(ShowAnimationsProperty);
 
-            if (collection == null)
+            if (collection is null)
             {
-                collection = new AnimationCollection();
-                obj.SetValue(ShowAnimationsProperty, collection);
+                element.SetValue(ShowAnimationsProperty, collection = new());
             }
 
             return collection;
         }
 
         /// <summary>
-        /// Sets the value of the Implicit.ShowAnimations XAML attached property.
+        /// Sets the value of the <see cref="ShowAnimationsProperty"/> property.
         /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to set the value</param>
-        /// <param name="value">The <see cref="AnimationCollection"/> to set</param>
-        public static void SetShowAnimations(DependencyObject obj, AnimationCollection value)
+        /// <param name="element">The <see cref="UIElement"/> to set the value for.</param>
+        /// <param name="value">The <see cref="ImplicitAnimationSet"/> value to set.</param>
+        public static void SetShowAnimations(UIElement element, ImplicitAnimationSet value)
         {
-            obj.SetValue(ShowAnimationsProperty, value);
+            element.SetValue(ShowAnimationsProperty, value);
         }
 
         /// <summary>
-        /// Gets the value of the Implicit.HideAnimations XAML attached property.
+        /// Gets the value of the <see cref="HideAnimationsProperty"/> property.
         /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to get the value from</param>
-        /// <returns><see cref="AnimationCollection"/></returns>
-        public static AnimationCollection GetHideAnimations(DependencyObject obj)
+        /// <param name="element">The <see cref="UIElement"/> to get the value for.</param>
+        /// <returns>The retrieved <see cref="ImplicitAnimationSet"/> value.</returns>
+        public static ImplicitAnimationSet GetHideAnimations(UIElement element)
         {
-            var collection = (AnimationCollection)obj.GetValue(HideAnimationsProperty);
+            var collection = (ImplicitAnimationSet)element.GetValue(HideAnimationsProperty);
 
-            if (collection == null)
+            if (collection is null)
             {
-                collection = new AnimationCollection();
-                obj.SetValue(HideAnimationsProperty, collection);
+                element.SetValue(HideAnimationsProperty, collection = new());
             }
 
             return collection;
         }
 
         /// <summary>
-        /// Sets the value of the Implicit.HideAnimations XAML attached property.
+        /// Sets the value of the <see cref="HideAnimationsProperty"/> property.
         /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to set the value</param>
-        /// <param name="value">The <see cref="AnimationCollection"/> to set</param>
-        public static void SetHideAnimations(DependencyObject obj, AnimationCollection value)
+        /// <param name="element">The <see cref="UIElement"/> to set the value for.</param>
+        /// <param name="value">The <see cref="ImplicitAnimationSet"/> value to set.</param>
+        public static void SetHideAnimations(UIElement element, ImplicitAnimationSet value)
         {
-            obj.SetValue(HideAnimationsProperty, value);
+            element.SetValue(HideAnimationsProperty, value);
         }
 
         /// <summary>
-        /// Gets the value of the Implicit.Animations XAML attached property.
+        /// Gets the value of the <see cref="AnimationsProperty"/> property.
         /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to get the value from</param>
-        /// <returns><see cref="AnimationCollection"/></returns>
-        public static AnimationCollection GetAnimations(DependencyObject obj)
+        /// <param name="element">The <see cref="UIElement"/> to get the value for.</param>
+        /// <returns>The retrieved <see cref="ImplicitAnimationSet"/> value.</returns>
+        public static ImplicitAnimationSet GetAnimations(UIElement element)
         {
-            var collection = (AnimationCollection)obj.GetValue(AnimationsProperty);
+            var collection = (ImplicitAnimationSet)element.GetValue(AnimationsProperty);
 
-            if (collection == null)
+            if (collection is null)
             {
-                collection = new AnimationCollection();
-                obj.SetValue(AnimationsProperty, collection);
+                element.SetValue(AnimationsProperty, collection = new());
             }
 
             return collection;
         }
 
         /// <summary>
-        /// Sets the value of the Implicit.Animations XAML attached property.
+        /// Sets the value of the <see cref="AnimationsProperty"/> property.
         /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to set the value</param>
-        /// <param name="value">The <see cref="AnimationCollection"/> to set</param>
-        public static void SetAnimations(DependencyObject obj, AnimationCollection value)
+        /// <param name="element">The <see cref="UIElement"/> to set the value for.</param>
+        /// <param name="value">The <see cref="AnimationSet"/> value to set.</param>
+        public static void SetAnimations(UIElement element, ImplicitAnimationSet value)
         {
-            obj.SetValue(AnimationsProperty, value);
+            element.SetValue(AnimationsProperty, value);
         }
 
-        private static void ShowAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Callback to keep the attached parent in sync for animations linked to the <see cref="ShowAnimationsProperty"/> property.
+        /// </summary>
+        /// <param name="d">The target object the property was changed for.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
+        private static void OnShowAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue is AnimationCollection oldCollection)
+            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
             {
-                oldCollection.AnimationCollectionChanged -= ShowCollectionChanged;
+                var collection = (ImplicitAnimationSet)sender;
+
+                if (collection.ParentReference!.TryGetTarget(out UIElement element))
+                {
+                    ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
+                }
             }
 
-            if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
+            if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                animationCollection.Parent = element;
-                animationCollection.AnimationCollectionChanged -= ShowCollectionChanged;
-                animationCollection.AnimationCollectionChanged += ShowCollectionChanged;
-                ElementCompositionPreview.SetImplicitShowAnimation(element, GetCompositionAnimationGroup(animationCollection, element));
-            }
-        }
-
-        private static void HideAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.OldValue is AnimationCollection oldCollection)
-            {
-                oldCollection.AnimationCollectionChanged -= HideCollectionChanged;
+                oldCollection.VectorChanged -= OnAnimationsChanged;
             }
 
-            if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
+            if (d is UIElement element &&
+                e.NewValue is ImplicitAnimationSet collection)
             {
-                animationCollection.Parent = element;
-                animationCollection.AnimationCollectionChanged -= HideCollectionChanged;
-                animationCollection.AnimationCollectionChanged += HideCollectionChanged;
-                ElementCompositionPreview.SetImplicitHideAnimation(element, GetCompositionAnimationGroup(animationCollection, element));
-            }
-        }
+                collection.ParentReference = new(element);
+                collection.VectorChanged -= OnAnimationsChanged;
+                collection.VectorChanged += OnAnimationsChanged;
 
-        private static void AnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.OldValue is AnimationCollection oldCollection)
-            {
-                oldCollection.AnimationCollectionChanged -= AnimationsCollectionChanged;
-            }
-
-            if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
-            {
-                animationCollection.Parent = element;
-                animationCollection.AnimationCollectionChanged -= AnimationsCollectionChanged;
-                animationCollection.AnimationCollectionChanged += AnimationsCollectionChanged;
-                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = GetImplicitAnimationCollection(animationCollection, element);
-            }
-        }
-
-        private static void ShowCollectionChanged(object sender, EventArgs e)
-        {
-            var collection = (AnimationCollection)sender;
-            if (collection.Parent == null)
-            {
-                return;
-            }
-
-            ElementCompositionPreview.SetImplicitShowAnimation(collection.Parent, GetCompositionAnimationGroup(collection, collection.Parent));
-        }
-
-        private static void HideCollectionChanged(object sender, EventArgs e)
-        {
-            var collection = (AnimationCollection)sender;
-            if (collection.Parent == null)
-            {
-                return;
-            }
-
-            ElementCompositionPreview.SetImplicitHideAnimation(collection.Parent, GetCompositionAnimationGroup(collection, collection.Parent));
-        }
-
-        private static void AnimationsCollectionChanged(object sender, EventArgs e)
-        {
-            var collection = (AnimationCollection)sender;
-            if (collection.Parent == null)
-            {
-                return;
-            }
-
-            ElementCompositionPreview.GetElementVisual(collection.Parent).ImplicitAnimations =
-                                            GetImplicitAnimationCollection(collection, collection.Parent);
-        }
-
-        private static CompositionAnimationGroup GetCompositionAnimationGroup(AnimationCollection collection, UIElement element)
-        {
-            if (collection.ContainsTranslationAnimation)
-            {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
             }
-
-            return collection.GetCompositionAnimationGroup(element);
         }
 
-        private static ImplicitAnimationCollection GetImplicitAnimationCollection(AnimationCollection collection, UIElement element)
+        /// <summary>
+        /// Callback to keep the attached parent in sync for animations linked to the <see cref="HideAnimationsProperty"/> property.
+        /// </summary>
+        /// <param name="d">The target object the property was changed for.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
+        private static void OnHideAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (collection.ContainsTranslationAnimation)
+            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
             {
-                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                var collection = (ImplicitAnimationSet)sender;
+
+                if (collection.ParentReference!.TryGetTarget(out UIElement element))
+                {
+                    ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
+                }
             }
 
-            return collection.GetImplicitAnimationCollection(element);
+            if (e.OldValue is ImplicitAnimationSet oldCollection)
+            {
+                oldCollection.VectorChanged -= OnAnimationsChanged;
+            }
+
+            if (d is UIElement element &&
+                e.NewValue is ImplicitAnimationSet collection)
+            {
+                collection.ParentReference = new(element);
+                collection.VectorChanged -= OnAnimationsChanged;
+                collection.VectorChanged += OnAnimationsChanged;
+
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
+            }
+        }
+
+        /// <summary>
+        /// Callback to keep the attached parent in sync for animations linked to the <see cref="AnimationsProperty"/> property.
+        /// </summary>
+        /// <param name="d">The target object the property was changed for.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
+        private static void OnAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
+            {
+                var collection = (ImplicitAnimationSet)sender;
+
+                if (collection.ParentReference!.TryGetTarget(out UIElement element))
+                {
+                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
+                }
+            }
+
+            if (e.OldValue is ImplicitAnimationSet oldCollection)
+            {
+                oldCollection.VectorChanged -= OnAnimationsChanged;
+            }
+
+            if (d is UIElement element &&
+                e.NewValue is ImplicitAnimationSet collection)
+            {
+                collection.ParentReference = new(element);
+                collection.VectorChanged -= OnAnimationsChanged;
+                collection.VectorChanged += OnAnimationsChanged;
+
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
+            }
         }
     }
 }
