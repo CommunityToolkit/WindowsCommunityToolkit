@@ -10,8 +10,11 @@
       This package includes a .NET Standard MVVM library with helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
       - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
+      - ObservableValidator: a base class for objects implementing the INotifyDataErrorInfo interface.
       - RelayCommand: a simple delegate command implementing the ICommand interface.
-      - Messenger: a messaging system to exchange messages through different loosely-coupled objects.
+      - AsyncRelayCommand: a delegate command supporting asynchronous operations and cancellation.
+      - WeakReferenceMessenger: a messaging system to exchange messages through different loosely-coupled objects.
+      - StrongReferenceMessenger: a high-performance messaging system that trades weak references for speed.
       - Ioc: a helper class to configure dependency injection service containers.
     </Description>
     <PackageTags>UWP Toolkit Windows MVVM MVVMToolkit observable Ioc dependency injection services extensions helpers</PackageTags>
