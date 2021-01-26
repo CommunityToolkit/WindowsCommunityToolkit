@@ -18,7 +18,7 @@
     <UseWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</UseWinUI>
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17134</TargetPlatformMinRevision>
-    <MicrosoftWinUIVersion>3.0.0-preview3.201113.0</MicrosoftWinUIVersion>
+    <MicrosoftWinUIVersion>3.0.0-preview4.210125.1</MicrosoftWinUIVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <NoWarn>CS8002;CS8305</NoWarn> <!-- Temporary since WinUI3 is not stable yet -->
   </PropertyGroup>
