@@ -3,15 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
+using Windows.Foundation;
+using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI.Text;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private string _currentQuery;
         private string _currentPrefix;
         private bool _ignoreChange;
+        private bool _popupOpenDown;
         private ITextRange _currentRange;
         private CancellationTokenSource _suggestionRequestedTokenSource;
 
@@ -95,9 +98,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
             _richEditBox.AddHandler(PointerPressedEvent, new PointerEventHandler(RichEditBoxPointerEventHandler), true);
             AddKeyboardAccelerators();
-            _suggestionsList.ItemClick += SuggestionsList_ItemClick;
 
+            _suggestionsList.ItemClick += SuggestionsList_ItemClick;
+            _suggestionsList.SizeChanged += SuggestionsList_SizeChanged;
             _suggestionsList.GotFocus += (sender, args) => _richEditBox.Focus(FocusState.Programmatic);
+
             LostFocus += (sender, args) => ShowSuggestionsPopup(false);
         }
 
@@ -123,6 +128,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var possibles = string.Concat(value.Where(char.IsPunctuation));
             return string.IsNullOrEmpty(possibles) ? "@" : possibles;
+        }
+
+        private static bool IsElementOnScreen(UIElement element, double offsetX = 0, double offsetY = 0)
+        {
+            var toWindow = element.TransformToVisual(Window.Current.Content);
+            var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            var elementBounds = new Rect(offsetX, offsetY, element.ActualSize.X, element.ActualSize.Y);
+            elementBounds = toWindow.TransformBounds(elementBounds);
+            elementBounds.X += windowBounds.X;
+            elementBounds.Y += windowBounds.Y;
+            var displayInfo = DisplayInformation.GetForCurrentView();
+            var scaleFactor = displayInfo.RawPixelsPerViewPixel;
+            var displayHeight = displayInfo.ScreenHeightInRawPixels;
+            return elementBounds.Top * scaleFactor >= 0 && elementBounds.Bottom * scaleFactor <= displayHeight;
+        }
+
+        private static bool IsElementInsideWindow(UIElement element, double offsetX = 0, double offsetY = 0)
+        {
+            var toWindow = element.TransformToVisual(Window.Current.Content);
+            var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            windowBounds = new Rect(0, 0, windowBounds.Width, windowBounds.Height);
+            var elementBounds = new Rect(offsetX, offsetY, element.ActualSize.X, element.ActualSize.Y);
+            elementBounds = toWindow.TransformBounds(elementBounds);
+            elementBounds.Intersect(windowBounds);
+            return elementBounds.Height >= element.ActualSize.Y;
+        }
+
+        private void SuggestionsList_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (this._suggestionPopup.IsOpen)
+            {
+                UpdatePopupPosition();
+            }
         }
 
         private void RichEditBox_SelectionChanging(RichEditBox sender, RichEditBoxSelectionChangingEventArgs args)
@@ -256,14 +294,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _suggestionPopup.VerticalOffset = e.NewSize.Height;
+            UpdatePopupPosition();
             _suggestionsList.MaxWidth = e.NewSize.Width;
         }
 
         private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
         {
             _suggestionChoice = 0;
-            ShowSuggestionsPopup(ItemsSource is IEnumerable);
+            ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
         }
 
         private async Task RequestForSuggestionsAsync()
@@ -436,11 +474,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ShowSuggestionsPopup(bool show)
         {
-            _suggestionPopup.IsOpen = show;
+            this._suggestionPopup.IsOpen = show;
             if (!show)
             {
-                _suggestionChoice = 0;
+                this._suggestionChoice = 0;
+                this._suggestionPopup.VerticalOffset = 0;
             }
+        }
+
+        /// <summary>
+        /// Calculate whether to open the suggestion list up or down depends on how much screen space is available
+        /// </summary>
+        private void UpdatePopupPosition()
+        {
+            var downOffset = this._richEditBox.ActualHeight;
+            var upOffset = -this._suggestionsList.ActualHeight;
+            if (this._suggestionPopup.VerticalOffset == 0)
+            {
+                if (IsElementOnScreen(this._suggestionsList, offsetY: downOffset) &&
+                    (IsElementInsideWindow(this._suggestionsList, offsetY: downOffset) ||
+                     !IsElementInsideWindow(this._suggestionsList, offsetY: upOffset) ||
+                     !IsElementOnScreen(this._suggestionsList, offsetY: upOffset)))
+                {
+                    this._suggestionPopup.VerticalOffset = downOffset;
+                    this._popupOpenDown = true;
+                }
+                else
+                {
+                    this._suggestionPopup.VerticalOffset = upOffset;
+                    this._popupOpenDown = false;
+                }
+
+                return;
+            }
+
+            this._suggestionPopup.VerticalOffset = this._popupOpenDown ? downOffset : upOffset;
         }
 
         private bool TryExtractQueryFromSelection(out string prefix, out string query, out ITextRange range)
