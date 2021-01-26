@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 return
                     this.recipientsMap.TryGetValue(type2, out RecipientsTable? table) &&
                     table!.TryGetValue(recipient, out IDictionarySlim? mapping) &&
-                    Unsafe.As<DictionarySlim<TToken, object>>(mapping).ContainsKey(token);
+                    Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.ContainsKey(token);
             }
         }
 
@@ -133,9 +133,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 while (enumerator.MoveNext())
                 {
                     if (enumerator.Key.TToken == typeof(TToken) &&
-                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim mapping))
+                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim? mapping))
                     {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token, out _);
+                        Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token, out _);
                     }
                 }
             }
@@ -156,9 +156,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 while (enumerator.MoveNext())
                 {
                     if (enumerator.Key.Equals(type2) &&
-                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim mapping))
+                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim? mapping))
                     {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token, out _);
+                        Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token, out _);
                     }
                 }
             }
@@ -311,7 +311,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             private readonly LinkedList<WeakReference<TKey>> keys = new();
 
             /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.TryGetValue"/>
-            public bool TryGetValue(TKey key, out TValue value)
+            public bool TryGetValue(TKey key, out TValue? value)
             {
                 return this.table.TryGetValue(key, out value);
             }
