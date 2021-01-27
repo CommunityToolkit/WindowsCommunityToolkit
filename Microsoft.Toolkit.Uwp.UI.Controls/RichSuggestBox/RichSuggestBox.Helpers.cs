@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Linq;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.ViewManagement;
@@ -38,6 +39,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             elementBounds = toWindow.TransformBounds(elementBounds);
             elementBounds.Intersect(windowBounds);
             return elementBounds.Height >= element.ActualSize.Y;
+        }
+
+        private static string EnforcePrefixesRequirements(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return "@";
+            }
+
+            var possibles = string.Concat(value.Where(char.IsPunctuation));
+            return string.IsNullOrEmpty(possibles) ? "@" : possibles;
         }
     }
 }

@@ -43,6 +43,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Header),
                 typeof(object),
                 typeof(RichSuggestBox),
+                new PropertyMetadata(null, OnHeaderChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderTemplateProperty =
+            DependencyProperty.Register(
+                nameof(HeaderTemplate),
+                typeof(DataTemplate),
+                typeof(RichSuggestBox),
                 new PropertyMetadata(null));
 
         /// <summary>
@@ -53,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Description),
                 typeof(object),
                 typeof(RichSuggestBox),
-                new PropertyMetadata(null));
+                new PropertyMetadata(null, OnDescriptionChanged));
 
         /// <summary>
         /// Identifies the <see cref="SuggestionPopupPlacement"/> dependency property.
@@ -116,6 +126,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the content for the control's header.
         /// </summary>
+        /// <remarks>
+        /// Suggestion popup relies on the actual size of the text control to calculate its placement on the screen.
+        /// It is recommended to set the header using this property instead of using <see cref="RichEditBox.Header"/>.
+        /// </remarks>
         public object Header
         {
             get => GetValue(HeaderProperty);
@@ -123,8 +137,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="DataTemplate"/> used to display the content of the control's header.
+        /// </summary>
+        public DataTemplate HeaderTemplate
+        {
+            get => (DataTemplate)GetValue(HeaderTemplateProperty);
+            set => SetValue(HeaderTemplateProperty, value);
+        }
+
+        /// <summary>
         /// Gets or sets content that is shown below the control. The content should provide guidance about the input expected by the control.
         /// </summary>
+        /// <remarks>
+        /// Suggestion popup relies on the actual size of the text control to calculate its placement on the screen.
+        /// It is recommended to set the description using this property instead of using <see cref="RichEditBox.Description"/>.
+        /// </remarks>
         public object Description
         {
             get => GetValue(DescriptionProperty);

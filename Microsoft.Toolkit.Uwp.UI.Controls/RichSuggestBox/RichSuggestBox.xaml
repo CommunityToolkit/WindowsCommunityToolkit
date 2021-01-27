@@ -245,10 +245,26 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                                          Grid.Row="0"
+                                          Grid.Column="0"
+                                          Margin="{ThemeResource TextBoxTopHeaderMargin}"
+                                          VerticalAlignment="Top"
+                                          x:Load="False"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          FontWeight="Normal"
+                                          Foreground="{ThemeResource TextControlHeaderForeground}"
+                                          TextWrapping="Wrap"
+                                          Visibility="Collapsed" />
+
                         <RichEditBox x:Name="RichEditBox"
+                                     Grid.Row="1"
                                      Margin="0"
                                      Padding="{TemplateBinding Padding}"
                                      HorizontalAlignment="Stretch"
@@ -256,7 +272,6 @@
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                      contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
-                                     contract7Present:Description="{TemplateBinding Description}"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
@@ -267,13 +282,21 @@
                                      FontStretch="{TemplateBinding FontStretch}"
                                      FontWeight="{TemplateBinding FontWeight}"
                                      Foreground="{TemplateBinding Foreground}"
-                                     Header="{TemplateBinding Header}"
                                      PlaceholderText="{TemplateBinding PlaceholderText}"
                                      ScrollViewer.BringIntoViewOnFocusChange="False"
                                      Style="{TemplateBinding RichEditBoxStyle}"
                                      UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
 
+                        <ContentPresenter x:Name="DescriptionPresenter"
+                                          Grid.Row="2"
+                                          Grid.Column="0"
+                                          x:Load="False"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          Content="{TemplateBinding Description}"
+                                          Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}" />
+
                         <Popup x:Name="SuggestionsPopup"
+                               Grid.Row="1"
                                contract8Present:ShouldConstrainToRootBounds="False">
                             <Border x:Name="SuggestionsContainer"
                                     Padding="{ThemeResource AutoSuggestListMargin}"

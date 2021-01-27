@@ -24,11 +24,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartRichEditBox, Type = typeof(RichEditBox))]
     [TemplatePart(Name = PartSuggestionsPopup, Type = typeof(Popup))]
     [TemplatePart(Name = PartSuggestionsList, Type = typeof(ListViewBase))]
+    [TemplatePart(Name = PartSuggestionsContainer, Type = typeof(Border))]
+    [TemplatePart(Name = PartHeaderContentPresenter, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = PartDescriptionPresenter, Type = typeof(ContentPresenter))]
     public partial class RichSuggestBox : ItemsControl
     {
         private const string PartRichEditBox = "RichEditBox";
         private const string PartSuggestionsPopup = "SuggestionsPopup";
         private const string PartSuggestionsList = "SuggestionsList";
+        private const string PartSuggestionsContainer = "SuggestionsContainer";
+        private const string PartHeaderContentPresenter = "HeaderContentPresenter";
+        private const string PartDescriptionPresenter = "DescriptionPresenter";
 
         private readonly Dictionary<string, SuggestionInfo> _tokens;
         private readonly ObservableCollection<SuggestionInfo> _visibleTokens;
@@ -36,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Popup _suggestionPopup;
         private RichEditBox _richEditBox;
         private ListViewBase _suggestionsList;
+        private Border _suggestionsContainer;
 
         private int _suggestionChoice;
         private string _currentQuery;
@@ -87,6 +94,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _suggestionPopup = (Popup)GetTemplateChild(PartSuggestionsPopup);
             _richEditBox = (RichEditBox)GetTemplateChild(PartRichEditBox);
             _suggestionsList = (ListViewBase)GetTemplateChild(PartSuggestionsList);
+            _suggestionsContainer = (Border)GetTemplateChild(PartSuggestionsContainer);
+            ConditionallyLoadElement(Header, PartHeaderContentPresenter);
+            ConditionallyLoadElement(Description, PartDescriptionPresenter);
 
             _richEditBox.SizeChanged += RichEditBox_SizeChanged;
             _richEditBox.TextChanging += RichEditBox_TextChanging;
@@ -101,6 +111,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _suggestionsList.GotFocus += (sender, args) => _richEditBox.Focus(FocusState.Programmatic);
 
             LostFocus += (sender, args) => ShowSuggestionsPopup(false);
+        }
+
+        private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (RichSuggestBox)d;
+            view.ConditionallyLoadElement(e.NewValue, PartHeaderContentPresenter);
+        }
+
+        private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (RichSuggestBox)d;
+            view.ConditionallyLoadElement(e.NewValue, PartDescriptionPresenter);
         }
 
         private static void OnSuggestionPopupPlacementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -120,17 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 view.SetValue(PrefixesProperty, prefixes);
             }
-        }
-
-        private static string EnforcePrefixesRequirements(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return "@";
-            }
-
-            var possibles = string.Concat(value.Where(char.IsPunctuation));
-            return string.IsNullOrEmpty(possibles) ? "@" : possibles;
         }
 
         private void SuggestionsList_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -436,6 +447,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return true;
         }
 
+        private void ConditionallyLoadElement(object property, string elementName)
+        {
+            if (property != null && GetTemplateChild(elementName) is UIElement presenter)
+            {
+                presenter.Visibility = Visibility.Visible;
+            }
+        }
+
         private void ShowSuggestionsPopup(bool show)
         {
             this._suggestionPopup.IsOpen = show;
@@ -449,9 +468,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdatePopupWidth()
         {
+            if (this._suggestionsList == null)
+            {
+                return;
+            }
+
             if (this.SuggestionPopupPlacement == SuggestionPopupPlacementMode.Attached)
             {
-                this._suggestionsList.MaxWidth = double.NaN;
+                this._suggestionsList.MaxWidth = double.PositiveInfinity;
                 this._suggestionsList.Width = this._richEditBox.ActualWidth;
             }
             else
@@ -487,11 +511,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Update vertical offset
             double downOffset = this._richEditBox.ActualHeight;
-            double upOffset = -this._suggestionsList.ActualHeight;
+            double upOffset = -this._suggestionsContainer.ActualHeight;
             if (SuggestionPopupPlacement == SuggestionPopupPlacementMode.Floating)
             {
-                downOffset = selectionRect.Bottom + selectionRect.Height + padding.Top + padding.Bottom;
-                upOffset += selectionRect.Bottom + padding.Top;
+                downOffset = selectionRect.Bottom + padding.Top + padding.Bottom;
+                upOffset += selectionRect.Top;
             }
 
             if (this._suggestionPopup.VerticalOffset == 0)
