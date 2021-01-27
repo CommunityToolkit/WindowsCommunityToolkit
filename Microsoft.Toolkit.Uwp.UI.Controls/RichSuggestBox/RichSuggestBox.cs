@@ -424,7 +424,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (token.ToString() != range.Text)
             {
-                range.Link = string.Empty;
+                // range.Link = string.Empty;   Do not manually set link to empty string here. Character format will not reset properly.
+                // Setting CharacterFormat to default format will also clear the Link property.
                 range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
                 token.Active = false;
                 return false;
