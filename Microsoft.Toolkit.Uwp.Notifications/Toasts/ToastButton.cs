@@ -20,6 +20,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private bool _usingCustomArguments;
 
+        private bool _usingSnoozeActivation;
+        private string _snoozeSelectionBoxId;
+
+        private bool _usingDismissActivation;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ToastButton"/> class.
         /// </summary>
@@ -213,6 +218,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 throw new InvalidOperationException("You cannot use the AddArgument methods when using protocol activation.");
             }
 
+            if (_usingDismissActivation || _usingSnoozeActivation)
+            {
+                throw new InvalidOperationException("You cannot use the AddArgument methods when using dismiss or snooze activation.");
+            }
+
             bool alreadyExists = _arguments.ContainsKey(key);
 
             _arguments[key] = value;
@@ -315,6 +325,48 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Configures the button to use system snooze activation when the button is clicked, using the default system snooze time.
+        /// </summary>
+        /// <returns>The current instance of <see cref="ToastButton"/></returns>
+        public ToastButton SetSnoozeActivation()
+        {
+            return SetSnoozeActivation(null);
+        }
+
+        /// <summary>
+        /// Configures the button to use system snooze activation when the button is clicked, with a snooze time defined by the specified selection box.
+        /// </summary>
+        /// <param name="selectionBoxId">The ID of an existing <see cref="ToastSelectionBox"/> which allows the user to pick a custom snooze time. The ID's of the <see cref="ToastSelectionBoxItem"/>s inside the selection box must represent the snooze interval in minutes. For example, if the user selects an item that has an ID of "120", then the notification will be snoozed for 2 hours. When the user clicks this button, if you specified a SelectionBoxId, the system will parse the ID of the selected item and snooze by that amount of minutes.</param>
+        /// <returns>The current instance of <see cref="ToastButton"/></returns>
+        public ToastButton SetSnoozeActivation(string selectionBoxId)
+        {
+            if (_arguments.Count > 0)
+            {
+                throw new InvalidOperationException($"{nameof(SetSnoozeActivation)} cannot be used in conjunction with ${nameof(AddArgument)}.");
+            }
+
+            _usingSnoozeActivation = true;
+            _snoozeSelectionBoxId = selectionBoxId;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the button to use system dismiss activation when the button is clicked (the toast will simply dismiss rather than activating).
+        /// </summary>
+        /// <returns>The current instance of <see cref="ToastButton"/></returns>
+        public ToastButton SetDismissActivation()
+        {
+            if (_arguments.Count > 0)
+            {
+                throw new InvalidOperationException($"{nameof(SetDismissActivation)} cannot be used in conjunction with ${nameof(AddArgument)}.");
+            }
+
+            _usingDismissActivation = true;
+            return this;
+        }
+
+        /// <summary>
         /// Sets an identifier used in telemetry to identify your category of action. This should be something like "Delete", "Reply", or "Archive". In the upcoming toast telemetry dashboard in Dev Center, you will be able to view how frequently your actions are being clicked.
         /// </summary>
         /// <param name="actionId">An identifier used in telemetry to identify your category of action.</param>
@@ -349,7 +401,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         internal bool CanAddArguments()
         {
-            return ActivationType != ToastActivationType.Protocol && !_usingCustomArguments;
+            return ActivationType != ToastActivationType.Protocol && !_usingCustomArguments && !_usingDismissActivation && !_usingSnoozeActivation;
         }
 
         internal bool ContainsArgument(string key)
@@ -362,12 +414,31 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             var el = new Element_ToastAction()
             {
                 Content = Content,
-                Arguments = Arguments,
-                ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 ImageUri = ImageUri,
                 InputId = TextBoxId,
                 HintActionId = HintActionId
             };
+
+            if (_usingSnoozeActivation)
+            {
+                el.ActivationType = Element_ToastActivationType.System;
+                el.Arguments = "snooze";
+
+                if (_snoozeSelectionBoxId != null)
+                {
+                    el.InputId = _snoozeSelectionBoxId;
+                }
+            }
+            else if (_usingDismissActivation)
+            {
+                el.ActivationType = Element_ToastActivationType.System;
+                el.Arguments = "dismiss";
+            }
+            else
+            {
+                el.ActivationType = Element_Toast.ConvertActivationType(ActivationType);
+                el.Arguments = Arguments;
+            }
 
             ActivationOptions?.PopulateElement(el);
 
