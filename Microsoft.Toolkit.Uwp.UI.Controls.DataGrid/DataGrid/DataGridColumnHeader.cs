@@ -1067,7 +1067,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 DiagnosticsDebug.Assert(interactionInfo.OriginalCursor != null, "Expected non-null interactionInfo.OriginalCursor.");
 
-                CoreWindow.GetForCurrentThread().PointerCursor = interactionInfo.OriginalCursor;
+                var coreWindow = CoreWindow.GetForCurrentThread();
+                if (coreWindow != null)
+                {
+                    coreWindow.PointerCursor = interactionInfo.OriginalCursor;
+                }
+                else
+                {
+                    var expPointerCursorController = Microsoft.UI.Input.Experimental.ExpPointerCursorController.GetForInputSite(
+                        Microsoft.UI.Input.Experimental.ExpInputSite.GetOrCreateForContent(
+                            Microsoft.UI.Composition.Experimental.ExpCompositionContent.Create(Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(this.OwningGrid).Compositor)));
+                    expPointerCursorController.Cursor = interactionInfo.OriginalCursor;
+                }
 
                 interactionInfo.ResizePointerId = 0;
             }
@@ -1102,12 +1113,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (this.OwningGrid.IsEnabled && (nearCurrentResizableColumnRightEdge || nearPreviousResizableColumnLeftEdge))
             {
-                CoreCursor currentCursor = CoreWindow.GetForCurrentThread().PointerCursor;
+                CoreCursor currentCursor;
+                var coreWindow = CoreWindow.GetForCurrentThread();
+                Microsoft.UI.Input.Experimental.ExpPointerCursorController expPointerCursorController = null;
+                if (coreWindow != null)
+                {
+                    currentCursor = coreWindow.PointerCursor;
+                }
+                else
+                {
+                    expPointerCursorController = Microsoft.UI.Input.Experimental.ExpPointerCursorController.GetForInputSite(
+                        Microsoft.UI.Input.Experimental.ExpInputSite.GetOrCreateForContent(
+                            Microsoft.UI.Composition.Experimental.ExpCompositionContent.Create(Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(this.OwningGrid).Compositor)));
+                    currentCursor = expPointerCursorController.Cursor;
+                }
+
                 if (currentCursor != null && currentCursor.Type != CoreCursorType.SizeWestEast)
                 {
                     interactionInfo.OriginalCursor = currentCursor;
                     interactionInfo.ResizePointerId = pointer.PointerId;
-                    CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+
+                    var newCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    if (coreWindow != null)
+                    {
+                        coreWindow.PointerCursor = newCursor;
+                    }
+                    else
+                    {
+                        expPointerCursorController.Cursor = newCursor;
+                    }
                 }
             }
             else if (interactionInfo.ResizePointerId == pointer.PointerId)

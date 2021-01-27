@@ -55,7 +55,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             gazePointer = GazeInput.GetGazePointer(null);
 
-            CoreWindow.GetForCurrentThread().KeyDown += (CoreWindow sender, KeyEventArgs args) => gazePointer.Click();
+            var coreWindow = CoreWindow.GetForCurrentThread();
+            if (coreWindow != null)
+            {
+                coreWindow.KeyDown += (CoreWindow sender, KeyEventArgs args) => gazePointer.Click();
+            }
         }
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)

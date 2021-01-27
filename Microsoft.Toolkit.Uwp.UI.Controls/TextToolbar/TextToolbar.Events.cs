@@ -9,11 +9,11 @@ using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -294,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool ControlKeyDown
         {
-            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control)); }
+            get { return IsKeyActive(KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control)); }
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool ShiftKeyDown
         {
-            get { return IsKeyActive(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift)); }
+            get { return IsKeyActive(KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift)); }
         }
 
         /// <summary>
