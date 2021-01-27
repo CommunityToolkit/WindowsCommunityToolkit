@@ -106,6 +106,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             LostFocus += (sender, args) => ShowSuggestionsPopup(false);
         }
 
+        private static void OnSuggestionPopupPlacementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (RichSuggestBox)d;
+            view.UpdatePopupWidth();
+        }
+
         private static void OnPrefixesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (RichSuggestBox)d;
@@ -159,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (this._suggestionPopup.IsOpen)
             {
-                UpdatePopupPosition();
+                this.UpdatePopupOffset();
             }
         }
 
@@ -294,8 +300,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdatePopupPosition();
-            _suggestionsList.MaxWidth = e.NewSize.Width;
+            this.UpdatePopupWidth();
+            this.UpdatePopupOffset();
         }
 
         private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
@@ -479,16 +485,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 this._suggestionChoice = 0;
                 this._suggestionPopup.VerticalOffset = 0;
+                this._suggestionPopup.HorizontalOffset = 0;
+            }
+        }
+
+        private void UpdatePopupWidth()
+        {
+            if (this.SuggestionPopupPlacement == SuggestionPopupPlacementMode.Attached)
+            {
+                this._suggestionsList.MaxWidth = double.NaN;
+                this._suggestionsList.Width = this._richEditBox.ActualWidth;
+            }
+            else
+            {
+                this._suggestionsList.MaxWidth = this._richEditBox.ActualWidth;
+                this._suggestionsList.Width = double.NaN;
             }
         }
 
         /// <summary>
         /// Calculate whether to open the suggestion list up or down depends on how much screen space is available
         /// </summary>
-        private void UpdatePopupPosition()
+        private void UpdatePopupOffset()
         {
-            var downOffset = this._richEditBox.ActualHeight;
-            var upOffset = -this._suggestionsList.ActualHeight;
+            this._richEditBox.TextDocument.Selection.GetRect(PointOptions.None, out var selectionRect, out _);
+            Thickness padding = this._richEditBox.Padding;
+
+            // Update horizontal offset
+            if (SuggestionPopupPlacement == SuggestionPopupPlacementMode.Attached)
+            {
+                this._suggestionPopup.HorizontalOffset = 0;
+            }
+            else
+            {
+                double editBoxWidth = this._richEditBox.ActualWidth - padding.Left - padding.Right;
+                if (this._suggestionPopup.HorizontalOffset == 0 && editBoxWidth > 0)
+                {
+                    var normalizedX = selectionRect.X / editBoxWidth;
+                    this._suggestionPopup.HorizontalOffset =
+                        (this._richEditBox.ActualWidth - this._suggestionsList.ActualWidth) * normalizedX;
+                }
+            }
+
+            // Update vertical offset
+            double downOffset = this._richEditBox.ActualHeight;
+            double upOffset = -this._suggestionsList.ActualHeight;
+            if (SuggestionPopupPlacement == SuggestionPopupPlacementMode.Floating)
+            {
+                downOffset = selectionRect.Bottom + selectionRect.Height + padding.Top + padding.Bottom;
+                upOffset += selectionRect.Bottom + padding.Top;
+            }
+
             if (this._suggestionPopup.VerticalOffset == 0)
             {
                 if (IsElementOnScreen(this._suggestionsList, offsetY: downOffset) &&
@@ -504,11 +551,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this._suggestionPopup.VerticalOffset = upOffset;
                     this._popupOpenDown = false;
                 }
-
-                return;
             }
-
-            this._suggestionPopup.VerticalOffset = this._popupOpenDown ? downOffset : upOffset;
+            else
+            {
+                this._suggestionPopup.VerticalOffset = this._popupOpenDown ? downOffset : upOffset;
+            }
         }
 
         private bool TryExtractQueryFromSelection(out string prefix, out string query, out ITextRange range)

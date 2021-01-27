@@ -56,6 +56,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="SuggestionPopupPlacement"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SuggestionPopupPlacementProperty =
+            DependencyProperty.Register(
+                nameof(SuggestionPopupPlacement),
+                typeof(SuggestionPopupPlacementMode),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(SuggestionPopupPlacementMode.Floating, OnSuggestionPopupPlacementChanged));
+
+        /// <summary>
         /// Identifies the <see cref="SuggestionBackground"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SuggestionBackgroundProperty =
@@ -119,6 +129,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => GetValue(DescriptionProperty);
             set => SetValue(DescriptionProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets suggestion popup placement to either Floating or Attached to the text box.
+        /// </summary>
+        public SuggestionPopupPlacementMode SuggestionPopupPlacement
+        {
+            get => (SuggestionPopupPlacementMode)this.GetValue(SuggestionPopupPlacementProperty);
+            set => SetValue(SuggestionPopupPlacementProperty, value);
         }
 
         /// <summary>
