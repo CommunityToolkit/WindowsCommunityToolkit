@@ -9,11 +9,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
-using Windows.Foundation;
-using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI.Text;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -134,31 +131,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var possibles = string.Concat(value.Where(char.IsPunctuation));
             return string.IsNullOrEmpty(possibles) ? "@" : possibles;
-        }
-
-        private static bool IsElementOnScreen(UIElement element, double offsetX = 0, double offsetY = 0)
-        {
-            var toWindow = element.TransformToVisual(Window.Current.Content);
-            var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            var elementBounds = new Rect(offsetX, offsetY, element.ActualSize.X, element.ActualSize.Y);
-            elementBounds = toWindow.TransformBounds(elementBounds);
-            elementBounds.X += windowBounds.X;
-            elementBounds.Y += windowBounds.Y;
-            var displayInfo = DisplayInformation.GetForCurrentView();
-            var scaleFactor = displayInfo.RawPixelsPerViewPixel;
-            var displayHeight = displayInfo.ScreenHeightInRawPixels;
-            return elementBounds.Top * scaleFactor >= 0 && elementBounds.Bottom * scaleFactor <= displayHeight;
-        }
-
-        private static bool IsElementInsideWindow(UIElement element, double offsetX = 0, double offsetY = 0)
-        {
-            var toWindow = element.TransformToVisual(Window.Current.Content);
-            var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            windowBounds = new Rect(0, 0, windowBounds.Width, windowBounds.Height);
-            var elementBounds = new Rect(offsetX, offsetY, element.ActualSize.X, element.ActualSize.Y);
-            elementBounds = toWindow.TransformBounds(elementBounds);
-            elementBounds.Intersect(windowBounds);
-            return elementBounds.Height >= element.ActualSize.Y;
         }
 
         private void SuggestionsList_SizeChanged(object sender, SizeChangedEventArgs e)
