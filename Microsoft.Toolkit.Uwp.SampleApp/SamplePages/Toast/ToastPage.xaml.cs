@@ -40,8 +40,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                                                  ("60", "1 hour"),
                                                  ("240", "4 hours"),
                                                  ("1440", "1 day"))
-                .AddButton(new ToastButtonSnooze() { SelectionBoxId = "snoozeTime" })
-                .AddButton(new ToastButtonDismiss());
+                .AddButton(new ToastButton()
+                    .SetSnoozeActivation("snoozeTime"))
+                .AddButton(new ToastButton()
+                    .SetDismissActivation());
 
             return builder.Content;
         }
