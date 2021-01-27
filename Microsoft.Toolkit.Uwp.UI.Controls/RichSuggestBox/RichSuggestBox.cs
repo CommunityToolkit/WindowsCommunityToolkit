@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
             _richEditBox.AddHandler(PointerPressedEvent, new PointerEventHandler(RichEditBoxPointerEventHandler), true);
-            AddKeyboardAccelerators();
+            _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
 
             _suggestionsList.ItemClick += SuggestionsList_ItemClick;
             _suggestionsList.SizeChanged += SuggestionsList_SizeChanged;
@@ -213,25 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ShowSuggestionsPopup(false);
         }
 
-        private void AddKeyboardAccelerators()
-        {
-            var enterKeyAccelerator = new KeyboardAccelerator { Key = VirtualKey.Enter };
-            var downKeyAccelerator = new KeyboardAccelerator { Key = VirtualKey.Down };
-            var upKeyAccelerator = new KeyboardAccelerator { Key = VirtualKey.Up };
-            var escapeKeyAccelerator = new KeyboardAccelerator { Key = VirtualKey.Escape };
-
-            enterKeyAccelerator.Invoked += RichEditBoxKeyboardAccelerator_Invoked;
-            downKeyAccelerator.Invoked += RichEditBoxKeyboardAccelerator_Invoked;
-            upKeyAccelerator.Invoked += RichEditBoxKeyboardAccelerator_Invoked;
-            escapeKeyAccelerator.Invoked += RichEditBoxKeyboardAccelerator_Invoked;
-
-            _richEditBox.KeyboardAccelerators.Add(enterKeyAccelerator);
-            _richEditBox.KeyboardAccelerators.Add(downKeyAccelerator);
-            _richEditBox.KeyboardAccelerators.Add(upKeyAccelerator);
-            _richEditBox.KeyboardAccelerators.Add(escapeKeyAccelerator);
-        }
-
-        private void RichEditBoxKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private void RichEditBox_ProcessKeyboardAccelerators(UIElement sender, ProcessKeyboardAcceleratorEventArgs args)
         {
             var itemsList = _suggestionsList.Items;
             if (!_suggestionPopup.IsOpen || itemsList == null || itemsList.Count == 0)
@@ -239,23 +221,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var key = args.KeyboardAccelerator.Key;
+            var key = args.Key;
             switch (key)
             {
                 case VirtualKey.Up when itemsList.Count == 1:
                 case VirtualKey.Down when itemsList.Count == 1:
                     _suggestionsList.SelectedItem = itemsList[0];
+                    args.Handled = true;
                     break;
 
                 case VirtualKey.Up:
                     _suggestionChoice = _suggestionChoice <= 0 ? itemsList.Count : _suggestionChoice - 1;
                     _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
+                    _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
                     args.Handled = true;
                     break;
 
                 case VirtualKey.Down:
                     _suggestionChoice = _suggestionChoice >= itemsList.Count ? 0 : _suggestionChoice + 1;
                     _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
+                    _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
                     args.Handled = true;
                     break;
 
