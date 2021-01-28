@@ -35,6 +35,11 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(ExtrasUwpMetaPackageVersion)" PrivateAssets="all" IsImplicitlyDefined="true" />
   </ItemGroup>
 
+  <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
+  <ItemGroup Condition="'$(TargetFramework)' != 'uap10.0.19041'">
+    <EmbeddedResource Remove="Properties\Microsoft.Toolkit.Uwp.Notifications.rd.xml" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
