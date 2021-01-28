@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Newtonsoft.Json;
 using UnitTests.UWP.Helpers;
-using System.Diagnostics.Contracts;
+using Windows.Storage;
 
 namespace UnitTests.Helpers
 {
