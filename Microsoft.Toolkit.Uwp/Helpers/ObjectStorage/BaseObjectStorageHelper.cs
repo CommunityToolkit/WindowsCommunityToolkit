@@ -84,15 +84,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return @default;
             }
 
-            var type = typeof(T);
-            var typeInfo = type.GetTypeInfo();
-
-            if (typeInfo.IsPrimitive || type == typeof(string))
-            {
-                return (T)Convert.ChangeType(value, type);
-            }
-
-            return serializer.Deserialize<T>((string)value);
+            return serializer.Deserialize<T>(value);
         }
 
         /// <summary>
@@ -131,14 +123,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
 
-            if (typeInfo.IsPrimitive || type == typeof(string))
-            {
-                Settings.Values[key] = value;
-            }
-            else
-            {
-                Settings.Values[key] = serializer.Serialize(value);
-            }
+            Settings.Values[key] = serializer.Serialize(value);
         }
 
         /// <summary>
@@ -213,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The <see cref="StorageFile"/> where the object was saved</returns>
         public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
-            return StorageFileHelper.WriteTextToFileAsync(Folder, serializer.Serialize(value), filePath, CreationCollisionOption.ReplaceExisting);
+            return StorageFileHelper.WriteTextToFileAsync(Folder, serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
         }
     }
 }
