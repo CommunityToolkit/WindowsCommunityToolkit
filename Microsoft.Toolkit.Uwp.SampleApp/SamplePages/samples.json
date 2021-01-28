@@ -461,85 +461,82 @@
     "Icon": "Icons/Animations.png",
     "Samples": [
       {
+        "Name": "StartAnimationActivity",
+        "Subcategory": "Activities",
+        "About": "Activity for Animations to Start another Animation",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Xaml/Activities",
+        "XamlCodeFile": "/SamplePages/Animations/Activities/StartAnimationActivity.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
+      },
+      {
+        "Name": "InvokeActionsActivity",
+        "Subcategory": "Activities",
+        "About": "Activity chaining Actions from the Behaviors package into an Animation schedule.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations",
+        "XamlCodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivity.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
+      },
+      {
         "Name": "Fade",
-        "Type": "FadeBehaviorPage",
-        "Subcategory": "Behavior",
-        "About": "Opacity of XAML elements using composition",
+        "Subcategory": "Effect",
+        "About": "Opacity of XAML elements using composition animations",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "FadeBehaviorCode.bind",
-        "XamlCodeFile": "FadeBehaviorXaml.bind",
-        "Icon": "/SamplePages/Fade/FadeBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Effects/FadeBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Effects/FadeBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Effects/FadeBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
         "Name": "Scale",
-        "Type": "ScaleBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "ScaleBehaviorCode.bind",
-        "XamlCodeFile": "ScaleBehaviorXaml.bind",
-        "Icon": "/SamplePages/Scale/scaleBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/ScaleBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/ScaleBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/ScaleBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Scale.md"
       },
       {
         "Name": "Offset",
-        "Type": "OffsetBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Offset of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "OffsetBehaviorCode.bind",
-        "XamlCodeFile": "OffsetBehaviorXaml.bind",
-        "Icon": "/SamplePages/Offset/offsetBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/OffsetBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/OffsetBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/OffsetBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Offset.md"
       },
       {
         "Name": "Rotate",
-        "Type": "RotateBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Rotation on XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "RotateBehaviorCode.bind",
-        "XamlCodeFile": "RotateBehaviorXaml.bind",
-        "Icon": "/SamplePages/Rotate/rotateBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/RotateBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/RotateBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/RotateBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Rotate.md"
       },
       {
         "Name": "Blur",
-        "Type": "BlurBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Blur XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "BlurBehaviorCode.bind",
-        "XamlCodeFile": "BlurBehaviorXaml.bind",
-        "Icon": "/SamplePages/Blur/blurBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/BlurBehavior.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Blur.md"
       },
       {
         "Name": "Saturation",
-        "Type": "SaturationBehaviorPage",
         "Subcategory": "Behavior",
         "About": "Saturate XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "SaturationBehaviorCode.bind",
-        "XamlCodeFile": "SaturationBehaviorXaml.bind",
-        "Icon": "/SamplePages/Saturation/saturationBehavior.png",
+        "CodeFile": "/SamplePages/Animations/Behaviors/SaturationBehaviorCode.bind",
+        "XamlCodeFile": "/SamplePages/Animations/Behaviors/SaturationBehaviorXaml.bind",
+        "Icon": "/SamplePages/Animations/Behaviors/SaturationBehavior.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Saturation.md"
-      },
-      {
-        "Name": "Light",
-        "Type": "LightBehaviorPage",
-        "Subcategory": "Behavior",
-        "About": "The Light effect will be removed in a future major release",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The Light effect will be removed in a future major release",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
-        "CodeFile": "LightBehaviorCode.bind",
-        "XamlCodeFile": "LightBehaviorXaml.bind",
-        "Icon": "/SamplePages/Light/LightBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Light.md"
       },
       {
         "Name": "FadeHeader",
@@ -561,15 +558,23 @@
         "CodeUrl": "https://github.com/windows-toolkit/Lottie-Windows"
       },
       {
-        "Name": "ReorderGridAnimation",
-        "Type": "ReorderGridPage",
+        "Name": "ItemsReorderAnimation",
+        "Type": "ItemsReorderAnimationPage",
         "Subcategory": "Effect",
-        "About": "Animates items of a grid when the size changes",
+        "About": "Animates items of a grid or list control when the size changes",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "XamlCodeFile": "ReorderGrid.bind",
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "XamlCodeFile": "ItemsReorderAnimation.bind",
+        "Icon": "/SamplePages/ItemsReorderAnimation/ItemsReorderAnimation.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ReorderGrid.md"
+      },
+      {
+        "Name": "EffectAnimations",
+        "Subcategory": "Effect",
+        "About": "Effects from the Media package that can be animated from an AnimationSet schedule.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Animations",
+        "XamlCodeFile": "/SamplePages/Animations/Effects/EffectAnimations.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
         "Name": "Implicit Animations",
@@ -941,7 +946,6 @@
       },
       {
         "Name": "CompareStateTrigger",
-        "Type": "CompareStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -951,7 +955,6 @@
       },
       {
         "Name": "IsEqualStateTrigger",
-        "Type": "IsEqualStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -981,7 +984,6 @@
       },
       {
         "Name": "NetworkConnectionStateTrigger",
-        "Type": "NetworkConnectionStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the network availability changes",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -991,7 +993,6 @@
       },
       {
         "Name": "IsNotEqualStateTrigger",
-        "Type": "IsNotEqualStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is not equal to another value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -1001,7 +1002,6 @@
       },
       {
         "Name": "RegexStateTrigger",
-        "Type": "RegexStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the regex expression is true for a given string value",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -1011,7 +1011,6 @@
       },
       {
         "Name": "UserHandPreferenceStateTrigger",
-        "Type": "UserHandPreferenceStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching UI based on whether the user favours their left or right hand.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -1021,7 +1020,6 @@
       },
       {
         "Name": "UserInteractionModeStateTrigger",
-        "Type": "UserInteractionModeStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the User interaction mode changes (tablet mode)",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
@@ -1114,6 +1112,15 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/PipelineBrush.cs",
         "CodeFile": "PipelineBrushCode.bind",
         "XamlCodeFile": "PipelineBrushXaml.bind",
+        "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineBrush.md"
+      },
+      {
+        "Name": "VisualEffectFactory",
+        "About": "A composition pipeline which can render any custom Win2D/Composition effects chain directly on a Composition visual.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/PipelineBrush.cs",
+        "XamlCodeFile": "VisualEffectFactory.bind",
         "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineBrush.md"
