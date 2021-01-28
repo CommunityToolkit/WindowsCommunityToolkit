@@ -73,10 +73,22 @@ namespace UnitTests.Helpers
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void Test_StorageHelper_DateTestFailure()
         {
-            _localStorageHelperSystem.Save("Today", DateTime.Today);
+            Exception expectedException = null;
+
+            // We can't use standard exception checking here like Assert.Throws or ExpectedException
+            // as local and online platforms seem to throw different exception types :(
+            try
+            {
+                _localStorageHelperSystem.Save("Today", DateTime.Today);
+            }
+            catch (Exception exception)
+            {
+                expectedException = exception;
+            }
+
+            Assert.IsNotNull(expectedException, "Was expecting an Exception.");
         }
 
         [TestCategory("Helpers")]
