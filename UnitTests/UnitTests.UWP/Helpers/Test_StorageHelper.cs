@@ -5,15 +5,32 @@
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Text.Json;
-using UnitTests.UI;
+using Newtonsoft.Json;
+using UnitTests.UWP.Helpers;
+using System.Diagnostics.Contracts;
 
 namespace UnitTests.Helpers
 {
     [TestClass]
     public class Test_StorageHelper
     {
-        private LocalObjectStorageHelper storageHelper = new LocalObjectStorageHelper();
+        private LocalObjectStorageHelper _localStorageHelperSystem = new LocalObjectStorageHelper(new SystemSerializer());
+        private LocalObjectStorageHelper _localStorageHelperJsonCompat = new LocalObjectStorageHelper(new JsonObjectSerializer());
+
+        private LocalObjectStorageHelper _localStorageHelperJsonNew = new LocalObjectStorageHelper(new SystemTextJsonSerializer());
+
+        /// <summary>
+        /// Checks that we're running 10.0.3 version of Newtonsoft.Json package which we used in 6.1.1.
+        /// </summary>
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageHelper_CheckNewtonsoftVersion()
+        {
+            var version = typeof(JsonSerializer).Assembly.GetName().Version;
+            Assert.AreEqual(10, version.Major);
+            Assert.AreEqual(0, version.Minor);
+            Assert.AreEqual(0, version.Revision); // Apparently the file revision was not updated for the updated package
+        }
 
         [TestCategory("Helpers")]
         [TestMethod]
@@ -23,38 +40,45 @@ namespace UnitTests.Helpers
 
             int input = 42;
 
-            // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonSerializer.Serialize(input);
+            // Use our previous Json layer to store value
+            _localStorageHelperJsonCompat.Save(key, input);
 
-            storageHelper.Save<string>(key, jsonInput);
-
-            // now read it as int to valid that the change works
-            int output = storageHelper.Read<int>(key, 0);
+            // But try and read from our new system to see if it works
+            int output = _localStorageHelperSystem.Read(key, 0);
 
             Assert.AreEqual(input, output);
         }
 
-        [Ignore]
+        /// <summary>
+        /// If we try and deserialize a complex type with the <see cref="SystemSerializer"/>, we do a check ourselves and will throw our own exception.
+        /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
-        public void Test_StorageHelper_LegacyDateTest()
+        [ExpectedException(typeof(NotSupportedException))]
+        public void Test_StorageHelper_LegacyDateTestFailure()
         {
             string key = "ChristmasDay";
 
             DateTime input = new DateTime(2017, 12, 25);
 
-            // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonSerializer.Serialize(input);
-
-            storageHelper.Save<string>(key, jsonInput);
+            _localStorageHelperJsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            DateTime output = storageHelper.Read<DateTime>(key, DateTime.Today);
-
-            Assert.AreEqual(input, output);
+            DateTime output = _localStorageHelperSystem.Read(key, DateTime.Today);
         }
 
-        [Ignore]
+        /// <summary>
+        /// The <see cref="SystemSerializer"/> doesn't support complex types, since it just passes through directly.
+        /// We'll get the argument exception from the <see cref="ApplicationDataContainer"/> API.
+        /// </summary>
+        [TestCategory("Helpers")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Test_StorageHelper_DateTestFailure()
+        {
+            _localStorageHelperSystem.Save("Today", DateTime.Today);
+        }
+
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_StorageHelper_LegacyInternalClassTest()
@@ -64,12 +88,10 @@ namespace UnitTests.Helpers
             UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonSerializer.Serialize(input);
-
-            storageHelper.Save<string>(key, jsonInput);
+            _localStorageHelperJsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            UI.Person output = storageHelper.Read<UI.Person>(key, null);
+            UI.Person output = _localStorageHelperJsonCompat.Read<UI.Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
@@ -82,15 +104,14 @@ namespace UnitTests.Helpers
         {
             string key = "Contact";
 
+            // Here's we're serializing a different class which has the same properties as our other class below.
             UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            string jsonInput = JsonSerializer.Serialize(input);
-
-            storageHelper.Save(key, jsonInput);
+            _localStorageHelperJsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            Person output = storageHelper.Read<Person>(key, null);
+            Person output = _localStorageHelperJsonCompat.Read<Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
@@ -105,10 +126,10 @@ namespace UnitTests.Helpers
 
             int input = 42;
 
-            storageHelper.Save<int>(key, input);
+            _localStorageHelperSystem.Save<int>(key, input);
 
             // now read it as int to valid that the change works
-            int output = storageHelper.Read<int>(key, 0);
+            int output = _localStorageHelperSystem.Read<int>(key, 0);
 
             Assert.AreEqual(input, output);
         }
@@ -121,10 +142,10 @@ namespace UnitTests.Helpers
 
             DateTime input = new DateTime(2017, 12, 25);
 
-            storageHelper.Save<DateTime>(key, input);
+            _localStorageHelperJsonNew.Save(key, input);
 
             // now read it as int to valid that the change works
-            DateTime output = storageHelper.Read<DateTime>(key, DateTime.Today);
+            DateTime output = _localStorageHelperJsonNew.Read(key, DateTime.Today);
 
             Assert.AreEqual(input, output);
         }
@@ -137,10 +158,10 @@ namespace UnitTests.Helpers
 
             Person input = new Person() { Name = "Joe Bloggs", Age = 42 };
 
-            storageHelper.Save<Person>(key, input);
+            _localStorageHelperJsonNew.Save(key, input);
 
             // now read it as int to valid that the change works
-            Person output = storageHelper.Read<Person>(key, null);
+            Person output = _localStorageHelperJsonNew.Read<Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
