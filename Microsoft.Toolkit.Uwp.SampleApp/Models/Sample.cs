@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper();
+            var settingsStorage = new LocalObjectStorageHelper(new SystemSerializer());
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
