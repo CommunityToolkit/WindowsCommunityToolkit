@@ -4,8 +4,10 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -68,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Width = _normalModeWidth;
                 VisualStateManager.GoToState(this, "Expanded", true);
-                var name = StringExtensions.GetLocalized("WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                var name = "WCT_BladeView_ExpandButton_Collapsed".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
                 if (_enlargeButton != null)
                 {
                     AutomationProperties.SetName(_enlargeButton, name);
@@ -84,12 +86,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Width = double.NaN;
                 VisualStateManager.GoToState(this, "Collapsed", true);
-                var name = StringExtensions.GetLocalized("WindowsCommunityToolkit_BladeView_ExpandButton_Expanded", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                var name = "WCT_BladeView_ExpandButton_Expanded".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
                 if (_enlargeButton != null)
                 {
                     AutomationProperties.SetName(_enlargeButton, name);
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="BladeItem"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new BladeItemAutomationPeer(this);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)

@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -15,14 +15,14 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets or sets the user id of the event. This is always the user who initiated the event.
         /// </summary>
         /// <value>The user Id.</value>
-        [JsonProperty(PropertyName = "user_id_str")]
+        [JsonPropertyName("user_id_str")]
         public string UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the id of the event. This is the tweet that was affected.
         /// </summary>
         /// <value>The tweet Id.</value>
-        [JsonProperty(PropertyName = "id_str")]
+        [JsonPropertyName("id_str")]
         public string Id { get; set; }
     }
 }

@@ -53,13 +53,13 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Gets a value indicating whether or not the current <see cref="NullableRef{T}"/> instance wraps a valid reference that can be accessed.
         /// </summary>
-        public bool HasValue
+        public unsafe bool HasValue
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 // We know that the span will always have a length of either
-                // 1 or 0, se instead of using a cmp instruction and setting the
+                // 1 or 0, so instead of using a cmp instruction and setting the
                 // zero flag to produce our boolean value, we can just cast
                 // the length to byte without overflow checks (doing a cast will
                 // also account for the byte endianness of the current system),
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 // This results in a single movzx instruction on x86-64.
                 byte length = unchecked((byte)Span.Length);
 
-                return Unsafe.As<byte, bool>(ref length);
+                return *(bool*)&length;
             }
         }
 
@@ -113,7 +113,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws a <see cref="InvalidOperationException"/> when trying to access <see cref="Value"/> for a default instance.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationException()
         {
             throw new InvalidOperationException("The current instance doesn't have a value that can be accessed");

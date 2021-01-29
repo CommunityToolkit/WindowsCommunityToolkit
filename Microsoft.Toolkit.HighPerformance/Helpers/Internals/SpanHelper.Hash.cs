@@ -1,8 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -22,17 +21,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// <param name="length">The number of items to hash.</param>
         /// <returns>The Djb2 value for the input sequence of items.</returns>
         [Pure]
-#if NETCOREAPP3_1
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-#endif
-        public static unsafe int GetDjb2HashCode<T>(ref T r0, IntPtr length)
+        public static int GetDjb2HashCode<T>(ref T r0, nint length)
             where T : notnull
         {
             int hash = 5381;
+            nint offset = 0;
 
-            IntPtr offset = default;
-
-            while ((byte*)length >= (byte*)8)
+            while (length >= 8)
             {
                 // Doing a left shift by 5 and adding is equivalent to multiplying by 33.
                 // This is preferred for performance reasons, as when working with integer
@@ -52,7 +47,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 offset += 8;
             }
 
-            if ((byte*)length >= (byte*)4)
+            if (length >= 4)
             {
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 0).GetHashCode());
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset + 1).GetHashCode());
@@ -63,7 +58,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 offset += 4;
             }
 
-            while ((byte*)length > (byte*)0)
+            while (length > 0)
             {
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset).GetHashCode());
 
@@ -89,14 +84,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
         /// faster than <see cref="GetDjb2HashCode{T}"/>, as it can parallelize much of the workload.
         /// </remarks>
         [Pure]
-#if NETCOREAPP3_1
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-#endif
-        public static unsafe int GetDjb2LikeByteHash(ref byte r0, IntPtr length)
+        public static unsafe int GetDjb2LikeByteHash(ref byte r0, nint length)
         {
             int hash = 5381;
-
-            IntPtr offset = default;
+            nint offset = 0;
 
             // Check whether SIMD instructions are supported, and also check
             // whether we have enough data to perform at least one unrolled
@@ -105,9 +96,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // and the final loop to combine the partial hash values.
             // Note that even when we use the vectorized path we don't need to do
             // any preprocessing to try to get memory aligned, as that would cause
-            // the hashcodes to potentially be different for the same data.
+            // the hash codes to potentially be different for the same data.
             if (Vector.IsHardwareAccelerated &&
-                (byte*)length >= (byte*)(Vector<byte>.Count << 3))
+                length >= (Vector<byte>.Count << 3))
             {
                 var vh = new Vector<int>(5381);
                 var v33 = new Vector<int>(33);
@@ -115,7 +106,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 // First vectorized loop, with 8 unrolled iterations.
                 // Assuming 256-bit registers (AVX2), a total of 256 bytes are processed
                 // per iteration, with the partial hashes being accumulated for later use.
-                while ((byte*)length >= (byte*)(Vector<byte>.Count << 3))
+                while (length >= (Vector<byte>.Count << 3))
                 {
                     ref byte ri0 = ref Unsafe.Add(ref r0, offset + (Vector<byte>.Count * 0));
                     var vi0 = Unsafe.ReadUnaligned<Vector<int>>(ref ri0);
@@ -163,7 +154,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 
                 // When this loop is reached, there are up to 255 bytes left (on AVX2).
                 // Each iteration processed an additional 32 bytes and accumulates the results.
-                while ((byte*)length >= (byte*)Vector<byte>.Count)
+                while (length >= Vector<byte>.Count)
                 {
                     ref byte ri = ref Unsafe.Add(ref r0, offset);
                     var vi = Unsafe.ReadUnaligned<Vector<int>>(ref ri);
@@ -186,9 +177,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 // Only use the loop working with 64-bit values if we are on a
                 // 64-bit processor, otherwise the result would be much slower.
                 // Each unrolled iteration processes 64 bytes.
-                if (sizeof(IntPtr) == sizeof(ulong))
+                if (sizeof(nint) == sizeof(ulong))
                 {
-                    while ((byte*)length >= (byte*)(sizeof(ulong) << 3))
+                    while (length >= (sizeof(ulong) << 3))
                     {
                         ref byte ri0 = ref Unsafe.Add(ref r0, offset + (sizeof(ulong) * 0));
                         var value0 = Unsafe.ReadUnaligned<ulong>(ref ri0);
@@ -228,7 +219,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 }
 
                 // Each unrolled iteration processes 32 bytes
-                while ((byte*)length >= (byte*)(sizeof(uint) << 3))
+                while (length >= (sizeof(uint) << 3))
                 {
                     ref byte ri0 = ref Unsafe.Add(ref r0, offset + (sizeof(uint) * 0));
                     var value0 = Unsafe.ReadUnaligned<uint>(ref ri0);
@@ -271,7 +262,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             // left, both for the vectorized and non vectorized paths.
             // That number would go up to 63 on AVX512 systems, in which case it is
             // still useful to perform this last loop unrolling.
-            if ((byte*)length >= (byte*)(sizeof(ushort) << 3))
+            if (length >= (sizeof(ushort) << 3))
             {
                 ref byte ri0 = ref Unsafe.Add(ref r0, offset + (sizeof(ushort) * 0));
                 var value0 = Unsafe.ReadUnaligned<ushort>(ref ri0);
@@ -310,7 +301,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             }
 
             // Handle the leftover items
-            while ((byte*)length > (byte*)0)
+            while (length > 0)
             {
                 hash = unchecked(((hash << 5) + hash) ^ Unsafe.Add(ref r0, offset));
 

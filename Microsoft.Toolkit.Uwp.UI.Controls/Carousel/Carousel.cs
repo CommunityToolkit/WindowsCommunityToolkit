@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A modern UI Carousel control. Really flexible. Works with touch, keyboard, mouse.
     /// </summary>
-    public class Carousel : ItemsControl
+    public partial class Carousel : ItemsControl
     {
         /// <summary>
         /// Gets or sets the selected item.
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the items rendered transformations should be opposite compared to the selected item
         /// If false, all the items (except the selected item) will have the exact same transformations
-        /// If true, all the items where index > selected index will have an opposite tranformation (Rotation X Y and Z will be multiply by -1)
+        /// If true, all the items where index > selected index will have an opposite transformation (Rotation X Y and Z will be multiply by -1)
         /// </summary>
         public bool InvertPositive
         {

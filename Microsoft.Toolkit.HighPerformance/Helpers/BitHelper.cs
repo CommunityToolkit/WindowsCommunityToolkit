@@ -4,7 +4,7 @@
 
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
 using System.Runtime.Intrinsics.X86;
 #endif
 
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(uint value, int n)
+        public static unsafe bool HasFlag(uint value, int n)
         {
             // Read the n-th bit, downcast to byte
             byte flag = (byte)((value >> n) & 1);
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // compared the previous computed flag against 0, the assembly
             // would have had to perform the test, set the non-zero
             // flag and then extend the (byte) result to eax.
-            return Unsafe.As<byte, bool>(ref flag);
+            return *(bool*)&flag;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// decrement the input parameter <paramref name="x"/> to ensure that the range of accepted
         /// values fits within the available 32 bits of the lookup table in use.
         /// For more info on this optimization technique, see <see href="https://egorbo.com/llvm-range-checks.html"/>.
-        /// Here is how the code from the lik above would be implemented using this method:
+        /// Here is how the code from the link above would be implemented using this method:
         /// <code>
         /// bool IsReservedCharacter(char c)
         /// {
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasLookupFlag(uint table, int x, int min = 0)
+        public static unsafe bool HasLookupFlag(uint table, int x, int min = 0)
         {
             // First, the input value is scaled down by the given minimum.
             // This step will be skipped entirely if min is just the default of 0.
@@ -91,16 +91,78 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // as a bool just like in the HasFlag method above, and then returned.
             int i = x - min;
             bool isInRange = (uint)i < 32u;
-            byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
+            byte byteFlag = *(byte*)&isInRange;
             int
                 negativeFlag = byteFlag - 1,
                 mask = ~negativeFlag,
                 shift = unchecked((int)((table >> i) & 1)),
                 and = shift & mask;
             byte result = unchecked((byte)and);
-            bool valid = Unsafe.As<byte, bool>(ref result);
+            bool valid = *(bool*)&result;
 
             return valid;
+        }
+
+        /// <summary>
+        /// Checks whether the given value has any bytes that are set to 0.
+        /// That is, given a <see cref="uint"/> value, which has a total of 4 bytes,
+        /// it checks whether any of those have all the bits set to 0.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to 0.</returns>
+        /// <remarks>
+        /// This method contains no branches.
+        /// For more background on this subject, see <see href="https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord"/>.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasZeroByte(uint value)
+        {
+            return ((value - 0x0101_0101u) & ~value & 0x8080_8080u) != 0;
+        }
+
+        /// <summary>
+        /// Checks whether the given value has any bytes that are set to 0.
+        /// This method mirrors <see cref="HasZeroByte(uint)"/>, but with <see cref="ulong"/> values.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to 0.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasZeroByte(ulong value)
+        {
+            return ((value - 0x0101_0101_0101_0101ul) & ~value & 0x8080_8080_8080_8080ul) != 0;
+        }
+
+        /// <summary>
+        /// Checks whether a byte in the input <see cref="uint"/> value matches a target value.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <param name="target">The target byte to look for.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to <paramref name="target"/>.</returns>
+        /// <remarks>
+        /// This method contains no branches.
+        /// For more info, see <see href="https://graphics.stanford.edu/~seander/bithacks.html#ZeroInWord"/>.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasByteEqualTo(uint value, byte target)
+        {
+            return HasZeroByte(value ^ (0x0101_0101u * target));
+        }
+
+        /// <summary>
+        /// Checks whether a byte in the input <see cref="uint"/> value matches a target value.
+        /// This method mirrors <see cref="HasByteEqualTo(uint,byte)"/>, but with <see cref="ulong"/> values.
+        /// </summary>
+        /// <param name="value">The input value to check.</param>
+        /// <param name="target">The target byte to look for.</param>
+        /// <returns>Whether <paramref name="value"/> has any bytes set to <paramref name="target"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasByteEqualTo(ulong value, byte target)
+        {
+            return HasZeroByte(value ^ (0x0101_0101_0101_0101u * target));
         }
 
         /// <summary>
@@ -132,7 +194,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SetFlag(uint value, int n, bool flag)
+        public static unsafe uint SetFlag(uint value, int n, bool flag)
         {
             // Shift a bit left to the n-th position, negate the
             // resulting value and perform an AND with the input value.
@@ -148,7 +210,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // operation. This will always guaranteed to work, thanks to the
             // initial code clearing that bit before setting it again.
             uint
-                flag32 = Unsafe.As<bool, byte>(ref flag),
+                flag32 = *(byte*)&flag,
                 shift = flag32 << n,
                 or = and | shift;
 
@@ -173,7 +235,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint ExtractRange(uint value, byte start, byte length)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             if (Bmi1.IsSupported)
             {
                 return Bmi1.BitFieldExtract(value, start, length);
@@ -221,7 +283,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 loadMask = highBits << start,
                 storeMask = (flags & highBits) << start;
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             if (Bmi1.IsSupported)
             {
                 return Bmi1.AndNot(loadMask, value) | storeMask;
@@ -244,12 +306,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(ulong value, int n)
+        public static unsafe bool HasFlag(ulong value, int n)
         {
             // Same logic as the uint version, see that for more info
             byte flag = (byte)((value >> n) & 1);
 
-            return Unsafe.As<byte, bool>(ref flag);
+            return *(bool*)&flag;
         }
 
         /// <summary>
@@ -266,18 +328,18 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasLookupFlag(ulong table, int x, int min = 0)
+        public static unsafe bool HasLookupFlag(ulong table, int x, int min = 0)
         {
             int i = x - min;
             bool isInRange = (uint)i < 64u;
-            byte byteFlag = Unsafe.As<bool, byte>(ref isInRange);
+            byte byteFlag = *(byte*)&isInRange;
             int
                 negativeFlag = byteFlag - 1,
                 mask = ~negativeFlag,
                 shift = unchecked((int)((table >> i) & 1)),
                 and = shift & mask;
             byte result = unchecked((byte)and);
-            bool valid = Unsafe.As<byte, bool>(ref result);
+            bool valid = *(bool*)&result;
 
             return valid;
         }
@@ -311,13 +373,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong SetFlag(ulong value, int n, bool flag)
+        public static unsafe ulong SetFlag(ulong value, int n, bool flag)
         {
             ulong
                 bit = 1ul << n,
                 not = ~bit,
                 and = value & not,
-                flag64 = Unsafe.As<bool, byte>(ref flag),
+                flag64 = *(byte*)&flag,
                 shift = flag64 << n,
                 or = and | shift;
 
@@ -342,7 +404,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong ExtractRange(ulong value, byte start, byte length)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             if (Bmi1.X64.IsSupported)
             {
                 return Bmi1.X64.BitFieldExtract(value, start, length);
@@ -390,7 +452,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 loadMask = highBits << start,
                 storeMask = (flags & highBits) << start;
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             if (Bmi1.X64.IsSupported)
             {
                 return Bmi1.X64.AndNot(loadMask, value) | storeMask;

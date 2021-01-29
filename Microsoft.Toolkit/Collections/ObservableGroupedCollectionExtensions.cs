@@ -8,8 +8,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Collections
 {
     /// <summary>
@@ -28,11 +26,17 @@ namespace Microsoft.Toolkit.Collections
         /// <exception cref="InvalidOperationException">The target group does not exist.</exception>
         [Pure]
         public static ObservableGroup<TKey, TValue> First<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            where TKey : notnull
         {
             ObservableGroup<TKey, TValue>? group = source.FirstOrDefault(key);
 
             if (group is null)
             {
+                static void ThrowArgumentExceptionForKeyNotFound()
+                {
+                    throw new InvalidOperationException("The requested key was not present in the collection");
+                }
+
                 ThrowArgumentExceptionForKeyNotFound();
             }
 
@@ -49,10 +53,11 @@ namespace Microsoft.Toolkit.Collections
         /// <returns>The first group matching <paramref name="key"/> or null.</returns>
         [Pure]
         public static ObservableGroup<TKey, TValue>? FirstOrDefault<TKey, TValue>(this ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -63,18 +68,15 @@ namespace Microsoft.Toolkit.Collections
                 return null;
             }
 
+            // Fallback method
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq(ObservableGroupedCollection<TKey, TValue> source, TKey key)
+            {
+                return source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
+            }
+
             return FirstOrDefaultWithLinq(source, key);
         }
-
-        /// <summary>
-        /// Slow path for <see cref="First{TKey,TValue}"/>.
-        /// </summary>
-        [Pure]
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static ObservableGroup<TKey, TValue>? FirstOrDefaultWithLinq<TKey, TValue>(
-            ObservableGroupedCollection<TKey, TValue> source,
-            TKey key)
-            => source.FirstOrDefault(group => EqualityComparer<TKey>.Default.Equals(group.Key, key));
 
         /// <summary>
         /// Return the element at position <paramref name="index"/> from the first group with <paramref name="key"/> key.
@@ -92,6 +94,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             int index)
+            where TKey : notnull
             => source.First(key)[index];
 
         /// <summary>
@@ -104,17 +107,18 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="index">The index of the item from the targeted group.</param>
         /// <returns>The element or default(TValue) if it does not exist.</returns>
         [Pure]
-        public static TValue ElementAtOrDefault<TKey, TValue>(
+        public static TValue? ElementAtOrDefault<TKey, TValue>(
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             int index)
+            where TKey : notnull
         {
             var group = source.FirstOrDefault(key);
 
             if (group is null ||
                 (uint)index >= (uint)group.Count)
             {
-                return default!;
+                return default;
             }
 
             return group[index];
@@ -133,6 +137,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             TValue value)
+            where TKey : notnull
             => AddGroup(source, key, new[] { value });
 
         /// <summary>
@@ -148,6 +153,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             params TValue[] collection)
+            where TKey : notnull
             => source.AddGroup(key, (IEnumerable<TValue>)collection);
 
         /// <summary>
@@ -163,6 +169,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             IEnumerable<TValue> collection)
+            where TKey : notnull
         {
             var group = new ObservableGroup<TKey, TValue>(key, collection);
             source.Add(group);
@@ -184,6 +191,7 @@ namespace Microsoft.Toolkit.Collections
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key,
             TValue item)
+            where TKey : notnull
         {
             var group = source.FirstOrDefault(key);
 
@@ -215,6 +223,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             TValue item)
+            where TKey : notnull
         {
             var existingGroup = source.First(key);
             existingGroup.Insert(index, item);
@@ -239,6 +248,7 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             TValue item)
+            where TKey : notnull
         {
             var existingGroup = source.First(key);
             existingGroup[index] = item;
@@ -257,11 +267,12 @@ namespace Microsoft.Toolkit.Collections
         public static void RemoveGroup<TKey, TValue>(
             this ObservableGroupedCollection<TKey, TValue> source,
             TKey key)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
                 var index = 0;
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -275,26 +286,24 @@ namespace Microsoft.Toolkit.Collections
             }
             else
             {
-                RemoveGroupWithLinq(source, key);
-            }
-        }
-
-        /// <summary>
-        /// Slow path for <see cref="RemoveGroup{TKey,TValue}"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void RemoveGroupWithLinq<TKey, TValue>(ObservableGroupedCollection<TKey, TValue> source, TKey key)
-        {
-            var index = 0;
-            foreach (var group in source)
-            {
-                if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                // Fallback method
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static void RemoveGroupWithLinq(ObservableGroupedCollection<TKey, TValue> source, TKey key)
                 {
-                    source.RemoveAt(index);
-                    return;
+                    var index = 0;
+                    foreach (var group in source)
+                    {
+                        if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                        {
+                            source.RemoveAt(index);
+                            return;
+                        }
+
+                        index++;
+                    }
                 }
 
-                index++;
+                RemoveGroupWithLinq(source, key);
             }
         }
 
@@ -313,11 +322,12 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             TValue item,
             bool removeGroupIfEmpty = true)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
                 var index = 0;
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -336,36 +346,34 @@ namespace Microsoft.Toolkit.Collections
             }
             else
             {
-                RemoveItemWithLinq(source, key, item, removeGroupIfEmpty);
-            }
-        }
-
-        /// <summary>
-        /// Slow path for <see cref="RemoveItem{TKey,TValue}"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void RemoveItemWithLinq<TKey, TValue>(
-            ObservableGroupedCollection<TKey, TValue> source,
-            TKey key,
-            TValue item,
-            bool removeGroupIfEmpty)
-        {
-            var index = 0;
-            foreach (var group in source)
-            {
-                if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                // Fallback method
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static void RemoveItemWithLinq(
+                    ObservableGroupedCollection<TKey, TValue> source,
+                    TKey key,
+                    TValue item,
+                    bool removeGroupIfEmpty)
                 {
-                    if (group.Remove(item) &&
-                        removeGroupIfEmpty &&
-                        group.Count == 0)
+                    var index = 0;
+                    foreach (var group in source)
                     {
-                        source.RemoveAt(index);
-                    }
+                        if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                        {
+                            if (group.Remove(item) &&
+                                removeGroupIfEmpty &&
+                                group.Count == 0)
+                            {
+                                source.RemoveAt(index);
+                            }
 
-                    return;
+                            return;
+                        }
+
+                        index++;
+                    }
                 }
 
-                index++;
+                RemoveItemWithLinq(source, key, item, removeGroupIfEmpty);
             }
         }
 
@@ -385,11 +393,12 @@ namespace Microsoft.Toolkit.Collections
             TKey key,
             int index,
             bool removeGroupIfEmpty = true)
+            where TKey : notnull
         {
             if (source.TryGetList(out var list))
             {
                 var groupIndex = 0;
-                foreach (var group in list!)
+                foreach (var group in list)
                 {
                     if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
                     {
@@ -408,46 +417,35 @@ namespace Microsoft.Toolkit.Collections
             }
             else
             {
-                RemoveItemAtWithLinq(source, key, index, removeGroupIfEmpty);
-            }
-        }
-
-        /// <summary>
-        /// Slow path for <see cref="RemoveItemAt{TKey,TValue}"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void RemoveItemAtWithLinq<TKey, TValue>(
-            ObservableGroupedCollection<TKey, TValue> source,
-            TKey key,
-            int index,
-            bool removeGroupIfEmpty)
-        {
-            var groupIndex = 0;
-            foreach (var group in source)
-            {
-                if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                // Fallback method
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static void RemoveItemAtWithLinq(
+                    ObservableGroupedCollection<TKey, TValue> source,
+                    TKey key,
+                    int index,
+                    bool removeGroupIfEmpty)
                 {
-                    group.RemoveAt(index);
-
-                    if (removeGroupIfEmpty && group.Count == 0)
+                    var groupIndex = 0;
+                    foreach (var group in source)
                     {
-                        source.RemoveAt(groupIndex);
-                    }
+                        if (EqualityComparer<TKey>.Default.Equals(group.Key, key))
+                        {
+                            group.RemoveAt(index);
 
-                    return;
+                            if (removeGroupIfEmpty && group.Count == 0)
+                            {
+                                source.RemoveAt(groupIndex);
+                            }
+
+                            return;
+                        }
+
+                        groupIndex++;
+                    }
                 }
 
-                groupIndex++;
+                RemoveItemAtWithLinq(source, key, index, removeGroupIfEmpty);
             }
-        }
-
-        /// <summary>
-        /// Throws a new <see cref="InvalidOperationException"/> when a key is not found.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowArgumentExceptionForKeyNotFound()
-        {
-            throw new InvalidOperationException("The requested key was not present in the collection");
         }
     }
 }

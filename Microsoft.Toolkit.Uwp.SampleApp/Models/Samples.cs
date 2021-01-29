@@ -4,11 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -20,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static RoamingObjectStorageHelper _roamingObjectStorageHelper = new RoamingObjectStorageHelper();
+        private static LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
@@ -56,8 +57,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 List<SampleCategory> allCategories;
                 using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
                 {
-                    var jsonString = await jsonStream.ReadTextAsync();
-                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+                    allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream.AsStream(), new JsonSerializerOptions
+                    {
+                        ReadCommentHandling = JsonCommentHandling.Skip
+                    });
                 }
 
                 // Check API
@@ -95,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_recentSamples == null)
             {
                 _recentSamples = new LinkedList<Sample>();
-                var savedSamples = _roamingObjectStorageHelper.Read<string>(_recentSamplesStorageKey);
+                var savedSamples = _localObjectStorageHelper.Read<string>(_recentSamplesStorageKey);
 
                 if (savedSamples != null)
                 {
@@ -141,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             var str = string.Join(";", _recentSamples.Take(10).Select(s => s.Name).ToArray());
-            _roamingObjectStorageHelper.Save<string>(_recentSamplesStorageKey, str);
+            _localObjectStorageHelper.Save<string>(_recentSamplesStorageKey, str);
         }
     }
 }

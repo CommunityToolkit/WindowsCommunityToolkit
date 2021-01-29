@@ -11,11 +11,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// This class converts a double value into an other object.
     /// Can be used to convert doubles to visibility, a couple of colors, couple of images, etc.
-    /// If GreaterThan and LessThan are both set, the logic looks for a value inbetween the two values.
+    /// If GreaterThan and LessThan are both set, the logic looks for a value between the two values.
     /// Otherwise the logic looks for the value to be GreaterThan or LessThan the specified value.
     /// The ConverterParameter can be used to invert the logic.
     /// </summary>
-    public class DoubleToObjectConverter : DependencyObject, IValueConverter
+    public partial class DoubleToObjectConverter : DependencyObject, IValueConverter
     {
         /// <summary>
         /// Identifies the <see cref="TrueValue"/> property.

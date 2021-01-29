@@ -78,6 +78,42 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(stream.Position, 32);
         }
 
+        // See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3536
+        [TestCategory("MemoryStream")]
+        [TestMethod]
+        public void Test_MemoryStream_WriteToEndAndRefreshPosition()
+        {
+            byte[]
+                array = new byte[10],
+                temp = new byte[1];
+            ReadOnlyMemory<byte> memory = array;
+
+            using var stream = memory.AsStream();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                int read = stream.Read(temp, 0, 1);
+
+                Assert.AreEqual(read, 1);
+                Assert.AreEqual(stream.Position, i + 1);
+            }
+
+            Assert.AreEqual(stream.Position, array.Length);
+
+            // These should not throw, seeking to the end is valid
+            stream.Position = stream.Position;
+            Assert.AreEqual(stream.Position, array.Length);
+
+            stream.Seek(array.Length, SeekOrigin.Begin);
+            Assert.AreEqual(stream.Position, array.Length);
+
+            stream.Seek(0, SeekOrigin.Current);
+            Assert.AreEqual(stream.Position, array.Length);
+
+            stream.Seek(0, SeekOrigin.End);
+            Assert.AreEqual(stream.Position, array.Length);
+        }
+
         [TestCategory("MemoryStream")]
         [TestMethod]
         public void Test_MemoryStream_ReadWrite_Array()
@@ -236,7 +272,7 @@ namespace UnitTests.HighPerformance.Streams
         /// <param name="count">The number of array items to create.</param>
         /// <returns>The returned random array.</returns>
         [Pure]
-        private static byte[] CreateRandomData(int count)
+        internal static byte[] CreateRandomData(int count)
         {
             var random = new Random(DateTime.Now.Ticks.GetHashCode());
 

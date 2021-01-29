@@ -8,8 +8,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-#nullable enable
-
 namespace Microsoft.Toolkit.Diagnostics
 {
     /// <summary>
@@ -3020,6 +3018,508 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(decimal value, decimal minimum, decimal maximum, string name)
+        {
+            if (value < minimum || value > maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="target">The target <see langword="nint"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is != <paramref name="target"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEqualTo(nint value, nint target, string name)
+        {
+            if (value == target)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be not equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="target">The target <see langword="nint"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is == <paramref name="target"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEqualTo(nint value, nint target, string name)
+        {
+            if (value != target)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be less than a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLessThan(nint value, nint maximum, string name)
+        {
+            if (value < maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be less than or equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="maximum">The inclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLessThanOrEqualTo(nint value, nint maximum, string name)
+        {
+            if (value <= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be greater than a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsGreaterThan(nint value, nint minimum, string name)
+        {
+            if (value > minimum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be greater than or equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsGreaterThanOrEqualTo(nint value, nint minimum, string name)
+        {
+            if (value >= minimum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given range.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsInRange(nint value, nint minimum, nint maximum, string name)
+        {
+            if (value >= minimum && value < maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given range.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRange(nint value, nint minimum, nint maximum, string name)
+        {
+            if (value < minimum || value >= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsBetween(nint value, nint minimum, nint maximum, string name)
+        {
+            if (value > minimum && value < maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotBetween(nint value, nint minimum, nint maximum, string name)
+        {
+            if (value <= minimum || value >= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="maximum">The inclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsBetweenOrEqualTo(nint value, nint minimum, nint maximum, string name)
+        {
+            if (value >= minimum && value <= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="maximum">The inclusive maximum <see langword="nint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotBetweenOrEqualTo(nint value, nint minimum, nint maximum, string name)
+        {
+            if (value < minimum || value > maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="target">The target <see langword="nuint"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is != <paramref name="target"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEqualTo(nuint value, nuint target, string name)
+        {
+            if (value == target)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be not equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="target">The target <see langword="nuint"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is == <paramref name="target"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEqualTo(nuint value, nuint target, string name)
+        {
+            if (value != target)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be less than a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLessThan(nuint value, nuint maximum, string name)
+        {
+            if (value < maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be less than or equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="maximum">The inclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsLessThanOrEqualTo(nuint value, nuint maximum, string name)
+        {
+            if (value <= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be greater than a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsGreaterThan(nuint value, nuint minimum, string name)
+        {
+            if (value > minimum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be greater than or equal to a specified value.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsGreaterThanOrEqualTo(nuint value, nuint minimum, string name)
+        {
+            if (value >= minimum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given range.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsInRange(nuint value, nuint minimum, nuint maximum, string name)
+        {
+            if (value >= minimum && value < maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given range.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRange(nuint value, nuint minimum, nuint maximum, string name)
+        {
+            if (value < minimum || value >= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsBetween(nuint value, nuint minimum, nuint maximum, string name)
+        {
+            if (value > minimum && value < maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotBetween(nuint value, nuint minimum, nuint maximum, string name)
+        {
+            if (value <= minimum || value >= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="maximum">The inclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsBetweenOrEqualTo(nuint value, nuint minimum, nuint maximum, string name)
+        {
+            if (value >= minimum && value <= maximum)
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given interval.
+        /// </summary>
+        /// <param name="value">The input <see langword="nuint"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="maximum">The inclusive maximum <see langword="nuint"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotBetweenOrEqualTo(nuint value, nuint minimum, nuint maximum, string name)
         {
             if (value < minimum || value > maximum)
             {

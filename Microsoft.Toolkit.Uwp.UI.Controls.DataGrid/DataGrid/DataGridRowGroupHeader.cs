@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
@@ -281,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                Debug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
+                DiagnosticsDebug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
                 return this.RowGroupInfo.Slot == this.OwningGrid.CurrentSlot;
             }
         }
@@ -459,7 +461,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!e.Handled && this.OwningGrid.IsTabStop)
                 {
                     bool success = this.OwningGrid.Focus(FocusState.Programmatic);
-                    Debug.Assert(success, "Expected successful focus change.");
+                    DiagnosticsDebug.Assert(success, "Expected successful focus change.");
                 }
 
                 e.Handled = this.OwningGrid.UpdateStateOnTapped(e, this.OwningGrid.CurrentColumnIndex, this.RowGroupInfo.Slot, false /*allowEdit*/);

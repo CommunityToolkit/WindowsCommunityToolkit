@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {
@@ -19,7 +20,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public async Task Init()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var richEditBox = new RichEditBox
                 {
@@ -34,8 +35,7 @@ namespace UnitTests.XamlIslands.UWPApp
                 _textToolbar = new TextToolbar
                 {
                     Editor = richEditBox,
-                    IsEnabled = true,
-                    Format = Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.Format.RichText
+                    IsEnabled = true
                 };
 
                 var grid = new Grid
@@ -63,7 +63,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task TextToobar_PopupShowsInCorrectXamlRoot()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 await Task.Delay(500);
 

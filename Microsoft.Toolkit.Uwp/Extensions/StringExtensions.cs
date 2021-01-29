@@ -4,7 +4,6 @@
 
 using Windows.ApplicationModel.Resources;
 using Windows.UI;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.Extensions
@@ -14,7 +13,18 @@ namespace Microsoft.Toolkit.Uwp.Extensions
     /// </summary>
     public static class StringExtensions
     {
-        private static readonly ResourceLoader IndependentLoader = ResourceLoader.GetForViewIndependentUse();
+        private static readonly ResourceLoader IndependentLoader;
+
+        static StringExtensions()
+        {
+            try
+            {
+                IndependentLoader = ResourceLoader.GetForViewIndependentUse();
+            }
+            catch
+            {
+            }
+        }
 
         /// <summary>
         /// Retrieves the provided resource for the current view context.
@@ -52,17 +62,27 @@ namespace Microsoft.Toolkit.Uwp.Extensions
             }
             else
             {
-                return IndependentLoader.GetString(resourceKey);
+                return IndependentLoader?.GetString(resourceKey);
             }
         }
 
         /// <summary>
-        /// Retrieves the provided resource for the given key for use independent of the UI thread.
+        /// Retrieves the provided resource for the given key for use independent of the UI thread. First looks up resource at the application level, before falling back to provided resourcePath. This allows for easily overridable resources within a library.
         /// </summary>
         /// <param name="resourceKey">Resource key to retrieve.</param>
-        /// <param name="resourcePath">Resource path to retrieve.</param>
+        /// <param name="resourcePath">Resource path to fall back to in case resourceKey not found in app resources.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey, string resourcePath)
-            => ResourceLoader.GetForViewIndependentUse(resourcePath).GetString(resourceKey);
+        {
+            // Try and retrieve resource at app level first.
+            var result = IndependentLoader?.GetString(resourceKey);
+
+            if (string.IsNullOrEmpty(result))
+            {
+                result = ResourceLoader.GetForViewIndependentUse(resourcePath).GetString(resourceKey);
+            }
+
+            return result;
+        }
     }
 }

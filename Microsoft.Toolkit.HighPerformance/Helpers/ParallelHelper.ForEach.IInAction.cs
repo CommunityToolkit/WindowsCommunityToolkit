@@ -135,7 +135,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             /// Processes the batch of actions at a specified index
             /// </summary>
             /// <param name="i">The index of the batch to process</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(int i)
             {
                 int
@@ -144,12 +143,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                     end = Math.Min(high, this.memory.Length);
 
                 ref TItem r0 = ref MemoryMarshal.GetReference(this.memory.Span);
+                ref TItem rStart = ref Unsafe.Add(ref r0, low);
+                ref TItem rEnd = ref Unsafe.Add(ref r0, end);
 
-                for (int j = low; j < end; j++)
+                while (Unsafe.IsAddressLessThan(ref rStart, ref rEnd))
                 {
-                    ref TItem rj = ref Unsafe.Add(ref r0, j);
+                    Unsafe.AsRef(this.action).Invoke(in rStart);
 
-                    Unsafe.AsRef(this.action).Invoke(rj);
+                    rStart = ref Unsafe.Add(ref rStart, 1);
                 }
             }
         }

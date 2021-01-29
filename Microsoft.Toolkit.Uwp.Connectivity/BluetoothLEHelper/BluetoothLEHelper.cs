@@ -8,11 +8,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Enumeration;
-using Windows.Foundation.Metadata;
 using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
@@ -26,11 +25,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// AQS search string used to find bluetooth devices.
         /// </summary>
         private const string BluetoothLeDeviceWatcherAqs = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
-
-        /// <summary>
-        /// Gets a value indicating whether the Bluetooth LE Helper is supported
-        /// </summary>
-        private static bool? _isBluetoothLESupported = null;
 
         /// <summary>
         /// We need to cache all DeviceInformation objects we get as they may
@@ -81,12 +75,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Gets the app context
         /// </summary>
         public static BluetoothLEHelper Context { get; } = new BluetoothLEHelper();
-
-        /// <summary>
-        /// Gets a value indicating whether the Bluetooth LE Helper is supported.
-        /// </summary>
-        public static bool IsBluetoothLESupported => (bool)(_isBluetoothLESupported ??
-            (_isBluetoothLESupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
 
         /// <summary>
         /// Gets the list of available bluetooth devices
@@ -209,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <param name="args">The advertisement.</param>
         private async void AdvertisementWatcher_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
         {
-            await DispatcherQueue.ExecuteOnUIThreadAsync(
+            await DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     if (_readerWriterLockSlim.TryEnterReadLock(TimeSpan.FromSeconds(1)))
@@ -293,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             // Protect against race condition if the task runs after the app stopped the deviceWatcher.
             if (sender == _deviceWatcher)
             {
-                await DispatcherQueue.ExecuteOnUIThreadAsync(
+                await DispatcherQueue.EnqueueAsync(
                     () =>
                     {
                         if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))
@@ -343,7 +331,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                 if (connectable)
                 {
-                    await DispatcherQueue.ExecuteOnUIThreadAsync(
+                    await DispatcherQueue.EnqueueAsync(
                         () =>
                         {
                             if (_readerWriterLockSlim.TryEnterWriteLock(TimeSpan.FromSeconds(1)))

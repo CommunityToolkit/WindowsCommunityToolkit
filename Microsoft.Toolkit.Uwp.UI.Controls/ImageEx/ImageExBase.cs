@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Linq;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -79,11 +82,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ImageExBase()
         {
             LockObj = new object();
-
-            if (IsLazyLoadingSupported)
-            {
-                EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
-            }
         }
 
         /// <summary>
@@ -177,21 +175,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageExInitialized?.Invoke(this, EventArgs.Empty);
 
-            if (IsLazyLoadingSupported)
+            if (Source == null || !EnableLazyLoading || _isInViewport)
             {
-                if (Source == null || !EnableLazyLoading || _isInViewport)
-                {
-                    _lazyLoadingSource = null;
-                    SetSource(Source);
-                }
-                else
-                {
-                    _lazyLoadingSource = Source;
-                }
+                _lazyLoadingSource = null;
+                SetSource(Source);
             }
             else
             {
-                SetSource(Source);
+                _lazyLoadingSource = Source;
             }
 
             AttachImageOpened(OnImageOpened);
@@ -225,15 +216,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, FailedState, true);
         }
 
-        private void ImageExBase_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        private void ImageExBase_LayoutUpdated(object sender, object e)
         {
-            var bringIntoViewDistanceX = args.BringIntoViewDistanceX;
-            var bringIntoViewDistanceY = args.BringIntoViewDistanceY;
+            InvalidateLazyLoading();
+        }
 
-            var width = ActualWidth;
-            var height = ActualHeight;
+        private void InvalidateLazyLoading()
+        {
+            if (!IsLoaded)
+            {
+                _isInViewport = false;
+                return;
+            }
 
-            if (bringIntoViewDistanceX <= width && bringIntoViewDistanceY <= height)
+            // Find the first ascendant ScrollViewer, if not found, use the root element.
+            FrameworkElement hostElement = null;
+            var ascendants = this.FindAscendants().OfType<FrameworkElement>();
+            foreach (var ascendant in ascendants)
+            {
+                hostElement = ascendant;
+                if (hostElement is ScrollViewer)
+                {
+                    break;
+                }
+            }
+
+            if (hostElement == null)
+            {
+                _isInViewport = false;
+                return;
+            }
+
+            var controlRect = TransformToVisual(hostElement)
+                .TransformBounds(new Rect(0, 0, ActualWidth, ActualHeight));
+            var lazyLoadingThreshold = LazyLoadingThreshold;
+            var hostRect = new Rect(
+                0 - lazyLoadingThreshold,
+                0 - lazyLoadingThreshold,
+                hostElement.ActualWidth + (2 * lazyLoadingThreshold),
+                hostElement.ActualHeight + (2 * lazyLoadingThreshold));
+
+            if (controlRect.IntersectsWith(hostRect))
             {
                 _isInViewport = true;
 

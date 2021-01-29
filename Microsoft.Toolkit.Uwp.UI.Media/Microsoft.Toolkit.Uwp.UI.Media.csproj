@@ -1,8 +1,8 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
-    <LangVersion>8.0</LangVersion>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+    <LangVersion>9.0</LangVersion>
     <Title>Windows Community Toolkit UI Media</Title>
     <Description>
       This library provides UI brushes. It is part of the Windows Community Toolkit.
@@ -42,5 +42,9 @@
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
@@ -9,10 +9,6 @@
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
       
-      Behaviors:
-      - BehaviorBase: Helper for building Behaviors
-      - ViewportBehavior: Listening for element to enter or exit the ScrollViewer viewport
-
       CacheBase: Provides methods and tools to cache files in a folder.
       
       Converters: Commonly used converters that allow the data to be modified as it passes through the binding engine.
@@ -30,7 +26,6 @@
       - ScaleTransformExtensions: Extension methods for ScaleTransform.
       - ScrollViewerExtensions: Provides attached dependency properties for the ListViewBase
       - SkewTransformExtensions: Extension methods for SkewTransform.
-      - StatusBarExtensions: Provides attached dependency properties for interacting with the StatusBar on a window (app view).
       - SurfaceDialTextbox: Helper class that provides attached properties to enable any TextBox with the Surface Dial.
       - TextBoxMask: TextBox mask property allows a user to more easily enter fixed width text in TextBox control.
       - TextBoxRegex: TextBoxRegex allows text validation using a regular expression.
@@ -47,15 +42,8 @@
     <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
-    
-    <!-- For StatusBar -->
-    <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>  

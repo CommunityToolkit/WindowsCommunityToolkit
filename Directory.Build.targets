@@ -1,35 +1,21 @@
 <Project>
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">
-      <!-- UAP versions for uap10.0 where TPMV isn't implied -->
-      <PropertyGroup>
-        <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
-        <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
-      </PropertyGroup>
 
-      <PropertyGroup Condition="'$(DebugType)' == ''">
-        <DebugType>Portable</DebugType>
-      </PropertyGroup>
+  <PropertyGroup>
+    <UseUWP Condition="$(TargetFramework.Contains(`uap10.0`)) or '$(TargetFramework)' == 'net461'">true</UseUWP>
+  </PropertyGroup>
 
-      <ItemGroup>
-        <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
-          <Name>Windows Desktop Extensions for the UWP</Name>
-        </SDKReference>
-        <SDKReference Condition="'$(UseWindowsMobileSdk)' == 'true' " Include="WindowsMobile, Version=$(TargetPlatformVersion)">
-          <Name>Windows Mobile Extensions for the UWP</Name>
-        </SDKReference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  
   <Choose>
-    <When Condition="'$(TargetFramework.Contains(`uap10.0`))' == 'false' and '$(TargetFramework)' != 'native' and '$(IsSampleProject)' != 'true'">
+    <!--We'll include signing the Notifications library since we need the DLL signature to match for interop from class libraries to main projects-->
+    <When Condition="(!$(TargetFramework.Contains(`uap10.0`)) and '$(TargetFramework)' != 'native' and '$(IsSampleProject)' != 'true') or $(MSBuildProjectName) == 'Microsoft.Toolkit.Uwp.Notifications'">
       <PropertyGroup>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
       </PropertyGroup>
     </When>
   </Choose>
+   
+  <!--Exclude Notifications project from this since it sets different min versions than what we want for notifications-->
+  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.Uwp.Build.targets" Condition="'$(UseUWP)' == 'true' and $(MSBuildProjectName) != 'Microsoft.Toolkit.Uwp.Notifications'"/>
 
   <Target Name="AddCommitHashToAssemblyAttributes" BeforeTargets="GetAssemblyAttributes">
     <ItemGroup>
@@ -39,4 +25,5 @@
       </AssemblyAttribute>
     </ItemGroup>
   </Target>
+
 </Project>

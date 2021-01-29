@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
@@ -730,8 +732,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
-                Debug.Assert(value >= -1, "Expected value >= -1.");
-                Debug.Assert(value < int.MaxValue, "Expected value < int.MaxValue.");
+                DiagnosticsDebug.Assert(value >= -1, "Expected value >= -1.");
+                DiagnosticsDebug.Assert(value < int.MaxValue, "Expected value < int.MaxValue.");
 
                 _displayIndexWithFiller = value;
             }
@@ -851,8 +853,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (dataGridRow.OwningGrid == this.OwningGrid)
             {
-                Debug.Assert(this.Index >= 0, "Expected positif Index.");
-                Debug.Assert(this.Index < this.OwningGrid.ColumnsItemsInternal.Count, "Expected smaller Index.");
+                DiagnosticsDebug.Assert(this.Index >= 0, "Expected positive Index.");
+                DiagnosticsDebug.Assert(this.Index < this.OwningGrid.ColumnsItemsInternal.Count, "Expected smaller Index.");
 
                 DataGridCell dataGridCell = dataGridRow.Cells[this.Index];
                 if (dataGridCell != null)
@@ -881,8 +883,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw DataGridError.DataGrid.NoOwningGrid(this.GetType());
             }
 
-            Debug.Assert(this.Index >= 0, "Expected positif Index.");
-            Debug.Assert(this.Index < this.OwningGrid.ColumnsItemsInternal.Count, "Expected smaller Index.");
+            DiagnosticsDebug.Assert(this.Index >= 0, "Expected positive Index.");
+            DiagnosticsDebug.Assert(this.Index < this.OwningGrid.ColumnsItemsInternal.Count, "Expected smaller Index.");
 
             DataGridRow dataGridRow = this.OwningGrid.GetRowFromItem(dataItem);
             if (dataGridRow == null)
@@ -1051,7 +1053,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// If the DataGrid is using using layout rounding, the pixel snapping will force all widths to
+        /// If the DataGrid is using layout rounding, the pixel snapping will force all widths to
         /// whole numbers. Since the column widths aren't visual elements, they don't go through the normal
         /// rounding process, so we need to do it ourselves.  If we don't, then we'll end up with some
         /// pixel gaps and/or overlaps between columns.
@@ -1096,7 +1098,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_inputBindings != null)
             {
-                Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
+                DiagnosticsDebug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
 
                 // Use the editing bindings if they've already been created
                 bindings = _inputBindings;
@@ -1188,14 +1190,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the value of a cell according to the the specified binding.
+        /// Gets the value of a cell according to the specified binding.
         /// </summary>
         /// <param name="item">The item associated with a cell.</param>
         /// <param name="binding">The binding to get the value of.</param>
         /// <returns>The resultant cell value.</returns>
         internal object GetCellValue(object item, Binding binding)
         {
-            Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
+            DiagnosticsDebug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
 
             object content = null;
             if (binding != null)
@@ -1281,7 +1283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="userInitiated">Whether or not this resize was initiated by a user action.</param>
         internal void Resize(double value, DataGridLengthUnitType unitType, double desiredValue, double displayValue, bool userInitiated)
         {
-            Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
+            DiagnosticsDebug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
 
             double newValue = value;
             double newDesiredValue = desiredValue;
@@ -1408,7 +1410,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="value">The new star value.</param>
         internal void SetWidthStarValue(double value)
         {
-            Debug.Assert(this.Width.IsStar, "Expected Width.IsStar.");
+            DiagnosticsDebug.Assert(this.Width.IsStar, "Expected Width.IsStar.");
 
             this.InheritsWidth = false;
             SetWidthInternalNoCallback(new DataGridLength(value, this.Width.UnitType, this.Width.DesiredValue, this.Width.DisplayValue));

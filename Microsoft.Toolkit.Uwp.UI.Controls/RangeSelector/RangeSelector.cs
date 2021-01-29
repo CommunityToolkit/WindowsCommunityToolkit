@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -35,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DefaultMinimum = 0.0;
         private const double DefaultMaximum = 1.0;
         private const double DefaultStepFrequency = 1;
+        private static readonly TimeSpan TimeToHideToolTipOnKeyUp = TimeSpan.FromSeconds(1);
 
         /// <summary>
         /// Identifies the Minimum dependency property.
@@ -60,6 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the StepFrequency dependency property.
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
+
+        private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -247,7 +251,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.Right:
                     if (_toolTip != null)
                     {
-                        _toolTip.Visibility = Visibility.Collapsed;
+                        keyDebounceTimer.Debounce(
+                            () => _toolTip.Visibility = Visibility.Collapsed,
+                            TimeToHideToolTipOnKeyUp);
                     }
 
                     e.Handled = true;

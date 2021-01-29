@@ -7,9 +7,9 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
     /// <summary>
-    /// Seperates a collection of <see cref="IToolbarItem"/>
+    /// Separates a collection of <see cref="IToolbarItem"/>
     /// </summary>
-    public class ToolbarSeparator : AppBarSeparator, IToolbarItem
+    public partial class ToolbarSeparator : AppBarSeparator, IToolbarItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolbarSeparator"/> class.

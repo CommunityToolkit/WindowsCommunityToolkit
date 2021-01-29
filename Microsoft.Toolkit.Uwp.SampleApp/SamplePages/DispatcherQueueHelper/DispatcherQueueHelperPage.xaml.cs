@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
 
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             int crossThreadReturnedValue = await Task.Run<int>(async () =>
             {
-                int returnedFromUIThread = await dispatcherQueue.ExecuteOnUIThreadAsync<int>(() =>
+                int returnedFromUIThread = await dispatcherQueue.EnqueueAsync<int>(() =>
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
                     return 1;
