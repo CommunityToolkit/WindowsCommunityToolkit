@@ -1,0 +1,179 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.VoiceCommandsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      x:Name="pageRoot"
+      mc:Ignorable="d">
+
+    <Grid Padding="12"
+          ColumnSpacing="12"
+          RowSpacing="12">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Available" />
+
+        <ListBox x:Name="listBoxAvailable"
+                 Grid.Row="1"
+                 Grid.RowSpan="3"
+                 SelectedIndex="0">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move available up">
+                    <local:SelectListBoxItemAction MoveDirection="Up" />
+                </Behaviors:VoiceCommandTrigger>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move available down">
+                    <local:SelectListBoxItemAction MoveDirection="Down" />
+                </Behaviors:VoiceCommandTrigger>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move available to First|Move available too First">
+                    <local:SelectListBoxItemAction MoveDirection="First" />
+                </Behaviors:VoiceCommandTrigger>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move available to Last|Move available too Last">
+                    <local:SelectListBoxItemAction MoveDirection="Last" />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+
+            <ListBoxItem Content="Ford" />
+            <ListBoxItem Content="BMW" />
+            <ListBoxItem Content="VW" />
+            <ListBoxItem Content="Audi" />
+            <ListBoxItem Content="Porche" />
+            <ListBoxItem Content="Mercedes" />
+            <ListBoxItem Content="Honda" />
+            <ListBoxItem Content="Toyota" />
+        </ListBox>
+
+        <Button x:Uid="ButtonAdd"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Click="ButtonAdd_Click"
+                Content="&gt; Add &gt;">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger x:Uid="CommandAdd"
+                                               IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Add|at">
+                    <local:ClickAction />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+        </Button>
+
+        <TextBlock Grid.Column="2"
+                   Text="Selected" />
+
+        <ListBox x:Name="listBoxSelected"
+                 Grid.Row="1"
+                 Grid.RowSpan="2"
+                 Grid.Column="2">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move selected up">
+                    <local:SelectListBoxItemAction MoveDirection="Up" />
+                </Behaviors:VoiceCommandTrigger>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move selected down">
+                    <local:SelectListBoxItemAction MoveDirection="Down" />
+                </Behaviors:VoiceCommandTrigger>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move selected to First|Move selected too First">
+                    <local:SelectListBoxItemAction MoveDirection="First" />
+                </Behaviors:VoiceCommandTrigger>
+                <Behaviors:VoiceCommandTrigger IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Move selected to Last|Move selected too Last">
+                    <local:SelectListBoxItemAction MoveDirection="Last" />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+        </ListBox>
+
+        <Button x:Uid="ButtonDelete"
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Click="ButtonDelete_Click"
+                Content="&lt; Delete &lt;">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger x:Uid="CommandDelete"
+                                               IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="Delete">
+                    <local:ClickAction />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+        </Button>
+
+        <Grid Grid.Row="3"
+              Grid.Column="2"
+              ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="textBoxExtraItem"
+                     Header="Extra item" />
+            <Button Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Click="ButtonAppend_Click"
+                    Content="Append"
+                    Style="{StaticResource AccentButtonStyle}">
+                <Interactivity:Interaction.Behaviors>
+                    <Behaviors:VoiceCommandTrigger Text="Append">
+                        <local:ClickAction />
+                    </Behaviors:VoiceCommandTrigger>
+                </Interactivity:Interaction.Behaviors>
+            </Button>
+        </Grid>
+
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Click="{x:Bind WhatCanISay}"
+                Content="What can I say?">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger x:Uid="CommandAdd"
+                                               IsEnabled="{x:Bind toggleListning.IsOn, Mode=OneWay}"
+                                               Text="What can I say|Help">
+                    <local:ClickAction />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+        </Button>
+
+        <ToggleSwitch x:Name="toggleListning"
+                      Grid.Row="3"
+                      Grid.Column="1"
+                      VerticalAlignment="Bottom"
+                      Header="Voice"
+                      IsOn="True"
+                      Toggled="ToggleListning_Toggled">
+            <Interactivity:Interaction.Behaviors>
+                <Behaviors:VoiceCommandTrigger x:Name="triggerListning"
+                                               Text="Voice Off">
+                    <core:ChangePropertyAction x:Name="actionListning"
+                                               PropertyName="IsOn"
+                                               TargetObject="{x:Bind toggleListning}"
+                                               Value="false" />
+                </Behaviors:VoiceCommandTrigger>
+            </Interactivity:Interaction.Behaviors>
+        </ToggleSwitch>
+    </Grid>
+</Page>
