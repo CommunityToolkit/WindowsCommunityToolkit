@@ -5,13 +5,15 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+#nullable enable
+
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A gaussian blur effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GaussianBlurEffect"/> effect</remarks>
-    public sealed class BlurEffect : IPipelineEffect
+    public sealed class BlurEffect : PipelineEffect
     {
         private double amount;
 
@@ -24,9 +26,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
             set => this.amount = Math.Max(value, 0);
         }
 
+        /// <summary>
+        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
+        /// </summary>
+        internal string? Id { get; private set; }
+
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
+            if (IsAnimatable)
+            {
+                builder = builder.Blur((float)Amount, out string id);
+
+                Id = id;
+
+                return builder;
+            }
+
             return builder.Blur((float)Amount);
         }
     }
