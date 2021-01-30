@@ -574,7 +574,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    var cornerRadius = new CornerRadius(0,0, CornerRadius.BottomRight, CornerRadius.BottomLeft);
+                    var cornerRadius = new CornerRadius(0, 0, CornerRadius.BottomRight, CornerRadius.BottomLeft);
                     this._richEditBox.CornerRadius = cornerRadius;
                     var popupCornerRadius =
                         new CornerRadius(PopupCornerRadius.TopLeft, PopupCornerRadius.TopRight, 0, 0);
