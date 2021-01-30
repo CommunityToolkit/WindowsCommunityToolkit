@@ -235,6 +235,7 @@
         <Setter Property="RichEditBoxStyle" Value="{StaticResource DefaultRichEditBoxStyle}" />
         <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+        <Setter Property="PopupCornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RichSuggestBox">
@@ -271,7 +272,6 @@
                                      VerticalAlignment="Stretch"
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
@@ -302,8 +302,7 @@
                                     Padding="{ThemeResource AutoSuggestListMargin}"
                                     Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
                                     BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
-                                    BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
-                                    CornerRadius="{ThemeResource OverlayCornerRadius}">
+                                    BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}">
                                 <Border.RenderTransform>
                                     <contract7NotPresent:TranslateTransform x:Name="UpwardTransform" />
                                 </Border.RenderTransform>
@@ -311,6 +310,10 @@
                                           MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
                                           Margin="{ThemeResource AutoSuggestListPadding}"
                                           DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                          Footer="{TemplateBinding PopupFooter}"
+                                          FooterTemplate="{TemplateBinding PopupFooterTemplate}"
+                                          Header="{TemplateBinding PopupHeader}"
+                                          HeaderTemplate="{TemplateBinding PopupHeaderTemplate}"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"

@@ -66,14 +66,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null, OnDescriptionChanged));
 
         /// <summary>
-        /// Identifies the <see cref="SuggestionPopupPlacement"/> dependency property.
+        /// Identifies the <see cref="PopupPlacement"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SuggestionPopupPlacementProperty =
+        public static readonly DependencyProperty PopupPlacementProperty =
             DependencyProperty.Register(
-                nameof(SuggestionPopupPlacement),
+                nameof(PopupPlacement),
                 typeof(SuggestionPopupPlacementMode),
                 typeof(RichSuggestBox),
                 new PropertyMetadata(SuggestionPopupPlacementMode.Floating, OnSuggestionPopupPlacementChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="PopupCornerRadius"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PopupCornerRadiusProperty =
+            DependencyProperty.Register(
+                nameof(PopupCornerRadius),
+                typeof(CornerRadius),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(default(CornerRadius)));
+
+        /// <summary>
+        /// Identifies the <see cref="PopupHeader"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PopupHeaderProperty =
+            DependencyProperty.Register(
+                nameof(PopupHeader),
+                typeof(object),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="PopupHeaderTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PopupHeaderTemplateProperty =
+            DependencyProperty.Register(
+                nameof(PopupHeaderTemplate),
+                typeof(DataTemplate),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="PopupFooter"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PopupFooterProperty =
+            DependencyProperty.Register(
+                nameof(PopupFooter),
+                typeof(object),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="PopupFooterTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PopupFooterTemplateProperty =
+            DependencyProperty.Register(
+                nameof(PopupFooterTemplate),
+                typeof(DataTemplate),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="SuggestionBackground"/> dependency property.
@@ -161,10 +211,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets suggestion popup placement to either Floating or Attached to the text box.
         /// </summary>
-        public SuggestionPopupPlacementMode SuggestionPopupPlacement
+        public SuggestionPopupPlacementMode PopupPlacement
         {
-            get => (SuggestionPopupPlacementMode)this.GetValue(SuggestionPopupPlacementProperty);
-            set => SetValue(SuggestionPopupPlacementProperty, value);
+            get => (SuggestionPopupPlacementMode)GetValue(PopupPlacementProperty);
+            set => SetValue(PopupPlacementProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the radius for the corners of the popup control's border.
+        /// </summary>
+        public CornerRadius PopupCornerRadius
+        {
+            get => (CornerRadius)GetValue(PopupCornerRadiusProperty);
+            set => SetValue(PopupCornerRadiusProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the suggestion popup control's header.
+        /// </summary>
+        public object PopupHeader
+        {
+            get => GetValue(PopupHeaderProperty);
+            set => SetValue(PopupHeaderProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="DataTemplate"/> used to display the content of the suggestion popup control's header.
+        /// </summary>
+        public DataTemplate PopupHeaderTemplate
+        {
+            get => (DataTemplate)GetValue(PopupHeaderTemplateProperty);
+            set => SetValue(PopupHeaderTemplateProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the suggestion popup control's footer.
+        /// </summary>
+        public object PopupFooter
+        {
+            get => GetValue(PopupFooterProperty);
+            set => SetValue(PopupFooterProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="DataTemplate"/> used to display the content of the suggestion popup control's footer.
+        /// </summary>
+        public DataTemplate PopupFooterTemplate
+        {
+            get => (DataTemplate)GetValue(PopupFooterTemplateProperty);
+            set => SetValue(PopupFooterTemplateProperty, value);
         }
 
         /// <summary>

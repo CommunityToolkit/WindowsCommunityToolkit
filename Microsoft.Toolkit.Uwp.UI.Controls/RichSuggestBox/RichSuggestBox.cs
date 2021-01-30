@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -65,6 +66,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(RichSuggestBox);
 
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
+            RegisterPropertyChangedCallback(CornerRadiusProperty, OnCornerRadiusChanged);
+            RegisterPropertyChangedCallback(PopupCornerRadiusProperty, OnCornerRadiusChanged);
         }
 
         /// <summary>
@@ -142,6 +145,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 view.SetValue(PrefixesProperty, prefixes);
             }
+        }
+
+        private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            UpdateCornerRadii();
         }
 
         private void SuggestionsList_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -463,6 +471,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this._suggestionChoice = 0;
                 this._suggestionPopup.VerticalOffset = 0;
                 this._suggestionPopup.HorizontalOffset = 0;
+                UpdateCornerRadii();
             }
         }
 
@@ -473,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (this.SuggestionPopupPlacement == SuggestionPopupPlacementMode.Attached)
+            if (this.PopupPlacement == SuggestionPopupPlacementMode.Attached)
             {
                 this._suggestionsList.MaxWidth = double.PositiveInfinity;
                 this._suggestionsList.Width = this._richEditBox.ActualWidth;
@@ -494,7 +503,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Thickness padding = this._richEditBox.Padding;
 
             // Update horizontal offset
-            if (SuggestionPopupPlacement == SuggestionPopupPlacementMode.Attached)
+            if (this.PopupPlacement == SuggestionPopupPlacementMode.Attached)
             {
                 this._suggestionPopup.HorizontalOffset = 0;
             }
@@ -512,7 +521,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Update vertical offset
             double downOffset = this._richEditBox.ActualHeight;
             double upOffset = -this._suggestionsContainer.ActualHeight;
-            if (SuggestionPopupPlacement == SuggestionPopupPlacementMode.Floating)
+            if (this.PopupPlacement == SuggestionPopupPlacementMode.Floating)
             {
                 downOffset = selectionRect.Bottom + padding.Top + padding.Bottom;
                 upOffset += selectionRect.Top;
@@ -533,10 +542,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this._suggestionPopup.VerticalOffset = upOffset;
                     this._popupOpenDown = false;
                 }
+
+                UpdateCornerRadii();
             }
             else
             {
                 this._suggestionPopup.VerticalOffset = this._popupOpenDown ? downOffset : upOffset;
+            }
+        }
+
+        private void UpdateCornerRadii()
+        {
+            if (this._richEditBox == null || this._suggestionsContainer == null ||
+                !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            {
+                return;
+            }
+
+            this._richEditBox.CornerRadius = CornerRadius;
+            this._suggestionsContainer.CornerRadius = PopupCornerRadius;
+
+            if (this._suggestionPopup.IsOpen && PopupPlacement == SuggestionPopupPlacementMode.Attached)
+            {
+                if (this._popupOpenDown)
+                {
+                    var cornerRadius = new CornerRadius(CornerRadius.TopLeft, CornerRadius.TopRight, 0, 0);
+                    this._richEditBox.CornerRadius = cornerRadius;
+                    var popupCornerRadius =
+                        new CornerRadius(0, 0, PopupCornerRadius.BottomRight, PopupCornerRadius.BottomLeft);
+                    this._suggestionsContainer.CornerRadius = popupCornerRadius;
+                }
+                else
+                {
+                    var cornerRadius = new CornerRadius(0,0, CornerRadius.BottomRight, CornerRadius.BottomLeft);
+                    this._richEditBox.CornerRadius = cornerRadius;
+                    var popupCornerRadius =
+                        new CornerRadius(PopupCornerRadius.TopLeft, PopupCornerRadius.TopRight, 0, 0);
+                    this._suggestionsContainer.CornerRadius = popupCornerRadius;
+                }
             }
         }
 
