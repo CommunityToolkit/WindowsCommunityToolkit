@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         }
                         catch (Exception ex)
                         {
-                            _initializeEx = ex;
+                            _initializeEx = new InvalidOperationException("Failed to register notification activator", ex);
                         }
                     }
 
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private static string _win32Aumid;
         private static string _clsid;
-        private static Exception _initializeEx;
+        private static InvalidOperationException _initializeEx;
 
         static ToastNotificationManagerCompat()
         {
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             catch (Exception ex)
             {
                 // We catch the exception so that things like subscribing to the event handler doesn't crash app
-                _initializeEx = ex;
+                _initializeEx = new InvalidOperationException("Failed initializing notifications", ex);
             }
         }
 
@@ -251,7 +251,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
             var uuid = activatorType.GUID;
-            CoRegisterClassObject(
+            NativeMethods.CoRegisterClassObject(
                 uuid,
                 new NotificationActivatorClassFactory(activatorType),
                 CLSCTX_LOCAL_SERVER,
@@ -262,12 +262,36 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static void RegisterComServer(Type activatorType, string exePath)
         {
             // We register the EXE to start up when the notification is activated
-            string regString = string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}\\LocalServer32", activatorType.GUID);
-            var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(regString);
+            string regString = string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}", activatorType.GUID);
+            using (var key = Registry.CurrentUser.CreateSubKey(regString + "\\LocalServer32"))
+            {
+                // Include a flag so we know this was a toast activation and should wait for COM to process
+                // We also wrap EXE path in quotes for extra security
+                key.SetValue(null, '"' + exePath + '"' + " " + TOAST_ACTIVATED_LAUNCH_ARG);
+            }
 
-            // Include a flag so we know this was a toast activation and should wait for COM to process
-            // We also wrap EXE path in quotes for extra security
-            key.SetValue(null, '"' + exePath + '"' + " " + TOAST_ACTIVATED_LAUNCH_ARG);
+            if (IsElevated)
+            {
+                //// For elevated apps, we need to ensure they'll activate in existing running process by adding
+                //// some values in local machine
+                using (var key = Registry.LocalMachine.CreateSubKey(regString))
+                {
+                    // Same as above, except also including AppId to link to our AppId entry below
+                    using (var localServer32 = key.CreateSubKey("LocalServer32"))
+                    {
+                        localServer32.SetValue(null, '"' + exePath + '"' + " " + TOAST_ACTIVATED_LAUNCH_ARG);
+                    }
+
+                    key.SetValue("AppId", "{" + activatorType.GUID + "}");
+                }
+
+                // This tells COM to match any client, so Action Center will activate our elevated process.
+                // More info: https://docs.microsoft.com/windows/win32/com/runas
+                using (var key = Registry.LocalMachine.CreateSubKey(string.Format("SOFTWARE\\Classes\\AppID\\{{{0}}}", activatorType.GUID)))
+                {
+                    key.SetValue("RunAs", "Interactive User");
+                }
+            }
         }
 
         /// <summary>
@@ -332,13 +356,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        [DllImport("ole32.dll")]
-        private static extern int CoRegisterClassObject(
-            [MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
-            [MarshalAs(UnmanagedType.IUnknown)] object pUnk,
-            uint dwClsContext,
-            uint flags,
-            out uint lpdwRegister);
+        private static bool IsElevated
+        {
+            get
+            {
+                return new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+            }
+        }
 #endif
 
         /// <summary>
@@ -460,7 +484,32 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 if (_clsid != null)
                 {
-                    Registry.CurrentUser.DeleteSubKey(string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}\\LocalServer32", _clsid));
+                    try
+                    {
+                        Registry.CurrentUser.DeleteSubKeyTree(string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}", _clsid));
+                    }
+                    catch
+                    {
+                    }
+
+                    if (IsElevated)
+                    {
+                        try
+                        {
+                            Registry.LocalMachine.DeleteSubKeyTree(string.Format("SOFTWARE\\Classes\\CLSID\\{{{0}}}", _clsid));
+                        }
+                        catch
+                        {
+                        }
+
+                        try
+                        {
+                            Registry.LocalMachine.DeleteSubKeyTree(string.Format("SOFTWARE\\Classes\\AppID\\{{{0}}}", _clsid));
+                        }
+                        catch
+                        {
+                        }
+                    }
                 }
             }
             catch
