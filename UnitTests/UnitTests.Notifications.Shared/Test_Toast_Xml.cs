@@ -980,7 +980,7 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_Xml_Actions_SnoozeAndDismissUsingBuilders()
         {
-            AssertActionsPayload("<actions><action activationType='system' arguments='snooze'/><action activationType='system' arguments='dismiss'/><action content='Hide' activationType='system' arguments='dismiss'/><action content='Later' activationType='system' arguments='snooze'/><action content='Remind me' activationType='system' arguments='snooze' hint-inputId='snoozePicker'/></actions>", new ToastActionsCustom()
+            AssertActionsPayload("<actions><action content='' activationType='system' arguments='snooze'/><action content='' activationType='system' arguments='dismiss'/><action content='Hide' activationType='system' arguments='dismiss'/><action content='Later' activationType='system' arguments='snooze'/><action content='Remind me' activationType='system' arguments='snooze' hint-inputId='snoozePicker'/></actions>", new ToastActionsCustom()
             {
                 Buttons =
                 {

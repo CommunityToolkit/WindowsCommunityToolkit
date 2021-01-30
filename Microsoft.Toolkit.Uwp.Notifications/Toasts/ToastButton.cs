@@ -25,6 +25,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         private bool _usingDismissActivation;
 
+        internal bool NeedsContent()
+        {
+            // Snooze/dismiss buttons don't need content (the system will auto-add the localized strings).
+            return !_usingDismissActivation && !_usingSnoozeActivation;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ToastButton"/> class.
         /// </summary>
@@ -428,11 +434,23 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 {
                     el.InputId = _snoozeSelectionBoxId;
                 }
+
+                // Content needs to be specified as empty for auto-generated Snooze content
+                if (el.Content == null)
+                {
+                    el.Content = string.Empty;
+                }
             }
             else if (_usingDismissActivation)
             {
                 el.ActivationType = Element_ToastActivationType.System;
                 el.Arguments = "dismiss";
+
+                // Content needs to be specified as empty for auto-generated Dismiss content
+                if (el.Content == null)
+                {
+                    el.Content = string.Empty;
+                }
             }
             else
             {

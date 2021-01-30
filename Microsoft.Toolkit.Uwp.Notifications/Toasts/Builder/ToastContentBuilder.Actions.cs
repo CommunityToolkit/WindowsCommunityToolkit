@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddButton(IToastButton button)
         {
-            if (button is ToastButton toastButton && toastButton.Content == null)
+            if (button is ToastButton toastButton && toastButton.Content == null && toastButton.NeedsContent())
             {
                 throw new InvalidOperationException("Content is required on button.");
             }
