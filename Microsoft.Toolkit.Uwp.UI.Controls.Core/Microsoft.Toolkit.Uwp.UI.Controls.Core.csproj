@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
 
