@@ -38,6 +38,13 @@
     <PackageReference Include="coverlet.collector">
       <Version>1.2.1</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+      <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>4.7.2</Version>
+    </PackageReference>
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.3.0</Version>
     </PackageReference>
@@ -68,6 +75,8 @@
     <Compile Include="Extensions\Test_EnumValuesExtension.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\JsonObjectSerializer.cs" />
+    <Compile Include="Helpers\SystemTextJsonSerializer.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
     <Compile Include="Extensions\Test_DispatcherQueueExtensions.cs" />
