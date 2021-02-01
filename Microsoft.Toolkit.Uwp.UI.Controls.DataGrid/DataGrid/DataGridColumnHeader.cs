@@ -1067,7 +1067,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             {
                 DiagnosticsDebug.Assert(interactionInfo.OriginalCursor != null, "Expected non-null interactionInfo.OriginalCursor.");
 
-                CoreWindow.GetForCurrentThread().PointerCursor = interactionInfo.OriginalCursor;
+                ProtectedCursor = interactionInfo.OriginalCursor;
 
                 interactionInfo.ResizePointerId = 0;
             }
@@ -1102,12 +1102,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             if (this.OwningGrid.IsEnabled && (nearCurrentResizableColumnRightEdge || nearPreviousResizableColumnLeftEdge))
             {
-                CoreCursor currentCursor = CoreWindow.GetForCurrentThread().PointerCursor;
+                CoreCursor currentCursor = ProtectedCursor;
+                if (currentCursor == null)
+                {
+                    currentCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                }
+
                 if (currentCursor != null && currentCursor.Type != CoreCursorType.SizeWestEast)
                 {
                     interactionInfo.OriginalCursor = currentCursor;
                     interactionInfo.ResizePointerId = pointer.PointerId;
-                    CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+
+                    var newCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    ProtectedCursor = newCursor;
                 }
             }
             else if (interactionInfo.ResizePointerId == pointer.PointerId)

@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.UI.Xaml;
+using Microsoft.UI.Input;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -12,14 +12,14 @@ namespace Microsoft.Toolkit.Uwp.Utilities
     {
         public static void GetMetaKeyState(out bool ctrl, out bool shift)
         {
-            ctrl = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            shift = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            ctrl = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            shift = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
         }
 
         public static void GetMetaKeyState(out bool ctrl, out bool shift, out bool alt)
         {
             GetMetaKeyState(out ctrl, out shift);
-            alt = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            alt = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
         }
     }
 }

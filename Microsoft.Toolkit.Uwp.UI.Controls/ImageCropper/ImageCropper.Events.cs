@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
@@ -24,8 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == VirtualKey.Left)
             {
                 diffPos.X--;
-                var upKeyState = SafeGetAsyncKeyState(VirtualKey.Up);
-                var downKeyState = SafeGetAsyncKeyState(VirtualKey.Down);
+                var upKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Up);
+                var downKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Down);
                 if (upKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y--;
@@ -41,8 +42,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (e.Key == VirtualKey.Right)
             {
                 diffPos.X++;
-                var upKeyState = SafeGetAsyncKeyState(VirtualKey.Up);
-                var downKeyState = SafeGetAsyncKeyState(VirtualKey.Down);
+                var upKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Up);
+                var downKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Down);
                 if (upKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y--;
@@ -58,8 +59,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (e.Key == VirtualKey.Up)
             {
                 diffPos.Y--;
-                var leftKeyState = SafeGetAsyncKeyState(VirtualKey.Left);
-                var rightKeyState = SafeGetAsyncKeyState(VirtualKey.Right);
+                var leftKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Left);
+                var rightKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Right);
                 if (leftKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.X--;
@@ -75,8 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (e.Key == VirtualKey.Down)
             {
                 diffPos.Y++;
-                var leftKeyState = SafeGetAsyncKeyState(VirtualKey.Left);
-                var rightKeyState = SafeGetAsyncKeyState(VirtualKey.Right);
+                var leftKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Left);
+                var rightKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Right);
                 if (leftKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.X--;
@@ -95,16 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var imageCropperThumb = (ImageCropperThumb)sender;
                 UpdateCroppedRect(imageCropperThumb.Position, diffPos);
             }
-        }
-
-        private CoreVirtualKeyStates SafeGetAsyncKeyState(VirtualKey virtualKey)
-        {
-            if (Window.Current == null)
-            {
-                return CoreVirtualKeyStates.None;
-            }
-
-            return Window.Current.CoreWindow.GetAsyncKeyState(virtualKey);
         }
 
         private void ImageCropperThumb_KeyUp(object sender, KeyRoutedEventArgs e)
