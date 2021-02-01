@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            var ctrl = Microsoft.UI.Input.KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control);
             return ctrl.HasFlag(CoreVirtualKeyStates.Down);
         }
 
@@ -127,25 +127,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
-            if (Window.Current != null)
+            // saving the previous state
+            PreviousCursor = ProtectedCursor;
+            if (PreviousCursor == null)
             {
-                // saving the previous state
-                PreviousCursor = Window.Current.CoreWindow.PointerCursor;
+                PreviousCursor = new CoreCursor(CoreCursorType.Arrow, 0);
             }
 
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
-            if (Window.Current != null)
+            if (_resizeDirection == GridResizeDirection.Columns)
             {
-                if (_resizeDirection == GridResizeDirection.Columns)
-                {
-                    Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
-                }
-                else if (_resizeDirection == GridResizeDirection.Rows)
-                {
-                    Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
-                }
+                ProtectedCursor = ColumnsSplitterCursor;
+            }
+            else if (_resizeDirection == GridResizeDirection.Rows)
+            {
+                ProtectedCursor = RowSplitterCursor;
             }
 
             base.OnManipulationStarted(e);
@@ -154,10 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
         {
-            if (Window.Current != null)
-            {
-                Window.Current.CoreWindow.PointerCursor = PreviousCursor;
-            }
+            ProtectedCursor = PreviousCursor;
 
             base.OnManipulationCompleted(e);
         }

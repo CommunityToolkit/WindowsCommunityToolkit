@@ -234,10 +234,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TargetGrid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (Window.Current != null)
-            {
-                Window.Current.CoreWindow.PointerCursor = DefaultCursor;
-            }
+            ProtectedCursor = DefaultCursor;
 
             if (_pointerId != null)
             {
@@ -248,10 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TargetGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (Window.Current != null)
-            {
-                Window.Current.CoreWindow.PointerCursor = MoveCursor;
-            }
+            ProtectedCursor = MoveCursor;
         }
 
         private async void Eyedropper_DpiChanged(DisplayInformation sender, object args)
@@ -342,10 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // _appScreenshot?.Dispose();
             // _appScreenshot = null;
-            if (Window.Current != null)
-            {
-                Window.Current.CoreWindow.PointerCursor = DefaultCursor;
-            }
+            ProtectedCursor = DefaultCursor;
         }
 
         private void Window_SizeChanged(object sender, Microsoft.UI.Xaml.WindowSizeChangedEventArgs e)
