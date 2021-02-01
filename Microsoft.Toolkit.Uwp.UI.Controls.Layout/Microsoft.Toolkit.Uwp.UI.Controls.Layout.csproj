@@ -23,17 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Themes\Generic.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Themes\Generic.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
