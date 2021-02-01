@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,88 +12,102 @@ namespace UnitTests.Diagnostics
     {
         [TestCategory("Guard")]
         [TestMethod]
-        public void Test_Guard_IsCloseToInt_Ok()
+        [DataRow(0, 20, 10u, false)]
+        [DataRow(0, 6, 5u, false)]
+        [DataRow(0, int.MaxValue, 500u, false)]
+        [DataRow(-500, -530, 10u, false)]
+        [DataRow(1000, 800, 100u, false)]
+        [DataRow(int.MaxValue, int.MaxValue - 10, 7u, false)]
+        [DataRow(int.MinValue, int.MaxValue, (uint)int.MaxValue, false)]
+        [DataRow(0, 5, 10u, true)]
+        [DataRow(0, 5, 5u, true)]
+        [DataRow(0, int.MaxValue, (uint)int.MaxValue, true)]
+        [DataRow(-500, -530, 50u, true)]
+        [DataRow(1000, 800, 200u, true)]
+        [DataRow(int.MaxValue, int.MaxValue - 10, 10u, true)]
+        public void Test_Guard_IsCloseOrNotToInt(int value, int target, uint delta, bool isClose)
         {
-            Guard.IsCloseTo(0, 5, 10, nameof(Test_Guard_IsCloseToInt_Ok));
-            Guard.IsCloseTo(0, 5, 5, nameof(Test_Guard_IsCloseToInt_Ok));
-            Guard.IsCloseTo(0, int.MaxValue, int.MaxValue, nameof(Test_Guard_IsCloseToInt_Ok));
-            Guard.IsCloseTo(-500, -530, 50, nameof(Test_Guard_IsCloseToInt_Ok));
-            Guard.IsCloseTo(1000, 800, 200, nameof(Test_Guard_IsCloseToInt_Ok));
-            Guard.IsCloseTo(int.MaxValue, int.MaxValue - 10, 10, nameof(Test_Guard_IsCloseToInt_Ok));
-        }
-
-        [TestCategory("Guard")]
-        [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1000", Justification = "Value tuple")]
-        public void Test_Guard_IsCloseToInt_Fail()
-        {
-            foreach (var item in new (int Value, int Target, uint Delta)[]
+            void Test(int value, int target)
             {
-                (0, 20, 10),
-                (0, 6, 5),
-                (0, int.MaxValue, 500),
-                (-500, -530, 10),
-                (1000, 800, 100),
-                (int.MaxValue, int.MaxValue - 10, 7),
-                (int.MinValue, int.MaxValue, int.MaxValue)
-            })
-            {
-                bool fail = false;
+                bool isFailed = false;
 
                 try
                 {
-                    Guard.IsCloseTo(item.Value, item.Target, item.Delta, nameof(Test_Guard_IsCloseToInt_Fail));
+                    Guard.IsCloseTo(value, target, delta, nameof(Test_Guard_IsCloseOrNotToInt));
                 }
                 catch (ArgumentException)
                 {
-                    fail = true;
+                    isFailed = true;
                 }
 
-                Assert.IsTrue(fail, $"IsCloseTo didn't fail with {item}");
-            }
-        }
+                Assert.AreEqual(isClose, !isFailed);
 
-        [TestCategory("Guard")]
-        [TestMethod]
-        public void Test_Guard_IsCloseToFloat_Ok()
-        {
-            Guard.IsCloseTo(0f, 5, 10, nameof(Test_Guard_IsCloseToFloat_Ok));
-            Guard.IsCloseTo(0f, 5, 5, nameof(Test_Guard_IsCloseToFloat_Ok));
-            Guard.IsCloseTo(0f, float.MaxValue, float.MaxValue, nameof(Test_Guard_IsCloseToFloat_Ok));
-            Guard.IsCloseTo(-500f, -530, 50, nameof(Test_Guard_IsCloseToFloat_Ok));
-            Guard.IsCloseTo(1000f, 800, 200, nameof(Test_Guard_IsCloseToFloat_Ok));
-            Guard.IsCloseTo(float.MaxValue, float.MaxValue - 10, 10, nameof(Test_Guard_IsCloseToFloat_Ok));
-        }
-
-        [TestCategory("Guard")]
-        [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1000", Justification = "Value tuple")]
-        public void Test_Guard_IsCloseToFloat_Fail()
-        {
-            foreach (var item in new (float Value, float Target, float Delta)[]
-            {
-                (0, 20, 10),
-                (0, 6, 5),
-                (0, float.MaxValue, 500),
-                (-500, -530, 10),
-                (1000, 800, 100),
-                (float.MaxValue, float.MaxValue / 2, 7),
-                (float.MinValue, float.MaxValue, float.MaxValue)
-            })
-            {
-                bool fail = false;
+                isFailed = false;
 
                 try
                 {
-                    Guard.IsCloseTo(item.Value, item.Target, item.Delta, nameof(Test_Guard_IsCloseToFloat_Fail));
+                    Guard.IsNotCloseTo(value, target, delta, nameof(Test_Guard_IsCloseOrNotToInt));
                 }
                 catch (ArgumentException)
                 {
-                    fail = true;
+                    isFailed = true;
                 }
 
-                Assert.IsTrue(fail, $"IsCloseTo didn't fail with {item}");
+                Assert.AreEqual(isClose, isFailed);
             }
+
+            Test(value, target);
+            Test(target, value);
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [DataRow(0f, 20f, 10f, false)]
+        [DataRow(0f, 6f, 5f, false)]
+        [DataRow(0f, float.MaxValue, 500f, false)]
+        [DataRow(-500f, -530f, 10f, false)]
+        [DataRow(1000f, 800f, 100f, false)]
+        [DataRow(float.MaxValue, float.MaxValue / 2, 7f, false)]
+        [DataRow(float.MinValue, float.MaxValue, float.MaxValue, false)]
+        [DataRow(0f, 5f, 10f, true)]
+        [DataRow(0f, 5f, 5f, true)]
+        [DataRow(0f, float.MaxValue, float.MaxValue, true)]
+        [DataRow(-500f, -530f, 50f, true)]
+        [DataRow(1000f, 800f, 200f, true)]
+        [DataRow(float.MaxValue, float.MaxValue - 10, 10f, true)]
+        public void Test_Guard_IsCloseToFloat(float value, float target, float delta, bool isClose)
+        {
+            void Test(float value, float target)
+            {
+                bool isFailed = false;
+
+                try
+                {
+                    Guard.IsCloseTo(value, target, delta, nameof(Test_Guard_IsCloseToFloat));
+                }
+                catch (ArgumentException)
+                {
+                    isFailed = true;
+                }
+
+                Assert.AreEqual(isClose, !isFailed);
+
+                isFailed = false;
+
+                try
+                {
+                    Guard.IsNotCloseTo(value, target, delta, nameof(Test_Guard_IsCloseToFloat));
+                }
+                catch (ArgumentException)
+                {
+                    isFailed = true;
+                }
+
+                Assert.AreEqual(isClose, isFailed);
+            }
+
+            Test(value, target);
+            Test(target, value);
         }
     }
 }
