@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-<!-- 🚨 Please provide detailed information and Do Not skip any instructions as they are all required and essential to help us understand the feature 
-
+<!-- 🚨 PLEASE PROVIDE DETAILED INFORMATION AND DO NOT SKIP ANY INSTRUCTIONS AND INFORMATION MENTIONED BELOW AS THEY ARE ALL REQUIRED AND ESSENTIAL TO HELP US UNDERSTAND THE FEATURE.
+...
 IF NOT CERTAIN ABOUT THE FEATURE AND REQUIRE MORE CLARITY THEN PLEASE POST ON "IDEAS" CATEGORY OF THE DISCUSSIONS PLATFORM [https://github.com/windows-toolkit/WindowsCommunityToolkit/discussions/categories/ideas] WHERE YOU CAN DISCUSS AND ENAGAGE WITH THE COMMUNITY TO GAIN FURTHER CLAIRITY REGARDING THE FEATURE 🚨 -->
 
 ## Describe the problem this feature would solve
