@@ -48,6 +48,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CameraPreview\**" />
+    <Compile Remove="RemoteDevicePicker\**" />
+    <EmbeddedResource Remove="CameraPreview\**" />
+    <EmbeddedResource Remove="RemoteDevicePicker\**" />
+    <None Remove="CameraPreview\**" />
+    <None Remove="RemoteDevicePicker\**" />
+    <Page Remove="CameraPreview\**" />
+    <Page Remove="RemoteDevicePicker\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
 
