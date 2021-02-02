@@ -5,6 +5,7 @@
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -25,7 +26,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ToggleFullScreenMode(object sender, RoutedEventArgs e)
         {
+            if (CoreWindow.GetForCurrentThread() == null)
+            {
+                return;
+            }
+
             var view = ApplicationView.GetForCurrentView();
+            if (view == null)
+            {
+                return;
+            }
+
             var isFullScreenMode = view.IsFullScreenMode;
 
             if (isFullScreenMode)

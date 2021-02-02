@@ -20,7 +20,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             var visual = ElementCompositionPreview.GetElementVisual(element).Compositor.CreateSpriteVisual();
 
-            visual.Brush = await OnPipelineRequested().BuildAsync();
+            try
+            {
+                var pipelineBuilder = OnPipelineRequested();
+                if (pipelineBuilder != null) // TODO: WinUI3 Remove
+                {
+                    visual.Brush = await pipelineBuilder.BuildAsync();
+                }
+            }
+            catch
+            {
+                global::System.Diagnostics.Debug.WriteLine("TODO: WinUI3 - PipelineVisualFactoryBase.GetAttachedVisualAsync() Ignore until Win2D is available on WinUI3");
+            }
 
             return visual;
         }

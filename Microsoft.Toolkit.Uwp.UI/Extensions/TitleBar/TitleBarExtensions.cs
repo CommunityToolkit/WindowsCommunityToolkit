@@ -5,6 +5,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -400,6 +401,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static ApplicationViewTitleBar GetTitleBar()
         {
+            if (CoreWindow.GetForCurrentThread() == null)
+            {
+                return null;
+            }
+
             return ApplicationView.GetForCurrentView()?.TitleBar;
         }
     }

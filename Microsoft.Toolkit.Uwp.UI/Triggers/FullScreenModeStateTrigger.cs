@@ -4,6 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 
 namespace Microsoft.Toolkit.Uwp.UI.Triggers
@@ -24,9 +25,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                     new WeakEventListener<FullScreenModeStateTrigger, ApplicationView, object>(this)
                     {
                         OnEventAction = (instance, source, eventArgs) => instance.FullScreenModeTrigger_VisibleBoundsChanged(source, eventArgs),
-                        OnDetachAction = (weakEventListener) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= weakEventListener.OnEvent
+                        OnDetachAction = (weakEventListener) =>
+                        {
+                            if (CoreWindow.GetForCurrentThread() != null)
+                            {
+                                ApplicationView.GetForCurrentView().VisibleBoundsChanged -= weakEventListener.OnEvent;
+                            }
+                        }
                     };
-                ApplicationView.GetForCurrentView().VisibleBoundsChanged += weakEvent.OnEvent;
+
+                if (CoreWindow.GetForCurrentThread() != null)
+                {
+                    ApplicationView.GetForCurrentView().VisibleBoundsChanged += weakEvent.OnEvent;
+                }
             }
         }
 
@@ -45,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                 _isFullScreen = value;
                 if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 {
-                    var isFullScreenMode = ApplicationView.GetForCurrentView().IsFullScreenMode;
+                    var isFullScreenMode = CoreWindow.GetForCurrentThread() != null && ApplicationView.GetForCurrentView().IsFullScreenMode;
                     UpdateTrigger(isFullScreenMode);
                 }
             }

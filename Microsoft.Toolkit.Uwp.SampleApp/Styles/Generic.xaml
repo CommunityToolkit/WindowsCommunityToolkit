@@ -4,8 +4,6 @@
     xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
-    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls">
 
     <ResourceDictionary.MergedDictionaries>
@@ -1049,11 +1047,10 @@
                             <Grid x:Name="ButtonHolderGrid" Grid.Row="1">
                                 <Button x:Name="NavigationViewBackButton"
                                         Height="48"
-                                        
+                                        Style="{StaticResource NavigationBackButtonNormalStyle}"
                                         VerticalAlignment="Center"
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.BackButtonVisibility}"
                                         IsEnabled="{TemplateBinding IsBackEnabled}"/>
-                                <!-- Removed on WinUI3 Style="{StaticResource NavigationBackButtonNormalStyle}"-->
 
                                 <Button
                                     x:Name="TogglePaneButton"
@@ -1151,8 +1148,7 @@
 
                                         <Button.Flyout>
                                             <Flyout
-                                                contract7NotPresent:Placement="Bottom"
-                                                contract7Present:Placement="BottomEdgeAlignedRight"
+                                                Placement="BottomEdgeAlignedRight"
                                                 ElementSoundMode="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ElementSoundMode}">
                                                 <Flyout.FlyoutPresenterStyle>
                                                     <Style TargetType="FlyoutPresenter">

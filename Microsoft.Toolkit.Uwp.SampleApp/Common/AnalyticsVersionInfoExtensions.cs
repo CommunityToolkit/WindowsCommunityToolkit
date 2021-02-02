@@ -24,9 +24,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
             switch (versionInfo.DeviceFamily)
             {
                 case "Windows.Desktop":
-                    return UIViewSettings.GetForCurrentView()?.UserInteractionMode == UserInteractionMode.Mouse
-                        ? DeviceFormFactor.Desktop
-                        : DeviceFormFactor.Tablet;
+                    // TODO: WinUI3 - equivalent for UIViewSettings.GetForCurrentView()?.UserInteractionMode?
+                    //return UIViewSettings.GetForCurrentView()?.UserInteractionMode == UserInteractionMode.Mouse
+                    //    ? DeviceFormFactor.Desktop
+                    //    : DeviceFormFactor.Tablet;
+                    return DeviceFormFactor.Desktop;
 
                 case "Windows.Mobile":
                     return DeviceFormFactor.Mobile;

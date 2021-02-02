@@ -70,12 +70,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
 
             DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
-            _accessible.HighContrastChanged += Accessible_HighContrastChanged;
-            _settings.ColorValuesChanged += Settings_ColorValuesChanged;
-
-            // Fallback in case either of the above fail, we'll check when we get activated next.
             if (Window.Current != null)
             {
+                _accessible.HighContrastChanged += Accessible_HighContrastChanged;
+                _settings.ColorValuesChanged += Settings_ColorValuesChanged;
+
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
             }
         }

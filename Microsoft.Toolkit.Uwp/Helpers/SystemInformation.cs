@@ -232,8 +232,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     UpdateVisibility(e.Visible);
                 }
 
-                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
-                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+                var coreWindow = Windows.UI.Core.CoreWindow.GetForCurrentThread();
+                if (coreWindow != null)
+                {
+                    coreWindow.VisibilityChanged -= App_VisibilityChanged;
+                    coreWindow.VisibilityChanged += App_VisibilityChanged;
+                }
             }
         }
 

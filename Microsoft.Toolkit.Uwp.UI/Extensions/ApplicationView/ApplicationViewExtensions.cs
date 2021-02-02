@@ -104,6 +104,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static Windows.UI.ViewManagement.ApplicationView GetApplicationView()
         {
+            if (CoreWindow.GetForCurrentThread() == null)
+            {
+                return null;
+            }
+
             return Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
         }
     }

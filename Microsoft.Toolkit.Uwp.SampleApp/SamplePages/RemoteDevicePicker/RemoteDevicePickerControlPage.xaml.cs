@@ -26,7 +26,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Title = "Pick Remote Device",
                 SelectionMode = (RemoteDeviceSelectionMode)Enum.Parse(typeof(RemoteDeviceSelectionMode), MyComboBox.SelectedValue.ToString()),
-                ShowAdvancedFilters = ShowAdvancedFilters.IsChecked.Value
+                ShowAdvancedFilters = ShowAdvancedFilters.IsChecked.Value,
+                XamlRoot = XamlRoot
             };
             var remoteSystems = await remoteDevicePicker.PickDeviceAsync();
             MyInAppNotification.Show($"You picked {remoteSystems.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", remoteSystems.Select(x => x.DisplayName.ToString()).ToList()), 2000);
