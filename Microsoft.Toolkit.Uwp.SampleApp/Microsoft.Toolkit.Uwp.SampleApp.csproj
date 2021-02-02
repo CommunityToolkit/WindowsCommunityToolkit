@@ -333,8 +333,8 @@
     <Content Include="SamplePages\LiveTile\LiveTile.png" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
-    <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
-    <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsView.png" />
+    <Content Include="SamplePages\ListDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
@@ -403,7 +403,7 @@
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
-    <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsView.bind" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
@@ -418,7 +418,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
-    <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsViewCode.bind" />
     <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
@@ -860,8 +860,8 @@
     <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml.cs">
-      <DependentUpon>MasterDetailsViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ListDetailsView\ListDetailsViewPage.cs">
+      <DependentUpon>ListDetailsViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
@@ -1305,7 +1305,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml">
+    <Page Include="SamplePages\ListDetailsView\ListDetailsViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1479,9 +1479,9 @@
       <Project>{84ab7dc5-95c9-4cf8-a370-d077e9e9ef1a}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Primitives</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>

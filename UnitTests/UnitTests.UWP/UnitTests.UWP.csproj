@@ -192,7 +192,7 @@
     <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_General.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_InterspersedCollection.cs" />
-    <Compile Include="UI\Controls\Test_MasterDetailsView.cs" />
+    <Compile Include="UI\Controls\Test_ListDetailsView.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
@@ -257,9 +257,9 @@
       <Project>{84ab7dc5-95c9-4cf8-a370-d077e9e9ef1a}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Primitives</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>

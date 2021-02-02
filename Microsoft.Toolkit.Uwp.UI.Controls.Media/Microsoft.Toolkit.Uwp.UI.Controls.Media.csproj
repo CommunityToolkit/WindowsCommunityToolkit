@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
