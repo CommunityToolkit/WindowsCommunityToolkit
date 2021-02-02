@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-<!-- 🚨 Please Do Not skip any instructions and information mentioned below as they are all required and essential to investigate the issue. Issues with missing information may be closed without investigation 
-
+<!-- 🚨 PLEASE DO NOT SKIP ANY INSTRUCTIONS AND INFORMATION MENTIONED BELOW AS THEY ARE ALL REQUIRED AND ESSENTIAL TO INVESTIGATE THE ISSUE. ISSUES WITH MISSING INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION
+...
 IF NOT CERTAIN ABOUT THE ISSUE AND REQUIRE MORE CLARITY THEN PLEASE POST ON "QUESTIONS & HELP" CATEGORY OF THE DISCUSSIONS PLATFORM [https://github.com/windows-toolkit/WindowsCommunityToolkit/discussions/categories/questions-help] WHERE YOU CAN DISCUSS AND ENAGAGE WITH THE COMMUNITY TO GAIN FURTHER CLAIRITY REGARDING THE ISSUE  🚨 -->
 
 ## Describe the bug
