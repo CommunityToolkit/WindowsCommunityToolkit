@@ -468,59 +468,75 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
                 invokable = NonInvokeGazeTargetItem;
             }
 
-            switch (Window.Current.CoreWindow.ActivationMode)
+            GazeTargetItem GetInvokable()
             {
-                case CoreWindowActivationMode.ActivatedInForeground:
-                case CoreWindowActivationMode.ActivatedNotForeground:
-                    var elements = VisualTreeHelper.FindElementsInHostCoordinates(gazePoint, null, false);
-                    var element = elements.FirstOrDefault();
+                GazeTargetItem invokable = null;
 
-                    invokable = null;
+                var elements = VisualTreeHelper.FindElementsInHostCoordinates(gazePoint, null, false);
+                var element = elements.FirstOrDefault();
 
-                    if (element != null)
+                invokable = null;
+
+                if (element != null)
+                {
+                    invokable = GazeTargetItem.GetOrCreate(element);
+
+                    while (element != null && !invokable.IsInvokable)
                     {
-                        invokable = GazeTargetItem.GetOrCreate(element);
+                        element = VisualTreeHelper.GetParent(element) as UIElement;
 
-                        while (element != null && !invokable.IsInvokable)
+                        if (element != null)
                         {
-                            element = VisualTreeHelper.GetParent(element) as UIElement;
-
-                            if (element != null)
-                            {
-                                invokable = GazeTargetItem.GetOrCreate(element);
-                            }
+                            invokable = GazeTargetItem.GetOrCreate(element);
                         }
                     }
+                }
 
-                    if (element == null || !invokable.IsInvokable)
+                if (element == null || !invokable.IsInvokable)
+                {
+                    invokable = NonInvokeGazeTargetItem;
+                }
+                else
+                {
+                    Interaction interaction;
+                    do
+                    {
+                        interaction = GazeInput.GetInteraction(element);
+                        if (interaction == Interaction.Inherited)
+                        {
+                            element = GetInheritenceParent(element);
+                        }
+                    }
+                    while (interaction == Interaction.Inherited && element != null);
+
+                    if (interaction == Interaction.Inherited)
+                    {
+                        interaction = GazeInput.Interaction;
+                    }
+
+                    if (interaction != Interaction.Enabled)
                     {
                         invokable = NonInvokeGazeTargetItem;
                     }
-                    else
-                    {
-                        Interaction interaction;
-                        do
-                        {
-                            interaction = GazeInput.GetInteraction(element);
-                            if (interaction == Interaction.Inherited)
-                            {
-                                element = GetInheritenceParent(element);
-                            }
-                        }
-                        while (interaction == Interaction.Inherited && element != null);
+                }
 
-                        if (interaction == Interaction.Inherited)
-                        {
-                            interaction = GazeInput.Interaction;
-                        }
+                return invokable;
+            }
 
-                        if (interaction != Interaction.Enabled)
-                        {
-                            invokable = NonInvokeGazeTargetItem;
-                        }
-                    }
+            if (Window.Current == null)
+            {
+                invokable = GetInvokable();
+            }
+            else
+            {
+                switch (Window.Current.CoreWindow.ActivationMode)
+                {
+                    case CoreWindowActivationMode.ActivatedInForeground:
+                    case CoreWindowActivationMode.ActivatedNotForeground:
+                        invokable = GetInvokable();
 
-                    break;
+                        break;
+                }
             }
 
             return invokable;
