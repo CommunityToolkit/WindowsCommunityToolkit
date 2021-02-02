@@ -5,8 +5,8 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = NextPartName, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TranslatePartName, Type = typeof(TranslateTransform))]
     [TemplatePart(Name = StackPartName, Type = typeof(StackPanel))]
-    public class RotatorTile : Control
+    public partial class RotatorTile : Control
     {
         private const string ScrollerPartName = "Scroller";
         private const string CurrentPartName = "Current";
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Set clip to control
-            Clip = new RectangleGeometry() { Rect = new Rect(default(Point), e.NewSize) };
+            Clip = new RectangleGeometry { Rect = e.NewSize.ToRect() };
         }
 
         private void RotatorTile_Loaded(object sender, RoutedEventArgs e)

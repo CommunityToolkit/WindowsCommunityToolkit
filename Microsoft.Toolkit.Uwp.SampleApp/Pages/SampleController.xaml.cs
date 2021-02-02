@@ -191,12 +191,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (CurrentSample != null)
             {
-                if (!string.IsNullOrWhiteSpace(CurrentSample.Type))
+                if (CurrentSample.HasType)
                 {
                     try
                     {
-                        var pageInstance = Activator.CreateInstance(CurrentSample.PageType);
-                        SampleContent.Content = pageInstance;
+                        SamplePage = Activator.CreateInstance(CurrentSample.PageType) as Page;
+                        SampleContent.Content = SamplePage;
 
                         // Some samples use the OnNavigatedTo and OnNavigatedFrom
                         // Can't use Frame here because some samples depend on the current Frame
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                         if (method != null)
                         {
-                            method.Invoke(pageInstance, new object[] { e });
+                            method.Invoke(SamplePage, new object[] { e });
                         }
                     }
                     catch
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         SamplePage.Loaded += SamplePage_Loaded;
                     }
                 }
-                else
+                else if (!CurrentSample.HasXAMLCode)
                 {
                     _onlyDocumentation = true;
                 }
@@ -327,7 +327,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             base.OnNavigatedFrom(e);
 
-            if (SamplePage != null)
+            if (SamplePage != null && CurrentSample.HasType)
             {
                 MethodInfo method = CurrentSample.PageType.GetMethod(
                     "OnNavigatedFrom",
@@ -348,6 +348,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SamplePage_Loaded(object sender, RoutedEventArgs e)
         {
+            SamplePage.Loaded -= SamplePage_Loaded;
+
             if (CurrentSample != null && CurrentSample.HasXAMLCode)
             {
                 _lastRenderedProperties = true;
@@ -510,24 +512,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (element != null)
             {
-                // Add element to main panel
-                if (SamplePage == null)
-                {
-                    return;
-                }
+                // Add element to main panel or sub-panel
+                FrameworkElement root = null;
 
-                var root = SamplePage.FindDescendantByName("XamlRoot");
-
-                if (root is Panel)
+                if (CurrentSample.HasType)
                 {
-                    // If we've defined a 'XamlRoot' element to host us as a panel, use that.
-                    (root as Panel).Children.Clear();
-                    (root as Panel).Children.Add(element);
+                    root = SamplePage?.FindDescendantByName("XamlRoot");
+
+                    if (root is Panel)
+                    {
+                        // If we've defined a 'XamlRoot' element to host us as a panel, use that.
+                        (root as Panel).Children.Clear();
+                        (root as Panel).Children.Add(element);
+                    }
+                    else
+                    {
+                        // if we didn't find a XamlRoot host, then we replace the entire content of
+                        // the provided sample page with the XAML.
+                        SamplePage.Content = element;
+                    }
                 }
                 else
                 {
-                    // Otherwise, just replace the entire page's content
-                    SamplePage.Content = element;
+                    // Otherwise, just replace our entire presenter's content
+                    SampleContent.Content = element;
                 }
 
                 // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
@@ -675,7 +683,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private Page SamplePage => SampleContent.Content as Page;
+        // The Loaded Instance of the backing .xaml.cs Page (if any)
+        private Page SamplePage { get; set; }
 
         private bool CanChangePaneState => !_onlyDocumentation;
 

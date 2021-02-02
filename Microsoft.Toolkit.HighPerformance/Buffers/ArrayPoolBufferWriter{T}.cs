@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// the arrays in use are rented from the shared <see cref="ArrayPool{T}"/> instance,
     /// and that <see cref="ArrayPoolBufferWriter{T}"/> is also available on .NET Standard 2.0.
     /// </remarks>
-    [DebuggerTypeProxy(typeof(ArrayPoolBufferWriterDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public sealed class ArrayPoolBufferWriter<T> : IBuffer<T>, IMemoryOwner<T>
     {
@@ -32,6 +33,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// The default buffer size to use to expand empty arrays.
         /// </summary>
         private const int DefaultInitialBufferSize = 256;
+
+        /// <summary>
+        /// The <see cref="ArrayPool{T}"/> instance used to rent <see cref="array"/>.
+        /// </summary>
+        private readonly ArrayPool<T> pool;
 
         /// <summary>
         /// The underlying <typeparamref name="T"/> array.
@@ -49,36 +55,52 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
         public ArrayPoolBufferWriter()
+            : this(ArrayPool<T>.Shared, DefaultInitialBufferSize)
         {
-            // Since we're using pooled arrays, we can rent the buffer with the
-            // default size immediately, we don't need to use lazy initialization
-            // to save unnecessary memory allocations in this case.
-            this.array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize);
-            this.index = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
+        /// </summary>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
+        public ArrayPoolBufferWriter(ArrayPool<T> pool)
+            : this(pool, DefaultInitialBufferSize)
+        {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
         /// <param name="initialCapacity">The minimum capacity with which to initialize the underlying buffer.</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="initialCapacity"/> is not positive (i.e. less than or equal to 0).
-        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="initialCapacity"/> is not valid.</exception>
         public ArrayPoolBufferWriter(int initialCapacity)
+            : this(ArrayPool<T>.Shared, initialCapacity)
         {
-            if (initialCapacity <= 0)
-            {
-                ThrowArgumentOutOfRangeExceptionForInitialCapacity();
-            }
+        }
 
-            this.array = ArrayPool<T>.Shared.Rent(initialCapacity);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
+        /// </summary>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
+        /// <param name="initialCapacity">The minimum capacity with which to initialize the underlying buffer.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="initialCapacity"/> is not valid.</exception>
+        public ArrayPoolBufferWriter(ArrayPool<T> pool, int initialCapacity)
+        {
+            // Since we're using pooled arrays, we can rent the buffer with the
+            // default size immediately, we don't need to use lazy initialization
+            // to save unnecessary memory allocations in this case.
+            // Additionally, we don't need to manually throw the exception if
+            // the requested size is not valid, as that'll be thrown automatically
+            // by the array pool in use when we try to rent an array with that size.
+            this.pool = pool;
+            this.array = pool.Rent(initialCapacity);
             this.index = 0;
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="ArrayPoolBufferWriter{T}"/> class.
         /// </summary>
-        ~ArrayPoolBufferWriter() => this.Dispose();
+        ~ArrayPoolBufferWriter() => Dispose();
 
         /// <inheritdoc/>
         Memory<T> IMemoryOwner<T>.Memory
@@ -182,6 +204,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
 
             array.AsSpan(0, this.index).Clear();
+
             this.index = 0;
         }
 
@@ -211,7 +234,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public Memory<T> GetMemory(int sizeHint = 0)
         {
-            CheckAndResizeBuffer(sizeHint);
+            CheckBufferAndEnsureCapacity(sizeHint);
 
             return this.array.AsMemory(this.index);
         }
@@ -219,7 +242,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public Span<T> GetSpan(int sizeHint = 0)
         {
-            CheckAndResizeBuffer(sizeHint);
+            CheckBufferAndEnsureCapacity(sizeHint);
 
             return this.array.AsSpan(this.index);
         }
@@ -229,9 +252,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         /// <param name="sizeHint">The minimum number of items to ensure space for in <see cref="array"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CheckAndResizeBuffer(int sizeHint)
+        private void CheckBufferAndEnsureCapacity(int sizeHint)
         {
-            if (this.array is null)
+            T[]? array = this.array;
+
+            if (array is null)
             {
                 ThrowObjectDisposedException();
             }
@@ -246,12 +271,32 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 sizeHint = 1;
             }
 
-            if (sizeHint > FreeCapacity)
+            if (sizeHint > array!.Length - this.index)
             {
-                int minimumSize = this.index + sizeHint;
-
-                ArrayPool<T>.Shared.Resize(ref this.array, minimumSize);
+                ResizeBuffer(sizeHint);
             }
+        }
+
+        /// <summary>
+        /// Resizes <see cref="array"/> to ensure it can fit the specified number of new items.
+        /// </summary>
+        /// <param name="sizeHint">The minimum number of items to ensure space for in <see cref="array"/>.</param>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void ResizeBuffer(int sizeHint)
+        {
+            int minimumSize = this.index + sizeHint;
+
+            // The ArrayPool<T> class has a maximum threshold of 1024 * 1024 for the maximum length of
+            // pooled arrays, and once this is exceeded it will just allocate a new array every time
+            // of exactly the requested size. In that case, we manually round up the requested size to
+            // the nearest power of two, to ensure that repeated consecutive writes when the array in
+            // use is bigger than that threshold don't end up causing a resize every single time.
+            if (minimumSize > 1024 * 1024)
+            {
+                minimumSize = BitOperations.RoundUpPowerOfTwo(minimumSize);
+            }
+
+            this.pool.Resize(ref this.array, minimumSize);
         }
 
         /// <inheritdoc/>
@@ -268,7 +313,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             this.array = null;
 
-            ArrayPool<T>.Shared.Return(array);
+            this.pool.Return(array);
         }
 
         /// <inheritdoc/>
@@ -287,18 +332,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the initial capacity is invalid.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ThrowArgumentOutOfRangeExceptionForInitialCapacity()
-        {
-            throw new ArgumentOutOfRangeException("initialCapacity", "The initial capacity must be a positive value");
-        }
-
-        /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the requested count is negative.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeExceptionForNegativeCount()
         {
             throw new ArgumentOutOfRangeException("count", "The count can't be a negative value");
@@ -307,7 +342,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the size hint is negative.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeExceptionForNegativeSizeHint()
         {
             throw new ArgumentOutOfRangeException("sizeHint", "The size hint can't be a negative value");
@@ -316,7 +350,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when the requested count is negative.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForAdvancedTooFar()
         {
             throw new ArgumentException("The buffer writer has advanced too far");
@@ -325,7 +358,6 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> when <see cref="array"/> is <see langword="null"/>.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException("The current buffer has already been disposed");

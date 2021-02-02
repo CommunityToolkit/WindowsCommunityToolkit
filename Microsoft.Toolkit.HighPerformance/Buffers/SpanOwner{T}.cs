@@ -7,6 +7,9 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCORE_RUNTIME || NET5_0
+using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
@@ -31,7 +34,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// Not doing so will cause the underlying buffer not to be returned to the shared pool.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
-    [DebuggerTypeProxy(typeof(SpanOwnerDebugView<>))]
+    [DebuggerTypeProxy(typeof(MemoryDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public readonly ref struct SpanOwner<T>
     {
@@ -43,6 +46,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 #pragma warning restore IDE0032
 
         /// <summary>
+        /// The <see cref="ArrayPool{T}"/> instance used to rent <see cref="array"/>.
+        /// </summary>
+        private readonly ArrayPool<T> pool;
+
+        /// <summary>
         /// The underlying <typeparamref name="T"/> array.
         /// </summary>
         private readonly T[] array;
@@ -51,11 +59,13 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Initializes a new instance of the <see cref="SpanOwner{T}"/> struct with the specified parameters.
         /// </summary>
         /// <param name="length">The length of the new memory buffer to use.</param>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
         /// <param name="mode">Indicates the allocation mode to use for the new buffer to rent.</param>
-        private SpanOwner(int length, AllocationMode mode)
+        private SpanOwner(int length, ArrayPool<T> pool, AllocationMode mode)
         {
             this.length = length;
-            this.array = ArrayPool<T>.Shared.Rent(length);
+            this.pool = pool;
+            this.array = pool.Rent(length);
 
             if (mode == AllocationMode.Clear)
             {
@@ -70,7 +80,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public static SpanOwner<T> Empty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new SpanOwner<T>(0, AllocationMode.Default);
+            get => new SpanOwner<T>(0, ArrayPool<T>.Shared, AllocationMode.Default);
         }
 
         /// <summary>
@@ -82,7 +92,19 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static SpanOwner<T> Allocate(int size) => new SpanOwner<T>(size, AllocationMode.Default);
+        public static SpanOwner<T> Allocate(int size) => new SpanOwner<T>(size, ArrayPool<T>.Shared, AllocationMode.Default);
+
+        /// <summary>
+        /// Creates a new <see cref="SpanOwner{T}"/> instance with the specified parameters.
+        /// </summary>
+        /// <param name="size">The length of the new memory buffer to use.</param>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
+        /// <returns>A <see cref="SpanOwner{T}"/> instance of the requested length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
+        /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static SpanOwner<T> Allocate(int size, ArrayPool<T> pool) => new SpanOwner<T>(size, pool, AllocationMode.Default);
 
         /// <summary>
         /// Creates a new <see cref="SpanOwner{T}"/> instance with the specified parameters.
@@ -94,7 +116,20 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static SpanOwner<T> Allocate(int size, AllocationMode mode) => new SpanOwner<T>(size, mode);
+        public static SpanOwner<T> Allocate(int size, AllocationMode mode) => new SpanOwner<T>(size, ArrayPool<T>.Shared, mode);
+
+        /// <summary>
+        /// Creates a new <see cref="SpanOwner{T}"/> instance with the specified parameters.
+        /// </summary>
+        /// <param name="size">The length of the new memory buffer to use.</param>
+        /// <param name="pool">The <see cref="ArrayPool{T}"/> instance to use.</param>
+        /// <param name="mode">Indicates the allocation mode to use for the new buffer to rent.</param>
+        /// <returns>A <see cref="SpanOwner{T}"/> instance of the requested length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
+        /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static SpanOwner<T> Allocate(int size, ArrayPool<T> pool, AllocationMode mode) => new SpanOwner<T>(size, pool, mode);
 
         /// <summary>
         /// Gets the number of items in the current instance
@@ -111,7 +146,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public Span<T> Span
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Span<T>(array, 0, this.length);
+            get
+            {
+#if NETCORE_RUNTIME || NET5_0
+                ref T r0 = ref array!.DangerousGetReference();
+
+                return MemoryMarshal.CreateSpan(ref r0, this.length);
+#else
+                return new Span<T>(this.array, 0, this.length);
+#endif
+            }
         }
 
         /// <summary>
@@ -122,7 +166,24 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T DangerousGetReference()
         {
-            return ref array.DangerousGetReference();
+            return ref this.array.DangerousGetReference();
+        }
+
+        /// <summary>
+        /// Gets an <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.
+        /// </summary>
+        /// <returns>An <see cref="ArraySegment{T}"/> instance wrapping the underlying <typeparamref name="T"/> array in use.</returns>
+        /// <remarks>
+        /// This method is meant to be used when working with APIs that only accept an array as input, and should be used with caution.
+        /// In particular, the returned array is rented from an array pool, and it is responsibility of the caller to ensure that it's
+        /// not used after the current <see cref="SpanOwner{T}"/> instance is disposed. Doing so is considered undefined behavior,
+        /// as the same array might be in use within another <see cref="SpanOwner{T}"/> instance.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ArraySegment<T> DangerousGetArray()
+        {
+            return new ArraySegment<T>(array!, 0, this.length);
         }
 
         /// <summary>
@@ -131,7 +192,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Dispose()
         {
-            ArrayPool<T>.Shared.Return(array);
+            this.pool.Return(this.array);
         }
 
         /// <inheritdoc/>

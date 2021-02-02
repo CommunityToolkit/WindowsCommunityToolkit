@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-#nullable enable
+#pragma warning disable CS8777
 
 namespace Microsoft.Toolkit.Diagnostics
 {
@@ -47,9 +47,7 @@ namespace Microsoft.Toolkit.Diagnostics
             }
 
             ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
-#pragma warning disable CS8777 // Does not return when text is null (.NET Standard 2.0 string.IsNullOrEmpty lacks flow attribute)
         }
-#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must be <see langword="null"/> or whitespace.
@@ -58,6 +56,24 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNullOrWhiteSpace(string? text, string name)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNullOrWhiteSpace(text, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="string"/> instance must be <see langword="null"/> or whitespace.
+        /// </summary>
+        /// <param name="text">The input <see cref="string"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Use " + nameof(IsNullOrWhiteSpace))]
         public static void IsNullOrWhitespace(string? text, string name)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -65,7 +81,7 @@ namespace Microsoft.Toolkit.Diagnostics
                 return;
             }
 
-            ThrowHelper.ThrowArgumentExceptionForIsNullOrWhitespace(text, name);
+            ThrowHelper.ThrowArgumentExceptionForIsNullOrWhiteSpace(text, name);
         }
 
         /// <summary>
@@ -75,6 +91,24 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotNullOrWhiteSpace([NotNull] string? text, string name)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhiteSpace(text, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="string"/> instance must not be <see langword="null"/> or whitespace.
+        /// </summary>
+        /// <param name="text">The input <see cref="string"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Use " + nameof(IsNotNullOrWhiteSpace))]
         public static void IsNotNullOrWhitespace([NotNull] string? text, string name)
         {
             if (!string.IsNullOrWhiteSpace(text))
@@ -82,10 +116,8 @@ namespace Microsoft.Toolkit.Diagnostics
                 return;
             }
 
-            ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhitespace(text, name);
-#pragma warning disable CS8777 // Does not return when text is null
+            ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhiteSpace(text, name);
         }
-#pragma warning restore CS8777
 
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must be empty.
@@ -128,6 +160,24 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsWhiteSpace(string text, string name)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsWhiteSpace(text, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="string"/> instance must be whitespace.
+        /// </summary>
+        /// <param name="text">The input <see cref="string"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Use " + nameof(IsWhiteSpace))]
         public static void IsWhitespace(string text, string name)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -135,7 +185,7 @@ namespace Microsoft.Toolkit.Diagnostics
                 return;
             }
 
-            ThrowHelper.ThrowArgumentExceptionForIsWhitespace(text, name);
+            ThrowHelper.ThrowArgumentExceptionForIsWhiteSpace(text, name);
         }
 
         /// <summary>
@@ -145,6 +195,24 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotWhiteSpace(string text, string name)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            ThrowHelper.ThrowArgumentExceptionForIsNotWhiteSpace(text, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="string"/> instance must not be <see langword="null"/> or whitespace.
+        /// </summary>
+        /// <param name="text">The input <see cref="string"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Use " + nameof(IsNotWhiteSpace))]
         public static void IsNotWhitespace(string text, string name)
         {
             if (!string.IsNullOrWhiteSpace(text))
@@ -152,7 +220,7 @@ namespace Microsoft.Toolkit.Diagnostics
                 return;
             }
 
-            ThrowHelper.ThrowArgumentExceptionForIsNotWhitespace(text, name);
+            ThrowHelper.ThrowArgumentExceptionForIsNotWhiteSpace(text, name);
         }
 
         /// <summary>

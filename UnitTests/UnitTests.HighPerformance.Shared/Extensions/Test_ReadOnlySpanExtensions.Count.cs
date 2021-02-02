@@ -103,7 +103,7 @@ namespace UnitTests.HighPerformance.Extensions
 
             public Int(int value) => Value = value;
 
-            public bool Equals(Int other)
+            public bool Equals(Int? other)
             {
                 if (other is null)
                 {
@@ -118,7 +118,7 @@ namespace UnitTests.HighPerformance.Extensions
                 return this.Value == other.Value;
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
                 return ReferenceEquals(this, obj) || (obj is Int other && Equals(other));
             }

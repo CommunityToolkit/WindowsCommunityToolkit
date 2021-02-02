@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -42,8 +43,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// Implements the duck-typed <see cref="IEnumerable{T}.GetEnumerator"/> method.
         /// </summary>
         /// <returns>An <see cref="ReadOnlySpanEnumerable{T}"/> instance targeting the current <see cref="ReadOnlySpan{T}"/> value.</returns>
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ReadOnlySpanEnumerable<T> GetEnumerator() => this;
+        public readonly ReadOnlySpanEnumerable<T> GetEnumerator() => this;
 
         /// <summary>
         /// Implements the duck-typed <see cref="System.Collections.IEnumerator.MoveNext"/> method.
@@ -52,29 +54,20 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            int newIndex = this.index + 1;
-
-            if (newIndex < this.span.Length)
-            {
-                this.index = newIndex;
-
-                return true;
-            }
-
-            return false;
+            return ++this.index < this.span.Length;
         }
 
         /// <summary>
         /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
         /// </summary>
-        public Item Current
+        public readonly Item Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
 #if SPAN_RUNTIME_SUPPORT
                 ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                ref T ri = ref Unsafe.Add(ref r0, this.index);
+                ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
                 // See comment in SpanEnumerable<T> about this
                 return new Item(ref ri, this.index);
@@ -137,7 +130,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                     return ref MemoryMarshal.GetReference(this.span);
 #else
                     ref T r0 = ref MemoryMarshal.GetReference(this.span);
-                    ref T ri = ref Unsafe.Add(ref r0, this.index);
+                    ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)this.index);
 
                     return ref ri;
 #endif

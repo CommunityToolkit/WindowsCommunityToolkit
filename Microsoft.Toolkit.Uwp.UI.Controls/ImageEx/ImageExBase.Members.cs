@@ -21,11 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty StretchProperty = DependencyProperty.Register(nameof(Stretch), typeof(Stretch), typeof(ImageExBase), new PropertyMetadata(Stretch.Uniform));
 
         /// <summary>
-        /// Identifies the <see cref="CornerRadius"/> dependency property.
-        /// </summary>
-        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(new CornerRadius(0)));
-
-        /// <summary>
         /// Identifies the <see cref="DecodePixelHeight"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DecodePixelHeightProperty = DependencyProperty.Register(nameof(DecodePixelHeight), typeof(int), typeof(ImageExBase), new PropertyMetadata(0));
@@ -53,7 +48,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="EnableLazyLoading"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false, EnableLazyLoadingChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="LazyLoadingThreshold"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty LazyLoadingThresholdProperty = DependencyProperty.Register(nameof(LazyLoadingThreshold), typeof(double), typeof(ImageExBase), new PropertyMetadata(default(double), LazyLoadingThresholdChanged));
 
         /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
@@ -80,16 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets a value indicating whether control has been initialized.
         /// </summary>
         public bool IsInitialized { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the CornerRadius for underlying image. <para/>
-        /// Used to created rounded/circular images.
-        /// </summary>
-        public new CornerRadius CornerRadius
-        {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
-        }
 
         /// <summary>
         /// Gets or sets DecodePixelHeight for underlying bitmap
@@ -153,6 +143,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(EnableLazyLoadingProperty); }
             set { SetValue(EnableLazyLoadingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the threshold for triggering lazy loading.
+        /// </summary>
+        public double LazyLoadingThreshold
+        {
+            get { return (double)GetValue(LazyLoadingThresholdProperty); }
+            set { SetValue(LazyLoadingThresholdProperty, value); }
+        }
+
+        private static void EnableLazyLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ImageExBase control)
+            {
+                var value = (bool)e.NewValue;
+                if (value)
+                {
+                    control.LayoutUpdated += control.ImageExBase_LayoutUpdated;
+
+                    control.InvalidateLazyLoading();
+                }
+                else
+                {
+                    control.LayoutUpdated -= control.ImageExBase_LayoutUpdated;
+                }
+            }
+        }
+
+        private static void LazyLoadingThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ImageExBase control && control.EnableLazyLoading)
+            {
+                control.InvalidateLazyLoading();
+            }
         }
     }
 }

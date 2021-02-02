@@ -4,8 +4,13 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics.Contracts;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Buffers;
+using Microsoft.Toolkit.HighPerformance.Streams;
+using Microsoft.Toolkit.HighPerformance.Streams.Sources;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
@@ -14,6 +19,28 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     public static class IBufferWriterExtensions
     {
+        /// <summary>
+        /// Returns a <see cref="Stream"/> that can be used to write to a target an <see cref="IBufferWriter{T}"/> of <see cref="byte"/> instance.
+        /// </summary>
+        /// <param name="writer">The target <see cref="IBufferWriter{T}"/> instance.</param>
+        /// <returns>A <see cref="Stream"/> wrapping <paramref name="writer"/> and writing data to its underlying buffer.</returns>
+        /// <remarks>The returned <see cref="Stream"/> can only be written to and does not support seeking.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Stream AsStream(this IBufferWriter<byte> writer)
+        {
+            if (writer.GetType() == typeof(ArrayPoolBufferWriter<byte>))
+            {
+                // If the input writer is of type ArrayPoolBufferWriter<byte>, we can use the type
+                // specific buffer writer owner to let the JIT elide callvirts when accessing it.
+                var internalWriter = Unsafe.As<ArrayPoolBufferWriter<byte>>(writer)!;
+
+                return new IBufferWriterStream<ArrayBufferWriterOwner>(new ArrayBufferWriterOwner(internalWriter));
+            }
+
+            return new IBufferWriterStream<IBufferWriterOwner>(new IBufferWriterOwner(writer));
+        }
+
         /// <summary>
         /// Writes a value of a specified type into a target <see cref="IBufferWriter{T}"/> instance.
         /// </summary>
@@ -102,7 +129,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target writer.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentExceptionForEndOfBuffer()
         {
             throw new ArgumentException("The current buffer writer can't contain the requested input data.");

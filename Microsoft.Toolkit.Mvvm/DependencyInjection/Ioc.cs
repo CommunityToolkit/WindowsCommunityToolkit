@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading;
-using Microsoft.Extensions.DependencyInjection;
 
 #nullable enable
 
@@ -27,13 +26,15 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
     ///     void Log(string text) => Console.WriteLine(text);
     /// }
     /// </code>
-    /// Then the services configuration should then be done at startup, by calling one of
-    /// the available <see cref="ConfigureServices(IServiceCollection)"/> overloads, like so:
+    /// Then the services configuration should then be done at startup, by calling the <see cref="ConfigureServices"/>
+    /// method and passing an <see cref="IServiceProvider"/> instance with the services to use. That instance can
+    /// be from any library offering dependency injection functionality, such as Microsoft.Extensions.DependencyInjection.
+    /// For instance, using that library, <see cref="ConfigureServices"/> can be used as follows in this example:
     /// <code>
-    /// Ioc.Default.ConfigureServices(services =>
-    /// {
-    ///     services.AddSingleton&lt;ILogger, Logger&gt;();
-    /// });
+    /// Ioc.Default.ConfigureServices(
+    ///     new ServiceCollection()
+    ///     .AddSingleton&lt;ILogger, Logger&gt;()
+    ///     .BuildServiceProvider());
     /// </code>
     /// Finally, you can use the <see cref="Ioc"/> instance (which implements <see cref="IServiceProvider"/>)
     /// to retrieve the service instances from anywhere in your application, by doing as follows:
@@ -49,12 +50,12 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         public static Ioc Default { get; } = new Ioc();
 
         /// <summary>
-        /// The <see cref="ServiceProvider"/> instance to use, if initialized.
+        /// The <see cref="IServiceProvider"/> instance to use, if initialized.
         /// </summary>
-        private volatile ServiceProvider? serviceProvider;
+        private volatile IServiceProvider? serviceProvider;
 
         /// <inheritdoc/>
-        object? IServiceProvider.GetService(Type serviceType)
+        public object? GetService(Type serviceType)
         {
             // As per section I.12.6.6 of the official CLI ECMA-335 spec:
             // "[...] read and write access to properly aligned memory locations no larger than the native
@@ -67,7 +68,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
             // assume this read is thread safe with respect to accesses to this property or to invocations to one
             // of the available configuration methods. So we can just read the field directly and make the necessary
             // check with our local copy, without the need of paying the locking overhead from this get accessor.
-            ServiceProvider? provider = this.serviceProvider;
+            IServiceProvider? provider = this.serviceProvider;
 
             if (provider is null)
             {
@@ -78,47 +79,60 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         }
 
         /// <summary>
-        /// Initializes the shared <see cref="IServiceProvider"/> instance.
+        /// Tries to resolve an instance of a specified service type.
         /// </summary>
-        /// <param name="setup">The configuration delegate to use to add services.</param>
-        public void ConfigureServices(Action<IServiceCollection> setup)
+        /// <typeparam name="T">The type of service to resolve.</typeparam>
+        /// <returns>An instance of the specified service, or <see langword="null"/>.</returns>
+        /// <exception cref="InvalidOperationException">Throw if the current <see cref="Ioc"/> instance has not been initialized.</exception>
+        public T? GetService<T>()
+            where T : class
         {
-            ConfigureServices(setup, new ServiceProviderOptions());
+            IServiceProvider? provider = this.serviceProvider;
+
+            if (provider is null)
+            {
+                ThrowInvalidOperationExceptionForMissingInitialization();
+            }
+
+            return (T?)provider!.GetService(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves an instance of a specified service type.
+        /// </summary>
+        /// <typeparam name="T">The type of service to resolve.</typeparam>
+        /// <returns>An instance of the specified service, or <see langword="null"/>.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Throw if the current <see cref="Ioc"/> instance has not been initialized, or if the
+        /// requested service type was not registered in the service provider currently in use.
+        /// </exception>
+        public T GetRequiredService<T>()
+            where T : class
+        {
+            IServiceProvider? provider = this.serviceProvider;
+
+            if (provider is null)
+            {
+                ThrowInvalidOperationExceptionForMissingInitialization();
+            }
+
+            T? service = (T?)provider!.GetService(typeof(T));
+
+            if (service is null)
+            {
+                ThrowInvalidOperationExceptionForUnregisteredType();
+            }
+
+            return service!;
         }
 
         /// <summary>
         /// Initializes the shared <see cref="IServiceProvider"/> instance.
         /// </summary>
-        /// <param name="setup">The configuration delegate to use to add services.</param>
-        /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
-        public void ConfigureServices(Action<IServiceCollection> setup, ServiceProviderOptions options)
+        /// <param name="serviceProvider">The input <see cref="IServiceProvider"/> instance to use.</param>
+        public void ConfigureServices(IServiceProvider serviceProvider)
         {
-            var collection = new ServiceCollection();
-
-            setup(collection);
-
-            ConfigureServices(collection, options);
-        }
-
-        /// <summary>
-        /// Initializes the shared <see cref="IServiceProvider"/> instance.
-        /// </summary>
-        /// <param name="services">The input <see cref="IServiceCollection"/> instance to use.</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            ConfigureServices(services, new ServiceProviderOptions());
-        }
-
-        /// <summary>
-        /// Initializes the shared <see cref="IServiceProvider"/> instance.
-        /// </summary>
-        /// <param name="services">The input <see cref="IServiceCollection"/> instance to use.</param>
-        /// <param name="options">The <see cref="ServiceProviderOptions"/> instance to configure the service provider behaviors.</param>
-        public void ConfigureServices(IServiceCollection services, ServiceProviderOptions options)
-        {
-            ServiceProvider newServices = services.BuildServiceProvider(options);
-
-            ServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, newServices, null);
+            IServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, serviceProvider, null);
 
             if (!(oldServices is null))
             {
@@ -127,11 +141,19 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> when the <see cref="ServiceProvider"/> property is used before initialization.
+        /// Throws an <see cref="InvalidOperationException"/> when the <see cref="IServiceProvider"/> property is used before initialization.
         /// </summary>
         private static void ThrowInvalidOperationExceptionForMissingInitialization()
         {
             throw new InvalidOperationException("The service provider has not been configured yet");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> when the <see cref="IServiceProvider"/> property is missing a type registration.
+        /// </summary>
+        private static void ThrowInvalidOperationExceptionForUnregisteredType()
+        {
+            throw new InvalidOperationException("The requested service type was not registered");
         }
 
         /// <summary>

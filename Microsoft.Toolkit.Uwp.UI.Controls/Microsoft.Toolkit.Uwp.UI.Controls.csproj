@@ -1,16 +1,17 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.17763</TargetFramework>
+    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
-      
+
       Controls:
         - AdaptiveGridView: Presents items in an evenly-spaced set of columns to fill the total available space.
         - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
         - CameraPreview: Easily preview video from camera sources and get realtime frames from the selected source.
         - Carousel: Presents items in a carousel control.
+        - ColorPicker/ColorPickerButton: Improved ColorPicker and DropDownButton version.
         - DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
         - DropShadowPanel: DropShadowPanel control allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
         - Expander: Expander allows user to show/hide content based on a boolean state.
@@ -30,7 +31,6 @@
         - RangeSelector: "Double slider" control for range values.
         - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
-        - ScrollHeader: A UI control that works as a ListView or GridView header control with quick return, sticky, and fade behavior.
         - StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
@@ -46,47 +46,23 @@
 
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
- 
+
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
-    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll;$(OutDir)\Design\$(MSBuildProjectName).Design.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
- 
-  <ItemGroup>
-    <Page Update="ImageCropper\ImageCropper.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="ImageCropper\ImageCropperThumb.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-   
-  <ItemGroup>
-     <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-     <Page Update="TokenizingTextBox\TokenizingTextBox.xaml">
-       <Generator>MSBuild:Compile</Generator>
-     </Page>
-     <Page Update="TokenizingTextBox\TokenizingTextBoxItem.xaml">
-       <Generator>MSBuild:Compile</Generator>
-     </Page>
-  </ItemGroup>
-  
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
-  
-
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
-
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">

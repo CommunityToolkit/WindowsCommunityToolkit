@@ -16,8 +16,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Graph.Converters;
-using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -41,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper();
+            var settingsStorage = new LocalObjectStorageHelper(new SystemSerializer());
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
@@ -156,6 +154,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string DeprecatedWarning { get; set; }
 
         public string ApiCheck { get; set; }
+
+        public bool HasType => !string.IsNullOrWhiteSpace(Type);
 
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
 
@@ -658,16 +658,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft.Toolkit.Graph.Controls
-            var graphControlsProxyType = typeof(UserToPersonConverter);
-            assembly = graphControlsProxyType.GetTypeInfo().Assembly;
+            //var graphControlsProxyType = typeof(UserToPersonConverter);
+            //assembly = graphControlsProxyType.GetTypeInfo().Assembly;
 
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
+            //foreach (var typeInfo in assembly.ExportedTypes)
+            //{
+            //    if (typeInfo.Name == typeName)
+            //    {
+            //        return typeInfo;
+            //    }
+            //}
 
             // Search in Microsoft.Toolkit.Uwp.UI.Animations
             var animationsProxyType = EasingType.Default;

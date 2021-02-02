@@ -1,18 +1,10 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0.19041;net461;netcoreapp3.1;net5.0;net5.0-windows10.0.17763.0;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
-    <Title>Windows Community Toolkit Notifications</Title>
-    <Description>
-      Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense.
-      Adds Support for adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the Windows Community Toolkit.
-      Supports C# and C++ UWP project types.
-      Also works with C# portable class libraries and non-UWP C# projects like server projects.
-      This project contains outputs for netstandard1.4, uap10.0 and native for WinRT.
-    </Description>
-    <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
+    <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
   </PropertyGroup>
 
   <Choose>
@@ -23,25 +15,20 @@
         <!--Reference Windows SDK NuGet of correct target platform version-->
         <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
       </ItemGroup>
-      <PropertyGroup>
-        <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
-        <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
-      </PropertyGroup>
     </When>
 
-    <!--Non-desktop apps (UWP, libraries, ASP.NET servers)-->
-    <Otherwise>
-      <ItemGroup>
-        <!--Remove the DesktopNotificationManager code-->
-        <Compile Remove="DesktopNotificationManager\**\*" />
-      </ItemGroup>
-    </Otherwise>
-
   </Choose>
+  
+  <PropertyGroup Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.1' or '$(TargetFramework)'=='net5.0-windows10.0.17763.0'">
+    <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
+  </PropertyGroup>
 
-  <!--NET Core desktop apps also need the Registry NuGet package-->
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+  <!--NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically-->
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1' or '$(TargetFramework)'=='net5.0-windows10.0.17763.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
@@ -56,6 +43,12 @@
   <ItemGroup Condition=" '$(TargetFramework)' != 'native' ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+  </PropertyGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
@@ -65,8 +58,9 @@
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NugetTargetMoniker>
     <NugetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
@@ -78,5 +72,12 @@
     <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
   </PropertyGroup>
+  
+  <!--Set the nuspec properties. Dependent on version which isn't updated till after GetBuildVersion. Condition ensures we only set once since this runs multiple times for each target.-->
+  <Target Name="SetNuspecProperties" AfterTargets="GetBuildVersion">
+    <PropertyGroup Condition="'$(NuspecProperties)' == ''">
+      <NuspecProperties>buildOutput=bin\$(Configuration);version=$(Version)</NuspecProperties>
+    </PropertyGroup>
+  </Target>
 
 </Project>

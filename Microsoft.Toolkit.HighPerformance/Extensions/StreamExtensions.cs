@@ -167,24 +167,24 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The <typeparamref name="T"/> value read from <paramref name="stream"/>.</returns>
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="stream"/> reaches the end.</exception>
 #if SPAN_RUNTIME_SUPPORT
-        // Avoid inlining as we're renting a stack buffer, which
-        // cause issues if this method was called inside a loop
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T Read<T>(this Stream stream)
             where T : unmanaged
         {
 #if SPAN_RUNTIME_SUPPORT
-            Span<byte> span = stackalloc byte[Unsafe.SizeOf<T>()];
+            T result = default;
+            int length = Unsafe.SizeOf<T>();
 
-            if (stream.Read(span) != span.Length)
+            unsafe
             {
-                ThrowInvalidOperationExceptionForEndOfStream();
+                if (stream.Read(new Span<byte>(&result, length)) != length)
+                {
+                    ThrowInvalidOperationExceptionForEndOfStream();
+                }
             }
 
-            ref byte r0 = ref MemoryMarshal.GetReference(span);
-
-            return Unsafe.ReadUnaligned<T>(ref r0);
+            return result;
 #else
             int length = Unsafe.SizeOf<T>();
             byte[] buffer = ArrayPool<byte>.Shared.Rent(length);
@@ -245,7 +245,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> when <see cref="Read{T}"/> fails.
         /// </summary>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowInvalidOperationExceptionForEndOfStream()
         {
             throw new InvalidOperationException("The stream didn't contain enough data to read the requested item");

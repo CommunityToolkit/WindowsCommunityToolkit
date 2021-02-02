@@ -5,7 +5,9 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+#if NETCOREAPP2_1 || NETSTANDARD
 using System.Runtime.InteropServices;
+#endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
@@ -26,10 +28,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReference(this string text)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             return ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
-            var stringData = Unsafe.As<RawStringData>(text);
+            var stringData = Unsafe.As<RawStringData>(text)!;
 
             return ref stringData.Data;
 #else
@@ -48,14 +50,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReferenceAt(this string text, int i)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
-            ref char r0 = ref Unsafe.As<RawStringData>(text).Data;
+            ref char r0 = ref Unsafe.As<RawStringData>(text)!.Data;
 #else
             ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
 #endif
-            ref char ri = ref Unsafe.Add(ref r0, i);
+            ref char ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
         }
@@ -92,9 +94,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count(this string text, char c)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)text.Length;
+            nint length = (nint)(uint)text.Length;
 
-            return SpanHelper.Count(ref r0, length, c);
+            return (int)SpanHelper.Count(ref r0, length, c);
         }
 
         /// <summary>
@@ -107,7 +109,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// {
         ///     // Access the index and value of each item here...
         ///     int index = item.Index;
-        ///     string value = item.Value;
+        ///     char value = item.Value;
         /// }
         /// </code>
         /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
@@ -155,10 +157,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode(this string text)
+        public static unsafe int GetDjb2HashCode(this string text)
         {
             ref char r0 = ref text.DangerousGetReference();
-            IntPtr length = (IntPtr)text.Length;
+            nint length = (nint)(uint)text.Length;
 
             return SpanHelper.GetDjb2HashCode(ref r0, length);
         }

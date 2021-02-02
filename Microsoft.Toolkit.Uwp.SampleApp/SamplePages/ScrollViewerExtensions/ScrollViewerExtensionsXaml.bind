@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
       mc:Ignorable="d">
 
   <Page.Resources>
@@ -15,29 +17,30 @@
     <ListView Name="listView"
               extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
               extensions:ScrollViewerExtensions.EnableMiddleClickScrolling="@[EnableMiddleClickScrolling:Bool:True]">
+      <interactivity:Interaction.Behaviors>
+        <behaviors:StickyHeaderBehavior />
+      </interactivity:Interaction.Behaviors>
       <ListView.Header>
-        <controls:ScrollHeader Mode="Sticky">
-          <Grid x:Name="MyHeaderGrid"
-                MinHeight="@[Header MinHeight:DoubleSlider:250:150-500]"
-                Background="{ThemeResource Brush-Sample-TransparentHeader}">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-              <TextBlock Margin="12"
-                         FontSize="48"
-                         FontWeight="Bold"
-                         Foreground="{ThemeResource Brush-Main}"
-                         Text="Scroll Header"
-                         TextAlignment="Center"
-                         TextWrapping="WrapWholeWords" />
-              <TextBlock Margin="12,0,12,12"
-                         VerticalAlignment="Center"
-                         Foreground="{ThemeResource Brush-Main}"
-                         Text="The attached property allows you to assign a Thickness to both vertical and horizontal ScrollBar inside any container. In this example, VerticalScrollBarMargin is bound to StickyHeader's MinHeight. Moving MinHeight's Slider will move the vertical ScrollBar accordingly."
-                         TextAlignment="Center"
-                         TextWrapping="WrapWholeWords" />
-            </StackPanel>
-          </Grid>
-        </controls:ScrollHeader>
+        <Grid x:Name="MyHeaderGrid"
+              MinHeight="@[Header MinHeight:DoubleSlider:250:150-500]"
+              Background="{ThemeResource Brush-Sample-TransparentHeader}">
+          <StackPanel HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <TextBlock Margin="12"
+                        FontSize="48"
+                        FontWeight="Bold"
+                        Foreground="{ThemeResource Brush-Main}"
+                        Text="Scroll Header"
+                        TextAlignment="Center"
+                        TextWrapping="WrapWholeWords" />
+            <TextBlock Margin="12,0,12,12"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource Brush-Main}"
+                        Text="The attached property allows you to assign a Thickness to both vertical and horizontal ScrollBar inside any container. In this example, VerticalScrollBarMargin is bound to StickyHeader's MinHeight. Moving MinHeight's Slider will move the vertical ScrollBar accordingly."
+                        TextAlignment="Center"
+                        TextWrapping="WrapWholeWords" />
+          </StackPanel>
+        </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>
         <DataTemplate>
