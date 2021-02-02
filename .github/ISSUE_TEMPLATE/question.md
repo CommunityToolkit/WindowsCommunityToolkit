@@ -12,8 +12,9 @@ Hi!
 
 We try and keep our GitHub issue list for bugs and features.
 
-Ideally, it'd be great to post your question on Stack Overflow using the 'windows-community-toolkit' tag here: https://stackoverflow.com/questions/tagged/windows-community-toolkit
-🚨 Please provide detailed information that includes examples, screenshots, and relevant issues if possible 🚨
+Ideally, it'd be great to post your question on Stack Overflow using the 'windows-community-toolkit' tag here: https://stackoverflow.com/questions/tagged/windows-community-toolkit OR you may ask the question on "Questions & Help" category of the Discussions platform [https://github.com/windows-toolkit/WindowsCommunityToolkit/discussions/categories/questions-help]
+
+🚨 PLEASE PROVIDE DETAILED INFORMATION THAT INCLUDE EXAMPLES, SCREENSHOTS, AND RELEVANT ISSUES IF POSSIBLE 🚨
 
 If this is more about a scenario that you think is missing documentation, please file an issue instead at https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new
 
