@@ -38,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal Button FlyoutButton { get; private set; }
 
         private Rect _bounds;
+
         private object InternalHeader
         {
             set
@@ -529,7 +530,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InternalHeader = text;
         }
 
-        /// <inheritdoc />
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is MenuItem menuitem)
