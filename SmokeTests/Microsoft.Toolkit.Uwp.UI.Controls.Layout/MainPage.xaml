@@ -14,5 +14,5 @@
 
   <Grid>
     <controls:Expander />
-  <Grid/>
+  </Grid>
 </Page>
