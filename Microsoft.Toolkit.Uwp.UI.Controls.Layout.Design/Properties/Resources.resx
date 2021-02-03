@@ -126,7 +126,4 @@
   <data name="CategoryCommon" xml:space="preserve">
     <value>Common</value>
   </data>
-  <data name="CategoryDropShadow" xml:space="preserve">
-    <value>Drop Shadow</value>
-  </data>
 </root>

@@ -146,6 +146,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 		{84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A} = {84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls.Layout.DesignTools", "Microsoft.Toolkit.Uwp.UI.Controls.Layout.Design\Microsoft.Toolkit.Uwp.UI.Controls.Layout.DesignTools.csproj", "{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB444381-18BA-4A51-BB32-3A498BCC1E99} = {CB444381-18BA-4A51-BB32-3A498BCC1E99}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{05c83067-fa46-45e2-bec4-edee84ad18d0}*SharedItemsImports = 4
@@ -1039,6 +1044,18 @@ Global
 		{AF5045DE-0D13-45C2-AC33-50CF5FDB333A}.Release|x64.ActiveCfg = Release|x86
 		{AF5045DE-0D13-45C2-AC33-50CF5FDB333A}.Release|x86.ActiveCfg = Release|x86
 		{AF5045DE-0D13-45C2-AC33-50CF5FDB333A}.Release|x86.Build.0 = Release|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Debug|ARM.ActiveCfg = Debug|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Debug|ARM64.ActiveCfg = Debug|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Debug|x64.ActiveCfg = Debug|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Debug|x86.ActiveCfg = Debug|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Debug|x86.Build.0 = Debug|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Release|Any CPU.ActiveCfg = Release|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Release|ARM.ActiveCfg = Release|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Release|ARM64.ActiveCfg = Release|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Release|x64.ActiveCfg = Release|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Release|x86.ActiveCfg = Release|x86
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1084,6 +1101,7 @@ Global
 		{43BD2A36-9E12-4788-80AE-2377E41E6D05} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{84AB7DC5-95C9-4CF8-A370-D077E9E9EF1A} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{AF5045DE-0D13-45C2-AC33-50CF5FDB333A} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{1B55A026-5BF8-4D04-B7C0-A82AB49BA017} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
