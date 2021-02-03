@@ -5,11 +5,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -54,9 +51,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public InterspersedObservableCollection(object itemsSource)
         {
-            Guard.IsAssignableToType<IList>(itemsSource, nameof(itemsSource));
+            if (!(itemsSource is IList list))
+            {
+                ThrowArgumentException();
+            }
 
-            ItemsSource = itemsSource as IList;
+            ItemsSource = list;
 
             if (ItemsSource is INotifyCollectionChanged notifier)
             {
@@ -67,6 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 };
                 notifier.CollectionChanged += weakPropertyChangedListener.OnEvent;
             }
+
+            static void ThrowArgumentException() => throw new ArgumentNullException("The input items source must be assignable to the System.Collections.IList type.");
         }
 
         private void ItemsSource_CollectionChanged(object source, NotifyCollectionChangedEventArgs eventArgs)
@@ -193,8 +195,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int ToInnerIndex(int outerIndex)
         {
 #if DEBUG
-            Guard.IsInRange(outerIndex, 0, Count, nameof(outerIndex));
-            Guard.IsFalse(_interspersedObjects.ContainsKey(outerIndex), nameof(outerIndex)); // We can't map a inserted key to the original collection!
+            if ((uint)outerIndex >= Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(outerIndex));
+            }
+
+            if (!_interspersedObjects.ContainsKey(outerIndex))
+            {
+                throw new ArgumentException("The outer index can't be inserted as a key to the original collection.");
+            }
 #endif
 
             return outerIndex - _interspersedObjects.Keys.Count(key => key.Value <= outerIndex);
@@ -208,7 +217,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int ToOuterIndex(int innerIndex)
         {
 #if DEBUG
-            Guard.IsInRange(innerIndex, 0, ItemsSource.Count, nameof(innerIndex));
+            if ((uint)innerIndex >= ItemsSource.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(innerIndex));
+            }
 #endif
 
             var keys = _interspersedObjects.OrderBy(v => v.Key);
@@ -236,7 +248,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int ToOuterIndexAfterRemoval(int innerIndexToProject)
         {
 #if DEBUG
-            Guard.IsInRange(innerIndexToProject, 0, ItemsSource.Count + 1, nameof(innerIndexToProject));
+            if ((uint)innerIndexToProject >= ItemsSource.Count + 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(innerIndexToProject));
+            }
 #endif
 
             //// TODO: Deal with bounds (0 / Count)? Or is it the same?

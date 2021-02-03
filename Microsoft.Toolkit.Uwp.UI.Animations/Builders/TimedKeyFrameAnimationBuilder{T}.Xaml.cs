@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -118,7 +117,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
             else
             {
-                return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
+                static Timeline ThrowInvalidOperationException() => throw new InvalidOperationException("Invalid animation type");
+
+                return ThrowInvalidOperationException();
             }
 
             animation.BeginTime = delay;

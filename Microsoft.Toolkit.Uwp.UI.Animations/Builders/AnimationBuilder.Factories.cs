@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -161,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         easingFunction);
                 }
 
-                return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             /// <inheritdoc/>
@@ -216,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         easingFunction);
                 }
 
-                return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             /// <summary>

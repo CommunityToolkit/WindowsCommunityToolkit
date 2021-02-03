@@ -5,7 +5,6 @@
 using System;
 using System.Globalization;
 using System.Reflection;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI;
 using Color = Windows.UI.Color;
 
@@ -24,7 +23,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The created <see cref="Color"/>.</returns>
         public static Color ToColor(this string colorString)
         {
-            Guard.IsNotNullOrEmpty(colorString, nameof(colorString));
+            if (string.IsNullOrEmpty(colorString))
+            {
+                ThrowArgumentException();
+            }
 
             if (colorString[0] == '#')
             {
@@ -79,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                             return Color.FromArgb(255, r, g, b);
                         }
 
-                    default: return ThrowHelper.ThrowFormatException<Color>("The string passed in the colorString argument is not a recognized Color format.");
+                    default: return ThrowFormatException();
                 }
             }
 
@@ -106,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return Color.FromArgb(255, (byte)(scR * 255), (byte)(scG * 255), (byte)(scB * 255));
                 }
 
-                return ThrowHelper.ThrowFormatException<Color>("The string passed in the colorString argument is not a recognized Color format (sc#[scA,]scR,scG,scB).");
+                return ThrowFormatException();
             }
 
             var prop = typeof(Colors).GetTypeInfo().GetDeclaredProperty(colorString);
@@ -116,7 +118,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return (Color)prop.GetValue(null);
             }
 
-            return ThrowHelper.ThrowFormatException<Color>("The string passed in the colorString argument is not a recognized Color.");
+            return ThrowFormatException();
+
+            static void ThrowArgumentException() => throw new ArgumentException("The parameter \"colorString\" must not be null or empty.");
+            static Color ThrowFormatException() => throw new FormatException("The parameter \"colorString\" is not a recognized Color format.");
         }
 
         /// <summary>

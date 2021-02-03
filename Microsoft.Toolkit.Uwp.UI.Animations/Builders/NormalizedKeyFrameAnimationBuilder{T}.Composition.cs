@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
@@ -231,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
             else
             {
-                return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             animation.Duration = duration;
