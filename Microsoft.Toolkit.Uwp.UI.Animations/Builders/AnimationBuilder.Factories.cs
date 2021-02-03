@@ -228,9 +228,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             private TValue GetToAs<TValue>()
                 where TValue : unmanaged
             {
-                T to = To;
-
-                return Unsafe.As<T, TValue>(ref to);
+                // We employ this (T2)(object)t1 pattern multiple times in this library to alter generics.
+                // This is an equivalent but safer alternative to using Unsafe.As<TFrom, TTo>(ref TFrom).
+                // For instance, this method will result in the following IL being emitted:
+                // =============================
+                // IL_0000: ldarg.0
+                // IL_0001: call instance !0 class AnimationFactory`1<!T>::get_To()
+                // IL_0006: box !T
+                // IL_000b: unbox.any !!TValue
+                // IL_0010: ret
+                // =============================
+                // The key value is that the JIT (and AOT compilers such as .NET Native) can recognize this
+                // pattern and optimize the boxing away in case the types match. This is the case whenever
+                // the generic arguments are value types, which due to generic types in .NET being reified
+                // results in a completely different generic instantiation of the same method, making the
+                // type arguments effectively constant values known at compile time, ie. at JIT time.
+                // As a result of this, the boxing is completely avoided and the value is returned directly.
+                // Leveraging this pattern lets us keep the same optimal codegen while avoiding the extra
+                // NuGet package dependency on UWP, and the more dangerous path using the Unsafe APIs.
+                // As an example, assuming T is float, the JIT will produce the following codegen on x64:
+                // =============================
+                // L0000: vzeroupper
+                // L0003: vmovss xmm0, [rcx+8]
+                // L0008: ret
+                // =============================
+                // We can see how the property value is loaded directly from the underlying field and
+                // then returned to the caller: no boxing or unwanted overhead is introduced at all.
+                return (TValue)(object)To;
             }
 
             /// <summary>
@@ -250,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 T from = From.GetValueOrDefault();
 
-                return Unsafe.As<T, TValue>(ref from);
+                return (TValue)(object)from;
             }
         }
 

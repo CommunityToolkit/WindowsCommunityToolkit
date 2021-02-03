@@ -6,7 +6,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -165,11 +164,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="str">A string in the format of "float, float, float, float"</param>
         /// <returns><see cref="Quaternion"/></returns>
-        public static Quaternion ToQuaternion(this string str)
+        public static unsafe Quaternion ToQuaternion(this string str)
         {
             Vector4 vector = str.ToVector4();
 
-            return Unsafe.As<Vector4, Quaternion>(ref vector);
+            return *(Quaternion*)&vector;
         }
 
         /// <summary>

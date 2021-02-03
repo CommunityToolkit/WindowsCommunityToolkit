@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay,
             TimeSpan duration,
             RepeatOption repeat,
-            ReadOnlySpan<TKeyFrame> keyFrames)
+            ArraySegment<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
             Timeline animation;
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     default,
                     this.repeat,
-                    this.keyFrames.AsSpan());
+                    this.keyFrames.GetArraySegment());
             }
         }
     }
