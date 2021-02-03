@@ -7,28 +7,25 @@
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
 
       Controls:
-        - CameraPreview: Easily preview video from camera sources and get realtime frames from the selected source.
-        - DropShadowPanel: DropShadowPanel control allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
-        - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
-        - InAppNotification: Show local notifications in your application.
-        - Loading: Helps to show content with animation to the user while the app is doing some calculation.
-        - RadialProgressBar: Displays progress as a circle getting filled.
-        - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
-        - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
-        - TileControl: A ContentControl that show an image repeated many times.
+        - ColorPicker/ColorPickerButton: Improved ColorPicker and DropDownButton version.
+        - RadialGauge: Displays a value within a range, using a needle on a circular face.
+        - RangeSelector: "Double slider" control for range values.
+        - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
+        - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Markdown CameraPreview Camera DropShadow ImageEx InAppNotification InfiniteCanvas Radial RadialProgressBar Scroll ScrollHeader Tile</PackageTags>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range Radial Gauge RadiaGauge Tokenizing TextBox</PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.Composition.cs" Link="ControlHelpers.Composition.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>

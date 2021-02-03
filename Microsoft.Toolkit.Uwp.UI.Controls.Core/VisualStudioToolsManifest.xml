@@ -9,9 +9,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Loading" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Menu" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MenuItem" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
