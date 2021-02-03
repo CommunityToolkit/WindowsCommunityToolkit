@@ -238,7 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 // IL_000b: unbox.any !!TValue
                 // IL_0010: ret
                 // =============================
-                // The key value is that the JIT (and AOT compilers such as .NET Native) can recognize this
+                // The key point is that the JIT (and AOT compilers such as .NET Native) can recognize this
                 // pattern and optimize the boxing away in case the types match. This is the case whenever
                 // the generic arguments are value types, which due to generic types in .NET being reified
                 // results in a completely different generic instantiation of the same method, making the
