@@ -273,6 +273,7 @@
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
     <Content Include="SamplePages\AcrylicBrush\AcrylicBrush.png" />
+    <Content Include="SamplePages\CanvasPathGeometry\CanvasPathGeometry.png" />
     <Content Include="SamplePages\PipelineBrush\PipelineBrush.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
@@ -485,6 +486,7 @@
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\CanvasPathGeometry\GeometryStreamReader.cs" />
     <Compile Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml.cs">
       <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
     </Compile>
@@ -493,6 +495,9 @@
     </Compile>
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml.cs">
+      <DependentUpon>CanvasPathGeometryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
@@ -974,6 +979,10 @@
     <Page Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
