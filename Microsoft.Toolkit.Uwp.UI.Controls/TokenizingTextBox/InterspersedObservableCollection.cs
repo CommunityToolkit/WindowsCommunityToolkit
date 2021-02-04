@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw new ArgumentOutOfRangeException(nameof(outerIndex));
             }
 
-            if (!_interspersedObjects.ContainsKey(outerIndex))
+            if (_interspersedObjects.ContainsKey(outerIndex))
             {
                 throw new ArgumentException("The outer index can't be inserted as a key to the original collection.");
             }
